@@ -6558,18 +6558,21 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-object-list').addEventListener('contextmenu',e=>{
     const btn=e.target.closest('.sp-layer-row [data-select]'),id=btn&&btn.dataset.select;
     if(!id)return;
-    e.preventDefault();selected=id;renderEditor();openLayerMenu(e.clientX,e.clientY,id);
+    e.preventDefault();openLayerMenu(e.clientX,e.clientY,id);
   });
   $('sp-layer-menu').addEventListener('click',e=>{
     const hit=e.target.closest('[data-layer-action]'),action=hit&&hit.dataset.layerAction,id=layerMenuTarget;
     closeLayerMenu();if(!action||!id)return;
-    selected=id;
+    // Aktionen arbeiten über die id, ohne Auswahl/Tab zu wechseln.
     if(action==='delete'){
-      if(id==='iem-zone')change(()=>{stage.iem='none';selected=null;},'IEM-/Rack-Bereich entfernt');
-      else if(id==='stairs-zone')change(()=>{stage.stairs='none';selected=null;},'Bühnentreppe entfernt');
-      else change(()=>{objects=objects.filter(item=>item.id!==id);selected=null;},'Baustein entfernt · mit Rückgängig wiederherstellbar');
-    }else if(action==='duplicate')$('sp-duplicate').click();
-    else if(action==='lock')toggleObjectLock();
+      if(id==='iem-zone')change(()=>{stage.iem='none';if(selected==='iem-zone')selected=null;},'IEM-/Rack-Bereich entfernt');
+      else if(id==='stairs-zone')change(()=>{stage.stairs='none';if(selected==='stairs-zone')selected=null;},'Bühnentreppe entfernt');
+      else change(()=>{objects=objects.filter(item=>item.id!==id);if(selected===id)selected=null;},'Baustein entfernt · mit Rückgängig wiederherstellbar');
+    }else if(action==='duplicate'){
+      change(()=>{const o=objects.find(v=>v.id===id);if(o){const copy={...clone(o),id:'station-'+nextId++,x:o.x+.5,y:o.y+.5,locked:false};constrain(copy);objects.push(copy);}},'Baustein dupliziert');
+    }else if(action==='lock'){
+      change(()=>{const o=objects.find(v=>v.id===id);if(o)o.locked=!o.locked;});
+    }
   });
   document.addEventListener('pointerdown',e=>{if(!$('sp-layer-menu').hidden&&!$('sp-layer-menu').contains(e.target))closeLayerMenu();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sp-layer-menu').hidden)closeLayerMenu();});
