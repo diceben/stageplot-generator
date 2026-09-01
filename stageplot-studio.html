@@ -4726,7 +4726,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const top=header+(height&&align==='center'?Math.max(0,(height-header-bottom-spanY*scale)/2):0)-area.minY*scale;
     return {scale,mx,top,H:height||Math.ceil(header+spanY*scale+bottom)};
   }
-  function drawFloor(host,s,list,mode) {
+  function drawFloor(host,s,list,mode,fixed) {
     const W=Math.floor(host.getBoundingClientRect().width);
     if(W<80||!s) return;
     renderedWidths.set(host.id,W);
@@ -4734,8 +4734,8 @@ function createStageplotSymbolV3(type, options = {}) {
     const header=43,bottom=mode==='editor'?36:47;
     const area=mode==='editor'?editorWorkspaceBounds(s,list):workspaceBounds(s,list);
     const height=mode==='editor'||mode==='print'?Math.floor(host.getBoundingClientRect().height):0;
-    const fit=fitFloor(W,height,area,left,right,header,bottom,mode==='print'?'start':'center'),H=fit.H;
-    const {scale,mx,top}=mode==='editor'?floorView(fit,W,H,camera):fit;
+    const fit=fitFloor(W,height,area,left,right,header,bottom,mode==='print'?'start':'center'),H=fixed?fixed.H:fit.H;
+    const {scale,mx,top}=fixed?fixed:(mode==='editor'?floorView(fit,W,H,camera):fit);
     renderedHeights.set(host.id,H);
     const blackStage=s.surface==='black',transparentPreview=mode==='print'&&$('sp-export-background').value==='transparent';
     const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,width:W,height:H,class:'sp-floor',role:'img','data-stage-surface':blackStage?'black':'light','aria-label':'Bühnenplan: '+num(s.w)+' mal '+metres(s.d)+', '+(blackStage?'schwarze Bühne, ':'')+'2 mal 1 Meter Module, Publikum unten'});
@@ -6226,7 +6226,7 @@ function createStageplotSymbolV3(type, options = {}) {
     finishEdit();
     if(resizeTarget){
       const p=svgPoint(e.currentTarget,e);selected='stage-zone';
-      drag={kind:'stage-resize',dir:resizeTarget.dataset.stageResize,before:snapshot(),x:p.x,y:p.y,ow:stage.w,od:stage.d,scale:Number(e.currentTarget.dataset.scale),mx:Number(e.currentTarget.dataset.originX),top:Number(e.currentTarget.dataset.originY),moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
+      drag={kind:'stage-resize',dir:resizeTarget.dataset.stageResize,before:snapshot(),x:p.x,y:p.y,ow:stage.w,od:stage.d,scale:Number(e.currentTarget.dataset.scale),mx:Number(e.currentTarget.dataset.originX),top:Number(e.currentTarget.dataset.originY),H:Number(e.currentTarget.getAttribute('height')),moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
       drag.capture.setPointerCapture(e.pointerId);e.preventDefault();return;
     }
     if(stairsResetTarget){selected='stairs-zone';e.preventDefault();animateStairsWidth(1.2);return;}
@@ -6273,15 +6273,11 @@ function createStageplotSymbolV3(type, options = {}) {
       inspector();return;
     }
     if(drag.kind==='stage-resize'){
-      const q=$('sp-snap').checked?gridStep():.1,s=drag.scale,mx=drag.mx,top=drag.top;
+      const q=$('sp-snap').checked?gridStep():.1;
       if(drag.dir==='e'||drag.dir==='se')stage.w=Math.max(2,Math.min(30,Math.round((drag.ow+p.x-drag.x)/q)*q));
       if(drag.dir==='s'||drag.dir==='se')stage.d=Math.max(2,Math.min(20,Math.round((drag.od+p.y-drag.y)/q)*q));
-      const rw=stage.w*s,rh=stage.d*s;
-      for(const sel of ['[data-stage-deck]','[data-stage-boundary]','[data-stage-edit-outline]','[data-stage-grid]']){const el=drag.svg.querySelector(sel);if(el){el.setAttribute('width',rw);el.setAttribute('height',rh);}}
-      const grips={e:[mx+rw,top+rh/2],s:[mx+rw/2,top+rh],se:[mx+rw,top+rh]};
-      drag.svg.querySelectorAll('[data-stage-resize]').forEach(h=>{const g=grips[h.dataset.stageResize];h.setAttribute('x',g[0]-6);h.setAttribute('y',g[1]-6);});
-      const wt=drag.svg.querySelector('[data-dim-width]');if(wt){wt.textContent=metres(stage.w);wt.setAttribute('x',mx+rw/2);}
-      const dt=drag.svg.querySelector('[data-dim-depth]');if(dt)dt.textContent=metres(stage.d);
+      drawFloor($('sp-editor-floor'),stage,objects,'editor',{scale:drag.scale,mx:drag.mx,top:drag.top,H:drag.H});
+      drag.svg=$('sp-editor-floor').querySelector('svg');
       return;
     }
     if(drag.kind==='stairs-width'){
