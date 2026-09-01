@@ -151,6 +151,7 @@
         <div id="sp-stage-warning" class="sp-warning" role="status" hidden></div>
           <div id="sp-placement-notice" class="sp-placement-notice" hidden><span id="sp-placement-name"></span><span>Klick zum Platzieren · Esc</span><button type="button" id="sp-placement-cancel" aria-label="Platzierung abbrechen">×</button></div>
           <div id="sp-editor-floor" class="sp-floor-host" tabindex="0" role="application" aria-label="Bühnenplan. Freie Fläche ziehen, Mausrad zoomt, Leertaste verschiebt die Ansicht."></div>
+          <div id="sp-outs-hover" class="sp-outs-hover" hidden><button type="button" id="sp-outs-hover-toggle" aria-pressed="true" title="Outs am Symbol ein-/ausblenden"></button></div>
           <div id="sp-object-rotate" class="sp-object-rotate" role="group" aria-label="Baustein bearbeiten" hidden>
             <div class="sp-rotate-controls" role="group" aria-label="Drehen">
             <button class="sp-button sp-object-tool sp-rotate-tool" type="button" data-rotate="-45" aria-label="45 Grad nach links" data-tooltip="45° links"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 7H4V2.8M4.4 7.1A8.2 8.2 0 1 1 4 15"/></svg><span>45°</span></button>
@@ -2964,6 +2965,11 @@
 #sp-prototype .sp-context-menu button { text-align:left; padding:8px 11px; min-height:auto; border:0; border-radius:6px; background:transparent; font-size:12px; font-weight:500; color:var(--sp-ink); cursor:pointer; }
 #sp-prototype .sp-context-menu button:hover { background:var(--sp-soft,#eef1ea); }
 #sp-prototype .sp-context-menu button.sp-danger { color:light-dark(#b23b2b,#ff9d8c); }
+#sp-prototype .sp-outs-hover { position:fixed; z-index:90; }
+#sp-prototype .sp-outs-hover[hidden] { display:none; }
+#sp-prototype .sp-outs-hover button { display:inline-flex; align-items:center; gap:5px; min-height:auto; padding:5px 9px; border-radius:999px; border:1px solid var(--sp-line); background:var(--sp-panel); color:var(--sp-muted); font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 4px 14px rgb(0 0 0 / 16%); cursor:pointer; }
+#sp-prototype .sp-outs-hover button:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-outs-hover button[aria-pressed="true"] { color:var(--sp-teal); border-color:var(--sp-teal); background:var(--sp-accent-bg); }
 #sp-prototype :is(#sp-labels-visible,#sp-stage-surface-toggle)[aria-pressed="true"] { border-color:#b6d83c; background:#d2f553; color:#22291d; }
 #sp-prototype #sp-stage-surface-toggle[aria-pressed="true"] svg { color:#20221f; }
 
@@ -6593,6 +6599,33 @@ function createStageplotSymbolV3(type, options = {}) {
   });
   document.addEventListener('pointerdown',e=>{if(!$('sp-layer-menu').hidden&&!$('sp-layer-menu').contains(e.target))closeLayerMenu();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sp-layer-menu').hidden)closeLayerMenu();});
+  let outsHoverId=null,outsHoverTimer=null;
+  function positionOutsHover(id){
+    const el=$('sp-editor-floor').querySelector('[data-object="'+id+'"]'),overlay=$('sp-outs-hover');
+    if(!el){overlay.hidden=true;return;}
+    const r=el.getBoundingClientRect();overlay.hidden=false;
+    const ow=overlay.offsetWidth||120,oh=overlay.offsetHeight||28;
+    overlay.style.left=Math.round(Math.max(6,Math.min(r.left+r.width/2-ow/2,window.innerWidth-ow-6)))+'px';
+    overlay.style.top=Math.round(Math.max(6,r.top-oh-6))+'px';
+  }
+  function showOutsHover(id){
+    if(drag)return;
+    const o=objects.find(v=>v.id===id);if(!o||!byId[o.type].instrument||!outsText(o))return;
+    clearTimeout(outsHoverTimer);outsHoverId=id;
+    const btn=$('sp-outs-hover-toggle'),on=o.showOuts!==false;
+    btn.setAttribute('aria-pressed',String(on));btn.textContent=(on?'✓ Outs: ':'Outs: ')+outsText(o);
+    positionOutsHover(id);
+  }
+  function hideOutsHover(){clearTimeout(outsHoverTimer);outsHoverTimer=setTimeout(()=>{$('sp-outs-hover').hidden=true;outsHoverId=null;},120);}
+  $('sp-editor-floor').addEventListener('mouseover',e=>{const g=e.target.closest('[data-object]');if(g)showOutsHover(g.dataset.object);});
+  $('sp-editor-floor').addEventListener('mouseout',e=>{const to=e.relatedTarget;if(to&&to.closest&&(to.closest('[data-object]')||to.closest('#sp-outs-hover')))return;hideOutsHover();});
+  $('sp-outs-hover').addEventListener('mouseenter',()=>clearTimeout(outsHoverTimer));
+  $('sp-outs-hover').addEventListener('mouseleave',hideOutsHover);
+  $('sp-outs-hover-toggle').addEventListener('click',()=>{
+    const id=outsHoverId,o=objects.find(v=>v.id===id);if(!o)return;
+    change(()=>{o.showOuts=o.showOuts===false;},'Outs-Anzeige umgeschaltet');
+    requestAnimationFrame(()=>showOutsHover(id));
+  });
   function toggleObjectLock(){
     const o=objects.find(o=>o.id===selected);if(!o)return;
     change(()=>{o.locked=!o.locked;},o.locked?'Objekt entsperrt':'Objekt gesperrt');
