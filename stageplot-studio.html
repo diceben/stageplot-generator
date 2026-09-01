@@ -4725,9 +4725,9 @@ function createStageplotSymbolV3(type, options = {}) {
     sEl('feDropShadow',{dx:.45,dy:1.15,stdDeviation:.82,'flood-color':'#11150f','flood-opacity':mode==='editor'?.17:.12},overlapFilter);
     sEl('line',{x1:mx,y1:16,x2:mx+rectW,y2:16,stroke:'var(--sp-line)'},svg);
     [mx,mx+rectW].forEach(x=>sEl('line',{x1:x,y1:12,x2:x,y2:20,stroke:'var(--sp-muted)'},svg));
-    sEl('text',{x:mx+rectW/2,y:11,'text-anchor':'middle',class:'sp-dimension'},svg,metres(s.w));
+    sEl('text',{x:mx+rectW/2,y:11,'text-anchor':'middle',class:'sp-dimension','data-dim-width':'true'},svg,metres(s.w));
     sEl('text',{x:mx+rectW*(s.stairs==='back'?.25:.5),y:36,'text-anchor':'middle',class:'sp-orientation'},svg,'UPSTAGE · HINTEN');
-    sEl('text',{x:13,y:top+rectH/2,'text-anchor':'middle',class:'sp-dimension',transform:'rotate(-90 13 '+(top+rectH/2)+')'},svg,metres(s.d));
+    sEl('text',{x:13,y:top+rectH/2,'text-anchor':'middle',class:'sp-dimension','data-dim-depth':'true',transform:'rotate(-90 13 '+(top+rectH/2)+')'},svg,metres(s.d));
     const stageFill=blackStage?'#20211f':'var(--sp-paper)',moduleStroke=blackStage?'#666862':'#c8cbc5';
     sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:stageFill,'data-stage-deck':'true'},svg);
     const orientationFill=blackStage?'#d4d7d0':'#656b65';
@@ -4744,7 +4744,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const spacing=gridStep()*scale,gridId='sp-grid-'+mode;
       const grid=sEl('pattern',{id:gridId,width:spacing,height:spacing,patternUnits:'userSpaceOnUse',x:mx,y:top,'data-grid-metres':gridStep()},defs);
       sEl('path',{d:'M'+spacing+' 0H0V'+spacing,fill:'none',stroke:blackStage?'#3b3d39':'var(--sp-grid)','stroke-width':.6},grid);
-      sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'url(#'+gridId+')','pointer-events':'none'},svg);
+      sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'url(#'+gridId+')','pointer-events':'none','data-stage-grid':'true'},svg);
     }
     const zone=iemRect(s);
     if(zone){
@@ -4856,6 +4856,12 @@ function createStageplotSymbolV3(type, options = {}) {
       }
     });
     svg.appendChild(labelsLayer);
+    if(mode==='editor'&&selected==='stage-zone'){
+      sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'none',stroke:'var(--sp-teal)','stroke-width':2,'pointer-events':'none','data-stage-edit-outline':'true'},svg);
+      const grips=[['e',mx+rectW,top+rectH/2,'ew-resize'],['s',mx+rectW/2,top+rectH,'ns-resize'],['se',mx+rectW,top+rectH,'nwse-resize']];
+      const hg=sEl('g',{'data-stage-handles':'true'},svg);
+      for(const [dir,hx,hy,cursor] of grips)sEl('rect',{x:hx-6,y:hy-6,width:12,height:12,rx:2.5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':1.8,'data-stage-resize':dir,style:'cursor:'+cursor},hg);
+    }
     if(mode==='editor'){
       svg.dataset.interactive='true';svg.dataset.originX=mx;svg.dataset.originY=top;svg.dataset.scale=scale;
       svg.addEventListener('pointerdown',startObjectDrag);
@@ -4956,8 +4962,9 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function inspector(){
     if(selected!==lastInspectorSelection){lastInspectorSelection=selected;setInspectorTab(selected?'properties':'layers');}
-    const o=objects.find(o=>o.id===selected),zone=selected==='iem-zone'?iemRect(stage):null,stairs=selected==='stairs-zone'?stairsGeometry(stage):null;
-    $('sp-selected').hidden=!o;$('sp-no-selection').hidden=!!o||!!zone||!!stairs;$('sp-iem-selected').hidden=!zone;$('sp-stairs-selected').hidden=!stairs;
+    const o=objects.find(o=>o.id===selected),zone=selected==='iem-zone'?iemRect(stage):null,stairs=selected==='stairs-zone'?stairsGeometry(stage):null,stageZone=selected==='stage-zone';
+    $('sp-stage-edit').setAttribute('aria-pressed',String(stageZone));
+    $('sp-selected').hidden=!o;$('sp-no-selection').hidden=!!o||!!zone||!!stairs||stageZone;$('sp-iem-selected').hidden=!zone;$('sp-stairs-selected').hidden=!stairs;
     if(zone){
       $('sp-iem-side-edit').value=stage.iem;
       syncChoiceButtons($('sp-iem-side-options'),stage.iem,false);
@@ -5699,7 +5706,13 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   $('sp-help-open').addEventListener('click',openShortcutHelp);
   $('sp-settings-gear').addEventListener('click',()=>$('sp-settings-open').click());
-  $('sp-stage-edit').addEventListener('click',()=>$('sp-edit-stage').click());
+  $('sp-stage-edit').addEventListener('click',()=>{
+    if(view!=='editor')show('editor');
+    finishEdit();
+    selected=selected==='stage-zone'?null:'stage-zone';
+    renderEditor();
+    if(selected==='stage-zone')say('Bühne bearbeiten: Kante oder Ecke ziehen, um die Größe zu ändern');
+  });
   $('sp-stage-iem').addEventListener('click',()=>$('sp-edit-iem').click());
   $('sp-stage-clear').addEventListener('click',()=>$('sp-clear-stage').click());
   $('sp-project-export').addEventListener('click',()=>$('sp-setup-download').click());
@@ -6162,7 +6175,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function startObjectDrag(e){
     focusCanvas();
-    const id=e.target.closest('[data-object]')?.dataset.object,stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]');
+    const id=e.target.closest('[data-object]')?.dataset.object,stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]');
     if(e.button===1||panMode||spaceHeld||e.altKey){
       const blankPrimary=e.button===0&&!id&&!stairsTarget&&!iemTarget;
       startViewPan(e);
@@ -6172,6 +6185,11 @@ function createStageplotSymbolV3(type, options = {}) {
     if(e.button!==0)return;
     if(placement){commitPlacement(e.currentTarget,e);return;}
     finishEdit();
+    if(resizeTarget){
+      const p=svgPoint(e.currentTarget,e);selected='stage-zone';
+      drag={kind:'stage-resize',dir:resizeTarget.dataset.stageResize,before:snapshot(),x:p.x,y:p.y,ow:stage.w,od:stage.d,scale:Number(e.currentTarget.dataset.scale),mx:Number(e.currentTarget.dataset.originX),top:Number(e.currentTarget.dataset.originY),moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
+      drag.capture.setPointerCapture(e.pointerId);e.preventDefault();return;
+    }
     if(!id&&stairsTarget){
       const stair=stairsGeometry(stage),p=svgPoint(e.currentTarget,e),edge=stairEdge(stage),centre=edge==='left'||edge==='right'?stair.y+stair.d/2:stair.x+stair.w/2;selected='stairs-zone';
       drag={kind:'stairs',before:snapshot(),x:p.x,y:p.y,stair,stairEdge:edge,stairGrabOffset:(edge==='left'||edge==='right'?p.y:p.x)-centre,moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
@@ -6209,6 +6227,18 @@ function createStageplotSymbolV3(type, options = {}) {
       updateStairsNode(drag.svg,stage);
       inspector();return;
     }
+    if(drag.kind==='stage-resize'){
+      const q=$('sp-snap').checked?gridStep():.1,s=drag.scale,mx=drag.mx,top=drag.top;
+      if(drag.dir==='e'||drag.dir==='se')stage.w=Math.max(2,Math.min(30,Math.round((drag.ow+p.x-drag.x)/q)*q));
+      if(drag.dir==='s'||drag.dir==='se')stage.d=Math.max(2,Math.min(20,Math.round((drag.od+p.y-drag.y)/q)*q));
+      const rw=stage.w*s,rh=stage.d*s;
+      for(const sel of ['[data-stage-deck]','[data-stage-boundary]','[data-stage-edit-outline]','[data-stage-grid]']){const el=drag.svg.querySelector(sel);if(el){el.setAttribute('width',rw);el.setAttribute('height',rh);}}
+      const grips={e:[mx+rw,top+rh/2],s:[mx+rw/2,top+rh],se:[mx+rw,top+rh]};
+      drag.svg.querySelectorAll('[data-stage-resize]').forEach(h=>{const g=grips[h.dataset.stageResize];h.setAttribute('x',g[0]-6);h.setAttribute('y',g[1]-6);});
+      const wt=drag.svg.querySelector('[data-dim-width]');if(wt){wt.textContent=metres(stage.w);wt.setAttribute('x',mx+rw/2);}
+      const dt=drag.svg.querySelector('[data-dim-depth]');if(dt)dt.textContent=metres(stage.d);
+      return;
+    }
     const o=objects.find(v=>v.id===drag.id);
     o.x=drag.ox+p.x-drag.x;o.y=drag.oy+p.y-drag.y;constrain(o);
     const old=drag.svg.querySelector('[data-object="'+o.id+'"]'),dx=(o.x-drag.ox)*Number(drag.svg.dataset.scale),dy=(o.y-drag.oy)*Number(drag.svg.dataset.scale);
@@ -6220,12 +6250,12 @@ function createStageplotSymbolV3(type, options = {}) {
   function endObjectDrag(e){
     if(!drag||drag.pointer!==e.pointerId)return;
     const d=drag;drag=null;if(d.capture.hasPointerCapture(e.pointerId))d.capture.releasePointerCapture(e.pointerId);
-    keepHistory(d.before);renderEditor();if(d.moved)say('Position angepasst');
+    keepHistory(d.before);renderEditor();if(d.moved)say(d.kind==='stage-resize'?'Bühne '+num(stage.w)+' × '+metres(stage.d):'Position angepasst');
   }
   function cancelObjectDrag(){
     if(!drag)return;
     const d=drag;drag=null;
-    if(d.kind==='iem'||d.kind==='stairs')stage=JSON.parse(d.before).stage;
+    if(d.kind==='iem'||d.kind==='stairs'||d.kind==='stage-resize')stage=JSON.parse(d.before).stage;
     else {const o=objects.find(o=>o.id===d.id);if(o){o.x=d.ox;o.y=d.oy;}}
     if(d.capture.hasPointerCapture(d.pointer))d.capture.releasePointerCapture(d.pointer);
     renderEditor();
