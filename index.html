@@ -36,9 +36,8 @@
     </details>
     <nav aria-label="Projektbereiche"><ol class="sp-steps">
       <li data-step="dashboard"><button type="button" data-view="dashboard"><span aria-hidden="true">⌂</span> Projekte</button></li>
-      <li data-step="setup"><button type="button" data-view="setup"><span>1</span> Bühne</button></li>
-      <li data-step="editor"><button type="button" data-view="editor"><span>2</span> Entwurf</button></li>
-      <li data-step="print"><button type="button" data-view="print" id="sp-show-print"><span>3</span> Vorschau</button></li>
+      <li data-step="editor"><button type="button" data-view="editor"><span>1</span> Entwurf</button></li>
+      <li data-step="print"><button type="button" data-view="print" id="sp-show-print"><span>2</span> Vorschau</button></li>
       <li data-step="routing"><button type="button" data-view="routing"><span aria-hidden="true">↝</span> Routing</button></li>
       <li data-step="project"><button type="button" data-view="project"><span aria-hidden="true">⚙</span> Project Settings</button></li>
     </ol></nav>
@@ -4531,6 +4530,7 @@ function createStageplotSymbolV3(type, options = {}) {
     ['dashboard','setup','editor','routing','print'].forEach(name=>{$('sp-'+name).hidden=name!==which;});
     root.querySelectorAll('[data-editor-actions]').forEach(el=>{el.hidden=which!=='editor';});
     root.querySelectorAll('[data-step]').forEach(el=>{if(el.dataset.step===which)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');el.querySelector('button').disabled=!stage&&!['setup','dashboard'].includes(el.dataset.step);});
+    const projStep=root.querySelector('[data-step="project"]');if(projStep)projStep.hidden=isSampleProject();
     $('sp-show-print').disabled=!stage;
     $('sp-file-save').disabled=!stage&&which!=='setup';$('sp-file-save-as').disabled=!stage&&which!=='setup';
     if(which==='dashboard')renderDashboard();
