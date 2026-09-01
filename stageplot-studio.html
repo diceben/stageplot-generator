@@ -3,7 +3,7 @@
   <header class="sp-header">
     <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></button>
     <div class="sp-project-summary"><h2 id="sp-project-heading">Mein Live-Setup</h2><div id="sp-editor-meta"></div></div>
-    <details id="sp-file-menu" class="sp-file-menu">
+    <details id="sp-file-menu" class="sp-file-menu" hidden>
       <summary>Datei <span aria-hidden="true">⌄</span></summary>
       <div class="sp-file-panel" aria-label="Datei-Aktionen">
         <button type="button" id="sp-file-save" aria-keyshortcuts="Meta+s Control+s"><span>Speichern</span><small aria-hidden="true">⌘ / Ctrl S</small></button>
@@ -256,7 +256,7 @@
         <label class="sp-field">Technical / Advance Contact<input id="sp-contact-advance" maxlength="80"></label><label class="sp-field">E-Mail oder Telefonnummer<input id="sp-contact-advance-value" maxlength="120"></label>
       </div></section>
       <section id="sp-project-panel-notes" class="sp-settings-card" role="tabpanel" data-project-panel="notes" hidden><div class="sp-settings-card-title"><div><h2>Notizen</h2><p>Allgemeine Produktionshinweise</p></div></div><label class="sp-field"><textarea id="sp-project-notes" rows="9" maxlength="2000" placeholder="Load-in, Curfew, besondere Strom- oder Rigging-Hinweise …"></textarea></label></section>
-      <div class="sp-actions sp-project-dialog-actions"><button class="sp-button" type="button" id="sp-project-cancel">Abbrechen</button><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-project-apply">Übernehmen</button><button class="sp-button sp-primary" type="submit" id="sp-project-save">Save</button></div>
+      <div class="sp-actions sp-project-dialog-actions"><button class="sp-button" type="button" id="sp-project-cancel">Abbrechen</button><button class="sp-button" type="button" id="sp-project-export">Exportieren …</button><button class="sp-button" type="button" id="sp-project-saveas">Speichern unter …</button><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-project-apply">Übernehmen</button><button class="sp-button sp-primary" type="submit" id="sp-project-save">Save</button></div>
     </form>
   </dialog>
 
@@ -5704,6 +5704,8 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-stage-edit').addEventListener('click',()=>$('sp-edit-stage').click());
   $('sp-stage-iem').addEventListener('click',()=>$('sp-edit-iem').click());
   $('sp-stage-clear').addEventListener('click',()=>$('sp-clear-stage').click());
+  $('sp-project-export').addEventListener('click',()=>$('sp-setup-download').click());
+  $('sp-project-saveas').addEventListener('click',()=>$('sp-file-save-as').click());
   $('sp-help-close').addEventListener('click',()=>$('sp-help-dialog').close());
   $('sp-help-dialog').addEventListener('close',()=>{if(helpReturnFocus&&typeof helpReturnFocus.focus==='function')helpReturnFocus.focus({preventScroll:true});helpReturnFocus=null;});
   let drumDraft=null,drumDraftType='drums',drumObjectId=null,drumSelectedPart=null,drumPartDrag=null,drumPendingKind=null,drumHoverPart=null,drumDesigns=[],activeDrumDesignId=null,drumDesignOverwriteId=null;
