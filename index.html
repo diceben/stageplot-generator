@@ -12,7 +12,7 @@
 <div id="sp-frame">
 <div id="sp-prototype" lang="de" data-library-collapsed="false" data-inspector-collapsed="false" data-canvas-focus="false" data-inspector-tab="properties">
   <header class="sp-header">
-    <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>STAGEPLOT</span></button>
+    <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></button>
     <div class="sp-project-summary"><h2 id="sp-project-heading">Mein Live-Setup</h2><div id="sp-editor-meta"></div></div>
     <details id="sp-file-menu" class="sp-file-menu">
       <summary>Datei <span aria-hidden="true">⌄</span></summary>
@@ -2883,6 +2883,11 @@
 #sp-prototype .sp-new-project-cta strong { font-size:12px; line-height:1; }
 #sp-prototype .sp-new-project-cta small { color:#536226; font-size:9px; font-weight:700; }
 #sp-prototype .sp-new-project-cta:disabled { box-shadow:none; }
+#sp-prototype #sp-project-import { min-height:54px; border-radius:13px; background:#e9ebe3; border-color:#d4d8cc; color:#4a534a; font-weight:600; box-shadow:none; }
+#sp-prototype #sp-project-import:not(:disabled):hover { background:#e0e3d8; border-color:#9dbc2c; color:#333a30; }
+#sp-prototype .sp-brand-word { display:inline-flex; flex-direction:column; align-items:flex-end; line-height:1; }
+#sp-prototype .sp-pro-flag { display:none; font-size:.4em; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:var(--sp-lime,#9dbc2c); margin-top:2px; }
+#sp-prototype[data-plan="pro"] .sp-pro-flag { display:block; }
 #sp-prototype :is(#sp-labels-visible,#sp-stage-surface-toggle)[aria-pressed="true"] { border-color:#b6d83c; background:#d2f553; color:#22291d; }
 #sp-prototype #sp-stage-surface-toggle[aria-pressed="true"] svg { color:#20221f; }
 
@@ -5180,15 +5185,18 @@ function createStageplotSymbolV3(type, options = {}) {
 
   function updateProjectHeading(){
     if(!stage)return;
-    $('sp-project-heading').textContent=stage.title;
-    $('sp-editor-meta').textContent=num(stage.w)+' × '+metres(stage.d);
+    const sample=isSampleProject();
+    $('sp-project-heading').textContent=sample?'':stage.title;
+    $('sp-editor-meta').textContent=sample?'':num(stage.w)+' × '+metres(stage.d);
   }
   const accountStorageKey='stageplot-studio:account:v1';
+  function applyPlanBadge(){try{root.dataset.plan=accountPlan;}catch(error){}}
   function loadAccountPlan(){
     try{const data=JSON.parse(window.localStorage.getItem(accountStorageKey)||'null');accountPlan=data?.plan==='pro'?'pro':'free';}catch(error){accountPlan='free';}
+    applyPlanBadge();
   }
   function saveAccountPlan(plan){
-    accountPlan=plan==='pro'?'pro':'free';try{window.localStorage.setItem(accountStorageKey,JSON.stringify({version:1,plan:accountPlan}));}catch(error){}renderDashboard();
+    accountPlan=plan==='pro'?'pro':'free';try{window.localStorage.setItem(accountStorageKey,JSON.stringify({version:1,plan:accountPlan}));}catch(error){}applyPlanBadge();renderDashboard();
   }
   const isSampleProject=()=>stage?.title==='Beispiel-Aufbau'&&!activeSetupId&&!activeDraftId;
   function dashboardProjects(){
