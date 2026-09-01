@@ -42,6 +42,7 @@
       <li data-step="project"><button type="button" data-view="project"><span aria-hidden="true">⚙</span> Project Settings</button></li>
     </ol></nav>
     <div class="sp-header-status" aria-label="Speicherstatus"><span class="sp-save-dot" aria-hidden="true"></span><span id="sp-header-draft-status">Entwurf lokal</span></div>
+    <button class="sp-header-help sp-header-gear" type="button" id="sp-settings-gear" aria-label="Einstellungen" title="Einstellungen"><svg viewBox="0 0 20 20" aria-hidden="true" width="15" height="15"><path d="M10 6.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8Zm7.2 3.4a5.6 5.6 0 0 0-.1-1l1.6-1.3-1.6-2.8-2 .8a5.6 5.6 0 0 0-1.7-1l-.3-2.1H9.7L9.4 2a5.6 5.6 0 0 0-1.7 1l-2-.8L4.1 5l1.6 1.3a5.6 5.6 0 0 0 0 2L4.1 9.6l1.6 2.8 2-.8a5.6 5.6 0 0 0 1.7 1l.3 2.1h2.6l.3-2.1a5.6 5.6 0 0 0 1.7-1l2 .8 1.6-2.8-1.6-1.3c.1-.3.1-.7.1-1Z" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg></button>
     <button class="sp-header-help" type="button" id="sp-help-open" aria-label="Tastaturbefehle und Hilfe" title="Tastaturbefehle">?</button>
   </header>
 
@@ -142,6 +143,11 @@
               <output id="sp-zoom-label" aria-label="Zoom">100 %</output>
               <button class="sp-button sp-iconbutton" id="sp-zoom-in" type="button" aria-label="Vergrößern" data-tooltip="Vergrößern · +"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10h10M10 5v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
               <button class="sp-button sp-iconbutton" id="sp-zoom-fit" type="button" aria-label="Bühne einpassen" data-tooltip="Bühne einpassen · 0"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4M13 3h4v4M3 13v4h4M17 13v4h-4" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="6" y="6" width="8" height="8" rx="1" fill="none" stroke="currentColor"/></svg></button>
+            </div>
+            <div class="sp-toolbar-group sp-canvas-cluster sp-stage-controls" data-canvas-cluster="stage">
+              <button class="sp-button sp-iconbutton" id="sp-stage-edit" type="button" aria-label="Bühne bearbeiten" data-tooltip="Bühne bearbeiten"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="11" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M13 8.5 8 13.5l-2.2.6.6-2.2 5-5a1 1 0 0 1 1.4 1.4Z" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg></button>
+              <button class="sp-button sp-iconbutton sp-stage-iem-btn" id="sp-stage-iem" type="button" aria-label="IEM-Bereich bearbeiten" data-tooltip="IEM-Bereich">IEM</button>
+              <button class="sp-button sp-iconbutton" id="sp-stage-clear" type="button" aria-label="Bühne leeren" data-tooltip="Bühne leeren"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5A1.5 1.5 0 0 1 9.5 3h1A1.5 1.5 0 0 1 12 4.5V6m3 0-.7 9.2a1.6 1.6 0 0 1-1.6 1.5H7.3a1.6 1.6 0 0 1-1.6-1.5L5 6M8.5 9v5M11.5 9v5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             </div>
           </div>
         <div id="sp-stage-warning" class="sp-warning" role="status" hidden></div>
@@ -2950,6 +2956,7 @@
 #sp-prototype .sp-np-advanced-body { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-top:8px; }
 #sp-prototype .sp-np-advanced-body select { width:100%; min-height:40px; }
 @media (max-width:560px){ #sp-prototype .sp-np-stage{ grid-template-columns:1fr; } #sp-prototype .sp-np-identity, #sp-prototype .sp-np-advanced-body{ grid-template-columns:1fr; } }
+#sp-prototype .sp-stage-iem-btn { font-size:9px; font-weight:700; letter-spacing:.3px; }
 #sp-prototype :is(#sp-labels-visible,#sp-stage-surface-toggle)[aria-pressed="true"] { border-color:#b6d83c; background:#d2f553; color:#22291d; }
 #sp-prototype #sp-stage-surface-toggle[aria-pressed="true"] svg { color:#20221f; }
 
@@ -5704,6 +5711,10 @@ function createStageplotSymbolV3(type, options = {}) {
     closeFileMenu();helpReturnFocus=document.activeElement;const dialog=$('sp-help-dialog');if(!dialog.open)dialog.showModal();$('sp-help-close').focus({preventScroll:true});
   }
   $('sp-help-open').addEventListener('click',openShortcutHelp);
+  $('sp-settings-gear').addEventListener('click',()=>$('sp-settings-open').click());
+  $('sp-stage-edit').addEventListener('click',()=>$('sp-edit-stage').click());
+  $('sp-stage-iem').addEventListener('click',()=>$('sp-edit-iem').click());
+  $('sp-stage-clear').addEventListener('click',()=>$('sp-clear-stage').click());
   $('sp-help-close').addEventListener('click',()=>$('sp-help-dialog').close());
   $('sp-help-dialog').addEventListener('close',()=>{if(helpReturnFocus&&typeof helpReturnFocus.focus==='function')helpReturnFocus.focus({preventScroll:true});helpReturnFocus=null;});
   let drumDraft=null,drumDraftType='drums',drumObjectId=null,drumSelectedPart=null,drumPartDrag=null,drumPendingKind=null,drumHoverPart=null,drumDesigns=[],activeDrumDesignId=null,drumDesignOverwriteId=null;
