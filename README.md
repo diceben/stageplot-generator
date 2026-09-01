@@ -41,14 +41,25 @@ Nicht gleichzeitig auf zwei Laptops uncommittete Änderungen an denselben Dateie
 
 ## Wichtige Dateien
 
-- `stageplot-studio.html`: kanonischer 2D-App-Stand
-- `stageplot-prototyp-detail.html`: synchronisierter Alias; muss bytegleich bleiben
+- `stageplot-studio.html`: kanonischer 2D-App-Stand (autarke Datei; die Modulblöcke unten sind eingebettete, generierte Artefakte)
 - `stageplot-account-v1.js`: lokale Account-/Cloud-Grenze
-- `stageplot-drums-v12.js`: eingebettetes Drummodell als prüfbare Quelle
-- `stageplot-symbols-v3.js`: eingebetteter Symbolrenderer als prüfbare Quelle
+- `stageplot-drums-v12.js`: Drummodell — einzige Quelle, wird in die HTML eingebettet
+- `stageplot-symbols-v3.js`: Symbolrenderer — einzige Quelle, wird in die HTML eingebettet
+- `stageplot-export-v42.js`: Export-Helfer — einzige Quelle, wird in die HTML eingebettet
+- `scripts/build-inline.cjs`: bettet die Module aus den `.js`-Quellen in die HTML ein
 - `stageplot-assets/`: lokale Bildassets
 - `supabase/migrations/`: versioniertes Datenbankschema
 - `stageplot-preview.py`: restriktiver lokaler Vorschau-Server
+
+## Module bearbeiten
+
+`stageplot-drums-v12.js`, `stageplot-symbols-v3.js` und `stageplot-export-v42.js` sind die **einzige Quelle**. Sie liegen zusätzlich eingebettet in `stageplot-studio.html`, damit die App eine autarke, offline öffenbare Datei bleibt. Nach dem Ändern einer dieser Dateien die Einbettung neu generieren:
+
+```bash
+npm run build
+```
+
+`npm test` prüft mit `build-inline.cjs --check`, dass HTML und Quellen synchron sind, und schlägt bei Drift fehl. Niemals die eingebetteten Blöcke (zwischen den `build-inline:start/end`-Markern) direkt in der HTML editieren.
 
 ## Tests
 

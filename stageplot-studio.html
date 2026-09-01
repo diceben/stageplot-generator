@@ -2911,6 +2911,7 @@
 <script src="./stageplot-account-v1.js"></script>
 <script>
 // Embedded verbatim for the single-file offline app; the separate module remains the tested source.
+/* build-inline:start stageplot-export-v42.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Pure offline export helpers: no DOM, network, storage or mutable app state.
 function createStageplotExportV42() {
   'use strict';
@@ -3097,6 +3098,7 @@ function createStageplotExportV42() {
 
   return {SETUP_KIND,SETUP_VERSION,PNG_SCALES:[...PNG_SCALES],PNG_BACKGROUNDS:[...PNG_BACKGROUNDS],safeFilename,filenameFor,basicNormalizeSetupDocument,createSetupExport,normalizeSetupExport,parseSetupJson,stringifySetupJson,normalizePngOptions,svgDimensions,createPngPlan,createPngPlanFromSvg};
 }
+/* build-inline:end stageplot-export-v42.js */
 
 
 (() => {
@@ -3259,6 +3261,7 @@ function createStageplotExportV42() {
   };
   // Monochrome stageplot artwork. All equipment uses an orthographic plan view.
   // Geometry is normalized to 100 x 100; the application owns real-world footprints.
+/* build-inline:start stageplot-drums-v12.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Pure offline drum configuration: no DOM, network or mutable app state.
 function createStageplotDrumModel() {
   const clamp=(v,min,max,fallback)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Number(v))):fallback;
@@ -3406,7 +3409,9 @@ function createStageplotDrumModel() {
   const designerPoint=(layout,point)=>rotatePoint(layout,point,180);
   return {isDrums,drumDefaults,normalizeDrums,createDrumDesign,normalizeDrumDesign,drumLayout,drumInteraction,drumChannels,rotatePoint,designerPoint};
 }
+/* build-inline:end stageplot-drums-v12.js */
   const drumModel=createStageplotDrumModel();
+/* build-inline:start stageplot-symbols-v3.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Original scalable monochrome artwork; lighter technical linework matches the approved design rendering.
 // Instrument geometry remains informed by the sources in stageplot-referenzen.md.
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
@@ -4200,6 +4205,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   return '<g data-equipment="'+type+'">'+out+'</g>';
 }
+/* build-inline:end stageplot-symbols-v3.js */
   // Each drawing exists once. Library, stage and inspector only reference it.
   const artCache=new Map(),artBoundsCache=new Map(),labelMeasureCache=new Map(),renderedWidths=new Map(),renderedHeights=new Map();
   const artSvg=sEl('svg',{'aria-hidden':'true',width:0,height:0,class:'sp-art-bank'},root),artDefs=sEl('defs',{},artSvg);
