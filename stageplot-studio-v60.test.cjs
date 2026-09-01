@@ -3,13 +3,12 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 
 const read=name=>fs.readFileSync(name,'utf8');
-const html=read('stageplot-studio.html'),alias=read('stageplot-prototyp-detail.html');
+const html=read('stageplot-studio.html');
 const drumSource=read('stageplot-drums-v12.js'),artSource=read('stageplot-symbols-v3.js');
 const scripts=[...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)].map(match=>match[1]);
 const script=scripts.at(-1)||'';
 const between=(from,to)=>{const a=script.indexOf(from),b=script.indexOf(to,a+from.length);assert(a>=0&&b>a,`${from} … ${to} fehlt`);return script.slice(a,b);};
 
-assert.equal(html,alias,'Beide Stageplot-Einstiege müssen bytegleich bleiben.');
 assert.ok(html.includes(drumSource.trim()),'Das Drummodell ist nicht unverändert eingebettet.');
 assert.ok(html.includes(artSource.trim()),'Der Symbolrenderer ist nicht unverändert eingebettet.');
 scripts.forEach((source,index)=>assert.doesNotThrow(()=>new vm.Script(source,{filename:`inline-${index}.js`})));

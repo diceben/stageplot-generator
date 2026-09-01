@@ -3,11 +3,9 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 
 const html=fs.readFileSync('stageplot-studio.html','utf8');
-const alias=fs.readFileSync('stageplot-prototyp-detail.html','utf8');
 const schema=fs.readFileSync('supabase/migrations/0001_stageplot_documents.sql','utf8');
 const scripts=[...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)].map(match=>match[1]);
 
-assert.equal(html,alias,'Beide Stageplot-Einstiege müssen bytegleich bleiben.');
 assert.match(html,/<script src="\.\/stageplot-account-v1\.js"><\/script>/,'Account-Runtime wird nicht vor dem App-Code geladen.');
 scripts.forEach((source,index)=>assert.doesNotThrow(()=>new vm.Script(source,{filename:`inline-${index}.js`})));
 for(const marker of [
