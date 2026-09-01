@@ -299,6 +299,45 @@
   </dialog>
   <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title"><div class="sp-dialog-heading"><h2 id="sp-share-title">Read-only-Link teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div><p>Empfänger sehen Stageplot und Projektdaten, können sie aber nicht bearbeiten.</p><label class="sp-field">Link<textarea id="sp-share-link" rows="4" readonly></textarea></label><div class="sp-actions"><button class="sp-button" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button sp-primary" type="button" id="sp-share-preview">Read-only öffnen</button></div><p id="sp-share-status" class="sp-muted" role="status"></p></dialog>
   <dialog id="sp-upgrade-dialog" class="sp-clear-dialog sp-upgrade-dialog" aria-labelledby="sp-upgrade-title"><div class="sp-dialog-heading"><div><span class="sp-eyebrow">STAGEPLOT PRO</span><h2 id="sp-upgrade-title">Mehr Projekte. Vollständige Unterlagen.</h2></div><button class="sp-button" type="button" id="sp-upgrade-close" aria-label="Upgrade schließen">×</button></div><ul><li>Unbegrenzte Projekte</li><li>PDF · Complete mit Routing und Kontakten</li><li>XLSX-Export der Kanalliste</li></ul><p class="sp-muted">Diese Offline-Version enthält einen lokalen Pro-Demomodus – noch keine Zahlungsabwicklung.</p><button class="sp-button sp-primary sp-upgrade-button" type="button" id="sp-upgrade-demo">Pro-Demo aktivieren</button></dialog>
+  <dialog id="sp-newproject-dialog" class="sp-clear-dialog sp-newproject-dialog" aria-labelledby="sp-np-heading">
+    <div class="sp-dialog-heading"><div><span class="sp-eyebrow">NEUES PROJEKT</span><h2 id="sp-np-heading">Projekt anlegen</h2><p class="sp-muted" id="sp-np-name-preview">Neues Projekt</p></div><button class="sp-button" type="button" id="sp-np-close" aria-label="Schließen">×</button></div>
+    <div class="sp-np-body">
+      <div class="sp-np-identity">
+        <label class="sp-field"><span>Band / Act</span><input id="sp-np-band" maxlength="80" placeholder="z. B. The Sonics" autocomplete="off"></label>
+        <label class="sp-field"><span>Location</span><input id="sp-np-location" maxlength="100" placeholder="z. B. Arena Wien" autocomplete="off"></label>
+      </div>
+      <div class="sp-np-stage">
+        <div class="sp-np-dims">
+          <div class="sp-np-dim">
+            <div class="sp-np-dim-head"><span>Breite</span><strong id="sp-np-width-val">8 m</strong></div>
+            <div class="sp-np-dim-row">
+              <button type="button" class="sp-np-step" data-dim="width" data-np-step="-1" aria-label="Breite minus 1 Meter">−</button>
+              <div class="sp-np-presets" data-dim="width"><button type="button" data-val="3">3</button><button type="button" data-val="5">5</button><button type="button" data-val="8">8</button><button type="button" data-val="10">10</button><button type="button" data-val="15">15</button><button type="button" data-val="25">25</button></div>
+              <button type="button" class="sp-np-step" data-dim="width" data-np-step="1" aria-label="Breite plus 1 Meter">+</button>
+            </div>
+          </div>
+          <div class="sp-np-dim">
+            <div class="sp-np-dim-head"><span>Tiefe</span><strong id="sp-np-depth-val">5 m</strong></div>
+            <div class="sp-np-dim-row">
+              <button type="button" class="sp-np-step" data-dim="depth" data-np-step="-1" aria-label="Tiefe minus 1 Meter">−</button>
+              <div class="sp-np-presets" data-dim="depth"><button type="button" data-val="2">2</button><button type="button" data-val="3">3</button><button type="button" data-val="5">5</button><button type="button" data-val="8">8</button><button type="button" data-val="10">10</button><button type="button" data-val="12">12</button><button type="button" data-val="15">15</button></div>
+              <button type="button" class="sp-np-step" data-dim="depth" data-np-step="1" aria-label="Tiefe plus 1 Meter">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="sp-np-preview" aria-hidden="true"><div class="sp-np-preview-stage" id="sp-np-preview-stage"></div><span class="sp-np-preview-audience">PUBLIKUM</span></div>
+      </div>
+      <details class="sp-np-advanced">
+        <summary>Erweiterte Einstellungen</summary>
+        <div class="sp-np-advanced-body">
+          <label class="sp-field"><span>Treppe</span><select id="sp-np-stairs"><option value="left">Vorne links</option><option value="right">Vorne rechts</option><option value="side-left">Seitlich links</option><option value="side-right">Seitlich rechts</option><option value="back">Hinten mittig</option><option value="none">Keine Treppe</option><option value="unknown">Noch unbekannt</option></select></label>
+          <label class="sp-field"><span>IEM-Fläche</span><select id="sp-np-iem"><option value="right">Rechter Bühnenrand</option><option value="left">Linker Bühnenrand</option><option value="free">Frei auf der Bühne</option><option value="none">Keine reservieren</option><option value="unknown">Noch unbekannt</option></select></label>
+        </div>
+      </details>
+      <p id="sp-np-error" class="sp-error" role="alert" hidden></p>
+    </div>
+    <div class="sp-actions"><button class="sp-button" type="button" id="sp-np-cancel">Abbrechen</button><button class="sp-button sp-primary" type="button" id="sp-np-create">Projekt erstellen <span aria-hidden="true">→</span></button></div>
+  </dialog>
   <dialog id="sp-drum-dialog" class="sp-clear-dialog sp-drum-dialog" aria-labelledby="sp-drum-title" data-palette-collapsed="false" data-inspector-collapsed="false">
     <div class="sp-dialog-heading sp-drum-topbar"><div class="sp-drum-brand"><b aria-hidden="true">S</b><h2 id="sp-drum-title">STAGEPLOT <span>/</span> DRUM DESIGNER</h2></div><span class="sp-drum-progress">BAUTEILE / AUFBAU</span><div class="sp-drum-history-actions"><button class="sp-button" type="button" id="sp-drum-undo" aria-label="Drum-Designer rückgängig" disabled>↶</button><button class="sp-button" type="button" id="sp-drum-redo" aria-label="Drum-Designer wiederholen" disabled>↷</button><button class="sp-button" type="button" id="sp-drum-reset-layout">Positionen zurücksetzen</button></div><button class="sp-button" type="button" id="sp-drum-close" aria-label="Drumset-Konfiguration schließen">×</button></div>
     <form id="sp-drum-form">
@@ -2877,6 +2916,30 @@
 #sp-prototype .sp-brand-word { display:inline-flex; flex-direction:column; align-items:flex-end; line-height:1; }
 #sp-prototype .sp-pro-flag { display:none; font-size:.4em; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:var(--sp-lime,#9dbc2c); margin-top:2px; }
 #sp-prototype[data-plan="pro"] .sp-pro-flag { display:block; }
+#sp-prototype .sp-newproject-dialog { width:min(700px,94vw); max-width:94vw; }
+#sp-prototype .sp-newproject-dialog #sp-np-name-preview { margin:5px 0 0; font-weight:650; font-size:15px; color:var(--sp-ink); }
+#sp-prototype .sp-np-body { display:grid; gap:18px; margin-top:8px; }
+#sp-prototype .sp-np-identity { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+#sp-prototype .sp-np-identity .sp-field span, #sp-prototype .sp-np-advanced-body .sp-field span { display:block; font-size:11px; font-weight:600; margin-bottom:5px; color:var(--sp-muted); text-transform:uppercase; letter-spacing:.4px; }
+#sp-prototype .sp-np-identity input { width:100%; min-height:42px; }
+#sp-prototype .sp-np-stage { display:grid; grid-template-columns:1fr 168px; gap:20px; align-items:center; }
+#sp-prototype .sp-np-dims { display:grid; gap:16px; }
+#sp-prototype .sp-np-dim-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; font-size:12px; font-weight:600; }
+#sp-prototype .sp-np-dim-head strong { color:var(--sp-lime,#9dbc2c); font-size:15px; }
+#sp-prototype .sp-np-dim-row { display:flex; align-items:stretch; gap:6px; }
+#sp-prototype .sp-np-presets { display:flex; flex:1; gap:5px; }
+#sp-prototype .sp-np-presets button, #sp-prototype .sp-np-step { flex:1; min-height:42px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-panel); font-weight:600; font-size:13px; cursor:pointer; color:var(--sp-ink); }
+#sp-prototype .sp-np-step { flex:0 0 42px; font-size:20px; line-height:1; }
+#sp-prototype .sp-np-presets button:hover, #sp-prototype .sp-np-step:hover { border-color:var(--sp-lime,#9dbc2c); }
+#sp-prototype .sp-np-presets button[aria-pressed="true"] { background:var(--sp-lime,#9dbc2c); border-color:var(--sp-lime,#9dbc2c); color:#20261b; }
+#sp-prototype .sp-np-preview { position:relative; display:flex; align-items:center; justify-content:center; padding:16px 12px 22px; background:light-dark(#eef1ea,#1c2320); border-radius:14px; min-height:150px; }
+#sp-prototype .sp-np-preview-stage { border:1.5px solid var(--sp-ink); border-bottom-width:3px; border-radius:2px; background:repeating-linear-gradient(0deg,transparent,transparent 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 12px),repeating-linear-gradient(90deg,transparent,transparent 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 12px); transition:width .16s ease,height .16s ease; }
+#sp-prototype .sp-np-preview-audience { position:absolute; left:0; right:0; bottom:7px; text-align:center; font-size:8px; letter-spacing:1.5px; color:var(--sp-muted); }
+#sp-prototype .sp-np-advanced summary { cursor:pointer; font-weight:600; font-size:12px; padding:9px 0; color:var(--sp-muted); }
+#sp-prototype .sp-np-advanced summary:hover { color:var(--sp-ink); }
+#sp-prototype .sp-np-advanced-body { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-top:8px; }
+#sp-prototype .sp-np-advanced-body select { width:100%; min-height:40px; }
+@media (max-width:560px){ #sp-prototype .sp-np-stage{ grid-template-columns:1fr; } #sp-prototype .sp-np-identity, #sp-prototype .sp-np-advanced-body{ grid-template-columns:1fr; } }
 #sp-prototype :is(#sp-labels-visible,#sp-stage-surface-toggle)[aria-pressed="true"] { border-color:#b6d83c; background:#d2f553; color:#22291d; }
 #sp-prototype #sp-stage-surface-toggle[aria-pressed="true"] svg { color:#20221f; }
 
@@ -5218,7 +5281,51 @@ function createStageplotSymbolV3(type, options = {}) {
     stage=draft();stage.project=defaultProjectInfo('Neues Projekt');stage.routing=defaultRouting();resetDraftTracking();persistDraft(true);show('dashboard');openProjectSettings();say('Neues Projekt angelegt');
   }
   $('sp-project-search').addEventListener('input',renderDashboard);
-  $('sp-project-new').addEventListener('click',createNewProject);
+  const npSize={width:8,depth:5};
+  const npClampDim=(dim,v)=>Math.max(2,Math.min(dim==='width'?30:20,Math.round(v)));
+  function npProjectName(){
+    const b=$('sp-np-band').value.trim(),l=$('sp-np-location').value.trim();
+    return (b&&l?b+' – '+l:b||l||'Neues Projekt').slice(0,60);
+  }
+  function renderNewProjectDialog(){
+    $('sp-np-name-preview').textContent=npProjectName();
+    for(const dim of ['width','depth']){
+      $('sp-np-'+dim+'-val').textContent=npSize[dim]+' m';
+      root.querySelectorAll('.sp-np-presets[data-dim="'+dim+'"] button').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.val)===npSize[dim]?'true':'false'));
+    }
+    const box=$('sp-np-preview-stage'),maxW=138,maxH=104,ratio=npSize.width/npSize.depth;
+    let w=maxW,h=maxW/ratio;if(h>maxH){h=maxH;w=maxH*ratio;}
+    box.style.width=Math.round(w)+'px';box.style.height=Math.round(h)+'px';
+  }
+  function openNewProjectDialog(){
+    if(accountPlan!=='pro'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}
+    $('sp-np-band').value='';$('sp-np-location').value='';npSize.width=8;npSize.depth=5;
+    $('sp-np-stairs').value='left';$('sp-np-iem').value='right';$('sp-np-error').hidden=true;
+    const adv=root.querySelector('.sp-np-advanced');if(adv)adv.open=false;
+    renderNewProjectDialog();$('sp-newproject-dialog').showModal();
+    setTimeout(()=>{try{$('sp-np-band').focus();}catch(error){}},40);
+  }
+  function createProjectFromDialog(){
+    const band=$('sp-np-band').value.trim(),location=$('sp-np-location').value.trim(),name=npProjectName();
+    finishEdit();flushDraft();activeSetupId=null;activeDraftId=null;objects=[];selected=null;nextId=1;history=[];future=[];editBefore=null;resetEditorView();
+    setupStageSurface=stageSurfaceDefault;
+    $('sp-title').value=name;$('sp-width').value=npSize.width;$('sp-depth').value=npSize.depth;
+    $('sp-stairs').value=$('sp-np-stairs').value;$('sp-stairs-offset').value=.5;$('sp-iem').value=$('sp-np-iem').value;
+    const s=draft(),error=validStage(s);
+    if(error){$('sp-np-error').hidden=false;$('sp-np-error').textContent=error;return;}
+    stage=s;stage.project=defaultProjectInfo(name);stage.project.artist=band;stage.project.venue=location;stage.routing=defaultRouting();
+    resetEditorView();resetDraftTracking();persistDraft(true);
+    $('sp-newproject-dialog').close();show('editor');updateProjectHeading();renderDashboard();
+    say('Projekt „'+name+'“ angelegt');
+  }
+  $('sp-project-new').addEventListener('click',openNewProjectDialog);
+  $('sp-np-close').addEventListener('click',()=>$('sp-newproject-dialog').close());
+  $('sp-np-cancel').addEventListener('click',()=>$('sp-newproject-dialog').close());
+  $('sp-np-create').addEventListener('click',createProjectFromDialog);
+  $('sp-np-band').addEventListener('input',renderNewProjectDialog);
+  $('sp-np-location').addEventListener('input',renderNewProjectDialog);
+  root.querySelectorAll('.sp-np-presets button').forEach(b=>b.addEventListener('click',()=>{npSize[b.parentElement.dataset.dim]=Number(b.dataset.val);renderNewProjectDialog();}));
+  root.querySelectorAll('.sp-np-step').forEach(b=>b.addEventListener('click',()=>{const dim=b.dataset.dim;npSize[dim]=npClampDim(dim,npSize[dim]+Number(b.dataset.npStep));renderNewProjectDialog();}));
   $('sp-project-import').addEventListener('click',()=>{if(accountPlan!=='pro'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}dashboardImport=true;$('sp-setup-file').click();});
   $('sp-upgrade-open').addEventListener('click',()=>{if(accountPlan!=='pro')$('sp-upgrade-dialog').showModal();});
   $('sp-upgrade-close').addEventListener('click',()=>$('sp-upgrade-dialog').close());
