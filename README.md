@@ -2,7 +2,13 @@
 
 Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Designer, Routing, Druckansicht und Projekt-Export.
 
+**Beta live:** https://diceben.github.io/stageplot-generator/
+
 Das Repository enthält ausschließlich den 2D-Stageplotter. Gigboard und der separate 3D-Prototyp Stageplay gehören nicht in dieses Projekt.
+
+## Veröffentlichung
+
+Die Seite ist statisch und wird per GitHub Actions (`.github/workflows/deploy.yml`) auf GitHub Pages ausgeliefert: Bei jedem Push auf `main` läuft `npm test`, und nur bei grünem Lauf geht die neue Fassung live. `index.html` ist der Einstieg und wird von `npm run build` aus `stageplot-studio.html` erzeugt (die kanonische Fragment-Quelle); direkt editiert wird nur `stageplot-studio.html` bzw. die Modulquellen.
 
 ## Auf einem neuen Laptop starten
 

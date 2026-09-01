@@ -14,6 +14,7 @@ const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
 const HTML = path.join(root, 'stageplot-studio.html');
+const INDEX = path.join(root, 'index.html');
 
 // Reihenfolge = Ladereihenfolge in der HTML (export vor drums vor symbols).
 // transform() muss exakt den Text erzeugen, der eingebettet werden soll.
@@ -63,29 +64,70 @@ function render(html) {
   return html;
 }
 
+// stageplot-studio.html ist nur ein Fragment (beginnt mit <div id="sp-frame">).
+// Für GitHub Pages / statisches Hosting brauchen wir ein eigenständiges Dokument.
+// Dieser Wrapper entspricht dem, was stageplot-preview.py zur Laufzeit erzeugt;
+// account-v1.js bleibt hier aber ein Geschwister-Script (Pages liefert es mit aus,
+// statt es wie der Preview-Server einzubetten).
+function buildIndex(fragment) {
+  return (
+    '<!doctype html>\n' +
+    '<html lang="de">\n' +
+    '<head>\n' +
+    '<meta charset="utf-8">\n' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
+    '<title>Stageplot Studio</title>\n' +
+    '<meta name="description" content="Offline-first Stageplot-Designer mit Bühneneditor, Drum-Designer, Routing und Export.">\n' +
+    '<link rel="icon" href="data:,">\n' +
+    '<style>html{color-scheme:light dark}body{margin:0;padding:16px;background:light-dark(#fff,#171b1d)}</style>\n' +
+    '</head>\n' +
+    '<body>\n' +
+    fragment +
+    '\n</body>\n' +
+    '</html>\n'
+  );
+}
+
 function main() {
   const check = process.argv.includes('--check');
   const current = fs.readFileSync(HTML, 'utf8');
   const next = render(current);
+  const wantIndex = buildIndex(next);
+  const haveIndex = fs.existsSync(INDEX) ? fs.readFileSync(INDEX, 'utf8') : null;
 
   if (check) {
+    let drift = false;
     if (current !== next) {
       console.error(
         'DRIFT: stageplot-studio.html ist nicht mit den Modulquellen synchron. ' +
           'Bitte `npm run build` ausführen und committen.'
       );
-      process.exit(1);
+      drift = true;
     }
-    console.log('OK: eingebettete Module sind mit den Quelldateien synchron.');
+    if (haveIndex !== wantIndex) {
+      console.error(
+        'DRIFT: index.html ist nicht mit stageplot-studio.html synchron. ' +
+          'Bitte `npm run build` ausführen und committen.'
+      );
+      drift = true;
+    }
+    if (drift) process.exit(1);
+    console.log('OK: eingebettete Module und index.html sind synchron.');
     return;
   }
 
-  if (current === next) {
-    console.log('Unverändert: eingebettete Module bereits aktuell.');
-    return;
+  let changed = false;
+  if (current !== next) {
+    fs.writeFileSync(HTML, next);
+    console.log(`Aktualisiert: ${MODULES.map((m) => m.file).join(', ')} in stageplot-studio.html eingebettet.`);
+    changed = true;
   }
-  fs.writeFileSync(HTML, next);
-  console.log(`Aktualisiert: ${MODULES.map((m) => m.file).join(', ')} in stageplot-studio.html eingebettet.`);
+  if (haveIndex !== wantIndex) {
+    fs.writeFileSync(INDEX, wantIndex);
+    console.log('Aktualisiert: index.html aus stageplot-studio.html erzeugt.');
+    changed = true;
+  }
+  if (!changed) console.log('Unverändert: Einbettung und index.html bereits aktuell.');
 }
 
 main();

@@ -1,0 +1,69 @@
+# Erst testen, dann veröffentlichen — in dieser Reihenfolge.
+#
+# Der Deploy hängt am Testlauf: Ist er rot, wird nichts veröffentlicht und die
+# zuletzt erfolgreiche Fassung bleibt live. Fehlerfall ist damit "veraltet",
+# nicht "kaputt".
+
+name: Testen und veröffentlichen
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Läuft ein Deploy schon, nicht abwürgen — sonst bliebe Pages im Halbzustand.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Die Tests sind reines Node (keine Abhängigkeiten). npm test prüft dabei
+      # auch, dass index.html und die eingebetteten Module synchron sind.
+      - run: npm test
+
+  deploy:
+    # Kein needs, kein Deploy: Diese Zeile ist das Tor.
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # enablement: true stellt Pages auf "GitHub Actions" um, falls nötig.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      # Die Seite ist statisch. Vor dem Upload fliegt raus, was nicht zur
+      # ausgelieferten Seite gehört (Tests, CI, Build- und Server-Skripte,
+      # Fragment-Quelle). index.html, stageplot-account-v1.js und
+      # stageplot-assets/ bleiben.
+      - run: |
+          rm -rf .github scripts supabase node_modules
+          rm -f package.json stageplot-preview.py stageplot-studio.html \
+                stageplot-account-v1.test.cjs stageplot-studio-v60.test.cjs \
+                stageplot-studio-v61.test.cjs
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
