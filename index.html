@@ -4446,7 +4446,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function stairsGeometry(s){
     // A schematic 1.20 m stair with three 30 cm treads; dimensions stay in metres at every zoom.
     if(!['left','right','back','side-left','side-right'].includes(s.stairs))return null;
-    const width=1.2,run=.9,side=s.stairs.startsWith('side-');
+    const side=s.stairs.startsWith('side-'),width=Math.max(.6,Math.min(side?s.d:s.w,Number.isFinite(s.stairsWidth)?s.stairsWidth:1.2)),run=.9;
     const along=Number.isFinite(s.stairsAlong)?Math.max(0,Math.min(1,s.stairsAlong)):null;
     if(side)return {x:s.stairs==='side-left'?-run:s.w,y:Math.max(0,Math.min(s.d-width,s.d*(along??s.stairsOffset??.5)-width/2)),w:run,d:width};
     const legacy=s.stairs==='left'?.2:s.stairs==='right'?s.w-width-.2:(s.w-width)/2;
@@ -4778,11 +4778,16 @@ function createStageplotSymbolV3(type, options = {}) {
     sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'none',stroke:blackStage?'#0d0e0d':'var(--sp-art)','stroke-width':blackStage?1.7:1.3,'data-stage-boundary':'true'},svg);
     const stair=stairsGeometry(s);
     if(stair){
-      const pose=stairVisualPose(s,mx,top,scale),tw=1.2*scale,th=.9*scale;
-      const stairsSelected=mode==='editor'&&selected==='stairs-zone',stairs=sEl('g',{transform:pose.transform,'data-stairs':s.stairs,'data-stair-edge':pose.edge,'data-stairs-zone':'true','data-selected':String(stairsSelected),'data-width-metres':1.2,'data-run-metres':.9,class:mode==='editor'?'sp-stairs-zone':'','aria-label':'Bühnentreppe · 1,2 m breit · am Bühnenrand verschiebbar'},svg);
+      const pose=stairVisualPose(s,mx,top,scale),isSide=['left','right'].includes(pose.edge),stairW=isSide?stair.d:stair.w,tw=stairW*scale,th=(isSide?stair.w:stair.d)*scale;
+      const stairsSelected=mode==='editor'&&selected==='stairs-zone',stairs=sEl('g',{transform:pose.transform,'data-stairs':s.stairs,'data-stair-edge':pose.edge,'data-stairs-zone':'true','data-selected':String(stairsSelected),'data-width-metres':stairW,'data-run-metres':.9,class:mode==='editor'?'sp-stairs-zone':'','aria-label':'Bühnentreppe · '+metres(stairW)+' breit · am Bühnenrand verschiebbar'},svg);
       const stairsBody={x:-tw/2,y:0,width:tw,height:th,fill:stageFill,stroke:blackStage?moduleStroke:'var(--sp-art)','stroke-width':stairsSelected?2:1,'data-stair-body':'true'};if(stairsSelected)stairsBody.stroke='var(--sp-teal)';sEl('rect',stairsBody,stairs);
       for(let j=1;j<3;j++)sEl('line',{x1:-tw/2,y1:j*th/3,x2:tw/2,y2:j*th/3,stroke:blackStage?moduleStroke:'var(--sp-art)','stroke-width':.8,'data-stair-tread':j},stairs);
       for(const x of [-tw/2+2,tw/2-2])sEl('line',{x1:x,y1:0,x2:x,y2:th,stroke:'#aaa','stroke-width':.6,'data-stair-rail':'true'},stairs);
+      if(stairsSelected)for(const [side,dir] of [['left',-1],['right',1]]){
+        const cx=dir*(tw/2+11),g=sEl('g',{'data-stairs-resize':side,style:'cursor:ew-resize'},stairs);
+        sEl('circle',{cx,cy:th/2,r:8,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':1.5},g);
+        sEl('path',{d:'M'+(cx-dir*3.2)+' '+(th/2-3.6)+'L'+(cx+dir*3.2)+' '+(th/2)+'L'+(cx-dir*3.2)+' '+(th/2+3.6),fill:'none',stroke:'var(--sp-teal)','stroke-width':1.6,'stroke-linecap':'round','stroke-linejoin':'round'},g);
+      }
     }
     sEl('text',{x:mx+rectW/2,y:mode==='print'?Math.min(H-12,top+area.maxY*scale+24):H-12,'text-anchor':'middle',class:'sp-orientation'},svg,'DOWNSTAGE · VORNE · PUBLIKUM');
     if(mode==='editor'&&!list.length) {
@@ -5038,7 +5043,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const source=value&&typeof value==='object'?value:{},s=source.stage&&typeof source.stage==='object'?source.stage:{};
     const number=(key,min,max)=>{const n=Number(s[key]);if(!Number.isFinite(n)||n<min||n>max)throw new Error('Bühnenvorlage enthält ungültige Maße.');return n;},stairs=['left','right','side-left','side-right','back','none','unknown'].includes(s.stairs)?s.stairs:'unknown',iem=['left','right','free','none','unknown'].includes(s.iem)?s.iem:'unknown';
     if(typeof source.id!=='string'||!/^stage-template-[a-z0-9-]+$/.test(source.id)||typeof source.name!=='string'||!source.name.trim()||source.name.length>40||!Number.isFinite(source.savedAt))throw new Error('Bühnenvorlage ist beschädigt.');
-    return {id:source.id,name:source.name.trim(),savedAt:source.savedAt,stage:{w:number('w',2,30),d:number('d',2,20),estimated:false,surface:s.surface==='black'?'black':'light',stairs,stairsOffset:Number.isFinite(Number(s.stairsOffset))?Math.max(0,Math.min(1,Number(s.stairsOffset))):.5,stairsAlong:Number.isFinite(Number(s.stairsAlong))?Math.max(0,Math.min(1,Number(s.stairsAlong))):null,iem,iemLength:number('iemLength',.1,20),iemDepth:number('iemDepth',.1,10),iemX:Number.isFinite(Number(s.iemX))?Math.max(0,Number(s.iemX)):0,iemY:Number.isFinite(Number(s.iemY))?Math.max(0,Number(s.iemY)):0}};
+    return {id:source.id,name:source.name.trim(),savedAt:source.savedAt,stage:{w:number('w',2,30),d:number('d',2,20),estimated:false,surface:s.surface==='black'?'black':'light',stairs,stairsOffset:Number.isFinite(Number(s.stairsOffset))?Math.max(0,Math.min(1,Number(s.stairsOffset))):.5,stairsAlong:Number.isFinite(Number(s.stairsAlong))?Math.max(0,Math.min(1,Number(s.stairsAlong))):null,stairsWidth:Number.isFinite(Number(s.stairsWidth))?Math.max(.6,Math.min(30,Number(s.stairsWidth))):1.2,iem,iemLength:number('iemLength',.1,20),iemDepth:number('iemDepth',.1,10),iemX:Number.isFinite(Number(s.iemX))?Math.max(0,Number(s.iemX)):0,iemY:Number.isFinite(Number(s.iemY))?Math.max(0,Number(s.iemY)):0}};
   }
   function readStageTemplates(storage=window.localStorage){
     const raw=storage.getItem(stageTemplateStorageKey);if(!raw)return[];const data=JSON.parse(raw);if(data?.version!==1||!Array.isArray(data.templates))throw new Error('Bühnenvorlagen konnten nicht gelesen werden.');
@@ -5075,7 +5080,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const cleanRouting=typeof normalizeRouting==='function'?normalizeRouting:(input,idMap)=>{const r=input&&typeof input==='object'?input:{},list=key=>Array.isArray(r[key])?r[key].slice(0,512).map((row,i)=>{row=row&&typeof row==='object'?row:{};let sourceKey=cleanText(row.sourceKey,140),stagebox=cleanText(row.stagebox,100);if(idMap&&sourceKey.includes(':')){const split=sourceKey.indexOf(':'),mapped=idMap.get(sourceKey.slice(0,split));if(mapped)sourceKey=mapped+sourceKey.slice(split);}if(idMap?.has(stagebox))stagebox=idMap.get(stagebox);return {id:/^route-[a-z0-9-]+$/.test(row.id||'')?row.id:'route-'+key+'-'+(i+1),sourceKey,number:Number.isFinite(Number(row.number))&&Number(row.number)>0?Math.min(999,Math.round(Number(row.number))):null,instrument:cleanText(row.instrument,100),generatedInstrument:cleanText(row.generatedInstrument,100),mode:['Mono','Stereo L','Stereo R','Mic','DI','Direct'].includes(row.mode)?row.mode:'Mono',signalType:['Mic','Line','Instrument','Digital'].includes(row.signalType)?row.signalType:'Mic',microphone:cleanText(row.microphone,80),phantom:row.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(row.stageboxPort))&&Number(row.stageboxPort)>0?Math.min(128,Math.round(Number(row.stageboxPort))):null,notes:cleanText(row.notes,240),manual:row.manual===true||!sourceKey};}):[];return {inputs:list('inputs'),outputs:list('outputs'),generatedAt:Number.isFinite(Number(r.generatedAt))?Math.max(0,Number(r.generatedAt)):0};};
     if(!finite(source.w,2,30)||!finite(source.d,2,20))throw new Error('Ungültige Bühnenmaße.');
     const s={title:String(source.title||'Mein Live-Setup').slice(0,60),w:source.w,d:source.d,estimated:false,surface:source.surface==='black'?'black':'light',
-      stairs:source.stairs,stairsOffset:finite(source.stairsOffset,0,1)?source.stairsOffset:.5,stairsAlong:finite(source.stairsAlong,0,1)?source.stairsAlong:undefined,
+      stairs:source.stairs,stairsOffset:finite(source.stairsOffset,0,1)?source.stairsOffset:.5,stairsAlong:finite(source.stairsAlong,0,1)?source.stairsAlong:undefined,stairsWidth:finite(source.stairsWidth,.6,30)?source.stairsWidth:1.2,
       iem:source.iem,iemLength:source.iemLength,iemDepth:source.iemDepth,iemX:source.iemX,iemY:source.iemY};
     if(!['left','right','side-left','side-right','back','none','unknown'].includes(s.stairs)||!['left','right','free','none','unknown'].includes(s.iem))throw new Error('Ungültiger Zugang oder IEM-Bereich.');
     for(const key of ['iemLength','iemDepth','iemX','iemY'])if(!finite(s[key],0,100))throw new Error('Ungültiger IEM-Bereich.');
@@ -6195,7 +6200,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function startObjectDrag(e){
     focusCanvas();
-    const id=e.target.closest('[data-object]')?.dataset.object,stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]');
+    const id=e.target.closest('[data-object]')?.dataset.object,stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]');
     if(e.button===1||panMode||spaceHeld||e.altKey){
       const blankPrimary=e.button===0&&!id&&!stairsTarget&&!iemTarget;
       startViewPan(e);
@@ -6208,6 +6213,11 @@ function createStageplotSymbolV3(type, options = {}) {
     if(resizeTarget){
       const p=svgPoint(e.currentTarget,e);selected='stage-zone';
       drag={kind:'stage-resize',dir:resizeTarget.dataset.stageResize,before:snapshot(),x:p.x,y:p.y,ow:stage.w,od:stage.d,scale:Number(e.currentTarget.dataset.scale),mx:Number(e.currentTarget.dataset.originX),top:Number(e.currentTarget.dataset.originY),moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
+      drag.capture.setPointerCapture(e.pointerId);e.preventDefault();return;
+    }
+    if(stairsResizeTarget){
+      const stair=stairsGeometry(stage),edge=stairEdge(stage),axis=(edge==='left'||edge==='right')?'y':'x',maxW=axis==='x'?stage.w:stage.d,center=axis==='x'?stair.x+stair.w/2:stair.y+stair.d/2;selected='stairs-zone';
+      drag={kind:'stairs-width',axis,center,maxW,along:center/maxW,before:snapshot(),moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
       drag.capture.setPointerCapture(e.pointerId);e.preventDefault();return;
     }
     if(!id&&stairsTarget){
@@ -6259,6 +6269,13 @@ function createStageplotSymbolV3(type, options = {}) {
       const dt=drag.svg.querySelector('[data-dim-depth]');if(dt)dt.textContent=metres(stage.d);
       return;
     }
+    if(drag.kind==='stairs-width'){
+      const q=$('sp-snap').checked?gridStep():.1,along=drag.axis==='x'?p.x:p.y;
+      let w=Math.max(.6,Math.min(drag.maxW,Math.round(2*Math.abs(along-drag.center)/q)*q));
+      drag.moved=true;stage.stairsAlong=drag.along;stage.stairsOffset=drag.along;stage.stairsWidth=w;
+      renderEditor();drag.svg=$('sp-editor-floor').querySelector('svg');
+      return;
+    }
     const o=objects.find(v=>v.id===drag.id);
     o.x=drag.ox+p.x-drag.x;o.y=drag.oy+p.y-drag.y;constrain(o);
     const old=drag.svg.querySelector('[data-object="'+o.id+'"]'),dx=(o.x-drag.ox)*Number(drag.svg.dataset.scale),dy=(o.y-drag.oy)*Number(drag.svg.dataset.scale);
@@ -6270,12 +6287,12 @@ function createStageplotSymbolV3(type, options = {}) {
   function endObjectDrag(e){
     if(!drag||drag.pointer!==e.pointerId)return;
     const d=drag;drag=null;if(d.capture.hasPointerCapture(e.pointerId))d.capture.releasePointerCapture(e.pointerId);
-    keepHistory(d.before);renderEditor();if(d.moved)say(d.kind==='stage-resize'?'Bühne '+num(stage.w)+' × '+metres(stage.d):'Position angepasst');
+    keepHistory(d.before);renderEditor();if(d.moved)say(d.kind==='stage-resize'?'Bühne '+num(stage.w)+' × '+metres(stage.d):d.kind==='stairs-width'?'Treppe '+metres(stage.stairsWidth||1.2)+' breit':'Position angepasst');
   }
   function cancelObjectDrag(){
     if(!drag)return;
     const d=drag;drag=null;
-    if(d.kind==='iem'||d.kind==='stairs'||d.kind==='stage-resize')stage=JSON.parse(d.before).stage;
+    if(d.kind==='iem'||d.kind==='stairs'||d.kind==='stage-resize'||d.kind==='stairs-width')stage=JSON.parse(d.before).stage;
     else {const o=objects.find(o=>o.id===d.id);if(o){o.x=d.ox;o.y=d.oy;}}
     if(d.capture.hasPointerCapture(d.pointer))d.capture.releasePointerCapture(d.pointer);
     renderEditor();
