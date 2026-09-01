@@ -165,6 +165,7 @@
       <aside id="sp-inspector" class="sp-inspector" aria-label="Ebenen und Eigenschaften">
         <div class="sp-inspector-tabs" role="tablist" aria-label="Rechte Seitenleiste"><button type="button" id="sp-properties-tab" role="tab" aria-controls="sp-properties-panel" aria-selected="true" data-inspector-tab-target="properties">Eigenschaften</button><button type="button" id="sp-layers-tab" role="tab" aria-controls="sp-layer-panel" aria-selected="false" data-inspector-tab-target="layers">Ebenen</button><button class="sp-sidebar-toggle sp-shell-toggle" type="button" id="sp-inspector-toggle" aria-label="Rechte Seitenleiste einklappen" aria-expanded="true" aria-controls="sp-inspector"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M13 3v14M7.5 7l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
         <section id="sp-layer-panel" class="sp-layer-panel" role="tabpanel" aria-labelledby="sp-layers-tab"><div class="sp-layer-heading"><h3 id="sp-layers-heading">Ebenen</h3><span id="sp-item-count" class="sp-muted">Noch keine Bausteine</span></div><div id="sp-object-list" class="sp-object-list" aria-label="Baustein auswählen"></div></section>
+        <div id="sp-layer-menu" class="sp-context-menu" role="menu" aria-label="Ebenen-Aktionen" hidden><button type="button" role="menuitem" data-layer-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-layer-action="lock">Sperren</button><button type="button" role="menuitem" data-layer-action="delete" class="sp-danger">Löschen</button></div>
         <section id="sp-properties-panel" class="sp-properties-panel" role="tabpanel" aria-labelledby="sp-properties-tab">
         <h3>Eigenschaften</h3>
         <div id="sp-no-selection" class="sp-no-selection"><span aria-hidden="true">↖</span><p>Ein Baustein.<br>Alle Details.</p><span class="sp-muted">Wähle eine Station auf der Bühne.</span></div>
@@ -181,10 +182,12 @@
             <label class="sp-field">IEM-Länge (m)<input id="sp-iem-length-edit" type="number" min="0.1" step="0.01"></label>
           </div>
           <span class="sp-muted">Position der linken hinteren Ecke. Die Fläche lässt sich auch ziehen; Rack-Bausteine bleiben an ihrem Platz.</span>
+          <button class="sp-button sp-danger-quiet sp-zone-remove" type="button" id="sp-iem-remove">IEM-Bereich entfernen</button>
         </div>
         <div id="sp-stairs-selected" class="sp-stairs-selected" hidden>
           <div class="sp-selected-heading"><span class="sp-stairs-icon" aria-hidden="true">▰</span><strong>Bühnentreppe</strong></div>
           <span class="sp-muted">Am Bühnenrand ziehen – an den Ecken einfach weiterziehen. Die Treppe wechselt dort automatisch auf die nächste Seite.</span>
+          <button class="sp-button sp-danger-quiet sp-zone-remove" type="button" id="sp-stairs-remove">Treppe entfernen</button>
         </div>
         <div id="sp-selected" hidden>
           <div class="sp-selected-heading"><div id="sp-selected-icon"></div><strong id="sp-selected-name"></strong></div>
@@ -2955,6 +2958,12 @@
 #sp-prototype .sp-np-advanced-body select { width:100%; min-height:40px; }
 @media (max-width:560px){ #sp-prototype .sp-np-stage{ grid-template-columns:1fr; } #sp-prototype .sp-np-identity, #sp-prototype .sp-np-advanced-body{ grid-template-columns:1fr; } }
 #sp-prototype #sp-canvas-tools .sp-stage-divide { margin-left:5px; border-left:1px solid var(--sp-line); padding-left:7px; }
+#sp-prototype .sp-zone-remove { margin-top:12px; width:100%; }
+#sp-prototype .sp-context-menu { position:fixed; z-index:120; min-width:158px; background:var(--sp-panel); border:1px solid var(--sp-line); border-radius:9px; box-shadow:0 10px 28px rgb(0 0 0 / 20%); padding:5px; display:flex; flex-direction:column; gap:1px; }
+#sp-prototype .sp-context-menu[hidden] { display:none; }
+#sp-prototype .sp-context-menu button { text-align:left; padding:8px 11px; min-height:auto; border:0; border-radius:6px; background:transparent; font-size:12px; font-weight:500; color:var(--sp-ink); cursor:pointer; }
+#sp-prototype .sp-context-menu button:hover { background:var(--sp-soft,#eef1ea); }
+#sp-prototype .sp-context-menu button.sp-danger { color:light-dark(#b23b2b,#ff9d8c); }
 #sp-prototype :is(#sp-labels-visible,#sp-stage-surface-toggle)[aria-pressed="true"] { border-color:#b6d83c; background:#d2f553; color:#22291d; }
 #sp-prototype #sp-stage-surface-toggle[aria-pressed="true"] svg { color:#20221f; }
 
@@ -6531,6 +6540,39 @@ function createStageplotSymbolV3(type, options = {}) {
     change(()=>{objects=objects.filter(item=>item.id!==selected);selected=null;},'Baustein entfernt · mit Rückgängig wiederherstellbar');return true;
   }
   $('sp-remove').addEventListener('click',removeSelectedObject);
+  $('sp-iem-remove').addEventListener('click',()=>change(()=>{stage.iem='none';selected=null;},'IEM-/Rack-Bereich entfernt'));
+  $('sp-stairs-remove').addEventListener('click',()=>change(()=>{stage.stairs='none';selected=null;},'Bühnentreppe entfernt'));
+  let layerMenuTarget=null;
+  function closeLayerMenu(){$('sp-layer-menu').hidden=true;layerMenuTarget=null;}
+  function openLayerMenu(x,y,id){
+    layerMenuTarget=id;
+    const menu=$('sp-layer-menu'),isObject=id!=='iem-zone'&&id!=='stairs-zone';
+    menu.querySelector('[data-layer-action="duplicate"]').hidden=!isObject;
+    const lockBtn=menu.querySelector('[data-layer-action="lock"]');
+    if(isObject){const o=objects.find(v=>v.id===id);lockBtn.hidden=false;lockBtn.textContent=o&&o.locked?'Entsperren':'Sperren';}else lockBtn.hidden=true;
+    menu.hidden=false;
+    const mw=menu.offsetWidth||158,mh=menu.offsetHeight||120;
+    menu.style.left=Math.max(6,Math.min(x,window.innerWidth-mw-8))+'px';
+    menu.style.top=Math.max(6,Math.min(y,window.innerHeight-mh-8))+'px';
+  }
+  $('sp-object-list').addEventListener('contextmenu',e=>{
+    const btn=e.target.closest('.sp-layer-row [data-select]'),id=btn&&btn.dataset.select;
+    if(!id)return;
+    e.preventDefault();selected=id;renderEditor();openLayerMenu(e.clientX,e.clientY,id);
+  });
+  $('sp-layer-menu').addEventListener('click',e=>{
+    const hit=e.target.closest('[data-layer-action]'),action=hit&&hit.dataset.layerAction,id=layerMenuTarget;
+    closeLayerMenu();if(!action||!id)return;
+    selected=id;
+    if(action==='delete'){
+      if(id==='iem-zone')change(()=>{stage.iem='none';selected=null;},'IEM-/Rack-Bereich entfernt');
+      else if(id==='stairs-zone')change(()=>{stage.stairs='none';selected=null;},'Bühnentreppe entfernt');
+      else change(()=>{objects=objects.filter(item=>item.id!==id);selected=null;},'Baustein entfernt · mit Rückgängig wiederherstellbar');
+    }else if(action==='duplicate')$('sp-duplicate').click();
+    else if(action==='lock')toggleObjectLock();
+  });
+  document.addEventListener('pointerdown',e=>{if(!$('sp-layer-menu').hidden&&!$('sp-layer-menu').contains(e.target))closeLayerMenu();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sp-layer-menu').hidden)closeLayerMenu();});
   function toggleObjectLock(){
     const o=objects.find(o=>o.id===selected);if(!o)return;
     change(()=>{o.locked=!o.locked;},o.locked?'Objekt entsperrt':'Objekt gesperrt');
@@ -6761,8 +6803,8 @@ function createStageplotSymbolV3(type, options = {}) {
     if(e.key==='Escape'){selected=null;renderEditor();return;}
     if((e.key==='Backspace'||e.key==='Delete')&&selected){
       e.preventDefault();if(e.repeat)return;
-      if(selected==='iem-zone'){say('IEM-/Rack-Bereich bleibt erhalten · über „Bühne ändern“ entfernen');return;}
-      if(selected==='stairs-zone'){say('Bühnentreppe bleibt erhalten · über „Bühne bearbeiten“ entfernen');return;}
+      if(selected==='iem-zone'){change(()=>{stage.iem='none';selected=null;},'IEM-/Rack-Bereich entfernt');return;}
+      if(selected==='stairs-zone'){change(()=>{stage.stairs='none';selected=null;},'Bühnentreppe entfernt');return;}
       removeSelectedObject();return;
     }
     if(selected==='iem-zone'){
