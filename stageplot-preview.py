@@ -67,8 +67,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         query = parse_qs(route.query)
-        baseline = args.port != 8872 and query.get("baseline") == ["1"]
-        path = root / ("stageplot-studio-v2.html" if baseline else "stageplot-studio.html")
+        path = root / "stageplot-studio.html"
         theme = query.get("theme", ["auto"])[0]
         scheme = theme if theme in ("light", "dark") else "light dark"
         account_runtime = root / "stageplot-account-v1.js"
