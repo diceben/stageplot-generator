@@ -5001,7 +5001,7 @@ function createStageplotSymbolV3(type, options = {}) {
     root.querySelectorAll('[data-rotate]').forEach(button=>button.disabled=locked);
     const c=byId[o.type],sizeForGroup=objectSize(o),groupCount={'2,1':1,'2,2':2,'3,2':3}[sizeForGroup.w+','+sizeForGroup.d];
     const preview=o.type==='riser'&&groupCount>1?byId['riser-'+groupCount]:c;
-    $('sp-selected-name').textContent=o.type==='riser'?'Riser-Gruppe · '+(groupCount?groupCount+'×':'frei'):c.name;$('sp-selected-icon').innerHTML=icon(preview,o);
+    $('sp-selected-name').textContent=o.type==='riser'?'Riser-Gruppe · '+(groupCount?groupCount+'×':'frei'):c.name;$('sp-selected-icon').innerHTML=icon(preview,{...o,angle:preview.defaultAngle});
     $('sp-label').value=o.label;$('sp-label-visible').checked=o.showLabel!==false;$('sp-note').value=o.note;$('sp-pos-x').value=o.x;$('sp-pos-y').value=o.y;
     $('sp-outs-fields').hidden=!c.instrument;$('sp-outs').value=o.outs||'';$('sp-outs-visible').checked=o.showOuts!==false;syncOutsControls(o.outs||'');
     $('sp-drums-open').hidden=!drumModel.isDrums(o.type);$('sp-drums-open').disabled=locked;
