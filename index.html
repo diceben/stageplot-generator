@@ -6347,7 +6347,7 @@ function createStageplotSymbolV3(type, options = {}) {
   });
   $('sp-library-items').addEventListener('dragstart',e=>e.preventDefault());
   document.addEventListener('pointercancel',e=>{if(libDrag?.pointer===e.pointerId){cancelLibraryDrag();cancelPlacement(false);}});
-  $('sp-library-items').addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b&&(!suppressClick||e.detail===0))beginPlacement(b.dataset.add,e);suppressClick=false;});
+  $('sp-library-items').addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b&&(!suppressClick||e.detail===0)){if(placement&&placement.type===b.dataset.add)cancelPlacement();else beginPlacement(b.dataset.add,e);}suppressClick=false;});
   $('sp-object-list').addEventListener('click',e=>{
     const lock=e.target.closest('[data-layer-lock]');
     if(lock){cancelPlacement(false);finishEdit();const o=objects.find(o=>o.id===lock.dataset.layerLock);if(o)change(()=>{selected=o.id;o.locked=!o.locked;},o.locked?'Objekt entsperrt':'Objekt gesperrt');return;}
