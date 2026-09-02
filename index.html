@@ -13,7 +13,7 @@
 <div id="sp-frame">
 <div id="sp-prototype" lang="de" data-library-collapsed="false" data-inspector-collapsed="false" data-canvas-focus="false" data-inspector-tab="properties">
   <header class="sp-header">
-    <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><img class="sp-brand-logo" id="sp-brand-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><span class="sp-brand-fallback" id="sp-brand-fallback" hidden><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></span></button>
+    <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><img class="sp-brand-logo" id="sp-brand-logo" src="./stageplot-assets/branding/stageplotter-header-pro-v3.png" alt="Stageplotter Pro"><span class="sp-brand-fallback" id="sp-brand-fallback" hidden><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></span></button>
     <div class="sp-project-summary"><h2 id="sp-project-heading">Mein Live-Setup</h2><div id="sp-editor-meta"></div></div>
     <details id="sp-file-menu" class="sp-file-menu" hidden>
       <summary>Datei <span aria-hidden="true">⌄</span></summary>
@@ -427,7 +427,7 @@
               <li>Drum-Designer mit schwebendem Schnellzugriff am ausgewählten Drumset, „Drumset mittel“ als verlässlichem Standard sowie Vorlagen-Upload, -Download und -Bibliothek.</li>
               <li>Kompaktere Drum-Hoveraktionen und eine klarere Treppendarstellung.</li>
               <li>Verbesserter Textkontrast in Routing und Projektbereichen – auch bei dunklem Systemmodus.</li>
-              <li>Neues Stageplotter-Branding mit vollständigem Otter-Wortlogo im Header und in der Projektübersicht.</li>
+              <li>Neues Stageplotter-Branding mit kompakter PRO-Wortmarke im Header und großem Otter-Logo in der Projektübersicht.</li>
             </ul>
           </article>
           <article class="sp-release-card">
@@ -3099,8 +3099,8 @@
 /* V63: Stageplotter-Markenauftritt mit den gelieferten Otter-Motiven. */
 #sp-prototype .sp-brand-logo {
   display:block;
-  width:145px;
-  height:88px;
+  width:210px;
+  height:70px;
   flex:0 0 auto;
   object-fit:contain;
   background:transparent;
@@ -3116,7 +3116,7 @@
   filter:drop-shadow(0 7px 16px rgb(20 24 20 / 18%));
 }
 @container sp-frame (max-width:760px) {
-  #sp-prototype .sp-brand-logo { width:112px; height:72px; }
+  #sp-prototype .sp-brand-logo { width:150px; height:50px; }
   #sp-prototype .sp-brand > .sp-brand-fallback { display:flex; }
   #sp-prototype .sp-brand-fallback .sp-brand-word { display:none; }
   #sp-prototype .sp-dashboard-intro { align-items:flex-start; }
