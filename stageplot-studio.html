@@ -150,6 +150,7 @@
             </div>
             <div class="sp-edit-controls" role="group" aria-label="Objektaktionen"><button class="sp-button sp-object-tool" type="button" id="sp-send-behind" aria-label="Unter das überlappende Objekt legen" data-tooltip="Nach hinten" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="4" width="12" height="10" rx="2"/><rect x="5" y="10" width="12" height="10" rx="2"/><path d="M12 7v8m-3-3 3 3 3-3"/></svg></button><button class="sp-button sp-object-tool" type="button" id="sp-lock" aria-label="Objekt sperren" aria-pressed="false" data-tooltip="Sperren"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10"/><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M12 14v3"/></svg></button><button class="sp-button sp-object-tool" type="button" id="sp-duplicate" aria-label="Duplizieren" data-tooltip="Duplizieren"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/></svg></button><button class="sp-button sp-object-tool sp-remove-tool" type="button" id="sp-remove" aria-label="Baustein entfernen" data-tooltip="Entfernen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7.5 7.5 9 9m0-9-9 9"/></svg></button></div>
           </div>
+          <button id="sp-drum-hover-open" class="sp-drum-hover-open" type="button" aria-label="Drumdesigner öffnen" hidden><span>Open</span><strong>Drumdesigner</strong></button>
         </div>
       </div>
       <aside id="sp-inspector" class="sp-inspector" aria-label="Ebenen und Eigenschaften">
@@ -411,7 +412,7 @@
               <li>Bühne und Treppe lassen sich direkt und flüssig auf dem Canvas skalieren; IEM-Bereich und Treppe sind auswählbar und löschbar.</li>
               <li>Ebenen-Menü mit Duplizieren, Sperren und Löschen sowie korrigierter Auswahl- und Vorschau-Logik.</li>
               <li>Outs-Schalter in der Canvas-Toolbar und schnelleres Zurücklegen aufgenommener Bausteine.</li>
-              <li>Drum-Designer mit „Drumset mittel“ als verlässlichem Standard, letztem Bearbeitungsstand sowie Vorlagen-Upload, -Download und -Bibliothek.</li>
+              <li>Drum-Designer mit schwebendem Schnellzugriff am ausgewählten Drumset, „Drumset mittel“ als verlässlichem Standard sowie Vorlagen-Upload, -Download und -Bibliothek.</li>
               <li>Kompaktere Drum-Hoveraktionen und eine klarere Treppendarstellung.</li>
               <li>Verbesserter Textkontrast in Routing und Projektbereichen – auch bei dunklem Systemmodus.</li>
             </ul>
@@ -2617,7 +2618,7 @@
 #sp-prototype .sp-document-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3mm; margin-top:5mm; }
 #sp-prototype .sp-document-field { padding:3mm; background:#f2f2ef; }
 #sp-prototype .sp-document-field span { display:block; color:#666; font-size:7pt; text-transform:uppercase; }
-#sp-prototype[data-readonly="true"] :is(#sp-file-menu,[data-editor-actions],#sp-project-new,#sp-project-import,#sp-project-save,#sp-project-apply,#sp-routing-auto,#sp-routing-sync,#sp-routing-add,#sp-routing-reset,.sp-object-rotate) { display:none !important; }
+#sp-prototype[data-readonly="true"] :is(#sp-file-menu,[data-editor-actions],#sp-project-new,#sp-project-import,#sp-project-save,#sp-project-apply,#sp-routing-auto,#sp-routing-sync,#sp-routing-add,#sp-routing-reset,.sp-object-rotate,.sp-drum-hover-open) { display:none !important; }
 #sp-prototype[data-readonly="true"] :is(#sp-library,#sp-library-open,[data-route-edit],#sp-routing-xlsx,#sp-routing-csv,#sp-routing-pdf) { display:none !important; }
 #sp-prototype[data-readonly="true"] #sp-editor-floor .sp-object { pointer-events:none !important; }
 #sp-prototype[data-readonly="true"] .sp-header-status::after { content:"Read-only"; color:#c2f52e; font-size:10px; }
@@ -2964,6 +2965,37 @@
 @media (prefers-reduced-motion:reduce) {
   #sp-prototype .sp-object-rotate .sp-object-tool,#sp-prototype .sp-object-rotate [data-tooltip]::after { transition:none; }
 }
+
+/* V62: direkter Drum-Designer-Schnellzugriff am ausgewaehlten Schlagzeug. */
+#sp-prototype .sp-drum-hover-open {
+  position:absolute;
+  z-index:21;
+  display:flex;
+  min-width:112px;
+  min-height:42px;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:1px;
+  padding:6px 13px 7px;
+  border:1px solid #b8df35;
+  border-radius:11px;
+  background:#c9ef48;
+  color:#20271a;
+  box-shadow:0 9px 24px rgb(14 18 14 / 25%),0 2px 7px rgb(14 18 14 / 20%);
+  cursor:pointer;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1;
+  transition:background-color 120ms ease,border-color 120ms ease,box-shadow 120ms ease,transform 120ms ease;
+}
+#sp-prototype .sp-drum-hover-open span { font-size:8px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+#sp-prototype .sp-drum-hover-open strong { font-size:11px; font-weight:800; letter-spacing:.01em; }
+#sp-prototype .sp-drum-hover-open:not(:disabled):hover { border-color:#9fc525; background:#d7f86a; box-shadow:0 11px 28px rgb(14 18 14 / 28%),0 3px 8px rgb(14 18 14 / 22%); transform:translateY(-1px); }
+#sp-prototype .sp-drum-hover-open:not(:disabled):active { transform:translateY(0) scale(.98); }
+#sp-prototype .sp-drum-hover-open:focus-visible { outline:2px solid #20271a; outline-offset:2px; }
+#sp-prototype .sp-drum-hover-open:disabled { cursor:not-allowed; filter:saturate(.35); opacity:.52; }
+@media (pointer:coarse) { #sp-prototype .sp-drum-hover-open { min-height:46px; padding-block:7px 8px; } }
+@media (prefers-reduced-motion:reduce) { #sp-prototype .sp-drum-hover-open { transition:none; } }
 
 /* V58: Projektname links und helle Modellwahl. */
 #sp-prototype .sp-header > .sp-brand { flex-shrink:0; }
@@ -4887,8 +4919,9 @@ function createStageplotSymbolV3(type, options = {}) {
     if(zone){const cx=mx+(zone.x+zone.w/2)*scale,cy=top+zone.y*scale;occupiedLabels.push({left:cx-14,right:cx+14,top:cy+2,bottom:cy+18});}
     if(mode==='editor'){
       positionRotationToolbar(svg);
-      const bar=$('sp-object-rotate');
-      if(!bar.hidden){const rect=bar.getBoundingClientRect(),x=parseFloat(bar.style.left),y=parseFloat(bar.style.top);occupiedLabels.push({left:x-3,right:x+rect.width+3,top:y-3,bottom:y+rect.height+3});}
+      for(const id of ['sp-object-rotate','sp-drum-hover-open']){
+        const bar=$(id);if(!bar.hidden){const rect=bar.getBoundingClientRect(),x=parseFloat(bar.style.left),y=parseFloat(bar.style.top);occupiedLabels.push({left:x-3,right:x+rect.width+3,top:y-3,bottom:y+rect.height+3});}
+      }
     }
     const ownerBoxes=new Map(list.map(o=>{
       const c=objectCatalog(o),box=c.art==='text'||o.type==='riser'?null:artBoundsCache.get(artId(c,o));
@@ -4983,8 +5016,10 @@ function createStageplotSymbolV3(type, options = {}) {
     }
   }
   function positionRotationToolbar(svg=$('sp-editor-floor').querySelector('svg')) {
-    const toolbar=$('sp-object-rotate'),o=objects.find(o=>o.id===selected);
-    toolbar.hidden=!o||!!placement||view!=='editor'||!svg;if(toolbar.hidden)return;
+    const toolbar=$('sp-object-rotate'),drumButton=$('sp-drum-hover-open'),o=objects.find(o=>o.id===selected);
+    const hidden=!o||!!placement||view!=='editor'||!svg;
+    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||!drumModel.isDrums(o.type);if(hidden)return;
+    drumButton.disabled=!!o.locked;
     const below=overlappingObjectBelow(o),sendBehind=$('sp-send-behind');
     if(sendBehind){sendBehind.hidden=!below;sendBehind.disabled=!!o.locked;sendBehind.dataset.overlapTarget=below?.id||'';
       if(below){const targetName=below.label||byId[below.type].name,label='Unter „'+targetName+'“ anordnen'+(o.locked?' · Objekt gesperrt':'');sendBehind.setAttribute('aria-label',label);sendBehind.dataset.tooltip=label;}}
@@ -4993,9 +5028,15 @@ function createStageplotSymbolV3(type, options = {}) {
     const hostRect=$('sp-editor-floor').getBoundingClientRect(),hostWidth=hostRect.width;
     const x=Number(svg.dataset.originX)+o.x*scale,y=Number(svg.dataset.originY)+(o.y-size.d/2)*scale;
     const cy=Number(svg.dataset.originY)+o.y*scale;
-    if(x<0||x>hostWidth||cy<0||cy>hostRect.height){toolbar.hidden=true;return;}
+    if(x<0||x>hostWidth||cy<0||cy>hostRect.height){toolbar.hidden=true;drumButton.hidden=true;return;}
     toolbar.style.left=Math.max(3,Math.min(hostWidth-bar.width-3,x-bar.width/2))+'px';
-    toolbar.style.top=Math.max(5,Math.min((hostRect.height||600)-bar.height-4,y-bar.height-8))+'px';
+    const hostHeight=hostRect.height||600;
+    if(drumButton.hidden){toolbar.style.top=Math.max(5,Math.min(hostHeight-bar.height-4,y-bar.height-8))+'px';return;}
+    const drumBar=drumButton.getBoundingClientRect(),gap=6,totalHeight=bar.height+gap+drumBar.height;
+    const groupTop=Math.max(5,Math.min(hostHeight-totalHeight-4,y-totalHeight-8));
+    toolbar.style.top=groupTop+'px';
+    drumButton.style.left=Math.max(3,Math.min(hostWidth-drumBar.width-3,x-drumBar.width/2))+'px';
+    drumButton.style.top=groupTop+bar.height+gap+'px';
   }
   function libraryMatches(c,category,query){
     if(c.libraryHidden)return false;
@@ -5833,7 +5874,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-project-saveas').addEventListener('click',()=>$('sp-file-save-as').click());
   $('sp-help-close').addEventListener('click',()=>$('sp-help-dialog').close());
   $('sp-help-dialog').addEventListener('close',()=>{if(helpReturnFocus&&typeof helpReturnFocus.focus==='function')helpReturnFocus.focus({preventScroll:true});helpReturnFocus=null;});
-  let drumDraft=null,drumDraftType='drums',drumObjectId=null,drumSelectedPart=null,drumPartDrag=null,drumPendingKind=null,drumHoverPart=null,drumDesigns=[],activeDrumDesignId=null,drumDesignOverwriteId=null,drumPointerOnPart=false;
+  let drumDraft=null,drumDraftType='drums',drumObjectId=null,drumSelectedPart=null,drumPartDrag=null,drumPendingKind=null,drumHoverPart=null,drumDesigns=[],activeDrumDesignId=null,drumDesignOverwriteId=null,drumPointerOnPart=false,drumDialogReturnFocus=null;
   let drumHistory=[],drumFuture=[],drumEditBefore=null,drumMobilePanel='canvas';
   const drumDesignStorageKey='stageplot-studio:drum-designs:v1';
   const drumLastStorageKey='stageplot-studio:last-drum:v1';
@@ -6214,11 +6255,13 @@ function createStageplotSymbolV3(type, options = {}) {
     if(e.key==='Escape'&&drumPendingKind){e.preventDefault();e.stopPropagation();drumPendingKind=null;syncDrumPlacementState();return;}
     if((e.key==='Delete'||e.key==='Backspace')&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)&&removableDrumPart(drumSelectedPart)){e.preventDefault();removeSelectedDrumPart();}
   });
-  $('sp-drums-open').addEventListener('click',()=>{
+  function openSelectedDrumDesigner(e){
     const o=objects.find(v=>v.id===selected);if(!o||o.locked||!drumModel.isDrums(o.type))return;
+    drumDialogReturnFocus=e?.currentTarget||$('sp-drums-open');
     cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();drumObjectId=o.id;drumDraftType='drums';drumDraft=drumModel.normalizeDrums(o.drums);drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;
     $('sp-drum-design-name').value=o.label&&o.label!==byId[o.type].short?o.label:'Mein Drumset';$('sp-drum-design-save').textContent='Speichern';$('sp-drum-hardware').replaceChildren();loadDrumDesignLibrary();drumDesignStatus('');refreshDrumDialog();setDrumMobilePanel('canvas');syncDrumHistory();$('sp-drum-dialog').showModal();
-  });
+  }
+  for(const id of ['sp-drums-open','sp-drum-hover-open'])$(id).addEventListener('click',openSelectedDrumDesigner);
   function editDrumHardware(e){
     const input=e.target.closest('[data-drum-field]');if(!input||!input.reportValidity())return;
     const historyBefore=drumEditBefore||drumStateSnapshot();
@@ -6249,7 +6292,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-drum-design-load-list').addEventListener('click',e=>{const load=e.target.closest('[data-drum-design-load-id]'),remove=e.target.closest('[data-drum-design-remove-id]');if(load){const entry=drumDesigns.find(item=>item.id===load.dataset.drumDesignLoadId);if(entry){applyDrumDesign(entry.document,entry.id);$('sp-drum-design-load-dialog').close();}}else if(remove)requestDeleteDrumDesign(remove.dataset.drumDesignRemoveId);});
   $('sp-drum-design-delete').addEventListener('click',()=>requestDeleteDrumDesign($('sp-drum-design-library').value));
   for(const id of ['sp-drum-close','sp-drum-cancel'])$(id).addEventListener('click',()=>$('sp-drum-dialog').close());
-  $('sp-drum-dialog').addEventListener('close',()=>{drumDraft=null;drumObjectId=null;drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;drumPreviewHost.replaceChildren();delete drumPreviewHost.dataset.geometry;delete drumPreviewHost.dataset.stageRotation;delete drumPreviewHost.dataset.placeKind;$('sp-drums-open').focus({preventScroll:true});});
+  $('sp-drum-dialog').addEventListener('close',()=>{drumDraft=null;drumObjectId=null;drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;drumPreviewHost.replaceChildren();delete drumPreviewHost.dataset.geometry;delete drumPreviewHost.dataset.stageRotation;delete drumPreviewHost.dataset.placeKind;const returnFocus=drumDialogReturnFocus;drumDialogReturnFocus=null;(returnFocus&&!returnFocus.hidden?returnFocus:$('sp-drums-open')).focus({preventScroll:true});});
   $('sp-drum-form').addEventListener('submit',e=>{
     e.preventDefault();if(!$('sp-drum-form').reportValidity())return;
     const o=objects.find(v=>v.id===drumObjectId);if(!o||o.locked)return;
