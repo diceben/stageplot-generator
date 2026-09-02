@@ -13,6 +13,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 - **Bühne & Treppe direkt auf dem Canvas** in der Größe ziehen — smooth mit Live-Redraw; Treppe zusätzlich breitenverstellbar per Pfeile inkl. Reset auf Standardbreite.
 - **IEM-/Rack-Bereich** und **Bühnentreppe** platzier- und löschbar.
 - **Drum-Designer** direkt über den schwebenden „Open Drumdesigner“-Button am ausgewählten Drumset öffnen.
+- **Stageplotter-Branding** mit vollständigem Otter-Wortlogo im App-Header und auf der Projektübersicht; das bisherige Headerlogo bleibt als Ladefehler-Fallback erhalten.
 - **Routing** (Input/Output-Kanäle, CSV/XLSX), **Druckansicht** und **Projekt-Export**.
 - **Outs am Symbol** global per Toolbar-Button ein-/ausblendbar.
 - Offline-first: alles im Browser gespeichert; Supabase-Cloud-Grenze vorbereitet, Login noch nicht sichtbar.
@@ -73,6 +74,7 @@ Nicht gleichzeitig auf zwei Laptops uncommittete Änderungen an denselben Dateie
 - `stageplot-export-v42.js`: Export-Helfer — einzige Quelle, wird in die HTML eingebettet
 - `scripts/build-inline.cjs`: bettet die Module aus den `.js`-Quellen in die HTML ein
 - `stageplot-assets/`: lokale Bildassets
+- `stageplot-assets/branding/`: optimierte Stageplotter-Logos für Header, Projektübersicht und Browser-Icon
 - `supabase/migrations/`: versioniertes Datenbankschema
 - `stageplot-preview.py`: restriktiver lokaler Vorschau-Server
 

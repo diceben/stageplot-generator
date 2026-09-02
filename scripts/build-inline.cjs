@@ -78,7 +78,8 @@ function buildIndex(fragment) {
     '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
     '<title>Stageplot Studio</title>\n' +
     '<meta name="description" content="Offline-first Stageplot-Designer mit Bühneneditor, Drum-Designer, Routing und Export.">\n' +
-    '<link rel="icon" href="data:,">\n' +
+    '<link rel="icon" type="image/png" href="./stageplot-assets/branding/stageplotter-icon.png">\n' +
+    '<link rel="apple-touch-icon" href="./stageplot-assets/branding/stageplotter-icon.png">\n' +
     '<style>html{color-scheme:light dark}body{margin:0;padding:16px;background:light-dark(#fff,#171b1d)}</style>\n' +
     '</head>\n' +
     '<body>\n' +

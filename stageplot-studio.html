@@ -1,7 +1,7 @@
 <div id="sp-frame">
 <div id="sp-prototype" lang="de" data-library-collapsed="false" data-inspector-collapsed="false" data-canvas-focus="false" data-inspector-tab="properties">
   <header class="sp-header">
-    <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></button>
+    <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><img class="sp-brand-logo" id="sp-brand-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><span class="sp-brand-fallback" id="sp-brand-fallback" hidden><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></span></button>
     <div class="sp-project-summary"><h2 id="sp-project-heading">Mein Live-Setup</h2><div id="sp-editor-meta"></div></div>
     <details id="sp-file-menu" class="sp-file-menu" hidden>
       <summary>Datei <span aria-hidden="true">⌄</span></summary>
@@ -37,7 +37,7 @@
 
   <section id="sp-dashboard" class="sp-dashboard" hidden>
     <div class="sp-dashboard-hero">
-      <div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div>
+      <div class="sp-dashboard-intro"><img class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
       <div class="sp-dashboard-actions"><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
     <div class="sp-plan-card" id="sp-plan-card"><div><span class="sp-plan-kicker">FREE PLAN</span><strong id="sp-plan-usage">0 von 1 Free Project Used</strong><small id="sp-plan-copy">Ein Projekt inklusive Stageplot, Routing und CSV-Export.</small></div><button class="sp-button" type="button" id="sp-upgrade-open">Upgrade auf Pro</button></div>
@@ -415,6 +415,7 @@
               <li>Drum-Designer mit schwebendem Schnellzugriff am ausgewählten Drumset, „Drumset mittel“ als verlässlichem Standard sowie Vorlagen-Upload, -Download und -Bibliothek.</li>
               <li>Kompaktere Drum-Hoveraktionen und eine klarere Treppendarstellung.</li>
               <li>Verbesserter Textkontrast in Routing und Projektbereichen – auch bei dunklem Systemmodus.</li>
+              <li>Neues Stageplotter-Branding mit vollständigem Otter-Wortlogo im Header und in der Projektübersicht.</li>
             </ul>
           </article>
           <article class="sp-release-card">
@@ -3082,6 +3083,37 @@
 @container sp-frame (max-width:760px) {
   #sp-prototype .sp-new-project-cta { width:100%; }
 }
+
+/* V63: Stageplotter-Markenauftritt mit den gelieferten Otter-Motiven. */
+#sp-prototype .sp-brand-logo {
+  display:block;
+  width:145px;
+  height:88px;
+  flex:0 0 auto;
+  object-fit:contain;
+  background:transparent;
+  filter:drop-shadow(0 2px 4px rgb(0 0 0 / 28%));
+}
+#sp-prototype .sp-brand-fallback { display:flex; align-items:center; gap:6px; }
+#sp-prototype .sp-dashboard-intro { display:flex; min-width:0; align-items:center; gap:clamp(14px,2.2vw,26px); }
+#sp-prototype .sp-dashboard-logo {
+  display:block;
+  width:clamp(150px,17vw,224px);
+  height:auto;
+  flex:0 0 auto;
+  filter:drop-shadow(0 7px 16px rgb(20 24 20 / 18%));
+}
+@container sp-frame (max-width:760px) {
+  #sp-prototype .sp-brand-logo { width:112px; height:72px; }
+  #sp-prototype .sp-brand > .sp-brand-fallback { display:flex; }
+  #sp-prototype .sp-brand-fallback .sp-brand-word { display:none; }
+  #sp-prototype .sp-dashboard-intro { align-items:flex-start; }
+  #sp-prototype .sp-dashboard-logo { width:150px; }
+}
+@container sp-frame (max-width:430px) {
+  #sp-prototype .sp-dashboard-intro { gap:10px; }
+  #sp-prototype .sp-dashboard-logo { width:112px; }
+}
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
@@ -3284,6 +3316,9 @@ function createStageplotExportV42() {
   const exportModel=createStageplotExportV42();
   // The responsive wrapper is static: never reparent the host-managed inline root.
   const $ = id => root.querySelector('#' + id);
+  const brandLogo=$('sp-brand-logo'),brandFallback=$('sp-brand-fallback');
+  const syncBrandFallback=()=>{const failed=brandLogo.complete&&brandLogo.naturalWidth===0;brandLogo.hidden=failed;brandFallback.hidden=!failed;};
+  brandLogo.addEventListener('load',syncBrandFallback);brandLogo.addEventListener('error',syncBrandFallback);syncBrandFallback();
   const ns = 'http://www.w3.org/2000/svg';
   const catalog = [
     {id:'drums',name:'Schlagzeug',short:'Schlagzeug',category:'drums',w:2.88,d:2.04,vb:[144,102],keywords:'drumset drums kit schlagzeug'},

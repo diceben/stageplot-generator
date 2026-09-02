@@ -63,6 +63,20 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
+        if route.path.startswith("/stageplot-assets/branding/"):
+            asset_root = (root / "stageplot-assets" / "branding").resolve()
+            asset = (root / route.path.lstrip("/")).resolve()
+            if asset.parent != asset_root or asset.suffix != ".png" or not asset.is_file():
+                self.send_error(404)
+                return
+            body = asset.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "image/png")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "public, max-age=31536000, immutable")
+            self.end_headers()
+            self.wfile.write(body)
+            return
         if route.path != "/":
             self.send_error(404)
             return
@@ -81,7 +95,7 @@ class Handler(BaseHTTPRequestHandler):
                 '<script src="./stageplot-account-v1.js"></script>',
                 "<script>" + account_runtime.read_text(encoding="utf-8") + "</script>",
             )
-            document = '<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stageplot Studio</title><style>html{color-scheme:' + scheme + '}body{margin:0;padding:16px;background:light-dark(#fff,#171b1d)}</style></head><body>' + fragment + '</body></html>'
+            document = '<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stageplot Studio</title><link rel="icon" type="image/png" href="./stageplot-assets/branding/stageplotter-icon.png"><link rel="apple-touch-icon" href="./stageplot-assets/branding/stageplotter-icon.png"><style>html{color-scheme:' + scheme + '}body{margin:0;padding:16px;background:light-dark(#fff,#171b1d)}</style></head><body>' + fragment + '</body></html>'
             raw = document.encode("utf-8")
             cache.clear()
             cache[key] = (raw, gzip.compress(raw, compresslevel=6, mtime=0), '"' + hashlib.sha256(raw).hexdigest()[:20] + '"')
