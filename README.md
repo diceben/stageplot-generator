@@ -4,6 +4,24 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
+## Funktionen
+
+- **Projekte anlegen** über ein Popup: Band + Location (→ automatischer Projektname), Bühnengröße per Vorschau-Buttons (Breite/Tiefe mit ±1 m), erweiterte Einstellungen aufklappbar.
+- **Bühneneditor** mit Bausteinkatalog, Drag & Drop, Drehen, Sperren, Ebenen-Liste (Rechtsklick: Duplizieren/Sperren/Löschen).
+- **Bühne & Treppe direkt auf dem Canvas** in der Größe ziehen — smooth mit Live-Redraw; Treppe zusätzlich breitenverstellbar per Pfeile inkl. Reset auf Standardbreite.
+- **IEM-/Rack-Bereich** und **Bühnentreppe** platzier- und löschbar.
+- **Routing** (Input/Output-Kanäle, CSV/XLSX), **Druckansicht** und **Projekt-Export**.
+- **Outs am Symbol** global per Toolbar-Button ein-/ausblendbar.
+- Offline-first: alles im Browser gespeichert; Supabase-Cloud-Grenze vorbereitet, Login noch nicht sichtbar.
+
+## Stand & Nächste Schritte
+
+Beta öffentlich live. Offen:
+
+- **Drum-Designer**: Z-Order bei Überlappung („nach hinten"), zuverlässigere Klick-Auswahl, sofortiger Auto-Draft (überlebt Reload), Outs-Tabelle pro Bauteil mit „nicht abnehmen" (ausgrauen statt löschen).
+- **Import-Popup** mit Drag & Drop und Hinweis auf erlaubte Dateitypen.
+- **Foto → Stageplot** (handgezeichneten Plan einlesen) — zurückgestellt, braucht eine Cloud-/API-Entscheidung, da nicht rein offline lösbar.
+
 ## Veröffentlichung
 
 Die Seite ist statisch und wird per GitHub Actions (`.github/workflows/deploy.yml`) auf GitHub Pages ausgeliefert: Bei jedem Push auf `main` läuft `npm test`, und nur bei grünem Lauf geht die neue Fassung live. `index.html` ist der Einstieg und wird von `npm run build` aus `stageplot-studio.html` erzeugt (die kanonische Fragment-Quelle); direkt editiert wird nur `stageplot-studio.html` bzw. die Modulquellen.
