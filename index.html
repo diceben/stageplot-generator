@@ -1129,7 +1129,7 @@
   #sp-prototype .sp-drum-rotate-controls { display:none; pointer-events:all; filter:drop-shadow(0 1px 2px #0003); }
   #sp-prototype .sp-drum-rotate-controls[data-visible="true"] { display:block; }
   #sp-prototype .sp-drum-toolbar-bg { fill:#fff; stroke:#272725; stroke-width:.45; }
-  #sp-prototype .sp-drum-toolbar-label { fill:#242422; stroke:none; font:650 2.7px/1 -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; pointer-events:none; }
+  #sp-prototype .sp-drum-toolbar-label { fill:#242422; stroke:none; font:650 2.15px/1 -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; pointer-events:none; }
   #sp-prototype .sp-drum-rotate-button, #sp-prototype .sp-drum-delete-button { cursor:pointer; }
   #sp-prototype .sp-drum-action-bg { fill:#f7f7f5; stroke:#d6d6d1; stroke-width:.35; }
   #sp-prototype .sp-drum-rotate-button path, #sp-prototype .sp-drum-delete-button path { fill:none; stroke:#2c2c2a; stroke-width:.62; stroke-linecap:round; stroke-linejoin:round; pointer-events:none; }
@@ -5876,17 +5876,59 @@ function createStageplotSymbolV3(type, options = {}) {
     }).join('');
   }
   const removableDrumPart=id=>Boolean(id&&!['throne','kick1','snare'].includes(id));
+  // Compact hover toolbar geometry: box width = left pad + label + gap + three fixed
+  // icon slots + right pad. The label width is passed in so the box tracks the real
+  // text (tight gap for short names) and the delete icon always stays inside the box.
+  const drumToolbarMetrics={pad:1.15,gap:.8,slot:3.55};
+  function drumToolbarGeometry(layout,part,textW){
+    const point=drumModel.designerPoint(layout,part),radius=part.kind==='kick'?Math.max(part.w,part.h)/2:part.r||Math.max(part.w||0,part.h||0)/2;
+    const {pad,gap,slot}=drumToolbarMetrics,width=Math.max(2.5,Math.min(24,textW)),total=pad+width+gap+slot*3+pad,left=-total/2;
+    const x=drumClamp(point.x,total/2+1,layout.vb[0]-total/2-1),y=point.y-radius>10?point.y-radius-3.15:point.y+radius+3.15;
+    const dividerX=left+pad+width+gap;
+    return {x,y,left,total,pad,dividerX,leftX:dividerX+slot*0.5,rightX:dividerX+slot*1.5,deleteX:dividerX+slot*2.5};
+  }
   function drumRotationControls(layout){
     return layout.parts.map(part=>{
-      const point=drumModel.designerPoint(layout,part),radius=part.kind==='kick'?Math.max(part.w,part.h)/2:part.r||Math.max(part.w||0,part.h||0)/2,name=drumPartLabel(part.id);
-      const labelW=Math.max(16,Math.min(31,name.length*2.15+5)),total=labelW+30,x=drumClamp(point.x,total/2+1,layout.vb[0]-total/2-1),y=point.y-radius>10?point.y-radius-5.5:point.y+radius+5.5;
-      const action=(klass,label,dx,attrs,path,disabled=false)=>'<g class="sp-drum-object-tool '+klass+'" role="button" tabindex="'+(disabled?-1:0)+'" aria-label="'+esc(label)+'" '+attrs+' data-drum-part-target="'+part.id+'" data-disabled="'+disabled+'" transform="translate('+dx+' 0)"><title>'+esc(label)+'</title><rect class="sp-drum-action-bg" x="-4" y="-3.35" width="8" height="6.7" rx="1.8"/><path d="'+path+'"/></g>';
-      const actionStart=-total/2+labelW+5,leftX=actionStart+4.3,rightX=leftX+8.8,deleteX=rightX+8.8;
-      return '<g class="sp-drum-rotate-controls" data-drum-rotate-controls="'+part.id+'" data-visible="false" transform="translate('+x+' '+y+')"><rect class="sp-drum-toolbar-bg" x="'+(-total/2)+'" y="-4.4" width="'+total+'" height="8.8" rx="3.1"/><text class="sp-drum-toolbar-label" x="'+(-total/2+2.2)+'" y=".95">'+esc(name)+'</text><path class="sp-drum-toolbar-divider" d="M'+actionStart+'-2.9V2.9"/>'+
-        action('sp-drum-rotate-button',name+' 10 Grad nach links drehen',leftX,'data-drum-rotate="-10"','M1.65-.8A2.35 2.35 0 1 0 1.4 1.5M1.65-.8L.2-.9M1.65-.8L1.5-2.2')+
-        action('sp-drum-rotate-button',name+' 10 Grad nach rechts drehen',rightX,'data-drum-rotate="10"','M-1.65-.8A2.35 2.35 0 1 1-1.4 1.5M-1.65-.8L-.2-.9M-1.65-.8L-1.5-2.2')+
-        action('sp-drum-delete-button',name+' löschen',deleteX,'data-drum-delete="'+part.id+'"','M-1.45-1.45L1.45 1.45M1.45-1.45L-1.45 1.45',!removableDrumPart(part.id))+'</g>';
+      const name=drumPartLabel(part.id);
+      // Rough estimate for the initial markup; fitDrumToolbars() re-measures the real
+      // rendered text width right after insertion and corrects the geometry.
+      const g=drumToolbarGeometry(layout,part,name.length*1.65);
+      const action=(klass,label,dx,attrs,path,disabled=false)=>'<g class="sp-drum-object-tool '+klass+'" role="button" tabindex="'+(disabled?-1:0)+'" aria-label="'+esc(label)+'" '+attrs+' data-drum-part-target="'+part.id+'" data-disabled="'+disabled+'" transform="translate('+dx+' 0)"><title>'+esc(label)+'</title><rect class="sp-drum-action-bg" x="-1.45" y="-1.45" width="2.9" height="2.9" rx=".8"/><path transform="scale(.56)" d="'+path+'"/></g>';
+      return '<g class="sp-drum-rotate-controls" data-drum-rotate-controls="'+part.id+'" data-visible="false" transform="translate('+g.x+' '+g.y+')"><rect class="sp-drum-toolbar-bg" x="'+g.left+'" y="-2.1" width="'+g.total+'" height="4.2" rx="1.6"/><text class="sp-drum-toolbar-label" x="'+(g.left+g.pad)+'" y=".7">'+esc(name)+'</text><path class="sp-drum-toolbar-divider" d="M'+g.dividerX+'-1.55V1.55"/>'+
+        action('sp-drum-rotate-button',name+' 10 Grad nach links drehen',g.leftX,'data-drum-rotate="-10"','M1.65-.8A2.35 2.35 0 1 0 1.4 1.5M1.65-.8L.2-.9M1.65-.8L1.5-2.2')+
+        action('sp-drum-rotate-button',name+' 10 Grad nach rechts drehen',g.rightX,'data-drum-rotate="10"','M-1.65-.8A2.35 2.35 0 1 1-1.4 1.5M-1.65-.8L-.2-.9M-1.65-.8L-1.5-2.2')+
+        action('sp-drum-delete-button',name+' löschen',g.deleteX,'data-drum-delete="'+part.id+'"','M-1.45-1.45L1.45 1.45M1.45-1.45L-1.45 1.45',!removableDrumPart(part.id))+'</g>';
     }).join('');
+  }
+  function fitDrumToolbars(svg,layout,attempt=0){
+    if(!svg)return;
+    const byId=new Map(layout.parts.map(p=>[p.id,p])),nodes=[...svg.querySelectorAll('[data-drum-rotate-controls]')];
+    if(!nodes.length)return;
+    // Temporarily reveal all toolbars so getComputedTextLength can measure them
+    // (display:none nodes report 0), then restore each node's visibility.
+    const prev=nodes.map(n=>n.dataset.visible);nodes.forEach(n=>n.dataset.visible='true');
+    const widths=nodes.map(n=>{try{return n.querySelector('.sp-drum-toolbar-label').getComputedTextLength();}catch(error){return 0;}});
+    nodes.forEach((n,i)=>{n.dataset.visible=prev[i]||'false';});
+    if(!widths.some(w=>w>0)){
+      // Dialog not laid out yet (every measurement 0): keep the estimate markup and
+      // retry on later frames until the text becomes measurable. Self-terminating.
+      if(attempt<8)requestAnimationFrame(()=>{
+        if(!$('sp-drum-dialog').open||!objects.find(v=>v.id===drumObjectId))return;
+        fitDrumToolbars($('sp-drum-preview').querySelector('svg'),drumModel.drumLayout(drumDraftType,drumDraft),attempt+1);
+      });
+      return;
+    }
+    nodes.forEach((node,i)=>{
+      if(!widths[i])return;
+      const part=byId.get(node.dataset.drumRotateControls);if(!part)return;
+      const g=drumToolbarGeometry(layout,part,widths[i]);
+      node.setAttribute('transform','translate('+g.x+' '+g.y+')');
+      const bg=node.querySelector('.sp-drum-toolbar-bg');bg.setAttribute('x',g.left);bg.setAttribute('width',g.total);
+      node.querySelector('.sp-drum-toolbar-label').setAttribute('x',g.left+g.pad);
+      node.querySelector('.sp-drum-toolbar-divider').setAttribute('d','M'+g.dividerX+'-2V2');
+      const btns=node.querySelectorAll('.sp-drum-object-tool'),xs=[g.leftX,g.rightX,g.deleteX];
+      btns.forEach((b,j)=>b.setAttribute('transform','translate('+xs[j]+' 0)'));
+    });
   }
   function syncDrumControlVisibility(){
     $('sp-drum-preview').querySelectorAll('[data-drum-rotate-controls]').forEach(node=>node.dataset.visible=String(node.dataset.drumRotateControls===drumHoverPart||node.dataset.drumRotateControls===drumSelectedPart));
@@ -5961,6 +6003,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(host.dataset.geometry!==key){host.innerHTML='<svg viewBox="0 0 '+layout.vb.join(' ')+'"><g data-designer-rotation="180" transform="rotate(180 '+cx+' '+cy+')">'+createStageplotSymbolV3(drumDraftType,{drumLayout:layout,idPrefix:'designer-'+(drumObjectId||'draft')})+'</g><g class="sp-drum-module-controls">'+drumRotationControls(layout)+'</g></svg>';host.dataset.geometry=key;host.dataset.stageRotation='180';}
     ensureDrumPlacementGhost();
     const svg=host.querySelector('svg');
+    fitDrumToolbars(svg,layout);
     if(drumSelectedPart&&!layout.parts.some(p=>p.id===drumSelectedPart))drumSelectedPart=null;
     if(drumHoverPart&&!layout.parts.some(p=>p.id===drumHoverPart))drumHoverPart=null;
     for(const p of layout.parts){
