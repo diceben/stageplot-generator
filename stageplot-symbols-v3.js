@@ -78,22 +78,30 @@ function createStageplotSymbolV3(type, options = {}) {
     group('',hat?'hihat':'cymbal');if(variant!=='splash'){out+='<g data-part="cymbal-stand-legs" data-fixed-drum-hardware="true">';feet(x,y,13.5,15,.58,.4);end();}
     if(hat)circle(x,y+.7,r,'#bcbcbc',.5);
     if(variant==='clapstack'){
+      const bronzeIds=[0,1,2].map(index=>scopedId('clapstack-bronze',index,f(x),f(y),f(r)));
+      out+='<defs>'+
+        '<radialGradient id="'+bronzeIds[0]+'" cx="42%" cy="38%" r="72%"><stop offset="0" stop-color="#8f684e"/><stop offset=".55" stop-color="#654331"/><stop offset="1" stop-color="#322824"/></radialGradient>'+
+        '<radialGradient id="'+bronzeIds[1]+'" cx="43%" cy="40%" r="70%"><stop offset="0" stop-color="#c09268"/><stop offset=".5" stop-color="#8b5e3f"/><stop offset="1" stop-color="#4a342b"/></radialGradient>'+
+        '<radialGradient id="'+bronzeIds[2]+'" cx="45%" cy="41%" r="68%"><stop offset="0" stop-color="#d3a27e"/><stop offset=".56" stop-color="#a46f50"/><stop offset="1" stop-color="#5c4034"/></radialGradient>'+
+      '</defs>';
       group('','clapstack-discs');
-      for(const [scale,phase,fill] of [[1,0,'#d8d8d5'],[.82,.7,'#eeeeeb'],[.64,1.35,'#fafaf8']]){
-        const points=[];for(let i=0;i<16;i++){const a=-Math.PI/2+i*Math.PI/8,wave=1+.035*Math.sin(i*3+phase);points.push([x+Math.cos(a)*r*scale*wave,y+Math.sin(a)*r*scale*wave]);}
+      const discs=[{scale:1,cx:x-.55,cy:y+.4,phase:.2,fill:bronzeIds[0]},{scale:.865,cx:x+.55,cy:y+.15,phase:1.15,fill:bronzeIds[1]},{scale:.735,cx:x-.05,cy:y-.45,phase:2.05,fill:bronzeIds[2]}];
+      for(const [discIndex,disc] of discs.entries()){
+        const points=[];for(let i=0;i<32;i++){const a=-Math.PI/2+i*Math.PI/16,wave=1+.012*Math.sin(i*3+disc.phase)+.007*Math.cos(i*5-disc.phase);points.push([disc.cx+Math.cos(a)*r*disc.scale*wave,disc.cy+Math.sin(a)*r*disc.scale*wave]);}
         const mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];let d='M'+mid(points.at(-1),points[0]).map(f).join(' ');
-        for(let i=0;i<points.length;i++){const next=points[(i+1)%points.length],m=mid(points[i],next);d+='Q'+points[i].map(f).join(' ')+' '+m.map(f).join(' ');}d+='Z';path(d,fill,.5,'#444');
-        for(const ring of [.46,.72])circle(x,y,r*scale*ring,'none',.13,'#b9b9b5');
+        for(let i=0;i<points.length;i++){const next=points[(i+1)%points.length],m=mid(points[i],next);d+='Q'+points[i].map(f).join(' ')+' '+m.map(f).join(' ');}d+='Z';path(d,'url(#'+disc.fill+')',.68,discIndex?'#4d352b':'#2b2421');
+        for(const ring of [.68,.83,.925])ellipse(disc.cx,disc.cy,r*disc.scale*ring,r*disc.scale*ring*.985,'none',.12,discIndex===2?'#ddb28d':'#a97852');
+        const markCount=discIndex===2?19:13;for(let i=0;i<markCount;i++){const a=(i*2.399+disc.phase)%(Math.PI*2),radius=r*disc.scale*(.2+.69*((i*37)%101)/100),size=.22+((i*11)%5)*.075;node('ellipse',{cx:f(disc.cx+Math.cos(a)*radius),cy:f(disc.cy+Math.sin(a)*radius*.985),rx:f(size*1.8),ry:f(size),fill:i%3?'#3c2924':'#e4b17f',opacity:i%3?'.19':'.15',stroke:'none'});}
+        path('M'+f(disc.cx-r*disc.scale*.72)+' '+f(disc.cy-r*disc.scale*.28)+'Q'+f(disc.cx)+' '+f(disc.cy-r*disc.scale*.64)+' '+f(disc.cx+r*disc.scale*.66)+' '+f(disc.cy-r*disc.scale*.22),'none',.22,discIndex===2?'#e4b58e':'#b07c57');
       }
-      ellipse(x,y,r*.2,r*.14,'#dededb',.45);circle(x,y,.78,'#3d3d3d',.25);path('M'+f(x-1.5)+' '+f(y-.35)+'Q'+x+' '+f(y-1.35)+' '+f(x+1.5)+' '+f(y-.35),'none',.5,'#555');end();
+      circle(x,y,2.15,'#373634',.42,'#171817');circle(x,y,1.55,'#111210',.3,'#000');path('M'+f(x-1.25)+' '+f(y-.32)+'Q'+f(x-.85)+' '+f(y-1.35)+' '+x+' '+f(y-.75)+'Q'+f(x+.85)+' '+f(y-1.35)+' '+f(x+1.25)+' '+f(y-.32)+'L'+f(x+.9)+' '+f(y+.55)+'Q'+x+' '+f(y+.2)+' '+f(x-.9)+' '+f(y+.55)+'Z','#20211f',.3,'#050505');circle(x,y,.48,'#d8d7ce',.18,'#151515');end();
     }else{
       circle(x,y,r,'#fafafa',.75);
       const rings=variant==='ride'?9:variant==='china'?7:7;
       let grooves='';for(let i=1;i<=rings;i++){const rr=f(r*(.22+i*.74/rings));grooves+='M'+f(x-rr)+' '+y+'a'+rr+' '+rr+' 0 1 0 '+f(rr*2)+' 0a'+rr+' '+rr+' 0 1 0 '+f(-rr*2)+' 0';}path(grooves,'none',.105,'#cecece');
       if(variant==='china'){circle(x,y,r*.86,'none',.55,'#8f8f8f');path('M'+f(x-r*.86)+' '+y+'Q'+x+' '+f(y-r*.16)+' '+f(x+r*.86)+' '+y,'none',.35,'#aaa');}
     }
-    const bell=variant==='ride'?r*.23:variant==='china'?r*.16:r*.18;
-    ellipse(x,y,bell,bell*.82,'#e7e7e7',.4);circle(x,y,.85,'#444',.2);line(x-1.3,y-.4,x+1.3,y+.4,.45);end();
+    if(variant!=='clapstack'){const bell=variant==='ride'?r*.23:variant==='china'?r*.16:r*.18;ellipse(x,y,bell,bell*.82,'#e7e7e7',.4);circle(x,y,.85,'#444',.2);line(x-1.3,y-.4,x+1.3,y+.4,.45);}end();
   };
   const pedal = (x,y,angle=0,part='kick-pedal') => {
     group('translate('+x+' '+y+') rotate('+angle+')',part);
@@ -585,19 +593,31 @@ function createStageplotSymbolV3(type, options = {}) {
     if(count===32){group('translate(0 0)');stagebox(16,8);end();group('translate(184 0)');stagebox(16,8);end();}
     else stagebox(count,count===8?4:count===16?8:count===48?16:0);
   }else if(type==='wedge'){
-    // Rotate the cabinet so the monitor's listening direction is toward the back of stage.
-    group('rotate(180 58 50.5)','wedge-cabinet');
-    // Rectangular orthographic footprint; cabinet bevels and the angled grille remain visible.
-    path('M9 3H107Q113 3 114 9V90L108 98H8L2 90V9Q3 3 9 3Z','#777',.9);
-    path('M9 10H107L104 88H12Z','#444',.6);
-    ellipse(58,50,24,28,'#555',.4,'#8d8d8d');ellipse(58,50,12,14,'#555',.35,'#999');
-    out+='<defs><pattern id="sp-wedge-grille" width="7.6" height="7.4" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".66" fill="#aaa"/><circle cx="4.8" cy="4.7" r=".66" fill="#aaa"/></pattern></defs>';
-    path('M12 13H105L102 85H14Z','url(#sp-wedge-grille)',0,'none');
-    path('M9 10L12 88L8 96H4L3 87V11Z','#bbb',.45);path('M107 10L104 88L108 96H112L113 87V11Z','#b1b1b1',.45);
-    rect(3,39,4.7,23,'#555',.5,1.8);rect(108.3,39,4.7,23,'#555',.5,1.8);
-    for(const x of [14,102])for(const y of [13,85])bolt(x,y,.8);
-    rect(47,80,22,5,'#ccc',.4,.5);line(51,82,65,82,.45);line(10,92,106,92,.7,'#ddd');end();
-    group('','listening-direction-up');path('M51 12L58 6L65 12','none',1.2,'#333');end();
+    group('','cm14-wedge-top-view');
+    // Orthographic CM14-inspired footprint: chamfered touring cabinet, recessed
+    // side handles and one coaxial 14-inch source beneath a perforated grille.
+    path('M10 3H106L114 13V99L106 110H10L2 99V13Z','#565656',1);
+    path('M12 9H104L108 16V94L102 103H14L8 94V16Z','#292929',.7);
+    const grilleId=scopedId('pattern','cm14-grille');
+    out+='<defs><pattern id="'+grilleId+'" width="5.8" height="5.8" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r=".58" fill="#a9a9a9"/><circle cx="4.1" cy="4.1" r=".58" fill="#a9a9a9"/></pattern></defs>';
+    path('M14 13H102L105 18V91L99 99H17L11 91V18Z','url(#'+grilleId+')',.45,'#777');
+    circle(58,54,36,'none',.75,'#a2a2a2');circle(58,54,31,'none',.42,'#777');circle(58,54,13,'#555',.55,'#aaa');circle(58,54,5.2,'#202020',.4,'#888');
+    for(const angle of [0,90,180,270]){const a=angle*Math.PI/180;bolt(58+Math.cos(a)*40,54+Math.sin(a)*40,.72);}
+    group('','recessed-handles');for(const x of [4.5,111.5]){rect(x-2.3,43,4.6,23,'#222',.45,1.7);line(x,47,x,62,.7,'#999');}end();
+    rect(45,96,26,5,'#bbb',.35,.8);line(49,98.5,67,98.5,.35,'#555');
+    for(const x of [10,106])for(const y of [8,105])rect(x-2,y-2,4,4,'#bcbcbc',.35,.5);
+    group('','listening-direction-up');path('M50 17L58 9L66 17M58 9V24','none',1.1,'#e1e1e1');end();end();
+  }else if(type==='teleprompter'){
+    group('','stage-teleprompter-top-view');
+    path('M12 5H128L137 17V105L127 116H13L3 105V17Z','#4b4b4b',1);
+    path('M17 11H123L130 19V99L123 108H17L10 99V19Z','#202020',.65);
+    // The glass/screen is shown from straight above, including the protective hood.
+    path('M24 22H116L110 82H30Z','#9a9a9a',.7);path('M29 27H111L106 76H34Z','#e7e7e5',.45);
+    for(const [y,w] of [[38,57],[48,68],[58,51],[68,63]])line(70-w/2,y,70+w/2,y,1.2,'#777');
+    path('M20 18H120L114 87H26Z','none',2.2,'#666');path('M26 88H114L120 102H20Z','#666',.6);
+    rect(52,94,36,8,'#aaa',.45,1);for(const x of [58,65,72,79,86])circle(x,98,1.2,'#444',.2);
+    for(const x of [7,133]){rect(x-2.5,45,5,24,'#222',.45,1.5);line(x,49,x,65,.6,'#aaa');}
+    for(const x of [15,125])for(const y of [14,106])bolt(x,y,.7);end();
   }else if(type==='power'){
     rect(3,2,94,27,'#777',.85,2);rect(6,5,88,21,'#ccc',.4,1);
     for(let i=0;i<4;i++){const x=31+i*18;circle(x,15.5,7.6,'#eee',.55);circle(x,15.5,6,'#bcbcbc',.35);circle(x-2,15.5,1,'#444',.2);circle(x+2,15.5,1,'#444',.2);line(x,9,x,11,.7);line(x,20,x,22,.7);}
@@ -765,6 +785,19 @@ function createStageplotSymbolV3(type, options = {}) {
     const parLenses=[[50,49]];for(let i=0;i<8;i++)parLenses.push([50+Math.cos(i*Math.PI/4)*14.5,49+Math.sin(i*Math.PI/4)*14.5]);
     for(const [x,y] of parLenses){circle(x,y,4.3,'#f4f4f2',.35);circle(x-1,y-1,1.1,'#fff',.15);}
     rect(19,78,62,7,'#4c4c4c',.6,1);for(const x of [24,76])bolt(x,81.5,.65);end();
+  }else if(type==='light-moving-spot'){
+    group('','spot-moving-head-top-view');
+    rect(5,7,116,88,'#454545',.95,8);rect(11,13,104,76,'#696969',.45,6);
+    for(const [x,y] of [[15,17],[111,17],[15,85],[111,85]])bolt(x,y,.85);
+    path('M25 28V72M101 28V72','none',4.4,'#363636');
+    group('','spot-head');path('M34 25H92L98 35V67L91 76H35L28 67V35Z','#555',.8);ellipse(63,50,25,22,'#b7b7b5',.7);ellipse(63,50,18,16,'#343434',.6);circle(63,50,11,'#e7e7e5',.55);circle(60,47,3.2,'#fff',.25);circle(63,50,5.3,'none',.35,'#999');end();
+    rect(48,84,30,5,'#333',.35,1);end();
+  }else if(type==='light-spark'){
+    group('','spark-effect-top-view');
+    rect(4,4,92,76,'#4d4d4d',.9,5);rect(9,9,82,66,'#737373',.45,3);
+    group('','spark-nozzle');circle(50,37,22,'#252525',.75);circle(50,37,17,'#a9a9a7',.5);for(let ring=0;ring<2;ring++)for(let i=0;i<8;i++){const a=i*Math.PI/4+(ring?Math.PI/8:0),radius=ring?12:7;circle(50+Math.cos(a)*radius,37+Math.sin(a)*radius,1.35,'#333',.18);}circle(50,37,3,'#222',.3);end();
+    path('M18 65H82','none',5,'#d0d0cd');for(let x=20;x<82;x+=10)path('M'+x+' 62l7 6','none',2,'#555');
+    rect(15,12,12,6,'#292929',.35,1);rect(73,12,12,6,'#292929',.35,1);for(const [x,y] of [[10,10],[90,10],[10,74],[90,74]])bolt(x,y,.7);end();
   }else if(type==='light-moving-wash'){
     group('','moving-head-top-view');
     rect(5,9,116,78,'#4d4d4d',.9,7);rect(11,15,104,66,'#777',.5,5);
@@ -773,6 +806,27 @@ function createStageplotSymbolV3(type, options = {}) {
     ellipse(63,48,30,23,'#c7c7c5',.75);ellipse(63,48,24,18,'#555',.55);
     const moverLenses=[[63,48]];for(let i=0;i<6;i++)moverLenses.push([63+Math.cos(i*Math.PI/3)*12.5,48+Math.sin(i*Math.PI/3)*9.5]);
     for(const [x,y] of moverLenses)circle(x,y,4,'#ededeb',.35);end();
+  }else if(type==='light-flightcase'){
+    group('','lighting-flightcase-top-view');
+    rect(3,3,154,114,'#777',1,3);rect(9,9,142,102,'#dededc',.65,1.5);rect(14,14,132,92,'#bcbcbc',.38,1);
+    for(const x of [7,153])for(const y of [7,113]){circle(x,y,5.2,'#3d3d3d',.5);circle(x,y,2,'#aaa',.25);}
+    for(const x of [13,147])for(const y of [13,107]){path('M'+(x-7)+' '+y+'V'+(y-7)+'H'+x,'none',2.2,'#f2f2f0');bolt(x-2.5,y-2.5,.65);}
+    group('','case-lid-recess');rect(25,20,110,80,'#d2d2d0',.55,2);rect(31,26,98,68,'none',.4,1);path('M80 26V94M31 60H129','none',.35,'#aaa');end();
+    for(const [x,y,vertical] of [[8,60,true],[152,60,true],[80,8,false],[80,112,false]]){if(vertical){rect(x-3,y-13,6,26,'#555',.5,2);line(x,y-8,x,y+8,.8,'#ddd');}else{rect(x-13,y-3,26,6,'#555',.5,2);line(x-8,y,x+8,y,.8,'#ddd');}}
+    out+='<text x="80" y="64" text-anchor="middle" font-size="9" font-family="sans-serif" font-weight="700" fill="#666" stroke="none">LIGHT CASE</text>';end();
+  }else if(type==='light-fog'){
+    group('','fog-machine-top-view');
+    rect(5,8,167,83,'#4b4b4b',.9,5);rect(11,14,155,71,'#737373',.45,3);
+    group('','fog-nozzle');circle(35,49.5,24,'#292929',.75);circle(35,49.5,18,'#aaa',.5);circle(35,49.5,11,'#3c3c3c',.45);for(let i=0;i<8;i++){const a=i*Math.PI/4;line(35+Math.cos(a)*4,49.5+Math.sin(a)*4,35+Math.cos(a)*16,49.5+Math.sin(a)*16,.55,'#777');}end();
+    group('','fog-body-vents');for(let y=25;y<=72;y+=7)line(72,y,132,y,1,'#3f3f3f');end();
+    path('M63 17Q91 1 119 17','none',4,'#333');path('M66 17Q91 6 116 17','none',1,'#aaa');
+    rect(139,22,21,55,'#2f2f2f',.55,2);rect(144,28,11,18,'#a9a9a7',.35,1);circle(149.5,62,5.5,'#666',.45);for(const [x,y] of [[11,14],[166,14],[11,85],[166,85]])bolt(x,y,.7);end();
+  }else if(type==='light-wave-bar'){
+    group('','moving-wave-bar-top-view');rect(3,5,330,62,'#444',.85,6);rect(9,11,318,50,'#696969',.4,4);
+    for(let i=0;i<12;i++){const x=20+i*27;
+      group('','wave-cell');rect(x-9,17,18,38,'#3b3b3b',.45,4);path('M'+(x-7)+' 24V48M'+(x+7)+' 24V48','none',1.4,'#999');ellipse(x,36,6.6,11,'#d0d0ce',.4);circle(x,33,4.2,'#f5f5f3',.25);circle(x,43,4.2,'#e6e6e4',.25);end();
+    }
+    for(const x of [8,328])for(const y of [10,62])bolt(x,y,.65);rect(145,58,46,5,'#2d2d2d',.35,1);end();
   }else if(type==='light-bar'){
     group('','led-bar-top-view');rect(4,5,292,26,'#505050',.75,4);rect(10,9,280,18,'#777',.4,2);
     for(let i=0;i<12;i++){const x=20+i*23.65;circle(x,18,7,'#d1d1cf',.4);circle(x,18,4.8,'#f5f5f3',.25);path('M'+f(x-2.6)+' '+f(19)+'q1-3.5 4.2-2.5','none',.3,'#aaa');}

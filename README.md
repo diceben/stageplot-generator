@@ -4,7 +4,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
-**Aktuelle Version:** v0.1.0-beta.2 · Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.3 · Release Notes sind in der App über `?` erreichbar.
 
 ## Funktionen
 
@@ -19,6 +19,11 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 - **Stabiler App-Viewport** mit separat scrollenden Projekt- und Routinglisten statt eines springenden Seiten-Scrollbalkens.
 - **Kostenlose Pro-Beta-Umschaltung** direkt auf der Projektseite; ein Wechsel zurück zum Standard-Modus ist jederzeit möglich.
 - **Routing** (Input/Output-Kanäle, CSV/XLSX), **Druckansicht** und **Projekt-Export**.
+- **Stagebox-View und Bühnenkabel**: Outs als weiche, längenverstellbare Kabel an Stagebox-Ports ziehen; die Portzuweisung erscheint automatisch im Routing.
+- **Komplexe Bühnen** aus magnetisch anklippbaren 2 × 1-m-Modulen sowie maßstäbliche Treppen mit Breite, Tiefe und verankerter Skalierung.
+- **Technische Topviews** für Teleprompter, Wedges, Licht, Effekte, Nebelmaschine und Flightcases.
+- **Object Packs** mit Shop-Vorschau, lokalen Offline-Freischaltungen, signierten Codes, Beta Crew Pass und Crew Rewards.
+- **Projektverwaltung** mit Karten-Vorschau, direktem Umbenennen, portablem Download und abgesichertem Löschen.
 - **Outs am Symbol** global per Toolbar-Button ein-/ausblendbar.
 - Offline-first: alles im Browser gespeichert; Supabase-Cloud-Grenze vorbereitet, Login noch nicht sichtbar.
 
@@ -26,7 +31,8 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 
 Beta öffentlich live. Offen:
 
-- **Drum-Designer**: Z-Order bei Überlappung („nach hinten"), zuverlässigere Klick-Auswahl, sofortiger Auto-Draft (überlebt Reload), Outs-Tabelle pro Bauteil mit „nicht abnehmen" (ausgrauen statt löschen).
+- **Pack-Verkauf und Crew Rewards**: Checkout-Anbieter sowie produktiver Feedback-/Newsletter-Endpunkt müssen vor dem Verkauf verbunden werden; die Beta verwendet dafür lokale Warteschlangen und kostenlose Freischaltung.
+- **Drum-Designer**: Outs-Tabelle pro Bauteil mit „nicht abnehmen" (ausgrauen statt löschen).
 - **Import-Popup** mit Drag & Drop und Hinweis auf erlaubte Dateitypen.
 - **Foto → Stageplot** (handgezeichneten Plan einlesen) — zurückgestellt, braucht eine Cloud-/API-Entscheidung, da nicht rein offline lösbar.
 
@@ -91,6 +97,16 @@ npm run build
 ```
 
 `npm test` prüft mit `build-inline.cjs --check`, dass HTML und Quellen synchron sind, und schlägt bei Drift fehl. Niemals die eingebetteten Blöcke (zwischen den `build-inline:start/end`-Markern) direkt in der HTML editieren.
+
+## Object-Pack-Codes ausstellen
+
+Die App prüft Pack-Codes vollständig offline mit einem öffentlichen ECDSA-Schlüssel. Der zugehörige private JWK darf niemals im Repository liegen. Einen Code stellt man mit einem privaten Schlüssel an einem sicheren, externen Pfad aus:
+
+```bash
+npm run pack-code -- --key /sicherer/pfad/stageplot-packs.private.jwk --pack light-lab --license bestellung-123
+```
+
+Optional kann mit `--expires 2027-09-02` ein Ablaufdatum gesetzt werden. Verkaufbare Pack-IDs sind `light-lab`, `stage-builder`, `pro-crew` und `production-bundle`. Vor dem produktiven Verkauf muss der private Ausstellerschlüssel sicher verwahrt oder das Schlüsselpaar bewusst rotiert werden.
 
 ## Tests
 

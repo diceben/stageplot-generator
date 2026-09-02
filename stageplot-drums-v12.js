@@ -24,7 +24,7 @@ function createStageplotDrumModel() {
       rackToms:list('rackToms',4),floorToms:list('floorToms',3),hihat:v.hihat!==false,hatSize:allowedSize(v.hatSize,[13,14,15,16],14),ride:v.ride!==false,rideSize:allowedSize(v.rideSize,[18,20,21,22,24],22),
       crashes:Array.isArray(v.crashes)?v.crashes.slice(0,4).map(n=>allowedSize(n,[14,16,17,18,19,20],18)):base.crashes,splash:integer(v.splash,0,2,0),china:integer(v.china,0,2,0),clapstack:typeof v.clapstack==='boolean'?v.clapstack:base.clapstack,clapSize:allowedSize(v.clapSize,[8,10,12,14,16],12),
       pad:typeof v.pad==='boolean'?v.pad:base.pad,bongos:typeof v.bongos==='boolean'?v.bongos:base.bongos,table:['off','mixer','laptop'].includes(v.table)?v.table:base.table,leftHanded:v.leftHanded===true,positions:{},rotations:{},showMics:typeof v.showMics==='boolean'?v.showMics:base.showMics,overheads:['off','mono','stereo'].includes(v.overheads)?v.overheads:base.overheads,overheadMount:['boom','clamp'].includes(v.overheadMount)?v.overheadMount:base.overheadMount,
-      room:['off','mono','stereo'].includes(v.room)?v.room:'off',mics:{...base.mics}};
+      room:['off','mono','stereo'].includes(v.room)?v.room:'off',mics:{...base.mics},zOrder:[]};
     if(v.positions&&typeof v.positions==='object')for(const [id,p] of Object.entries(v.positions)){
       if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[12]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&p&&typeof p==='object')
         c.positions[id]={x:clamp(p.x,.02,.98,.5),y:clamp(p.y,.02,.98,.5)};
@@ -32,6 +32,10 @@ function createStageplotDrumModel() {
     if(v.rotations&&typeof v.rotations==='object')for(const [id,angle] of Object.entries(v.rotations)){
       if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[12]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&Number.isFinite(Number(angle)))
         c.rotations[id]=((Number(angle)%360)+360)%360;
+    }
+    if(Array.isArray(v.zOrder)){
+      const seen=new Set();
+      c.zOrder=v.zOrder.slice(0,40).map(short).filter(id=>/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[12]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&!seen.has(id)&&seen.add(id));
     }
     if(v.mics&&typeof v.mics==='object')for(const [id,m] of Object.entries(v.mics)){
       if(/^(kick[12]-(in|out)|snare-(up|down)|side-(up|down)|rack[1-4]|floor[1-3]|hihat|ride|oh-(mono|l|r)|room-(mono|l|r)|pad-[lr]|bongos)$/.test(id)&&m&&typeof m==='object')
@@ -72,8 +76,11 @@ function createStageplotDrumModel() {
       const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5,position=c.positions[p.id];
       p.x=clamp(position.x*vb[0],halfW,vb[0]-halfW,p.x);p.y=clamp(position.y*vb[1],halfH,vb[1]-halfH,p.y);
     }
+    const order=new Map(c.zOrder.map((id,index)=>[id,index])),ordered=placed.map((part,index)=>({part,index})).sort((a,b)=>{
+      const ai=order.has(a.part.id)?order.get(a.part.id):c.zOrder.length+a.index,bi=order.has(b.part.id)?order.get(b.part.id):c.zOrder.length+b.index;return ai-bi;
+    }).map(entry=>entry.part);
     const riser=riserModules?{preset:c.riserPreset,modules:riserModules,moduleW:50,moduleH:100,x:(vb[0]-riserWidth)/2,y:(vb[1]-riserDepth)/2,w:riserWidth,h:riserDepth}:null;
-    return {parts:placed,vb,w:vb[0]*.02,d:vb[1]*.02,pedal:c.pedal,leftHanded:c.leftHanded,showMics:c.showMics,overheadMount:c.overheadMount,riserPreset:c.riserPreset,riser};
+    return {parts:ordered,vb,w:vb[0]*.02,d:vb[1]*.02,pedal:c.pedal,leftHanded:c.leftHanded,showMics:c.showMics,overheadMount:c.overheadMount,riserPreset:c.riserPreset,riser};
   }
   function drumInteraction(layout) {
     if(!layout||!Array.isArray(layout.parts)||!Array.isArray(layout.vb))return {hitParts:[],selectionShapes:[],hull:[],bounds:{minX:0,minY:0,maxX:0,maxY:0}};
