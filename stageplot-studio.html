@@ -381,7 +381,7 @@
           <section class="sp-drum-design-manager" aria-labelledby="sp-drum-design-heading">
             <div class="sp-drum-design-heading"><span>Vorlagen</span><strong id="sp-drum-design-heading">Speichern &amp; laden</strong></div>
             <label class="sp-field sp-drum-design-name-field">Name<input id="sp-drum-design-name" type="text" maxlength="60" value="Mein Drumset" required></label>
-            <div class="sp-drum-design-actions sp-drum-design-primary-actions"><button class="sp-button sp-primary" type="button" id="sp-drum-design-save">Speichern</button><button class="sp-button" type="button" id="sp-drum-design-load">Laden …</button></div>
+            <div class="sp-drum-design-actions sp-drum-design-primary-actions"><button class="sp-button sp-primary" type="button" id="sp-drum-design-save">Speichern</button><button class="sp-button" type="button" id="sp-drum-design-save-download">Speichern &amp; herunterladen</button><button class="sp-button" type="button" id="sp-drum-design-load">Laden …</button></div>
             <p id="sp-drum-design-status" class="sp-muted" role="status" aria-live="polite"></p>
           </section>
           <div class="sp-drum-inspector-title"><span>Ausgewähltes Modul</span><strong id="sp-drum-inspector-name">Bass Drum</strong></div>
@@ -5758,7 +5758,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-project-saveas').addEventListener('click',()=>$('sp-file-save-as').click());
   $('sp-help-close').addEventListener('click',()=>$('sp-help-dialog').close());
   $('sp-help-dialog').addEventListener('close',()=>{if(helpReturnFocus&&typeof helpReturnFocus.focus==='function')helpReturnFocus.focus({preventScroll:true});helpReturnFocus=null;});
-  let drumDraft=null,drumDraftType='drums',drumObjectId=null,drumSelectedPart=null,drumPartDrag=null,drumPendingKind=null,drumHoverPart=null,drumDesigns=[],activeDrumDesignId=null,drumDesignOverwriteId=null;
+  let drumDraft=null,drumDraftType='drums',drumObjectId=null,drumSelectedPart=null,drumPartDrag=null,drumPendingKind=null,drumHoverPart=null,drumDesigns=[],activeDrumDesignId=null,drumDesignOverwriteId=null,drumPointerOnPart=false;
   let drumHistory=[],drumFuture=[],drumEditBefore=null,drumMobilePanel='canvas';
   const drumDesignStorageKey='stageplot-studio:drum-designs:v1';
   const drumLastStorageKey='stageplot-studio:last-drum:v1';
@@ -5831,11 +5831,12 @@ function createStageplotSymbolV3(type, options = {}) {
     try{
       const document=currentDrumDesign();let latest=[];try{latest=readDrumDesignLibrary(window.localStorage);}catch(error){}
       const sameName=latest.find(entry=>entry.document.name.toLocaleLowerCase('de')===document.name.toLocaleLowerCase('de'));
-      if(sameName&&sameName.id!==activeDrumDesignId&&drumDesignOverwriteId!==sameName.id){drumDesignOverwriteId=sameName.id;$('sp-drum-design-save').textContent='Überschreiben';drumDesignStatus('Der Name ist schon vorhanden. Zum Überschreiben erneut klicken.',true);return;}
+      if(sameName&&sameName.id!==activeDrumDesignId&&drumDesignOverwriteId!==sameName.id){drumDesignOverwriteId=sameName.id;$('sp-drum-design-save').textContent='Überschreiben';drumDesignStatus('Der Name ist schon vorhanden. Zum Überschreiben erneut klicken.',true);return false;}
       const id=activeDrumDesignId||sameName?.id||'drum-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),entry={id,savedAt:Date.now(),document},updated=latest.filter(item=>item.id!==id&&item.id!==sameName?.id).concat(entry);
-      writeDrumDesignLibrary(window.localStorage,updated);drumDesigns=updated;activeDrumDesignId=id;drumDesignOverwriteId=null;$('sp-drum-design-save').textContent='Speichern';renderDrumDesignLibrary();persistLastDrumDraft();const account=drumAccountStore();if(account?.save)await account.save(entry);drumDesignStatus('„'+document.name+'“ '+(account?.save?'im Account':'lokal')+' gespeichert.');
-    }catch(error){drumDesignStatus(error.message||'Drumdesign konnte nicht gespeichert werden.',true);}
+      writeDrumDesignLibrary(window.localStorage,updated);drumDesigns=updated;activeDrumDesignId=id;drumDesignOverwriteId=null;$('sp-drum-design-save').textContent='Speichern';renderDrumDesignLibrary();persistLastDrumDraft();const account=drumAccountStore();if(account?.save)await account.save(entry);drumDesignStatus('„'+document.name+'“ '+(account?.save?'im Account':'lokal')+' gespeichert.');return true;
+    }catch(error){drumDesignStatus(error.message||'Drumdesign konnte nicht gespeichert werden.',true);return false;}
   }
+  async function saveAndDownloadDrumDesign(){if(await saveDrumDesign())downloadDrumDesign();}
   function downloadDrumDesign(){
     try{
       const document=currentDrumDesign(),blob=new Blob([JSON.stringify(document,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob);
@@ -6032,7 +6033,10 @@ function createStageplotSymbolV3(type, options = {}) {
     const rotate=e.target.closest?.('[data-drum-rotate]'),remove=e.target.closest?.('[data-drum-delete]');
     if(rotate){e.preventDefault();e.stopPropagation();rotateDrumPart(rotate.dataset.drumPartTarget,Number(rotate.dataset.drumRotate));return;}
     if(remove){e.preventDefault();e.stopPropagation();removeDrumPartById(remove.dataset.drumDelete);return;}
-    if(!drumPendingKind){if(!e.target.closest?.('[data-drum-part]'))selectDrumPart(null);return;}
+    // After a pointerdown on a part, pointer capture retargets this click to the
+    // host element, so e.target is no longer the part. Keep the selection made on
+    // pointerdown instead of treating it as a click on empty canvas.
+    if(!drumPendingKind){if(drumPointerOnPart){drumPointerOnPart=false;return;}if(!e.target.closest?.('[data-drum-part]'))selectDrumPart(null);return;}
     const o=objects.find(v=>v.id===drumObjectId),layout=o&&drumModel.drumLayout(drumDraftType,drumDraft),point=layout&&drumSvgPoint(e,layout),kind=drumPendingKind;if(!point)return;
     addDrumPart(kind,{x:point.x/layout.vb[0],y:point.y/layout.vb[1]});drumPendingKind=null;syncDrumPlacementState();e.preventDefault();
   });
@@ -6049,10 +6053,11 @@ function createStageplotSymbolV3(type, options = {}) {
     drumHoverPart=id;syncDrumControlVisibility();
   }));
   drumPreviewHost.addEventListener('pointerdown',e=>{
+    drumPointerOnPart=false;
     if(drumPendingKind||e.target.closest?.('[data-drum-rotate-controls]'))return;
     const node=e.target.closest?.('[data-drum-part]'),o=objects.find(v=>v.id===drumObjectId);if(!node||!o||e.button!==0)return;
     const layout=drumModel.drumLayout(drumDraftType,drumDraft),part=layout.parts.find(p=>p.id===node.dataset.drumPart),point=drumSvgPoint(e,layout);if(!part||!point)return;
-    const nodes=[...drumPreviewHost.querySelectorAll('[data-drum-part="'+part.id+'"]')].map(node=>({node,transform:node.getAttribute('transform')||''}));selectDrumPart(part.id);drumPartDrag={pointer:e.pointerId,id:part.id,nodes,layout,part,start:point,original:drumDraft.positions?.[part.id]?clone(drumDraft.positions[part.id]):null,before:drumStateSnapshot(),moved:false};
+    const nodes=[...drumPreviewHost.querySelectorAll('[data-drum-part="'+part.id+'"]')].map(node=>({node,transform:node.getAttribute('transform')||''}));selectDrumPart(part.id);drumPointerOnPart=true;drumPartDrag={pointer:e.pointerId,id:part.id,nodes,layout,part,start:point,original:drumDraft.positions?.[part.id]?clone(drumDraft.positions[part.id]):null,before:drumStateSnapshot(),moved:false};
     drumPreviewHost.setPointerCapture(e.pointerId);e.preventDefault();
   });
   drumPreviewHost.addEventListener('pointermove',e=>{
@@ -6115,6 +6120,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-drum-hardware').addEventListener('change',editDrumHardware);
   $('sp-drum-design-name').addEventListener('input',()=>{drumDesignOverwriteId=null;$('sp-drum-design-save').textContent='Speichern';});
   $('sp-drum-design-save').addEventListener('click',saveDrumDesign);
+  $('sp-drum-design-save-download').addEventListener('click',saveAndDownloadDrumDesign);
   $('sp-drum-design-load').addEventListener('click',()=>{drumDesignStatus('');loadDrumDesignLibrary();$('sp-drum-design-load-dialog').showModal();});
   $('sp-drum-design-load-close').addEventListener('click',()=>$('sp-drum-design-load-dialog').close());
   $('sp-drum-design-download').addEventListener('click',downloadDrumDesign);
@@ -6871,8 +6877,11 @@ function createStageplotSymbolV3(type, options = {}) {
   // Stage dimensions and access remain editable through the existing setup step.
   $('sp-title').value='Beispiel-Aufbau';
   stage=draft();
+  // Default drum template ("Drumset mittel") shown on first load and used as the
+  // base for newly placed drum modules (via readLastDrumConfig's scene fallback).
+  const defaultDrumConfig={"kickCount":1,"kickDiameter":22,"kickDepth":18,"pedal":"single","snareModel":"","snareDiameter":14,"snareDepth":6.5,"snareMaterial":"Holz","side":false,"sideModel":"","sideDiameter":8,"sideDepth":5,"riserPreset":"none","rackToms":[{"diameter":10,"depth":8,"mount":"kick"},{"diameter":12,"depth":10,"mount":"kick"}],"floorToms":[{"diameter":14,"depth":14},{"diameter":16,"depth":16}],"hihat":true,"hatSize":14,"ride":true,"rideSize":22,"crashes":[18],"splash":1,"china":0,"clapstack":true,"clapSize":12,"pad":true,"bongos":false,"table":"off","leftHanded":false,"positions":{"snare":{"x":0.5833779176076254,"y":0.42048271029603246},"ride":{"x":0.2901504834493001,"y":0.6037756227979473},"clapstack":{"x":0.6259321371714274,"y":0.568158841600605},"splash1":{"x":0.5019760131835938,"y":0.7103370685203403},"kick1":{"x":0.48790693283081055,"y":0.6167246500651041},"throne":{"x":0.5425168673197428,"y":0.17121199065563725},"hihat":{"x":0.6826114389631484,"y":0.4370733896891277},"rack1":{"x":0.536231279373169,"y":0.5799473220226812},"rack2":{"x":0.4343844519721137,"y":0.5706283157947016},"floor1":{"x":0.3672737545437283,"y":0.4122748655431411},"floor2":{"x":0.3367926279703777,"y":0.1792357261508119},"pad":{"x":0.7508868111504449,"y":0.2856976527793735},"crash1":{"x":0.6383353339301215,"y":0.676882407244514}},"rotations":{"hihat":320,"pad":270},"showMics":false,"overheads":"off","overheadMount":"boom","room":"off","mics":{"kick1-out":{"enabled":true,"model":"","phantom":false},"kick2-out":{"enabled":true,"model":"","phantom":false},"snare-down":{"enabled":true,"model":"","phantom":false},"hihat":{"enabled":true,"model":"","phantom":false},"ride":{"enabled":false,"model":"","phantom":false},"side-down":{"enabled":false,"model":"","phantom":false}}};
   objects=[
-    {id:'station-1',type:'drums',x:4,y:1.5,angle:0,label:'Drums',note:'SPD-SX · Sidesnare'},
+    {id:'station-1',type:'drums',x:4,y:1.5,angle:0,label:'Drums',note:'SPD-SX · Splash',drums:defaultDrumConfig},
     {id:'station-2',type:'keys-stage4',x:1.5,y:1.5,angle:180,label:'Nord Stage 4',note:'Stereo · Strom am Platz'},
     {id:'station-3',type:'guitar',x:6.25,y:3.5,angle:65,label:'Gitarre',note:''},
     {id:'station-4',type:'bass',x:1.5,y:3.5,angle:65,label:'Bass',note:''},
