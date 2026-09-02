@@ -17,6 +17,7 @@ for(const marker of [
 ])assert.ok(html.includes(marker),marker+' fehlt.');
 assert.match(html,/writeSetupLibrary\(window\.localStorage,updated\);\s*const account=projectAccountStore\(\)/,'Projekt wird nicht zuerst lokal geschrieben.');
 assert.match(html,/writeDrumDesignLibrary\(window\.localStorage,updated\)[\s\S]{0,420}const account=drumAccountStore\(\)/,'Drumvorlage wird nicht lokal vor dem Account-Abgleich gesichert.');
+assert.match(html,/#sp-prototype :is\(\.sp-dashboard,\.sp-routing,\.sp-project-settings\) \{[^}]*--sp-ink:#202222;[^}]*color:var\(--sp-ink\); color-scheme:light;/,'Helle Workflow-Seiten sichern ihren Textkontrast im dunklen Systemmodus nicht ab.');
 for(const marker of ['enable row level security','owner_id = (select auth.uid())','stageplot_sync_push','stageplot_sync_pull','pg_advisory_xact_lock','revoke all on public.stageplot_documents from anon'])assert.ok(schema.includes(marker),marker+' fehlt im Supabase-Schema.');
 
 console.log('PASS V61: eigenständige Account-Grenze für Projekte, Bühnen- und Drumvorlagen bei unverändert lokalem Primärspeicher.');
