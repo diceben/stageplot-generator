@@ -4,6 +4,8 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
+**Aktuelle Version:** v0.1.0-beta.2 · Release Notes sind in der App über `?` erreichbar.
+
 ## Funktionen
 
 - **Projekte anlegen** über ein Popup: Band + Location (→ automatischer Projektname), Bühnengröße per Vorschau-Buttons (Breite/Tiefe mit ±1 m), erweiterte Einstellungen aufklappbar.

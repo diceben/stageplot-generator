@@ -6,9 +6,13 @@ function createStageplotDrumModel() {
   const short=v=>String(v??'').slice(0,60);
   const isDrums=type=>['drums','drums-min','drums-med','drums-big'].includes(type);
   function drumDefaults() {
-    return {kickCount:1,kickDiameter:22,kickDepth:18,pedal:'single',snareModel:'',snareDiameter:14,snareDepth:6.5,snareMaterial:'Holz',side:true,sideModel:'',sideDiameter:8,sideDepth:5,riserPreset:'none',
-      rackToms:[10,12].map((d,i)=>({diameter:d,depth:d-2,mount:i<2?'kick':'cymbal-clamp'})),floorToms:[14,16].map(d=>({diameter:d,depth:d})),
-      hihat:true,hatSize:14,ride:true,rideSize:22,crashes:[18],splash:0,china:1,clapstack:true,clapSize:12,pad:true,bongos:false,table:'laptop',leftHanded:false,positions:{},rotations:{},showMics:false,overheads:'off',overheadMount:'boom',room:'off',mics:Object.fromEntries([['kick1-out',true],['kick2-out',true],['snare-down',true],['hihat',true],['ride',false],['side-down',false]].map(([id,enabled])=>[id,{enabled,model:'',phantom:false}]))};
+    // Product default: "Drumset mittel". Keep this as the single runtime source
+    // for fresh projects, newly placed drums and the bundled sample arrangement.
+    return {kickCount:1,kickDiameter:22,kickDepth:18,pedal:'single',snareModel:'',snareDiameter:14,snareDepth:6.5,snareMaterial:'Holz',side:false,sideModel:'',sideDiameter:8,sideDepth:5,riserPreset:'none',
+      rackToms:[{diameter:10,depth:8,mount:'kick'},{diameter:12,depth:10,mount:'kick'}],floorToms:[{diameter:14,depth:14},{diameter:16,depth:16}],
+      hihat:true,hatSize:14,ride:true,rideSize:22,crashes:[18],splash:1,china:0,clapstack:true,clapSize:12,pad:true,bongos:false,table:'off',leftHanded:false,
+      positions:{snare:{x:.5833779176076254,y:.42048271029603246},ride:{x:.2901504834493001,y:.6037756227979473},clapstack:{x:.6259321371714274,y:.568158841600605},splash1:{x:.5019760131835938,y:.7103370685203403},kick1:{x:.48790693283081055,y:.6167246500651041},throne:{x:.5425168673197428,y:.17121199065563725},hihat:{x:.6826114389631484,y:.4370733896891277},rack1:{x:.536231279373169,y:.5799473220226812},rack2:{x:.4343844519721137,y:.5706283157947016},floor1:{x:.3672737545437283,y:.4122748655431411},floor2:{x:.3367926279703777,y:.1792357261508119},pad:{x:.7508868111504449,y:.2856976527793735},crash1:{x:.6383353339301215,y:.676882407244514}},rotations:{hihat:320,pad:270},showMics:false,overheads:'off',overheadMount:'boom',room:'off',
+      mics:Object.fromEntries([['kick1-out',true],['kick2-out',true],['snare-down',true],['hihat',true],['ride',false],['side-down',false]].map(([id,enabled])=>[id,{enabled,model:'',phantom:false}]))};
   }
   function normalizeDrums(type,value) {
     const base=drumDefaults(),candidate=value===undefined&&type&&typeof type==='object'?type:value,v=candidate&&typeof candidate==='object'?candidate:{};

@@ -393,9 +393,45 @@
   </dialog>
   <dialog id="sp-drum-design-load-dialog" class="sp-clear-dialog sp-drum-design-load-dialog" aria-labelledby="sp-drum-design-load-title"><div class="sp-dialog-heading"><div><span class="sp-eyebrow">SCHLAGZEUG-VORLAGEN</span><h2 id="sp-drum-design-load-title">Vorlage laden</h2></div><button class="sp-button" type="button" id="sp-drum-design-load-close" aria-label="Schlagzeug-Vorlagen schließen">×</button></div><p class="sp-muted">Gespeicherte Vorlage wählen oder eine Vorlagendatei hochladen.</p><p id="sp-drum-design-load-status" class="sp-muted" role="status" aria-live="polite"></p><select id="sp-drum-design-library" aria-label="Gespeicherte Schlagzeug-Vorlagen" hidden><option value="">Noch keine Vorlagen</option></select><div id="sp-drum-design-load-list" class="sp-drum-design-load-list"></div><div class="sp-drum-design-load-actions"><button class="sp-button" type="button" id="sp-drum-design-upload">Vorlage hochladen</button><button class="sp-button" type="button" id="sp-drum-design-download">Aktuelle Vorlage herunterladen</button><button class="sp-button sp-danger-quiet" type="button" id="sp-drum-design-delete" disabled>Ausgewählte löschen</button><input id="sp-drum-design-file" type="file" accept="application/json,.json,.stageplot-drums.json" hidden></div></dialog>
   <dialog id="sp-help-dialog" class="sp-clear-dialog sp-help-dialog" aria-labelledby="sp-help-title">
-    <div class="sp-dialog-heading"><h2 id="sp-help-title">Schneller arbeiten</h2><button class="sp-button" type="button" id="sp-help-close" aria-label="Hilfe schließen">×</button></div>
-    <p class="sp-muted">Die wichtigsten Befehle funktionieren direkt im Entwurf.</p>
-    <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
+    <div class="sp-dialog-heading"><div><span class="sp-eyebrow">STAGEPLOT STUDIO · OFFLINE-FIRST</span><h2 id="sp-help-title">Hilfe &amp; Versionen</h2></div><button class="sp-button" type="button" id="sp-help-close" aria-label="Hilfe schließen">×</button></div>
+    <div class="sp-help-layout">
+      <section class="sp-help-section" aria-labelledby="sp-shortcuts-title">
+        <h3 id="sp-shortcuts-title">Schneller arbeiten</h3>
+        <p class="sp-muted">Die wichtigsten Befehle funktionieren direkt im Entwurf.</p>
+        <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
+      </section>
+      <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.2">v0.1.0-beta.2</span></div>
+        <div class="sp-release-list">
+          <article class="sp-release-card" data-current="true">
+            <header><div><strong>v0.1.0-beta.2</strong><span>Aktuell</span></div><time datetime="2026-09-02">2. September 2026</time></header>
+            <h4>Direkter planen, leichter lesen</h4>
+            <ul>
+              <li>Neuer Projekt-Workflow mit Dashboard, Band-/Location-Popup, Größenvorschau und Project Settings.</li>
+              <li>Bühne und Treppe lassen sich direkt und flüssig auf dem Canvas skalieren; IEM-Bereich und Treppe sind auswählbar und löschbar.</li>
+              <li>Ebenen-Menü mit Duplizieren, Sperren und Löschen sowie korrigierter Auswahl- und Vorschau-Logik.</li>
+              <li>Outs-Schalter in der Canvas-Toolbar und schnelleres Zurücklegen aufgenommener Bausteine.</li>
+              <li>Drum-Designer mit „Drumset mittel“ als verlässlichem Standard, letztem Bearbeitungsstand sowie Vorlagen-Upload, -Download und -Bibliothek.</li>
+              <li>Kompaktere Drum-Hoveraktionen und eine klarere Treppendarstellung.</li>
+              <li>Verbesserter Textkontrast in Routing und Projektbereichen – auch bei dunklem Systemmodus.</li>
+            </ul>
+          </article>
+          <article class="sp-release-card">
+            <header><strong>v0.1.0-beta.1</strong><time datetime="2026-09-01">1. September 2026</time></header>
+            <h4>Öffentliche Standalone-Beta</h4>
+            <ul>
+              <li>Eigenständiger 2D-Bühneneditor mit Bausteinkatalog, Drag &amp; Drop, Drehen, Sperren und Ebenenliste.</li>
+              <li>Maßstäbliche Bühne mit Podesten, Bühnentreppe, IEM-/Rack-Bereich und frei konfigurierbaren Drumsets.</li>
+              <li>Input-/Output-Routing mit Stageboxen, Auto-Assign sowie CSV-, XLSX- und PDF-Ausgabe.</li>
+              <li>Druckvorschau, technische Dokumente und portabler Projekt-Export.</li>
+              <li>Lokale Projekte und automatische Entwürfe mit Wiederherstellung und Migration bestehender Browserdaten.</li>
+              <li>Offline nutzbare Einzeldatei und erste öffentliche Veröffentlichung über GitHub Pages.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.2 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-settings-dialog" class="sp-clear-dialog sp-settings-dialog" aria-labelledby="sp-settings-title">
     <div class="sp-dialog-heading"><h2 id="sp-settings-title">Einstellungen</h2><button class="sp-button" type="button" id="sp-settings-close" aria-label="Einstellungen schließen">×</button></div>
@@ -2198,7 +2234,13 @@
 
 #sp-prototype .sp-export-select select { min-height: 30px; padding: 4px 24px 4px 7px; font-size: 11px; }
 
-#sp-prototype .sp-help-dialog { width: min(520px, calc(100% - 24px)); }
+#sp-prototype .sp-help-dialog { width: min(780px, calc(100% - 24px)); overflow: auto; }
+#sp-prototype .sp-help-dialog .sp-dialog-heading { align-items: flex-start; margin-bottom: 20px; }
+#sp-prototype .sp-help-dialog .sp-dialog-heading h2 { margin: 3px 0 0; }
+#sp-prototype .sp-help-layout { display: grid; grid-template-columns: minmax(220px, .78fr) minmax(0, 1.35fr); gap: 24px; }
+#sp-prototype .sp-help-section { min-width: 0; }
+#sp-prototype .sp-help-section > h3,
+#sp-prototype .sp-release-heading h3 { margin: 0 0 3px; font-size: 14px; }
 #sp-prototype .sp-shortcut-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -2219,6 +2261,21 @@
   font: 600 11px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
   text-align: center;
 }
+
+#sp-prototype .sp-release-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+#sp-prototype .sp-version-badge { flex: 0 0 auto; padding: 5px 8px; border-radius: 999px; color: #26300f; background: var(--sp-lime); font: 750 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+#sp-prototype .sp-release-list { display: grid; gap: 10px; margin-top: 13px; }
+#sp-prototype .sp-release-card { padding: 13px 14px; border: 1px solid var(--sp-line); border-radius: 9px; background: var(--sp-soft); }
+#sp-prototype .sp-release-card[data-current="true"] { border-color: color-mix(in srgb, var(--sp-teal) 55%, var(--sp-line)); background: var(--sp-accent-bg); }
+#sp-prototype .sp-release-card header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+#sp-prototype .sp-release-card header > div { display: flex; align-items: center; gap: 7px; }
+#sp-prototype .sp-release-card header strong { font: 750 11px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; }
+#sp-prototype .sp-release-card header span { padding: 2px 5px; border-radius: 4px; color: var(--sp-on-accent); background: var(--sp-teal); font-size: 8px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+#sp-prototype .sp-release-card time { color: var(--sp-muted); font-size: 10px; white-space: nowrap; }
+#sp-prototype .sp-release-card h4 { margin: 9px 0 7px; font-size: 12px; }
+#sp-prototype .sp-release-card ul { margin: 0; padding-left: 17px; color: var(--sp-muted); font-size: 11px; line-height: 1.45; }
+#sp-prototype .sp-release-card li + li { margin-top: 4px; }
+#sp-prototype .sp-help-foot { margin: 18px 0 0; padding-top: 12px; border-top: 1px solid var(--sp-line); color: var(--sp-muted); font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; text-align: center; }
 
 #sp-prototype .sp-drum-mobile-tabs { display: none; }
 #sp-prototype .sp-drum-history-actions { display: flex; align-items: center; gap: 5px; }
@@ -2326,8 +2383,13 @@
   #sp-prototype .sp-export-select select { flex: 1; }
   #sp-prototype .sp-preview-options { justify-content: flex-start; }
   #sp-prototype .sp-shortcut-grid { gap-inline: 10px; }
+  #sp-prototype .sp-release-card header { align-items: flex-start; flex-direction: column; gap: 4px; }
   #sp-prototype #sp-drum-reset-layout { width: 34px; padding: 0; overflow: hidden; font-size: 0; }
   #sp-prototype #sp-drum-reset-layout::before { content: "↺"; font-size: 17px; }
+}
+
+@container sp-frame (max-width: 720px) {
+  #sp-prototype .sp-help-layout { grid-template-columns: 1fr; }
 }
 
 @container sp-frame (max-width: 859px) {
@@ -3352,9 +3414,13 @@ function createStageplotDrumModel() {
   const short=v=>String(v??'').slice(0,60);
   const isDrums=type=>['drums','drums-min','drums-med','drums-big'].includes(type);
   function drumDefaults() {
-    return {kickCount:1,kickDiameter:22,kickDepth:18,pedal:'single',snareModel:'',snareDiameter:14,snareDepth:6.5,snareMaterial:'Holz',side:true,sideModel:'',sideDiameter:8,sideDepth:5,riserPreset:'none',
-      rackToms:[10,12].map((d,i)=>({diameter:d,depth:d-2,mount:i<2?'kick':'cymbal-clamp'})),floorToms:[14,16].map(d=>({diameter:d,depth:d})),
-      hihat:true,hatSize:14,ride:true,rideSize:22,crashes:[18],splash:0,china:1,clapstack:true,clapSize:12,pad:true,bongos:false,table:'laptop',leftHanded:false,positions:{},rotations:{},showMics:false,overheads:'off',overheadMount:'boom',room:'off',mics:Object.fromEntries([['kick1-out',true],['kick2-out',true],['snare-down',true],['hihat',true],['ride',false],['side-down',false]].map(([id,enabled])=>[id,{enabled,model:'',phantom:false}]))};
+    // Product default: "Drumset mittel". Keep this as the single runtime source
+    // for fresh projects, newly placed drums and the bundled sample arrangement.
+    return {kickCount:1,kickDiameter:22,kickDepth:18,pedal:'single',snareModel:'',snareDiameter:14,snareDepth:6.5,snareMaterial:'Holz',side:false,sideModel:'',sideDiameter:8,sideDepth:5,riserPreset:'none',
+      rackToms:[{diameter:10,depth:8,mount:'kick'},{diameter:12,depth:10,mount:'kick'}],floorToms:[{diameter:14,depth:14},{diameter:16,depth:16}],
+      hihat:true,hatSize:14,ride:true,rideSize:22,crashes:[18],splash:1,china:0,clapstack:true,clapSize:12,pad:true,bongos:false,table:'off',leftHanded:false,
+      positions:{snare:{x:.5833779176076254,y:.42048271029603246},ride:{x:.2901504834493001,y:.6037756227979473},clapstack:{x:.6259321371714274,y:.568158841600605},splash1:{x:.5019760131835938,y:.7103370685203403},kick1:{x:.48790693283081055,y:.6167246500651041},throne:{x:.5425168673197428,y:.17121199065563725},hihat:{x:.6826114389631484,y:.4370733896891277},rack1:{x:.536231279373169,y:.5799473220226812},rack2:{x:.4343844519721137,y:.5706283157947016},floor1:{x:.3672737545437283,y:.4122748655431411},floor2:{x:.3367926279703777,y:.1792357261508119},pad:{x:.7508868111504449,y:.2856976527793735},crash1:{x:.6383353339301215,y:.676882407244514}},rotations:{hihat:320,pad:270},showMics:false,overheads:'off',overheadMount:'boom',room:'off',
+      mics:Object.fromEntries([['kick1-out',true],['kick2-out',true],['snare-down',true],['hihat',true],['ride',false],['side-down',false]].map(([id,enabled])=>[id,{enabled,model:'',phantom:false}]))};
   }
   function normalizeDrums(type,value) {
     const base=drumDefaults(),candidate=value===undefined&&type&&typeof type==='object'?type:value,v=candidate&&typeof candidate==='object'?candidate:{};
@@ -6929,9 +6995,8 @@ function createStageplotSymbolV3(type, options = {}) {
   // Stage dimensions and access remain editable through the existing setup step.
   $('sp-title').value='Beispiel-Aufbau';
   stage=draft();
-  // Default drum template ("Drumset mittel") shown on first load and used as the
-  // base for newly placed drum modules (via readLastDrumConfig's scene fallback).
-  const defaultDrumConfig={"kickCount":1,"kickDiameter":22,"kickDepth":18,"pedal":"single","snareModel":"","snareDiameter":14,"snareDepth":6.5,"snareMaterial":"Holz","side":false,"sideModel":"","sideDiameter":8,"sideDepth":5,"riserPreset":"none","rackToms":[{"diameter":10,"depth":8,"mount":"kick"},{"diameter":12,"depth":10,"mount":"kick"}],"floorToms":[{"diameter":14,"depth":14},{"diameter":16,"depth":16}],"hihat":true,"hatSize":14,"ride":true,"rideSize":22,"crashes":[18],"splash":1,"china":0,"clapstack":true,"clapSize":12,"pad":true,"bongos":false,"table":"off","leftHanded":false,"positions":{"snare":{"x":0.5833779176076254,"y":0.42048271029603246},"ride":{"x":0.2901504834493001,"y":0.6037756227979473},"clapstack":{"x":0.6259321371714274,"y":0.568158841600605},"splash1":{"x":0.5019760131835938,"y":0.7103370685203403},"kick1":{"x":0.48790693283081055,"y":0.6167246500651041},"throne":{"x":0.5425168673197428,"y":0.17121199065563725},"hihat":{"x":0.6826114389631484,"y":0.4370733896891277},"rack1":{"x":0.536231279373169,"y":0.5799473220226812},"rack2":{"x":0.4343844519721137,"y":0.5706283157947016},"floor1":{"x":0.3672737545437283,"y":0.4122748655431411},"floor2":{"x":0.3367926279703777,"y":0.1792357261508119},"pad":{"x":0.7508868111504449,"y":0.2856976527793735},"crash1":{"x":0.6383353339301215,"y":0.676882407244514}},"rotations":{"hihat":320,"pad":270},"showMics":false,"overheads":"off","overheadMount":"boom","room":"off","mics":{"kick1-out":{"enabled":true,"model":"","phantom":false},"kick2-out":{"enabled":true,"model":"","phantom":false},"snare-down":{"enabled":true,"model":"","phantom":false},"hihat":{"enabled":true,"model":"","phantom":false},"ride":{"enabled":false,"model":"","phantom":false},"side-down":{"enabled":false,"model":"","phantom":false}}};
+  // The bundled sample and fresh projects share the model's product default.
+  const defaultDrumConfig=drumModel.drumDefaults();
   objects=[
     {id:'station-1',type:'drums',x:4,y:1.5,angle:0,label:'Drums',note:'SPD-SX · Splash',drums:defaultDrumConfig},
     {id:'station-2',type:'keys-stage4',x:1.5,y:1.5,angle:180,label:'Nord Stage 4',note:'Stereo · Strom am Platz'},
