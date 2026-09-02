@@ -5,8 +5,10 @@
 function createStageplotSymbolV3(type, options = {}) {
   let out = '';
   const f = n => Math.round(n * 100) / 100;
+  const drumMicParts=new Set(Array.isArray(options.drumMicParts)?options.drumMicParts:[]);
   const renderIdPrefix=(String(options.idPrefix||type||'symbol').trim().replace(/[^a-z0-9_-]/gi,'-')||'symbol');
   const scopedId=(kind,...parts)=>(['sp',kind,renderIdPrefix,type,...parts].join('-')).replace(/[^a-z0-9_-]/gi,'-');
+  const windMetalId=scopedId('gradient','brass-metal'),windShadowId=scopedId('filter','brass-shadow');
   const node = (tag, attrs) => { attrs['vector-effect']='non-scaling-stroke';out += '<' + tag + ' ' + Object.entries(attrs).map(([k,v]) => k + '="' + v + '"').join(' ') + '/>'; };
   const path = (d, fill='none', sw=.7, stroke='#303030') => node('path',{d,fill,stroke,'stroke-width':sw});
   const line = (x1,y1,x2,y2,sw=.55,stroke='#454545') => node('line',{x1:f(x1),y1:f(y1),x2:f(x2),y2:f(y2),stroke,'stroke-width':sw});
@@ -49,7 +51,7 @@ function createStageplotSymbolV3(type, options = {}) {
   const rod = (x1,y1,x2,y2,w=1.4) => {line(x1,y1,x2,y2,w,'#3a3a3a');line(x1,y1,x2,y2,w*.32,'#c5c5c5');};
   // Pipe diameters scale with the instrument, unlike the fine non-scaling detail lines.
   const windTube = (d,w=6) => {
-    for(const [width,color] of [[w,'#3f3f3f'],[w-1.4,'#e1e1e1'],[w*.18,'#fafafa']])out+='<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+f(width)+'" stroke-linecap="round" stroke-linejoin="round"/>';
+    for(const [width,color] of [[w,'#343836'],[w-1.4,'url(#'+windMetalId+')'],[w*.16,'#fff']])out+='<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+f(width)+'" stroke-linecap="round" stroke-linejoin="round"/>';
   };
   const windValve = (x,y,h=34) => {
     group('','piston-valve');rect(x-4,y,8,h,'#d1d1d1',.55,2);
@@ -78,21 +80,21 @@ function createStageplotSymbolV3(type, options = {}) {
     group('',hat?'hihat':'cymbal');if(variant!=='splash'){out+='<g data-part="cymbal-stand-legs" data-fixed-drum-hardware="true">';feet(x,y,13.5,15,.58,.4);end();}
     if(hat)circle(x,y+.7,r,'#bcbcbc',.5);
     if(variant==='clapstack'){
-      const bronzeIds=[0,1,2].map(index=>scopedId('clapstack-bronze',index,f(x),f(y),f(r)));
+      const metalIds=[0,1,2].map(index=>scopedId('clapstack-metal',index,f(x),f(y),f(r)));
       out+='<defs>'+
-        '<radialGradient id="'+bronzeIds[0]+'" cx="42%" cy="38%" r="72%"><stop offset="0" stop-color="#8f684e"/><stop offset=".55" stop-color="#654331"/><stop offset="1" stop-color="#322824"/></radialGradient>'+
-        '<radialGradient id="'+bronzeIds[1]+'" cx="43%" cy="40%" r="70%"><stop offset="0" stop-color="#c09268"/><stop offset=".5" stop-color="#8b5e3f"/><stop offset="1" stop-color="#4a342b"/></radialGradient>'+
-        '<radialGradient id="'+bronzeIds[2]+'" cx="45%" cy="41%" r="68%"><stop offset="0" stop-color="#d3a27e"/><stop offset=".56" stop-color="#a46f50"/><stop offset="1" stop-color="#5c4034"/></radialGradient>'+
+        '<radialGradient id="'+metalIds[0]+'" cx="42%" cy="38%" r="72%"><stop offset="0" stop-color="#d4d7d5"/><stop offset=".55" stop-color="#8d9290"/><stop offset="1" stop-color="#444947"/></radialGradient>'+
+        '<radialGradient id="'+metalIds[1]+'" cx="43%" cy="40%" r="70%"><stop offset="0" stop-color="#eceeec"/><stop offset=".5" stop-color="#b6bab8"/><stop offset="1" stop-color="#626765"/></radialGradient>'+
+        '<radialGradient id="'+metalIds[2]+'" cx="45%" cy="41%" r="68%"><stop offset="0" stop-color="#fafbf9"/><stop offset=".56" stop-color="#d0d3d1"/><stop offset="1" stop-color="#858a88"/></radialGradient>'+
       '</defs>';
       group('','clapstack-discs');
-      const discs=[{scale:1,cx:x-.55,cy:y+.4,phase:.2,fill:bronzeIds[0]},{scale:.865,cx:x+.55,cy:y+.15,phase:1.15,fill:bronzeIds[1]},{scale:.735,cx:x-.05,cy:y-.45,phase:2.05,fill:bronzeIds[2]}];
+      const discs=[{scale:1,cx:x-.55,cy:y+.4,phase:.2,fill:metalIds[0]},{scale:.865,cx:x+.55,cy:y+.15,phase:1.15,fill:metalIds[1]},{scale:.735,cx:x-.05,cy:y-.45,phase:2.05,fill:metalIds[2]}];
       for(const [discIndex,disc] of discs.entries()){
         const points=[];for(let i=0;i<32;i++){const a=-Math.PI/2+i*Math.PI/16,wave=1+.012*Math.sin(i*3+disc.phase)+.007*Math.cos(i*5-disc.phase);points.push([disc.cx+Math.cos(a)*r*disc.scale*wave,disc.cy+Math.sin(a)*r*disc.scale*wave]);}
         const mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];let d='M'+mid(points.at(-1),points[0]).map(f).join(' ');
-        for(let i=0;i<points.length;i++){const next=points[(i+1)%points.length],m=mid(points[i],next);d+='Q'+points[i].map(f).join(' ')+' '+m.map(f).join(' ');}d+='Z';path(d,'url(#'+disc.fill+')',.68,discIndex?'#4d352b':'#2b2421');
-        for(const ring of [.68,.83,.925])ellipse(disc.cx,disc.cy,r*disc.scale*ring,r*disc.scale*ring*.985,'none',.12,discIndex===2?'#ddb28d':'#a97852');
-        const markCount=discIndex===2?19:13;for(let i=0;i<markCount;i++){const a=(i*2.399+disc.phase)%(Math.PI*2),radius=r*disc.scale*(.2+.69*((i*37)%101)/100),size=.22+((i*11)%5)*.075;node('ellipse',{cx:f(disc.cx+Math.cos(a)*radius),cy:f(disc.cy+Math.sin(a)*radius*.985),rx:f(size*1.8),ry:f(size),fill:i%3?'#3c2924':'#e4b17f',opacity:i%3?'.19':'.15',stroke:'none'});}
-        path('M'+f(disc.cx-r*disc.scale*.72)+' '+f(disc.cy-r*disc.scale*.28)+'Q'+f(disc.cx)+' '+f(disc.cy-r*disc.scale*.64)+' '+f(disc.cx+r*disc.scale*.66)+' '+f(disc.cy-r*disc.scale*.22),'none',.22,discIndex===2?'#e4b58e':'#b07c57');
+        for(let i=0;i<points.length;i++){const next=points[(i+1)%points.length],m=mid(points[i],next);d+='Q'+points[i].map(f).join(' ')+' '+m.map(f).join(' ');}d+='Z';path(d,'url(#'+disc.fill+')',.68,discIndex?'#626765':'#373c3a');
+        for(const ring of [.68,.83,.925])ellipse(disc.cx,disc.cy,r*disc.scale*ring,r*disc.scale*ring*.985,'none',.12,discIndex===2?'#f4f5f3':'#b7bcba');
+        const markCount=discIndex===2?19:13;for(let i=0;i<markCount;i++){const a=(i*2.399+disc.phase)%(Math.PI*2),radius=r*disc.scale*(.2+.69*((i*37)%101)/100),size=.22+((i*11)%5)*.075;node('ellipse',{cx:f(disc.cx+Math.cos(a)*radius),cy:f(disc.cy+Math.sin(a)*radius*.985),rx:f(size*1.8),ry:f(size),fill:i%3?'#3c4140':'#f4f5f3',opacity:i%3?'.16':'.2',stroke:'none'});}
+        path('M'+f(disc.cx-r*disc.scale*.72)+' '+f(disc.cy-r*disc.scale*.28)+'Q'+f(disc.cx)+' '+f(disc.cy-r*disc.scale*.64)+' '+f(disc.cx+r*disc.scale*.66)+' '+f(disc.cy-r*disc.scale*.22),'none',.22,discIndex===2?'#fff':'#d9dcda');
       }
       circle(x,y,2.15,'#373634',.42,'#171817');circle(x,y,1.55,'#111210',.3,'#000');path('M'+f(x-1.25)+' '+f(y-.32)+'Q'+f(x-.85)+' '+f(y-1.35)+' '+x+' '+f(y-.75)+'Q'+f(x+.85)+' '+f(y-1.35)+' '+f(x+1.25)+' '+f(y-.32)+'L'+f(x+.9)+' '+f(y+.55)+'Q'+x+' '+f(y+.2)+' '+f(x-.9)+' '+f(y+.55)+'Z','#20211f',.3,'#050505');circle(x,y,.48,'#d8d7ce',.18,'#151515');end();
     }else{
@@ -220,6 +222,8 @@ function createStageplotSymbolV3(type, options = {}) {
     out+='<text x="98" y="74" fill="#f3f3f3" stroke="none" font-size="7" font-family="sans-serif">'+count+' IN</text>';
   };
 
+  if(new Set(['trumpet','trombone','tuba','flugelhorn']).has(type))out+='<defs><linearGradient id="'+windMetalId+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8faf8"/><stop offset=".18" stop-color="#b9bfbc"/><stop offset=".48" stop-color="#f0f2f0"/><stop offset=".72" stop-color="#777d7a"/><stop offset="1" stop-color="#daddda"/></linearGradient><filter id="'+windShadowId+'" x="-15%" y="-18%" width="130%" height="140%"><feDropShadow dx=".8" dy="1.25" stdDeviation="1.15" flood-color="#111" flood-opacity=".28"/></filter></defs>';
+
   if((type==='drums'||type.startsWith('drums-'))&&options.drumLayout){
     const layout=options.drumLayout;
     if(layout.riser&&['2x','3x'].includes(layout.riser.preset)){
@@ -287,6 +291,10 @@ function createStageplotSymbolV3(type, options = {}) {
       else if(p.kind==='pad')pad(p.x,p.y,p.w,p.h);
       else if(p.kind==='bongos')bongos(p.x,p.y);
       else if(p.kind==='table')rackTable(p.x,p.y,p.variant,p.w,p.h);
+      if(drumMicParts.has(p.id)){
+        const radius=p.r||Math.max(p.w||0,p.h||0)/2,markerX=p.x+Math.max(3.2,radius*.62),markerY=p.y-Math.max(3.2,radius*.62);
+        group('translate('+f(markerX)+' '+f(markerY)+')','mic-indicator');circle(0,0,2.35,'#d62f47',.45,'#fff');rect(-.58,-1.16,1.16,1.78,'#fff',0,.52,'none');path('M-1.1.1Q-1.1 1.45 0 1.45Q1.1 1.45 1.1.1M0 1.45V2M-.72 2H.72','none',.35,'#fff');end();
+      }
       end();
     }
   }else if(type==='drums'||type.startsWith('drums-')){
@@ -306,11 +314,32 @@ function createStageplotSymbolV3(type, options = {}) {
     if(large){cymbal(10,43,9.2,false,'crash');cymbal(108,57,11,false,'crash');pad(106,34);}
     end();
   }else if(type.startsWith('keys-')){
-    const stage4=type==='keys-stage4',hammond=type==='keys-hammond',electro=type==='keys-electro',bassStation=type==='keys-bassstation2',moog=type==='keys-moog-sub37';
-    const depth=bassStation?179:moog?165:hammond?101:electro?83:stage4?82:90;
-    rect(1,1,298,depth-2,hammond?'#777':'#6b6b6b',.85,1.7);
+    const stage4=type==='keys-stage4',hammond=type==='keys-hammond',hammondB3=type==='keys-hammond-b3',electro=type==='keys-electro',bassStation=type==='keys-bassstation2',moog=type==='keys-moog-sub37',kronos=type.startsWith('keys-kronos3-'),sv1=type.startsWith('keys-sv1-');
+    const depth=bassStation?179:hammondB3?178:moog?165:kronos?(type.endsWith('-61')?102:type.endsWith('-73')?89:76):sv1?(type.endsWith('-73')?91:77):hammond?101:electro?83:stage4?82:90;
+    rect(1,1,298,depth-2,hammond||hammondB3?'#777':'#6b6b6b',.85,hammondB3?4:1.7);
     rect(2,2,6,depth-4,'#aaa',.4,.5);rect(292,2,6,depth-4,'#aaa',.4,.5);
-    if(bassStation){
+    if(hammondB3){
+      group('','hammond-b3-console');rect(8,7,284,164,'#858585',.7,3);rect(13,11,274,28,'#5b5b5b',.5,1.5);
+      for(const start of [35,105,175,245])drawbars(start,15,start===245?5:9,3.1);
+      for(const [x,y] of [[18,18],[25,18],[18,30],[25,30],[280,19],[280,30]])knob(x,y,2.8);
+      keybed(30,43,257,52,61,12,true);keybed(30,101,257,52,61,12,true);
+      for(const y of [48,106]){rect(13,y,14,42,'#292929',.35,1);for(let i=0;i<6;i++)rect(15,y+2+i*6.4,10,4.8,i<2?'#d7d7d7':'#aaa',.2,.6);}
+      rect(18,158,264,9,'#656565',.35,1);for(let x=24;x<280;x+=18)line(x,159,x-3,165,.22,'#a7a7a7');end();
+    }else if(kronos){
+      const keys=type.endsWith('-61')?61:type.endsWith('-73')?73:88,panelBottom=Math.max(34,depth*.43),keyY=panelBottom+2;
+      group('','korg-kronos3-panel');rect(9,6,282,panelBottom-9,'#3a3a3a',.45,1);
+      rect(13,10,27,panelBottom-17,'#4c4c4c',.35,.7);circle(20,18,4.2,'#777',.35);path('M20 14V22M16 18H24','none',.55,'#ddd');rect(28,25,8,Math.max(5,panelBottom-31),'#777',.3,2);
+      for(let i=0;i<8;i++)knob(53+i*9,15,2.5);for(let i=0;i<9;i++){line(50+i*8.2,23,50+i*8.2,panelBottom-5,.35,'#aaa');rect(47.9+i*8.2,25+(i%3)*2,4.2,5,'#c0c0c0',.22,.7);}
+      const screenX=145,screenW=62;rect(screenX,10,screenW,panelBottom-15,'#202020',.55,1.2);rect(screenX+4,13,screenW-8,panelBottom-21,'#8e9692',.25,.6);for(let i=0;i<4;i++)line(screenX+7,17+i*4,screenX+screenW-7,17+i*4,.18,'#d8dcda');
+      circle(221,18,3.7,'#aaa',.3);for(const [x,y] of [[216,27],[226,27],[237,15],[248,15],[259,15],[270,15],[281,15],[237,27],[248,27],[259,27],[270,27],[281,27]])rect(x-2.7,y-2.2,5.4,4.4,'#9b9b9b',.22,.7);end();
+      group('','korg-kronos3-keybed');keybed(36,keyY,255,depth-keyY-5,keys);rect(10,keyY,22,depth-keyY-5,'#373737',.4,1);end();
+    }else if(sv1){
+      const keys=type.endsWith('-73')?73:88,panelBottom=Math.max(31,depth*.42),keyY=panelBottom+1;
+      group('','korg-sv1-rounded-console');rect(6,5,288,depth-10,'#4a4a4a',.65,8);rect(14,9,272,panelBottom-12,'#5b5b5b',.35,4);
+      for(const [x,count] of [[25,3],[61,3],[98,3],[136,3],[174,3],[212,2]]){rect(x-8,11,count*10+9,panelBottom-17,'#505050',.25,2);for(let i=0;i<count;i++)knob(x+i*10,18,2.7);}
+      rect(239,12,20,panelBottom-19,'#202020',.35,5);circle(249,18,3.6,'#d1d1d1',.3);for(let i=0;i<8;i++)rect(266+(i%4)*5,12+Math.floor(i/4)*7,3.6,4.6,'#aaa',.2,.8);end();
+      group('','korg-sv1-keybed');keybed(25,keyY,266,depth-keyY-5,keys);rect(10,keyY,11,depth-keyY-5,'#3a3a3a',.35,3);end();
+    }else if(bassStation){
       group('','bass-station-panel');rect(9,7,282,80,'#444',.45,1);
       for(const [x,w] of [[13,53],[70,46],[120,55],[179,51],[234,52]]){rect(x,11,w,69,'#555',.32,.6);line(x+4,26,x+w-4,26,.35,'#aaa');}
       for(const [x,y] of [[21,19],[35,19],[52,19],[79,19],[95,19],[108,19],[130,19],[145,19],[161,19],[188,19],[204,19],[219,19],[244,19],[260,19],[277,19],[23,39],[39,39],[56,39],[80,39],[99,39],[129,39],[147,39],[164,39],[189,39],[209,39],[244,39],[263,39],[279,39]])knob(x,y,3.7);
@@ -514,32 +543,32 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const [x,y] of [[66,173],[78,186]]){circle(x,y,5.3,'#ccc',.5);path('M'+(x-7)+' '+(y-4)+'L'+(x-5)+' '+(y+5)+'H'+(x+6)+'L'+(x+7)+' '+(y-4),'none',1);}
     circle(57,111,2.4,'none',.7);end();
   }else if(type==='trumpet'){
-    group('','trumpet-body');
+    group('','trumpet-body');out+='<g filter="url(#'+windShadowId+')">';
     windTube('M24 43H151C177 43 177 77 152 77H43C24 77 24 61 43 61H77',7);
-    group('','trumpet-bell');path('M72 40H163C193 40 214 32 229 12V78C214 56 192 49 163 49H72Z','#e7e7e7',.75);
-    path('M146 43C185 43 211 35 225 23','none',.6,'#fff');ellipse(229,45,5,33,'#bdbdbd',.8);ellipse(229,45,2.8,28,'#777',.4);end();
+    group('','trumpet-bell');path('M72 40H163C193 40 214 32 229 12V78C214 56 192 49 163 49H72Z','url(#'+windMetalId+')',.85,'#343836');
+    path('M145 42C184 42 210 34 225 20','none',1.05,'#fff');path('M146 48C184 49 208 55 223 67','none',.42,'#6d726f');ellipse(229,45,5.4,33.5,'#8f9592',.85,'#292d2b');ellipse(229,45,2.8,28.5,'#303432',.45,'#e1e4e1');end();
     windTube('M18 43H53',4);
     group('','mouthpiece');path('M7 35Q14 35 17 40H24V46H17Q14 51 7 51Z','#ddd',.6);ellipse(7,43,2.8,8,'#f6f6f6',.5);end();
     for(const [x,low] of [[75,77],[96,68],[117,81]])windTube('M'+(x-4)+' 55H'+(x-11)+'V'+low+'Q'+(x-11)+' '+(low+7)+' '+x+' '+(low+7)+'Q'+(x+7)+' '+(low+7)+' '+(x+7)+' '+low+'V55',4.5);
     for(const x of [76,96,116])windValve(x,32,39);
     path('M137 39V28Q137 20 145 24L147 29','none',1.2);ellipse(50,59,6,5,'none',.85);
-    rod(150,81,160,85,1.2);circle(150,81,1.5,'#777',.4);end();
+    rod(150,81,160,85,1.2);circle(150,81,1.5,'#777',.4);out+='</g>';end();
   }else if(type==='trombone'){
-    group('','trombone-body');
+    group('','trombone-body');out+='<g filter="url(#'+windShadowId+')">';
     windTube('M155 26H27C1 26 1 64 27 64H86',7);
-    group('','trombone-bell');path('M132 22C171 22 196 18 214 5V48C195 34 171 29 132 29Z','#e6e6e6',.75);ellipse(214,26.5,4.2,21.5,'#bbb',.7);ellipse(214,26.5,2.1,18,'#777',.4);path('M163 24L207 11','none',.5,'#fafafa');end();
+    group('','trombone-bell');path('M132 22C171 22 196 18 214 5V48C195 34 171 29 132 29Z','url(#'+windMetalId+')',.85,'#343836');ellipse(214,26.5,4.7,22,'#929895',.8,'#303432');ellipse(214,26.5,2.2,18.2,'#313533',.45,'#e0e3e0');path('M158 23C181 21 200 15 209 10','none',1,'#fff');end();
     for(const x of [32,55]){rod(x,30,x,60,1.7);rect(x-4,24,8,4,'#b7b7b7',.4,.5);rect(x-4,62,8,4,'#b7b7b7',.4,.5);}
     group('','trombone-slide');windTube('M84 53H307C339 53 339 87 307 87H84',6.5);
     for(const y of [53,87]){rect(84,y-4.1,19,8.2,'#bbb',.5,1);rect(131,y-3.8,6,7.6,'#ccc',.4,.6);line(139,y-1,299,y-1,.45,'#fff');}
     rod(95,57,95,83,1.7);rod(134,57,134,83,1.6);rod(106,57,106,83,1.2);end();
     group('','mouthpiece');windTube('M78 53H86',4);path('M69 46Q75 46 78 50V56Q75 60 69 60Z','#ddd',.5);ellipse(69,53,2.5,7,'#f4f4f4',.5);end();
-    path('M313 90L320 94L325 88','none',1);circle(316,91,1.6,'#aaa',.4);end();
+    path('M313 90L320 94L325 88','none',1);circle(316,91,1.6,'#aaa',.4);out+='</g>';end();
   }else if(type==='tuba'){
-    group('','tuba-body');
+    group('','tuba-body');out+='<g filter="url(#'+windShadowId+')">';
     windTube('M87 61C54 33 24 57 24 90V174C24 207 39 216 76 216H88C120 216 127 197 121 172L110 111',19);
     windTube('M79 72C53 50 40 71 40 95V170C40 192 48 199 75 199H84C103 199 111 189 108 175L99 129',8);
-    group('','tuba-bell');path('M99 153C91 108 82 63 57 28H140C119 60 113 111 116 151Z','#ddd',.8);path('M111 141C108 92 119 49 130 36','none',.7,'#fafafa');
-    ellipse(98.5,27,41.5,17,'#ccc',.85);ellipse(98.5,27,37.5,13.5,'#f5f5f5',.5);ellipse(99,29,22,8,'#888',.45);ellipse(100,30,12,4.8,'#555',.35);end();
+    group('','tuba-bell');path('M99 153C91 108 82 63 57 28H140C119 60 113 111 116 151Z','url(#'+windMetalId+')',.9,'#343836');path('M111 141C108 92 119 49 130 36','none',1.05,'#fff');path('M75 38C92 70 101 111 104 146','none',.42,'#6d726f');
+    ellipse(98.5,27,41.5,17,'#929895',.9,'#303432');ellipse(98.5,27,37.5,13.5,'url(#'+windMetalId+')',.55,'#e2e5e2');ellipse(99,29,22,8,'#676c69',.45,'#282c2a');ellipse(100,30,12,4.8,'#303432',.35,'#cdd1ce');end();
     for(const [x,bottom] of [[47,163],[59,153],[71,178],[83,187]]){
       windTube('M'+(x-3)+' 115V'+bottom+'Q'+(x-3)+' '+(bottom+8)+' '+(x+5)+' '+(bottom+8)+'H'+(x+11)+'Q'+(x+18)+' '+(bottom+8)+' '+(x+18)+' '+bottom+'V122',4.7);
     }
@@ -547,16 +576,16 @@ function createStageplotSymbolV3(type, options = {}) {
     windTube('M88 106Q88 88 104 81L126 65',5);
     group('translate(129 63) rotate(-35)','mouthpiece');path('M-5-2H0L4-5H10V5H4L0 2H-5Z','#ddd',.55);ellipse(10,0,2,5,'#eee',.45);end();
     for(const [x,y] of [[33,161],[105,161],[45,203]]){rect(x-2,y,4,7,'#bbb',.45,.7);line(x-1,y+2,x+1,y+2,.4);}
-    path('M79 196L89 192L94 195','none',1);end();
+    path('M79 196L89 192L94 195','none',1);out+='</g>';end();
   }else if(type==='flugelhorn'){
-    group('','flugelhorn-body');
+    group('','flugelhorn-body');out+='<g filter="url(#'+windShadowId+')">';
     windTube('M92 35H69C31 35 18 49 18 78C18 103 36 116 65 116H154C185 116 196 95 179 75Q169 61 145 61H118',10);
     windTube('M13 57H92',4.5);
-    group('','flugelhorn-bell');path('M69 30H103C155 30 187 24 213 6V74C188 48 155 40 103 40H69Z','#e5e5e5',.75);path('M128 33C169 31 197 21 208 14','none',.65,'#fafafa');ellipse(213,40,5.2,34,'#bbb',.8);ellipse(213,40,2.8,29,'#777',.45);end();
+    group('','flugelhorn-bell');path('M69 30H103C155 30 187 24 213 6V74C188 48 155 40 103 40H69Z','url(#'+windMetalId+')',.85,'#343836');path('M128 33C169 31 197 21 208 14','none',1,'#fff');path('M131 39C170 41 195 50 207 65','none',.42,'#6d726f');ellipse(213,40,5.2,34,'#929895',.85,'#303432');ellipse(213,40,2.8,29,'#303432',.45,'#e1e4e1');end();
     for(const [x,low] of [[70,87],[88,80],[106,96]])windTube('M'+(x-4)+' 53H'+(x-10)+'V'+low+'Q'+(x-10)+' '+(low+7)+' '+x+' '+(low+7)+'Q'+(x+8)+' '+(low+7)+' '+(x+8)+' '+low+'V55',4.8);
     for(const x of [70,88,106])windValve(x,29,47);
     group('','mouthpiece');path('M5 50Q12 50 15 54H24V60H15Q12 64 5 64Z','#ddd',.6);ellipse(5,57,2.5,7,'#f4f4f4',.5);end();
-    path('M126 30Q118 18 127 15L138 14','none',1.15);rod(111,97,124,84,1.6);ellipse(125,82,2,5,'#ccc',.45);rod(170,115,180,111,1.1);end();
+    path('M126 30Q118 18 127 15L138 14','none',1.15);rod(111,97,124,84,1.6);ellipse(125,82,2,5,'#ccc',.45);rod(170,115,180,111,1.1);out+='</g>';end();
   }else if(type==='flute'){
     group('','flute-body');
     rect(6,18,287,11,'#d5d5d5',.65,3);line(9,20.5,290,20.5,.65,'#fafafa');line(8,27,291,27,.4,'#aaa');
@@ -588,25 +617,77 @@ function createStageplotSymbolV3(type, options = {}) {
       }
       end();
     }
+  }else if(type==='mic-wireless-ewd'){
+    group('','sennheiser-ewd-skm-top-view');
+    const grilleId=scopedId('pattern','ewd-grille');
+    out+='<defs><pattern id="'+grilleId+'" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 0L4 4M4 0L0 4" stroke="#686d6c" stroke-width=".45"/></pattern></defs>';
+    path('M7 12Q3 25 7 38Q25 47 51 38L58 32V18L51 12Q25 3 7 12Z','url(#'+grilleId+')',.9,'#303432');
+    path('M53 15L73 17L255 18Q264 18 264 25Q264 32 255 32L73 33L53 35Z','#4c5150',.9,'#242725');
+    path('M66 18H245V32H66Z','#6a6f6e',.35,'#999');line(82,19,82,31,.45,'#c9cecc');
+    rect(142,20,37,10,'#1c2221',.45,2,'#9ca2a0');rect(146,22,29,6,'#78827e',.25,1,'#1b1d1c');
+    circle(190,25,4.3,'#292d2c',.45,'#b9bfbd');circle(190,25,1.5,'#d8ddda',.2,'#555');
+    for(const x of [211,221,231])rect(x,21.5,6,7,'#303534',.35,1,'#aaa');
+    path('M248 18V32M256 19V31','none',.7,'#c5cac8');
+    out+='<text x="93" y="27.5" font-family="sans-serif" font-size="7" font-weight="700" fill="#e7ebe8" stroke="none">EW-D</text>';end();
+  }else if(type==='mic-sm57'){
+    group('','shure-sm57-top-view');
+    const grilleId=scopedId('pattern','sm57-grille');
+    out+='<defs><pattern id="'+grilleId+'" width="3" height="3" patternUnits="userSpaceOnUse"><path d="M0 0L3 3M3 0L0 3" stroke="#6f7472" stroke-width=".38"/></pattern></defs>';
+    path('M4 6Q1 16 4 26L13 30H39L48 25V7L39 2H13Z','url(#'+grilleId+')',.8,'#292c2b');
+    path('M44 7H61L68 11H143Q153 11 153 16Q153 21 143 21H68L61 25H44Z','#4e5351',.8,'#262927');
+    rect(68,12.5,70,7,'#656a68',.28,2,'#aaa');line(81,13,81,19,.45,'#d4d8d5');
+    for(const x of [144,148,152])line(x,12,x,20,.45,'#c3c7c5');
+    out+='<text x="92" y="18" font-family="sans-serif" font-size="5.5" font-weight="800" fill="#f1f3f0" stroke="none">SM57</text>';end();
+  }else if(type==='mixer-xr18'){
+    group('','behringer-xr18-top-view');
+    rect(3,4,194,81,'#3d4140',.9,5,'#1e201f');rect(9,9,182,71,'#696e6c',.45,3,'#9ba09e');
+    group('','xr18-handles');path('M10 16Q-1 24 10 35M190 16Q201 24 190 35','none',4,'#262927');path('M11 17Q4 24 11 33M189 17Q196 24 189 33','none',.7,'#babfbc');end();
+    sockets(24,25,8,16,17.7,4.8);sockets(166,24,2,8,12,4.1,true);
+    rect(20,62,67,12,'#292d2c',.35,2,'#adb2af');for(let i=0;i<7;i++)rect(24+i*9,65,6,6,'#858b88',.2,1,'#262927');
+    rect(98,62,32,12,'#242827',.35,2,'#9da3a0');circle(107,68,2.4,'#b9bfbc',.25);circle(118,68,2.4,'#b9bfbc',.25);
+    line(151,10,188,-2,1.4,'#343836');circle(188,-2,2.4,'#777d7a',.35);
+    out+='<text x="139" y="72" font-family="sans-serif" font-size="7" font-weight="800" fill="#f1f3f0" stroke="none">X AIR XR18</text>';end();
+  }else if(type==='mixer-wing-compact'){
+    group('','behringer-wing-compact-top-view');
+    path('M7 3H153L158 12V116L151 123H9L2 116V12Z','#4b504e',.95,'#202321');rect(8,9,144,108,'#707674',.45,4,'#a1a6a3');
+    group('','wing-compact-touchscreen');rect(60,13,84,47,'#1f2423',.55,3,'#a7adaa');rect(65,17,74,39,'#687d79',.3,2,'#161918');for(let y=23;y<53;y+=6)line(69,y,135,y,.24,'#d0d6d2');end();
+    for(let i=0;i<12;i++){const x=13+i*10.7;group('','wing-compact-channel-strip');rect(x,68,7.8,42,'#575c5a',.25,1,'#929895');circle(x+3.9,73,2.2,'#292d2c',.25,'#bbb');line(x+3.9,81,x+3.9,104,.45,'#c4c9c6');rect(x+1.6,90+(i%4)*2.5,4.6,7,'#d4d8d5',.25,1,'#383b3a');end();}
+    group('','wing-compact-master');rect(141,66,11,46,'#343837',.35,2,'#929795');circle(146.5,74,3.2,'#232625',.3,'#b9bfbc');line(146.5,83,146.5,105,.6,'#d2d6d3');rect(143.5,91,6,9,'#e0e3e0',.28,1,'#3b3f3d');end();
+    for(const [x,y] of [[17,18],[29,18],[41,18],[17,31],[29,31],[41,31],[17,48],[29,48],[41,48]])knob(x,y,3.2);
+    out+='<text x="15" y="62" font-family="sans-serif" font-size="6.5" font-weight="850" fill="#eef1ed" stroke="none">WING COMPACT</text>';end();
+  }else if(type==='mixer-wing-rack'){
+    group('','behringer-wing-rack-top-view');
+    rect(2,3,156,101,'#3f4442',.95,4,'#1b1e1c');for(const y of [8,99])for(const x of [7,153])bolt(x,y,1.4);
+    rect(10,10,140,87,'#656b68',.45,2,'#a3a9a6');
+    group('','wing-rack-touchscreen');rect(15,17,76,47,'#202524',.55,2,'#b0b6b2');rect(20,21,66,39,'#667b77',.3,1,'#151817');for(let y=28;y<=55;y+=6)line(24,y,82,y,.22,'#d4dad6');end();
+    for(const [x,y] of [[104,23],[119,23],[134,23],[104,38],[119,38],[134,38],[104,53],[119,53],[134,53]])knob(x,y,4);
+    sockets(18,76,8,24,17.2,3.5);sockets(128,75,4,8,9,3.4,true);
+    out+='<text x="101" y="65" font-family="sans-serif" font-size="7" font-weight="850" fill="#eef1ed" stroke="none">WING RACK</text>';end();
+  }else if(type==='piano-bench'){
+    group('','piano-bench-top-view');rect(5,8,100,54,'#464a48',.85,9,'#202321');rect(10,13,90,44,'#777c79',.35,7,'#a6aba8');
+    for(const x of [18,92])for(const y of [17,53]){circle(x,y,5,'#2f3331',.45,'#aaa');circle(x,y,2.2,'#8f9491',.25,'#2a2d2c');}
+    line(55,14,55,56,.3,'#c2c7c4');line(11,35,99,35,.3,'#c2c7c4');for(const x of [28,55,82])circle(x,35,1.5,'#2d3130',.2,'#aaa');end();
+  }else if(type==='drum-throne'){
+    group('','drum-throne-top-view');feet(50,53,38,30,2.2,1.8);circle(50,53,9,'#929795',.7,'#2b2e2d');circle(50,50,32,'#3d4140',.9,'#1d201e');circle(50,50,27,'#6d7270',.4,'#9da29f');path('M25 45Q50 58 75 45','none',.5,'#bfc4c1');circle(50,50,3,'#282b2a',.3,'#aaa');end();
   }else if(type.startsWith('stagebox-')){
     const count=Number(type.split('-')[1]);
     if(count===32){group('translate(0 0)');stagebox(16,8);end();group('translate(184 0)');stagebox(16,8);end();}
     else stagebox(count,count===8?4:count===16?8:count===48?16:0);
   }else if(type==='wedge'){
     group('','cm14-wedge-top-view');
-    // Orthographic CM14-inspired footprint: chamfered touring cabinet, recessed
-    // side handles and one coaxial 14-inch source beneath a perforated grille.
-    path('M10 3H106L114 13V99L106 110H10L2 99V13Z','#565656',1);
-    path('M12 9H104L108 16V94L102 103H14L8 94V16Z','#292929',.7);
-    const grilleId=scopedId('pattern','cm14-grille');
-    out+='<defs><pattern id="'+grilleId+'" width="5.8" height="5.8" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r=".58" fill="#a9a9a9"/><circle cx="4.1" cy="4.1" r=".58" fill="#a9a9a9"/></pattern></defs>';
-    path('M14 13H102L105 18V91L99 99H17L11 91V18Z','url(#'+grilleId+')',.45,'#777');
-    circle(58,54,36,'none',.75,'#a2a2a2');circle(58,54,31,'none',.42,'#777');circle(58,54,13,'#555',.55,'#aaa');circle(58,54,5.2,'#202020',.4,'#888');
-    for(const angle of [0,90,180,270]){const a=angle*Math.PI/180;bolt(58+Math.cos(a)*40,54+Math.sin(a)*40,.72);}
-    group('','recessed-handles');for(const x of [4.5,111.5]){rect(x-2.3,43,4.6,23,'#222',.45,1.7);line(x,47,x,62,.7,'#999');}end();
-    rect(45,96,26,5,'#bbb',.35,.8);line(49,98.5,67,98.5,.35,'#555');
-    for(const x of [10,106])for(const y of [8,105])rect(x-2,y-2,4,4,'#bcbcbc',.35,.5);
-    group('','listening-direction-up');path('M50 17L58 9L66 17M58 9V24','none',1.1,'#e1e1e1');end();end();
+    // CM14-inspired orthographic top view: the 35-degree enclosure hides most
+    // of its coaxial driver below a touring-grade perforated grille.
+    const grilleId=scopedId('pattern','cm14-grille'),cabinetId=scopedId('gradient','cm14-cabinet'),grilleShadeId=scopedId('gradient','cm14-grille-shade');
+    out+='<defs><linearGradient id="'+cabinetId+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#656b68"/><stop offset=".3" stop-color="#242826"/><stop offset=".72" stop-color="#111412"/><stop offset="1" stop-color="#454a47"/></linearGradient><linearGradient id="'+grilleShadeId+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f7572"/><stop offset=".28" stop-color="#303432"/><stop offset="1" stop-color="#151817"/></linearGradient><pattern id="'+grilleId+'" width="4.4" height="4.4" patternUnits="userSpaceOnUse"><circle cx="1.1" cy="1.1" r=".54" fill="#979d99"/><circle cx="3.3" cy="3.3" r=".54" fill="#979d99"/></pattern></defs>';
+    group('','cm14-cabinet');path('M13 3H103L114 14V93L105 109H11L2 93V14Z','url(#'+cabinetId+')',1.15,'#0c0e0d');path('M15 8H101L108 16V89L101 101H15L8 89V16Z','#202422',.55,'#777d79');end();
+    group('','cm14-driver-under-grille');out+='<g opacity=".34">';ellipse(58,56,38,34,'#0a0c0b',1,'#7b817d');ellipse(58,56,31,27.5,'#2d312f',.7,'#747a76');ellipse(58,56,11,10,'#080a09',.6,'#7b817d');out+='</g>';end();
+    group('','cm14-perforated-grille');path('M15 13H101L106 19V88L98 96H18L10 88V19Z','url(#'+grilleShadeId+')',.75,'#858b87');path('M16 14H100L104 20V87L97 94H19L12 87V20Z','url(#'+grilleId+')',.38,'#3f4441');path('M19 18H97','none',.75,'#c2c7c3');end();
+    group('','cm14-floor-ports');for(const x of [24,92]){path('M'+(x-8)+' 84Q'+x+' 79 '+(x+8)+' 84V92H'+(x-8)+'Z','#080a09',.55,'#5d625f');line(x-5,86,x+5,86,.35,'#7e847f');}end();
+    group('','cm14-side-handles');for(const [x,flip] of [[6,1],[110,-1]]){path('M'+x+' 42Q'+(x+flip*5)+' 39 '+(x+flip*7)+' 44V66Q'+(x+flip*5)+' 70 '+x+' 67Z','#090b0a',.55,'#686e6a');line(x+flip*2,47,x+flip*2,63,.8,'#9aa09c');}end();
+    group('','cm14-rear-connector-panel');rect(42,98,32,7,'#777d79',.45,1,'#171a18');for(const x of [49,59]){circle(x,101.5,2.3,'#1d211f',.32,'#bec3bf');for(const [dx,dy] of [[0,-.7],[-.65,.45],[.65,.45]])circle(x+dx,101.5+dy,.2,'#d7dbd8',.08);}rect(66,99.5,5,4,'#151817',.25,.4,'#aaa');end();
+    group('','cm14-corner-protectors');for(const [x,y] of [[11,10],[105,10],[11,101],[105,101]]){path('M'+(x-4)+' '+y+'Q'+x+' '+(y-4)+' '+(x+4)+' '+y,'none',2.5,'#8d938f');bolt(x,y,.62);}end();
+    group('','cm14-logo');rect(48,19,20,7,'#d8dcd9',.25,1,'#313532');out+='<text x="58" y="24.3" text-anchor="middle" font-family="sans-serif" font-size="4.7" font-weight="900" fill="#222725" stroke="none">COHESION</text>';end();
+    group('','listening-direction-up');path('M52 34L58 28L64 34M58 28V41','none',1.15,'#e2e5e2');end();end();
   }else if(type==='teleprompter'){
     group('','stage-teleprompter-top-view');
     path('M12 5H128L137 17V105L127 116H13L3 105V17Z','#4b4b4b',1);
@@ -628,15 +709,19 @@ function createStageplotSymbolV3(type, options = {}) {
     rect(36,27,28,7,'#333',.6,2);line(40,29,60,29,.6,'#bbb');
     for(const x of [5,91])for(const y of [6,44])rect(x,y,4,4,'#ccc',.45,.4);
   }else if(type==='quad-cortex'){
-    rect(2,2,141,93.5,'#a4a4a4',.85,3);rect(4,4,137,89.5,'none',.4,2);
-    group('','touchscreen');rect(11,11,105,45,'#333',.65,1.5);rect(15,15,97,37,'#555',.35,1);
-    line(20,27,107,27,.6,'#aaa');line(20,41,107,41,.6,'#aaa');
-    for(const [x,y] of [[25,27],[47,27],[69,27],[91,27],[36,41],[64,41],[92,41]])rect(x-5,y-4,10,8,'#aaa',.35,1);
-    end();
-    for(const y of [66,85])for(const x of [20,47,74,101,128]){
-      group('','footswitch');circle(x,y,5.1,'#666',.55);circle(x,y,3.7,'#dedede',.45);circle(x,y,2.7,'none',.3,'#888');circle(x-6,y-4,1,'#eee',.25);end();
-    }
-    circle(129,26,6,'#444',.7);circle(129,26,4.8,'#777',.4);line(129,21.6,129,25,.5,'#eee');circle(129,12,1.7,'#555',.35);
+    group('','quad-cortex-top-view');
+    const chassisId=scopedId('gradient','quad-cortex-chassis'),screenId=scopedId('gradient','quad-cortex-screen');
+    out+='<defs><linearGradient id="'+chassisId+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1f2f0"/><stop offset=".35" stop-color="#aeb3b0"/><stop offset=".7" stop-color="#757a77"/><stop offset="1" stop-color="#d8dbd8"/></linearGradient><linearGradient id="'+screenId+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#303835"/><stop offset="1" stop-color="#0e1210"/></linearGradient></defs>';
+    group('','quad-cortex-anodized-chassis');path('M6 2H139L144 7V91L139 96H6L1 91V7Z','url(#'+chassisId+')',1,'#303432');path('M7 5H138L141 8V89L138 93H7L4 89V8Z','none',.45,'#f5f6f4');end();
+    group('','quad-cortex-rear-io');rect(9,4,127,6,'#434846',.35,1,'#202321');for(const x of [17,25,33,44,55,66,78,89,100,111,122,130]){circle(x,7,1.5,'#181b19',.22,'#d1d5d2');circle(x,7,.52,'#787e7a',.12,'#151817');}end();
+    group('','quad-cortex-7in-touchscreen');rect(10,13,106,43,'#171b19',.7,2.2,'#303532');rect(14,17,98,35,'url(#'+screenId+')',.3,1,'#777d79');
+    for(const [x,y,w,color] of [[20,25,13,'#a9bba9'],[39,25,12,'#a6aeb9'],[57,25,14,'#c4a8b6'],[78,25,13,'#afb9aa'],[97,25,10,'#b4a7bc'],[29,42,17,'#b4bba9'],[56,42,19,'#bea7b1'],[86,42,18,'#a6b9b8']]){rect(x,y,w,7,color,.2,1,'#d4d8d5');}
+    for(const [x1,y1,x2,y2] of [[33,28.5,39,28.5],[51,28.5,57,28.5],[71,28.5,78,28.5],[91,28.5,97,28.5],[46,45.5,56,45.5],[75,45.5,86,45.5]])line(x1,y1,x2,y2,.55,'#e2e5e2');end();
+    const actuatorXs=[18,45,72,99,126];let actuatorIndex=0;
+    for(const y of [67,86])for(const x of actuatorXs){actuatorIndex++;out+='<g data-part="quad-cortex-stomp-rotary-actuator" data-actuator-index="'+actuatorIndex+'">';circle(x,y,5.25,'#545957',.58,'#242725');circle(x,y,3.9,'#e5e7e4',.42,'#777d79');circle(x,y,2.65,'#747a76',.28,'#f0f2ef');circle(x-6.2,y-3.8,.9,actuatorIndex%3===0?'#c9a0b4':actuatorIndex%3===1?'#a7bba8':'#a8b6bf',.2,'#f2f4f1');line(x,y-3.15,x,y-.65,.48,'#fff');out+='</g>';}
+    group('','quad-cortex-master-rotary-actuator');circle(129,27,7.1,'#3e4341',.7,'#171a18');circle(129,27,5.5,'#7b817d',.45,'#d8dcd9');circle(129,27,3.9,'#555b57',.3,'#1d201e');line(129,22.2,129,26,.62,'#fff');end();
+    group('','quad-cortex-branding');out+='<text x="122" y="48" text-anchor="middle" font-family="sans-serif" font-size="3.5" font-weight="800" fill="#373b39" stroke="none">NEURAL DSP</text><text x="122" y="53" text-anchor="middle" font-family="sans-serif" font-size="3.1" font-weight="700" fill="#4b504d" stroke="none">QUAD CORTEX</text>';end();
+    for(const [x,y] of [[7,8],[138,8],[7,90],[138,90]])bolt(x,y,.72);end();
   }else if(type==='bass-stack'){
     // Orthographic floor footprint: two stacked cabinets, head visible on top.
     group('','lower-cabinet');rect(3,13,124,74,'#555',.8,2);rect(6,16,118,65,'#777',.4,1);end();
@@ -715,6 +800,25 @@ function createStageplotSymbolV3(type, options = {}) {
     if(count===2)line(5,h/2,w-5,h/2,.6);
     if(count===3){line(w/3,5,w/3,h-5,.6);line(w*2/3,5,w*2/3,h-5,.6);}
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
+  }else if(type==='stage-ramp'){
+    group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');
+    const rampPattern=scopedId('pattern','ramp-grip');out+='<defs><pattern id="'+rampPattern+'" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0M-3 3L3-3M6 12L12 6" stroke="#aeb4ae" stroke-width=".65"/></pattern></defs>';
+    path('M9 10H191L184 90H16Z','url(#'+rampPattern+')',.35,'#b7bcb7');
+    for(const y of [12,88])line(13,y,187,y,.7,'#767c76');for(const [x,y] of [[11,10],[189,10],[17,88],[183,88]])bolt(x,y,.8);end();
+  }else if(type==='stage-railing'){
+    group('','stage-railing-top-view');rod(5,10.5,295,10.5,4.8);for(let x=10;x<=290;x+=40){circle(x,10.5,5.2,'#606561',.65,'#222522');circle(x,10.5,2.3,'#d3d7d3',.3,'#555');rect(x-8,2,16,4,'#777c78',.4,1,'#343734');rect(x-8,15,16,4,'#777c78',.4,1,'#343734');}end();
+  }else if(type==='stage-truss-tower'){
+    group('','stage-truss-tower-top-view');rect(4,4,92,92,'#babfbc',.8,3,'#3e433f');rect(10,10,80,80,'#d9ddd9',.35,2,'#8b918c');
+    for(const [x,y] of [[20,20],[80,20],[20,80],[80,80]]){circle(x,y,8,'#777d78',.65,'#282b29');circle(x,y,4.5,'#dce0dc',.35,'#545955');}
+    path('M20 20L80 80M80 20L20 80M20 20H80V80H20Z','none',2,'#686e69');circle(50,50,6,'#3e433f',.5,'#bbb');end();
+  }else if(type==='stage-cable-ramp'){
+    group('','stage-cable-ramp-top-view');path('M8 8H192L199 45L192 82H8L1 45Z','#4b504d',.85,'#202321');rect(12,13,176,64,'#8b908d',.45,4,'#2e3230');
+    for(let i=0;i<5;i++){const x=20+i*35;rect(x,19,24,52,'#262a28',.4,4,'#a3a8a5');line(x+12,22,x+12,68,.35,'#737976');}
+    for(const x of [8,192])for(const y of [20,70])bolt(x,y,.9);end();
+  }else if(type==='stage-barrier'){
+    group('','crowd-barrier-top-view');rect(4,8,292,44,'#b8bdb9',.8,2,'#373b38');rect(10,13,280,34,'#e1e4e1',.35,1,'#8b918d');
+    for(let x=14;x<290;x+=16)line(x,14,x,46,.6,'#777d78');rod(4,8,296,8,3.5);rod(4,52,296,52,3.5);
+    for(const x of [20,80,140,200,260]){path('M'+(x-11)+' 52L'+x+' 58L'+(x+11)+' 52Z','#666b67',.45,'#262926');circle(x,54,1.2,'#d5d9d5',.25);}end();
   }else if(type==='laptop'){
     // Orthographic plan view. Every chassis edge stays parallel so the symbol
     // reads like a technical overhead drawing, not a three-quarter product view.
@@ -831,13 +935,24 @@ function createStageplotSymbolV3(type, options = {}) {
     group('','led-bar-top-view');rect(4,5,292,26,'#505050',.75,4);rect(10,9,280,18,'#777',.4,2);
     for(let i=0;i<12;i++){const x=20+i*23.65;circle(x,18,7,'#d1d1cf',.4);circle(x,18,4.8,'#f5f5f3',.25);path('M'+f(x-2.6)+' '+f(19)+'q1-3.5 4.2-2.5','none',.3,'#aaa');}
     for(const x of [8,292])bolt(x,18,.7);end();
-  }else if(type==='di'){
-    rect(14,22,72,56,'#ccc',.85,2);rect(10,21,9,58,'#666',.6,2);rect(81,21,9,58,'#666',.6,2);
-    rect(22,27,56,46,'#e6e6e6',.4,.7);circle(34,60,6,'#777',.6);circle(34,60,3,'#333',.35);
-    circle(64,60,7,'#999',.6);for(const [dx,dy] of [[0,-2],[-2,1],[2,1]])circle(64+dx,60+dy,.8,'#333',.2);
-    rect(56,34,14,6,'#aaa',.45,.5);rect(59,35,4,4,'#444',.3,.4);
-    for(const x of [24,76])for(const y of [29,71])bolt(x,y,.6);
-    out+='<text x="33" y="44" font-size="12" font-family="sans-serif" fill="#555" stroke="none">DI</text>';
+  }else if(type==='di'||type.startsWith('di-')){
+    const stereo=type.includes('-stereo-'),active=type.endsWith('-active'),width=stereo?180:120,height=stereo?90:80,bodyX=8,bodyY=8,bodyW=width-16,bodyH=height-16,channels=stereo?2:1;
+    group('','di-box-top-view');
+    rect(bodyX,bodyY,bodyW,bodyH,active?'#34383b':'#4b4d4b',.9,5,'#1c1f20');
+    rect(bodyX+5,bodyY+5,bodyW-10,bodyH-10,active?'#707579':'#767876',.45,3,'#a7aaa7');
+    for(const x of [bodyX+5,bodyX+bodyW-5])for(const y of [bodyY+5,bodyY+bodyH-5])bolt(x,y,.8);
+    const channelXs=channels===2?[width*.31,width*.69]:[width*.5];
+    for(const [index,x] of channelXs.entries()){
+      group('','di-channel-'+(index+1));
+      circle(x-22,height*.56,7.2,'#2a2c2a',.7,'#c4c7c3');circle(x-22,height*.56,3.5,'#111',.35,'#6d716d');
+      circle(x+22,height*.56,8,'#b2b5b1',.7,'#202220');circle(x+22,height*.56,5.5,'#303330',.4,'#747874');for(const [dx,dy] of [[0,-2.1],[-2,1.5],[2,1.5]])circle(x+22+dx,height*.56+dy,.85,'#111',.18);
+      out+='<text x="'+f(x)+'" y="'+f(height*.77)+'" text-anchor="middle" font-size="5.5" font-family="sans-serif" font-weight="700" fill="#e7e9e5" stroke="none">CH '+(index+1)+'</text>';end();
+    }
+    rect(width/2-15,bodyY+9,30,13,active?'#272b2d':'#d0d2ce',.4,2,active?'#72777a':'#4b4e4b');
+    out+='<text x="'+f(width/2)+'" y="'+f(bodyY+18)+'" text-anchor="middle" font-size="8" font-family="sans-serif" font-weight="800" fill="'+(active?'#d9ff58':'#343734')+'" stroke="none">DI</text>';
+    out+='<text x="'+f(width/2)+'" y="'+f(bodyY+29)+'" text-anchor="middle" font-size="5" font-family="sans-serif" font-weight="700" fill="#f0f2ee" stroke="none">'+(stereo?'STEREO':'MONO')+' · '+(active?'AKTIV':'PASSIV')+'</text>';
+    if(active){circle(width-20,bodyY+16,2.2,'#c9ef48',.35,'#151715');out+='<text x="'+f(width-20)+'" y="'+f(bodyY+25)+'" text-anchor="middle" font-size="3.8" font-family="sans-serif" fill="#dce0da" stroke="none">48V</text>';}
+    end();
   }else if(type==='text'){
     path('M23 20h54M50 20v62M38 82h24M23 20v12M77 20v12','none',2,'#555');
   }else{

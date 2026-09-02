@@ -18,7 +18,7 @@ assert.ok(ids.indexOf('ride')<ids.indexOf('snare')&&ids.indexOf('snare')<ids.ind
 assert.deepEqual(JSON.parse(JSON.stringify(model.normalizeDrums({}).zOrder)),[],'Alte Drum-Konfigurationen migrieren nicht auf eine leere Ebenenliste.');
 
 for(const marker of [
-  'data-release-version="0.1.0-beta.3"',
+  `data-release-version="${packageJson.version}"`,
   'data-grid-scale-label',
   '1 Kästchen = ',
   'data-rotate-hold="-1"',
@@ -76,11 +76,13 @@ for(const marker of [
   'data-stage-extension'
 ])assert.ok(html.includes(marker),marker+' fehlt in der gebauten App.');
 
-assert.equal(packageJson.version,'0.1.0-beta.3','Paketversion und sichtbare Release-Version laufen auseinander.');
+assert.equal(packageJson.version,'0.1.0-beta.6','Paketversion und sichtbare Release-Version laufen auseinander.');
 
 assert.match(html,/record\.stairsAlong=Math\.max\(0,Math\.min\(1,center\/drag\.maxW\)\);record\.stairsOffset=record\.stairsAlong;record\.stairsWidth=w/,'Beim Ziehen der Treppenbreite bleibt die gegenüberliegende Seite nicht verankert.');
 assert.match(html,/stairsDepth:finite\(source\.stairsDepth,\.45,3\)\?source\.stairsDepth:\.9/,'Die Treppentiefe wird beim Projektimport nicht migriert.');
-assert.match(html,/path:'M'.{0,180}\+'C'/,'Bühnenkabel werden nicht als weiche Bézierkurven gezeichnet.');
+assert.match(html,/function roundedCablePath\(points,radius=8\)/,'Vorgezeichnete Bühnenkabel erhalten keine leicht gerundeten Ecken.');
+assert.match(html,/cablePlanSpacing=\.005,cableScreenSpacing=5/,'Parallele Bühnenkabel halten den geforderten 5-mm-Abstand nicht ein.');
+assert.doesNotMatch(html,/cablePalette/,'Bühnenkabel verwenden noch die alte farbige Palette.');
 assert.match(html,/nearest\.distance<=Math\.max\(/,'Die Stagebox-Ziele besitzen keinen magnetischen Fangbereich.');
 assert.match(html,/sp-project-delete-input'\)\.value!==pendingProjectDelete\.name/,'Das endgültige Projektlöschen verlangt nicht den exakten Projektnamen.');
 assert.match(html,/createSetupExport\(name,entry\.document/,'Projektkacheln laden keine portable Projektdatei herunter.');
@@ -115,7 +117,7 @@ for(const [type,part] of Object.entries(equipment)){
 
 const clapstackMarkup=symbolContext.render('drums',{drumLayout:model.drumLayout('drums',model.drumDefaults())});
 assert.ok(clapstackMarkup.includes('data-part="clapstack-discs"'),'Der Clapstack besitzt keine eigene dreilagige Draufsicht.');
-assert.equal((clapstackMarkup.match(/clapstack-bronze/g)||[]).length>=6,true,'Der Clapstack verwendet keine drei realistischen Rohbronze-Lagen.');
-assert.ok(clapstackMarkup.includes('#d3a27e')&&clapstackMarkup.includes('#322824'),'Der Clapstack bildet die helle und dunkle Patina der Herstellerreferenz nicht ab.');
+assert.equal((clapstackMarkup.match(/clapstack-metal/g)||[]).length>=6,true,'Der Clapstack verwendet keine drei monochromen Metall-Lagen.');
+assert.ok(clapstackMarkup.includes('#fafbf9')&&clapstackMarkup.includes('#444947'),'Der Clapstack bildet keine helle und dunkle Metallstruktur ab.');
 
 console.log('PASS V67: Rastermaß, Treppen, Dreh-/Ebenensteuerung, Stagebox-View, Bühnenkabel, Object Packs und neue technische Topview-Symbole.');

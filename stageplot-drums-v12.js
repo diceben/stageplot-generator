@@ -5,42 +5,58 @@ function createStageplotDrumModel() {
   const allowedSize=(v,options,fallback)=>{const n=Number(v);if(!Number.isFinite(n))return fallback;return options.reduce((best,current)=>Math.abs(current-n)<Math.abs(best-n)?current:best,options.includes(n)?n:fallback);};
   const short=v=>String(v??'').slice(0,60);
   const isDrums=type=>['drums','drums-min','drums-med','drums-big'].includes(type);
+  const cymbalPartIds=['hihat','ride','crash1','crash2','crash3','crash4','splash1','splash2','china1','china2','clapstack'],allCymbalPartIds=[...cymbalPartIds,'splash3','splash4'];
+  function defaultDrumMics(){
+    const result={},add=(id,model,phantom=false,enabled=true)=>{result[id]={enabled,model,phantom};};
+    for(let i=1;i<=2;i++){add('kick'+i+'-in','Grenzflächenmikrofon',true);add('kick'+i+'-out','Generisches Kick-Mikrofon');}
+    for(const id of ['snare-up','snare-down','side-up','side-down'])add(id,'Generisches Drum-Mikrofon');
+    for(let i=1;i<=4;i++)add('rack'+i,'Generisches Drum-Mikrofon');
+    for(let i=1;i<=3;i++)add('floor'+i,'Generisches Drum-Mikrofon');
+    add('hihat','Shure SM57');for(const id of cymbalPartIds.filter(id=>id!=='hihat'))add(id,'Generisches Kleinmembran-Mikrofon',true,false);
+    add('oh-mono','Generisches Kleinmembran-Mikrofon',true);add('oh-l','Generisches Kleinmembran-Mikrofon',true);add('oh-r','Generisches Kleinmembran-Mikrofon',true);
+    add('room-mono','Generisches Kondensatormikrofon',true,false);add('room-l','Generisches Kondensatormikrofon',true,false);add('room-r','Generisches Kondensatormikrofon',true,false);
+    add('pad-l','Direktausgang');add('pad-r','Direktausgang');add('bongos','Generisches Drum-Mikrofon');
+    return result;
+  }
   function drumDefaults() {
     // Product default: "Drumset mittel". Keep this as the single runtime source
     // for fresh projects, newly placed drums and the bundled sample arrangement.
     return {kickCount:1,kickDiameter:22,kickDepth:18,pedal:'single',snareModel:'',snareDiameter:14,snareDepth:6.5,snareMaterial:'Holz',side:false,sideModel:'',sideDiameter:8,sideDepth:5,riserPreset:'none',
       rackToms:[{diameter:10,depth:8,mount:'kick'},{diameter:12,depth:10,mount:'kick'}],floorToms:[{diameter:14,depth:14},{diameter:16,depth:16}],
       hihat:true,hatSize:14,ride:true,rideSize:22,crashes:[18],splash:1,china:0,clapstack:true,clapSize:12,pad:true,bongos:false,table:'off',leftHanded:false,
-      positions:{snare:{x:.5833779176076254,y:.42048271029603246},ride:{x:.2901504834493001,y:.6037756227979473},clapstack:{x:.6259321371714274,y:.568158841600605},splash1:{x:.5019760131835938,y:.7103370685203403},kick1:{x:.48790693283081055,y:.6167246500651041},throne:{x:.5425168673197428,y:.17121199065563725},hihat:{x:.6826114389631484,y:.4370733896891277},rack1:{x:.536231279373169,y:.5799473220226812},rack2:{x:.4343844519721137,y:.5706283157947016},floor1:{x:.3672737545437283,y:.4122748655431411},floor2:{x:.3367926279703777,y:.1792357261508119},pad:{x:.7508868111504449,y:.2856976527793735},crash1:{x:.6383353339301215,y:.676882407244514}},rotations:{hihat:320,pad:270},showMics:false,overheads:'off',overheadMount:'boom',room:'off',
-      mics:Object.fromEntries([['kick1-out',true],['kick2-out',true],['snare-down',true],['hihat',true],['ride',false],['side-down',false]].map(([id,enabled])=>[id,{enabled,model:'',phantom:false}]))};
+      positions:{snare:{x:.5833779176076254,y:.42048271029603246},ride:{x:.2901504834493001,y:.6037756227979473},clapstack:{x:.6259321371714274,y:.568158841600605},splash1:{x:.5019760131835938,y:.7103370685203403},kick1:{x:.48790693283081055,y:.6167246500651041},throne:{x:.5425168673197428,y:.17121199065563725},hihat:{x:.6826114389631484,y:.4370733896891277},rack1:{x:.536231279373169,y:.5799473220226812},rack2:{x:.4343844519721137,y:.5706283157947016},floor1:{x:.3672737545437283,y:.4122748655431411},floor2:{x:.3367926279703777,y:.1792357261508119},pad:{x:.7508868111504449,y:.2856976527793735},crash1:{x:.6383353339301215,y:.676882407244514}},rotations:{hihat:320,pad:270},showMics:false,overheads:'stereo',overheadMount:'boom',room:'off',
+      overheadPickup:Object.fromEntries(cymbalPartIds.map(id=>[id,id!=='hihat'])),mics:defaultDrumMics()};
   }
   function normalizeDrums(type,value) {
     const base=drumDefaults(),candidate=value===undefined&&type&&typeof type==='object'?type:value,v=candidate&&typeof candidate==='object'?candidate:{};
     const list=(key,max)=>Array.isArray(v[key])?v[key].slice(0,max).map((t,i)=>({diameter:allowedSize(t?.diameter,key==='floorToms'?[14,16,18]:[8,10,12,13,14],base[key][i]?.diameter||12),depth:clamp(t?.depth,3,20,base[key][i]?.depth||10),...(key==='rackToms'?{mount:['kick','cymbal-clamp','basket'].includes(t?.mount)?t.mount:i<2?'kick':'cymbal-clamp'}:{})})):base[key];
     const c={kickCount:integer(v.kickCount,1,2,1),kickDiameter:allowedSize(v.kickDiameter,[16,18,20,22,24],22),kickDepth:clamp(v.kickDepth,10,24,18),
-      pedal:v.pedal==='double'?'double':'single',snareModel:short(v.snareModel),snareDiameter:allowedSize(v.snareDiameter,[10,12,13,14],14),snareDepth:clamp(v.snareDepth,3,10,6.5),
+      pedal:v.pedal==='double'?'double':'single',snare:typeof v.snare==='boolean'?v.snare:true,snareModel:short(v.snareModel),snareDiameter:allowedSize(v.snareDiameter,[10,12,13,14],14),snareDepth:clamp(v.snareDepth,3,10,6.5),
       snareMaterial:['Holz','Stahl','Messing','Aluminium','Bronze','Andere'].includes(v.snareMaterial)?v.snareMaterial:base.snareMaterial,
       side:typeof v.side==='boolean'?v.side:base.side,sideModel:short(v.sideModel),sideDiameter:allowedSize(v.sideDiameter,[6,8],8),sideDepth:clamp(v.sideDepth,3,10,5),riserPreset:['none','2x','3x'].includes(v.riserPreset)?v.riserPreset:'none',
-      rackToms:list('rackToms',4),floorToms:list('floorToms',3),hihat:v.hihat!==false,hatSize:allowedSize(v.hatSize,[13,14,15,16],14),ride:v.ride!==false,rideSize:allowedSize(v.rideSize,[18,20,21,22,24],22),
-      crashes:Array.isArray(v.crashes)?v.crashes.slice(0,4).map(n=>allowedSize(n,[14,16,17,18,19,20],18)):base.crashes,splash:integer(v.splash,0,2,0),china:integer(v.china,0,2,0),clapstack:typeof v.clapstack==='boolean'?v.clapstack:base.clapstack,clapSize:allowedSize(v.clapSize,[8,10,12,14,16],12),
+      rackToms:list('rackToms',4),floorToms:list('floorToms',3),throne:typeof v.throne==='boolean'?v.throne:true,hihat:v.hihat!==false,hatSize:allowedSize(v.hatSize,[13,14,15,16],14),ride:v.ride!==false,rideSize:allowedSize(v.rideSize,[18,20,21,22,24],22),
+      crashes:Array.isArray(v.crashes)?v.crashes.slice(0,4).map(n=>allowedSize(n,[14,16,17,18,19,20],18)):base.crashes,splash:integer(v.splash,0,4,0),china:integer(v.china,0,2,0),clapstack:typeof v.clapstack==='boolean'?v.clapstack:base.clapstack,clapSize:allowedSize(v.clapSize,[8,10,12,14,16],12),
       pad:typeof v.pad==='boolean'?v.pad:base.pad,bongos:typeof v.bongos==='boolean'?v.bongos:base.bongos,table:['off','mixer','laptop'].includes(v.table)?v.table:base.table,leftHanded:v.leftHanded===true,positions:{},rotations:{},showMics:typeof v.showMics==='boolean'?v.showMics:base.showMics,overheads:['off','mono','stereo'].includes(v.overheads)?v.overheads:base.overheads,overheadMount:['boom','clamp'].includes(v.overheadMount)?v.overheadMount:base.overheadMount,
-      room:['off','mono','stereo'].includes(v.room)?v.room:'off',mics:{...base.mics},zOrder:[]};
+      room:['off','mono','stereo'].includes(v.room)?v.room:'off',overheadPickup:{...base.overheadPickup},mics:Object.fromEntries(Object.entries(base.mics).map(([id,m])=>[id,{...m}])),zOrder:[]};
     if(v.positions&&typeof v.positions==='object')for(const [id,p] of Object.entries(v.positions)){
-      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[12]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&p&&typeof p==='object')
+      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&p&&typeof p==='object')
         c.positions[id]={x:clamp(p.x,.02,.98,.5),y:clamp(p.y,.02,.98,.5)};
     }
     if(v.rotations&&typeof v.rotations==='object')for(const [id,angle] of Object.entries(v.rotations)){
-      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[12]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&Number.isFinite(Number(angle)))
+      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&Number.isFinite(Number(angle)))
         c.rotations[id]=((Number(angle)%360)+360)%360;
     }
     if(Array.isArray(v.zOrder)){
       const seen=new Set();
-      c.zOrder=v.zOrder.slice(0,40).map(short).filter(id=>/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[12]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&!seen.has(id)&&seen.add(id));
+      c.zOrder=v.zOrder.slice(0,40).map(short).filter(id=>/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&!seen.has(id)&&seen.add(id));
     }
+    for(const id of ['splash3','splash4']){c.overheadPickup[id]=true;c.mics[id]={enabled:false,model:'Generisches Kleinmembran-Mikrofon',phantom:true};}
     if(v.mics&&typeof v.mics==='object')for(const [id,m] of Object.entries(v.mics)){
-      if(/^(kick[12]-(in|out)|snare-(up|down)|side-(up|down)|rack[1-4]|floor[1-3]|hihat|ride|oh-(mono|l|r)|room-(mono|l|r)|pad-[lr]|bongos)$/.test(id)&&m&&typeof m==='object')
-        c.mics[id]={enabled:m.enabled!==false,model:short(m.model),phantom:m.phantom===true};
+      if(/^(kick[12]-(in|out)|snare-(up|down)|side-(up|down)|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|oh-(mono|l|r)|room-(mono|l|r)|pad-[lr]|bongos)$/.test(id)&&m&&typeof m==='object')
+        c.mics[id]={enabled:m.enabled!==false,model:short(m.model).trim()||base.mics[id]?.model||c.mics[id]?.model||'',phantom:m.phantom===true};
     }
+    if(v.overheadPickup&&typeof v.overheadPickup==='object')for(const id of allCymbalPartIds)if(typeof v.overheadPickup[id]==='boolean')c.overheadPickup[id]=v.overheadPickup[id];
+    for(const id of allCymbalPartIds)if(c.overheadPickup[id]!==false&&c.mics[id])c.mics[id].enabled=false;
     return c;
   }
   function createDrumDesign(name,config,legacyConfig){
@@ -59,15 +75,15 @@ function createStageplotDrumModel() {
     // Every riser module is 2 x 1 m. In the plan view it is rotated so that
     // adjacent modules form a 2 x 2 m or 3 x 2 m drum platform.
     const riserWidth=riserModules*50,riserDepth=riserModules?100:0,vb=[Math.max(baseVb[0],riserWidth),Math.max(baseVb[1],riserDepth)],cx=vb[0]/2;
-    add('throne','throne',cx,10,9);
+    if(c.throne)add('throne','throne',cx,10,9);
     for(let i=0;i<c.kickCount;i++){const r=c.kickDiameter*.635,w=r*2*1.6;add('kick'+(i+1),'kick',c.kickCount===1?cx:cx-15.5+i*31,51,r,{w,h:w*543/512});}
     const rackPositions=({1:[[cx,74]],2:[[cx+11,74],[cx-11,74]],3:[[cx+18,72],[cx,76],[cx-18,72]],4:[[cx+27,68],[cx+9,75],[cx-9,75],[cx-27,68]]})[c.rackToms.length]||[];
     c.rackToms.forEach((t,i)=>add('rack'+(i+1),'tom',...rackPositions[i],t.diameter*.665,{diameter:t.diameter,depth:t.depth,mount:t.mount}));
     c.floorToms.forEach((t,i)=>add('floor'+(i+1),'tom',...[[cx-19,48],[cx-31,31],[cx-41,49]][i],t.diameter*.665,{diameter:t.diameter,depth:t.depth}));
-    add('snare','snare',cx+21,48,c.snareDiameter*.665);if(c.side)add('side','snare',cx+27,30,c.sideDiameter*.665);
+    if(c.snare)add('snare','snare',cx+21,48,c.snareDiameter*.665);if(c.side)add('side','snare',cx+27,30,c.sideDiameter*.665);
     if(c.hihat)add('hihat','hihat',cx+39,48,c.hatSize*.645,{variant:'hihat'});if(c.ride)add('ride','cymbal',cx-40,60,c.rideSize*.65,{variant:'ride'});
     c.crashes.forEach((size,i)=>add('crash'+(i+1),'cymbal',...[[cx+35,76],[cx-40,70],[cx+52,60],[cx-8,87]][i],size*.65,{variant:'crash'}));
-    for(let i=0;i<c.splash;i++)add('splash'+(i+1),'cymbal',...[[cx+4,88],[cx-10,87]][i],6.5,{variant:'splash'});
+    for(let i=0;i<c.splash;i++)add('splash'+(i+1),'cymbal',...[[cx+4,88],[cx-10,87],[cx+19,86],[cx-25,86]][i],6.5,{variant:'splash'});
     for(let i=0;i<c.china;i++)add('china'+(i+1),'cymbal',...[[cx-24,84],[cx+53,80]][i],11.7,{variant:'china'});
     if(c.clapstack)add('clapstack','cymbal',cx-23,62,c.clapSize*.58,{variant:'clapstack'});
     if(c.pad)add('pad','pad',cx+37,15,13.5,{w:27,h:23.7});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
@@ -136,15 +152,16 @@ function createStageplotDrumModel() {
   }
   function drumChannels(type,value,includeDisabled=false) {
     const c=normalizeDrums(type,value),layout=drumLayout(type,c),rows=[],parts=new Map(layout.parts.map(p=>[p.id,p]));
-    const row=(id,name,part,extra={})=>{const m=c.mics[id]||{model:'',phantom:false},p=parts.get(part)||parts.get('snare');
-      rows.push({id,name,part,model:m.model,phantom:m.phantom,enabled:true,method:'xlr',x:p.x,y:p.y,...extra});};
+    const row=(id,name,part,extra={})=>{const m=c.mics[id]||{enabled:true,model:'',phantom:false},p=parts.get(part)||parts.get('snare')||parts.values().next().value,enabled=m.enabled!==false;
+      if(enabled||includeDisabled)rows.push({id,name,part,model:m.model,phantom:m.phantom,enabled,method:'xlr',x:p.x,y:p.y,...extra});};
     for(let i=1;i<=c.kickCount;i++){const prefix=c.kickCount>1?'Kick '+i:'Kick';row('kick'+i+'-in',prefix+' In','kick'+i);row('kick'+i+'-out',prefix+' Out','kick'+i);}
-    row('snare-up','Snare Top','snare');row('snare-down','Snare Bottom','snare');
+    if(c.snare){row('snare-up','Snare Top','snare');row('snare-down','Snare Bottom','snare');}
     if(c.side){row('side-up','Side Snare Top','side');row('side-down','Side Snare Bottom','side');}
     c.rackToms.forEach((t,i)=>row('rack'+(i+1),'Rack Tom '+(i+1)+' · '+t.diameter+'″','rack'+(i+1)));
     c.floorToms.forEach((t,i)=>row('floor'+(i+1),'Floor Tom '+(i+1)+' · '+t.diameter+'″','floor'+(i+1)));
-    if(c.hihat)row('hihat','Hi-Hat','hihat');
-    row('oh-l','OH L',c.ride?'ride':'snare',{x:layout.vb[0]*.2,y:layout.vb[1]*.45});row('oh-r','OH R',c.hihat?'hihat':'snare',{x:layout.vb[0]*.8,y:layout.vb[1]*.45});
+    if(c.hihat)row('hihat','Hi-Hat','hihat');if(c.ride)row('ride','Ride','ride');c.crashes.forEach((size,i)=>row('crash'+(i+1),'Crash '+(i+1),'crash'+(i+1)));for(let i=1;i<=c.splash;i++)row('splash'+i,'Splash '+i,'splash'+i);for(let i=1;i<=c.china;i++)row('china'+i,'China '+i,'china'+i);if(c.clapstack)row('clapstack','Clapstack','clapstack');
+    const overheadParts=layout.parts.filter(part=>(part.kind==='cymbal'||part.kind==='hihat')&&c.overheadPickup[part.id]!==false).map(part=>part.id);
+    if(overheadParts.length){row('oh-l','OH L',c.ride?'ride':c.snare?'snare':overheadParts[0],{x:layout.vb[0]*.2,y:layout.vb[1]*.45,overhead:true,overheadParts});row('oh-r','OH R',c.hihat?'hihat':c.snare?'snare':overheadParts.at(-1),{x:layout.vb[0]*.8,y:layout.vb[1]*.45,overhead:true,overheadParts});}
     if(c.pad){row('pad-l','SPD-SX L','pad',{method:'di'});row('pad-r','SPD-SX R','pad',{method:'di'});}
     if(c.bongos)row('bongos','Bongos','bongos');
     return rows;

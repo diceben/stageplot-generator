@@ -10,7 +10,21 @@ const tests=[
   'stageplot-account-v1.test.cjs',
   'stageplot-studio-v60.test.cjs',
   'stageplot-studio-v61.test.cjs',
-  'stageplot-studio-v67.test.cjs'
+  'stageplot-studio-v67.test.cjs',
+  'stageplot-studio-v68.test.cjs',
+  'stageplot-studio-v69.test.cjs',
+  'stageplot-studio-v70.test.cjs',
+  'stageplot-studio-v71.test.cjs',
+  'stageplot-studio-v72.test.cjs',
+  'stageplot-studio-v73.test.cjs',
+  'stageplot-studio-v74.test.cjs',
+  'stageplot-studio-v75.test.cjs',
+  'stageplot-studio-v76.test.cjs',
+  'stageplot-studio-v77.test.cjs',
+  'stageplot-studio-v78.test.cjs',
+  'stageplot-studio-v79.test.cjs',
+  'stageplot-studio-v80.test.cjs',
+  'stageplot-studio-v81.test.cjs'
 ];
 
 for(const file of tests){

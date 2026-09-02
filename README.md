@@ -4,7 +4,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
-**Aktuelle Version:** v0.1.0-beta.3 · Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.6 · Release Notes sind in der App über `?` erreichbar.
 
 ## Funktionen
 
@@ -12,14 +12,14 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 - **Bühneneditor** mit Bausteinkatalog, Drag & Drop, Drehen, Sperren, Ebenen-Liste (Rechtsklick: Duplizieren/Sperren/Löschen).
 - **Bühne & Treppe direkt auf dem Canvas** in der Größe ziehen — smooth mit Live-Redraw; Treppe zusätzlich breitenverstellbar per Pfeile inkl. Reset auf Standardbreite.
 - **IEM-/Rack-Bereich** und **Bühnentreppe** platzier- und löschbar.
-- **Drum-Designer** direkt über den schwebenden „Open Drumdesigner“-Button am ausgewählten Drumset öffnen.
+- **Drum-Designer** direkt über den schwebenden „Open Drumdesigner“-Button am ausgewählten Drumset öffnen; das breitere Eigenschaften-Panel ändert Trommel- und Beckengrößen übersichtlich per −/+, mehr als 80 praxisübliche Mikrofonmodelle werden über einen durchsuchbaren, positionsbezogenen „Typisch“-/„Alle“-Picker gewählt, Becken wechseln exklusiv zwischen eigenem Mic und OH L/R, und die Hi-Hat startet mit einem SM57.
 - **Stageplotter-Branding** mit normaler Wortmarke im Free-Plan, PRO-Wortmarke bei aktivem Pro-Plan und großem Otter-Logo neben „Projekte“; das bisherige Headerlogo bleibt als Ladefehler-Fallback erhalten.
 - **Metallisches Menüband** mit stets mittiger Navigation, limefarbener aktiver Ansicht, einem der Maus folgenden rosa Hover-Unterstrich und Projektangaben direkt vor dem Speicherstatus.
 - **Versteckter Otter mode** für neugierige Mehrfachklicker auf das Headerlogo.
 - **Stabiler App-Viewport** mit separat scrollenden Projekt- und Routinglisten statt eines springenden Seiten-Scrollbalkens.
 - **Kostenlose Pro-Beta-Umschaltung** direkt auf der Projektseite; ein Wechsel zurück zum Standard-Modus ist jederzeit möglich.
 - **Routing** (Input/Output-Kanäle, CSV/XLSX), **Druckansicht** und **Projekt-Export**.
-- **Stagebox-View und Bühnenkabel**: Outs als weiche, längenverstellbare Kabel an Stagebox-Ports ziehen; die Portzuweisung erscheint automatisch im Routing.
+- **Stagebox-View und Bühnenkabel**: fullscreenfähiges dunkles Patch Overview mit echten XLR- beziehungsweise XLR/Klinke-Kombibuchsen, einer breiten nach Instrumenten gruppierten Channel-Suche, permanentem Info-Sidepanel und sofortigem Patchen samt Sprung zum nächsten freien Port; die Auswahl bleibt dabei geöffnet. Dieselbe Ansicht öffnet sich direkt an der Stagebox auf der Bühne. Einzelne Instrument-Inputs/-Outputs oder Stereo-Links lassen sich als schwarze, weich verlegte Kabel mit silbernen Enden an Stagebox-Ports ziehen.
 - **Komplexe Bühnen** aus magnetisch anklippbaren 2 × 1-m-Modulen sowie maßstäbliche Treppen mit Breite, Tiefe und verankerter Skalierung.
 - **Technische Topviews** für Teleprompter, Wedges, Licht, Effekte, Nebelmaschine und Flightcases.
 - **Object Packs** mit Shop-Vorschau, lokalen Offline-Freischaltungen, signierten Codes, Beta Crew Pass und Crew Rewards.
@@ -32,7 +32,6 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 Beta öffentlich live. Offen:
 
 - **Pack-Verkauf und Crew Rewards**: Checkout-Anbieter sowie produktiver Feedback-/Newsletter-Endpunkt müssen vor dem Verkauf verbunden werden; die Beta verwendet dafür lokale Warteschlangen und kostenlose Freischaltung.
-- **Drum-Designer**: Outs-Tabelle pro Bauteil mit „nicht abnehmen" (ausgrauen statt löschen).
 - **Import-Popup** mit Drag & Drop und Hinweis auf erlaubte Dateitypen.
 - **Foto → Stageplot** (handgezeichneten Plan einlesen) — zurückgestellt, braucht eine Cloud-/API-Entscheidung, da nicht rein offline lösbar.
 
