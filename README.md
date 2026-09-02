@@ -13,7 +13,11 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 - **Bühne & Treppe direkt auf dem Canvas** in der Größe ziehen — smooth mit Live-Redraw; Treppe zusätzlich breitenverstellbar per Pfeile inkl. Reset auf Standardbreite.
 - **IEM-/Rack-Bereich** und **Bühnentreppe** platzier- und löschbar.
 - **Drum-Designer** direkt über den schwebenden „Open Drumdesigner“-Button am ausgewählten Drumset öffnen.
-- **Stageplotter-Branding** mit kompakter PRO-Wortmarke im App-Header und großem Otter-Logo neben „Projekte“; das bisherige Headerlogo bleibt als Ladefehler-Fallback erhalten.
+- **Stageplotter-Branding** mit normaler Wortmarke im Free-Plan, PRO-Wortmarke bei aktivem Pro-Plan und großem Otter-Logo neben „Projekte“; das bisherige Headerlogo bleibt als Ladefehler-Fallback erhalten.
+- **Metallisches Menüband** mit stets mittiger Navigation, limefarbener aktiver Ansicht, einem der Maus folgenden rosa Hover-Unterstrich und Projektangaben direkt vor dem Speicherstatus.
+- **Versteckter Otter mode** für neugierige Mehrfachklicker auf das Headerlogo.
+- **Stabiler App-Viewport** mit separat scrollenden Projekt- und Routinglisten statt eines springenden Seiten-Scrollbalkens.
+- **Kostenlose Pro-Beta-Umschaltung** direkt auf der Projektseite; ein Wechsel zurück zum Standard-Modus ist jederzeit möglich.
 - **Routing** (Input/Output-Kanäle, CSV/XLSX), **Druckansicht** und **Projekt-Export**.
 - **Outs am Symbol** global per Toolbar-Button ein-/ausblendbar.
 - Offline-first: alles im Browser gespeichert; Supabase-Cloud-Grenze vorbereitet, Login noch nicht sichtbar.
