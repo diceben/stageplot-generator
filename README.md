@@ -6,12 +6,18 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 
 **Aktuelle Version:** v0.1.0-beta.6 · Release Notes sind in der App über `?` erreichbar.
 
+Die Feedback-Erweiterungen in diesem Entwicklungsstand sind noch nicht veröffentlicht. Accounts benötigen zusätzlich die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
+
 ## Funktionen
 
 - **Projekte anlegen** über ein Popup: Band + Location (→ automatischer Projektname), Bühnengröße per Vorschau-Buttons (Breite/Tiefe mit ±1 m), erweiterte Einstellungen aufklappbar.
-- **Bühneneditor** mit Bausteinkatalog, Drag & Drop, Drehen, Sperren, Ebenen-Liste (Rechtsklick: Duplizieren/Sperren/Löschen).
+- **Bühneneditor** mit Bausteinkatalog, Drag & Drop, Drehen, Sperren, Ebenen-Liste (Rechtsklick: 90° drehen/Duplizieren/Sperren/Löschen).
 - **Bühne & Treppe direkt auf dem Canvas** in der Größe ziehen — smooth mit Live-Redraw; Treppe zusätzlich breitenverstellbar per Pfeile inkl. Reset auf Standardbreite.
-- **IEM-/Rack-Bereich** und **Bühnentreppe** platzier- und löschbar.
+- **IEM-/Rack-Bereich** auch außerhalb der Bühne platzierbar. Riser, IEM-Fläche und FOH lassen sich über Griffe in 10-cm-Schritten skalieren; Zwei-Finger-Gesten sind vorbereitet. Riser zeigen Breite, Tiefe und Aufbauhöhe im Plan.
+- **Technik & FOH** in den Project Settings: Strombedarf und Signalübergabe mit Ort und Anschlussart. Der FOH-Platz enthält Maße, Strombedarf sowie Tisch, Absperrung, Sonnen- und Regenschutz.
+- **Funkfrequenzen** an Instrumenten und IEM-Racks sowie in Routing und Export.
+- **Lesbare Kategorien** mit animiert eingeblendeten Namen; auf schmalen Bildschirmen und bei Touch bleiben die Namen sichtbar.
+- **Mein Inventar** mit Modellen, Stückzahlen, Frequenzen, Strombedarf und Plansymbolen. Equipment direkt platzieren und den verwendeten Bestand im aktuellen Plan sehen.
 - **Drum-Designer** direkt über den schwebenden „Open Drumdesigner“-Button am ausgewählten Drumset öffnen; das breitere Eigenschaften-Panel ändert Trommel- und Beckengrößen übersichtlich per −/+, mehr als 80 praxisübliche Mikrofonmodelle werden über einen durchsuchbaren, positionsbezogenen „Typisch“-/„Alle“-Picker gewählt, Becken wechseln exklusiv zwischen eigenem Mic und OH L/R, und die Hi-Hat startet mit einem SM57.
 - **Stageplotter-Branding** mit normaler Wortmarke im Free-Plan, PRO-Wortmarke bei aktivem Pro-Plan und großem Otter-Logo neben „Projekte“; das bisherige Headerlogo bleibt als Ladefehler-Fallback erhalten.
 - **Metallisches Menüband** mit stets mittiger Navigation, limefarbener aktiver Ansicht, einem der Maus folgenden rosa Hover-Unterstrich und Projektangaben direkt vor dem Speicherstatus.
@@ -25,7 +31,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Design
 - **Object Packs** mit Shop-Vorschau, lokalen Offline-Freischaltungen, signierten Codes, Beta Crew Pass und Crew Rewards.
 - **Projektverwaltung** mit Karten-Vorschau, direktem Umbenennen, portablem Download und abgesichertem Löschen.
 - **Outs am Symbol** global per Toolbar-Button ein-/ausblendbar.
-- Offline-first: alles im Browser gespeichert; Supabase-Cloud-Grenze vorbereitet, Login noch nicht sichtbar.
+- **Offline-first mit optionalem Account-Abgleich** für Projekte, Entwürfe, Vorlagen und Inventar. Lokale Speicherung bleibt primär; Übertragungen werden vorgemerkt, gleichzeitige Änderungen als Konfliktkopien erhalten. Ohne konfigurierte Supabase-Anbindung bleibt der Account-Dienst deaktiviert.
 
 ## Stand & Nächste Schritte
 
@@ -61,7 +67,7 @@ git pull --ff-only
 Für eine Änderung einen Branch anlegen:
 
 ```bash
-git switch -c feature/kurze-beschreibung
+git switch -c codex/kurze-beschreibung
 ```
 
 Nach einer überprüften Änderung:
@@ -76,8 +82,12 @@ Nicht gleichzeitig auf zwei Laptops uncommittete Änderungen an denselben Dateie
 
 ## Wichtige Dateien
 
-- `stageplot-studio.html`: kanonischer 2D-App-Stand (autarke Datei; die Modulblöcke unten sind eingebettete, generierte Artefakte)
-- `stageplot-account-v1.js`: lokale Account-/Cloud-Grenze
+- `stageplot-studio.html`: kanonischer 2D-App-Stand; die Modulblöcke unten sind eingebettete, generierte Artefakte
+- `stageplot-account-v1.js`: bestehende Account-/Cloud-Grenze
+- `stageplot-sync-v2.js`: Account-Abgleich mit Offline-Aufträgen und Konfliktkopien
+- `stageplot-inventory-v1.js`: lokale Inventardaten
+- `stageplot-cloud-config.js`: öffentliche Account-Konfiguration, standardmäßig leer
+- `ACCOUNT_SETUP.md`: Anleitung für den optionalen Account-Dienst
 - `stageplot-drums-v12.js`: Drummodell — einzige Quelle, wird in die HTML eingebettet
 - `stageplot-symbols-v3.js`: Symbolrenderer — einzige Quelle, wird in die HTML eingebettet
 - `stageplot-export-v42.js`: Export-Helfer — einzige Quelle, wird in die HTML eingebettet
@@ -89,7 +99,7 @@ Nicht gleichzeitig auf zwei Laptops uncommittete Änderungen an denselben Dateie
 
 ## Module bearbeiten
 
-`stageplot-drums-v12.js`, `stageplot-symbols-v3.js` und `stageplot-export-v42.js` sind die **einzige Quelle**. Sie liegen zusätzlich eingebettet in `stageplot-studio.html`, damit die App eine autarke, offline öffenbare Datei bleibt. Nach dem Ändern einer dieser Dateien die Einbettung neu generieren:
+`stageplot-drums-v12.js`, `stageplot-symbols-v3.js` und `stageplot-export-v42.js` sind die **einzige Quelle**. Sie liegen zusätzlich eingebettet in `stageplot-studio.html`, damit diese Module ohne zusätzliche Netzwerkanfragen verfügbar sind. Nach dem Ändern einer dieser Dateien die Einbettung neu generieren:
 
 ```bash
 npm run build
@@ -113,10 +123,10 @@ Optional kann mit `--expires 2027-09-02` ein Ablaufdatum gesetzt werden. Verkauf
 npm test
 ```
 
-Die Tests prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik sowie die Account- und Supabase-Grenze.
+20 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
 
 ## Daten und Geheimnisse
 
 Browserentwürfe sind lokale Laufzeitdaten und gehören nicht ins Repository. Ebenso niemals `.env`-Dateien, Zugriffstokens, Supabase-`service_role`-Schlüssel oder exportierte Projekte mit Kontaktdaten committen.
 
-Der öffentliche Supabase-Publishable-Key wird später über die Build-Konfiguration bereitgestellt. Serverseitige Geheimnisse bleiben ausschließlich in Supabase beziehungsweise der Hosting-Umgebung.
+Der öffentliche Supabase-Publishable-Key wird optional über GitHub-Repository-Variablen in die Build-Konfiguration eingesetzt. Serverseitige Geheimnisse bleiben ausschließlich in Supabase beziehungsweise der Hosting-Umgebung.

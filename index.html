@@ -53,7 +53,7 @@
   <section id="sp-dashboard" class="sp-dashboard" hidden>
     <div class="sp-dashboard-hero">
       <div class="sp-dashboard-intro"><img class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
-      <div class="sp-dashboard-actions"><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
+      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
     <div class="sp-plan-card" id="sp-plan-card">
       <div class="sp-plan-message"><span class="sp-plan-kicker" id="sp-plan-kicker">KOSTENLOSE PRO-BETA</span><strong id="sp-plan-usage">Pro-Funktionen während der Beta kostenlos testen</strong><small id="sp-plan-copy">Aktiviere Pro-Beta ohne Zahlung und ohne Abo.</small></div>
@@ -96,10 +96,10 @@
             <select id="sp-iem"><option value="right">Rechter Bühnenrand</option><option value="left">Linker Bühnenrand</option><option value="free">Frei auf der Bühne</option><option value="none">Keine reservieren</option><option value="unknown">Noch unbekannt</option></select>
           </label>
           <div class="sp-fields" id="sp-iem-fields">
-            <label class="sp-field">Länge der Fläche (m)<input id="sp-iem-length" type="number" min="0.1" max="20" step="0.01" value="2" required></label>
-            <label class="sp-field">Breite der Fläche (m)<input id="sp-iem-depth" type="number" min="0.1" max="10" step="0.01" value="0.8" required></label>
-            <label class="sp-field">IEM X ab links (m)<input id="sp-iem-x" type="number" min="0" max="30" step="0.001" value="7.2"></label>
-            <label class="sp-field">IEM Y ab hinten (m)<input id="sp-iem-y" type="number" min="0" max="20" step="0.001" value="0"></label>
+            <label class="sp-field">Länge der Fläche (m)<input id="sp-iem-length" type="number" min="0.1" max="20" step="0.1" value="2" required></label>
+            <label class="sp-field">Breite der Fläche (m)<input id="sp-iem-depth" type="number" min="0.1" max="10" step="0.1" value="0.8" required></label>
+            <label class="sp-field">IEM X ab links (m)<input id="sp-iem-x" type="number" min="-100" max="30" step="0.1" value="7.2"></label>
+            <label class="sp-field">IEM Y ab hinten (m)<input id="sp-iem-y" type="number" min="-100" max="20" step="0.1" value="0"></label>
           </div>
         </fieldset>
         <p id="sp-form-error" class="sp-error" role="alert" hidden></p>
@@ -121,12 +121,13 @@
         <div class="sp-sidebar-head"><strong>Bausteine</strong><button class="sp-sidebar-toggle sp-shell-toggle" type="button" id="sp-library-toggle" aria-label="Bausteinbibliothek einklappen" aria-expanded="true" aria-controls="sp-library"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M7 3v14m5.5-10-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
         <div class="sp-library-mode-tabs" role="tablist" aria-label="Bausteine und Objekt-Packs"><button type="button" id="sp-library-objects-tab" role="tab" aria-selected="true" aria-controls="sp-library-items" data-library-mode="objects">Objekte</button><button type="button" id="sp-library-packs-tab" role="tab" aria-selected="false" aria-controls="sp-library-packs" data-library-mode="packs">Packs <span id="sp-library-pack-count" aria-label=""></span></button></div>
         <label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-library-search" type="search" aria-label="Baustein suchen" placeholder="Baustein suchen …" maxlength="80" autocomplete="off"></label>
+        <button type="button" class="sp-button" id="sp-inventory-open">Mein Inventar</button>
         <div id="sp-category-tabs" class="sp-category-tabs" role="group" aria-label="Baustein-Kategorien">
-          <button type="button" data-category="all" aria-pressed="true" aria-label="Alle" data-tooltip="Alle"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="12" y="3" width="5" height="5" rx="1"/><rect x="3" y="12" width="5" height="5" rx="1"/><rect x="12" y="12" width="5" height="5" rx="1"/></svg><span class="sp-visually-hidden">Alle</span></button>
-          <button type="button" data-category="instruments" aria-pressed="false" aria-label="Instrumente" data-tooltip="Instrumente"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4h12v12H4zM4 11h12M7 11v5m3-5v5m3-5v5"/><path d="M7 11V7h2v4m3 0V7h2v4" fill="currentColor" stroke="none"/></svg><span class="sp-visually-hidden">Instrumente</span></button>
-          <button type="button" data-category="stage" aria-pressed="false" aria-label="Bühnenelemente" data-tooltip="Bühnenelemente"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 7.5h15v7h-15zM2.5 11h15M7.5 7.5v7m5-7v7M5 14.5v2m10-2v2"/></svg><span class="sp-visually-hidden">Bühnenelemente</span></button>
-          <button type="button" data-category="lights" aria-pressed="false" aria-label="Licht" data-tooltip="Licht"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 13.5h6M7.8 16h4.4M10 2.5a5 5 0 0 0-3 9c.7.5 1 1.1 1 2h4c0-.9.3-1.5 1-2a5 5 0 0 0-3-9Z"/></svg><span class="sp-visually-hidden">Licht</span></button>
-          <button type="button" data-category="tech" aria-pressed="false" aria-label="Technik" data-tooltip="Technik"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5h12M4 10h12M4 15h12"/><circle cx="8" cy="5" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="7" cy="15" r="2"/></svg><span class="sp-visually-hidden">Technik</span></button>
+          <button type="button" data-category="all" aria-pressed="true" aria-label="Alle" data-tooltip="Alle"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="12" y="3" width="5" height="5" rx="1"/><rect x="3" y="12" width="5" height="5" rx="1"/><rect x="12" y="12" width="5" height="5" rx="1"/></svg><span class="sp-category-name">Alle</span></button>
+          <button type="button" data-category="instruments" aria-pressed="false" aria-label="Instrumente" data-tooltip="Instrumente"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4h12v12H4zM4 11h12M7 11v5m3-5v5m3-5v5"/><path d="M7 11V7h2v4m3 0V7h2v4" fill="currentColor" stroke="none"/></svg><span class="sp-category-name">Instrumente</span></button>
+          <button type="button" data-category="stage" aria-pressed="false" aria-label="Bühnenelemente" data-tooltip="Bühnenelemente"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 7.5h15v7h-15zM2.5 11h15M7.5 7.5v7m5-7v7M5 14.5v2m10-2v2"/></svg><span class="sp-category-name">Bühnenelemente</span></button>
+          <button type="button" data-category="lights" aria-pressed="false" aria-label="Licht" data-tooltip="Licht"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 13.5h6M7.8 16h4.4M10 2.5a5 5 0 0 0-3 9c.7.5 1 1.1 1 2h4c0-.9.3-1.5 1-2a5 5 0 0 0-3-9Z"/></svg><span class="sp-category-name">Licht</span></button>
+          <button type="button" data-category="tech" aria-pressed="false" aria-label="Technik" data-tooltip="Technik"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5h12M4 10h12M4 15h12"/><circle cx="8" cy="5" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="7" cy="15" r="2"/></svg><span class="sp-category-name">Technik</span></button>
         </div>
         <div id="sp-search-count" class="sp-search-count" role="status" aria-live="polite"></div>
         <div id="sp-library-items" class="sp-library-items"></div>
@@ -191,7 +192,7 @@
       <aside id="sp-inspector" class="sp-inspector" aria-label="Ebenen und Eigenschaften">
         <div class="sp-inspector-tabs" role="tablist" aria-label="Rechte Seitenleiste"><button type="button" id="sp-properties-tab" role="tab" aria-controls="sp-properties-panel" aria-selected="true" data-inspector-tab-target="properties">Eigenschaften</button><button type="button" id="sp-layers-tab" role="tab" aria-controls="sp-layer-panel" aria-selected="false" data-inspector-tab-target="layers">Ebenen</button><button class="sp-sidebar-toggle sp-shell-toggle" type="button" id="sp-inspector-toggle" aria-label="Rechte Seitenleiste einklappen" aria-expanded="true" aria-controls="sp-inspector"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M13 3v14M7.5 7l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
         <section id="sp-layer-panel" class="sp-layer-panel" role="tabpanel" aria-labelledby="sp-layers-tab"><div class="sp-layer-heading"><h3 id="sp-layers-heading">Ebenen</h3><span id="sp-item-count" class="sp-muted">Noch keine Bausteine</span></div><div id="sp-object-list" class="sp-object-list" aria-label="Baustein auswählen"></div></section>
-        <div id="sp-layer-menu" class="sp-context-menu" role="menu" aria-label="Ebenen-Aktionen" hidden><button type="button" role="menuitem" data-layer-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-layer-action="lock">Sperren</button><button type="button" role="menuitem" data-layer-action="delete" class="sp-danger">Löschen</button></div>
+        <div id="sp-layer-menu" class="sp-context-menu" role="menu" aria-label="Ebenen-Aktionen" hidden><button type="button" role="menuitem" data-layer-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-layer-action="rotate">90° drehen ↻</button><button type="button" role="menuitem" data-layer-action="lock">Sperren</button><button type="button" role="menuitem" data-layer-action="delete" class="sp-danger">Löschen</button></div>
         <section id="sp-properties-panel" class="sp-properties-panel" role="tabpanel" aria-labelledby="sp-properties-tab">
         <h3>Eigenschaften</h3>
         <div id="sp-no-selection" class="sp-no-selection"><span aria-hidden="true">↖</span><p>Ein Baustein.<br>Alle Details.</p><span class="sp-muted">Wähle eine Station auf der Bühne.</span></div>
@@ -200,14 +201,14 @@
           <input id="sp-iem-side-edit" type="hidden" value="right">
           <div class="sp-direct-field"><span>IEM-Position</span><div class="sp-choice-pills" id="sp-iem-side-options" role="group" aria-label="IEM-Position"><button type="button" data-iem-side="left">Stage Left</button><button type="button" data-iem-side="right">Stage Right</button><button type="button" data-iem-side="free">Frei</button></div></div>
           <div class="sp-fields">
-            <label class="sp-field">IEM X (m)<input id="sp-iem-x-edit" type="number" min="0" step="0.001"></label>
-            <label class="sp-field">IEM Y (m)<input id="sp-iem-y-edit" type="number" min="0" step="0.001"></label>
+            <label class="sp-field">IEM X (m)<input id="sp-iem-x-edit" type="number" min="-100" step="0.1"></label>
+            <label class="sp-field">IEM Y (m)<input id="sp-iem-y-edit" type="number" min="-100" step="0.1"></label>
           </div>
           <div class="sp-fields">
-            <label class="sp-field">IEM-Breite (m)<input id="sp-iem-width-edit" type="number" min="0.1" step="0.01"></label>
-            <label class="sp-field">IEM-Länge (m)<input id="sp-iem-length-edit" type="number" min="0.1" step="0.01"></label>
+            <label class="sp-field">IEM-Breite (m)<input id="sp-iem-width-edit" type="number" min="0.1" step="0.1"></label>
+            <label class="sp-field">IEM-Länge (m)<input id="sp-iem-length-edit" type="number" min="0.1" step="0.1"></label>
           </div>
-          <span class="sp-muted">Position der linken hinteren Ecke. Die Fläche lässt sich auch ziehen; Rack-Bausteine bleiben an ihrem Platz.</span>
+          <span class="sp-muted">Auch außerhalb der Bühne platzierbar. An den Griffen in 10-cm-Schritten ziehen oder mit zwei Fingern skalieren. Rack-Bausteine bleiben an ihrem Platz.</span>
           <button class="sp-button sp-danger-quiet sp-zone-remove" type="button" id="sp-iem-remove">IEM-Bereich entfernen</button>
         </div>
         <div id="sp-stairs-selected" class="sp-stairs-selected" hidden>
@@ -236,11 +237,19 @@
             <input id="sp-riser-preset" type="hidden" value="2,1">
             <div class="sp-direct-field"><span>Riser-Gruppe</span><div class="sp-choice-pills sp-riser-pills" id="sp-riser-preset-options" role="group" aria-label="Riser-Gruppe"><button type="button" data-riser-preset="2,1">1×</button><button type="button" data-riser-preset="2,2">2×</button><button type="button" data-riser-preset="3,2">3×</button><button type="button" data-riser-preset="4,2">4 × 2 m</button><button type="button" data-riser-preset="4,3">4 × 3 m</button><button type="button" data-riser-preset="custom">Frei</button></div></div>
             <div class="sp-fields">
-              <label class="sp-field">Riser-Breite (m)<input id="sp-riser-width" type="number" min="0.25" max="30" step="0.25"></label>
-              <label class="sp-field">Riser-Tiefe (m)<input id="sp-riser-depth" type="number" min="0.25" max="20" step="0.25"></label>
+              <label class="sp-field">Riser-Breite (m)<input id="sp-riser-width" type="number" min="0.3" max="30" step="0.1"></label>
+              <label class="sp-field">Riser-Tiefe (m)<input id="sp-riser-depth" type="number" min="0.3" max="20" step="0.1"></label>
             </div>
             <div class="sp-direct-field"><span>Aufbauhöhe</span><div class="sp-choice-pills" id="sp-riser-height-options" role="group" aria-label="Riser-Höhe"><button type="button" data-riser-height="20">20 cm</button><button type="button" data-riser-height="40">40 cm</button><button type="button" data-riser-height="60">60 cm</button><button type="button" data-riser-height="80">80 cm</button><button type="button" data-riser-height="100">100 cm</button></div><label class="sp-field">Eigene Höhe (cm)<input id="sp-riser-height" type="number" min="5" max="240" step="5"></label></div>
-            <span class="sp-muted">Übliches Podestmodul: 2 × 1 m.</span>
+            <span class="sp-muted">Übliches Podestmodul: 2 × 1 m. Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern.</span>
+          </div>
+          <div id="sp-production-object" class="sp-special-fields">
+            <label class="sp-field">Strombedarf<input id="sp-object-power" maxlength="100" placeholder="z. B. 2 × Schuko 230 V / 16 A"></label>
+            <label class="sp-field" id="sp-object-wireless-field">Funk / IEM · Frequenzbereich<input id="sp-object-wireless" maxlength="100" placeholder="z. B. 470–516 MHz · Kanal 490,250 MHz"></label>
+            <div id="sp-foh-fields" hidden><strong>FOH-Platz</strong><div class="sp-fields">
+              <label class="sp-field">FOH-Breite (m)<input id="sp-foh-width" type="number" min="0.3" max="30" step="0.1"></label>
+              <label class="sp-field">FOH-Tiefe (m)<input id="sp-foh-depth" type="number" min="0.3" max="20" step="0.1"></label>
+            </div><label class="sp-check"><input type="checkbox" id="sp-foh-table"> Tisch benötigt</label><label class="sp-check"><input type="checkbox" id="sp-foh-barrier"> Absperrung benötigt</label><label class="sp-check"><input type="checkbox" id="sp-foh-sun"> Sonnenschutz benötigt</label><label class="sp-check"><input type="checkbox" id="sp-foh-rain"> Regenschutz benötigt</label><small class="sp-muted">Weitere Anforderungen unter Notizen. Position und Größe direkt im Plan ändern.</small></div>
           </div>
           <label class="sp-field">Beschriftung<input id="sp-label" maxlength="42" placeholder="Leer lassen für keine Beschriftung"></label>
           <label class="sp-check"><input id="sp-label-visible" type="checkbox" checked> Beschriftung anzeigen</label>
@@ -284,7 +293,7 @@
 
   <section id="sp-project" class="sp-project-settings" aria-labelledby="sp-project-dialog-title" hidden>
     <div class="sp-dialog-heading sp-project-dialog-heading"><div><span class="sp-eyebrow">PRODUKTIONSDATEN</span><h1 id="sp-project-dialog-title">Project Settings</h1><p>Angaben für geteilte Pläne und technische PDFs.</p></div><button class="sp-button" type="button" id="sp-project-close" aria-label="Zurück zum Entwurf">← Zurück</button></div>
-    <div class="sp-project-tabs" role="tablist" aria-label="Projekteinstellungen"><button type="button" role="tab" aria-selected="true" aria-controls="sp-project-panel-general" data-project-tab="general"><span>01</span> Projekt</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-contacts" data-project-tab="contacts"><span>02</span> Kontakte</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-notes" data-project-tab="notes"><span>03</span> Notizen</button></div>
+    <div class="sp-project-tabs" role="tablist" aria-label="Projekteinstellungen"><button type="button" role="tab" aria-selected="true" aria-controls="sp-project-panel-general" data-project-tab="general"><span>01</span> Projekt</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-contacts" data-project-tab="contacts"><span>02</span> Kontakte</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-notes" data-project-tab="notes"><span>03</span> Notizen</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-production" data-project-tab="production"><span>04</span> Technik &amp; FOH</button></div>
     <form id="sp-project-form" class="sp-project-form">
       <section id="sp-project-panel-general" class="sp-settings-card" role="tabpanel" data-project-panel="general"><div class="sp-settings-card-title"><div><h2>Projektinformationen</h2><p>Gig, Produktion und Bühnenmaße</p></div></div><div class="sp-settings-fields">
         <label class="sp-field sp-project-name-field">Projektname<input id="sp-project-name" maxlength="60" required></label>
@@ -301,6 +310,14 @@
         <label class="sp-field">Technical / Advance Contact<input id="sp-contact-advance" maxlength="80"></label><label class="sp-field">E-Mail oder Telefonnummer<input id="sp-contact-advance-value" maxlength="120"></label>
       </div></section>
       <section id="sp-project-panel-notes" class="sp-settings-card" role="tabpanel" data-project-panel="notes" hidden><div class="sp-settings-card-title"><div><h2>Notizen</h2><p>Allgemeine Produktionshinweise</p></div></div><label class="sp-field"><textarea id="sp-project-notes" rows="9" maxlength="2000" placeholder="Load-in, Curfew, besondere Strom- oder Rigging-Hinweise …"></textarea></label></section>
+      <section id="sp-project-panel-production" class="sp-settings-card" role="tabpanel" data-project-panel="production" hidden><div class="sp-settings-card-title"><div><h2>Strom &amp; Signalübergabe</h2><p>Diese Angaben erscheinen im Plan und im Export.</p></div></div><div class="sp-settings-fields">
+        <label class="sp-field">Strombedarf Bühne<input id="sp-production-power" maxlength="120" placeholder="z. B. 2 × Schuko 230 V / 16 A"></label>
+        <label class="sp-field">Signalformat / Protokoll<input id="sp-handover-mode" list="sp-handover-modes" maxlength="120" placeholder="z. B. Analog oder Dante"><datalist id="sp-handover-modes"><option value="Analog"></option><option value="Dante"></option><option value="AES50"></option><option value="MADI"></option></datalist></label>
+        <label class="sp-field">Übergabeort<input id="sp-handover-point" maxlength="120" placeholder="z. B. FOH oder Stagebox Bühne rechts"></label>
+        <label class="sp-field">Anzahl &amp; Verbindung<input id="sp-handover-connection" maxlength="120" placeholder="z. B. 2 × XLR oder 1 × CAT5e"></label>
+        <label class="sp-field">Details zur Übergabe<input id="sp-handover-notes" maxlength="120" placeholder="z. B. L/R, Kabel stellt Venue"></label>
+        <div><strong>FOH-Platz</strong><p class="sp-muted">Den FOH-Platz im Bausteinkatalog unter Technik platzieren. Dort Größe, Strom, Tisch, Absperrung und Wetterschutz festlegen.</p><button type="button" class="sp-button" id="sp-add-foh">FOH-Platz vor der Bühne ergänzen</button></div>
+      </div></section>
       <div class="sp-actions sp-project-dialog-actions"><button class="sp-button" type="button" id="sp-project-cancel">Zurück zum Entwurf</button><button class="sp-button" type="button" id="sp-project-export">Exportieren …</button><button class="sp-button" type="button" id="sp-project-saveas">Speichern unter …</button><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-project-apply">Übernehmen</button><button class="sp-button sp-primary" type="submit" id="sp-project-save">Speichern</button></div>
     </form>
   </section>
@@ -372,6 +389,7 @@
       <fieldset class="sp-channel-pill-field"><legend>Signal</legend><input id="sp-iem-output-mode" type="hidden" value="stereo"><div class="sp-channel-pills" data-iem-output-group="sp-iem-output-mode"><button type="button" data-iem-output-value="mono">Mono</button><button type="button" data-iem-output-value="stereo">Stereo-linked</button></div></fieldset>
       <fieldset class="sp-channel-pill-field"><legend>Übertragung</legend><input id="sp-iem-output-transport" type="hidden" value="wireless"><div class="sp-channel-pills" data-iem-output-group="sp-iem-output-transport"><button type="button" data-iem-output-value="wireless">Funk</button><button type="button" data-iem-output-value="cable">Kabel</button></div></fieldset>
       <p class="sp-muted">Stereo-linked reserviert zwei benachbarte Outputs und führt sie gemeinsam.</p>
+      <label class="sp-field">Frequenzbereich / Kanal<input id="sp-iem-frequency" maxlength="100" placeholder="z. B. 470–516 MHz · 490,250 MHz"></label>
       <div class="sp-actions"><button class="sp-button" type="button" id="sp-iem-output-advanced">Channel-Details</button><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-iem-output-cancel">Abbrechen</button><button class="sp-button sp-primary" type="submit">IEM zuweisen</button></div>
     </form>
   </dialog>
@@ -581,6 +599,32 @@
       </section>
     </div>
     <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.6 · 2D · lokal und offline</p>
+  </dialog>
+  <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
+    <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
+    <div class="sp-account-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-account-tab="inventory">Mein Inventar</button><button type="button" role="tab" aria-selected="false" data-account-tab="account">Account &amp; Sync</button></div>
+    <section id="sp-account-panel" hidden>
+      <p id="sp-account-status" role="status">Account-Sync ist noch nicht eingerichtet. Dein Inventar und deine Projekte werden lokal gespeichert.</p>
+      <form id="sp-account-login" hidden><label class="sp-field">E-Mail-Adresse<input id="sp-account-email" type="email" autocomplete="email" required maxlength="254"></label><p class="sp-muted">Anmelden oder Account erstellen. Du erhältst einen einmaligen Anmeldecode per E-Mail.</p><button type="submit" class="sp-button sp-primary">Anmeldecode senden</button></form>
+      <form id="sp-account-verify" hidden><label class="sp-field">Anmeldecode<input id="sp-account-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" required></label><button type="submit" class="sp-button sp-primary">Anmelden</button></form>
+      <div class="sp-actions"><button type="button" class="sp-button sp-primary" id="sp-account-link" hidden>Dieses Gerät verbinden</button><button type="button" class="sp-button" id="sp-account-sync" hidden>Jetzt synchronisieren</button><button type="button" class="sp-button" id="sp-account-signout" hidden>Abmelden</button></div>
+      <p id="sp-account-link-hint" class="sp-muted" hidden>Beim Verbinden werden die lokalen Projekte, Entwürfe, Vorlagen und das Inventar mit deinem Account synchronisiert. Weitere Änderungen werden automatisch übertragen, sobald du online bist.</p>
+    </section>
+    <section id="sp-inventory-panel">
+      <p class="sp-muted">Eigenes Equipment erfassen und direkt im Stageplot verwenden. Ohne Account bleibt die Liste auf diesem Gerät.</p>
+      <div class="sp-inventory-layout"><div><label class="sp-field">Inventar durchsuchen<input id="sp-inventory-search" type="search" placeholder="Mikrofone, Stageboxen, Modell …"></label><div id="sp-inventory-list" class="sp-inventory-list"></div></div>
+      <form id="sp-inventory-form"><h3 id="sp-inventory-form-title">Equipment hinzufügen</h3><div class="sp-fields">
+        <label class="sp-field">Name<input id="sp-inventory-name" required maxlength="80" placeholder="z. B. Gesangsmikrofon"></label>
+        <label class="sp-field">Kategorie<select id="sp-inventory-category"><option>Mikrofone</option><option>Stageboxen</option><option>Instrumente</option><option>Funk / IEM</option><option>Mischpulte</option><option>Strom</option><option>Bühne / FOH</option><option>Sonstiges</option></select></label>
+        <label class="sp-field">Hersteller / Modell<input id="sp-inventory-model" maxlength="100" placeholder="z. B. Shure SM58"></label>
+        <label class="sp-field">Stückzahl<input id="sp-inventory-quantity" type="number" min="0" max="10000" step="1" value="1" required></label>
+        <label class="sp-field">Baustein im Stageplot<select id="sp-inventory-symbol"></select></label>
+        <label class="sp-field">Frequenzbereich / Kanal<input id="sp-inventory-wireless" maxlength="100" placeholder="z. B. 470–516 MHz"></label>
+        <label class="sp-field">Strombedarf<input id="sp-inventory-power" maxlength="100" placeholder="z. B. 1 × Schuko 230 V"></label>
+      </div><label class="sp-field">Notizen<textarea id="sp-inventory-notes" maxlength="300" rows="2"></textarea></label>
+      <div class="sp-actions"><button type="button" class="sp-button" id="sp-inventory-new">Neuer Eintrag</button><button type="submit" class="sp-button sp-primary">Equipment speichern</button></div></form></div>
+      <div class="sp-actions"><span id="sp-inventory-status" role="status"></span><button type="button" class="sp-button" id="sp-inventory-undo" hidden>Löschen rückgängig</button></div>
+    </section>
   </dialog>
   <dialog id="sp-settings-dialog" class="sp-clear-dialog sp-settings-dialog" aria-labelledby="sp-settings-title">
     <div class="sp-dialog-heading"><h2 id="sp-settings-title">Einstellungen</h2><button class="sp-button" type="button" id="sp-settings-close" aria-label="Einstellungen schließen">×</button></div>
@@ -4431,9 +4475,40 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-print-paper-section { padding:2mm; break-inside:avoid; page-break-inside:avoid; }
   #sp-prototype .sp-paper-routing-table { font-size:5.5pt; }
 }
+
+/* Feedback: legible categories and large resize targets. */
+#sp-prototype .sp-category-tabs { display:flex; flex-wrap:wrap; gap:5px; }
+#sp-prototype .sp-category-tabs button { width:auto; min-height:36px; display:flex; align-items:center; gap:0; padding:7px 9px; }
+#sp-prototype .sp-category-tabs button svg { width:20px; height:20px; flex-shrink:0; stroke-width:1.6; }
+#sp-prototype .sp-category-tabs button .sp-category-name { position:static; width:auto; height:auto; margin:0; clip:auto; clip-path:none; overflow:hidden; max-width:0; opacity:0; transition:max-width .2s ease,opacity .2s ease,margin .2s ease; }
+#sp-prototype .sp-category-tabs button:is(:hover,:focus-visible,[aria-pressed="true"]) .sp-category-name { max-width:150px; opacity:1; margin-left:7px; }
+@media (hover:none), (pointer:coarse) { #sp-prototype .sp-category-tabs button { min-height:44px; } #sp-prototype .sp-category-tabs button .sp-category-name { max-width:150px; opacity:1; margin-left:7px; } }
+@media (prefers-reduced-motion:reduce) { #sp-prototype .sp-category-tabs button .sp-category-name { transition:none; } }
+@container sp-frame (max-width:859px) {
+  #sp-prototype .sp-workspace { height:var(--sp-editor-height,600px); min-height:0; }
+  #sp-prototype .sp-category-tabs button .sp-category-name { max-width:150px; opacity:1; margin-left:7px; }
+}
+
+#sp-prototype .sp-account-dialog { width:min(1000px,calc(100% - 24px)); padding:22px; max-height:calc(100dvh - 24px); overflow:auto; }
+#sp-prototype .sp-account-tabs { display:flex; gap:8px; padding:14px 0; border-bottom:1px solid var(--sp-line); margin-bottom:16px; }
+#sp-prototype .sp-account-tabs button { padding:10px 18px; border:1px solid var(--sp-line); border-radius:24px; background:var(--sp-panel); color:var(--sp-ink); }
+#sp-prototype .sp-account-tabs button[aria-selected="true"] { background:var(--sp-primary); color:var(--sp-primary-ink); }
+#sp-prototype .sp-inventory-layout { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+#sp-prototype .sp-inventory-list { max-height:430px; overflow:auto; margin-top:14px; display:grid; gap:10px; }
+#sp-prototype .sp-inventory-card { border:1px solid var(--sp-line); border-radius:12px; padding:14px; display:grid; gap:10px; }
+#sp-prototype .sp-inventory-card small { display:block; margin-top:5px; color:var(--sp-muted); }
+#sp-prototype #sp-inventory-form, #sp-prototype #sp-account-login, #sp-prototype #sp-account-verify { display:grid; gap:14px; }
+#sp-prototype #sp-inventory-form .sp-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
+#sp-prototype #sp-inventory-status { font-size:12px; }
+#sp-prototype #sp-inventory-open { margin:7px 0 0; width:100%; }
+#sp-prototype #sp-foh-fields .sp-check { display:flex; align-items:center; gap:7px; padding:8px 0; }
+@media(max-width:700px) { #sp-prototype .sp-inventory-layout { grid-template-columns:1fr; } #sp-prototype .sp-account-dialog { padding:14px; } }
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
+<script src="./stageplot-cloud-config.js"></script>
+<script src="./stageplot-sync-v2.js"></script>
+<script src="./stageplot-inventory-v1.js"></script>
 <script>
 // Embedded verbatim for the single-file offline app; the separate module remains the tested source.
 /* build-inline:start stageplot-export-v42.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
@@ -4709,6 +4784,7 @@ function createStageplotExportV42() {
     {id:'stagebox-32',name:'Stagebox · 32 In / 16 Out',short:'Stagebox 32',family:'stageboxes',category:'tech',w:.76,d:.18,vb:[364,90],detail:'2 × A&H DX168 · 32 Eingänge / 16 Ausgänge'},
     {id:'stagebox-46',name:'Custom Stagebox · 46 In',short:'Custom 46',family:'stageboxes',category:'tech',w:.48,d:.25,vb:[180,90],detail:'46 Eingänge · freie Konfiguration · kein A&H-Modell'},
     {id:'stagebox-48',name:'Stagebox · 48 In / 16 Out',short:'GX4816 · 48',family:'stageboxes',category:'tech',w:.48,d:.25,vb:[180,90],detail:'A&H GX4816 · 48 Eingänge / 16 Ausgänge'},
+    {id:'foh',name:'FOH-Platz',short:'FOH',category:'tech',w:3,d:2,vb:[180,120],underlay:true,instrument:false,keywords:'front of house mischplatz tisch absperrung sonnenschutz regenschutz'},
     {id:'power',name:'Stromverteiler',short:'Strom',category:'tech',w:.4,d:.12,vb:[100,31]},
     {id:'wedge',name:'Monitor-Wedge · CM14',short:'Wedge · CM14',category:'tech',w:.559,d:.546,vb:[116,113],detail:'Koaxialer 14″ Bühnenmonitor · Planmaß 55,9 × 54,6 cm'},
     {id:'teleprompter',name:'Teleprompter · Wedge · Topview',short:'Teleprompter',category:'tech',w:.56,d:.48,vb:[140,120],keywords:'stageprompter tele prompter monitor display screen lyrics text wedge',detail:'Bühnen-Teleprompter · orthografische Draufsicht'},
@@ -4782,17 +4858,34 @@ function createStageplotExportV42() {
   const clone = value => JSON.parse(JSON.stringify(value));
   const emptyContacts=()=>({stageManager:{name:'',contact:''},foh:{name:'',contact:''},monitor:{name:'',contact:''},advance:{name:'',contact:''}});
   const defaultProjectInfo=(name='Mein Live-Setup')=>({name:String(name||'Mein Live-Setup').slice(0,60),date:'',artist:'',venue:'',author:'',tour:'',company:'',unit:'m',contacts:emptyContacts(),notes:''});
-  const normalizeIemConfig=(value,label='IEM')=>{const source=value&&typeof value==='object'?value:{},fallback=String(label||'IEM').replace(/^IEM(?:-Rack)?\s*[·–-]?\s*/i,'').trim()||'Musiker:in';return {name:projectText(source.name||fallback,80),mode:source.mode==='mono'?'mono':'stereo',transport:source.transport==='cable'?'cable':'wireless'};};
+  const normalizeIemConfig=(value,label='IEM')=>{const source=value&&typeof value==='object'?value:{},fallback=String(label||'IEM').replace(/^IEM(?:-Rack)?\s*[·–-]?\s*/i,'').trim()||'Musiker:in';return {name:projectText(source.name||fallback,80),mode:source.mode==='mono'?'mono':'stereo',transport:source.transport==='cable'?'cable':'wireless',frequencyBand:projectText(source.frequencyBand,100)};};
   const defaultRouting=()=>({inputs:[],outputs:[],generatedAt:0});
   const projectText=(value,max)=>String(value??'').slice(0,max);
   const ioConnectorValues=['XLR','Klinke','USB','Digital','MADI','Dante'];
   const normalizeIoConnector=(value,fallback='XLR')=>ioConnectorValues.includes(value)?value:fallback;
+  function normalizeProductionInfo(value){
+    const p=value&&typeof value==='object'?value:{},text=v=>String(v??'').trim().slice(0,120),h=p.handover&&typeof p.handover==='object'?p.handover:{};
+    return {power:text(p.power),handover:{mode:text(h.mode),point:text(h.point),connection:text(h.connection),notes:text(h.notes)}};
+  }
+  function productionLines(s){
+    const p=normalizeProductionInfo(s?.project?.production),h=p.handover,lines=[];
+    if(p.power)lines.push('Strom Bühne: '+p.power);
+    if(h.mode||h.point||h.connection)lines.push('Signalübergabe: '+[h.mode,h.point?'am '+h.point:'',h.connection?'via '+h.connection:''].filter(Boolean).join(' '));
+    if(h.notes)lines.push('Übergabe: '+h.notes);return lines;
+  }
+  const fohNeeds=o=>Object.entries({table:'Tisch',barrier:'Absperrung',sun:'Sonnenschutz',rain:'Regenschutz'}).filter(([key])=>o.foh?.[key]).map(([,label])=>label);
+  function objectProductionLines(o){return [o.power?'Strom: '+o.power:'',o.wireless?'Funk: '+o.wireless:'',...(o.type==='foh'?['FOH '+num(objectSize(o).w)+' × '+metres(objectSize(o).d),...fohNeeds(o)]:[])].filter(Boolean);}
+  function fillProductionObject(o){
+    $('sp-object-power').value=o.power||'';$('sp-object-wireless').value=o.wireless||'';$('sp-object-wireless-field').hidden=!(byId[o.type].instrument||o.type==='rack');$('sp-foh-fields').hidden=o.type!=='foh';
+    for(const id of ['sp-object-power','sp-object-wireless','sp-foh-width','sp-foh-depth','sp-foh-table','sp-foh-barrier','sp-foh-sun','sp-foh-rain'])$(id).disabled=!!o.locked;
+    if(o.type==='foh'){$('sp-foh-width').value=objectSize(o).w;$('sp-foh-depth').value=objectSize(o).d;for(const key of ['table','barrier','sun','rain'])$('sp-foh-'+key).checked=!!o.foh?.[key];}
+  }
   function normalizeProjectInfo(value,title='Mein Live-Setup'){
     const source=value&&typeof value==='object'?value:{},contacts=source.contacts&&typeof source.contacts==='object'?source.contacts:{},cleanContact=key=>{
       const entry=contacts[key]&&typeof contacts[key]==='object'?contacts[key]:{};
       return {name:projectText(entry.name,80),contact:projectText(entry.contact,120)};
     };
-    return {name:projectText(source.name||title,60)||'Mein Live-Setup',date:/^\d{4}-\d{2}-\d{2}$/.test(source.date||'')?source.date:'',artist:projectText(source.artist,80),venue:projectText(source.venue,100),author:projectText(source.author,80),tour:projectText(source.tour,80),company:projectText(source.company,100),unit:source.unit==='ft'?'ft':'m',contacts:{stageManager:cleanContact('stageManager'),foh:cleanContact('foh'),monitor:cleanContact('monitor'),advance:cleanContact('advance')},notes:projectText(source.notes,2000)};
+    return {name:projectText(source.name||title,60)||'Mein Live-Setup',date:/^\d{4}-\d{2}-\d{2}$/.test(source.date||'')?source.date:'',artist:projectText(source.artist,80),venue:projectText(source.venue,100),author:projectText(source.author,80),tour:projectText(source.tour,80),company:projectText(source.company,100),unit:source.unit==='ft'?'ft':'m',contacts:{stageManager:cleanContact('stageManager'),foh:cleanContact('foh'),monitor:cleanContact('monitor'),advance:cleanContact('advance')},notes:projectText(source.notes,2000),production:normalizeProductionInfo(source.production)};
   }
   const routeModes=new Set(['Mono','Stereo L','Stereo R','Mic','DI','Direct']);
   const routeSignals=new Set(['Mic','Line','Instrument','Digital']);
@@ -4800,7 +4893,7 @@ function createStageplotExportV42() {
     const source=value&&typeof value==='object'?value:{},rawKey=projectText(source.sourceKey,140);let sourceKey=rawKey,stagebox=projectText(source.stagebox,100);
     if(idMap&&rawKey.includes(':')){const split=rawKey.indexOf(':'),mapped=idMap.get(rawKey.slice(0,split));if(mapped)sourceKey=mapped+rawKey.slice(split);}
     if(idMap?.has(stagebox))stagebox=idMap.get(stagebox);
-    return {id:/^route-[a-z0-9-]+$/.test(source.id||'')?source.id:'route-'+direction+'-'+(index+1),sourceKey,number:Number.isFinite(Number(source.number))&&Number(source.number)>0?Math.min(999,Math.round(Number(source.number))):null,instrument:projectText(source.instrument,100),generatedInstrument:projectText(source.generatedInstrument,100),mode:routeModes.has(source.mode)?source.mode:'Mono',signalType:routeSignals.has(source.signalType)?source.signalType:'Mic',connector:normalizeIoConnector(source.connector,source.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(source.portIndex))&&Number(source.portIndex)>0?Math.min(64,Math.round(Number(source.portIndex))):null,stereoGroup:projectText(source.stereoGroup,140),iemName:projectText(source.iemName,80),iemMode:source.iemMode==='stereo'?'stereo':source.iemMode==='mono'?'mono':'',iemTransport:source.iemTransport==='wireless'?'wireless':source.iemTransport==='cable'?'cable':'',iemGroup:projectText(source.iemGroup,140),microphone:projectText(source.microphone,80),phantom:source.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(source.stageboxPort))&&Number(source.stageboxPort)>0?Math.min(128,Math.round(Number(source.stageboxPort))):null,notes:projectText(source.notes,240),manual:source.manual===true||!sourceKey};
+    return {id:/^route-[a-z0-9-]+$/.test(source.id||'')?source.id:'route-'+direction+'-'+(index+1),sourceKey,number:Number.isFinite(Number(source.number))&&Number(source.number)>0?Math.min(999,Math.round(Number(source.number))):null,instrument:projectText(source.instrument,100),generatedInstrument:projectText(source.generatedInstrument,100),mode:routeModes.has(source.mode)?source.mode:'Mono',signalType:routeSignals.has(source.signalType)?source.signalType:'Mic',connector:normalizeIoConnector(source.connector,source.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(source.portIndex))&&Number(source.portIndex)>0?Math.min(64,Math.round(Number(source.portIndex))):null,stereoGroup:projectText(source.stereoGroup,140),iemName:projectText(source.iemName,80),iemMode:source.iemMode==='stereo'?'stereo':source.iemMode==='mono'?'mono':'',iemTransport:source.iemTransport==='wireless'?'wireless':source.iemTransport==='cable'?'cable':'',iemGroup:projectText(source.iemGroup,140),frequencyBand:projectText(source.frequencyBand,100),microphone:projectText(source.microphone,80),phantom:source.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(source.stageboxPort))&&Number(source.stageboxPort)>0?Math.min(128,Math.round(Number(source.stageboxPort))):null,notes:projectText(source.notes,240),manual:source.manual===true||!sourceKey};
   }
   function normalizeRouting(value,idMap=null){
     const source=value&&typeof value==='object'?value:{},ids=new Set(),list=(key)=>Array.isArray(source[key])?source[key].slice(0,512).map((row,i)=>{
@@ -5890,6 +5983,12 @@ function createStageplotSymbolV3(type, options = {}) {
     path(keys,'#bdbdbd',.2);rect(45,56,30,15,'#b8b8b8',.4,1);line(16,75,104,75,.35,'#999');
     for(const [x,y] of [[14,31],[14,43],[106,31],[106,43]])rect(x-1,y-1.8,2,3.6,'#777',.25,.35);end();
     end();
+  }else if(type==='foh'){
+    group('','foh-mixing-position');
+    rect(3,3,174,114,'#f3f5ef',1,3,'#66715f');
+    rect(27,26,126,49,'#d8ddd3',.8,2);rect(53,31,74,38,'#374333',.8,3);
+    for(let x=61;x<122;x+=10){line(x,43,x,61,1,'#d2d9ce');rect(x-2,49,4,7,'#fff',.3,1);}
+    rect(62,34,20,6,'#a1b996',.3,1);circle(90,94,12,'#f5f7f1',.8);end();
   }else if(type==='rack'){
     rect(15,9,70,81,'#888',.9,1.2);rect(18,12,64,75,'#dedede',.6,.8);rect(22,16,56,67,'#444',.5,.5);
     for(const xx of [14,82]){rect(xx,31,4,21,'#777',.6,.6);rect(xx+.8,35,2.4,13,'#ddd',.3,.4);}
@@ -6044,7 +6143,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const rw=Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h,rh=Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h;
     return '<svg viewBox="'+[w/2-rw/2-3,h/2-rh/2-3,rw+6,rh+6].join(' ')+'" aria-hidden="true"><use href="#'+artId(c,o)+'" transform="rotate('+angle+' '+w/2+' '+h/2+')"/></svg>';
   }
-  const objectSize = o => o.type==='riser'?{w:o.width||2,d:o.depth||1}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
+  const objectSize = o => ['riser','foh'].includes(o.type)?{w:o.width||(o.type==='foh'?3:2),d:o.depth||(o.type==='foh'?2:1)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
   function objectCatalog(o){return typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?{...byId[o.type],...drumModel.drumLayout(o.type,o.drums)}:byId[o.type];}
   function drumRenderGeometry(o,c,w,h){
     if(!drumModel.isDrums(o.type)||!Array.isArray(c.parts))return null;
@@ -6167,10 +6266,11 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function syncRiserCaptions(svg){
     const covered=coveredRisers(objects);
-    svg.querySelectorAll('[data-riser-caption]').forEach(el=>{el.style.display=covered.has(el.dataset.riserCaption)?'none':'';});
+    svg.querySelectorAll('[data-riser-caption]').forEach(el=>{el.style.display=el.hasAttribute('data-label-for')?'':covered.has(el.dataset.riserCaption)?'none':'';});
   }
   function objectDetail(o) {
     if(drumModel.isDrums(o.type)){const d=drumModel.normalizeDrums(o.type,o.drums);return d.kickDiameter+'″ Kick · '+d.snareDiameter+'″ Snare · '+d.rackToms.length+' Rack / '+d.floorToms.length+' Floor'+(d.side?' · '+d.sideDiameter+'″ Zusatzsnare':'');}
+    if(o.type==='foh')return 'FOH-Platz';
     if(o.type==='riser')return riserDescription(o);
     if(o.type==='mic')return (o.stand==='round'?'Tellerboden':'Boom '+({up:'oben',right:'rechts',left:'links'}[o.boomDirection||'up'])+' · Mikro nach oben')+' · '+micPurpose[o.purpose||'vocals'];
     return byId[o.type].detail||'';
@@ -6182,9 +6282,9 @@ function createStageplotSymbolV3(type, options = {}) {
     return {x:s.iem==='left'?0:s.iem==='right'?s.w-s.iemDepth:Number(s.iemX)||0,y:Number(s.iemY)||0,w:s.iemDepth,d:s.iemLength};
   }
   function constrainIem(s){
-    s.iemDepth=Math.max(.1,Math.min(s.w,s.iemDepth));s.iemLength=Math.max(.1,Math.min(s.d,s.iemLength));
+    s.iemDepth=Math.max(.1,Math.min(30,s.iemDepth));s.iemLength=Math.max(.1,Math.min(20,s.iemLength));
     const r=iemRect(s);if(!r)return;
-    s.iemX=Math.max(0,Math.min(s.w-r.w,r.x));s.iemY=Math.max(0,Math.min(s.d-r.d,r.y));
+    s.iemX=Math.max(-100,Math.min(100,r.x));s.iemY=Math.max(-100,Math.min(100,r.y));
   }
   function draft() {
     const title=$('sp-title').value.trim()||'Mein Live-Setup',project=normalizeProjectInfo(stage?.project,title);project.name=title;
@@ -6196,7 +6296,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function validStage(s) {
     if(!Number.isFinite(s.w)||!Number.isFinite(s.d)||s.w<2||s.w>30||s.d<2||s.d>20) return 'Breite: 2–30 m · Tiefe: 2–20 m.';
     const zone=iemRect(s);
-    if(zone&&(!(zone.w>0)||!(zone.d>0)||zone.x<0||zone.y<0||zone.x+zone.w>s.w+.001||zone.y+zone.d>s.d+.001))return 'Die IEM-Stellfläche muss innerhalb der Bühne liegen.';
+    if(zone&&(![zone.x,zone.y,zone.w,zone.d].every(Number.isFinite)||zone.w<.1||zone.w>30||zone.d<.1||zone.d>20||Math.abs(zone.x)>100||Math.abs(zone.y)>100))return 'IEM: Breite 0,1–30 m · Länge 0,1–20 m · Position −100 bis 100 m.';
     return '';
   }
   function stageMeta(s) {
@@ -6314,6 +6414,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function workspaceBounds(s,list){
     const box={minX:-.65,minY:-.65,maxX:s.w+.65,maxY:s.d+.65};
+    const zone=iemRect(s);if(zone){box.minX=Math.min(box.minX,zone.x-.5);box.minY=Math.min(box.minY,zone.y-.5);box.maxX=Math.max(box.maxX,zone.x+zone.w+.5);box.maxY=Math.max(box.maxY,zone.y+zone.d+.5);}
     const stair=stairStates(s).length;
     // Reserve the complete stair ring once a stair exists. Its camera fit then
     // stays stable while the user drags it around corners to another edge.
@@ -6345,7 +6446,7 @@ function createStageplotSymbolV3(type, options = {}) {
     return o.x+b.hw>r.x&&o.x-b.hw<r.x+r.w&&o.y+b.hd>r.y&&o.y-b.hd<r.y+r.d;
   }
   function outside(o,s) {
-    if(byId[o.type]?.stageExtension)return false;
+    if(o.type==='foh'||byId[o.type]?.stageExtension)return false;
     const b=bounds(o);
     return o.x-b.hw<-.011||o.x+b.hw>s.w+.011||o.y-b.hd<-.011||o.y+b.hd>s.d+.011;
   }
@@ -6416,7 +6517,7 @@ function createStageplotSymbolV3(type, options = {}) {
     ['sp-iem-length','sp-iem-depth','sp-iem-y'].forEach(id=>$(id).disabled=!hasIem);
     $('sp-iem-x').disabled=!hasIem||s.iem!=='free';
     if(hasIem&&s.iem!=='free')$('sp-iem-x').value=iemRect(s).x;
-    $('sp-iem-x').max=Math.max(0,s.w-s.iemDepth);$('sp-iem-y').max=Math.max(0,s.d-s.iemLength);
+    $('sp-iem-x').max=100;$('sp-iem-y').max=100;
     $('sp-preview-size').textContent=Number.isFinite(s.w+s.d)?num(s.w)+' × '+metres(s.d):'';
     $('sp-setup-meta').innerHTML=stageMeta(s).map(t=>'<span class="sp-meta-chip">'+esc(t)+'</span>').join('');
     $('sp-form-error').hidden=!error;$('sp-form-error').textContent=error;
@@ -6439,7 +6540,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function labelOwnerBox(o,x,y,scale,artBox){
     const c=objectCatalog(o),size=objectSize(o),unit=Math.min(size.w/c.vb[0],size.d/c.vb[1])*scale;
-    const local=o.type==='riser'||c.stageExtension||c.art==='text'||!artBox
+    const local=o.type==='riser'||o.type==='foh'||c.stageExtension||c.art==='text'||!artBox
       ?{left:-size.w*scale/2,right:size.w*scale/2,top:-size.d*scale/2,bottom:size.d*scale/2}
       :{left:(artBox.x-c.vb[0]/2)*unit,right:(artBox.x+artBox.width-c.vb[0]/2)*unit,top:(artBox.y-c.vb[1]/2)*unit,bottom:(artBox.y+artBox.height-c.vb[1]/2)*unit};
     const angle=o.angle*Math.PI/180,cos=Math.cos(angle),sin=Math.sin(angle);
@@ -6579,7 +6680,9 @@ function createStageplotSymbolV3(type, options = {}) {
     if(W<80||!s) return;
     renderedWidths.set(host.id,W);
     const left=W<340?31:40,right=23,coarse=window.matchMedia('(pointer: coarse)').matches;
-    const header=43,bottom=mode==='editor'?36:47;
+    const technicalLines=productionLines(s).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
+    const editorFooter=mode==='editor'?56:0;
+    const header=43,bottom=(mode==='editor'?36:47)+technicalHeight+editorFooter;
     const area=mode==='editor'?editorWorkspaceBounds(s,list):workspaceBounds(s,list);
     const height=mode==='editor'||mode==='print'?Math.floor(host.getBoundingClientRect().height):0;
     const fit=fitFloor(W,height,area,left,right,header,bottom,mode==='print'?'start':'center'),H=fixed?fixed.H:fit.H;
@@ -6635,7 +6738,7 @@ function createStageplotSymbolV3(type, options = {}) {
       sEl('rect',{x:ix,y:iy,width:zone.w*scale,height:zone.d*scale,fill:'url(#'+patId+')',stroke:mode==='editor'&&selected==='iem-zone'?'var(--sp-teal)':'var(--sp-amber)','stroke-width':mode==='editor'&&selected==='iem-zone'?1.8:.8},zg);
       sEl('rect',{x:ix+zone.w*scale/2-14,y:iy+2,width:28,height:16,rx:3,fill:'#fff',stroke:'none'},zg);
       sEl('text',{x:ix+zone.w*scale/2,y:iy+13,'text-anchor':'middle',fill:'var(--sp-amber)','font-size':11},zg,'IEM');
-      if(mode==='editor'&&selected==='iem-zone')for(const x of [ix,ix+zone.w*scale])for(const y of [iy,iy+zone.d*scale])sEl('rect',{x:x-2.5,y:y-2.5,width:5,height:5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)'},zg);
+      if(mode==='editor'&&selected==='iem-zone')drawFootprintHandles(zg,ix,iy,zone.w*scale,zone.d*scale,'iem-zone',coarse);
     }
     sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'none',stroke:blackStage?'#0d0e0d':'var(--sp-art)','stroke-width':blackStage?1.7:1.3,'data-stage-boundary':'true'},svg);
     for(const stairEntry of stairStates(s)){
@@ -6676,12 +6779,14 @@ function createStageplotSymbolV3(type, options = {}) {
       if(active){const text=metres(cable.length),labelW=measureLabel(text)+12;sEl('rect',{x:geometry.mid.x-labelW/2,y:geometry.mid.y-11,width:labelW,height:20,rx:6,fill:'#161916',stroke:'#c3c8c3','stroke-width':1,'pointer-events':'none'},cableLayer);sEl('text',{x:geometry.mid.x,y:geometry.mid.y+3,'text-anchor':'middle',fill:'#fff','font-size':9,'font-weight':750,'pointer-events':'none'},cableLayer,text);}
     });
     if(mode==='editor'&&cablesVisible&&cableDrag?.point){const source=objects.find(o=>o.id===cableDrag.sourceId),target=objects.find(o=>o.id===cableDrag.targetId);if(source)cableDrag.rows.forEach((row,index)=>{const geometry=cablePreviewGeometry(source,cableDrag.point,target,scale,mx,top,index,cableDrag.rows.length);sEl('path',{d:geometry.path,fill:'none',stroke:'#c4c9c4','stroke-width':4.6,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.55,'pointer-events':'none'},cableLayer);sEl('path',{d:geometry.path,fill:'none',stroke:'#111311','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.94,'pointer-events':'none','data-cable-preview':row.sourceKey},cableLayer);drawCableConnector(cableLayer,geometry.points[0],geometry.points[1],cableSilverId,true);drawCableConnector(cableLayer,geometry.points.at(-1),geometry.points.at(-2),cableSilverId,true);});}
-    sEl('text',{x:mx+rectW/2,y:mode==='print'?Math.min(H-12,top+area.maxY*scale+24):H-12,'text-anchor':'middle',class:'sp-orientation'},svg,'DOWNSTAGE · VORNE · PUBLIKUM');
+    const downstageY=mode==='print'?Math.min(H-technicalHeight-editorFooter-12,top+area.maxY*scale+24):H-technicalHeight-editorFooter-12;
+    sEl('text',{x:mx+rectW/2,y:downstageY,'text-anchor':'middle',class:'sp-orientation'},svg,'DOWNSTAGE · VORNE · PUBLIKUM');
     if(mode==='editor'&&!list.length) {
       sEl('text',{x:mx+rectW/2,y:top+rectH*.5,'text-anchor':'middle',fill:blackStage?'#eceee8':'#666','font-size':W<350?12:14},svg,'Deine Bühne ist bereit.');
       sEl('text',{x:mx+rectW/2,y:top+rectH*.5+19,'text-anchor':'middle',fill:blackStage?'#c4c7c0':'#666','font-size':11},svg,'Baustein wählen oder hineinziehen');
     }
-    const occupiedLabels=[],covered=coveredRisers(list),labelsLayer=sEl('g',{'data-label-layer':mode});
+    const occupiedLabels=technicalHeight||editorFooter?[{left:0,right:W,top:H-technicalHeight-editorFooter,bottom:H}]:[],covered=coveredRisers(list),labelsLayer=sEl('g',{'data-label-layer':mode});
+    occupiedLabels.push({left:mx+rectW/2-115,right:mx+rectW/2+115,top:downstageY-12,bottom:downstageY+5});
     if(zone){const cx=mx+(zone.x+zone.w/2)*scale,cy=top+zone.y*scale;occupiedLabels.push({left:cx-14,right:cx+14,top:cy+2,bottom:cy+18});}
     if(mode==='editor'){
       positionRotationToolbar(svg);
@@ -6728,6 +6833,10 @@ function createStageplotSymbolV3(type, options = {}) {
           sEl('rect',{x:-cw/2,y:-h/2+4,width:cw,height:17,rx:3,fill:'#fff',stroke:'none'},caption);
           sEl('text',{x:0,y:-h/2+16,'text-anchor':'middle',fill:'#444','font-size':11,'data-riser-height':o.height||40},caption,value);
         }
+      }else if(o.type==='foh'){
+        sEl('rect',{x:-w/2,y:-h/2,width:w,height:h,fill:'#f4f6f1',stroke:'#596153','stroke-width':1.4,'stroke-dasharray':o.foh?.barrier?'none':'5 3','data-foh-area':o.id},visual);
+        const unit=Math.min(w/180,h/120);const art=sEl('g',{transform:'translate('+(-90*unit)+' '+(-60*unit)+') scale('+unit+')'},visual);sEl('use',{href:'#'+artId(c,o)},art);
+        if(o.foh?.sun||o.foh?.rain)sEl('path',{d:'M'+(-w/2+4)+' '+(-h/2+4)+'L0 '+(-h/2-8)+'L'+(w/2-4)+' '+(-h/2+4),fill:'none',stroke:'#596153','stroke-width':2,'data-foh-cover':'true'},visual);
       }else if(c.stageExtension){
         const deck=sEl('g',{'data-stage-extension':o.id,'data-module-size':'2x1'},visual),stroke=blackStage?'#666862':'#c8cbc5',gridOn=mode!=='print'&&(mode!=='editor'||$('sp-grid-visible').getAttribute('aria-pressed')==='true');
         sEl('rect',{x:-w/2,y:-h/2,width:w,height:h,fill:stageFill,stroke,'stroke-width':blackStage ? .85 : .65},deck);
@@ -6746,7 +6855,8 @@ function createStageplotSymbolV3(type, options = {}) {
         }
         else {
           sEl('rect',{x:-w/2-3,y:-h/2-3,width:w+6,height:h+6,fill:'none',stroke:'var(--sp-teal)','stroke-width':1.2,'data-selection-frame':o.id,'stroke-dasharray':o.locked?'4 3':'none','pointer-events':'none'},rotation);
-          if(!o.locked)for(const dx of [-w/2-3,w/2+3])for(const dy of [-h/2-3,h/2+3])sEl('rect',{x:dx-2.5,y:dy-2.5,width:5,height:5,fill:'var(--sp-selection)',stroke:'var(--sp-teal)','pointer-events':'none'},rotation);
+          if(!o.locked&&['riser','foh'].includes(o.type))drawFootprintHandles(rotation,-w/2,-h/2,w,h,o.id,coarse);
+          else if(!o.locked)for(const dx of [-w/2-3,w/2+3])for(const dy of [-h/2-3,h/2+3])sEl('rect',{x:dx-2.5,y:dy-2.5,width:5,height:5,fill:'var(--sp-selection)',stroke:'var(--sp-teal)','pointer-events':'none'},rotation);
         }
       }
       if(mode==='editor'&&cableViewEnabled&&o.id===selected&&!o.locked){
@@ -6765,7 +6875,7 @@ function createStageplotSymbolV3(type, options = {}) {
         if(active)sEl('text',{x:cx,y:-19,'text-anchor':'middle',fill:'#202420','font-size':8,'font-weight':850,'pointer-events':'none'},target,'LOSLASSEN');
       }
       if($('sp-print-labels').checked){
-        const t=labelVisible(o)?labelText(o):'';
+        const t=(labelVisible(o)?labelText(o):'')+(o.type==='riser'&&showPrintMeasures?' · '+riserDescription(o):'');
         const maxChars=W<360?17:25, lines=[];
         let remaining=t;
         while(remaining.length>maxChars){const split=remaining.lastIndexOf(' ',maxChars),cut=split>5?split:maxChars;lines.push(remaining.slice(0,cut));remaining=remaining.slice(cut).trim();}
@@ -6776,20 +6886,22 @@ function createStageplotSymbolV3(type, options = {}) {
           while(rest.length>maxChars){const split=rest.lastIndexOf(' ',maxChars),cut=split>5?split:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}
           if(rest)lines.push(rest);
         }
+        for(const value of objectProductionLines(o)){let rest=value;while(rest.length>maxChars){const space=rest.lastIndexOf(' ',maxChars),cut=space>5?space:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}if(rest)lines.push(rest);}
         if(!lines.length)return;
         const labelGroup=sEl('g',{'data-label-for':o.id,'pointer-events':'none'},labelsLayer);
-        if(o.type==='riser'){labelGroup.dataset.riserCaption=o.id;labelGroup.style.display=covered.has(o.id)?'none':'';}
+        if(o.type==='riser'){labelGroup.dataset.riserCaption=o.id;labelGroup.style.display='';}
         const labelWidth=Math.max(...lines.map(measureLabel))+8,labelHeight=lines.length*12+5;
         const owner=ownerBoxes.get(o.id),freeView=mode==='editor';
-        const placement=placeObjectLabel(owner,labelWidth,labelHeight,labelViewport(owner,labelWidth,labelHeight,W,H,header,freeView),occupiedLabels,artworkBoxes,c.art==='text'),box=placement.box;
+        const placement=placeObjectLabel(owner,labelWidth,labelHeight,labelViewport(owner,labelWidth,labelHeight,W,H-technicalHeight-editorFooter,header,freeView&&(owner.left<0||owner.right>W||owner.top<0||owner.bottom>H-technicalHeight-editorFooter)),occupiedLabels,artworkBoxes,c.art==='text'),box=placement.box;
         if(freeView&&(owner.right<0||owner.left>W||owner.bottom<0||owner.top>H))labelGroup.style.display='none';
         labelGroup.dataset.labelSide=placement.side;
         sEl('rect',{'data-label-background':o.id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,fill:'#fff',stroke:'#aeb5ae','stroke-width':.7,rx:3.5},labelGroup);
         lines.forEach((line,i)=>sEl('text',{x:(box.left+box.right)/2,y:box.top+12+i*12,'text-anchor':'middle',class:'sp-stage-label'+(i>=nameLineCount?' sp-stage-outs':'')},labelGroup,line));
-        if(!covered.has(o.id))occupiedLabels.push(box);
+        occupiedLabels.push(box);
       }
     });
     svg.appendChild(labelsLayer);
+    if(technicalLines.length){const g=sEl('g',{'data-production-summary':'true','pointer-events':'none'},svg),y=H-technicalHeight-editorFooter;sEl('rect',{x:12,y,width:W-24,height:technicalHeight-4,rx:5,fill:'#fff',stroke:'#bbc2b7'},g);technicalLines.forEach((line,i)=>sEl('text',{x:22,y:y+15+i*14,fill:'#30392c','font-size':11},g,line));}
     if(mode==='editor'&&selected==='stage-zone'){
       sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'none',stroke:'var(--sp-teal)','stroke-width':2,'pointer-events':'none','data-stage-edit-outline':'true'},svg);
       const stageLabel='Bühne · '+num(s.w)+' × '+metres(s.d),stageLabelWidth=measureLabel(stageLabel)+18;
@@ -7088,10 +7200,11 @@ function createStageplotSymbolV3(type, options = {}) {
       syncChoiceButtons($('sp-iem-side-options'),stage.iem,false);
       $('sp-iem-x-edit').value=Number(zone.x.toFixed(3));$('sp-iem-y-edit').value=Number(zone.y.toFixed(3));
       $('sp-iem-width-edit').value=zone.w;$('sp-iem-length-edit').value=zone.d;
-      $('sp-iem-x-edit').max=stage.w-zone.w;$('sp-iem-y-edit').max=stage.d-zone.d;
-      $('sp-iem-width-edit').max=stage.w;$('sp-iem-length-edit').max=stage.d;
+      $('sp-iem-x-edit').max=100;$('sp-iem-y-edit').max=100;
+      $('sp-iem-width-edit').max=30;$('sp-iem-length-edit').max=20;
     }
     if(!o)return;
+    fillProductionObject(o);
     const locked=!!o.locked;
     $('sp-object-locked').checked=locked;$('sp-lock-hint').hidden=!locked;
     $('sp-lock').setAttribute('aria-pressed',String(locked));$('sp-lock').setAttribute('aria-label',locked?'Objekt entsperren':'Objekt sperren');
@@ -7137,7 +7250,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const source=value&&typeof value==='object'?value:{},s=source.stage&&typeof source.stage==='object'?source.stage:{};
     const number=(key,min,max)=>{const n=Number(s[key]);if(!Number.isFinite(n)||n<min||n>max)throw new Error('Bühnenvorlage enthält ungültige Maße.');return n;},stairs=['left','right','side-left','side-right','back','none','unknown'].includes(s.stairs)?s.stairs:'unknown',iem=['left','right','free','none','unknown'].includes(s.iem)?s.iem:'unknown';
     if(typeof source.id!=='string'||!/^stage-template-[a-z0-9-]+$/.test(source.id)||typeof source.name!=='string'||!source.name.trim()||source.name.length>40||!Number.isFinite(source.savedAt))throw new Error('Bühnenvorlage ist beschädigt.');
-    const w=number('w',2,30),d=number('d',2,20),stageValue={w,d,estimated:false,surface:s.surface==='black'?'black':'light',complex:s.complex===true,stairs,stairsOffset:Number.isFinite(Number(s.stairsOffset))?Math.max(0,Math.min(1,Number(s.stairsOffset))):.5,stairsAlong:Number.isFinite(Number(s.stairsAlong))?Math.max(0,Math.min(1,Number(s.stairsAlong))):null,stairsWidth:Number.isFinite(Number(s.stairsWidth))?Math.max(.6,Math.min(w,Number(s.stairsWidth))):1.2,stairsDepth:Number.isFinite(Number(s.stairsDepth))?Math.max(.45,Math.min(3,Number(s.stairsDepth))):.9,iem,iemLength:number('iemLength',.1,20),iemDepth:number('iemDepth',.1,10),iemX:Number.isFinite(Number(s.iemX))?Math.max(0,Number(s.iemX)):0,iemY:Number.isFinite(Number(s.iemY))?Math.max(0,Number(s.iemY)):0};stageValue.extraStairs=normalizeExtraStairs(s.extraStairs,stageValue);
+    const w=number('w',2,30),d=number('d',2,20),stageValue={w,d,estimated:false,surface:s.surface==='black'?'black':'light',complex:s.complex===true,stairs,stairsOffset:Number.isFinite(Number(s.stairsOffset))?Math.max(0,Math.min(1,Number(s.stairsOffset))):.5,stairsAlong:Number.isFinite(Number(s.stairsAlong))?Math.max(0,Math.min(1,Number(s.stairsAlong))):null,stairsWidth:Number.isFinite(Number(s.stairsWidth))?Math.max(.6,Math.min(w,Number(s.stairsWidth))):1.2,stairsDepth:Number.isFinite(Number(s.stairsDepth))?Math.max(.45,Math.min(3,Number(s.stairsDepth))):.9,iem,iemLength:number('iemLength',.1,20),iemDepth:number('iemDepth',.1,30),iemX:Number.isFinite(Number(s.iemX))?Math.max(-100,Math.min(100,Number(s.iemX))):0,iemY:Number.isFinite(Number(s.iemY))?Math.max(-100,Math.min(100,Number(s.iemY))):0};stageValue.extraStairs=normalizeExtraStairs(s.extraStairs,stageValue);
     return {id:source.id,name:source.name.trim(),savedAt:source.savedAt,stage:stageValue};
   }
   function readStageTemplates(storage=window.localStorage){
@@ -7178,13 +7291,13 @@ function createStageplotSymbolV3(type, options = {}) {
       stairs:source.stairs,stairsOffset:finite(source.stairsOffset,0,1)?source.stairsOffset:.5,stairsAlong:finite(source.stairsAlong,0,1)?source.stairsAlong:undefined,stairsWidth:finite(source.stairsWidth,.6,30)?source.stairsWidth:1.2,stairsDepth:finite(source.stairsDepth,.45,3)?source.stairsDepth:.9,
       iem:source.iem,iemLength:source.iemLength,iemDepth:source.iemDepth,iemX:source.iemX,iemY:source.iemY};
     if(!['left','right','side-left','side-right','back','none','unknown'].includes(s.stairs)||!['left','right','free','none','unknown'].includes(s.iem))throw new Error('Ungültiger Zugang oder IEM-Bereich.');
-    for(const key of ['iemLength','iemDepth','iemX','iemY'])if(!finite(s[key],0,100))throw new Error('Ungültiger IEM-Bereich.');
+    for(const key of ['iemLength','iemDepth','iemX','iemY'])if(!finite(s[key],key==='iemX'||key==='iemY'?-100:0,100))throw new Error('Ungültiger IEM-Bereich.');
     if(validStage(s))throw new Error(validStage(s));
     const idMap=new Map();
     const list=value.objects.map((o,i)=>{
       const type=drumModel.isDrums(o?.type)?'drums':o?.type;
       if(!o||!Object.hasOwn(byId,type)||!finite(o.x,-10000,10000)||!finite(o.y,-10000,10000)||!finite(o.angle,-36000,36000))throw new Error('Ungültiger Baustein.');
-      const item={id:'station-'+(i+1),type,x:o.x,y:o.y,angle:((o.angle%360)+360)%360,label:String(o.label??'').slice(0,42),showLabel:o.showLabel!==false,note:String(o.note??'').slice(0,160),outs:String(o.outs??'').slice(0,48),showOuts:o.showOuts!==false,locked:o.locked===true};
+      const item={id:'station-'+(i+1),type,x:o.x,y:o.y,angle:((o.angle%360)+360)%360,label:String(o.label??'').slice(0,42),showLabel:o.showLabel!==false,note:String(o.note??'').slice(0,160),power:cleanText(o.power,100),wireless:cleanText(o.wireless,100),inventoryId:cleanText(o.inventoryId,100),outs:String(o.outs??'').slice(0,48),showOuts:o.showOuts!==false,locked:o.locked===true};
       if(typeof o.id==='string')idMap.set(o.id,item.id);
       const drumsAvailable=typeof drumModel!=='undefined'&&drumModel.isDrums(type);
       if(o.drums&&drumsAvailable)item.drums=drumModel.normalizeDrums(type,o.drums);
@@ -7196,6 +7309,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(stageboxCapacity[type])item.comboJacks=o.comboJacks===true;
       if(type==='rack')item.iem=normalizeIemConfig(o.iem,item.label);
       if(type==='mic')Object.assign(item,{stand:o.stand==='round'?'round':'boom',purpose:['vocals','talkback','instrument'].includes(o.purpose)?o.purpose:'vocals',boomDirection:['up','left','right'].includes(o.boomDirection)?o.boomDirection:'up'});
+      if(type==='foh'){const f=o.foh||{};Object.assign(item,{width:finite(o.width,.3,30)?o.width:3,depth:finite(o.depth,.3,20)?o.depth:2,foh:{table:f.table===true,barrier:f.barrier===true,sun:f.sun===true,rain:f.rain===true}});}
       if(type==='riser'){
         if(!finite(o.width,.25,30)||!finite(o.depth,.25,20)||!finite(o.height,5,240))throw new Error('Ungültige Riser-Maße.');
         Object.assign(item,{width:o.width,depth:o.depth,height:o.height});
@@ -7552,22 +7666,31 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage)return;const p=normalizeProjectInfo(stage.project,stage.title);projectFormUnit=p.unit;
     const values={'sp-project-name':stage.title,'sp-project-date':p.date,'sp-project-artist':p.artist,'sp-project-venue':p.venue,'sp-project-author':p.author,'sp-project-tour':p.tour,'sp-project-company':p.company,'sp-contact-stage-manager':p.contacts.stageManager.name,'sp-contact-stage-manager-value':p.contacts.stageManager.contact,'sp-contact-foh':p.contacts.foh.name,'sp-contact-foh-value':p.contacts.foh.contact,'sp-contact-monitor':p.contacts.monitor.name,'sp-contact-monitor-value':p.contacts.monitor.contact,'sp-contact-advance':p.contacts.advance.name,'sp-contact-advance-value':p.contacts.advance.contact,'sp-project-notes':p.notes};
     for(const [id,value] of Object.entries(values))$(id).value=value;
+    const production=normalizeProductionInfo(p.production);$('sp-production-power').value=production.power;for(const key of ['mode','point','connection','notes'])$('sp-handover-'+key).value=production.handover[key];
     $('sp-project-unit').value=projectFormUnit;$('sp-project-width').value=Math.round(metresToDisplay(stage.w,projectFormUnit)*100)/100;$('sp-project-depth').value=Math.round(metresToDisplay(stage.d,projectFormUnit)*100)/100;syncProjectUnitLabels();
   }
   function setProjectTab(tab='general'){
-    const selected=['general','contacts','notes'].includes(tab)?tab:'general';root.querySelectorAll('[data-project-tab]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.projectTab===selected)));root.querySelectorAll('[data-project-panel]').forEach(panel=>panel.hidden=panel.dataset.projectPanel!==selected);
+    const selected=['general','contacts','notes','production'].includes(tab)?tab:'general';root.querySelectorAll('[data-project-tab]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.projectTab===selected)));root.querySelectorAll('[data-project-panel]').forEach(panel=>panel.hidden=panel.dataset.projectPanel!==selected);
   }
   function openProjectSettings(){if(!stage){openNewProjectDialog();return;}show('project');}
   function readProjectForm(){
     const unit=$('sp-project-unit').value==='ft'?'ft':'m',name=$('sp-project-name').value.trim(),contacts={stageManager:{name:$('sp-contact-stage-manager').value,contact:$('sp-contact-stage-manager-value').value},foh:{name:$('sp-contact-foh').value,contact:$('sp-contact-foh-value').value},monitor:{name:$('sp-contact-monitor').value,contact:$('sp-contact-monitor-value').value},advance:{name:$('sp-contact-advance').value,contact:$('sp-contact-advance-value').value}};
-    return {name,w:displayToMetres(Number($('sp-project-width').value),unit),d:displayToMetres(Number($('sp-project-depth').value),unit),project:normalizeProjectInfo({name,date:$('sp-project-date').value,artist:$('sp-project-artist').value,venue:$('sp-project-venue').value,author:$('sp-project-author').value,tour:$('sp-project-tour').value,company:$('sp-project-company').value,unit,contacts,notes:$('sp-project-notes').value},name)};
+    return {name,w:displayToMetres(Number($('sp-project-width').value),unit),d:displayToMetres(Number($('sp-project-depth').value),unit),project:normalizeProjectInfo({name,date:$('sp-project-date').value,artist:$('sp-project-artist').value,venue:$('sp-project-venue').value,author:$('sp-project-author').value,tour:$('sp-project-tour').value,company:$('sp-project-company').value,unit,contacts,notes:$('sp-project-notes').value,production:{power:$('sp-production-power').value,handover:Object.fromEntries(['mode','point','connection','notes'].map(key=>[key,$('sp-handover-'+key).value]))}},name)};
   }
   function applyProjectForm(saveAfter=false){
-    if(!stage)return false;if(!$('sp-project-form').checkValidity()){setProjectTab('general');$('sp-project-form').reportValidity();return false;}const next=readProjectForm();
+    if(!stage)return false;if(!$('sp-project-form').checkValidity()){setProjectTab($('sp-project-form').querySelector(':invalid')?.closest('[data-project-panel]')?.dataset.projectPanel||'general');$('sp-project-form').reportValidity();return false;}const next=readProjectForm();
     if(!next.name||!Number.isFinite(next.w)||!Number.isFinite(next.d)||next.w<2||next.w>30||next.d<2||next.d>20){say('Bühnenmaße: 2–30 m breit und 2–20 m tief.');return false;}
     const before=snapshot(),resized=Math.abs(stage.w-next.w)>.001||Math.abs(stage.d-next.d)>.001;stage={...stage,title:next.name,w:next.w,d:next.d,project:next.project,routing:normalizeRouting(stage.routing)};constrainIem(stage);$('sp-title').value=stage.title;if(resized)resetEditorView();keepHistory(before);updateProjectHeading();fillProjectForm();say('Projektdaten übernommen');if(saveAfter){saveCurrentSetup();show(projectReturnView==='dashboard'?'dashboard':'editor');}return true;
   }
   $('sp-project-unit').addEventListener('change',()=>{const next=$('sp-project-unit').value==='ft'?'ft':'m',w=displayToMetres(Number($('sp-project-width').value),projectFormUnit),d=displayToMetres(Number($('sp-project-depth').value),projectFormUnit);projectFormUnit=next;$('sp-project-width').value=Math.round(metresToDisplay(w,next)*100)/100;$('sp-project-depth').value=Math.round(metresToDisplay(d,next)*100)/100;syncProjectUnitLabels();});
+  $('sp-add-foh').addEventListener('click',()=>{if(!applyProjectForm(false))return;show('editor');add('foh',{x:stage.w/2,y:stage.d+4});fitView();});
+  for(const [id,key] of [['sp-object-power','power'],['sp-object-wireless','wireless']]){
+    $(id).addEventListener('focus',()=>{editBefore=snapshot();});
+    $(id).addEventListener('input',()=>{const o=objects.find(o=>o.id===selected);if(!o||o.locked)return;if(!editBefore)editBefore=snapshot();o[key]=$(id).value.slice(0,100);if(o.type==='rack')syncRoutingFromStage(false);queueDraw();queueDraftSave();});
+    $(id).addEventListener('change',finishEdit);$(id).addEventListener('blur',finishEdit);
+  }
+  for(const key of ['table','barrier','sun','rain'])$('sp-foh-'+key).addEventListener('change',()=>{const o=objects.find(o=>o.id===selected);if(!o||o.locked||o.type!=='foh')return;change(()=>{o.foh={...o.foh,[key]:$('sp-foh-'+key).checked};},'FOH-Anforderungen angepasst');});
+  for(const key of ['width','depth'])$('sp-foh-'+key).addEventListener('change',()=>{const o=objects.find(o=>o.id===selected),input=$('sp-foh-'+key),value=Number(input.value);if(!o||o.locked||o.type!=='foh'||!input.reportValidity()||!Number.isFinite(value))return;change(()=>{o[key]=Math.round(value*10)/10;},'FOH-Maße angepasst');});
   $('sp-project-apply').addEventListener('click',()=>applyProjectForm(false));
   const leaveProjectSettings=()=>show(projectReturnView==='dashboard'?'dashboard':'editor');
   $('sp-project-close').addEventListener('click',leaveProjectSettings);$('sp-project-cancel').addEventListener('click',leaveProjectSettings);
@@ -7621,7 +7744,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(io)for(let index=0;index<io.inputs.count;index++){const number=index+1,alias=ioAliasAt(io,'inputs',number),suffix=alias?' · '+alias:io.inputs.count>1?' · In '+number:'',signal=['USB','Digital','MADI','Dante'].includes(io.inputs.connector)?'Digital':'Line';specs.push(routeSpec(o,'io-in-'+number,(o.label||c.name)+suffix,io.inputs.count===1?'Mono':'Direct',signal,{connector:io.inputs.connector,portIndex:number}));}
       if(o.type==='wedge')specs.push(routeSpec(o,'monitor','Monitor · '+(o.label||'Wedge'),'Mono','Line',{connector:'XLR',portIndex:1}));
       if(o.type==='iem-earphones'){specs.push(routeSpec(o,'iem-l','IEM · '+(o.label||'Musiker')+' L','Stereo L','Line',{connector:'XLR',portIndex:1,stereoGroup:o.id+':iem'}));specs.push(routeSpec(o,'iem-r','IEM · '+(o.label||'Musiker')+' R','Stereo R','Line',{connector:'XLR',portIndex:2,stereoGroup:o.id+':iem'}));}
-      if(o.type==='rack'){const config=normalizeIemConfig(o.iem,o.label),group=o.id+':iem';if(config.mode==='stereo'){specs.push(routeSpec(o,'iem-l','IEM · '+config.name+' L','Stereo L','Line',{connector:'XLR',portIndex:1,stereoGroup:group,iemName:config.name,iemMode:'stereo',iemTransport:config.transport,iemGroup:group}));specs.push(routeSpec(o,'iem-r','IEM · '+config.name+' R','Stereo R','Line',{connector:'XLR',portIndex:2,stereoGroup:group,iemName:config.name,iemMode:'stereo',iemTransport:config.transport,iemGroup:group}));}else specs.push(routeSpec(o,'iem-mono','IEM · '+config.name,'Mono','Line',{connector:'XLR',portIndex:1,iemName:config.name,iemMode:'mono',iemTransport:config.transport,iemGroup:group}));}
+      if(o.type==='rack'){const config=normalizeIemConfig(o.iem,o.label),group=o.id+':iem';if(config.mode==='stereo'){specs.push(routeSpec(o,'iem-l','IEM · '+config.name+' L','Stereo L','Line',{connector:'XLR',portIndex:1,stereoGroup:group,iemName:config.name,iemMode:'stereo',iemTransport:config.transport,frequencyBand:o.wireless||config.frequencyBand,iemGroup:group}));specs.push(routeSpec(o,'iem-r','IEM · '+config.name+' R','Stereo R','Line',{connector:'XLR',portIndex:2,stereoGroup:group,iemName:config.name,iemMode:'stereo',iemTransport:config.transport,frequencyBand:o.wireless||config.frequencyBand,iemGroup:group}));}else specs.push(routeSpec(o,'iem-mono','IEM · '+config.name,'Mono','Line',{connector:'XLR',portIndex:1,iemName:config.name,iemMode:'mono',iemTransport:config.transport,frequencyBand:o.wireless||config.frequencyBand,iemGroup:group}));}
     }return specs;
   }
   function reconcileRouteList(current,specs,direction,validSourceKeys=null){
@@ -7745,7 +7868,7 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const id of ['sp-routing-add','sp-routing-csv-import','sp-routing-pdf','sp-routing-csv','sp-routing-xlsx'])$(id).hidden=stageboxMode;
     if(stageboxMode){renderStageboxView();$('sp-routing-summary').textContent=allRoutingStageboxes().length+' Stagebox'+(allRoutingStageboxes().length===1?'':'en')+' · '+stage.routing.inputs.filter(row=>row.stagebox).length+' Inputs verbunden · '+stage.routing.outputs.filter(row=>row.stagebox).length+' Outputs verbunden';$('sp-routing-status').textContent='Portbelegung aus Routing und Bühnenverkabelung';return;}
     const rows=stage.routing[routingTab],boxes=new Map(routingStageboxes(routingTab).map(box=>[box.id,box]));
-    $('sp-routing-rows').innerHTML=rows.map((row,index)=>{const box=boxes.get(row.stagebox),boxText=box?(row.instrument||routingDirectionLabel(routingTab))+' '+(routingTab==='inputs'?'In':'Out')+': '+box.name+(row.stageboxPort?':'+row.stageboxPort:''):row.stagebox?'Nicht verfügbar':'Nicht zugewiesen',signal=row.signalType+(row.connector&&row.connector!=='XLR'?' · '+row.connector:'');return '<tr draggable="true" tabindex="0" data-route-row="'+row.id+'"><td><button class="sp-route-drag-handle" type="button" draggable="true" data-route-drag="'+row.id+'" aria-label="'+esc(row.instrument||'Kanal')+' verschieben" title="Ziehen zum Sortieren">⠿</button></td><td><button class="sp-route-number" type="button" data-route-number="'+row.id+'" aria-label="Kanalnummer automatisch bearbeiten">'+(row.number||index+1)+'</button></td><td><strong>'+esc(row.instrument||'Unbenannt')+'</strong>'+(row.iemTransport?'<small class="sp-muted">'+(row.iemTransport==='wireless'?'Funk':'Kabel')+'</small>':'')+'</td><td>'+esc(row.mode)+'</td><td>'+esc(signal)+'</td><td>'+(row.microphone?esc(row.microphone):'—')+'</td><td><button class="sp-routing-phantom" type="button" data-route-phantom="'+row.id+'" aria-pressed="'+String(row.phantom)+'"'+(routingTab!=='inputs'?' disabled':'')+'>48V</button></td><td>'+esc(boxText)+'</td><td>'+(row.notes?esc(row.notes):'—')+'</td><td><button class="sp-button" type="button" data-route-edit="'+row.id+'">'+(routingTab==='outputs'?'IEM':'Assign')+'</button></td></tr>';}).join('');
+    $('sp-routing-rows').innerHTML=rows.map((row,index)=>{const box=boxes.get(row.stagebox),boxText=box?(row.instrument||routingDirectionLabel(routingTab))+' '+(routingTab==='inputs'?'In':'Out')+': '+box.name+(row.stageboxPort?':'+row.stageboxPort:''):row.stagebox?'Nicht verfügbar':'Nicht zugewiesen',signal=row.signalType+(row.connector&&row.connector!=='XLR'?' · '+row.connector:'');return '<tr draggable="true" tabindex="0" data-route-row="'+row.id+'"><td><button class="sp-route-drag-handle" type="button" draggable="true" data-route-drag="'+row.id+'" aria-label="'+esc(row.instrument||'Kanal')+' verschieben" title="Ziehen zum Sortieren">⠿</button></td><td><button class="sp-route-number" type="button" data-route-number="'+row.id+'" aria-label="Kanalnummer automatisch bearbeiten">'+(row.number||index+1)+'</button></td><td><strong>'+esc(row.instrument||'Unbenannt')+'</strong>'+(routeFrequency(row)?'<small class="sp-muted">'+esc(routeFrequency(row))+'</small>':'')+(row.iemTransport?'<small class="sp-muted">'+(row.iemTransport==='wireless'?'Funk':'Kabel')+'</small>':'')+'</td><td>'+esc(row.mode)+'</td><td>'+esc(signal)+'</td><td>'+(row.microphone?esc(row.microphone):'—')+'</td><td><button class="sp-routing-phantom" type="button" data-route-phantom="'+row.id+'" aria-pressed="'+String(row.phantom)+'"'+(routingTab!=='inputs'?' disabled':'')+'>48V</button></td><td>'+esc(boxText)+'</td><td>'+(row.notes?esc(row.notes):'—')+'</td><td><button class="sp-button" type="button" data-route-edit="'+row.id+'">'+(routingTab==='outputs'?'IEM':'Assign')+'</button></td></tr>';}).join('');
     $('sp-routing-empty').hidden=rows.length>0;$('sp-routing-summary').textContent=stage.routing.inputs.length+' Inputs · '+stage.routing.outputs.length+' Outputs';$('sp-routing-status').textContent=stage.routing.generatedAt?'Zuletzt aus der Bühne aktualisiert: '+new Date(stage.routing.generatedAt).toLocaleString('de-AT',{dateStyle:'short',timeStyle:'short'}):'';
   }
   function setChannelPillValue(id,value){
@@ -7765,11 +7888,12 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function setIemOutputChoice(id,value){const input=$(id),group=root.querySelector('[data-iem-output-group="'+id+'"]');if(!input||!group)return;input.value=value;group.querySelectorAll('[data-iem-output-value]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.iemOutputValue===value)));}
   function iemOutputName(row){return row.iemName||String(row.instrument||'').replace(/^IEM\s*·\s*/i,'').replace(/\s+[LR]$/,'').replace(/^Monitor\s*·\s*/i,'').trim()||'Musiker:in';}
-  function openIemOutputDialog(id){const rows=stage.routing.outputs,row=rows.find(item=>item.id===id);if(!row)return;editingIemRoute={id:row.id};$('sp-iem-output-name').value=iemOutputName(row);setIemOutputChoice('sp-iem-output-mode',row.iemMode||(row.mode.startsWith('Stereo')?'stereo':'mono'));setIemOutputChoice('sp-iem-output-transport',row.iemTransport||'wireless');$('sp-iem-output-port').textContent='Output '+(row.number||rows.indexOf(row)+1)+' · '+(row.stagebox?stageboxRouteLocation(row,'outputs'):'noch keiner Stagebox zugewiesen');$('sp-iem-output-dialog').showModal();requestAnimationFrame(()=>$('sp-iem-output-name').focus({preventScroll:true}));}
+  function openIemOutputDialog(id){const rows=stage.routing.outputs,row=rows.find(item=>item.id===id);if(!row)return;editingIemRoute={id:row.id};$('sp-iem-output-name').value=iemOutputName(row);$('sp-iem-frequency').value=routeSourceObject(row)?.wireless||row.frequencyBand||'';setIemOutputChoice('sp-iem-output-mode',row.iemMode||(row.mode.startsWith('Stereo')?'stereo':'mono'));setIemOutputChoice('sp-iem-output-transport',row.iemTransport||'wireless');$('sp-iem-output-port').textContent='Output '+(row.number||rows.indexOf(row)+1)+' · '+(row.stagebox?stageboxRouteLocation(row,'outputs'):'noch keiner Stagebox zugewiesen');$('sp-iem-output-dialog').showModal();requestAnimationFrame(()=>$('sp-iem-output-name').focus({preventScroll:true}));}
   function saveIemOutput(){if(!editingIemRoute||!$('sp-iem-output-form').reportValidity())return;const rows=stage.routing.outputs,row=rows.find(item=>item.id===editingIemRoute.id);if(!row)return;const name=$('sp-iem-output-name').value.trim(),mode=$('sp-iem-output-mode').value==='mono'?'mono':'stereo',transport=$('sp-iem-output-transport').value==='cable'?'cable':'wireless',source=routeSourceObject(row),before=snapshot();
-    if(source?.type==='rack'){source.iem={name,mode,transport};syncRoutingFromStage(false);renumberRoutingRows(stage.routing.outputs);}
-    else {const group=row.iemGroup||row.stereoGroup||'iem-'+routeToken(),partner=rows.find(item=>item.id!==row.id&&(item.iemGroup===group||(row.stereoGroup&&item.stereoGroup===row.stereoGroup)));Object.assign(row,{iemName:name,iemMode:mode,iemTransport:transport,iemGroup:group,instrument:'IEM · '+name+(mode==='stereo'?' L':''),mode:mode==='stereo'?'Stereo L':'Mono',stereoGroup:mode==='stereo'?group:''});
-      if(mode==='stereo'){let right=partner;if(!right){right=normalizeRouteChannel({id:'route-'+routeToken(),manual:true,number:null,instrument:'IEM · '+name+' R',mode:'Stereo R',signalType:'Line',connector:row.connector||'XLR',stereoGroup:group,iemName:name,iemMode:'stereo',iemTransport:transport,iemGroup:group},rows.length,'outputs');rows.splice(rows.indexOf(row)+1,0,right);}else Object.assign(right,{iemName:name,iemMode:'stereo',iemTransport:transport,iemGroup:group,instrument:'IEM · '+name+' R',mode:'Stereo R',stereoGroup:group});}
+    const frequencyBand=$('sp-iem-frequency').value.trim();
+    if(source?.type==='rack'){source.wireless=frequencyBand;source.iem={name,mode,transport,frequencyBand};syncRoutingFromStage(false);renumberRoutingRows(stage.routing.outputs);}
+    else {const group=row.iemGroup||row.stereoGroup||'iem-'+routeToken(),partner=rows.find(item=>item.id!==row.id&&(item.iemGroup===group||(row.stereoGroup&&item.stereoGroup===row.stereoGroup)));Object.assign(row,{iemName:name,iemMode:mode,iemTransport:transport,frequencyBand,iemGroup:group,instrument:'IEM · '+name+(mode==='stereo'?' L':''),mode:mode==='stereo'?'Stereo L':'Mono',stereoGroup:mode==='stereo'?group:''});
+      if(mode==='stereo'){let right=partner;if(!right){right=normalizeRouteChannel({id:'route-'+routeToken(),manual:true,number:null,instrument:'IEM · '+name+' R',mode:'Stereo R',signalType:'Line',connector:row.connector||'XLR',stereoGroup:group,iemName:name,iemMode:'stereo',iemTransport:transport,frequencyBand,iemGroup:group},rows.length,'outputs');rows.splice(rows.indexOf(row)+1,0,right);}else Object.assign(right,{iemName:name,iemMode:'stereo',iemTransport:transport,frequencyBand,iemGroup:group,instrument:'IEM · '+name+' R',mode:'Stereo R',stereoGroup:group});}
       else stage.routing.outputs=rows.filter(item=>item.id===row.id||!(item.iemGroup===group&&item.manual&&!item.sourceKey));renumberRoutingRows(stage.routing.outputs);
     }
     stage.routing.generatedAt=Date.now();keepHistory(before);editingIemRoute=null;$('sp-iem-output-dialog').close();renderRouting();say('IEM '+name+' · '+(mode==='stereo'?'Stereo-linked':'Mono')+' · '+(transport==='wireless'?'Funk':'Kabel')+' gespeichert');
@@ -7780,7 +7904,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const numberField=$('sp-channel-number');numberField.setCustomValidity('');if(number&&stage.routing[direction].some(item=>item.id!==editingRoute.id&&item.number===number)){numberField.setCustomValidity('Diese Kanalnummer ist bereits vergeben.');numberField.reportValidity();return;}
     const chosenBox=stagebox&&routingStageboxes(direction).find(box=>box.id===stagebox);if(chosenBox&&routeNeedsDi(editingRoute,direction,chosenBox)){$('sp-channel-stagebox-hint').textContent='Klinke benötigt vor dieser reinen XLR-Stagebox eine DI-Box.';return;}
     if(stagebox&&!stageboxPort){$('sp-channel-stagebox-hint').textContent='Diese Stagebox hat keinen freien '+(direction==='inputs'?'Input':'Output')+'-Port.';return;}
-    const row=normalizeRouteChannel({id:editingRoute.id,sourceKey:editingRoute.sourceKey,generatedInstrument:editingRoute.generatedInstrument,manual:editingRoute.manual||editingRoute.isNew||direction!==editingRoute.direction,connector:editingRoute.connector,portIndex:editingRoute.portIndex,stereoGroup:editingRoute.stereoGroup,number,instrument:$('sp-channel-instrument').value,mode:$('sp-channel-mode').value,signalType:$('sp-channel-signal').value,microphone:$('sp-channel-microphone').value,phantom:$('sp-channel-phantom').checked,stagebox,stageboxPort,notes:$('sp-channel-notes').value},0,direction),before=snapshot();
+    const row=normalizeRouteChannel({...editingRoute,id:editingRoute.id,sourceKey:editingRoute.sourceKey,generatedInstrument:editingRoute.generatedInstrument,manual:editingRoute.manual||editingRoute.isNew||direction!==editingRoute.direction,connector:editingRoute.connector,portIndex:editingRoute.portIndex,stereoGroup:editingRoute.stereoGroup,number,instrument:$('sp-channel-instrument').value,mode:$('sp-channel-mode').value,signalType:$('sp-channel-signal').value,microphone:$('sp-channel-microphone').value,phantom:$('sp-channel-phantom').checked,stagebox,stageboxPort,notes:$('sp-channel-notes').value},0,direction),before=snapshot();
     for(const key of ['inputs','outputs'])stage.routing[key]=stage.routing[key].filter(item=>item.id!==editingRoute.id);const insertion=direction===editingRoute.direction&&!editingRoute.isNew?Math.min(Math.max(0,editingRoute.index),stage.routing[direction].length):stage.routing[direction].length;stage.routing[direction].splice(insertion,0,row);reconcileCablesWithRouting();keepHistory(before);routingTab=direction;$('sp-channel-dialog').close();renderRouting();say('Kanal gespeichert');
   }
   $('sp-routing-tabs').addEventListener('click',e=>{const button=e.target.closest('[data-routing-tab]');if(button){routingTab=button.dataset.routingTab;renderRouting();}});
@@ -7846,7 +7970,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function printRoutingPreview(direction){
     const rows=stage?.routing?.[direction]||[],boxes=new Map(routingStageboxes(direction).map(box=>[box.id,box.name]));
     if(!rows.length)return '<p class="sp-paper-routing-empty">Noch keine '+(direction==='inputs'?'Inputs':'Outputs')+' angelegt.</p>';
-    return '<table class="sp-paper-routing-table"><thead><tr><th>CH</th><th>Quelle</th><th>Signal</th><th>Stagebox / Ziel</th></tr></thead><tbody>'+rows.map(row=>{const target=row.stagebox?(boxes.get(row.stagebox)||'Stagebox')+(row.stageboxPort?' · '+row.stageboxPort:''):'—',signal=[row.mode,row.connector||row.signalType,row.phantom?'48V':''].filter(Boolean).join(' · ');return '<tr><td>'+(row.number||'#')+'</td><td><strong>'+esc(row.instrument||'—')+'</strong>'+(row.microphone?'<br>'+esc(row.microphone):'')+'</td><td>'+esc(signal||'—')+'</td><td>'+esc(target)+'</td></tr>';}).join('')+'</tbody></table>';
+    return '<table class="sp-paper-routing-table"><thead><tr><th>CH</th><th>Quelle</th><th>Signal</th><th>Stagebox / Ziel</th></tr></thead><tbody>'+rows.map(row=>{const target=row.stagebox?(boxes.get(row.stagebox)||'Stagebox')+(row.stageboxPort?' · '+row.stageboxPort:''):'—',signal=[row.mode,row.connector||row.signalType,row.phantom?'48V':''].filter(Boolean).join(' · ');return '<tr><td>'+(row.number||'#')+'</td><td><strong>'+esc(row.instrument||'—')+'</strong>'+(row.microphone?'<br>'+esc(row.microphone):'')+(routeFrequency(row)?'<br>Funk: '+esc(routeFrequency(row)):'')+'</td><td>'+esc(signal||'—')+'</td><td>'+esc(target)+'</td></tr>';}).join('')+'</tbody></table>';
   }
   function renderPrint(){
     if(!stage)return;
@@ -7867,7 +7991,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const legendOn=$('sp-print-legend-toggle').checked,notesOn=$('sp-print-notes').checked,inputsOn=$('sp-print-inputs').checked,outputsOn=$('sp-print-routing').checked;
     $('sp-print-legend-section').hidden=!legendOn;$('sp-print-notes-section').hidden=!notesOn;$('sp-print-inputs-section').hidden=!inputsOn;$('sp-print-routing-section').hidden=!outputsOn;
     $('sp-print-paper-sections').hidden=!(legendOn||notesOn||inputsOn||outputsOn);
-    $('sp-print-legend').innerHTML=objects.length?objects.map(o=>'<div class="sp-legend-row"><strong>'+esc(o.label||byId[o.type].name)+'</strong>'+(objectDetail(o)?'<small>'+esc(objectDetail(o))+'</small>':'')+(outsText(o)&&$('sp-print-outs').checked?'<small>'+esc(outsText(o))+'</small>':'')+(o.note?'<small>'+esc(o.note)+'</small>':'')+'</div>').join(''):'<span class="sp-muted">Noch keine Bausteine.</span>';
+    $('sp-print-legend').innerHTML=objects.length?objects.map(o=>'<div class="sp-legend-row"><strong>'+esc(o.label||byId[o.type].name)+'</strong>'+(objectDetail(o)?'<small>'+esc(objectDetail(o))+'</small>':'')+(outsText(o)&&$('sp-print-outs').checked?'<small>'+esc(outsText(o))+'</small>':'')+objectProductionLines(o).map(line=>'<small>'+esc(line)+'</small>').join('')+(o.note?'<small>'+esc(o.note)+'</small>':'')+'</div>').join(''):'<span class="sp-muted">Noch keine Bausteine.</span>';
     const notes=normalizeProjectInfo(stage.project,stage.title).notes.trim();$('sp-print-notes-copy').textContent=notes||'Keine Projektnotizen hinterlegt.';
     $('sp-print-input-list').innerHTML=printRoutingPreview('inputs');$('sp-print-output-list').innerHTML=printRoutingPreview('outputs');
   }
@@ -7933,9 +8057,10 @@ function createStageplotSymbolV3(type, options = {}) {
     finally{button.disabled=false;button.removeAttribute('aria-busy');}
   }
   $('sp-export-png').addEventListener('click',()=>{$('sp-export-format').value==='pdf'?printReport('stage'):exportPng();});
-  const routingHeaders=['Kanalnummer','Instrument / Input','Mode','Signaltyp','Mikrofon','48V','Stagebox','Notizen'];
+  function routeFrequency(row){return routeSourceObject(row)?.wireless||row.frequencyBand||'';}
+  const routingHeaders=['Kanalnummer','Instrument / Input','Mode','Signaltyp','Mikrofon','48V','Stagebox','Notizen','Funk / Frequenz'];
   function routingExportRows(direction){
-    const boxes=new Map(routingStageboxes(direction).map(box=>[box.id,box.name]));return stage.routing[direction].map(row=>[row.number||'',row.instrument,row.mode,row.signalType,row.microphone,row.phantom?'48V':'',row.stagebox?(boxes.get(row.stagebox)||'Nicht verfügbar'):'',row.notes]);
+    const boxes=new Map(routingStageboxes(direction).map(box=>[box.id,box.name]));return stage.routing[direction].map(row=>[row.number||'',row.instrument,row.mode,row.signalType,row.microphone,row.phantom?'48V':'',row.stagebox?(boxes.get(row.stagebox)||'Nicht verfügbar'):'',row.notes,routeFrequency(row)]);
   }
   function safeSpreadsheetValue(value){const text=String(value??'');return /^[=+\-@]/.test(text)?"'"+text:text;}
   const csvCell=value=>'"'+safeSpreadsheetValue(value).replaceAll('"','""')+'"';
@@ -7945,10 +8070,10 @@ function createStageplotSymbolV3(type, options = {}) {
     const rows=[],row=[];let value='',quoted=false;
     for(let i=0;i<=text.length;i++){const char=i<text.length?text[i]:'\n';if(char==='"'){if(quoted&&text[i+1]==='"'){value+='"';i++;}else quoted=!quoted;}else if(!quoted&&char===delimiter){row.push(value);value='';}else if(!quoted&&(char==='\n'||char==='\r')){if(char==='\r'&&text[i+1]==='\n')i++;row.push(value);value='';if(row.some(cell=>cell.trim()))rows.push(row.splice(0));else row.length=0;}else value+=char;}
     if(quoted)throw new Error('Die CSV-Datei enthält ein nicht geschlossenes Anführungszeichen.');if(rows.length<2)throw new Error('Die CSV-Datei enthält keine Kanäle.');
-    const aliases={'kanalnummer':'number','kanal':'number','ch':'number','instrument / input':'instrument','instrument':'instrument','input':'instrument','mode':'mode','signaltyp':'signalType','signal':'signalType','mikrofon':'microphone','microphone':'microphone','48v':'phantom','phantom':'phantom','stagebox':'stagebox','notizen':'notes','notes':'notes'},keys=rows.shift().map(cell=>aliases[cell.trim().toLocaleLowerCase('de')]||'');
+    const aliases={'kanalnummer':'number','kanal':'number','ch':'number','instrument / input':'instrument','instrument':'instrument','input':'instrument','mode':'mode','signaltyp':'signalType','signal':'signalType','mikrofon':'microphone','microphone':'microphone','48v':'phantom','phantom':'phantom','stagebox':'stagebox','notizen':'notes','notes':'notes','funk / frequenz':'frequencyBand','frequenzbereich':'frequencyBand'},keys=rows.shift().map(cell=>aliases[cell.trim().toLocaleLowerCase('de')]||'');
     if(!keys.includes('instrument'))throw new Error('Die Spalte „Instrument / Input“ fehlt.');if(rows.length>512)throw new Error('Maximal 512 Kanäle können importiert werden.');
     const direction=routingTab,boxes=routingStageboxes(direction),stamp=Date.now().toString(36);
-    return rows.map(cells=>Object.fromEntries(keys.map((key,column)=>[key,cells[column]??'']).filter(([key])=>key))).filter(row=>String(row.instrument||'').trim()).map((row,index)=>{const box=boxes.find(item=>String(row.stagebox||'').trim().startsWith(item.name)),number=Number(row.number);return normalizeRouteChannel({id:'route-'+direction+'-csv-'+(index+1)+'-'+stamp,sourceKey:'',number:Number.isFinite(number)&&number>0?number:null,instrument:String(row.instrument||'').trim(),mode:row.mode,signalType:row.signalType,microphone:row.microphone,phantom:/^(48v|ja|yes|true|x|1)$/i.test(String(row.phantom||'').trim()),stagebox:box?.id||'',stageboxPort:null,notes:row.notes,manual:true},index,direction);});
+    return rows.map(cells=>Object.fromEntries(keys.map((key,column)=>[key,cells[column]??'']).filter(([key])=>key))).filter(row=>String(row.instrument||'').trim()).map((row,index)=>{const box=boxes.find(item=>String(row.stagebox||'').trim().startsWith(item.name)),number=Number(row.number);return normalizeRouteChannel({id:'route-'+direction+'-csv-'+(index+1)+'-'+stamp,sourceKey:'',number:Number.isFinite(number)&&number>0?number:null,instrument:String(row.instrument||'').trim(),mode:row.mode,signalType:row.signalType,microphone:row.microphone,phantom:/^(48v|ja|yes|true|x|1)$/i.test(String(row.phantom||'').trim()),stagebox:box?.id||'',stageboxPort:null,notes:row.notes,frequencyBand:row.frequencyBand,manual:true},index,direction);});
   }
   function exportRoutingCsv(){
     if(!stage)return;const rows=[routingHeaders,...routingExportRows(routingTab)],csv='\ufeff'+rows.map(row=>row.map(csvCell).join(';')).join('\r\n')+'\r\n';downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),exportModel.safeFilename(stage.title+'-'+routingTab,{extension:'csv'}));say('Routing als CSV exportiert');
@@ -7980,7 +8105,7 @@ function createStageplotSymbolV3(type, options = {}) {
     renderPrint();syncRoutingFromStage(false);const p=normalizeProjectInfo(stage.project,stage.title),fields=[['Datum',p.date],['Artist / Band',p.artist],['Venue',p.venue],['Autor / Engineer',p.author],['Tour',p.tour],['Production Company',p.company],['Bühne',num(stage.w)+' × '+metres(stage.d)]];
     $('sp-document-title').textContent=stage.title;$('sp-document-meta').textContent=mode==='routing'?'Routing / Channel List':'Complete Production Document';$('sp-document-project').innerHTML='<div class="sp-document-grid">'+fields.filter(([,value])=>value).map(([label,value])=>'<div class="sp-document-field"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('')+'</div>';
     $('sp-document-floor').innerHTML=$('sp-print-floor').innerHTML;$('sp-document-routing').innerHTML=routingTableMarkup('inputs')+routingTableMarkup('outputs');
-    const contacts=[['Stage Manager',p.contacts.stageManager],['FOH Engineer',p.contacts.foh],['Monitor Engineer',p.contacts.monitor],['Technical / Advance',p.contacts.advance]].filter(([,entry])=>entry.name||entry.contact);$('sp-document-contacts').innerHTML=contacts.length?'<h2>Technische Kontakte</h2><div class="sp-document-grid">'+contacts.map(([label,entry])=>'<div class="sp-document-field"><span>'+label+'</span><strong>'+esc(entry.name||'—')+'</strong><div>'+esc(entry.contact||'')+'</div></div>').join('')+'</div>':'';$('sp-document-notes').innerHTML=p.notes?'<h2>Notes</h2><p>'+esc(p.notes).replaceAll('\n','<br>')+'</p>':'';$('sp-document-print').hidden=false;
+    const contacts=[['Stage Manager',p.contacts.stageManager],['FOH Engineer',p.contacts.foh],['Monitor Engineer',p.contacts.monitor],['Technical / Advance',p.contacts.advance]].filter(([,entry])=>entry.name||entry.contact);$('sp-document-contacts').innerHTML=contacts.length?'<h2>Technische Kontakte</h2><div class="sp-document-grid">'+contacts.map(([label,entry])=>'<div class="sp-document-field"><span>'+label+'</span><strong>'+esc(entry.name||'—')+'</strong><div>'+esc(entry.contact||'')+'</div></div>').join('')+'</div>':'';$('sp-document-notes').innerHTML=(productionLines(stage).length?'<h2>Technische Anforderungen</h2><p>'+productionLines(stage).map(esc).join('<br>')+'</p>':'')+(p.notes?'<h2>Notes</h2><p>'+esc(p.notes).replaceAll('\n','<br>')+'</p>':'');$('sp-document-print').hidden=false;
   }
   function printReport(mode){
     if(mode==='complete'&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}root.dataset.printDocument=mode;if(mode==='stage')renderPrint();else renderTechnicalDocument(mode);try{window.print();}finally{setTimeout(()=>{delete root.dataset.printDocument;$('sp-document-print').hidden=true;},0);}
@@ -8125,6 +8250,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function writeDrumDesignLibrary(storage,designs){storage.setItem(drumDesignStorageKey,JSON.stringify({version:1,designs}));}
   async function mergeAccountDrumDesigns(){
+    if(window.StageplotAccount?.syncVersion===2){scheduleAccountSync();return false;}
     const account=drumAccountStore();if(!account?.list)return false;
     const remote=await account.list(),entries=Array.isArray(remote)?remote.filter(entry=>entry&&/^drum-[a-z0-9-]+$/.test(String(entry.id))).map(entry=>({id:String(entry.id),savedAt:Number(entry.savedAt)||Date.now(),document:drumModel.normalizeDrumDesign(entry.document)})):[];
     const merged=new Map(drumDesigns.map(entry=>[entry.id,entry]));for(const entry of entries){const local=merged.get(entry.id);if(!local||entry.savedAt>=local.savedAt)merged.set(entry.id,entry);}
@@ -8154,7 +8280,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const sameName=latest.find(entry=>entry.document.name.toLocaleLowerCase('de')===document.name.toLocaleLowerCase('de'));
       if(sameName&&sameName.id!==activeDrumDesignId&&drumDesignOverwriteId!==sameName.id){drumDesignOverwriteId=sameName.id;$('sp-drum-design-save').textContent='Überschreiben';drumDesignStatus('Der Name ist schon vorhanden. Zum Überschreiben erneut klicken.',true);return false;}
       const id=activeDrumDesignId||sameName?.id||'drum-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),entry={id,savedAt:Date.now(),document},updated=latest.filter(item=>item.id!==id&&item.id!==sameName?.id).concat(entry);
-      writeDrumDesignLibrary(window.localStorage,updated);drumDesigns=updated;activeDrumDesignId=id;drumDesignOverwriteId=null;$('sp-drum-design-save').textContent='Speichern';renderDrumDesignLibrary();persistLastDrumDraft();const account=drumAccountStore();if(account?.save)await account.save(entry);drumDesignStatus('„'+document.name+'“ '+(account?.save?'im Account':'lokal')+' gespeichert.');return true;
+      writeDrumDesignLibrary(window.localStorage,updated);drumDesigns=updated;activeDrumDesignId=id;drumDesignOverwriteId=null;$('sp-drum-design-save').textContent='Speichern';renderDrumDesignLibrary();persistLastDrumDraft();const account=drumAccountStore();if(account?.save)await account.save(entry);drumDesignStatus('„'+document.name+'“ lokal gespeichert.'+(account?.save?' Für den Account-Abgleich vorgemerkt.':''));return true;
     }catch(error){drumDesignStatus(error.message||'Drumdesign konnte nicht gespeichert werden.',true);return false;}
   }
   async function saveAndDownloadDrumDesign(){if(await saveDrumDesign())downloadDrumDesign();}
@@ -8637,12 +8763,14 @@ function createStageplotSymbolV3(type, options = {}) {
     const c=byId[type];
     const o={id,type:c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
     if(c.riserCount)Object.assign(o,{width:c.w,depth:c.d,height:40});
+    if(type==='foh')Object.assign(o,{width:3,depth:2,foh:{table:false,barrier:false,sun:false,rain:false}});
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type))o.drums=drumModel.drumDefaults();
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type)&&seed?.drums)o.drums=drumModel.normalizeDrums(type,seed.drums);
     if(c.instrument){o.io=normalizeObjectIo(null,o);o.outs=ioValueText(o.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
     if(stageboxCapacity[type])o.comboJacks=false;
     if(type==='rack')o.iem=normalizeIemConfig(null,o.label);
     if(type==='mic')Object.assign(o,{stand:'boom',purpose:'vocals',boomDirection:'up'});
+    if(seed?.inventory){const entry=seed.inventory,d=entry.document;Object.assign(o,{inventoryId:entry.id,label:d.name.slice(0,42),power:d.power,wireless:d.wireless,note:[d.model,d.notes].filter(Boolean).join(" · ").slice(0,160)});}
     constrain(o);return o;
   }
   function add(type,point){
@@ -8715,6 +8843,32 @@ function createStageplotSymbolV3(type, options = {}) {
     const active=document.activeElement;
     if(active&&root.contains(active)&&typeof active.blur==='function')active.blur();
   }
+  function resizeFootprint(base,delta,dir){
+    const angle=(base.angle||0)*Math.PI/180,c=Math.cos(angle),sn=Math.sin(angle),dx=delta.x*c+delta.y*sn,dy=-delta.x*sn+delta.y*c;
+    const sx=dir.includes('w')?-1:dir.includes('e')?1:0,sy=dir.includes('n')?-1:dir.includes('s')?1:0;
+    const snap=(v,max)=>Math.max(.3,Math.min(max,Math.round(v*10)/10));
+    const w=sx?snap(base.w+sx*dx,30):base.w,d=sy?snap(base.d+sy*dy,20):base.d;
+    const ox=sx*(w-base.w)/2,oy=sy*(d-base.d)/2;
+    return {x:base.x+ox*c-oy*sn,y:base.y+ox*sn+oy*c,w,d,angle:base.angle||0};
+  }
+  function selectedFootprint(id=selected){
+    if(id==='iem-zone'){const r=iemRect(stage);return r?{x:r.x+r.w/2,y:r.y+r.d/2,w:r.w,d:r.d,angle:0}:null;}
+    const o=objects.find(o=>o.id===id);return o&&!o.locked&&['riser','foh'].includes(o.type)?{x:o.x,y:o.y,w:objectSize(o).w,d:objectSize(o).d,angle:o.angle}:null;
+  }
+  function applyFootprint(id,value){
+    if(id==='iem-zone'){stage.iem='free';stage.iemX=value.x-value.w/2;stage.iemY=value.y-value.d/2;stage.iemDepth=value.w;stage.iemLength=value.d;constrainIem(stage);}
+    else {const o=objects.find(o=>o.id===id);if(o&&!o.locked)Object.assign(o,{x:value.x,y:value.y,width:value.w,depth:value.d});}
+  }
+  function drawFootprintHandles(parent,x,y,w,h,id,coarse){
+    for(const [dir,cx,cy] of [['nw',x,y],['ne',x+w,y],['sw',x,y+h],['se',x+w,y+h],['e',x+w,y+h/2],['s',x+w/2,y+h]]){
+      const g=sEl('g',{'data-footprint-resize':dir,'data-footprint-id':id,role:'button','aria-label':'Größe ändern · 10-cm-Schritte',style:'cursor:'+(['nw','se'].includes(dir)?'nwse-resize':['ne','sw'].includes(dir)?'nesw-resize':dir==='e'?'ew-resize':'ns-resize')},parent),hit=coarse?44:24;
+      sEl('rect',{x:cx-hit/2,y:cy-hit/2,width:hit,height:hit,fill:'transparent','pointer-events':'all'},g);
+      sEl('rect',{x:cx-5,y:cy-5,width:10,height:10,rx:2,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':2,'pointer-events':'none'},g);
+    }
+  }
+  function redrawFootprintDrag(d){
+    drawFloor($('sp-editor-floor'),stage,objects,'editor',d.fixed);d.svg=$('sp-editor-floor').querySelector('svg');inspector();
+  }
   function startObjectDrag(e){
     focusCanvas();
     const id=e.target.closest('[data-object]')?.dataset.object,cableSourceTarget=e.target.closest('[data-cable-source]'),cablePathTarget=e.target.closest('[data-cable-id]'),stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
@@ -8727,6 +8881,12 @@ function createStageplotSymbolV3(type, options = {}) {
     if(e.button!==0)return;
     if(placement){commitPlacement(e.currentTarget,e);return;}
     finishEdit();
+    const footprintHandle=e.target.closest('[data-footprint-resize]');
+    if(footprintHandle){
+      const id=footprintHandle.dataset.footprintId,base=selectedFootprint(id);if(!base)return;const svg=e.currentTarget,p=svgPoint(svg,e);selected=id;
+      drag={kind:'footprint',id,base,dir:footprintHandle.dataset.footprintResize,x:p.x,y:p.y,before:snapshot(),moved:false,svg,capture:$('sp-editor-floor'),pointer:e.pointerId,fixed:{scale:Number(svg.dataset.scale),mx:Number(svg.dataset.originX),top:Number(svg.dataset.originY),H:Number(svg.getAttribute('height'))}};
+      drag.capture.setPointerCapture(e.pointerId);e.preventDefault();return;
+    }
     if(cablePathTarget){selected=cablePathTarget.dataset.cableId;e.preventDefault();renderEditor();say('Kabel ausgewählt · Länge direkt am Kabel anpassen');return;}
     if(cableSourceTarget){
       const sourceId=cableSourceTarget.dataset.cableSource,keys=new Set(String(cableSourceTarget.dataset.cableKeys||'').split('|').filter(Boolean)),rows=cableSourceSpecs(sourceId).filter(row=>!keys.size||keys.has(row.sourceKey)),source=objects.find(item=>item.id===sourceId),point=svgPoint(e.currentTarget,e);if(!source||source.locked||!rows.length)return;
@@ -8767,6 +8927,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const p=svgPoint(drag.svg,e);
     if(Math.hypot(p.x-drag.x,p.y-drag.y)<.04&&!drag.moved)return;
     drag.moved=true;
+    if(drag.kind==='footprint'){applyFootprint(drag.id,resizeFootprint(drag.base,{x:p.x-drag.x,y:p.y-drag.y},drag.dir));redrawFootprintDrag(drag);return;}
     if(drag.kind==='iem'){
       const q=$('sp-snap').checked?gridStep():.001;
       stage.iem='free';stage.iemX=Math.round((drag.ox+p.x-drag.x)/q)*q;stage.iemY=Math.round((drag.oy+p.y-drag.y)/q)*q;constrainIem(stage);
@@ -8811,7 +8972,8 @@ function createStageplotSymbolV3(type, options = {}) {
   function cancelObjectDrag(){
     if(!drag)return;
     const d=drag;drag=null;
-    if(d.kind==='iem'||d.kind==='stairs'||d.kind==='stage-resize'||d.kind==='stairs-width')stage=JSON.parse(d.before).stage;
+    if(d.kind==='footprint'){const old=JSON.parse(d.before);stage=old.stage;objects=old.objects;}
+    else if(d.kind==='iem'||d.kind==='stairs'||d.kind==='stage-resize'||d.kind==='stairs-width')stage=JSON.parse(d.before).stage;
     else {const o=objects.find(o=>o.id===d.id);if(o){o.x=d.ox;o.y=d.oy;}}
     if(d.capture.hasPointerCapture(d.pointer))d.capture.releasePointerCapture(d.pointer);
     renderEditor();
@@ -8916,6 +9078,28 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-editor-floor').addEventListener('pointermove',moveViewPan);
   $('sp-editor-floor').addEventListener('pointerup',endViewPan);
   $('sp-editor-floor').addEventListener('pointercancel',e=>endViewPan(e,true));
+  const footprintTouches=new Map();let footprintPinch=null;
+  const touchDistance=()=>{const [a,b]=[...footprintTouches.values()];return a&&b?Math.hypot(a.x-b.x,a.y-b.y):0;};
+  $('sp-editor-floor').addEventListener('pointerdown',e=>{
+    if(e.pointerType!=='touch')return;footprintTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(footprintTouches.size!==2||!selectedFootprint()||placement||cableDrag)return;
+    const before=drag?.before||snapshot();if(drag)cancelObjectDrag();if(panDrag)endViewPan({pointerId:panDrag.pointer},true);
+    const svg=$('sp-editor-floor').querySelector('svg'),base=selectedFootprint();if(!base)return;
+    footprintPinch={id:selected,base,before,distance:Math.max(1,touchDistance()),fixed:{scale:Number(svg.dataset.scale),mx:Number(svg.dataset.originX),top:Number(svg.dataset.originY),H:Number(svg.getAttribute('height'))},svg};
+    for(const id of footprintTouches.keys())$('sp-editor-floor').setPointerCapture(id);e.preventDefault();e.stopImmediatePropagation();
+  },true);
+  window.addEventListener('pointermove',e=>{
+    if(!footprintTouches.has(e.pointerId))return;footprintTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(!footprintPinch)return;
+    e.preventDefault();e.stopImmediatePropagation();const p=footprintPinch,ratio=touchDistance()/p.distance;
+    applyFootprint(p.id,{...p.base,w:Math.max(.3,Math.min(30,Math.round(p.base.w*ratio*10)/10)),d:Math.max(.3,Math.min(20,Math.round(p.base.d*ratio*10)/10))});redrawFootprintDrag(p);
+  },{capture:true,passive:false});
+  function finishFootprintPinch(e,cancel=false){
+    footprintTouches.delete(e.pointerId);if(!footprintPinch)return;const p=footprintPinch;footprintPinch=null;
+    if(cancel){const old=JSON.parse(p.before);stage=old.stage;objects=old.objects;}else keepHistory(p.before);
+    const host=$('sp-editor-floor');for(const id of [...footprintTouches.keys(),e.pointerId])if(host.hasPointerCapture(id))host.releasePointerCapture(id);footprintTouches.clear();renderEditor();e.preventDefault();e.stopImmediatePropagation();
+  }
+  window.addEventListener('pointerup',e=>finishFootprintPinch(e),true);
+  window.addEventListener('pointercancel',e=>finishFootprintPinch(e,true),true);
   window.addEventListener('pointermove',moveObjectDrag);
   window.addEventListener('pointermove',moveCableDrag);
   window.addEventListener('pointerup',endObjectDrag);
@@ -9179,6 +9363,7 @@ function createStageplotSymbolV3(type, options = {}) {
     layerMenuTarget=id;
     const menu=$('sp-layer-menu'),isStairs=String(id).startsWith('stairs-zone'),isCable=!!cableById(id),isObject=id!=='iem-zone'&&!isStairs&&!isCable;
     menu.querySelector('[data-layer-action="duplicate"]').hidden=!isObject&&!isStairs;
+    const rotateBtn=menu.querySelector('[data-layer-action="rotate"]');rotateBtn.hidden=!isObject;rotateBtn.disabled=!!objects.find(o=>o.id===id)?.locked;
     const lockBtn=menu.querySelector('[data-layer-action="lock"]');
     if(isObject){const o=objects.find(v=>v.id===id);lockBtn.hidden=false;lockBtn.textContent=o&&o.locked?'Entsperren':'Sperren';}else lockBtn.hidden=true;
     menu.hidden=false;
@@ -9186,6 +9371,7 @@ function createStageplotSymbolV3(type, options = {}) {
     menu.style.left=Math.max(6,Math.min(x,window.innerWidth-mw-8))+'px';
     menu.style.top=Math.max(6,Math.min(y,window.innerHeight-mh-8))+'px';
   }
+  $('sp-editor-floor').addEventListener('contextmenu',e=>{const hit=e.target.closest('[data-object]'),zone=e.target.closest('[data-iem-zone]'),id=hit?.dataset.object||(zone?'iem-zone':null);if(!id)return;e.preventDefault();openLayerMenu(e.clientX,e.clientY,id);});
   $('sp-object-list').addEventListener('contextmenu',e=>{
     const btn=e.target.closest('.sp-layer-row [data-select]'),id=btn&&btn.dataset.select;
     if(!id)return;
@@ -9195,7 +9381,8 @@ function createStageplotSymbolV3(type, options = {}) {
     const hit=e.target.closest('[data-layer-action]'),action=hit&&hit.dataset.layerAction,id=layerMenuTarget;
     closeLayerMenu();if(!action||!id)return;
     // Aktionen arbeiten über die id, ohne Auswahl/Tab zu wechseln.
-    if(action==='delete'){
+    if(action==='rotate'){change(()=>{const o=objects.find(o=>o.id===id);if(o&&!o.locked)o.angle=(o.angle+90)%360;},'Objekt um 90° gedreht');
+    }else if(action==='delete'){
       if(id==='iem-zone')change(()=>{stage.iem='none';if(selected==='iem-zone')selected=null;},'IEM-/Rack-Bereich entfernt');
       else if(String(id).startsWith('stairs-zone')){selected=id;removeSelectedStairs();}
       else if(cableById(id))removeCableById(id);
@@ -9331,6 +9518,7 @@ function createStageplotSymbolV3(type, options = {}) {
       try{writeWorkspace(window.localStorage,entry);}catch(error){}
       activeDraftId=id;activeDraftSavedAt=entry.savedAt;draftRevision=entry.revision;draftBaseline=current;
       persistViewport();
+      if(typeof scheduleAccountSync==='function')scheduleAccountSync();
       draftStatus('saved',conflict?'Eigene Entwurfskopie lokal gespeichert':'Entwurf lokal gespeichert');
       return true;
     }catch(error){draftFailure(error);return false;}
@@ -9474,6 +9662,135 @@ function createStageplotSymbolV3(type, options = {}) {
       ((id==='sp-editor-floor'||id==='sp-print-floor')&&Number.isFinite(height)&&height>0&&renderedHeights.get(id)!==height)
     );
   }
+  let inventoryEditingId=null,inventoryRemoved=null,accountClient=null,accountSession=null,cloudBridge=null,accountSyncing=false,accountSyncTimer=null,accountGeneration=0;
+  const accountBindingKey='stageplot-studio:account-binding:v1';
+  const accountConfig=window.StageplotCloudConfig||{};
+  function accountMessage(message){$('sp-account-status').textContent=message;}
+  function linkedAccount(){try{return JSON.parse(localStorage.getItem(accountBindingKey)||'null');}catch(error){return null;}}
+  function hasLinkedAccount(){const linked=linkedAccount();return !!linked&&linked.url===accountConfig.url&&linked.ownerId===accountSession?.user?.id;}
+  function setAccountTab(name){const account=name==='account';$('sp-account-panel').hidden=!account;$('sp-inventory-panel').hidden=account;root.querySelectorAll('[data-account-tab]').forEach(button=>button.setAttribute('aria-selected',String((button.dataset.accountTab==='account')===account)));}
+  function openAccount(name='inventory'){finishEdit();renderInventory();setAccountTab(name);$('sp-account-dialog').showModal();}
+  function renderInventory(){
+    try{const query=$('sp-inventory-search').value.trim().toLocaleLowerCase('de'),entries=window.StageplotInventory.read().filter(entry=>JSON.stringify(entry.document).toLocaleLowerCase('de').includes(query));
+      $('sp-inventory-list').innerHTML=entries.length?entries.map(entry=>{const d=entry.document,used=window.StageplotInventory.usage(entry.id,objects),available=Math.max(0,d.quantity-used),canPlace=stage&&byId[d.symbol]&&available>0;
+        return '<article class="sp-inventory-card"><div><strong>'+esc(d.name)+'</strong><small>'+esc([d.category,d.model].filter(Boolean).join(' · '))+'</small><small>'+d.quantity+' vorhanden · '+used+' in diesem Plan'+(used>d.quantity?' · Bestand überschritten':'')+'</small>'+(d.wireless?'<small>Funk: '+esc(d.wireless)+'</small>':'')+'</div><div class="sp-actions"><button type="button" class="sp-button" data-inventory-edit="'+entry.id+'">Bearbeiten</button><button type="button" class="sp-button" data-inventory-place="'+entry.id+'" '+(canPlace?'':'disabled')+'>Platzieren</button><button type="button" class="sp-button sp-danger-quiet" data-inventory-delete="'+entry.id+'" aria-label="'+esc(d.name)+' aus Inventar entfernen">×</button></div></article>';
+      }).join(''):'<p class="sp-muted">'+(query?'Kein passendes Equipment.':'Noch kein Equipment. Lege rechts deinen ersten Eintrag an.')+'</p>';
+    }catch(error){$('sp-inventory-status').textContent=error.message;}
+  }
+  function resetInventoryForm(){inventoryEditingId=null;$('sp-inventory-form').reset();$('sp-inventory-quantity').value=1;$('sp-inventory-form-title').textContent='Equipment hinzufügen';}
+  function scheduleAccountSync(){if(!cloudBridge||!hasLinkedAccount())return;clearTimeout(accountSyncTimer);accountSyncTimer=setTimeout(()=>syncAccount(),900);}
+  const cloudRepos={project:'projects',drum_template:'drumTemplates',stage_template:'stageTemplates',inventory:'inventory'};
+  function configureAccountBridge(){
+    const binding=linkedAccount();if(!binding||binding.url!==accountConfig.url){cloudBridge=null;window.StageplotAccount=null;return;}
+    // Queue local edits even while signed out. Every network client keeps the
+    // connected owner's token, including when another tab changes the session.
+    const token=accountSession?.user?.id===binding.ownerId?accountSession.access_token:null,auth=accountClient?.auth;
+    const scoped=token?window.StageplotSupabase.createClient(accountConfig.url,accountConfig.publishableKey,{accessToken:async()=>token}):null;
+    const unavailable=()=>Promise.reject(new Error('Bitte mit dem verbundenen Account anmelden.'));
+    const client={auth:{getUser:()=>token&&auth?auth.getUser(token):unavailable()},rpc:(...args)=>scoped?scoped.rpc(...args):unavailable()};
+    cloudBridge=window.StageplotSync.create({client,ownerId:binding.ownerId,scope:binding.url,onConflict:conflict=>{
+      if(conflict.copy)writeCloudRecord(conflict.kind,conflict.copy);say(conflict.deleteConflict?'Cloud-Fassung nach Löschkonflikt erhalten':'Konfliktkopie gespeichert: '+conflict.copy.name);accountMessage(conflict.deleteConflict?'Löschen kollidiert mit einer neueren Fassung. Die Cloud-Fassung bleibt erhalten.':'Gleichzeitige Änderungen: Beide Fassungen bleiben als Original und Konfliktkopie erhalten.');
+    }});
+    const bridge=cloudBridge;window.StageplotAccount={syncVersion:2,...Object.fromEntries(Object.entries(cloudRepos).map(([kind,name])=>[name,{list:()=>bridge[name].list(),save:async entry=>{const result=await bridge.save(kind,entry);scheduleAccountSync();return result;},remove:async id=>{const result=await bridge.remove(kind,id);scheduleAccountSync();return result;}}]))};
+  }
+  function localCloudRecords(kind){
+    if(kind==='project')return readSetupLibrary(localStorage);
+    if(kind==='drum_template')return readDrumDesignLibrary(localStorage).map(entry=>({...entry,name:entry.document.name}));
+    if(kind==='stage_template')return readStageTemplates().map(entry=>({id:entry.id,name:entry.name,savedAt:entry.savedAt,document:{stage:entry.stage}}));
+    return window.StageplotInventory.read();
+  }
+  function writeCloudRecord(kind,record){
+    if(kind==='project'){const entries=readSetupLibrary(localStorage).filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push({...record,document:normalizeSetupDocument(record.document)});writeSetupLibrary(localStorage,entries);savedSetups=entries;}
+    else if(kind==='drum_template'){const entries=readDrumDesignLibrary(localStorage).filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push({id:record.id,savedAt:record.savedAt,document:drumModel.normalizeDrumDesign(record.document)});writeDrumDesignLibrary(localStorage,entries);drumDesigns=entries;}
+    else if(kind==='stage_template'){const entries=readStageTemplates().filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push(normalizeStageTemplate({id:record.id,name:record.name.slice(0,40),savedAt:record.savedAt,stage:record.document.stage}));writeStageTemplates(entries);}
+    else {const entries=window.StageplotInventory.read().filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push(window.StageplotInventory.normalize(record));window.StageplotInventory.write(entries);}
+  }
+  // Promote local drafts to stable project IDs only after the user connects the device.
+  function prepareDraftsForSync(){
+    if(!hasLinkedAccount())return;const data=readDraftLibrary(localStorage),setups=new Map(readSetupLibrary(localStorage).map(entry=>[entry.id,entry])),claimed=new Set();let changed=false;
+    // Browser-tab conflict drafts also need independent cloud IDs.
+    for(const draft of [...data.entries].sort((a,b)=>b.savedAt-a.savedAt)){
+      const id=draft.sourceSetupId&&!claimed.has(draft.sourceSetupId)?draft.sourceSetupId:'setup-'+draft.id.slice(6);claimed.add(id);
+      if(draft.sourceSetupId!==id){draft.sourceSetupId=id;changed=true;}
+      const entry={id,name:draft.name,savedAt:draft.savedAt,document:draft.document},existing=setups.get(id);
+      const editedSinceSync=existing&&cloudBridge.local.matches('project',existing)&&!cloudBridge.local.matches('project',entry);
+      if(!existing||draft.savedAt>existing.savedAt||editedSinceSync)setups.set(id,entry);
+      if(draft.id===activeDraftId)activeSetupId=id;
+    }
+    if(changed)writeDraftLibrary(localStorage,data);writeSetupLibrary(localStorage,[...setups.values()]);
+  }
+  function syncActiveDrafts(record,baselineSnapshot){
+    const data=readDraftLibrary(localStorage);let changed=false;
+    data.entries=data.entries.filter(draft=>{if(draft.sourceSetupId!==record.id)return true;changed=true;if(record.deleted){clearWorkspace(localStorage,draft.id);return false;}draft.document=record.document;draft.name=record.name;draft.savedAt=record.savedAt;draft.revision='sync-'+Date.now().toString(36);return true;});
+    if(changed){if(!data.entries.some(draft=>draft.id===data.lastId))data.lastId=null;writeDraftLibrary(localStorage,data);}
+    if(activeSetupId===record.id&&snapshot()===baselineSnapshot&&!drag&&!footprintPinch&&!editBefore&&view!=='project'){
+      if(record.deleted){activeSetupId=null;resetDraftTracking();return;}
+      const draft=data.entries.find(draft=>draft.id===activeDraftId);if(draft){restoreDraftEntry(draft);writeWorkspace(localStorage,draft);}
+      else {stage=clone(record.document.stage);objects=clone(record.document.objects);nextId=objects.length+1;selected=null;history=[];future=[];resetEditorView();}
+      if(view==='editor')renderEditor();else if(view==='print')renderPrint();
+    }
+  }
+  async function syncAccount(){
+    if(accountSyncing||!cloudBridge||!hasLinkedAccount())return;clearTimeout(accountSyncTimer);accountSyncing=true;const bridge=cloudBridge,generation=accountGeneration,baselineSnapshot=snapshot();$('sp-account-sync').disabled=true;accountMessage('Synchronisiert …');
+    try{
+      prepareDraftsForSync();
+      for(const kind of Object.keys(cloudRepos))for(const entry of localCloudRecords(kind))if(!bridge.local.matches(kind,entry))await bridge.save(kind,entry);
+      const syncResult=await bridge.flush();
+      for(const kind of Object.keys(cloudRepos)){
+        const before=new Map(localCloudRecords(kind).map(entry=>[entry.id,window.StageplotSync.fingerprint(entry)]));
+        const records=await bridge.pull(kind,{acknowledge:false});if(generation!==accountGeneration||bridge!==cloudBridge)return;
+        for(const record of records){
+          const current=localCloudRecords(kind).find(entry=>entry.id===record.id),currentFingerprint=current&&window.StageplotSync.fingerprint(current);
+          if(currentFingerprint!==before.get(record.id))continue;
+          // Active edits are queued on the next pass; don't replace their recovery record.
+          if(kind==='project'&&activeSetupId===record.id&&(snapshot()!==baselineSnapshot||drag||footprintPinch||editBefore||view==='project'))continue;
+          const normalized=kind==='project'&&!record.deleted?{...record,document:normalizeSetupDocument(record.document)}:record;
+          if(bridge.local.state().pending.some(op=>op.kind===kind&&op.id===record.id))continue;
+          if(!record.deleted&&currentFingerprint===window.StageplotSync.fingerprint(record)){await bridge.accept(kind,record);continue;}
+          writeCloudRecord(kind,normalized);await bridge.accept(kind,record);if(kind==='project')syncActiveDrafts(normalized,baselineSnapshot);
+        }
+      }
+      if(view==='dashboard')renderDashboard();renderStageTemplates();renderDrumDesignLibrary();if($('sp-account-dialog').open)renderInventory();accountMessage('Synchronisiert · '+new Date().toLocaleTimeString('de-AT',{hour:'2-digit',minute:'2-digit'})+(syncResult.copies?' · '+syncResult.copies+' Konfliktkopie(n) gespeichert':''));
+    }catch(error){accountMessage('Lokal gesichert · Sync ausstehend: '+error.message);}
+    finally{accountSyncing=false;$('sp-account-sync').disabled=false;}
+  }
+  function renderAccountState(){
+    const user=accountSession?.user,binding=linkedAccount(),wrong=!!user&&!!binding&&(binding.ownerId!==user.id||binding.url!==accountConfig.url);
+    $('sp-account-login').hidden=!accountClient||!!user;$('sp-account-verify').hidden=true;$('sp-account-signout').hidden=!user;$('sp-account-link').hidden=!user||!!binding;$('sp-account-link-hint').hidden=!user||!!binding;$('sp-account-sync').hidden=!hasLinkedAccount();
+    accountMessage(!accountClient?'Account-Sync ist noch nicht eingerichtet. Inventar und Projekte bleiben lokal verfügbar.':wrong?'Dieses Gerät ist mit einem anderen Account verbunden. Bitte wieder mit diesem Account anmelden.':user?(hasLinkedAccount()?'Angemeldet · Gerätesync aktiv':'Angemeldet als '+user.email+' · Gerät noch nicht verbunden'):'Melde dich an, um deine Projekte und dein Inventar auf weiteren Geräten zu nutzen.');
+  }
+  async function initializeAccount(){
+    if(sharedReadOnly)return;configureAccountBridge();renderAccountState();
+    if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(accountConfig.url||'')||!/^sb_publishable_[A-Za-z0-9_-]+$/.test(accountConfig.publishableKey||''))return;
+    try{
+      await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='./stageplot-assets/vendor/supabase.js';script.onload=resolve;script.onerror=()=>reject(new Error('Account-Client konnte nicht geladen werden.'));document.head.append(script);});
+      accountClient=window.StageplotSupabase.createClient(accountConfig.url,accountConfig.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:'stageplot-auth-'+new URL(accountConfig.url).hostname}});
+      accountClient.auth.onAuthStateChange((_event,session)=>{accountSession=session;accountGeneration++;setTimeout(()=>{configureAccountBridge();renderAccountState();scheduleAccountSync();},0);});
+      const {data,error}=await accountClient.auth.getSession();if(error)throw error;accountSession=data.session;configureAccountBridge();renderAccountState();scheduleAccountSync();
+    }catch(error){accountMessage(error.message);}
+  }
+  $('sp-account-open').addEventListener('click',()=>openAccount());$('sp-inventory-open').addEventListener('click',()=>openAccount());
+  $('sp-account-close').addEventListener('click',()=>$('sp-account-dialog').close());
+  $('sp-account-dialog').addEventListener('click',e=>{const tab=e.target.closest('[data-account-tab]');if(tab)setAccountTab(tab.dataset.accountTab);});
+  $('sp-inventory-symbol').innerHTML='<option value="">Kein Plansymbol</option>'+catalog.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('');
+  $('sp-inventory-search').addEventListener('input',renderInventory);$('sp-inventory-new').addEventListener('click',resetInventoryForm);
+  $('sp-inventory-form').addEventListener('submit',e=>{e.preventDefault();try{const values=Object.fromEntries(['name','category','model','quantity','symbol','wireless','power','notes'].map(key=>[key,$('sp-inventory-'+key).value]));values.quantity=Number(values.quantity);const entry=window.StageplotInventory.save({id:inventoryEditingId||'inventory-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9),savedAt:Date.now(),document:values});window.StageplotAccount?.inventory?.save(entry).catch(error=>accountMessage(error.message));resetInventoryForm();renderInventory();$('sp-inventory-status').textContent='Equipment lokal gespeichert.';}catch(error){$('sp-inventory-status').textContent=error.message;}});
+  $('sp-inventory-list').addEventListener('click',e=>{
+    const edit=e.target.closest('[data-inventory-edit]'),place=e.target.closest('[data-inventory-place]'),remove=e.target.closest('[data-inventory-delete]'),id=edit?.dataset.inventoryEdit||place?.dataset.inventoryPlace||remove?.dataset.inventoryDelete;if(!id)return;
+    try{const entry=window.StageplotInventory.read().find(entry=>entry.id===id);if(!entry)return;
+      if(edit){inventoryEditingId=id;for(const key of ['name','category','model','quantity','symbol','wireless','power','notes'])$('sp-inventory-'+key).value=entry.document[key];$('sp-inventory-form-title').textContent='Equipment bearbeiten';$('sp-inventory-name').focus();}
+      if(place){if(window.StageplotInventory.usage(id,objects)>=entry.document.quantity){$('sp-inventory-status').textContent='Der gesamte Bestand ist bereits im Plan.';return;}$('sp-account-dialog').close();show('editor');beginPlacement(entry.document.symbol,{detail:0},{inventory:entry});}
+      if(remove){inventoryRemoved=window.StageplotInventory.remove(id);window.StageplotAccount?.inventory?.remove(id).catch(error=>accountMessage(error.message));if(inventoryEditingId===id)resetInventoryForm();renderInventory();$('sp-inventory-status').textContent='Aus Inventar entfernt. Bereits platzierte Bausteine bleiben erhalten.';$('sp-inventory-undo').hidden=false;}
+    }catch(error){$('sp-inventory-status').textContent=error.message;}
+  });
+  $('sp-inventory-undo').addEventListener('click',()=>{if(!inventoryRemoved)return;try{const entry=window.StageplotInventory.save({...inventoryRemoved,savedAt:Date.now()});window.StageplotAccount?.inventory?.save(entry).catch(error=>accountMessage(error.message));inventoryRemoved=null;$('sp-inventory-undo').hidden=true;$('sp-inventory-status').textContent='Equipment wiederhergestellt.';renderInventory();}catch(error){$('sp-inventory-status').textContent=error.message;}});
+  $('sp-account-login').addEventListener('submit',async e=>{e.preventDefault();if(!accountClient)return;const button=e.submitter;button.disabled=true;try{const {error}=await accountClient.auth.signInWithOtp({email:$('sp-account-email').value.trim(),options:{shouldCreateUser:true}});if(error)throw error;$('sp-account-verify').hidden=false;accountMessage('Bitte den Code aus deiner E-Mail eingeben.');}catch(error){accountMessage(error.message);}finally{button.disabled=false;}});
+  $('sp-account-verify').addEventListener('submit',async e=>{e.preventDefault();if(!accountClient)return;const button=e.submitter;button.disabled=true;try{const {error}=await accountClient.auth.verifyOtp({email:$('sp-account-email').value.trim(),token:$('sp-account-code').value.trim(),type:'email'});if(error)throw error;$('sp-account-code').value='';}catch(error){accountMessage(error.message);}finally{button.disabled=false;}});
+  $('sp-account-link').addEventListener('click',()=>{if(!accountSession?.user||linkedAccount())return;try{localStorage.setItem(accountBindingKey,JSON.stringify({version:1,url:accountConfig.url,ownerId:accountSession.user.id}));configureAccountBridge();renderAccountState();syncAccount();}catch(error){accountMessage(error.message);}});
+  $('sp-account-signout').addEventListener('click',async()=>{accountGeneration++;clearTimeout(accountSyncTimer);const {error}=await accountClient.auth.signOut({scope:'local'});if(error)accountMessage(error.message);else{accountSession=null;configureAccountBridge();renderAccountState();}});
+  $('sp-account-sync').addEventListener('click',()=>{finishEdit();flushDraft();syncAccount();});
+  window.addEventListener('online',scheduleAccountSync);window.addEventListener('focus',scheduleAccountSync);window.addEventListener('storage',e=>{if(e.key===window.StageplotInventory.key&&$('sp-account-dialog').open)renderInventory();if(e.key===accountBindingKey){configureAccountBridge();renderAccountState();}if([setupStorageKey,drumDesignStorageKey,stageTemplateStorageKey,window.StageplotInventory.key].includes(e.key))scheduleAccountSync();});
+
   const observer=new ResizeObserver(entries=>{if(!drag&&entries.some(floorSizeChanged))queueDraw();});
   ['sp-setup-floor','sp-editor-floor','sp-print-floor'].forEach(id=>observer.observe($(id)));
   window.addEventListener('resize',()=>{syncResponsiveWorkspace();syncNavigationPill(false);queueDraw();});
@@ -9502,6 +9819,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   refreshPackUi();
   syncResponsiveWorkspace(true);
+  initializeAccount();
 })();
 </script>
 

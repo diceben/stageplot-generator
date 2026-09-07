@@ -18,4 +18,4 @@ This repository is the standalone 2D Stageplot Generator. Never mix it with Gigb
 - Report browser validation separately from static or syntax checks.
 - Keep Stageplot assets local so the editor continues to work offline.
 
-The Supabase adapter is prepared but the visible login and production configuration are not yet complete.
+The optional Supabase login and sync client are prepared. Production credentials and live integration testing remain outstanding; see `ACCOUNT_SETUP.md`. Keep the default public configuration empty and the SDK bundle local. Run `npm run build:vendor` when updating its dependencies.

@@ -1,6 +1,21 @@
 # Session-Handoff
 
-Stand: 2. September 2026
+Stand: 7. September 2026
+
+## Feedback-Erweiterung zur Prüfung
+
+Arbeitsbranch: `codex/feedback-editor-production`, Basis: `9ee85b6` auf `main`. Die neuen Funktionen sind noch nicht auf GitHub Pages veröffentlicht.
+
+- IEM-Fläche außerhalb der Bühne; Griffe für Riser, IEM und FOH in 10-cm-Schritten; Zwei-Finger-Gestenlogik.
+- Risermaße, Strombedarf, Signalübergabe, FOH-Bedarf und Funkfrequenzen in Plan und Export.
+- Animierte Kategorienamen, sichtbare Namen auf mobilen Geräten, korrigierte mobile Canvas-Höhe und 90°-Drehung im Kontextmenü.
+- Lokales Inventar mit Stückzahlen und Platzierung.
+- Optionaler Account-Client mit E-Mail-Code, an den Eigentümer gebundener Offline-Warteschlange und Konfliktkopien. Supabase ist noch nicht eingerichtet; siehe `ACCOUNT_SETUP.md`.
+- 20 automatisierte Testgruppen bestanden, einschließlich simuliertem Zwei-Geräte-Sync, Unterbrechungen, getrennten Accounts und Dokumentmigration.
+- Browser: Riser-Resize mit Undo, IEM außerhalb der Bühne und Resize, FOH-Angaben, Rechtsklick-Drehung, Inventar-Speicherung/Platzierung/Wiederherstellung und Neuladen, 390 × 844-Ansicht sowie Exportvorschau und PNG-Ausgabe geprüft. Keine JavaScript-Ausnahmen.
+- Ausstehend: echter Supabase-/SMTP-/RLS-Test und Zwei-Finger-Test auf iOS/Android.
+
+Die folgenden Release-Angaben dokumentieren den bisherigen veröffentlichten Stand, nicht den Entwicklungsbranch.
 
 ## Aktueller Release
 
@@ -69,4 +84,4 @@ Weitere Regeln stehen in `AGENTS.md`, `CLAUDE.md` und `README.md`.
 - Für `Foto → Stageplot` zuerst Cloud-/API- und Datenschutzentscheidung treffen; offline ist das nicht vollständig lösbar.
 - Die GitHub Actions melden derzeit nur einen nicht blockierenden Wartungshinweis zu Actions auf Node.js 20; der erfolgreiche Lauf wurde bereits auf Node.js 24 ausgeführt.
 
-Am Sitzungsende gibt es keine uncommitteten App-Änderungen und keinen bekannten Blocker für die nächste Entwicklungsrunde.
+Der veröffentlichte beta.6-Stand war zum damaligen Sitzungsende vollständig committed. Für den aktuellen Entwicklungsstand gilt der Abschnitt „Feedback-Erweiterung zur Prüfung“ oben.

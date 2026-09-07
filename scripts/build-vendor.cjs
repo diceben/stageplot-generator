@@ -1,0 +1,7 @@
+const esbuild=require('esbuild');
+const fs=require('node:fs'),path=require('node:path');
+esbuild.buildSync({entryPoints:['scripts/supabase-entry.mjs'],bundle:true,format:'iife',globalName:'StageplotSupabase',platform:'browser',target:['es2020'],minify:true,legalComments:'linked',outfile:'stageplot-assets/vendor/supabase.js'});
+const packages=['@supabase/supabase-js','@supabase/auth-js','@supabase/functions-js','@supabase/postgrest-js','@supabase/realtime-js','@supabase/storage-js','@supabase/phoenix','iceberg-js','tslib'];
+const notices=packages.map(name=>{const folder=path.join('node_modules',name),files=fs.readdirSync(folder).filter(file=>/^(license|copyrightnotice)(\.|$)/i.test(file));if(!files.length)throw new Error('Lizenz fehlt: '+name);return name+'\n'+files.map(file=>fs.readFileSync(path.join(folder,file),'utf8')).join('\n');});
+fs.writeFileSync('stageplot-assets/vendor/LICENSES.txt',notices.join('\n\n').replace(/\r\n/g,'\n'));
+console.log('Lokaler Supabase-Client gebündelt.');

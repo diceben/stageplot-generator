@@ -46,24 +46,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm run build:cloud-config
+        env:
+          STAGEPLOT_SUPABASE_URL: ${{ vars.STAGEPLOT_SUPABASE_URL }}
+          STAGEPLOT_SUPABASE_PUBLISHABLE_KEY: ${{ vars.STAGEPLOT_SUPABASE_PUBLISHABLE_KEY }}
+
       # enablement: true stellt Pages auf "GitHub Actions" um, falls nötig.
       - uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      # Die Seite ist statisch. Vor dem Upload fliegt raus, was nicht zur
-      # ausgelieferten Seite gehört (Tests, CI, Build- und Server-Skripte,
-      # Fragment-Quelle). index.html, stageplot-account-v1.js und
-      # stageplot-assets/ bleiben.
+      # Upload only runtime files and local assets; no sources, tests or documents.
       - run: |
-          rm -rf .github scripts supabase node_modules
-          rm -f package.json stageplot-preview.py stageplot-studio.html \
-                stageplot-account-v1.test.cjs stageplot-studio-v60.test.cjs \
-                stageplot-studio-v61.test.cjs
+          mkdir -p _site
+          cp index.html stageplot-account-v1.js stageplot-cloud-config.js stageplot-sync-v2.js stageplot-inventory-v1.js _site/
+          cp -R stageplot-assets _site/stageplot-assets
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - id: deployment
         uses: actions/deploy-pages@v4

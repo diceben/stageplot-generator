@@ -844,6 +844,12 @@ function createStageplotSymbolV3(type, options = {}) {
     path(keys,'#bdbdbd',.2);rect(45,56,30,15,'#b8b8b8',.4,1);line(16,75,104,75,.35,'#999');
     for(const [x,y] of [[14,31],[14,43],[106,31],[106,43]])rect(x-1,y-1.8,2,3.6,'#777',.25,.35);end();
     end();
+  }else if(type==='foh'){
+    group('','foh-mixing-position');
+    rect(3,3,174,114,'#f3f5ef',1,3,'#66715f');
+    rect(27,26,126,49,'#d8ddd3',.8,2);rect(53,31,74,38,'#374333',.8,3);
+    for(let x=61;x<122;x+=10){line(x,43,x,61,1,'#d2d9ce');rect(x-2,49,4,7,'#fff',.3,1);}
+    rect(62,34,20,6,'#a1b996',.3,1);circle(90,94,12,'#f5f7f1',.8);end();
   }else if(type==='rack'){
     rect(15,9,70,81,'#888',.9,1.2);rect(18,12,64,75,'#dedede',.6,.8);rect(22,16,56,67,'#444',.5,.5);
     for(const xx of [14,82]){rect(xx,31,4,21,'#777',.6,.6);rect(xx+.8,35,2.4,13,'#ddd',.3,.4);}

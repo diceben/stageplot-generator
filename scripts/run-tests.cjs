@@ -8,6 +8,8 @@ if(sync.status!==0)process.exit(sync.status||1);
 
 const tests=[
   'stageplot-account-v1.test.cjs',
+  'stageplot-sync-v2.test.cjs',
+  'stageplot-feedback.test.cjs',
   'stageplot-studio-v60.test.cjs',
   'stageplot-studio-v61.test.cjs',
   'stageplot-studio-v67.test.cjs',
