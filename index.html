@@ -1504,7 +1504,7 @@
   --sp-lime: var(--sp-primary);
   --sp-accent-bg: var(--sp-primary-soft);
   --sp-on-accent: var(--sp-primary-ink);
-  --sp-library-width: 232px;
+  --sp-library-width: 320px;
   --sp-inspector-width: 320px;
   --sp-drawer-shadow: 0 18px 48px rgb(13 18 13 / 24%);
 }
@@ -4479,16 +4479,25 @@ html,body { height:100%; overflow:hidden; }
 }
 
 /* Feedback: legible categories and large resize targets. */
-#sp-prototype .sp-category-tabs { display:flex; flex-wrap:wrap; gap:5px; }
-#sp-prototype .sp-category-tabs button { width:auto; min-height:36px; display:flex; align-items:center; gap:0; padding:7px 9px; }
+#sp-prototype .sp-category-tabs { position:relative; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:5px; padding:2px 2px 26px; }
+#sp-prototype .sp-category-tabs button { position:static; width:100%; min-height:44px; display:flex; align-items:center; justify-content:center; gap:0; padding:7px 9px; font-weight:600; }
 #sp-prototype .sp-category-tabs button svg { width:24px; height:24px; flex-shrink:0; stroke-width:1.7; }
-#sp-prototype .sp-category-tabs button .sp-category-name { position:static; width:auto; height:auto; margin:0; clip:auto; clip-path:none; overflow:hidden; max-width:0; opacity:0; transition:max-width .2s ease,opacity .2s ease,margin .2s ease; }
-#sp-prototype .sp-category-tabs button:is(:hover,:focus-visible,[aria-pressed="true"]) .sp-category-name { max-width:150px; opacity:1; margin-left:7px; }
-@media (hover:none), (pointer:coarse) { #sp-prototype .sp-category-tabs button { min-height:44px; } #sp-prototype .sp-category-tabs button .sp-category-name { max-width:150px; opacity:1; margin-left:7px; } }
+/* Animate the caption outside the button layout so hover never moves its own hit target. */
+#sp-prototype .sp-category-tabs button .sp-category-name { position:absolute; inset:auto 2px 3px; width:auto; height:18px; margin:0; clip:auto; clip-path:none; overflow:hidden; max-width:none; text-overflow:ellipsis; text-align:left; color:var(--sp-ink); opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-4px); transition:opacity .18s ease,transform .18s ease; }
+#sp-prototype .sp-category-tabs button:focus-visible .sp-category-name,
+#sp-prototype .sp-category-tabs:not(:has(button:focus-visible)) button:hover .sp-category-name,
+#sp-prototype .sp-category-tabs:not(:has(button:is(:hover,:focus-visible))) button[aria-pressed="true"] .sp-category-name { opacity:1; visibility:visible; transform:translateY(0); }
+@media (hover:none), (pointer:coarse) {
+  #sp-prototype .sp-category-tabs { display:flex; flex-wrap:wrap; padding-bottom:6px; }
+  #sp-prototype .sp-category-tabs button { width:auto; }
+  #sp-prototype .sp-category-tabs button .sp-category-name { position:static; height:auto; opacity:1; visibility:visible; margin-left:7px; transform:none; }
+}
 @media (prefers-reduced-motion:reduce) { #sp-prototype .sp-category-tabs button .sp-category-name { transition:none; } }
 @container sp-frame (max-width:859px) {
   #sp-prototype .sp-workspace { height:var(--sp-editor-height,600px); min-height:0; }
-  #sp-prototype .sp-category-tabs button .sp-category-name { max-width:150px; opacity:1; margin-left:7px; }
+  #sp-prototype .sp-category-tabs { display:flex; flex-wrap:wrap; padding-bottom:6px; }
+  #sp-prototype .sp-category-tabs button { width:auto; }
+  #sp-prototype .sp-category-tabs button .sp-category-name { position:static; height:auto; opacity:1; visibility:visible; margin-left:7px; transform:none; }
 }
 
 #sp-prototype .sp-account-dialog { width:min(1000px,calc(100% - 24px)); padding:22px; max-height:calc(100dvh - 24px); overflow:auto; }
