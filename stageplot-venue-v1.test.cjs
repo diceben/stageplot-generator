@@ -1,0 +1,45 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const G=require('./stageplot-geometry-v1.js'),createExport=require('./stageplot-export-v42.js');
+const html=fs.readFileSync('stageplot-studio.html','utf8'),ui=fs.readFileSync('stageplot-venue-v1.js','utf8');
+const extract=name=>{const match=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert(match,name);return match[0];};
+const json=v=>JSON.parse(JSON.stringify(v));
+const storage={data:new Map(),getItem(k){return this.data.get(k)??null;},setItem(k,v){this.data.set(k,String(v));}};
+const ctx={StageplotGeometry:G,WeakMap,TextEncoder,TextDecoder,btoa:s=>Buffer.from(s,'binary').toString('base64'),atob:s=>Buffer.from(s,'base64').toString('binary'),drumModel:{isDrums:()=>false},byId:{foh:{},riser:{},'stage-module':{stageExtension:true}},stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:(v,max)=>String(v??'').slice(0,max),stageTemplateStorageKey:'templates',window:{localStorage:storage},objectSize:o=>({w:o.width||2,d:o.depth||1}),objects:[],venueCompileCache:new WeakMap(),clone:json};
+vm.createContext(ctx);
+vm.runInContext(['iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument','normalizeStageTemplate','readStageTemplates','writeStageTemplates','encodeShareDocument','decodeShareDocument','venueObjectPart','compiledVenue','outside'].map(extract).join('\n'),ctx);
+const stage={title:'Testsaal',w:8,d:5,stairs:'none',stairsAlong:.5,iem:'none',iemLength:2,iemDepth:1,iemX:0,iemY:0,geometry:G.preset('round'),venueRef:{templateId:'stage-template-demo',name:'Testsaal',revision:3}};
+stage.geometry.parts.push(G.part({id:'opening',kind:'opening',w:1.2,d:1.4,x:1,y:1}),G.part({id:'column',kind:'obstacle',shape:'ellipse',w:.4,d:.4,x:5,y:1}));stage.geometry.parts[0].w=4.18;stage.geometry.notes='Hausnotiz';stage.geometry.revision=3;
+const document={stage,objects:[{id:'station-99',type:'riser',x:2,y:3,angle:0,width:2,depth:1,height:40,locked:true,house:true},{id:'station-100',type:'foh',x:4,y:10,angle:0,width:3,depth:2}]};
+const normalized=ctx.normalizeSetupDocument(document),roundtrip=ctx.normalizeSetupDocument(json(normalized));
+assert.deepEqual(json(roundtrip),json(normalized));assert.equal(roundtrip.stage.geometry.parts[0].w,4.18);assert.equal(roundtrip.objects[0].house,true);assert.equal(roundtrip.stage.venueRef.revision,3);
+assert.throws(()=>ctx.normalizeSetupDocument({...document,stage:{...stage,geometry:{version:100,parts:[]}}}),/Bühnenformat/);
+const template=ctx.normalizeStageTemplate({id:'stage-template-demo',name:'Testsaal',savedAt:1,stage,objects:[document.objects[0]]});ctx.writeStageTemplates([template]);const loaded=ctx.readStageTemplates()[0];assert.deepEqual(json(loaded),json(template));loaded.stage.geometry.parts[0].w=10;assert.equal(ctx.readStageTemplates()[0].stage.geometry.parts[0].w,4.18,'Eine Veranstaltung darf die gespeicherte Hausvorlage nicht verändern.');
+const payload=ctx.encodeShareDocument(document);assert.deepEqual(json(ctx.decodeShareDocument('#share='+payload)),json(normalized));assert.equal(JSON.parse(Buffer.from(payload,'base64url').toString()).version,2);
+const legacy={stage:{...stage},objects:[]};delete legacy.stage.geometry;delete legacy.stage.venueRef;assert.equal(JSON.parse(Buffer.from(ctx.encodeShareDocument(legacy),'base64url').toString()).version,1);
+const exporter=createExport.createStageplotExportV42();const file=exporter.createSetupExport('Testsaal',json(normalized),{normalizeDocument:ctx.normalizeSetupDocument,exportedAt:1});assert.equal(file.version,2);const imported=exporter.parseSetupJson(exporter.stringifySetupJson(file,{normalizeDocument:ctx.normalizeSetupDocument}),{normalizeDocument:ctx.normalizeSetupDocument});assert.deepEqual(json(imported.document),json(normalized));assert.equal(exporter.createSetupExport('Alt',legacy).version,1);
+const withoutStairOffset=json(normalized);delete withoutStairOffset.stage.stairsAlong;assert.doesNotThrow(()=>exporter.createSetupExport('Haus ohne Treppe',withoutStairOffset,{normalizeDocument:ctx.normalizeSetupDocument}));
+// Equipment on a rounded apron is allowed; holes and pillars reject the complete footprint.
+const floorStage={...stage,geometry:G.preset('round')};floorStage.geometry.parts.push(G.part({kind:'opening',x:2,y:2,w:1,d:1}),G.part({kind:'obstacle',x:5,y:1,w:.5,d:.5}));
+assert.equal(ctx.outside({type:'riser',x:4,y:6,width:.5,depth:.5},floorStage),false);
+assert.equal(ctx.outside({type:'riser',x:2.5,y:2.5,width:.5,depth:.5},floorStage),true);
+assert.equal(ctx.outside({type:'riser',x:5.2,y:1.2,width:.5,depth:.5},floorStage),true);
+ctx.objects=[{id:'module',type:'stage-module',x:9,y:2,width:2,depth:1,angle:0}];assert.equal(ctx.outside({type:'riser',x:9,y:2,width:.5,depth:.5},floorStage),false,'Bühnenmodule erweitern auch die nutzbare Fläche.');
+// The real editor callbacks save only checked house equipment and strip event data.
+let editorOptions,eventCopy;
+Object.assign(ctx,{sharedReadOnly:false,root:{},view:'editor',stage:json(normalized.stage),objects:json(normalized.objects),cancelPlacement:()=>{},finishEdit:()=>{},stairStates:()=>[],objectCatalog:o=>({name:o.type}),StageplotVenue:{open:options=>editorOptions=options},stageTemplateAccountStore:()=>null,renderStageTemplates:()=>{},activateSetupDocument:value=>eventCopy=json(ctx.normalizeSetupDocument(value)),say:()=>{}});
+vm.runInContext(['geometryForVenue','newVenueEvent','openVenueEditor'].map(extract).join('\n'),ctx);
+ctx.openVenueEditor();const houseGeometry=json(normalized.stage.geometry);houseGeometry.name='Testsaal';
+const savedHouse=editorOptions.onSaveTemplate(houseGeometry,[ctx.objects[0].id]);assert.equal(savedHouse.revision,4);const latestHouse=savedHouse.templates.find(t=>t.id==='stage-template-demo');assert.equal(latestHouse.objects.length,1);assert.equal(latestHouse.objects[0].locked,true);assert.equal(latestHouse.objects[0].house,true);assert.equal(latestHouse.stage.project,undefined);
+editorOptions.onNewEvent(latestHouse);eventCopy.stage.geometry.parts[0].w=18;assert.equal(ctx.readStageTemplates()[0].stage.geometry.parts[0].w,4.18);assert.equal(eventCopy.stage.venueRef.revision,4);
+// Exercise the actual pointer handlers, not a mirrored resize implementation.
+const handlers={},captures=new Set(),canvas={addEventListener:(name,fn)=>handlers[name]=fn,setPointerCapture:id=>captures.add(id),hasPointerCapture:id=>captures.has(id),releasePointerCapture:id=>captures.delete(id),getBoundingClientRect:()=>({left:0,top:0})};
+const pc={G,canvas,metrics:{x:0,y:0,scale:50},$:()=>({checked:true}),g:G.legacy({w:4.18,d:4.27}),drag:null,gesture:null,touches:new Map(),pan:{x:0,y:0,zoom:1},history:[],future:[],drawPoints:null,selected:'main-stage',edge:null,draw:()=>{},render:()=>{},status:()=>{}};
+pc.state=()=>JSON.stringify(pc.g);pc.restore=s=>pc.g=JSON.parse(s);vm.createContext(pc);
+vm.runInContext(ui.slice(ui.indexOf('  function rebox('),ui.indexOf('  function open('))+ui.slice(ui.indexOf('    const local=e=>'),ui.indexOf('    function editField(')),pc);
+const target=(kind,id='main-stage',value='se')=>({closest:selector=>selector==='[data-'+kind+']'?{dataset:{part:id,selectShape:id,resizeHandle:value,pointHandle:value,edgeHandle:value}}:null});
+const event=(id,x,y,targetValue=target('resize-handle'))=>({button:0,pointerType:'touch',pointerId:id,clientX:x,clientY:y,target:targetValue,preventDefault(){}});
+handlers.pointerdown(event(1,209,213.5));handlers.pointermove(event(1,242,230));handlers.pointerup(event(1,242,230));assert.equal(pc.g.parts[0].w,4.88);assert.equal(pc.g.parts[0].d,4.57);assert.equal(pc.g.parts[0].x,0);assert.equal(pc.history.length,1);
+handlers.pointerdown(event(1,244,228.5));handlers.pointermove(event(1,294,278.5));handlers.pointercancel(event(1,294,278.5));assert.equal(pc.g.parts[0].w,4.88,'Abgebrochener Drag wird vollständig zurückgesetzt.');
+const beforeGesture=JSON.stringify(pc.g);handlers.pointerdown(event(1,100,100,target('select-shape')));handlers.pointermove(event(1,110,100,target('select-shape')));handlers.pointerdown(event(2,200,100,target('select-shape')));handlers.pointermove(event(2,300,100));handlers.pointerup(event(2,300,100));handlers.pointerup(event(1,110,100));assert.equal(JSON.stringify(pc.g),beforeGesture,'Zwei Finger zoomen die Ansicht, ohne eine Fläche versehentlich zu verschieben.');assert.ok(pc.pan.zoom>1);assert.equal(captures.size,0);
+pc.g.parts[0].locked=true;handlers.pointerdown(event(1,200,200));handlers.pointermove(event(1,250,250));handlers.pointerup(event(1,250,250));assert.equal(pc.g.parts[0].w,4.88,'Gesperrte Bauteile können nicht gezogen werden.');
+console.log('PASS VENUE: Hausvorlagen, unabhängige Veranstaltungskopien, JSON/Link-Roundtrip, Polygon-Flächenprüfung und echte Pointer-Handler.');

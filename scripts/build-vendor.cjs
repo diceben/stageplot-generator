@@ -5,3 +5,6 @@ const packages=['@supabase/supabase-js','@supabase/auth-js','@supabase/functions
 const notices=packages.map(name=>{const folder=path.join('node_modules',name),files=fs.readdirSync(folder).filter(file=>/^(license|copyrightnotice)(\.|$)/i.test(file));if(!files.length)throw new Error('Lizenz fehlt: '+name);return name+'\n'+files.map(file=>fs.readFileSync(path.join(folder,file),'utf8')).join('\n');});
 fs.writeFileSync('stageplot-assets/vendor/LICENSES.txt',notices.join('\n\n').replace(/\r\n/g,'\n'));
 console.log('Lokaler Supabase-Client gebündelt.');
+fs.copyFileSync('node_modules/polygon-clipping/dist/polygon-clipping.umd.min.js','stageplot-assets/vendor/polygon-clipping.js');
+fs.copyFileSync('node_modules/polygon-clipping/LICENSE.md','stageplot-assets/vendor/polygon-clipping.LICENSE.md');
+console.log('Lokale Polygon-Geometrie gebündelt.');

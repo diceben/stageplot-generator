@@ -53,7 +53,7 @@
   <section id="sp-dashboard" class="sp-dashboard" hidden>
     <div class="sp-dashboard-hero">
       <div class="sp-dashboard-intro"><img class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
-      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
+      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-house-library">Hausbühnen</button><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
     <div class="sp-plan-card" id="sp-plan-card">
       <div class="sp-plan-message"><span class="sp-plan-kicker" id="sp-plan-kicker">KOSTENLOSE PRO-BETA</span><strong id="sp-plan-usage">Pro-Funktionen während der Beta kostenlos testen</strong><small id="sp-plan-copy">Aktiviere Pro-Beta ohne Zahlung und ohne Abo.</small></div>
@@ -75,13 +75,14 @@
             <button type="button" data-preset="6,4"><strong>Mittel</strong><span>6 × 4 m</span></button>
             <button type="button" data-preset="10,6"><strong>Groß</strong><span>10 × 6 m</span></button>
           </div>
+          <button class="sp-button" type="button" id="sp-venue-setup">Bühnenform &amp; Hausgrundriss bearbeiten</button><p class="sp-muted" id="sp-venue-form-hint" hidden>Maße und Treppen dieses Grundrisses bearbeitest du unter „Bühnenform“.</p>
           <div class="sp-stage-templates">
             <div class="sp-stage-template-head"><span>Eigene Bühnen</span><div><input id="sp-stage-template-name" maxlength="40" placeholder="Vorlagenname" aria-label="Name der Bühnenvorlage"><button class="sp-button" type="button" id="sp-stage-template-save">Speichern</button></div></div>
             <div id="sp-stage-template-list" class="sp-stage-template-list" aria-label="Gespeicherte Bühnenvorlagen"></div>
           </div>
           <div class="sp-fields">
-            <label class="sp-field">Breite (m)<input id="sp-width" type="number" min="2" max="30" step="0.1" value="8" required></label>
-            <label class="sp-field">Tiefe (m)<input id="sp-depth" type="number" min="2" max="20" step="0.1" value="5" required></label>
+            <label class="sp-field">Breite (m)<input id="sp-width" type="number" min="2" max="30" step="any" value="8" required></label>
+            <label class="sp-field">Tiefe (m)<input id="sp-depth" type="number" min="2" max="20" step="any" value="5" required></label>
           </div>
         </fieldset>
         <fieldset>
@@ -140,6 +141,7 @@
             <div class="sp-toolbar-group sp-canvas-cluster sp-history-controls" data-canvas-cluster="history">
               <button class="sp-button sp-iconbutton" id="sp-undo" type="button" aria-label="Rückgängig" data-tooltip="Rückgängig · ⌘ Z" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 5.5 3.5 9l4 3.5M4 9h7.2a4.8 4.8 0 1 1 0 9.6H9.5" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               <button class="sp-button sp-iconbutton" id="sp-redo" type="button" aria-label="Wiederholen" data-tooltip="Wiederholen · ⇧ ⌘ Z" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 5.5 4 3.5-4 3.5M16 9H8.8a4.8 4.8 0 1 0 0 9.6h1.7" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="sp-button" id="sp-venue-open" type="button">Bühnenform</button>
             </div>
             <div class="sp-toolbar-group sp-canvas-cluster sp-view-controls" data-canvas-cluster="view">
               <button class="sp-button sp-iconbutton sp-pan-button" id="sp-pan" type="button" data-tooltip="Ansicht verschieben · Leertaste" aria-label="Ansicht verschieben" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V5a1.5 1.5 0 0 1 3 0v6-8a1.5 1.5 0 0 1 3 0v8-6a1.5 1.5 0 0 1 3 0v7-3a1.5 1.5 0 0 1 3 0v6c0 5-3 7-7 7-3 0-4-1-6-4l-3-4a1.5 1.5 0 0 1 2-2l2 2Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
@@ -300,7 +302,7 @@
         <label class="sp-field sp-project-date-field">Datum<input id="sp-project-date" type="date"></label><label class="sp-field">Artist / Band Name<input id="sp-project-artist" maxlength="80"></label>
         <label class="sp-field">Venue<input id="sp-project-venue" maxlength="100"></label><label class="sp-field">Autor / Engineer<input id="sp-project-author" maxlength="80"></label>
         <label class="sp-field">Tour Name<input id="sp-project-tour" maxlength="80"></label><label class="sp-field">Production Company<input id="sp-project-company" maxlength="100"></label>
-        <label class="sp-field"><span id="sp-project-width-label">Bühnenbreite (m)</span><input id="sp-project-width" type="number" min="2" step="0.1" required></label><label class="sp-field"><span id="sp-project-depth-label">Bühnentiefe (m)</span><input id="sp-project-depth" type="number" min="2" step="0.1" required></label>
+        <label class="sp-field"><span id="sp-project-width-label">Bühnenbreite (m)</span><input id="sp-project-width" type="number" min="2" step="any" required></label><label class="sp-field"><span id="sp-project-depth-label">Bühnentiefe (m)</span><input id="sp-project-depth" type="number" min="2" step="any" required></label>
         <label class="sp-field">Maßeinheit<select id="sp-project-unit"><option value="m">Meter</option><option value="ft">Feet</option></select></label>
       </div></section>
       <section id="sp-project-panel-contacts" class="sp-settings-card" role="tabpanel" data-project-panel="contacts" hidden><div class="sp-settings-card-title"><div><h2>Technische Kontakte</h2><p>Ansprechpersonen für Venue und Produktion</p></div></div><div class="sp-settings-fields">
@@ -4503,12 +4505,469 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-inventory-open { margin:7px 0 0; width:100%; }
 #sp-prototype #sp-foh-fields .sp-check { display:flex; align-items:center; gap:7px; padding:8px 0; }
 @media(max-width:700px) { #sp-prototype .sp-inventory-layout { grid-template-columns:1fr; } #sp-prototype .sp-account-dialog { padding:14px; } }
+/* build-inline:start stageplot-venue-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+#sp-prototype .sp-venue-dialog { box-sizing:border-box; width:min(1280px,calc(100vw - 28px)); max-width:none; height:min(880px,calc(100dvh - 28px)); max-height:none; margin:auto; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-paper); color:var(--sp-art); overflow:hidden; box-shadow:0 24px 100px #0007; }
+#sp-prototype .sp-venue-dialog[open] { display:flex; flex-direction:column; }
+#sp-prototype .sp-venue-dialog::backdrop { background:#101810a8; backdrop-filter:blur(3px); }
+#sp-prototype .sp-venue-dialog :is(button,input,select,textarea) { font:inherit; font-size:12px; color:inherit; box-sizing:border-box; }
+#sp-prototype .sp-venue-dialog button { min-height:40px; padding:8px 12px; border:1px solid var(--sp-line); border-radius:8px; background:var(--sp-paper); cursor:pointer; line-height:1.25; }
+#sp-prototype .sp-venue-dialog button:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-venue-dialog button:disabled { opacity:.4; cursor:default; }
+#sp-prototype .sp-venue-dialog button[aria-pressed="true"] { border-color:var(--sp-teal); background:color-mix(in srgb,var(--sp-teal) 12%,var(--sp-paper)); }
+#sp-prototype .sp-venue-dialog :focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
+#sp-prototype .sp-venue-dialog [hidden] { display:none !important; }
+#sp-prototype .sv-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sv-head strong { display:block; font-size:19px; }
+#sp-prototype .sv-head small { display:block; margin-top:3px; color:var(--sp-muted); font-size:12px; }
+#sp-prototype .sv-head button { width:40px; font-size:24px; }
+#sp-prototype .sv-tools { display:flex; flex-wrap:wrap; gap:8px; align-items:end; padding:12px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-venue-dialog label { display:flex; flex-direction:column; gap:5px; font-size:11px; line-height:1.4; }
+#sp-prototype .sp-venue-dialog :is(input:not([type="checkbox"]),select,textarea) { min-width:0; width:100%; min-height:40px; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-paper); }
+#sp-prototype .sv-tools label { min-width:130px; }
+#sp-prototype .sv-work { display:grid; grid-template-columns:minmax(0,1fr) 310px; flex:1; min-height:0; }
+#sp-prototype .sv-plan-column { display:flex; flex-direction:column; min-width:0; min-height:0; padding:12px; background:color-mix(in srgb,var(--sp-line) 12%,var(--sp-paper)); }
+#sp-prototype .sv-canvas-tools { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding-bottom:10px; }
+#sp-prototype .sv-canvas-tools label,#sp-prototype .sp-venue-dialog .sv-check,#sp-prototype .sv-house label:has(input[type="checkbox"]) { flex-direction:row; align-items:center; gap:6px; min-height:36px; }
+#sp-prototype .sp-venue-dialog input[type="checkbox"] { width:17px; height:17px; accent-color:var(--sp-teal); }
+#sp-prototype .sv-canvas { display:block; width:100%; min-height:200px; flex:1; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); touch-action:none; user-select:none; }
+#sp-prototype .sv-summary { padding-top:10px; font-size:12px; font-weight:650; }
+#sp-prototype .sv-hint { font-size:11px; color:var(--sp-muted); margin:6px 0 0; line-height:1.5; }
+#sp-prototype .sv-sidebar { padding:14px; overflow-y:auto; border-left:1px solid var(--sp-line); }
+#sp-prototype .sv-sidebar h3 { font-size:15px; margin:0 0 12px; }
+#sp-prototype .sv-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+#sp-prototype .sv-fields label:first-child:has([data-prop="name"]) { grid-column:1/-1; }
+#sp-prototype .sv-sidebar details { border-top:1px solid var(--sp-line); margin-top:14px; padding-top:10px; }
+#sp-prototype .sv-sidebar summary { cursor:pointer; min-height:30px; font-size:12px; font-weight:650; }
+#sp-prototype :is(.sv-house,.sv-edge,.sv-templates,.sv-parts) { display:flex; flex-direction:column; gap:8px; }
+#sp-prototype .sv-edge { background:color-mix(in srgb,var(--sp-teal) 6%,var(--sp-paper)); padding:10px; border:1px solid var(--sp-line); border-radius:8px; margin-top:10px; }
+#sp-prototype .sv-row { display:flex; gap:6px; margin-top:8px; }
+#sp-prototype .sv-row>* { flex:1; }
+#sp-prototype .sv-parts button { text-align:left; }
+#sp-prototype .sv-template { padding:8px 0; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sv-template :is(strong,small) { display:block; font-size:12px; }
+#sp-prototype .sv-template small { color:var(--sp-muted); margin-top:4px; }
+#sp-prototype .sv-house p,#sp-prototype .sv-templates p { font-size:11px; color:var(--sp-muted); }
+#sp-prototype .sp-venue-dialog footer { display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:12px 20px; border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-venue-dialog .sv-primary { background:var(--sp-teal); border-color:var(--sp-teal); color:#fff; font-weight:650; }
+#sp-prototype .sv-status { flex:1; font-size:12px; color:var(--sp-muted); }
+#sp-prototype #sp-canvas-tools #sp-venue-open { width:auto; min-width:90px; font-size:11px; padding:0 10px; white-space:nowrap; }
+#sp-prototype[data-readonly="true"] :is(#sp-venue-open,#sp-venue-setup,#sp-house-library) { display:none !important; }
+@media(max-width:740px) {
+  #sp-prototype .sp-venue-dialog { width:100vw; height:100dvh; border:0; border-radius:0; }
+  #sp-prototype .sv-head { padding:10px 12px; }
+  #sp-prototype .sv-head strong { font-size:16px; }
+  #sp-prototype .sv-tools { padding:8px 12px; gap:6px; }
+  #sp-prototype .sv-tools label { flex:1; min-width:110px; }
+  #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; }
+  #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
+  #sp-prototype .sv-canvas { height:280px; min-height:280px; flex:none; }
+  #sp-prototype .sv-sidebar { overflow:visible; border-left:0; border-top:1px solid var(--sp-line); }
+  #sp-prototype .sp-venue-dialog footer { flex-wrap:wrap; padding:8px 12px; gap:6px; }
+  #sp-prototype .sv-status:empty { display:none; }
+  #sp-prototype .sv-status { flex-basis:100%; }
+  #sp-prototype .sp-venue-dialog footer button { flex:1; padding:8px 6px; font-size:11px; }
+  #sp-prototype .sp-venue-dialog :is(button,input:not([type="checkbox"]),select) { min-height:44px; }
+}
+
+#sp-prototype .sv-plan-column { --sp-teal:#617b31; }
+#sp-prototype .sv-canvas-tools button { font-family:system-ui,sans-serif; font-size:15px; }
+/* build-inline:end stageplot-venue-v1.css */
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
 <script src="./stageplot-cloud-config.js"></script>
 <script src="./stageplot-sync-v2.js"></script>
 <script src="./stageplot-inventory-v1.js"></script>
+<script>
+/* build-inline:start stageplot-assets/vendor/polygon-clipping.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(t="undefined"!=typeof globalThis?globalThis:t||self).polygonClipping=e()}(this,(function(){"use strict";
+/**
+     * splaytree v3.1.2
+     * Fast Splay tree for Node and browser
+     *
+     * @author Alexander Milevski <info@w8r.name>
+     * @license MIT
+     * @preserve
+     */
+/*! *****************************************************************************
+    Copyright (c) Microsoft Corporation. All rights reserved.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+    this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0
+
+    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+    MERCHANTABLITY OR NON-INFRINGEMENT.
+
+    See the Apache Version 2.0 License for specific language governing permissions
+    and limitations under the License.
+    ***************************************************************************** */function t(t,e){var n,r,i,o,s={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return o={next:l(0),throw:l(1),return:l(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function l(o){return function(l){return function(o){if(n)throw new TypeError("Generator is already executing.");for(;s;)try{if(n=1,r&&(i=2&o[0]?r.return:o[0]?r.throw||((i=r.return)&&i.call(r),0):r.next)&&!(i=i.call(r,o[1])).done)return i;switch(r=0,i&&(o=[2&o[0],i.value]),o[0]){case 0:case 1:i=o;break;case 4:return s.label++,{value:o[1],done:!1};case 5:s.label++,r=o[1],o=[0];continue;case 7:o=s.ops.pop(),s.trys.pop();continue;default:if(!(i=s.trys,(i=i.length>0&&i[i.length-1])||6!==o[0]&&2!==o[0])){s=0;continue}if(3===o[0]&&(!i||o[1]>i[0]&&o[1]<i[3])){s.label=o[1];break}if(6===o[0]&&s.label<i[1]){s.label=i[1],i=o;break}if(i&&s.label<i[2]){s.label=i[2],s.ops.push(o);break}i[2]&&s.ops.pop(),s.trys.pop();continue}o=e.call(t,s)}catch(t){o=[6,t],r=0}finally{n=i=0}if(5&o[0])throw o[1];return{value:o[0]?o[1]:void 0,done:!0}}([o,l])}}}var e=function(t,e){this.next=null,this.key=t,this.data=e,this.left=null,this.right=null};function n(t,e){return t>e?1:t<e?-1:0}function r(t,n,r){for(var i=new e(null,null),o=i,s=i;;){var l=r(t,n.key);if(l<0){if(null===n.left)break;if(r(t,n.left.key)<0){var h=n.left;if(n.left=h.right,h.right=n,null===(n=h).left)break}s.left=n,s=n,n=n.left}else{if(!(l>0))break;if(null===n.right)break;if(r(t,n.right.key)>0){h=n.right;if(n.right=h.left,h.left=n,null===(n=h).right)break}o.right=n,o=n,n=n.right}}return o.right=n.left,s.left=n.right,n.left=i.right,n.right=i.left,n}function i(t,n,i,o){var s=new e(t,n);if(null===i)return s.left=s.right=null,s;var l=o(t,(i=r(t,i,o)).key);return l<0?(s.left=i.left,s.right=i,i.left=null):l>=0&&(s.right=i.right,s.left=i,i.right=null),s}function o(t,e,n){var i=null,o=null;if(e){var s=n((e=r(t,e,n)).key,t);0===s?(i=e.left,o=e.right):s<0?(o=e.right,e.right=null,i=e):(i=e.left,e.left=null,o=e)}return{left:i,right:o}}function s(t,e,n,r,i){if(t){r(e+(n?"└── ":"├── ")+i(t)+"\n");var o=e+(n?"    ":"│   ");t.left&&s(t.left,o,!1,r,i),t.right&&s(t.right,o,!0,r,i)}}var l=function(){function l(t){void 0===t&&(t=n),this._root=null,this._size=0,this._comparator=t}return l.prototype.insert=function(t,e){return this._size++,this._root=i(t,e,this._root,this._comparator)},l.prototype.add=function(t,n){var i=new e(t,n);null===this._root&&(i.left=i.right=null,this._size++,this._root=i);var o=this._comparator,s=r(t,this._root,o),l=o(t,s.key);return 0===l?this._root=s:(l<0?(i.left=s.left,i.right=s,s.left=null):l>0&&(i.right=s.right,i.left=s,s.right=null),this._size++,this._root=i),this._root},l.prototype.remove=function(t){this._root=this._remove(t,this._root,this._comparator)},l.prototype._remove=function(t,e,n){var i;return null===e?null:0===n(t,(e=r(t,e,n)).key)?(null===e.left?i=e.right:(i=r(t,e.left,n)).right=e.right,this._size--,i):e},l.prototype.pop=function(){var t=this._root;if(t){for(;t.left;)t=t.left;return this._root=r(t.key,this._root,this._comparator),this._root=this._remove(t.key,this._root,this._comparator),{key:t.key,data:t.data}}return null},l.prototype.findStatic=function(t){for(var e=this._root,n=this._comparator;e;){var r=n(t,e.key);if(0===r)return e;e=r<0?e.left:e.right}return null},l.prototype.find=function(t){return this._root&&(this._root=r(t,this._root,this._comparator),0!==this._comparator(t,this._root.key))?null:this._root},l.prototype.contains=function(t){for(var e=this._root,n=this._comparator;e;){var r=n(t,e.key);if(0===r)return!0;e=r<0?e.left:e.right}return!1},l.prototype.forEach=function(t,e){for(var n=this._root,r=[],i=!1;!i;)null!==n?(r.push(n),n=n.left):0!==r.length?(n=r.pop(),t.call(e,n),n=n.right):i=!0;return this},l.prototype.range=function(t,e,n,r){for(var i=[],o=this._comparator,s=this._root;0!==i.length||s;)if(s)i.push(s),s=s.left;else{if(o((s=i.pop()).key,e)>0)break;if(o(s.key,t)>=0&&n.call(r,s))return this;s=s.right}return this},l.prototype.keys=function(){var t=[];return this.forEach((function(e){var n=e.key;return t.push(n)})),t},l.prototype.values=function(){var t=[];return this.forEach((function(e){var n=e.data;return t.push(n)})),t},l.prototype.min=function(){return this._root?this.minNode(this._root).key:null},l.prototype.max=function(){return this._root?this.maxNode(this._root).key:null},l.prototype.minNode=function(t){if(void 0===t&&(t=this._root),t)for(;t.left;)t=t.left;return t},l.prototype.maxNode=function(t){if(void 0===t&&(t=this._root),t)for(;t.right;)t=t.right;return t},l.prototype.at=function(t){for(var e=this._root,n=!1,r=0,i=[];!n;)if(e)i.push(e),e=e.left;else if(i.length>0){if(e=i.pop(),r===t)return e;r++,e=e.right}else n=!0;return null},l.prototype.next=function(t){var e=this._root,n=null;if(t.right){for(n=t.right;n.left;)n=n.left;return n}for(var r=this._comparator;e;){var i=r(t.key,e.key);if(0===i)break;i<0?(n=e,e=e.left):e=e.right}return n},l.prototype.prev=function(t){var e=this._root,n=null;if(null!==t.left){for(n=t.left;n.right;)n=n.right;return n}for(var r=this._comparator;e;){var i=r(t.key,e.key);if(0===i)break;i<0?e=e.left:(n=e,e=e.right)}return n},l.prototype.clear=function(){return this._root=null,this._size=0,this},l.prototype.toList=function(){return function(t){var n=t,r=[],i=!1,o=new e(null,null),s=o;for(;!i;)n?(r.push(n),n=n.left):r.length>0?n=(n=s=s.next=r.pop()).right:i=!0;return s.next=null,o.next}(this._root)},l.prototype.load=function(t,n,r){void 0===n&&(n=[]),void 0===r&&(r=!1);var i=t.length,o=this._comparator;if(r&&f(t,n,0,i-1,o),null===this._root)this._root=h(t,n,0,i),this._size=i;else{var s=function(t,n,r){var i=new e(null,null),o=i,s=t,l=n;for(;null!==s&&null!==l;)r(s.key,l.key)<0?(o.next=s,s=s.next):(o.next=l,l=l.next),o=o.next;null!==s?o.next=s:null!==l&&(o.next=l);return i.next}(this.toList(),function(t,n){for(var r=new e(null,null),i=r,o=0;o<t.length;o++)i=i.next=new e(t[o],n[o]);return i.next=null,r.next}(t,n),o);i=this._size+i,this._root=u({head:s},0,i)}return this},l.prototype.isEmpty=function(){return null===this._root},Object.defineProperty(l.prototype,"size",{get:function(){return this._size},enumerable:!0,configurable:!0}),Object.defineProperty(l.prototype,"root",{get:function(){return this._root},enumerable:!0,configurable:!0}),l.prototype.toString=function(t){void 0===t&&(t=function(t){return String(t.key)});var e=[];return s(this._root,"",!0,(function(t){return e.push(t)}),t),e.join("")},l.prototype.update=function(t,e,n){var s=this._comparator,l=o(t,this._root,s),h=l.left,u=l.right;s(t,e)<0?u=i(e,n,u,s):h=i(e,n,h,s),this._root=function(t,e,n){return null===e?t:(null===t||((e=r(t.key,e,n)).left=t),e)}(h,u,s)},l.prototype.split=function(t){return o(t,this._root,this._comparator)},l.prototype[Symbol.iterator]=function(){var e,n,r;return t(this,(function(t){switch(t.label){case 0:e=this._root,n=[],r=!1,t.label=1;case 1:return r?[3,6]:null===e?[3,2]:(n.push(e),e=e.left,[3,5]);case 2:return 0===n.length?[3,4]:[4,e=n.pop()];case 3:return t.sent(),e=e.right,[3,5];case 4:r=!0,t.label=5;case 5:return[3,1];case 6:return[2]}}))},l}();function h(t,n,r,i){var o=i-r;if(o>0){var s=r+Math.floor(o/2),l=t[s],u=n[s],f=new e(l,u);return f.left=h(t,n,r,s),f.right=h(t,n,s+1,i),f}return null}function u(t,e,n){var r=n-e;if(r>0){var i=e+Math.floor(r/2),o=u(t,e,i),s=t.head;return s.left=o,t.head=t.head.next,s.right=u(t,i+1,n),s}return null}function f(t,e,n,r,i){if(!(n>=r)){for(var o=t[n+r>>1],s=n-1,l=r+1;;){do{s++}while(i(t[s],o)<0);do{l--}while(i(t[l],o)>0);if(s>=l)break;var h=t[s];t[s]=t[l],t[l]=h,h=e[s],e[s]=e[l],e[l]=h}f(t,e,n,l,i),f(t,e,l+1,r,i)}}const c=(t,e)=>t.ll.x<=e.x&&e.x<=t.ur.x&&t.ll.y<=e.y&&e.y<=t.ur.y,p=(t,e)=>{if(e.ur.x<t.ll.x||t.ur.x<e.ll.x||e.ur.y<t.ll.y||t.ur.y<e.ll.y)return null;const n=t.ll.x<e.ll.x?e.ll.x:t.ll.x,r=t.ur.x<e.ur.x?t.ur.x:e.ur.x;return{ll:{x:n,y:t.ll.y<e.ll.y?e.ll.y:t.ll.y},ur:{x:r,y:t.ur.y<e.ur.y?t.ur.y:e.ur.y}}};let g=Number.EPSILON;void 0===g&&(g=Math.pow(2,-52));const a=g*g,y=(t,e)=>{if(-g<t&&t<g&&-g<e&&e<g)return 0;const n=t-e;return n*n<a*t*e?0:t<e?-1:1};class x{constructor(){this.tree=new l,this.round(0)}round(t){const e=this.tree.add(t),n=this.tree.prev(e);if(null!==n&&0===y(e.key,n.key))return this.tree.remove(t),n.key;const r=this.tree.next(e);return null!==r&&0===y(e.key,r.key)?(this.tree.remove(t),r.key):t}}const b=new class{constructor(){this.reset()}reset(){this.xRounder=new x,this.yRounder=new x}round(t,e){return{x:this.xRounder.round(t),y:this.yRounder.round(e)}}},v=11102230246251565e-32,d=134217729,m=(3+8*v)*v;function E(t,e,n,r,i){let o,s,l,h,u=e[0],f=r[0],c=0,p=0;f>u==f>-u?(o=u,u=e[++c]):(o=f,f=r[++p]);let g=0;if(c<t&&p<n)for(f>u==f>-u?(s=u+o,l=o-(s-u),u=e[++c]):(s=f+o,l=o-(s-f),f=r[++p]),o=s,0!==l&&(i[g++]=l);c<t&&p<n;)f>u==f>-u?(s=o+u,h=s-o,l=o-(s-h)+(u-h),u=e[++c]):(s=o+f,h=s-o,l=o-(s-h)+(f-h),f=r[++p]),o=s,0!==l&&(i[g++]=l);for(;c<t;)s=o+u,h=s-o,l=o-(s-h)+(u-h),u=e[++c],o=s,0!==l&&(i[g++]=l);for(;p<n;)s=o+f,h=s-o,l=o-(s-h)+(f-h),f=r[++p],o=s,0!==l&&(i[g++]=l);return 0===o&&0!==g||(i[g++]=o),g}function S(t){return new Float64Array(t)}const _=22204460492503146e-32,w=11093356479670487e-47,k=S(4),R=S(8),I=S(12),P=S(16),N=S(4);function A(t,e,n,r,i,o){const s=(e-o)*(n-i),l=(t-i)*(r-o),h=s-l,u=Math.abs(s+l);return Math.abs(h)>=33306690738754716e-32*u?h:-function(t,e,n,r,i,o,s){let l,h,u,f,c,p,g,a,y,x,b,v,S,A,O,L,$,M;const z=t-i,B=n-i,G=e-o,T=r-o;A=z*T,p=d*z,g=p-(p-z),a=z-g,p=d*T,y=p-(p-T),x=T-y,O=a*x-(A-g*y-a*y-g*x),L=G*B,p=d*G,g=p-(p-G),a=G-g,p=d*B,y=p-(p-B),x=B-y,$=a*x-(L-g*y-a*y-g*x),b=O-$,c=O-b,k[0]=O-(b+c)+(c-$),v=A+b,c=v-A,S=A-(v-c)+(b-c),b=S-L,c=S-b,k[1]=S-(b+c)+(c-L),M=v+b,c=M-v,k[2]=v-(M-c)+(b-c),k[3]=M;let q=function(t,e){let n=e[0];for(let r=1;r<t;r++)n+=e[r];return n}(4,k),C=_*s;if(q>=C||-q>=C)return q;if(c=t-z,l=t-(z+c)+(c-i),c=n-B,u=n-(B+c)+(c-i),c=e-G,h=e-(G+c)+(c-o),c=r-T,f=r-(T+c)+(c-o),0===l&&0===h&&0===u&&0===f)return q;if(C=w*s+m*Math.abs(q),q+=z*f+T*l-(G*u+B*h),q>=C||-q>=C)return q;A=l*T,p=d*l,g=p-(p-l),a=l-g,p=d*T,y=p-(p-T),x=T-y,O=a*x-(A-g*y-a*y-g*x),L=h*B,p=d*h,g=p-(p-h),a=h-g,p=d*B,y=p-(p-B),x=B-y,$=a*x-(L-g*y-a*y-g*x),b=O-$,c=O-b,N[0]=O-(b+c)+(c-$),v=A+b,c=v-A,S=A-(v-c)+(b-c),b=S-L,c=S-b,N[1]=S-(b+c)+(c-L),M=v+b,c=M-v,N[2]=v-(M-c)+(b-c),N[3]=M;const F=E(4,k,4,N,R);A=z*f,p=d*z,g=p-(p-z),a=z-g,p=d*f,y=p-(p-f),x=f-y,O=a*x-(A-g*y-a*y-g*x),L=G*u,p=d*G,g=p-(p-G),a=G-g,p=d*u,y=p-(p-u),x=u-y,$=a*x-(L-g*y-a*y-g*x),b=O-$,c=O-b,N[0]=O-(b+c)+(c-$),v=A+b,c=v-A,S=A-(v-c)+(b-c),b=S-L,c=S-b,N[1]=S-(b+c)+(c-L),M=v+b,c=M-v,N[2]=v-(M-c)+(b-c),N[3]=M;const j=E(F,R,4,N,I);A=l*f,p=d*l,g=p-(p-l),a=l-g,p=d*f,y=p-(p-f),x=f-y,O=a*x-(A-g*y-a*y-g*x),L=h*u,p=d*h,g=p-(p-h),a=h-g,p=d*u,y=p-(p-u),x=u-y,$=a*x-(L-g*y-a*y-g*x),b=O-$,c=O-b,N[0]=O-(b+c)+(c-$),v=A+b,c=v-A,S=A-(v-c)+(b-c),b=S-L,c=S-b,N[1]=S-(b+c)+(c-L),M=v+b,c=M-v,N[2]=v-(M-c)+(b-c),N[3]=M;const U=E(j,I,4,N,P);return P[U-1]}(t,e,n,r,i,o,u)}const O=(t,e)=>t.x*e.y-t.y*e.x,L=(t,e)=>t.x*e.x+t.y*e.y,$=(t,e,n)=>{const r=A(t.x,t.y,e.x,e.y,n.x,n.y);return r>0?-1:r<0?1:0},M=t=>Math.sqrt(L(t,t)),z=(t,e,n)=>{const r={x:e.x-t.x,y:e.y-t.y},i={x:n.x-t.x,y:n.y-t.y};return O(i,r)/M(i)/M(r)},B=(t,e,n)=>{const r={x:e.x-t.x,y:e.y-t.y},i={x:n.x-t.x,y:n.y-t.y};return L(i,r)/M(i)/M(r)},G=(t,e,n)=>0===e.y?null:{x:t.x+e.x/e.y*(n-t.y),y:n},T=(t,e,n)=>0===e.x?null:{x:n,y:t.y+e.y/e.x*(n-t.x)};class q{static compare(t,e){const n=q.comparePoints(t.point,e.point);return 0!==n?n:(t.point!==e.point&&t.link(e),t.isLeft!==e.isLeft?t.isLeft?1:-1:F.compare(t.segment,e.segment))}static comparePoints(t,e){return t.x<e.x?-1:t.x>e.x?1:t.y<e.y?-1:t.y>e.y?1:0}constructor(t,e){void 0===t.events?t.events=[this]:t.events.push(this),this.point=t,this.isLeft=e}link(t){if(t.point===this.point)throw new Error("Tried to link already linked events");const e=t.point.events;for(let t=0,n=e.length;t<n;t++){const n=e[t];this.point.events.push(n),n.point=this.point}this.checkForConsuming()}checkForConsuming(){const t=this.point.events.length;for(let e=0;e<t;e++){const n=this.point.events[e];if(void 0===n.segment.consumedBy)for(let r=e+1;r<t;r++){const t=this.point.events[r];void 0===t.consumedBy&&(n.otherSE.point.events===t.otherSE.point.events&&n.segment.consume(t.segment))}}}getAvailableLinkedEvents(){const t=[];for(let e=0,n=this.point.events.length;e<n;e++){const n=this.point.events[e];n!==this&&!n.segment.ringOut&&n.segment.isInResult()&&t.push(n)}return t}getLeftmostComparator(t){const e=new Map,n=n=>{const r=n.otherSE;e.set(n,{sine:z(this.point,t.point,r.point),cosine:B(this.point,t.point,r.point)})};return(t,r)=>{e.has(t)||n(t),e.has(r)||n(r);const{sine:i,cosine:o}=e.get(t),{sine:s,cosine:l}=e.get(r);return i>=0&&s>=0?o<l?1:o>l?-1:0:i<0&&s<0?o<l?-1:o>l?1:0:s<i?-1:s>i?1:0}}}let C=0;class F{static compare(t,e){const n=t.leftSE.point.x,r=e.leftSE.point.x,i=t.rightSE.point.x,o=e.rightSE.point.x;if(o<n)return 1;if(i<r)return-1;const s=t.leftSE.point.y,l=e.leftSE.point.y,h=t.rightSE.point.y,u=e.rightSE.point.y;if(n<r){if(l<s&&l<h)return 1;if(l>s&&l>h)return-1;const n=t.comparePoint(e.leftSE.point);if(n<0)return 1;if(n>0)return-1;const r=e.comparePoint(t.rightSE.point);return 0!==r?r:-1}if(n>r){if(s<l&&s<u)return-1;if(s>l&&s>u)return 1;const n=e.comparePoint(t.leftSE.point);if(0!==n)return n;const r=t.comparePoint(e.rightSE.point);return r<0?1:r>0?-1:1}if(s<l)return-1;if(s>l)return 1;if(i<o){const n=e.comparePoint(t.rightSE.point);if(0!==n)return n}if(i>o){const n=t.comparePoint(e.rightSE.point);if(n<0)return 1;if(n>0)return-1}if(i!==o){const t=h-s,e=i-n,f=u-l,c=o-r;if(t>e&&f<c)return 1;if(t<e&&f>c)return-1}return i>o?1:i<o||h<u?-1:h>u?1:t.id<e.id?-1:t.id>e.id?1:0}constructor(t,e,n,r){this.id=++C,this.leftSE=t,t.segment=this,t.otherSE=e,this.rightSE=e,e.segment=this,e.otherSE=t,this.rings=n,this.windings=r}static fromRing(t,e,n){let r,i,o;const s=q.comparePoints(t,e);if(s<0)r=t,i=e,o=1;else{if(!(s>0))throw new Error(`Tried to create degenerate segment at [${t.x}, ${t.y}]`);r=e,i=t,o=-1}const l=new q(r,!0),h=new q(i,!1);return new F(l,h,[n],[o])}replaceRightSE(t){this.rightSE=t,this.rightSE.segment=this,this.rightSE.otherSE=this.leftSE,this.leftSE.otherSE=this.rightSE}bbox(){const t=this.leftSE.point.y,e=this.rightSE.point.y;return{ll:{x:this.leftSE.point.x,y:t<e?t:e},ur:{x:this.rightSE.point.x,y:t>e?t:e}}}vector(){return{x:this.rightSE.point.x-this.leftSE.point.x,y:this.rightSE.point.y-this.leftSE.point.y}}isAnEndpoint(t){return t.x===this.leftSE.point.x&&t.y===this.leftSE.point.y||t.x===this.rightSE.point.x&&t.y===this.rightSE.point.y}comparePoint(t){if(this.isAnEndpoint(t))return 0;const e=this.leftSE.point,n=this.rightSE.point,r=this.vector();if(e.x===n.x)return t.x===e.x?0:t.x<e.x?1:-1;const i=(t.y-e.y)/r.y,o=e.x+i*r.x;if(t.x===o)return 0;const s=(t.x-e.x)/r.x,l=e.y+s*r.y;return t.y===l?0:t.y<l?-1:1}getIntersection(t){const e=this.bbox(),n=t.bbox(),r=p(e,n);if(null===r)return null;const i=this.leftSE.point,o=this.rightSE.point,s=t.leftSE.point,l=t.rightSE.point,h=c(e,s)&&0===this.comparePoint(s),u=c(n,i)&&0===t.comparePoint(i),f=c(e,l)&&0===this.comparePoint(l),g=c(n,o)&&0===t.comparePoint(o);if(u&&h)return g&&!f?o:!g&&f?l:null;if(u)return f&&i.x===l.x&&i.y===l.y?null:i;if(h)return g&&o.x===s.x&&o.y===s.y?null:s;if(g&&f)return null;if(g)return o;if(f)return l;const a=((t,e,n,r)=>{if(0===e.x)return T(n,r,t.x);if(0===r.x)return T(t,e,n.x);if(0===e.y)return G(n,r,t.y);if(0===r.y)return G(t,e,n.y);const i=O(e,r);if(0==i)return null;const o={x:n.x-t.x,y:n.y-t.y},s=O(o,e)/i,l=O(o,r)/i;return{x:(t.x+l*e.x+(n.x+s*r.x))/2,y:(t.y+l*e.y+(n.y+s*r.y))/2}})(i,this.vector(),s,t.vector());return null===a?null:c(r,a)?b.round(a.x,a.y):null}split(t){const e=[],n=void 0!==t.events,r=new q(t,!0),i=new q(t,!1),o=this.rightSE;this.replaceRightSE(i),e.push(i),e.push(r);const s=new F(r,o,this.rings.slice(),this.windings.slice());return q.comparePoints(s.leftSE.point,s.rightSE.point)>0&&s.swapEvents(),q.comparePoints(this.leftSE.point,this.rightSE.point)>0&&this.swapEvents(),n&&(r.checkForConsuming(),i.checkForConsuming()),e}swapEvents(){const t=this.rightSE;this.rightSE=this.leftSE,this.leftSE=t,this.leftSE.isLeft=!0,this.rightSE.isLeft=!1;for(let t=0,e=this.windings.length;t<e;t++)this.windings[t]*=-1}consume(t){let e=this,n=t;for(;e.consumedBy;)e=e.consumedBy;for(;n.consumedBy;)n=n.consumedBy;const r=F.compare(e,n);if(0!==r){if(r>0){const t=e;e=n,n=t}if(e.prev===n){const t=e;e=n,n=t}for(let t=0,r=n.rings.length;t<r;t++){const r=n.rings[t],i=n.windings[t],o=e.rings.indexOf(r);-1===o?(e.rings.push(r),e.windings.push(i)):e.windings[o]+=i}n.rings=null,n.windings=null,n.consumedBy=e,n.leftSE.consumedBy=e.leftSE,n.rightSE.consumedBy=e.rightSE}}prevInResult(){return void 0!==this._prevInResult||(this.prev?this.prev.isInResult()?this._prevInResult=this.prev:this._prevInResult=this.prev.prevInResult():this._prevInResult=null),this._prevInResult}beforeState(){if(void 0!==this._beforeState)return this._beforeState;if(this.prev){const t=this.prev.consumedBy||this.prev;this._beforeState=t.afterState()}else this._beforeState={rings:[],windings:[],multiPolys:[]};return this._beforeState}afterState(){if(void 0!==this._afterState)return this._afterState;const t=this.beforeState();this._afterState={rings:t.rings.slice(0),windings:t.windings.slice(0),multiPolys:[]};const e=this._afterState.rings,n=this._afterState.windings,r=this._afterState.multiPolys;for(let t=0,r=this.rings.length;t<r;t++){const r=this.rings[t],i=this.windings[t],o=e.indexOf(r);-1===o?(e.push(r),n.push(i)):n[o]+=i}const i=[],o=[];for(let t=0,r=e.length;t<r;t++){if(0===n[t])continue;const r=e[t],s=r.poly;if(-1===o.indexOf(s))if(r.isExterior)i.push(s);else{-1===o.indexOf(s)&&o.push(s);const t=i.indexOf(r.poly);-1!==t&&i.splice(t,1)}}for(let t=0,e=i.length;t<e;t++){const e=i[t].multiPoly;-1===r.indexOf(e)&&r.push(e)}return this._afterState}isInResult(){if(this.consumedBy)return!1;if(void 0!==this._isInResult)return this._isInResult;const t=this.beforeState().multiPolys,e=this.afterState().multiPolys;switch(H.type){case"union":{const n=0===t.length,r=0===e.length;this._isInResult=n!==r;break}case"intersection":{let n,r;t.length<e.length?(n=t.length,r=e.length):(n=e.length,r=t.length),this._isInResult=r===H.numMultiPolys&&n<r;break}case"xor":{const n=Math.abs(t.length-e.length);this._isInResult=n%2==1;break}case"difference":{const n=t=>1===t.length&&t[0].isSubject;this._isInResult=n(t)!==n(e);break}default:throw new Error(`Unrecognized operation type found ${H.type}`)}return this._isInResult}}class j{constructor(t,e,n){if(!Array.isArray(t)||0===t.length)throw new Error("Input geometry is not a valid Polygon or MultiPolygon");if(this.poly=e,this.isExterior=n,this.segments=[],"number"!=typeof t[0][0]||"number"!=typeof t[0][1])throw new Error("Input geometry is not a valid Polygon or MultiPolygon");const r=b.round(t[0][0],t[0][1]);this.bbox={ll:{x:r.x,y:r.y},ur:{x:r.x,y:r.y}};let i=r;for(let e=1,n=t.length;e<n;e++){if("number"!=typeof t[e][0]||"number"!=typeof t[e][1])throw new Error("Input geometry is not a valid Polygon or MultiPolygon");let n=b.round(t[e][0],t[e][1]);n.x===i.x&&n.y===i.y||(this.segments.push(F.fromRing(i,n,this)),n.x<this.bbox.ll.x&&(this.bbox.ll.x=n.x),n.y<this.bbox.ll.y&&(this.bbox.ll.y=n.y),n.x>this.bbox.ur.x&&(this.bbox.ur.x=n.x),n.y>this.bbox.ur.y&&(this.bbox.ur.y=n.y),i=n)}r.x===i.x&&r.y===i.y||this.segments.push(F.fromRing(i,r,this))}getSweepEvents(){const t=[];for(let e=0,n=this.segments.length;e<n;e++){const n=this.segments[e];t.push(n.leftSE),t.push(n.rightSE)}return t}}class U{constructor(t,e){if(!Array.isArray(t))throw new Error("Input geometry is not a valid Polygon or MultiPolygon");this.exteriorRing=new j(t[0],this,!0),this.bbox={ll:{x:this.exteriorRing.bbox.ll.x,y:this.exteriorRing.bbox.ll.y},ur:{x:this.exteriorRing.bbox.ur.x,y:this.exteriorRing.bbox.ur.y}},this.interiorRings=[];for(let e=1,n=t.length;e<n;e++){const n=new j(t[e],this,!1);n.bbox.ll.x<this.bbox.ll.x&&(this.bbox.ll.x=n.bbox.ll.x),n.bbox.ll.y<this.bbox.ll.y&&(this.bbox.ll.y=n.bbox.ll.y),n.bbox.ur.x>this.bbox.ur.x&&(this.bbox.ur.x=n.bbox.ur.x),n.bbox.ur.y>this.bbox.ur.y&&(this.bbox.ur.y=n.bbox.ur.y),this.interiorRings.push(n)}this.multiPoly=e}getSweepEvents(){const t=this.exteriorRing.getSweepEvents();for(let e=0,n=this.interiorRings.length;e<n;e++){const n=this.interiorRings[e].getSweepEvents();for(let e=0,r=n.length;e<r;e++)t.push(n[e])}return t}}class Y{constructor(t,e){if(!Array.isArray(t))throw new Error("Input geometry is not a valid Polygon or MultiPolygon");try{"number"==typeof t[0][0][0]&&(t=[t])}catch(t){}this.polys=[],this.bbox={ll:{x:Number.POSITIVE_INFINITY,y:Number.POSITIVE_INFINITY},ur:{x:Number.NEGATIVE_INFINITY,y:Number.NEGATIVE_INFINITY}};for(let e=0,n=t.length;e<n;e++){const n=new U(t[e],this);n.bbox.ll.x<this.bbox.ll.x&&(this.bbox.ll.x=n.bbox.ll.x),n.bbox.ll.y<this.bbox.ll.y&&(this.bbox.ll.y=n.bbox.ll.y),n.bbox.ur.x>this.bbox.ur.x&&(this.bbox.ur.x=n.bbox.ur.x),n.bbox.ur.y>this.bbox.ur.y&&(this.bbox.ur.y=n.bbox.ur.y),this.polys.push(n)}this.isSubject=e}getSweepEvents(){const t=[];for(let e=0,n=this.polys.length;e<n;e++){const n=this.polys[e].getSweepEvents();for(let e=0,r=n.length;e<r;e++)t.push(n[e])}return t}}class V{static factory(t){const e=[];for(let n=0,r=t.length;n<r;n++){const r=t[n];if(!r.isInResult()||r.ringOut)continue;let i=null,o=r.leftSE,s=r.rightSE;const l=[o],h=o.point,u=[];for(;i=o,o=s,l.push(o),o.point!==h;)for(;;){const t=o.getAvailableLinkedEvents();if(0===t.length){const t=l[0].point,e=l[l.length-1].point;throw new Error(`Unable to complete output ring starting at [${t.x}, ${t.y}]. Last matching segment found ends at [${e.x}, ${e.y}].`)}if(1===t.length){s=t[0].otherSE;break}let n=null;for(let t=0,e=u.length;t<e;t++)if(u[t].point===o.point){n=t;break}if(null!==n){const t=u.splice(n)[0],r=l.splice(t.index);r.unshift(r[0].otherSE),e.push(new V(r.reverse()));continue}u.push({index:l.length,point:o.point});const r=o.getLeftmostComparator(i);s=t.sort(r)[0].otherSE;break}e.push(new V(l))}return e}constructor(t){this.events=t;for(let e=0,n=t.length;e<n;e++)t[e].segment.ringOut=this;this.poly=null}getGeom(){let t=this.events[0].point;const e=[t];for(let n=1,r=this.events.length-1;n<r;n++){const r=this.events[n].point,i=this.events[n+1].point;0!==$(r,t,i)&&(e.push(r),t=r)}if(1===e.length)return null;const n=e[0],r=e[1];0===$(n,t,r)&&e.shift(),e.push(e[0]);const i=this.isExteriorRing()?1:-1,o=this.isExteriorRing()?0:e.length-1,s=this.isExteriorRing()?e.length:-1,l=[];for(let t=o;t!=s;t+=i)l.push([e[t].x,e[t].y]);return l}isExteriorRing(){if(void 0===this._isExteriorRing){const t=this.enclosingRing();this._isExteriorRing=!t||!t.isExteriorRing()}return this._isExteriorRing}enclosingRing(){return void 0===this._enclosingRing&&(this._enclosingRing=this._calcEnclosingRing()),this._enclosingRing}_calcEnclosingRing(){let t=this.events[0];for(let e=1,n=this.events.length;e<n;e++){const n=this.events[e];q.compare(t,n)>0&&(t=n)}let e=t.segment.prevInResult(),n=e?e.prevInResult():null;for(;;){if(!e)return null;if(!n)return e.ringOut;if(n.ringOut!==e.ringOut)return n.ringOut.enclosingRing()!==e.ringOut?e.ringOut:e.ringOut.enclosingRing();e=n.prevInResult(),n=e?e.prevInResult():null}}}class X{constructor(t){this.exteriorRing=t,t.poly=this,this.interiorRings=[]}addInterior(t){this.interiorRings.push(t),t.poly=this}getGeom(){const t=[this.exteriorRing.getGeom()];if(null===t[0])return null;for(let e=0,n=this.interiorRings.length;e<n;e++){const n=this.interiorRings[e].getGeom();null!==n&&t.push(n)}return t}}class Q{constructor(t){this.rings=t,this.polys=this._composePolys(t)}getGeom(){const t=[];for(let e=0,n=this.polys.length;e<n;e++){const n=this.polys[e].getGeom();null!==n&&t.push(n)}return t}_composePolys(t){const e=[];for(let n=0,r=t.length;n<r;n++){const r=t[n];if(!r.poly)if(r.isExteriorRing())e.push(new X(r));else{const t=r.enclosingRing();t.poly||e.push(new X(t)),t.poly.addInterior(r)}}return e}}class W{constructor(t){let e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:F.compare;this.queue=t,this.tree=new l(e),this.segments=[]}process(t){const e=t.segment,n=[];if(t.consumedBy)return t.isLeft?this.queue.remove(t.otherSE):this.tree.remove(e),n;const r=t.isLeft?this.tree.add(e):this.tree.find(e);if(!r)throw new Error(`Unable to find segment #${e.id} [${e.leftSE.point.x}, ${e.leftSE.point.y}] -> [${e.rightSE.point.x}, ${e.rightSE.point.y}] in SweepLine tree.`);let i,o,s=r,l=r;for(;void 0===i;)s=this.tree.prev(s),null===s?i=null:void 0===s.key.consumedBy&&(i=s.key);for(;void 0===o;)l=this.tree.next(l),null===l?o=null:void 0===l.key.consumedBy&&(o=l.key);if(t.isLeft){let r=null;if(i){const t=i.getIntersection(e);if(null!==t&&(e.isAnEndpoint(t)||(r=t),!i.isAnEndpoint(t))){const e=this._splitSafely(i,t);for(let t=0,r=e.length;t<r;t++)n.push(e[t])}}let s=null;if(o){const t=o.getIntersection(e);if(null!==t&&(e.isAnEndpoint(t)||(s=t),!o.isAnEndpoint(t))){const e=this._splitSafely(o,t);for(let t=0,r=e.length;t<r;t++)n.push(e[t])}}if(null!==r||null!==s){let t=null;if(null===r)t=s;else if(null===s)t=r;else{t=q.comparePoints(r,s)<=0?r:s}this.queue.remove(e.rightSE),n.push(e.rightSE);const i=e.split(t);for(let t=0,e=i.length;t<e;t++)n.push(i[t])}n.length>0?(this.tree.remove(e),n.push(t)):(this.segments.push(e),e.prev=i)}else{if(i&&o){const t=i.getIntersection(o);if(null!==t){if(!i.isAnEndpoint(t)){const e=this._splitSafely(i,t);for(let t=0,r=e.length;t<r;t++)n.push(e[t])}if(!o.isAnEndpoint(t)){const e=this._splitSafely(o,t);for(let t=0,r=e.length;t<r;t++)n.push(e[t])}}}this.tree.remove(e)}return n}_splitSafely(t,e){this.tree.remove(t);const n=t.rightSE;this.queue.remove(n);const r=t.split(e);return r.push(n),void 0===t.consumedBy&&this.tree.add(t),r}}const Z="undefined"!=typeof process&&process.env.POLYGON_CLIPPING_MAX_QUEUE_SIZE||1e6,D="undefined"!=typeof process&&process.env.POLYGON_CLIPPING_MAX_SWEEPLINE_SEGMENTS||1e6;const H=new class{run(t,e,n){H.type=t,b.reset();const r=[new Y(e,!0)];for(let t=0,e=n.length;t<e;t++)r.push(new Y(n[t],!1));if(H.numMultiPolys=r.length,"difference"===H.type){const t=r[0];let e=1;for(;e<r.length;)null!==p(r[e].bbox,t.bbox)?e++:r.splice(e,1)}if("intersection"===H.type)for(let t=0,e=r.length;t<e;t++){const e=r[t];for(let n=t+1,i=r.length;n<i;n++)if(null===p(e.bbox,r[n].bbox))return[]}const i=new l(q.compare);for(let t=0,e=r.length;t<e;t++){const e=r[t].getSweepEvents();for(let t=0,n=e.length;t<n;t++)if(i.insert(e[t]),i.size>Z)throw new Error("Infinite loop when putting segment endpoints in a priority queue (queue size too big).")}const o=new W(i);let s=i.size,h=i.pop();for(;h;){const t=h.key;if(i.size===s){const e=t.segment;throw new Error(`Unable to pop() ${t.isLeft?"left":"right"} SweepEvent [${t.point.x}, ${t.point.y}] from segment #${e.id} [${e.leftSE.point.x}, ${e.leftSE.point.y}] -> [${e.rightSE.point.x}, ${e.rightSE.point.y}] from queue.`)}if(i.size>Z)throw new Error("Infinite loop when passing sweep line over endpoints (queue size too big).");if(o.segments.length>D)throw new Error("Infinite loop when passing sweep line over endpoints (too many sweep line segments).");const e=o.process(t);for(let t=0,n=e.length;t<n;t++){const n=e[t];void 0===n.consumedBy&&i.insert(n)}s=i.size,h=i.pop()}b.reset();const u=V.factory(o.segments);return new Q(u).getGeom()}};var J={union:function(t){for(var e=arguments.length,n=new Array(e>1?e-1:0),r=1;r<e;r++)n[r-1]=arguments[r];return H.run("union",t,n)},intersection:function(t){for(var e=arguments.length,n=new Array(e>1?e-1:0),r=1;r<e;r++)n[r-1]=arguments[r];return H.run("intersection",t,n)},xor:function(t){for(var e=arguments.length,n=new Array(e>1?e-1:0),r=1;r<e;r++)n[r-1]=arguments[r];return H.run("xor",t,n)},difference:function(t){for(var e=arguments.length,n=new Array(e>1?e-1:0),r=1;r<e;r++)n[r-1]=arguments[r];return H.run("difference",t,n)}};return J}));
+//# sourceMappingURL=polygon-clipping.umd.min.js.map
+/* build-inline:end stageplot-assets/vendor/polygon-clipping.js */
+/* build-inline:start stageplot-geometry-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Stage geometry in metres. Source shapes stay editable; derived contours are shared by all views. */
+(function (root, factory) {
+  const api = factory(typeof module === 'object' && module.exports ? require('./stageplot-assets/vendor/polygon-clipping.js') : root.polygonClipping);
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.StageplotGeometry = api;
+})(typeof globalThis === 'object' ? globalThis : this, function (clip) {
+  'use strict';
+  const VERSION = 1, TOLERANCE = .001, MAX_PARTS = 64, MAX_POINTS = 96;
+  const kinds = new Set(['floor', 'opening', 'obstacle', 'zone', 'stairs', 'ramp', 'line']);
+  const shapes = new Set(['rect', 'ellipse', 'polygon', 'segment']);
+  const clean = (s, n = 80) => String(s ?? '').slice(0, n);
+  const copy = value => JSON.parse(JSON.stringify(value));
+  const round = n => Math.round(n * 1e6) / 1e6;
+  const number = (n, min, max, label) => {
+    if (typeof n !== 'number' || !Number.isFinite(n) || n < min || n > max) throw new Error('Ungültig: ' + label + '.');
+    return round(n);
+  };
+  const optionalHeight = n => n === null || n === undefined || n === '' ? null : number(n, -20, 50, 'Höhe');
+  const id = () => 'shape-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 9);
+  function part(input = {}) {
+    const p = { id: input.id || id(), name: clean(input.name || 'Bühnenfläche'), kind: input.kind || 'floor', shape: input.shape || 'rect',
+      x: input.x ?? 0, y: input.y ?? 0, w: input.w ?? 2, d: input.d ?? 1, angle: input.angle ?? 0,
+      height: input.height ?? null, role: clean(input.role || 'stage', 30), locked: input.locked === true, note: clean(input.note, 500) };
+    if (p.shape === 'polygon') p.points = copy(input.points || [[0, 0], [p.w, 0], [p.w, p.d], [0, p.d]]);
+    if (p.shape === 'segment') p.rise = input.rise ?? Math.min(p.w / 2, p.d);
+    if (input.target) p.target = clean(input.target, 100);
+    if (input.anchor) p.anchor = copy(input.anchor);
+    return p;
+  }
+  function normalize(input) {
+    if (!input || input.version !== VERSION || !Array.isArray(input.parts) || input.parts.length > MAX_PARTS) throw new Error('Unbekanntes oder zu großes Bühnenformat.');
+    const ids = new Set();
+    const parts = input.parts.map(raw => {
+      if (!raw || typeof raw !== 'object') throw new Error('Ungültiges Bühnenelement.');
+      const p = part(raw);
+      if (typeof p.id !== 'string' || !/^[a-zA-Z0-9_-]{1,100}$/.test(p.id) || ids.has(p.id)) throw new Error('Bühnenelement ohne eindeutige Kennung.');
+      ids.add(p.id);
+      if (!kinds.has(p.kind) || !shapes.has(p.shape)) throw new Error('Unbekanntes Bühnenelement.');
+      p.x = number(p.x, -200, 200, 'Position X'); p.y = number(p.y, -200, 200, 'Position Y');
+      p.w = number(p.w, .02, 100, 'Breite'); p.d = number(p.d, .02, 100, 'Tiefe');
+      p.angle = ((number(p.angle, -36000, 36000, 'Drehung') % 360) + 360) % 360;
+      p.height = optionalHeight(p.height);
+      if (p.shape === 'polygon') {
+        if (!Array.isArray(p.points) || p.points.length < 3 || p.points.length > MAX_POINTS) throw new Error('Ein Umriss braucht 3–96 Punkte.');
+        p.points = p.points.map(v => {
+          if (!Array.isArray(v) || v.length < 2 || v.length > 3) throw new Error('Ungültiger Eckpunkt.');
+          return [number(v[0], -100, 100, 'Punkt X'), number(v[1], -100, 100, 'Punkt Y'), number(v[2] ?? 0, -50, 50, 'Rundung')];
+        });
+      }
+      if (p.shape === 'segment') p.rise = number(p.rise, .02, p.w / 2, 'Ausladung der Rundung');
+      if (p.anchor) {
+        const a = p.anchor;
+        p.anchor = { partId: clean(a.partId, 100), edge: Math.floor(number(a.edge, 0, MAX_POINTS - 1, 'Anschlusskante')), t: number(a.t, 0, 1, 'Position auf der Kante') };
+      }
+      const ring = localRing(p);
+      if (Math.abs(ringArea(ring)) < .0001 || crossesItself(ring)) throw new Error('„' + p.name + '“ hat einen überkreuzten oder leeren Umriss.');
+      return p;
+    });
+    for (const p of parts) if (p.target && !parts.some(q => q.id === p.target && q.kind === 'floor')) throw new Error('Ausschnitt verweist auf eine fehlende Bühnenfläche.');
+    const g = { version: VERSION, parts, height: optionalHeight(input.height), clearance: input.clearance == null || input.clearance === '' ? null : number(input.clearance, .02, 100, 'Lichte Höhe'), showModules: input.showModules === true,
+      name: clean(input.name, 60), measured: input.measured === true, notes: clean(input.notes, 2000), revision: Math.max(1, Math.min(1000000, Math.floor(Number(input.revision) || 1))) };
+    const compiled = compile(g);
+    if (!compiled.floor.length || compiled.area < .01) throw new Error('Mindestens eine verbleibende Bühnenfläche wird benötigt.');
+    return g;
+  }
+  function legacy(stage) {
+    return { version: VERSION, parts: [part({ id: 'main-stage', name: 'Hauptbühne', w: stage.w, d: stage.d })], height: null, clearance: null, showModules: false, name: '', measured: false, notes: '', revision: 1 };
+  }
+  function transform(p, point) {
+    const a = p.angle * Math.PI / 180;
+    return [round(p.x + point[0] * Math.cos(a) - point[1] * Math.sin(a)), round(p.y + point[0] * Math.sin(a) + point[1] * Math.cos(a))];
+  }
+  function inverse(p, point) {
+    const a = -p.angle * Math.PI / 180, x = point[0] - p.x, y = point[1] - p.y;
+    return [x * Math.cos(a) - y * Math.sin(a), x * Math.sin(a) + y * Math.cos(a)];
+  }
+  function arc(a, b, rise) {
+    const dx = b[0] - a[0], dy = b[1] - a[1], length = Math.hypot(dx, dy);
+    if (Math.abs(rise) < .000001) return [a.slice(0, 2), b.slice(0, 2)];
+    if (length < .02 || Math.abs(rise) > length / 2 + .000001) throw new Error('Rundung darf höchstens eine halbe Kantenlänge tief sein.');
+    const h = Math.abs(rise), r = length * length / (8 * h) + h / 2, nx = -dy / length, ny = dx / length;
+    const sign = Math.sign(rise), cx = (a[0] + b[0]) / 2 - sign * nx * (r - h), cy = (a[1] + b[1]) / 2 - sign * ny * (r - h);
+    const start = Math.atan2(a[1] - cy, a[0] - cx), sweep = -sign * 2 * Math.asin(Math.min(1, length / (2 * r)));
+    const step = 2 * Math.acos(Math.max(-1, 1 - TOLERANCE / r)), count = Math.max(2, Math.ceil(Math.abs(sweep) / step / 2) * 2);
+    return Array.from({ length: count + 1 }, (_, i) => i === 0 ? a.slice(0, 2) : i === count ? b.slice(0, 2) : [cx + r * Math.cos(start + sweep * i / count), cy + r * Math.sin(start + sweep * i / count)]);
+  }
+  function localRing(p) {
+    if (p.shape === 'ellipse') {
+      const radius = Math.max(p.w, p.d) / 2, count = Math.max(24, Math.ceil(Math.PI / Math.acos(Math.max(-1, 1 - TOLERANCE / radius)) / 4) * 4);
+      return Array.from({ length: count }, (_, i) => [p.w / 2 + p.w / 2 * Math.cos(i * 2 * Math.PI / count), p.d / 2 + p.d / 2 * Math.sin(i * 2 * Math.PI / count)]);
+    }
+    if (p.shape === 'segment') return arc([0, 0], [p.w, 0], p.rise);
+    if (p.shape === 'polygon') return p.points.flatMap((v, i) => arc(v, p.points[(i + 1) % p.points.length], v[2] || 0).slice(0, -1));
+    return [[0, 0], [p.w, 0], [p.w, p.d], [0, p.d]];
+  }
+  const ring = p => localRing(p).map(v => transform(p, v));
+  const polygon = p => [ring(p)];
+  function ringArea(points) { return points.reduce((sum, a, i) => { const b = points[(i + 1) % points.length]; return sum + a[0] * b[1] - b[0] * a[1]; }, 0) / 2; }
+  const area = multi => multi.reduce((sum, poly) => sum + Math.abs(ringArea(poly[0])) - poly.slice(1).reduce((n, hole) => n + Math.abs(ringArea(hole)), 0), 0);
+  function crossesItself(points) {
+    const cross = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+    for (let i = 0; i < points.length; i++) for (let j = i + 2; j < points.length; j++) {
+      if (i === 0 && j === points.length - 1) continue;
+      const a = points[i], b = points[(i + 1) % points.length], c = points[j], d = points[(j + 1) % points.length];
+      if (cross(a, b, c) * cross(a, b, d) < -1e-12 && cross(c, d, a) * cross(c, d, b) < -1e-12) return true;
+    }
+    return false;
+  }
+  const union = list => list.length ? clip.union(...list) : [];
+  function compile(g, extensions = []) {
+    const parts = [...g.parts, ...extensions], openings = parts.filter(p => p.kind === 'opening'), floors = parts.filter(p => p.kind === 'floor');
+    const surfaces = floors.map(p => { const holes = openings.filter(h => !h.target || h.target === p.id).map(polygon); return { part: p, polygon: holes.length ? clip.difference(polygon(p), ...holes) : [polygon(p)] }; });
+    const floor = union(surfaces.map(s => s.polygon).filter(p => p.length));
+    const blockers = parts.filter(p => p.kind === 'obstacle' || p.kind === 'zone' && p.role === 'reserve').map(polygon);
+    const usable = floor.length && blockers.length ? clip.difference(floor, ...blockers) : floor;
+    const allPoints = parts.filter(p => p.kind !== 'opening').flatMap(ring);
+    const bounds = allPoints.length ? { minX: Math.min(...allPoints.map(p => p[0])), minY: Math.min(...allPoints.map(p => p[1])), maxX: Math.max(...allPoints.map(p => p[0])), maxY: Math.max(...allPoints.map(p => p[1])) } : { minX: 0, minY: 0, maxX: 0, maxY: 0 };
+    return { floor, usable, surfaces, bounds, area: area(floor), usableArea: area(usable) };
+  }
+  function path(multi, scale = 1, x = 0, y = 0) {
+    return multi.flatMap(poly => poly.map(r => r.map((p, i) => (i ? 'L' : 'M') + round(x + p[0] * scale) + ' ' + round(y + p[1] * scale)).join('') + 'Z')).join('');
+  }
+  function containsFootprint(multi, footprint) {
+    if (!multi.length) return false;
+    return area(clip.difference([footprint], multi)) < .0001;
+  }
+  function resize(p, w, d) {
+    const next = copy(p), sx = w / p.w, sy = d / p.d;
+    next.w = w; next.d = d;
+    if (p.points) next.points = p.points.map(v => [v[0] * sx, v[1] * sy, (v[2] || 0) * Math.min(sx, sy)]);
+    if (p.shape === 'segment') next.rise = Math.min(w / 2, p.rise * sy);
+    return next;
+  }
+  function vertices(p) { return p.shape === 'polygon' ? p.points : [[0, 0], [p.w, 0], [p.w, p.d], [0, p.d]]; }
+  function edgePoint(p, index, t) {
+    const points = vertices(p), a = points[index % points.length], b = points[(index + 1) % points.length], pointsOnArc = arc(a, b, a[2] || 0), f = t * (pointsOnArc.length - 1), i = Math.min(pointsOnArc.length - 2, Math.floor(f)), k = f - i;
+    const v = [pointsOnArc[i][0] * (1 - k) + pointsOnArc[i + 1][0] * k, pointsOnArc[i][1] * (1 - k) + pointsOnArc[i + 1][1] * k];
+    const start = transform(p, pointsOnArc[i]), end = transform(p, pointsOnArc[i + 1]);
+    return { point: transform(p, v), angle: Math.atan2(end[1] - start[1], end[0] - start[0]) * 180 / Math.PI };
+  }
+  function syncAnchors(g) {
+    for (const p of g.parts) if (p.anchor) {
+      const owner = g.parts.find(q => q.id === p.anchor.partId);
+      if (!owner || !['rect', 'polygon'].includes(owner.shape) || p.anchor.edge >= vertices(owner).length) continue;
+      const pose = edgePoint(owner, p.anchor.edge, p.anchor.t), direction = ringArea(localRing(owner)) >= 0 ? -1 : 1;
+      p.angle = pose.angle + (direction < 0 ? 180 : 0);
+      const a = p.angle * Math.PI / 180;
+      p.x = round(pose.point[0] - p.w / 2 * Math.cos(a)); p.y = round(pose.point[1] - p.w / 2 * Math.sin(a));
+    }
+    return g;
+  }
+  function attachmentIssues(g) {
+    const issues=[];
+    for(const p of g.parts.filter(p=>p.anchor)){
+      const owner=g.parts.find(q=>q.id===p.anchor.partId),points=owner&&vertices(owner),a=points?.[p.anchor.edge],b=points?.[(p.anchor.edge+1)%points.length];
+      if(!owner||!a||!b){issues.push(p.name+': Anschluss neu zuordnen');continue;}
+      const length=Math.hypot(b[0]-a[0],b[1]-a[1]);
+      if(p.w>length+.001||p.anchor.t*length<p.w/2-.001||(1-p.anchor.t)*length<p.w/2-.001)issues.push(p.name+': Anschluss ragt über die Kante');
+    }
+    return issues;
+  }
+  function preset(name, w = 8, d = 5) {
+    const g = legacy({ w, d }), main = g.parts[0];
+    if (name === 'round') g.parts.push(part({ name: 'Vorbühne', shape: 'segment', x: 0, y: d, w, d: w / 4, rise: w / 4 }));
+    if (name === 'circle') Object.assign(main, { shape: 'ellipse', d: w, name: 'Rundbühne' });
+    if (name === 'trapezoid') Object.assign(main, { shape: 'polygon', points: [[w * .15, 0], [w * .85, 0], [w, d], [0, d]] });
+    if (name === 'thrust' || name === 't') g.parts.push(part({ name: 'Steg', x: w / 2 - 1, y: d, w: 2, d: 4 }));
+    if (name === 't') g.parts.push(part({ name: 'Querpodest', x: w / 2 - 3, y: d + 4, w: 6, d: 2 }));
+    if (name === 'wings') g.parts.push(part({ name: 'Seitenbühne SR', role: 'side', x: -2, y: 1, w: 2, d: Math.max(1, d - 2) }), part({ name: 'Seitenbühne SL', role: 'side', x: w, y: 1, w: 3, d: Math.max(1, d - 1) }));
+    if (name === 'l' || name === 'u') g.parts.push(part({ name: 'Ausschnitt', kind: 'opening', x: name === 'l' ? w / 2 : w / 3, y: d / 2, w: name === 'l' ? w / 2 : w / 3, d: d / 2 }));
+    if (name === 'notch') g.parts.push(part({ name: 'Treppenausschnitt', kind: 'opening', x: w - 1.4, y: d - 1.4, w: 1.4, d: 1.4 }), part({ name: 'Treppe', kind: 'stairs', x: w - 1.35, y: d - 1.35, w: 1.3, d: 1.3, angle: 0 }));
+    if (name === 'irregular') Object.assign(main, { shape: 'polygon', points: [[0, 0], [w * .8, 0], [w, d * .3], [w, d], [w * .1, d], [0, d * .7]] });
+    return normalize(g);
+  }
+  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
+});
+/* build-inline:end stageplot-geometry-v1.js */
+/* build-inline:start stageplot-venue-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* House-plan editor and annotations. Depends on the local StageplotGeometry module. */
+(function(root){
+  'use strict';
+  const G=root.StageplotGeometry, NS='http://www.w3.org/2000/svg';
+  const num=n=>Number(n.toFixed(2)).toLocaleString('de-AT'), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function svgEl(tag,attrs,parent,text){const n=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;parent.append(n);return n;}
+  function bounds(p){const points=G.ring(p);return {minX:Math.min(...points.map(v=>v[0])),minY:Math.min(...points.map(v=>v[1])),maxX:Math.max(...points.map(v=>v[0])),maxY:Math.max(...points.map(v=>v[1]))};}
+  function drawDetails(svg,g,{scale=1,x=0,y=0,measures=true,labels=true,editing=false}={}){
+    const group=svgEl('g',{'data-venue-details':'true'},svg), ink='var(--sp-art)', muted='var(--sp-muted)';
+    for(const p of g.parts){
+      const path=G.path([G.polygon(p)],scale,x,y), b=bounds(p), cx=x+(b.minX+b.maxX)/2*scale, cy=y+(b.minY+b.maxY)/2*scale;
+      const attrs={d:path,fill:'none',stroke:ink,'stroke-width':1,'fill-rule':'evenodd','data-venue-part':p.id};
+      if(p.kind==='opening'){if(editing)svgEl('path',{...attrs,stroke:'var(--sp-pink,#d82773)','stroke-dasharray':'5 3'},group);continue;}
+      if(p.kind==='obstacle')svgEl('path',{...attrs,fill:'var(--sp-line)'},group);
+      else if(p.kind==='zone')svgEl('path',{...attrs,fill:'none','stroke-dasharray':'5 3',stroke:muted},group);
+      else if(p.kind==='line')svgEl('path',{...attrs,fill:muted,stroke:muted},group);
+      else if(p.kind==='stairs'||p.kind==='ramp'){
+        svgEl('path',{...attrs,fill:'var(--sp-paper)'},group);
+        if(p.kind==='stairs')for(let i=1;i<5;i++){const a=G.transform(p,[0,p.d*i/5]),b=G.transform(p,[p.w,p.d*i/5]);svgEl('line',{x1:x+a[0]*scale,y1:y+a[1]*scale,x2:x+b[0]*scale,y2:y+b[1]*scale,stroke:muted,'stroke-width':.8},group);}
+        const a=G.transform(p,[p.w/2,p.d*.8]),b=G.transform(p,[p.w/2,p.d*.2]),l=G.transform(p,[p.w/2-.12,p.d*.2+.18]),r=G.transform(p,[p.w/2+.12,p.d*.2+.18]);
+        svgEl('path',{d:'M'+(x+a[0]*scale)+' '+(y+a[1]*scale)+'L'+(x+b[0]*scale)+' '+(y+b[1]*scale)+'M'+(x+l[0]*scale)+' '+(y+l[1]*scale)+'L'+(x+b[0]*scale)+' '+(y+b[1]*scale)+'L'+(x+r[0]*scale)+' '+(y+r[1]*scale),fill:'none',stroke:ink,'stroke-width':1},group);
+      }else if(p.kind==='floor'&&g.parts.filter(q=>q.kind==='floor').length>1)svgEl('path',{...attrs,stroke:muted,'stroke-dasharray':'3 4','stroke-width':.5},group);
+      if(labels){
+        const outside=['stairs','ramp','line'].includes(p.kind), lines=[p.name];
+        if(measures)lines.push(p.shape==='segment'?num(p.w)+' m · Ausl. '+num(p.rise)+' m':num(p.w)+' × '+num(p.d)+' m');
+        if(p.height!==null)lines.push('H '+num(p.height)+' m');
+        const labelY=outside?y+b.maxY*scale+12:cy-(lines.length-1)*5;
+        lines.forEach((line,i)=>svgEl('text',{x:cx,y:labelY+i*11,'text-anchor':'middle',fill:ink,'font-size':9,'pointer-events':'none','paint-order':'stroke',stroke:'var(--sp-paper)','stroke-width':3,'stroke-linejoin':'round'},group,line));
+      }
+      if(measures&&p.kind==='floor'&&['rect','polygon'].includes(p.shape)){
+        const points=G.vertices(p);
+        points.forEach((a,i)=>{const b=points[(i+1)%points.length],v=G.transform(p,a),w=G.transform(p,b),length=Math.hypot(b[0]-a[0],b[1]-a[1]);if(length*scale<38)return;
+          let angle=Math.atan2(w[1]-v[1],w[0]-v[0])*180/Math.PI;if(angle>90)angle-=180;if(angle< -90)angle+=180;
+          const tx=x+(v[0]+w[0])/2*scale,ty=y+(v[1]+w[1])/2*scale-5;
+          svgEl('text',{x:tx,y:ty,transform:'rotate('+angle+' '+tx+' '+ty+')','text-anchor':'middle',fill:muted,'font-size':8,'pointer-events':'none','paint-order':'stroke',stroke:'var(--sp-paper)','stroke-width':3},group,num(length)+' m'+(a[2]?' · Bogen '+num(Math.abs(a[2]))+' m':''));
+        });
+      }
+    }
+    return group;
+  }
+  function rebox(p){if(!p.points)return;const minX=Math.min(...p.points.map(v=>v[0])),minY=Math.min(...p.points.map(v=>v[1])),maxX=Math.max(...p.points.map(v=>v[0])),maxY=Math.max(...p.points.map(v=>v[1])),o=G.transform(p,[minX,minY]);p.points=p.points.map(v=>[G.round(v[0]-minX),G.round(v[1]-minY),v[2]||0]);p.x=o[0];p.y=o[1];p.w=Math.max(.02,maxX-minX);p.d=Math.max(.02,maxY-minY);}
+  function open(options){
+    const host=options.root||document.body, returnFocus=document.activeElement;
+    let g=G.normalize(options.geometry||G.legacy(options.stage)),selected=g.parts[0].id,edge=null,history=[],future=[],drawPoints=null,drag=null,pan={x:0,y:0,zoom:1},fitArea=G.compile(g).bounds,metrics=null,lastField=null;
+    const included=new Set((options.objects||[]).filter(o=>o.house).map(o=>o.id)),touches=new Map();let gesture=null;
+    const dialog=document.createElement('dialog');dialog.className='sp-venue-dialog';dialog.setAttribute('aria-label','Hausgrundriss bearbeiten');
+    dialog.innerHTML='<header class="sv-head"><div><strong>Hausgrundriss bearbeiten</strong><small>Bühnenform, feste Einbauten und Hausvorlagen</small></div><button type="button" data-action="close" aria-label="Grundrissbearbeitung abbrechen">×</button></header>'+
+      '<div class="sv-tools"><label>Grundform<select data-field="preset"><option value="rect">Rechteck</option><option value="round">Runde Vorbühne</option><option value="circle">Kreis / Oval</option><option value="trapezoid">Trapez</option><option value="thrust">Steg</option><option value="t">T-Form</option><option value="wings">Seitenbühnen</option><option value="l">L-Form</option><option value="u">U-Form</option><option value="notch">Treppenausschnitt</option><option value="irregular">Freier Grundriss</option></select></label><button type="button" data-action="preset">Form anwenden</button><label>Bauelement<select data-field="add"><option value="floor">Bühnenfläche</option><option value="segment">Runde Vorbühne</option><option value="ellipse">Kreis / Oval</option><option value="opening">Ausschnitt / Öffnung</option><option value="column">Säule</option><option value="wall">Wand</option><option value="door">Tür / Zugang</option><option value="stairs">Treppe</option><option value="ramp">Rampe</option><option value="curtain">Vorhang / Portal</option><option value="reserve">Fläche freihalten</option><option value="foh">FOH-Bereich</option></select></label><button type="button" data-action="add">Hinzufügen</button><button type="button" data-action="draw">Umriss zeichnen</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div>'+
+      '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><svg class="sv-canvas" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Griffe ziehen · Kante für Maße und Rundung auswählen · zwei Finger zum Zoomen</p></div><aside class="sv-sidebar"><div class="sv-selection"></div><details open><summary>Elemente</summary><div class="sv-parts"></div></details><details><summary>Hausangaben &amp; festes Inventar</summary><div class="sv-house"></div></details><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></aside></div>'+
+      '<footer><span class="sv-status" role="status"></span><button type="button" data-action="save-template">Als Hausvorlage sichern</button><button type="button" data-action="close">Abbrechen</button><button type="button" class="sv-primary" data-action="apply">Grundriss übernehmen</button></footer>';
+    host.append(dialog);const $=s=>dialog.querySelector(s),canvas=$('.sv-canvas');
+    const status=t=>$('.sv-status').textContent=t;
+    const state=()=>JSON.stringify({g,included:[...included]});
+    function restore(value){const s=JSON.parse(value);g=s.g;included.clear();s.included.forEach(id=>included.add(id));if(!g.parts.some(p=>p.id===selected))selected=g.parts[0]?.id;edge=null;}
+    function commit(fn,fit=false,field=null){const before=state();try{fn();G.syncAnchors(g);g=G.normalize(g);if(state()!==before){if(!field||lastField!==field)history.push(before);lastField=field;if(history.length>40)history.shift();future=[];}status('');field?.setCustomValidity('');if(fit)fitView();if(field)draw();else render();return true;}catch(error){const previousEdge=edge,previousSelected=selected;restore(before);edge=previousEdge;selected=previousSelected;status(error.message);if(field)field.setCustomValidity(error.message);else render();return false;}}
+    function fitView(){fitArea=G.compile(g).bounds;pan={x:0,y:0,zoom:1};}
+    const field=(label,key,value,type='number',extra='')=>'<label>'+label+'<input data-prop="'+key+'" type="'+type+'" value="'+esc(value??'')+'" '+(type==='number'?'step="any"':'maxlength="80"')+' '+extra+'></label>';
+    function render(){
+      lastField=null;
+      const p=g.parts.find(p=>p.id===selected);
+      $('[data-action="undo"]').disabled=!history.length;$('[data-action="redo"]').disabled=!future.length;
+      $('[data-action="finish"]').hidden=!drawPoints;$('[data-action="cancel-draw"]').hidden=!drawPoints;$('[data-action="draw"]').hidden=!!drawPoints;
+      $('.sv-parts').innerHTML=g.parts.map(q=>'<button type="button" data-select="'+q.id+'" aria-pressed="'+(q.id===selected)+'">'+esc(q.name)+(q.locked?' · gesperrt':'')+'</button>').join('');
+      $('.sv-selection').innerHTML=p?'<h3>'+esc(p.name)+'</h3><div class="sv-fields">'+field('Name','name',p.name,'text')+field('Breite (m)','w',p.w)+field('Tiefe (m)','d',p.shape==='segment'?p.rise:p.d)+field('Position X (m)','x',p.x)+field('Position Y (m)','y',p.y)+field('Drehung (°)','angle',p.angle)+field('Höhe (m, optional)','height',p.height)+field('Hinweis','note',p.note,'text')+
+        (p.shape==='segment'?field('Ausladung (m)','rise',p.rise):'')+'</div><label class="sv-check"><input type="checkbox" data-prop="locked" '+(p.locked?'checked':'')+'> Element sperren</label>'+
+        (p.kind==='floor'?'<label>Nutzung<select data-prop="role">'+[['stage','Spielfläche'],['side','Seitenbühne'],['backstage','Backstage']].map(([v,t])=>'<option value="'+v+'" '+(p.role===v?'selected':'')+'>'+t+'</option>').join('')+'</select></label>':'')+
+        (p.kind==='opening'?'<label>Ausschnitt betrifft<select data-prop="target"><option value="">Alle Bühnenflächen</option>'+g.parts.filter(q=>q.kind==='floor').map(q=>'<option value="'+q.id+'" '+(p.target===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>':'')+
+        (edge!==null&&['rect','polygon'].includes(p.shape)?edgeFields(p):'')+
+        (['stairs','ramp'].includes(p.kind)?'<label>Anschlussfläche<select data-anchor="owner"><option value="">Frei platzieren</option>'+g.parts.filter(q=>q.kind==='floor'&&['rect','polygon'].includes(q.shape)).map(q=>'<option value="'+q.id+'" '+(p.anchor?.partId===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>'+(p.anchor?'<label>Anschlusskante<select data-anchor="edge">'+(g.parts.find(q=>q.id===p.anchor.partId)?G.vertices(g.parts.find(q=>q.id===p.anchor.partId)).map((v,i)=>'<option value="'+i+'" '+(p.anchor.edge===i?'selected':'')+'>Kante '+(i+1)+'</option>').join(''):'<option>Fläche fehlt – neu zuordnen</option>')+'</select></label><label>Position entlang Kante (%)<input type="number" min="0" max="100" step="any" data-anchor="t" value="'+p.anchor.t*100+'"></label>':''):'')+
+        '<div class="sv-row"><button type="button" data-action="duplicate">Duplizieren</button><button type="button" data-action="remove" '+(p.locked?'disabled':'')+'>Entfernen</button></div>':'<p>Fläche oder Kante antippen.</p>';
+      if(p?.locked)$('.sv-selection').querySelectorAll('[data-prop]:not([data-prop="locked"]),[data-edge],[data-anchor],[data-action="insert-point"],[data-action="remove-point"],[data-action="attach-stairs"]').forEach(el=>el.disabled=true);
+      $('.sv-house').innerHTML='<label>Name der Hausbühne<input type="text" maxlength="60" data-house="name" value="'+esc(g.name)+'" placeholder="z. B. Kulturhaus · großer Saal"></label><div class="sv-fields"><label>Bühnenhöhe (m)<input type="number" step="any" data-house="height" value="'+(g.height??'')+'" placeholder="unbekannt"></label><label>Lichte Höhe (m)<input type="number" step="any" data-house="clearance" value="'+(g.clearance??'')+'" placeholder="unbekannt"></label></div><label><input type="checkbox" data-house="measured" '+(g.measured?'checked':'')+'> Maße vor Ort geprüft</label><label><input type="checkbox" data-house="showModules" '+(g.showModules?'checked':'')+'> 2 × 1 m Modulraster anzeigen</label><label>Hinweise zur Location<textarea data-house="notes" maxlength="2000" rows="3">'+esc(g.notes)+'</textarea></label><p>Revision '+g.revision+' · ausgewähltes Equipment gehört zur Hausvorlage:</p>'+(options.objects||[]).map(o=>'<label class="sv-check"><input type="checkbox" data-house-object="'+o.id+'" '+(included.has(o.id)?'checked':'')+'> '+esc(o.label||o.type)+'</label>').join('');
+      $('.sv-templates').innerHTML=(options.templates||[]).length?(options.templates||[]).map(t=>'<div class="sv-template"><strong>'+esc(t.name)+'</strong><small>'+new Date(t.savedAt).toLocaleDateString('de-AT')+(t.stage.geometry?' · Revision '+t.stage.geometry.revision:'')+'</small><div class="sv-row"><button type="button" data-template-load="'+t.id+'">Grundriss laden</button><button type="button" data-template-new="'+t.id+'">Neue Veranstaltung</button></div></div>').join(''):'<p>Noch keine Hausvorlagen gespeichert.</p>';
+      draw();
+    }
+    function edgeFields(p){const points=G.vertices(p),a=points[edge],b=points[(edge+1)%points.length];if(!a)return '';return '<div class="sv-edge"><strong>Kante '+(edge+1)+'</strong><label>Länge (m)<input data-edge="length" type="number" step="any" min="0.02" value="'+G.round(Math.hypot(b[0]-a[0],b[1]-a[1]))+'"></label><label>Rundung (m; Vorzeichen wechselt Seite)<input data-edge="rise" type="number" step="any" value="'+(a[2]||0)+'"></label><div class="sv-row"><button type="button" data-action="insert-point">Punkt ergänzen</button><button type="button" data-action="remove-point" '+(points.length<=3?'disabled':'')+'>Eckpunkt entfernen</button></div><button type="button" data-action="attach-stairs">Treppe hier ansetzen</button></div>';}
+    function draw(){
+      $('[data-action="undo"]').disabled=!history.length;$('[data-action="redo"]').disabled=!future.length;
+      const W=Math.max(280,canvas.clientWidth),H=Math.max(260,canvas.clientHeight),b=fitArea,s=Math.min((W-84)/Math.max(.5,b.maxX-b.minX),(H-84)/Math.max(.5,b.maxY-b.minY))*pan.zoom;
+      const x=W/2-(b.minX+b.maxX)/2*s+pan.x,y=H/2-(b.minY+b.maxY)/2*s+pan.y;metrics={scale:s,x,y};canvas.setAttribute('viewBox','0 0 '+W+' '+H);canvas.replaceChildren();
+      const c=G.compile(g);svgEl('title',{},canvas,'Hausgrundriss · '+num(c.area)+' m² Bodenfläche');
+      const defs=svgEl('defs',{},canvas),pattern=svgEl('pattern',{id:'sv-grid',width:s,height:s,patternUnits:'userSpaceOnUse',x,y},defs);svgEl('path',{d:'M'+s+' 0H0V'+s,fill:'none',stroke:'var(--sp-line)','stroke-width':.6},pattern);
+      svgEl('rect',{width:W,height:H,fill:'url(#sv-grid)'},canvas);
+      svgEl('path',{d:G.path(c.floor,s,x,y),fill:'var(--sp-panel-alt,var(--sp-panel))',stroke:'var(--sp-art)','stroke-width':1.5,'fill-rule':'evenodd'},canvas);
+      drawDetails(canvas,g,{scale:s,x,y,measures:false,editing:true});
+      if($('[data-field="objects"]').checked)for(const o of options.footprints||[]){const p=G.part({x:o.x,y:o.y,w:o.w,d:o.d,angle:o.angle});const pp=G.transform(p,[-o.w/2,-o.d/2]);p.x=pp[0];p.y=pp[1];svgEl('path',{d:G.path([G.polygon(p)],s,x,y),fill:'none',stroke:'var(--sp-muted)','stroke-dasharray':'3 3','pointer-events':'none'},canvas);svgEl('text',{x:x+o.x*s,y:y+o.y*s,fill:'var(--sp-muted)','font-size':9,'text-anchor':'middle','pointer-events':'none'},canvas,o.name);}
+      const ordered=[...g.parts.filter(p=>p.id!==selected),...g.parts.filter(p=>p.id===selected)];
+      for(const p of ordered){
+        const active=p.id===selected,path=G.path([G.polygon(p)],s,x,y);
+        svgEl('path',{d:path,fill:'transparent',stroke:active?'var(--sp-teal)':'transparent','stroke-width':active?2:1,'data-select-shape':p.id,style:'cursor:'+ (p.locked?'default':'move'),'fill-rule':'evenodd'},canvas);
+        if(!active||p.locked||drawPoints)continue;
+        if(['rect','polygon'].includes(p.shape)){const points=G.vertices(p);points.forEach((a,i)=>{const b=points[(i+1)%points.length],v=G.transform(p,a),w=G.transform(p,b);svgEl('path',{d:'M'+(x+v[0]*s)+' '+(y+v[1]*s)+'L'+(x+w[0]*s)+' '+(y+w[1]*s),stroke:'transparent','stroke-width':22,fill:'none','data-edge-handle':i,'data-part':p.id},canvas);if(edge===i)svgEl('path',{d:'M'+(x+v[0]*s)+' '+(y+v[1]*s)+'L'+(x+w[0]*s)+' '+(y+w[1]*s),stroke:'var(--sp-teal)','stroke-width':3,fill:'none','pointer-events':'none'},canvas);});
+          points.forEach((v,i)=>handle(G.transform(p,v),'data-point-handle',i,p.id));
+        }
+        const corner=G.transform(p,[p.w,p.shape==='segment'?p.rise:p.d]);handle([corner[0]+28/s,corner[1]+28/s],'data-resize-handle','se',p.id,true);
+      }
+      function handle(v,key,value,id,resize=false){const group=svgEl('g',{[key]:value,'data-part':id,style:'cursor:'+(resize?'nwse-resize':'crosshair')},canvas);svgEl('circle',{cx:x+v[0]*s,cy:y+v[1]*s,r:19,fill:'transparent',stroke:'none'},group);svgEl(resize?'rect':'circle',resize?{x:x+v[0]*s-5,y:y+v[1]*s-5,width:10,height:10,rx:2,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':2}:{cx:x+v[0]*s,cy:y+v[1]*s,r:4,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':2},group);}
+      if(drawPoints){if(drawPoints.length)svgEl('path',{d:drawPoints.map((p,i)=>(i?'L':'M')+(x+p[0]*s)+' '+(y+p[1]*s)).join(''),stroke:'var(--sp-teal)',fill:'none','stroke-width':2,'pointer-events':'none'},canvas);drawPoints.forEach(p=>svgEl('circle',{cx:x+p[0]*s,cy:y+p[1]*s,r:4,fill:'var(--sp-teal)','pointer-events':'none'},canvas));}
+      $('.sv-summary').textContent=num(c.bounds.maxX-c.bounds.minX)+' × '+num(c.bounds.maxY-c.bounds.minY)+' m gesamt · '+num(c.area)+' m² Boden · '+num(c.usableArea)+' m² frei'+(G.attachmentIssues(g).length?' · '+G.attachmentIssues(g).join(' · '):'');
+      svgEl('text',{x:W/2,y:18,'text-anchor':'middle',fill:'var(--sp-muted)','font-size':10},canvas,'UPSTAGE · HINTEN');svgEl('text',{x:W/2,y:H-8,'text-anchor':'middle',fill:'var(--sp-muted)','font-size':10},canvas,'DOWNSTAGE · PUBLIKUM');
+    }
+    const local=e=>{const b=canvas.getBoundingClientRect();return [(e.clientX-b.left-metrics.x)/metrics.scale,(e.clientY-b.top-metrics.y)/metrics.scale];};
+    const snap=n=>$('[data-field="snap"]').checked?Math.round(n*10)/10:n;
+    function makePolygon(p){if(p.shape!=='polygon'){p.points=G.copy(G.vertices(p));p.shape='polygon';}}
+    canvas.addEventListener('pointerdown',e=>{
+      if(e.button!==0)return;e.preventDefault();canvas.setPointerCapture(e.pointerId);touches.set(e.pointerId,[e.clientX,e.clientY]);
+      if(touches.size===2){if(drag){restore(drag.before);drag=null;}const values=[...touches.values()];gesture={distance:Math.hypot(values[0][0]-values[1][0],values[0][1]-values[1][1]),center:[(values[0][0]+values[1][0])/2,(values[0][1]+values[1][1])/2],pan:{...pan}};return;}
+      if(drawPoints){drawPoints.push(local(e).map(snap));draw();return;}
+      const point=e.target.closest('[data-point-handle]'),ed=e.target.closest('[data-edge-handle]'),resize=e.target.closest('[data-resize-handle]'),shape=e.target.closest('[data-select-shape]'),partId=(point||ed||resize)?.dataset.part||shape?.dataset.selectShape;
+      if(!partId){drag={kind:'pan',start:[e.clientX,e.clientY],pan:{...pan},before:state(),pointer:e.pointerId};return;}
+      selected=partId;edge=ed?Number(ed.dataset.edgeHandle):null;const p=g.parts.find(q=>q.id===selected);render();if(p.locked)return;
+      drag={kind:point?'point':ed?'edge':resize?'resize':'move',index:Number(point?.dataset.pointHandle??ed?.dataset.edgeHandle??0),start:local(e),original:G.copy(p),before:state(),pointer:e.pointerId};
+    });
+    canvas.addEventListener('pointermove',e=>{
+      if(touches.has(e.pointerId))touches.set(e.pointerId,[e.clientX,e.clientY]);
+      if(gesture&&touches.size===2){const v=[...touches.values()],center=[(v[0][0]+v[1][0])/2,(v[0][1]+v[1][1])/2];pan.zoom=Math.max(.3,Math.min(6,gesture.pan.zoom*Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1])/Math.max(10,gesture.distance)));pan.x=gesture.pan.x+center[0]-gesture.center[0];pan.y=gesture.pan.y+center[1]-gesture.center[1];draw();return;}
+      if(!drag||drag.pointer!==e.pointerId)return;
+      if(drag.kind==='pan'){pan.x=drag.pan.x+e.clientX-drag.start[0];pan.y=drag.pan.y+e.clientY-drag.start[1];draw();return;}
+      const pos=local(e),a=G.inverse(drag.original,pos),b=G.inverse(drag.original,drag.start),delta=[snap(a[0]-b[0]),snap(a[1]-b[1])],p=G.copy(drag.original);
+      if(drag.kind==='move'){p.x=G.round(p.x+snap(pos[0]-drag.start[0]));p.y=G.round(p.y+snap(pos[1]-drag.start[1]));delete p.anchor;}
+      else if(drag.kind==='resize'){Object.assign(p,G.resize(p,Math.max(.1,p.w+delta[0]),Math.max(.1,p.d+delta[1])));}
+      else {makePolygon(p);const i=drag.index,j=(i+1)%p.points.length;if(drag.kind==='point'){p.points[i][0]+=delta[0];p.points[i][1]+=delta[1];}else{const v=p.points[i],w=p.points[j],len=Math.hypot(w[0]-v[0],w[1]-v[1]),normal=[-(w[1]-v[1])/len,(w[0]-v[0])/len],distance=snap(delta[0]*normal[0]+delta[1]*normal[1]);for(const index of [i,j]){p.points[index][0]+=normal[0]*distance;p.points[index][1]+=normal[1]*distance;}}rebox(p);}
+      const previous=G.copy(g),index=g.parts.findIndex(q=>q.id===p.id);g.parts[index]=p;try{G.syncAnchors(g);g=G.normalize(g);draw();status('');}catch(error){g=previous;status(error.message);}
+    });
+    function end(e,cancel=false){touches.delete(e.pointerId);if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);if(gesture){if(cancel)pan=gesture.pan;gesture=null;touches.clear();draw();return;}if(!drag||drag.pointer!==e.pointerId)return;const before=drag.before,kind=drag.kind;drag=null;if(cancel)restore(before);else if(kind!=='pan'&&state()!==before){try{g=G.normalize(g);history.push(before);future=[];}catch(error){restore(before);status(error.message);}}render();}
+    canvas.addEventListener('pointerup',e=>end(e));canvas.addEventListener('pointercancel',e=>end(e,true));
+    canvas.addEventListener('wheel',e=>{e.preventDefault();pan.zoom=Math.max(.3,Math.min(6,pan.zoom*Math.exp(-e.deltaY*.002)));draw();},{passive:false});
+    function editField(e){
+      const p=g.parts.find(q=>q.id===selected),el=e.target,preview=e.type==='input'?el:null;
+      const edit=fn=>commit(fn,false,preview);
+      if(el.dataset.prop){edit(()=>{const key=el.dataset.prop,value=el.type==='checkbox'?el.checked:el.type==='number'?(el.value===''?null:Number(el.value)):el.value;if(key==='w'||key==='d')Object.assign(p,G.resize(p,key==='w'?value:p.w,key==='d'?value:p.d));else if(key==='target'){if(value)p.target=value;else delete p.target;}else p[key]=value;if(p.shape==='segment')p.d=p.rise;});}
+      else if(el.dataset.edge){edit(()=>{makePolygon(p);const a=p.points[edge],b=p.points[(edge+1)%p.points.length],v=Number(el.value);if(el.dataset.edge==='rise')a[2]=v;else{const length=Math.hypot(b[0]-a[0],b[1]-a[1]);b[0]=a[0]+(b[0]-a[0])*v/length;b[1]=a[1]+(b[1]-a[1])*v/length;rebox(p);}});}
+      else if(el.dataset.house)edit(()=>{g[el.dataset.house]=el.type==='checkbox'?el.checked:el.type==='number'?(el.value===''?null:Number(el.value)):el.value;});
+      else if(el.dataset.houseObject)edit(()=>{if(el.checked)included.add(el.dataset.houseObject);else included.delete(el.dataset.houseObject);});
+      else if(el.dataset.anchor)edit(()=>{if(el.dataset.anchor==='owner'){if(el.value)p.anchor={partId:el.value,edge:0,t:.5};else delete p.anchor;}else if(el.dataset.anchor==='edge')p.anchor.edge=Number(el.value);else p.anchor.t=Number(el.value)/100;});
+      else draw();
+    }
+    dialog.addEventListener('input',editField);
+    dialog.addEventListener('change',editField);
+
+    dialog.addEventListener('click',async e=>{
+      const b=e.target.closest('button');if(!b)return;const p=g.parts.find(q=>q.id===selected),action=b.dataset.action;
+      if(b.dataset.select){selected=b.dataset.select;edge=null;render();return;}
+      if(b.dataset.templateLoad){const t=options.templates.find(t=>t.id===b.dataset.templateLoad);commit(()=>{g=G.copy(t.stage.geometry||G.legacy(t.stage));selected=g.parts[0].id;edge=null;},true);return;}
+      if(b.dataset.templateNew){const t=options.templates.find(t=>t.id===b.dataset.templateNew);try{await options.onNewEvent(t);dialog.close();}catch(error){status(error.message);}return;}
+      if(action==='close'){dialog.close();return;}
+      if(action==='fit'){fitView();draw();return;}
+      if(action==='undo'||action==='redo'){const from=action==='undo'?history:future,to=action==='undo'?future:history;if(from.length){to.push(state());restore(from.pop());render();}return;}
+      if(action==='draw'){drawPoints=[];status('Eckpunkte auf dem Plan antippen, dann „Umriss schließen“.');render();return;}
+      if(action==='cancel-draw'){drawPoints=null;status('');render();return;}
+      if(action==='finish'){if(drawPoints.length<3){status('Mindestens drei Punkte setzen.');return;}if(commit(()=>{const q=G.part({name:'Freie Bühnenfläche',shape:'polygon',points:drawPoints});rebox(q);g.parts.push(q);selected=q.id;})){drawPoints=null;render();}return;}
+      if(action==='apply'||action==='save-template'){
+        try{const invalid=dialog.querySelector(':invalid');if(invalid){invalid.reportValidity();return;}g=G.normalize(g);if(action==='save-template'){if(!g.name.trim()){status('Unter „Hausangaben“ einen Namen für die Hausbühne eingeben.');$('.sv-house').closest('details').open=true;$('[data-house="name"]').focus();return;}const saved=await options.onSaveTemplate(G.copy(g),[...included]);options.templates=saved.templates;g.revision=saved.revision;render();status('Hausvorlage gespeichert · Revision '+g.revision);}else{await options.onApply(G.copy(g),[...included]);dialog.close();}}catch(error){status(error.message);}return;
+      }
+      commit(()=>{
+        if(action==='preset'){const next=G.preset($('[data-field="preset"]').value,options.stage.w,options.stage.d);Object.assign(next,{name:g.name,notes:g.notes,height:g.height,clearance:g.clearance,revision:g.revision,measured:g.measured});g=next;selected=g.parts[0].id;edge=null;}
+        if(action==='add'){
+          const kind=$('[data-field="add"]').value,c=G.compile(g).bounds,q=G.part({x:snap((c.minX+c.maxX)/2-1),y:snap((c.minY+c.maxY)/2-.5)});
+          if(kind==='segment')Object.assign(q,{name:'Vorbühne',shape:'segment',x:0,y:options.stage.d,w:options.stage.w,d:1,rise:1});
+          else if(kind==='ellipse')Object.assign(q,{name:'Rundfläche',shape:'ellipse',w:2,d:2});
+          else if(kind==='opening')Object.assign(q,{name:'Ausschnitt',kind:'opening'});
+          else if(kind==='column')Object.assign(q,{name:'Säule',kind:'obstacle',shape:'ellipse',w:.5,d:.5});
+          else if(kind==='wall')Object.assign(q,{name:'Wand',kind:'obstacle',w:2,d:.2});
+          else if(kind==='door'||kind==='curtain')Object.assign(q,{name:kind==='door'?'Tür / Zugang':'Vorhang / Portal',kind:'line',w:kind==='door'?1:4,d:.08});
+          else if(kind==='reserve'||kind==='foh')Object.assign(q,{name:kind==='foh'?'FOH':'Freihalten',kind:'zone',role:kind,w:2,d:2});
+          else if(kind==='stairs'||kind==='ramp')Object.assign(q,{name:kind==='stairs'?'Treppe':'Rampe',kind,w:1.2,d:kind==='stairs'?1:3});
+          g.parts.push(q);selected=q.id;edge=null;
+        }
+        if(action==='duplicate'){const q=G.part({...p,id:undefined,x:p.x+.3,y:p.y+.3,locked:false});delete q.anchor;g.parts.push(q);selected=q.id;edge=null;}
+        if(action==='remove'&&!p.locked){g.parts=g.parts.filter(q=>q.id!==p.id&&q.target!==p.id);selected=g.parts[0]?.id;edge=null;}
+        if(action==='insert-point'&&!p.locked){makePolygon(p);const a=p.points[edge],b=p.points[(edge+1)%p.points.length];a[2]=0;p.points.splice(edge+1,0,[(a[0]+b[0])/2,(a[1]+b[1])/2,0]);}
+        if(action==='remove-point'&&!p.locked){makePolygon(p);p.points.splice(edge,1);edge=null;rebox(p);}
+        if(action==='attach-stairs'){const q=G.part({kind:'stairs',name:'Treppe',w:1.2,d:1,anchor:{partId:p.id,edge,t:.5}});g.parts.push(q);selected=q.id;edge=null;}
+      },action==='preset'||action==='add');
+    });
+    dialog.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'&&!e.target.matches('input,textarea')){e.preventDefault();$('[data-action="'+(e.shiftKey?'redo':'undo')+'"]').click();}e.stopPropagation();});
+    const observer=new ResizeObserver(()=>draw());observer.observe(canvas);
+    dialog.addEventListener('close',()=>{observer.disconnect();dialog.remove();returnFocus?.focus({preventScroll:true});options.onClose?.();},{once:true});
+    dialog.showModal();render();return dialog;
+  }
+  root.StageplotVenue={open,drawDetails,bounds};
+})(globalThis);
+/* build-inline:end stageplot-venue-v1.js */
+</script>
 <script>
 // Embedded verbatim for the single-file offline app; the separate module remains the tested source.
 /* build-inline:start stageplot-export-v42.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
@@ -4564,6 +5023,7 @@ function createStageplotExportV42() {
     const document=cloneJson(value,'Das Setup');
     if(!plainObject(document)||!plainObject(document.stage)||!Array.isArray(document.objects))throw new Error('Die Datei enthält kein gültiges Stageplot-Setup.');
     const {stage,objects}=document;
+    if(stage.geometry){const geometry=typeof StageplotGeometry!=='undefined'?StageplotGeometry:typeof module==='object'&&module.exports?require('./stageplot-geometry-v1.js'):null;if(!geometry)throw new Error('Dieses Bühnenformat benötigt eine neuere App-Version.');stage.geometry=geometry.normalize(stage.geometry);}
     if(!finite(stage.w)||stage.w<2||stage.w>30||!finite(stage.d)||stage.d<2||stage.d>20)throw new Error('Die Datei enthält ungültige Bühnenmaße.');
     if(typeof stage.title!=='string'||!stage.title.trim()||stage.title.length>60)throw new Error('Die Datei enthält keinen gültigen Setup-Namen.');
     if(objects.length>2000)throw new Error('Das Setup enthält zu viele Bausteine.');
@@ -4596,14 +5056,15 @@ function createStageplotExportV42() {
     const exportedAt=options.exportedAt===undefined?Date.now():options.exportedAt;
     const timestamp=normalizeTimestamp(exportedAt);
     if(timestamp===null)throw new Error('Der Exportzeitpunkt ist ungültig.');
-    return {kind:SETUP_KIND,version:SETUP_VERSION,name:cleanExportName(name),exportedAt:timestamp,document:normalizeDocument(document,options.normalizeDocument)};
+    const normalized=normalizeDocument(document,options.normalizeDocument);
+    return {kind:SETUP_KIND,version:normalized.stage.geometry?2:SETUP_VERSION,name:cleanExportName(name),exportedAt:timestamp,document:normalized};
   }
 
   function normalizeSetupExport(value,options={}) {
-    if(!plainObject(value)||value.kind!==SETUP_KIND||value.version!==SETUP_VERSION)throw new Error('Die Datei ist kein gültiges Stageplot-Setup.');
+    if(!plainObject(value)||value.kind!==SETUP_KIND||![1,2].includes(value.version))throw new Error('Die Datei ist kein gültiges Stageplot-Setup.');
     const timestamp=normalizeTimestamp(value.exportedAt);
     if(timestamp===null)throw new Error('Der Exportzeitpunkt ist ungültig.');
-    return {kind:SETUP_KIND,version:SETUP_VERSION,name:cleanExportName(value.name),exportedAt:timestamp,document:normalizeDocument(value.document,options.normalizeDocument)};
+    return {kind:SETUP_KIND,version:value.version,name:cleanExportName(value.name),exportedAt:timestamp,document:normalizeDocument(value.document,options.normalizeDocument)};
   }
 
   function parseSetupJson(text,options={}) {
@@ -4871,7 +5332,9 @@ function createStageplotExportV42() {
     const p=normalizeProductionInfo(s?.project?.production),h=p.handover,lines=[];
     if(p.power)lines.push('Strom Bühne: '+p.power);
     if(h.mode||h.point||h.connection)lines.push('Signalübergabe: '+[h.mode,h.point?'am '+h.point:'',h.connection?'via '+h.connection:''].filter(Boolean).join(' '));
-    if(h.notes)lines.push('Übergabe: '+h.notes);return lines;
+    if(h.notes)lines.push('Übergabe: '+h.notes);
+    if(s?.geometry){const g=s.geometry;lines.push([g.name||'Hausgrundriss','Rev. '+g.revision,g.measured?'Maße vor Ort geprüft':'Skizze · Maße ungeprüft',g.height!==null?'Bühnenhöhe '+metres(g.height):'',g.clearance!==null?'Lichte Höhe '+metres(g.clearance):''].filter(Boolean).join(' · '));}
+    return lines;
   }
   const fohNeeds=o=>Object.entries({table:'Tisch',barrier:'Absperrung',sun:'Sonnenschutz',rain:'Regenschutz'}).filter(([key])=>o.foh?.[key]).map(([,label])=>label);
   function objectProductionLines(o){return [o.power?'Strom: '+o.power:'',o.wireless?'Funk: '+o.wireless:'',...(o.type==='foh'?['FOH '+num(objectSize(o).w)+' × '+metres(objectSize(o).d),...fohNeeds(o)]:[])].filter(Boolean);}
@@ -6286,11 +6749,84 @@ function createStageplotSymbolV3(type, options = {}) {
     const r=iemRect(s);if(!r)return;
     s.iemX=Math.max(-100,Math.min(100,r.x));s.iemY=Math.max(-100,Math.min(100,r.y));
   }
+  let setupGeometryOverride;
+  const venueCompileCache=new WeakMap();
+  function venueObjectPart(o){
+    const G=StageplotGeometry,size=objectSize(o),p=G.part({id:'equipment-'+o.id,w:size.w,d:size.d,angle:o.angle||0});
+    const origin=G.transform(p,[-size.w/2,-size.d/2]);p.x=o.x+origin[0];p.y=o.y+origin[1];return p;
+  }
+  function compiledVenue(s,list=[]){
+    const extensions=list.filter(o=>byId[o.type]?.stageExtension).map(venueObjectPart),key=JSON.stringify([s.geometry,extensions]),cached=venueCompileCache.get(s);
+    if(cached?.key===key)return cached.value;
+    const value=StageplotGeometry.compile(s.geometry,extensions),points=value.floor.flat(2);
+    value.floorBounds={minX:Math.min(...points.map(p=>p[0])),minY:Math.min(...points.map(p=>p[1])),maxX:Math.max(...points.map(p=>p[0])),maxY:Math.max(...points.map(p=>p[1]))};
+    venueCompileCache.set(s,{key,value});return value;
+  }
+  function venueSizeText(s,list=[]){const b=compiledVenue(s,list).floorBounds;return num(b.maxX-b.minX)+' × '+metres(b.maxY-b.minY);}
+  function positionVenueDimensions(svg,c,scale,mx,top){
+    const b=c.floorBounds,x=mx+b.minX*scale,y=top+b.minY*scale,w=(b.maxX-b.minX)*scale,d=(b.maxY-b.minY)*scale;
+    const width=svg.querySelector('[data-dim-width]');if(width){width.textContent=metres(b.maxX-b.minX);width.setAttribute('x',x+w/2);}
+    const line=svg.querySelector('[data-stage-measure="width"]');if(line){line.setAttribute('x1',x);line.setAttribute('x2',x+w);}
+    svg.querySelectorAll('[data-stage-measure-tick="width"]').forEach((n,i)=>{n.setAttribute('x1',x+i*w);n.setAttribute('x2',x+i*w);});
+    const depth=svg.querySelector('[data-dim-depth]');if(depth){depth.textContent=metres(b.maxY-b.minY);depth.setAttribute('y',y+d/2);depth.setAttribute('transform','rotate(-90 13 '+(y+d/2)+')');}
+    svg.querySelectorAll('.sp-orientation').forEach(n=>n.setAttribute('x',x+w/2));
+    svg.querySelectorAll('[data-stage-side]').forEach(n=>{const left=n.dataset.stageSide==='left',tx=left?mx+c.bounds.maxX*scale+18:mx+c.bounds.minX*scale-18,ty=y+d/2;n.setAttribute('x',tx);n.setAttribute('y',ty);n.setAttribute('fill','var(--sp-muted)');n.setAttribute('transform','rotate('+(left?90:-90)+' '+tx+' '+ty+')');});
+    svg.setAttribute('aria-label','Bühnenplan: '+metres(b.maxX-b.minX)+' mal '+metres(b.maxY-b.minY)+', freier Grundriss, Publikum unten');
+  }
+  function venuePreviewMarkup(document,badge){
+    const s=document.stage,list=document.objects||[],c=compiledVenue(s,list),b=c.bounds,W=320,H=120,scale=Math.min(288/(b.maxX-b.minX),90/(b.maxY-b.minY)),x=W/2-(b.minX+b.maxX)/2*scale,y=H/2-(b.minY+b.maxY)/2*scale;
+    const svg=sEl('svg',{viewBox:'0 0 320 120','aria-hidden':'true'});
+    sEl('rect',{width:W,height:H,fill:'var(--sp-paper)'},svg);sEl('path',{d:StageplotGeometry.path(c.floor,scale,x,y),fill:s.surface==='black'?'#252725':'#f6f8f3',stroke:'var(--sp-art)','stroke-width':1,'fill-rule':'evenodd'},svg);
+    StageplotVenue.drawDetails(svg,s.geometry,{scale,x,y,measures:false,labels:false});
+    list.slice(0,80).forEach(o=>sEl('path',{d:StageplotGeometry.path([StageplotGeometry.polygon(venueObjectPart(o))],scale,x,y),fill:'#a4b9a0',stroke:'#52634e','stroke-width':.5},svg));
+    return '<div class="sp-project-card-preview">'+svg.outerHTML+'<span>'+esc(badge)+'</span></div>';
+  }
+  function geometryForVenue(s,list){
+    const G=StageplotGeometry,g=s.geometry?G.copy(s.geometry):G.legacy(s);
+    for(const o of list.filter(o=>byId[o.type]?.stageExtension)){const p=venueObjectPart(o);p.name=o.label||'Bühnenmodul';g.parts.push(p);}
+    for(const item of stairStates(s)){
+      const b=stairsGeometry(s,item.id),edge=stairEdge(s,item.id),side=['left','right'].includes(edge),w=side?b.d:b.w,d=side?b.w:b.d;
+      const q=G.part({kind:'stairs',name:'Treppe',w,d,angle:edge==='front'?0:edge==='back'?180:edge==='left'?90:270});
+      const origin=G.transform(q,[-w/2,0]);q.x=(edge==='front'||edge==='back'?b.x+b.w/2:edge==='left'?0:s.w)+origin[0];q.y=(edge==='left'||edge==='right'?b.y+b.d/2:edge==='front'?s.d:0)+origin[1];g.parts.push(q);
+    }
+    return G.normalize(g);
+  }
+  function newVenueEvent(template){
+    if(sharedReadOnly)return;
+    const t=normalizeStageTemplate(template),title=(t.name+' · Veranstaltung').slice(0,60),s={...clone(t.stage),title,venueRef:{templateId:t.id,name:t.name,revision:t.stage.geometry?.revision||1}};
+    activateSetupDocument({stage:s,objects:clone(t.objects||[])},null,{persist:true,message:'Neue Veranstaltung aus Hausvorlage · die Vorlage bleibt erhalten'});
+  }
+  function openVenueEditor(options={}){
+    if(sharedReadOnly)return;cancelPlacement(false);finishEdit();
+    const library=options.library===true,s=library?{...draft(),title:'Hausbühne',w:8,d:5,stairs:'none',extraStairs:[],iem:'none',geometry:undefined,venueRef:undefined,project:normalizeProjectInfo({},'Hausbühne'),cables:[],routing:{inputs:[],outputs:[]}}:view==='setup'?draft():stage||draft();
+    const list=library?[]:objects,geometry=geometryForVenue(s,list),equipment=list.filter(o=>!byId[o.type]?.stageExtension);
+    let templates=readStageTemplates();
+    const documentFor=(g,ids,houseOnly=false)=>{
+      const selectedIds=new Set(ids),result={stage:{...clone(s),geometry:g,stairs:'none',extraStairs:[],complex:true},objects:equipment.filter(o=>!houseOnly||selectedIds.has(o.id)).map(o=>({...clone(o),house:selectedIds.has(o.id),locked:houseOnly?true:o.locked}))};
+      if(houseOnly){result.stage.cables=[];result.stage.routing={inputs:[],outputs:[]};delete result.stage.project;delete result.stage.venueRef;}
+      return result;
+    };
+    StageplotVenue.open({root,stage:s,geometry,objects:equipment.map(o=>({...o,label:o.label||objectCatalog(o).name})),footprints:equipment.map(o=>({...o,...objectSize(o),name:o.label||objectCatalog(o).name})),templates,
+      onApply:(g,ids)=>{const value=documentFor(g,ids);if(library||!stage){activateSetupDocument(value,null,{persist:true,message:'Hausgrundriss übernommen'});}else{const before=snapshot();stage=value.stage;objects=value.objects;setupGeometryOverride=undefined;selected=null;resetEditorView();keepHistory(before);show('editor');persistDraft(true);say('Hausgrundriss übernommen');}},
+      onSaveTemplate:(g,ids)=>{
+        const name=g.name.trim().slice(0,40),latest=readStageTemplates(),existing=latest.find(t=>t.name.toLocaleLowerCase('de')===name.toLocaleLowerCase('de'));
+        if(!existing&&latest.length>=40)throw new Error('Es sind bereits 40 Hausvorlagen gespeichert. Bitte zuerst eine Vorlage entfernen.');
+        g.revision=(existing?.stage.geometry?.revision||0)+1;
+        const value=documentFor(g,ids,true),item=normalizeStageTemplate({id:existing?.id||'stage-template-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),name,savedAt:Date.now(),...value});
+        writeStageTemplates(latest.filter(t=>t.id!==item.id).concat(item));templates=readStageTemplates();stageTemplates=templates;renderStageTemplates();
+        const account=stageTemplateAccountStore();if(account?.save)account.save({id:item.id,name:item.name,savedAt:item.savedAt,document:{stage:item.stage,objects:item.objects||[]}}).catch(()=>{});
+        return {templates,revision:g.revision};
+      },onNewEvent:newVenueEvent});
+  }
   function draft() {
     const title=$('sp-title').value.trim()||'Mein Live-Setup',project=normalizeProjectInfo(stage?.project,title);project.name=title;
     const stairs=$('sp-stairs').value,stairsAlong=stage?.stairs===stairs&&Number.isFinite(stage?.stairsAlong)?stage.stairsAlong:undefined;
     const result={title,w:Number($('sp-width').value),d:Number($('sp-depth').value),estimated:false,surface:stage?.surface||stageSurfaceDefault,complex:stage?.complex===true,stairs,stairsOffset:Number($('sp-stairs-offset').value),stairsAlong,stairsWidth:Number.isFinite(stage?.stairsWidth)?stage.stairsWidth:1.2,stairsDepth:Number.isFinite(stage?.stairsDepth)?stage.stairsDepth:.9,extraStairs:Array.isArray(stage?.extraStairs)?clone(stage.extraStairs):[],cables:normalizeCables(stage?.cables),iem:$('sp-iem').value,iemLength:Number($('sp-iem-length').value),iemDepth:Number($('sp-iem-depth').value),iemX:Number($('sp-iem-x').value),iemY:Number($('sp-iem-y').value),project,routing:normalizeRouting(stage?.routing)};
     result.surface=setupStageSurface||result.surface;
+    const geometry=typeof setupGeometryOverride!=='undefined'?setupGeometryOverride:stage?.geometry;
+    if(geometry)result.geometry=clone(geometry);
+    if(stage?.venueRef)result.venueRef=clone(stage.venueRef);
+    if(result.stairsAlong===undefined)delete result.stairsAlong;
     return result;
   }
   function validStage(s) {
@@ -6301,8 +6837,9 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function stageMeta(s) {
     const labels = [];
-    labels.push(s.surface==='black'?'Schwarze Bühne · 2 × 1 m Module':'2 × 1 m Module');
+    labels.push(s.geometry?(s.geometry.name||'Freier Hausgrundriss')+(s.geometry.showModules?' · 2 × 1 m Raster':''):(s.surface==='black'?'Schwarze Bühne · 2 × 1 m Module':'2 × 1 m Module'));
     if(s.complex)labels.push('Komplexes Bühnensetup');
+    if(s.geometry)labels.push(...StageplotGeometry.attachmentIssues(s.geometry));
     if(iemRect(s)) labels.push('IEM '+num(s.iemLength)+' × '+metres(s.iemDepth));
     if(s.iem==='unknown') labels.push('IEM-Fläche offen');
     if(s.stairs==='side-left') labels.push('Treppe seitlich links');
@@ -6414,6 +6951,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function workspaceBounds(s,list){
     const box={minX:-.65,minY:-.65,maxX:s.w+.65,maxY:s.d+.65};
+    if(s.geometry){const b=compiledVenue(s,list).bounds;Object.assign(box,{minX:b.minX-.8,minY:b.minY-.8,maxX:b.maxX+.8,maxY:b.maxY+1});}
     const zone=iemRect(s);if(zone){box.minX=Math.min(box.minX,zone.x-.5);box.minY=Math.min(box.minY,zone.y-.5);box.maxX=Math.max(box.maxX,zone.x+zone.w+.5);box.maxY=Math.max(box.maxY,zone.y+zone.d+.5);}
     const stair=stairStates(s).length;
     // Reserve the complete stair ring once a stair exists. Its camera fit then
@@ -6447,6 +6985,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function outside(o,s) {
     if(o.type==='foh'||byId[o.type]?.stageExtension)return false;
+    if(s.geometry){if(o.type==='text')return false;const c=compiledVenue(s,typeof objects!=='undefined'?objects:[]),p=venueObjectPart(o);return !StageplotGeometry.containsFootprint(c.usable,StageplotGeometry.ring(p));}
     const b=bounds(o);
     return o.x-b.hw<-.011||o.x+b.hw>s.w+.011||o.y-b.hd<-.011||o.y+b.hd>s.d+.011;
   }
@@ -6523,6 +7062,10 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-form-error').hidden=!error;$('sp-form-error').textContent=error;
     root.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.preset===s.w+','+s.d));
     const impact=$('sp-stage-impact'),previewObjects=stage?objects:[];
+    ['sp-width','sp-depth','sp-stairs','sp-stairs-offset'].forEach(id=>$(id).disabled=!!s.geometry);
+    root.querySelectorAll('[data-preset]').forEach(b=>b.disabled=!!s.geometry);
+    $('sp-venue-form-hint').hidden=!s.geometry;
+    if(s.geometry)$('sp-preview-size').textContent=venueSizeText(s);
     if(!error){
       drawFloor($('sp-setup-floor'),s,previewObjects,'setup');
       const outsideCount=previewObjects.filter(o=>outside(o,s)).length,iemCount=previewObjects.filter(o=>iemOverlap(o,s)).length,notes=[];
@@ -6696,6 +7239,7 @@ function createStageplotSymbolV3(type, options = {}) {
     svg.dataset.originX=mx;svg.dataset.originY=top;svg.dataset.scale=scale;
     svg.dataset.baseScale=fit.scale;svg.dataset.baseX=fit.mx;svg.dataset.baseY=fit.top;svg.dataset.zoom=mode==='editor'?camera.zoom:1;
     const rectW=s.w*scale,rectH=s.d*scale;
+    const venue=s.geometry?compiledVenue(s,list):null,venuePath=venue?StageplotGeometry.path(venue.floor,scale,mx,top):null;
     const defs=sEl('defs',{},svg), patId='sp-hatch-'+mode,overlapFilterId='sp-overlap-shadow-'+mode,cableSilverId='sp-cable-silver-'+mode;
     const pattern=sEl('pattern',{id:patId,width:7,height:7,patternUnits:'userSpaceOnUse',patternTransform:'rotate(35)'},defs);
     sEl('rect',{width:7,height:7,fill:'var(--sp-amber-bg)'},pattern);
@@ -6711,14 +7255,17 @@ function createStageplotSymbolV3(type, options = {}) {
     sEl('text',{x:mx+rectW*(s.stairs==='back'?.25:.5),y:36,'text-anchor':'middle',class:'sp-orientation'},svg,'UPSTAGE · HINTEN');
     if(showPrintMeasures)sEl('text',{x:13,y:top+rectH/2,'text-anchor':'middle',class:'sp-dimension','data-dim-depth':'true',transform:'rotate(-90 13 '+(top+rectH/2)+')'},svg,metres(s.d));
     const stageFill=blackStage?'#20211f':'var(--sp-paper)',moduleStroke=blackStage?'#666862':'#c8cbc5';
-    sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:stageFill,'data-stage-deck':'true'},svg);
+    if(venue)sEl('path',{d:venuePath,fill:stageFill,'fill-rule':'evenodd','data-stage-deck':'true'},svg);
+    else sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:stageFill,'data-stage-deck':'true'},svg);
     const orientationFill=blackStage?'#d4d7d0':'#656b65';
     sEl('text',{x:mx+11,y:top+rectH/2,'text-anchor':'middle',fill:orientationFill,'font-size':8,'font-weight':700,'letter-spacing':1.1,opacity:.82,transform:'rotate(-90 '+(mx+11)+' '+(top+rectH/2)+')','pointer-events':'none','data-stage-side':'right'},svg,'STAGE RIGHT');
     sEl('text',{x:mx+rectW-11,y:top+rectH/2,'text-anchor':'middle',fill:orientationFill,'font-size':8,'font-weight':700,'letter-spacing':1.1,opacity:.82,transform:'rotate(90 '+(mx+rectW-11)+' '+(top+rectH/2)+')','pointer-events':'none','data-stage-side':'left'},svg,'STAGE LEFT');
     const modules=sEl('g',{'data-stage-modules':'2x1','data-module-width-metres':2,'data-module-depth-metres':1,'aria-label':'Bühnenpodeste · 2 × 1 m','pointer-events':'none'},svg);
-    for(let moduleY=0;moduleY<s.d-.001;moduleY+=1){
-      for(let moduleX=0;moduleX<s.w-.001;moduleX+=2){
-        const moduleW=Math.min(2,s.w-moduleX),moduleD=Math.min(1,s.d-moduleY),alternate=(Math.floor(moduleX/2)+Math.floor(moduleY))%2;
+    if(venue&&s.geometry.showModules){const grid=sEl('pattern',{id:'sp-venue-modules-'+mode,width:2*scale,height:scale,x:mx,y:top,patternUnits:'userSpaceOnUse'},defs);sEl('path',{d:'M'+2*scale+' 0H0V'+scale,fill:'none',stroke:moduleStroke,'stroke-width':.8},grid);sEl('path',{d:venuePath,'fill-rule':'evenodd',fill:'url(#sp-venue-modules-'+mode+')'},modules);}
+    for(let moduleY=venue?Math.floor(venue.bounds.minY):0;moduleY<(venue?venue.bounds.maxY:s.d)-.001;moduleY+=1){
+      if(venue)break;
+      for(let moduleX=venue?Math.floor(venue.bounds.minX/2)*2:0;moduleX<(venue?venue.bounds.maxX:s.w)-.001;moduleX+=2){
+        const moduleW=venue?2:Math.min(2,s.w-moduleX),moduleD=venue?1:Math.min(1,s.d-moduleY),alternate=(Math.floor(moduleX/2)+Math.floor(moduleY))%2;
         sEl('rect',{x:mx+moduleX*scale,y:top+moduleY*scale,width:moduleW*scale,height:moduleD*scale,fill:blackStage?(alternate?'#252624':'#212220'):'none',stroke:moduleStroke,'stroke-width':blackStage ? .85 : .65,'data-stage-module':moduleX+','+moduleY},modules);
       }
     }
@@ -6726,7 +7273,8 @@ function createStageplotSymbolV3(type, options = {}) {
       const spacing=gridStep()*scale,gridId='sp-grid-'+mode;
       const grid=sEl('pattern',{id:gridId,width:spacing,height:spacing,patternUnits:'userSpaceOnUse',x:mx,y:top,'data-grid-metres':gridStep()},defs);
       sEl('path',{d:'M'+spacing+' 0H0V'+spacing,fill:'none',stroke:blackStage?'#3b3d39':'var(--sp-grid)','stroke-width':.6},grid);
-      sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'url(#'+gridId+')','pointer-events':'none','data-stage-grid':'true'},svg);
+      if(venue)sEl('path',{d:venuePath,'fill-rule':'evenodd',fill:'url(#'+gridId+')','pointer-events':'none','data-stage-grid':'true'},svg);
+      else sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'url(#'+gridId+')','pointer-events':'none','data-stage-grid':'true'},svg);
       const gridLabel=(gridStep()*100).toLocaleString('de-AT',{maximumFractionDigits:1})+' cm',labelWidth=measureLabel('1 Kästchen = '+gridLabel)+14,gx=mx+7,gy=top+rectH-25;
       sEl('rect',{x:gx,y:gy,width:labelWidth,height:18,rx:5,fill:blackStage?'#111b':'#fffe',stroke:blackStage?'#5f645d':'#c7ccc4','stroke-width':.6,'pointer-events':'none','data-grid-scale-label':'true'},svg);
       sEl('text',{x:gx+7,y:gy+12.5,fill:blackStage?'#f0f3ec':'#444b44','font-size':9,'font-weight':700,'pointer-events':'none'},svg,'1 Kästchen = '+gridLabel);
@@ -6740,7 +7288,8 @@ function createStageplotSymbolV3(type, options = {}) {
       sEl('text',{x:ix+zone.w*scale/2,y:iy+13,'text-anchor':'middle',fill:'var(--sp-amber)','font-size':11},zg,'IEM');
       if(mode==='editor'&&selected==='iem-zone')drawFootprintHandles(zg,ix,iy,zone.w*scale,zone.d*scale,'iem-zone',coarse);
     }
-    sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'none',stroke:blackStage?'#0d0e0d':'var(--sp-art)','stroke-width':blackStage?1.7:1.3,'data-stage-boundary':'true'},svg);
+    if(venue){sEl('path',{d:venuePath,fill:'none',stroke:blackStage?'#aaa':'var(--sp-art)','stroke-width':1.3,'data-stage-boundary':'true'},svg);StageplotVenue.drawDetails(svg,s.geometry,{scale,x:mx,y:top,measures:showPrintMeasures,labels:$('sp-print-labels').checked});}
+    else sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'none',stroke:blackStage?'#0d0e0d':'var(--sp-art)','stroke-width':blackStage?1.7:1.3,'data-stage-boundary':'true'},svg);
     for(const stairEntry of stairStates(s)){
       const stair=stairsGeometry(s,stairEntry.id),pose=stairVisualPose(s,mx,top,scale,stairEntry.id),isSide=['left','right'].includes(pose.edge),stairW=isSide?stair.d:stair.w,stairD=isSide?stair.w:stair.d,tw=stairW*scale,th=stairD*scale;
       const stairsSelected=mode==='editor'&&selected===stairEntry.id,stairs=sEl('g',{transform:pose.transform,'data-stairs':stairEntry.record.stairs,'data-stair-edge':pose.edge,'data-stairs-zone':'true','data-stairs-id':stairEntry.id,'data-selected':String(stairsSelected),'data-width-metres':stairW,'data-run-metres':stairD,class:mode==='editor'?'sp-stairs-zone':'','aria-label':'Bühnentreppe · '+metres(stairW)+' breit · '+metres(stairD)+' tief · am Bühnenrand verschiebbar'},svg);
@@ -6781,7 +7330,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(mode==='editor'&&cablesVisible&&cableDrag?.point){const source=objects.find(o=>o.id===cableDrag.sourceId),target=objects.find(o=>o.id===cableDrag.targetId);if(source)cableDrag.rows.forEach((row,index)=>{const geometry=cablePreviewGeometry(source,cableDrag.point,target,scale,mx,top,index,cableDrag.rows.length);sEl('path',{d:geometry.path,fill:'none',stroke:'#c4c9c4','stroke-width':4.6,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.55,'pointer-events':'none'},cableLayer);sEl('path',{d:geometry.path,fill:'none',stroke:'#111311','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.94,'pointer-events':'none','data-cable-preview':row.sourceKey},cableLayer);drawCableConnector(cableLayer,geometry.points[0],geometry.points[1],cableSilverId,true);drawCableConnector(cableLayer,geometry.points.at(-1),geometry.points.at(-2),cableSilverId,true);});}
     const downstageY=mode==='print'?Math.min(H-technicalHeight-editorFooter-12,top+area.maxY*scale+24):H-technicalHeight-editorFooter-12;
     sEl('text',{x:mx+rectW/2,y:downstageY,'text-anchor':'middle',class:'sp-orientation'},svg,'DOWNSTAGE · VORNE · PUBLIKUM');
-    if(mode==='editor'&&!list.length) {
+    if(mode==='editor'&&!list.length&&!venue) {
       sEl('text',{x:mx+rectW/2,y:top+rectH*.5,'text-anchor':'middle',fill:blackStage?'#eceee8':'#666','font-size':W<350?12:14},svg,'Deine Bühne ist bereit.');
       sEl('text',{x:mx+rectW/2,y:top+rectH*.5+19,'text-anchor':'middle',fill:blackStage?'#c4c7c0':'#666','font-size':11},svg,'Baustein wählen oder hineinziehen');
     }
@@ -6907,7 +7456,7 @@ function createStageplotSymbolV3(type, options = {}) {
     });
     svg.appendChild(labelsLayer);
     if(technicalLines.length){const g=sEl('g',{'data-production-summary':'true','pointer-events':'none'},svg),y=H-technicalHeight-editorFooter;sEl('rect',{x:12,y,width:W-24,height:technicalHeight-4,rx:5,fill:'#fff',stroke:'#bbc2b7'},g);technicalLines.forEach((line,i)=>sEl('text',{x:22,y:y+15+i*14,fill:'#30392c','font-size':11},g,line));}
-    if(mode==='editor'&&selected==='stage-zone'){
+    if(mode==='editor'&&selected==='stage-zone'&&!venue){
       sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:'none',stroke:'var(--sp-teal)','stroke-width':2,'pointer-events':'none','data-stage-edit-outline':'true'},svg);
       const stageLabel='Bühne · '+num(s.w)+' × '+metres(s.d),stageLabelWidth=measureLabel(stageLabel)+18;
       sEl('rect',{x:mx+rectW/2-stageLabelWidth/2,y:top+rectH/2-13,width:stageLabelWidth,height:26,rx:8,fill:'#20241ff0',stroke:'var(--sp-teal)','stroke-width':1,'pointer-events':'none','data-stage-dimension-badge':'true'},svg);
@@ -6916,6 +7465,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const hg=sEl('g',{'data-stage-handles':'true'},svg);
       for(const [dir,hx,hy,cursor] of grips)sEl('rect',{x:hx-6,y:hy-6,width:12,height:12,rx:2.5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':1.8,'data-stage-resize':dir,style:'cursor:'+cursor},hg);
     }
+    if(venue)positionVenueDimensions(svg,venue,scale,mx,top);
     if(mode==='editor'){
       svg.dataset.interactive='true';svg.dataset.originX=mx;svg.dataset.originY=top;svg.dataset.scale=scale;
       svg.addEventListener('pointerdown',startObjectDrag);
@@ -7256,7 +7806,10 @@ function createStageplotSymbolV3(type, options = {}) {
     const number=(key,min,max)=>{const n=Number(s[key]);if(!Number.isFinite(n)||n<min||n>max)throw new Error('Bühnenvorlage enthält ungültige Maße.');return n;},stairs=['left','right','side-left','side-right','back','none','unknown'].includes(s.stairs)?s.stairs:'unknown',iem=['left','right','free','none','unknown'].includes(s.iem)?s.iem:'unknown';
     if(typeof source.id!=='string'||!/^stage-template-[a-z0-9-]+$/.test(source.id)||typeof source.name!=='string'||!source.name.trim()||source.name.length>40||!Number.isFinite(source.savedAt))throw new Error('Bühnenvorlage ist beschädigt.');
     const w=number('w',2,30),d=number('d',2,20),stageValue={w,d,estimated:false,surface:s.surface==='black'?'black':'light',complex:s.complex===true,stairs,stairsOffset:Number.isFinite(Number(s.stairsOffset))?Math.max(0,Math.min(1,Number(s.stairsOffset))):.5,stairsAlong:Number.isFinite(Number(s.stairsAlong))?Math.max(0,Math.min(1,Number(s.stairsAlong))):null,stairsWidth:Number.isFinite(Number(s.stairsWidth))?Math.max(.6,Math.min(w,Number(s.stairsWidth))):1.2,stairsDepth:Number.isFinite(Number(s.stairsDepth))?Math.max(.45,Math.min(3,Number(s.stairsDepth))):.9,iem,iemLength:number('iemLength',.1,20),iemDepth:number('iemDepth',.1,30),iemX:Number.isFinite(Number(s.iemX))?Math.max(-100,Math.min(100,Number(s.iemX))):0,iemY:Number.isFinite(Number(s.iemY))?Math.max(-100,Math.min(100,Number(s.iemY))):0};stageValue.extraStairs=normalizeExtraStairs(s.extraStairs,stageValue);
-    return {id:source.id,name:source.name.trim(),savedAt:source.savedAt,stage:stageValue};
+    if(s.geometry)stageValue.geometry=StageplotGeometry.normalize(s.geometry);
+    const result={id:source.id,name:source.name.trim(),savedAt:source.savedAt,stage:stageValue};
+    if(source.objects)result.objects=normalizeSetupDocument({stage:{...stageValue,title:source.name},objects:source.objects}).objects;
+    return result;
   }
   function readStageTemplates(storage=window.localStorage){
     const raw=storage.getItem(stageTemplateStorageKey);if(!raw)return[];const data=JSON.parse(raw);if(data?.version!==1||!Array.isArray(data.templates))throw new Error('Bühnenvorlagen konnten nicht gelesen werden.');
@@ -7268,7 +7821,9 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-stage-template-list').innerHTML=stageTemplates.length?stageTemplates.slice().sort((a,b)=>b.savedAt-a.savedAt).map(item=>'<span class="sp-stage-template-card"><button type="button" data-stage-template="'+item.id+'" title="'+esc(item.name)+' anwenden">'+esc(item.name)+' · '+num(item.stage.w)+' × '+metres(item.stage.d)+'</button><button type="button" data-stage-template-delete="'+item.id+'" aria-label="'+esc(item.name)+' löschen">×</button></span>').join(''):'<span class="sp-stage-template-empty">Noch keine eigenen Vorlagen</span>';
   }
   function applyStageTemplate(item){
-    const t=normalizeStageTemplate(item).stage;setupStageSurface=t.surface;
+    const normalized=normalizeStageTemplate(item);
+    if(normalized.stage.geometry){newVenueEvent(normalized);return;}
+    const t=normalized.stage;setupGeometryOverride=null;setupStageSurface=t.surface;
     const values={'sp-width':t.w,'sp-depth':t.d,'sp-stairs':t.stairs,'sp-stairs-offset':t.stairsOffset,'sp-iem':t.iem,'sp-iem-length':t.iemLength,'sp-iem-depth':t.iemDepth,'sp-iem-x':t.iemX,'sp-iem-y':t.iemY};Object.entries(values).forEach(([id,value])=>{$(id).value=value;});updateSetup();say('Bühnenvorlage geladen · erst „Bühne übernehmen“ ändert das Projekt');
   }
   function saveStageTemplate(replaceId=null){
@@ -7277,7 +7832,7 @@ function createStageplotSymbolV3(type, options = {}) {
     let latest=[];try{latest=readStageTemplates();}catch(error){}
     const existing=latest.find(item=>item.name.toLocaleLowerCase('de')===name.toLocaleLowerCase('de'));
     if(existing&&existing.id!==replaceId){confirmSetupAction('Bühnenvorlage überschreiben?','„'+existing.name+'“ wird durch die Werte im Bühnenformular ersetzt. Instrumente und Projektdaten werden nie Teil der Vorlage.','Überschreiben',()=>saveStageTemplate(existing.id));return;}
-    const item=normalizeStageTemplate({id:replaceId||existing?.id||'stage-template-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),name,savedAt:Date.now(),stage:{w:s.w,d:s.d,surface:s.surface,complex:s.complex===true,stairs:s.stairs,stairsOffset:s.stairsOffset,stairsAlong:s.stairsAlong,stairsWidth:s.stairsWidth,stairsDepth:s.stairsDepth,extraStairs:s.extraStairs,iem:s.iem,iemLength:s.iemLength,iemDepth:s.iemDepth,iemX:s.iemX,iemY:s.iemY}});writeStageTemplates(latest.filter(entry=>entry.id!==item.id).concat(item));$('sp-stage-template-name').value='';renderStageTemplates();const account=stageTemplateAccountStore();if(account?.save)account.save({id:item.id,name:item.name,savedAt:item.savedAt,document:{stage:item.stage}}).catch(()=>{});say(account?.save?'Bühnenvorlage gespeichert · Cloud-Abgleich aktiv':'Bühnenvorlage lokal gespeichert');
+    const item=normalizeStageTemplate({id:replaceId||existing?.id||'stage-template-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),name,savedAt:Date.now(),stage:{w:s.w,d:s.d,surface:s.surface,complex:s.complex===true,stairs:s.stairs,stairsOffset:s.stairsOffset,stairsAlong:s.stairsAlong,stairsWidth:s.stairsWidth,stairsDepth:s.stairsDepth,extraStairs:s.extraStairs,iem:s.iem,iemLength:s.iemLength,iemDepth:s.iemDepth,iemX:s.iemX,iemY:s.iemY,...(s.geometry?{geometry:s.geometry}:{})}});writeStageTemplates(latest.filter(entry=>entry.id!==item.id).concat(item));$('sp-stage-template-name').value='';renderStageTemplates();const account=stageTemplateAccountStore();if(account?.save)account.save({id:item.id,name:item.name,savedAt:item.savedAt,document:{stage:item.stage}}).catch(()=>{});say(account?.save?'Bühnenvorlage gespeichert · Cloud-Abgleich aktiv':'Bühnenvorlage lokal gespeichert');
   }
   $('sp-stage-template-save').addEventListener('click',()=>saveStageTemplate());
   $('sp-stage-template-list').addEventListener('click',e=>{const apply=e.target.closest('[data-stage-template]'),remove=e.target.closest('[data-stage-template-delete]');if(apply){const item=stageTemplates.find(entry=>entry.id===apply.dataset.stageTemplate);if(item)applyStageTemplate(item);}else if(remove){const item=stageTemplates.find(entry=>entry.id===remove.dataset.stageTemplateDelete);if(item)confirmSetupAction('Bühnenvorlage löschen?','„'+item.name+'“ wird aus der Vorlagenbibliothek entfernt. Projekte und Instrumente bleiben unberührt.','Löschen',()=>{writeStageTemplates(stageTemplates.filter(entry=>entry.id!==item.id));renderStageTemplates();const account=stageTemplateAccountStore();if(account?.remove)account.remove(item.id).catch(()=>{});say('Bühnenvorlage gelöscht');},true);}});
@@ -7303,6 +7858,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const type=drumModel.isDrums(o?.type)?'drums':o?.type;
       if(!o||!Object.hasOwn(byId,type)||!finite(o.x,-10000,10000)||!finite(o.y,-10000,10000)||!finite(o.angle,-36000,36000))throw new Error('Ungültiger Baustein.');
       const item={id:'station-'+(i+1),type,x:o.x,y:o.y,angle:((o.angle%360)+360)%360,label:String(o.label??'').slice(0,42),showLabel:o.showLabel!==false,note:String(o.note??'').slice(0,160),power:cleanText(o.power,100),wireless:cleanText(o.wireless,100),inventoryId:cleanText(o.inventoryId,100),outs:String(o.outs??'').slice(0,48),showOuts:o.showOuts!==false,locked:o.locked===true};
+      if(o.house===true)item.house=true;
       if(typeof o.id==='string')idMap.set(o.id,item.id);
       const drumsAvailable=typeof drumModel!=='undefined'&&drumModel.isDrums(type);
       if(o.drums&&drumsAvailable)item.drums=drumModel.normalizeDrums(type,o.drums);
@@ -7323,6 +7879,9 @@ function createStageplotSymbolV3(type, options = {}) {
     });
     s.extraStairs=normalizeExtraStairs(source.extraStairs,s);s.cables=normalizeCables(source.cables,idMap,list);s.project=cleanProject(source.project,s.title);s.project.name=s.title;
     s.routing=cleanRouting(source.routing,idMap);
+    if(source.geometry)s.geometry=StageplotGeometry.normalize(source.geometry);
+    if(source.venueRef&&typeof source.venueRef==='object')s.venueRef={templateId:cleanText(source.venueRef.templateId,100),name:cleanText(source.venueRef.name,60),revision:Math.max(1,Math.min(1000000,Math.floor(Number(source.venueRef.revision)||1)))};
+    if(s.stairsAlong===undefined)delete s.stairsAlong;
     return {stage:s,objects:list};
   }
   function readSetupLibrary(storage){
@@ -7354,7 +7913,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function renderSetupLibrary(){
     $('sp-saved-setups').innerHTML=savedSetups.length?savedSetups.slice().sort((a,b)=>b.savedAt-a.savedAt).map(entry=>{
       const s=entry.document.stage,date=new Date(entry.savedAt).toLocaleString('de-AT',{dateStyle:'short',timeStyle:'short'});
-      return '<div class="sp-saved-setup"><div class="sp-saved-detail"><strong>'+esc(entry.name)+'</strong><small>'+num(s.w)+' × '+metres(s.d)+' · '+entry.document.objects.length+' Bausteine</small><small>'+esc(date)+'</small></div><div class="sp-actions"><button class="sp-button" type="button" data-load-setup="'+entry.id+'" aria-label="'+esc(entry.name)+' öffnen">Öffnen</button><button class="sp-button sp-danger" type="button" data-delete-setup="'+entry.id+'" aria-label="'+esc(entry.name)+' löschen">×</button></div></div>';
+      return '<div class="sp-saved-setup"><div class="sp-saved-detail"><strong>'+esc(entry.name)+'</strong><small>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+' · '+entry.document.objects.length+' Bausteine</small><small>'+esc(date)+'</small></div><div class="sp-actions"><button class="sp-button" type="button" data-load-setup="'+entry.id+'" aria-label="'+esc(entry.name)+' öffnen">Öffnen</button><button class="sp-button sp-danger" type="button" data-delete-setup="'+entry.id+'" aria-label="'+esc(entry.name)+' löschen">×</button></div></div>';
     }).join(''):'<p class="sp-muted">'+(setupLibraryReady?'Noch keine Setups gespeichert.':'Bibliothek nicht verfügbar.')+'</p>';
     syncSetupSave();
   }
@@ -7394,6 +7953,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function activateSetupDocument(value,setupId=null,options={}){
     finishEdit();flushDraft();const document=clone(normalizeSetupDocument(value));stage=document.stage;objects=document.objects;activeSetupId=setupId;
+    setupGeometryOverride=undefined;
     nextId=objects.length+1;selected=null;history=[];future=[];editBefore=null;
     resetEditorView();panMode=false;spaceHeld=false;$('sp-title').value=stage.title;resetDraftTracking();
     if($('sp-setups-dialog').open)$('sp-setups-dialog').close();if(options.show!==false)show('editor');
@@ -7494,7 +8054,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage)return;
     const sample=isSampleProject(),heading=$('sp-project-heading'),editable=!sample&&!sharedReadOnly;
     heading.textContent=sample?'':stage.title;heading.tabIndex=editable?0:-1;heading.setAttribute('aria-disabled',String(!editable));heading.setAttribute('aria-label',editable?'Projekt „'+stage.title+'“ umbenennen':'Projektname');
-    $('sp-editor-meta').textContent=sample?'':num(stage.w)+' × '+metres(stage.d);
+    $('sp-editor-meta').textContent=sample?'':stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d);
   }
   function beginProjectRename(){
     if(!stage||isSampleProject()||sharedReadOnly||projectRenameActive)return;projectRenameActive=true;root.querySelector('.sp-project-summary').dataset.renaming='true';$('sp-project-rename-form').hidden=false;const input=$('sp-project-rename-input');input.value=stage.title;input.setCustomValidity('');requestAnimationFrame(()=>{input.focus();input.select();});
@@ -7546,6 +8106,7 @@ function createStageplotSymbolV3(type, options = {}) {
     return entries.sort((a,b)=>b.savedAt-a.savedAt);
   }
   function dashboardPreviewMarkup(document,badge='VORSCHAU'){
+    if(document.stage.geometry)return venuePreviewMarkup(document,badge);
     const s=document.stage,list=document.objects||[],W=320,H=120,padX=14,padY=14,scale=Math.min((W-padX*2)/s.w,(H-padY*2)/s.d),stageW=s.w*scale,stageH=s.d*scale,left=(W-stageW)/2,top=(H-stageH)/2,black=s.surface==='black',moduleLines=[];
     for(let x=2;x<s.w;x+=2)moduleLines.push('<line x1="'+(left+x*scale).toFixed(2)+'" y1="'+top.toFixed(2)+'" x2="'+(left+x*scale).toFixed(2)+'" y2="'+(top+stageH).toFixed(2)+'"/>');
     for(let y=1;y<s.d;y+=1)moduleLines.push('<line x1="'+left.toFixed(2)+'" y1="'+(top+y*scale).toFixed(2)+'" x2="'+(left+stageW).toFixed(2)+'" y2="'+(top+y*scale).toFixed(2)+'"/>');
@@ -7567,7 +8128,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-project-new').disabled=!proActive&&all.length>=1;
     const cards=entries.map(entry=>{
       const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title),cardName=p.name,date=new Date(entry.savedAt).toLocaleString('de-AT',{dateStyle:'medium',timeStyle:'short'}),current=entry.id===activeDraftId||entry.draftId===activeDraftId||entry.id===activeSetupId;
-      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,entry.draft?'ENTWURF':'VORSCHAU')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Automatischer Entwurf':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+num(s.w)+' × '+metres(s.d)+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div><p>Geändert '+esc(date)+' · '+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Settings</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Projektdatei herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Projektdatei</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
+      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,entry.draft?'ENTWURF':'VORSCHAU')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Automatischer Entwurf':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div><p>Geändert '+esc(date)+' · '+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Settings</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Projektdatei herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Projektdatei</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
     }).join(''),empty=!entries.length&&query?'<div class="sp-empty-projects"><div><strong>Kein passendes Projekt</strong><p>Versuche einen anderen Suchbegriff.</p></div></div>':'',add='<article class="sp-project-add-card"><button type="button" data-project-add'+(!proActive&&all.length>=1?' disabled':'')+'><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><span><strong>Projekt hinzufügen</strong><small>Neuen Stageplot anlegen</small></span></button></article>';
     $('sp-project-grid').innerHTML=cards+empty+add;
   }
@@ -7668,7 +8229,8 @@ function createStageplotSymbolV3(type, options = {}) {
   const displayToMetres=(value,unit)=>unit==='ft'?value*0.3048:value;
   function syncProjectUnitLabels(){const suffix=projectFormUnit==='ft'?'ft':'m';$('sp-project-width-label').textContent='Bühnenbreite ('+suffix+')';$('sp-project-depth-label').textContent='Bühnentiefe ('+suffix+')';}
   function fillProjectForm(){
-    if(!stage)return;const p=normalizeProjectInfo(stage.project,stage.title);projectFormUnit=p.unit;
+    if(!stage)return;
+    ['sp-project-width','sp-project-depth'].forEach(id=>{$(id).disabled=!!stage.geometry;$(id).title=stage.geometry?'Maße unter Bühnenform bearbeiten':'';});const p=normalizeProjectInfo(stage.project,stage.title);projectFormUnit=p.unit;
     const values={'sp-project-name':stage.title,'sp-project-date':p.date,'sp-project-artist':p.artist,'sp-project-venue':p.venue,'sp-project-author':p.author,'sp-project-tour':p.tour,'sp-project-company':p.company,'sp-contact-stage-manager':p.contacts.stageManager.name,'sp-contact-stage-manager-value':p.contacts.stageManager.contact,'sp-contact-foh':p.contacts.foh.name,'sp-contact-foh-value':p.contacts.foh.contact,'sp-contact-monitor':p.contacts.monitor.name,'sp-contact-monitor-value':p.contacts.monitor.contact,'sp-contact-advance':p.contacts.advance.name,'sp-contact-advance-value':p.contacts.advance.contact,'sp-project-notes':p.notes};
     for(const [id,value] of Object.entries(values))$(id).value=value;
     const production=normalizeProductionInfo(p.production);$('sp-production-power').value=production.power;for(const key of ['mode','point','connection','notes'])$('sp-handover-'+key).value=production.handover[key];
@@ -7685,6 +8247,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function applyProjectForm(saveAfter=false){
     if(!stage)return false;if(!$('sp-project-form').checkValidity()){setProjectTab($('sp-project-form').querySelector(':invalid')?.closest('[data-project-panel]')?.dataset.projectPanel||'general');$('sp-project-form').reportValidity();return false;}const next=readProjectForm();
     if(!next.name||!Number.isFinite(next.w)||!Number.isFinite(next.d)||next.w<2||next.w>30||next.d<2||next.d>20){say('Bühnenmaße: 2–30 m breit und 2–20 m tief.');return false;}
+    if(stage.geometry){next.w=stage.w;next.d=stage.d;}
     const before=snapshot(),resized=Math.abs(stage.w-next.w)>.001||Math.abs(stage.d-next.d)>.001;stage={...stage,title:next.name,w:next.w,d:next.d,project:next.project,routing:normalizeRouting(stage.routing)};constrainIem(stage);$('sp-title').value=stage.title;if(resized)resetEditorView();keepHistory(before);updateProjectHeading();fillProjectForm();say('Projektdaten übernommen');if(saveAfter){saveCurrentSetup();show(projectReturnView==='dashboard'?'dashboard':'editor');}return true;
   }
   $('sp-project-unit').addEventListener('change',()=>{const next=$('sp-project-unit').value==='ft'?'ft':'m',w=displayToMetres(Number($('sp-project-width').value),projectFormUnit),d=displayToMetres(Number($('sp-project-depth').value),projectFormUnit);projectFormUnit=next;$('sp-project-width').value=Math.round(metresToDisplay(w,next)*100)/100;$('sp-project-depth').value=Math.round(metresToDisplay(d,next)*100)/100;syncProjectUnitLabels();});
@@ -7985,7 +8548,7 @@ function createStageplotSymbolV3(type, options = {}) {
     root.dataset.previewBackground=transparent?'transparent':'white';
     sizePrintWorkspace();updateProjectHeading();
     $('sp-print-title').textContent=stage.title;
-    $('sp-print-dimensions').textContent=num(stage.w)+' × '+metres(stage.d);
+    $('sp-print-dimensions').textContent=stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d);
     $('sp-print-dimensions').hidden=!$('sp-print-measures').checked;
     const warnings=stageMeta(stage);
     if(objects.some(o=>outside(o,stage)))warnings.push('Aufbau ragt über die Bühne');
@@ -7997,7 +8560,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-print-legend-section').hidden=!legendOn;$('sp-print-notes-section').hidden=!notesOn;$('sp-print-inputs-section').hidden=!inputsOn;$('sp-print-routing-section').hidden=!outputsOn;
     $('sp-print-paper-sections').hidden=!(legendOn||notesOn||inputsOn||outputsOn);
     $('sp-print-legend').innerHTML=objects.length?objects.map(o=>'<div class="sp-legend-row"><strong>'+esc(o.label||byId[o.type].name)+'</strong>'+(objectDetail(o)?'<small>'+esc(objectDetail(o))+'</small>':'')+(outsText(o)&&$('sp-print-outs').checked?'<small>'+esc(outsText(o))+'</small>':'')+objectProductionLines(o).map(line=>'<small>'+esc(line)+'</small>').join('')+(o.note?'<small>'+esc(o.note)+'</small>':'')+'</div>').join(''):'<span class="sp-muted">Noch keine Bausteine.</span>';
-    const notes=normalizeProjectInfo(stage.project,stage.title).notes.trim();$('sp-print-notes-copy').textContent=notes||'Keine Projektnotizen hinterlegt.';
+    const notes=[normalizeProjectInfo(stage.project,stage.title).notes.trim(),stage.geometry?.notes,...(stage.geometry?.parts||[]).filter(p=>p.note).map(p=>p.name+': '+p.note)].filter(Boolean).join('\n\n');$('sp-print-notes-copy').textContent=notes||'Keine Projektnotizen hinterlegt.';
     $('sp-print-input-list').innerHTML=printRoutingPreview('inputs');$('sp-print-output-list').innerHTML=printRoutingPreview('outputs');
   }
   function sizePrintWorkspace(){
@@ -8107,7 +8670,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const rows=routingExportRows(direction);return '<h2>'+routingDirectionLabel(direction)+' Channels · '+rows.length+'</h2><table><thead><tr>'+routingHeaders.map(value=>'<th>'+esc(value)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(value=>'<td>'+esc(value||'—')+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   }
   function renderTechnicalDocument(mode){
-    renderPrint();syncRoutingFromStage(false);const p=normalizeProjectInfo(stage.project,stage.title),fields=[['Datum',p.date],['Artist / Band',p.artist],['Venue',p.venue],['Autor / Engineer',p.author],['Tour',p.tour],['Production Company',p.company],['Bühne',num(stage.w)+' × '+metres(stage.d)]];
+    renderPrint();syncRoutingFromStage(false);const p=normalizeProjectInfo(stage.project,stage.title),fields=[['Datum',p.date],['Artist / Band',p.artist],['Venue',p.venue],['Autor / Engineer',p.author],['Tour',p.tour],['Production Company',p.company],['Bühne',stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d)]];
     $('sp-document-title').textContent=stage.title;$('sp-document-meta').textContent=mode==='routing'?'Routing / Channel List':'Complete Production Document';$('sp-document-project').innerHTML='<div class="sp-document-grid">'+fields.filter(([,value])=>value).map(([label,value])=>'<div class="sp-document-field"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('')+'</div>';
     $('sp-document-floor').innerHTML=$('sp-print-floor').innerHTML;$('sp-document-routing').innerHTML=routingTableMarkup('inputs')+routingTableMarkup('outputs');
     const contacts=[['Stage Manager',p.contacts.stageManager],['FOH Engineer',p.contacts.foh],['Monitor Engineer',p.contacts.monitor],['Technical / Advance',p.contacts.advance]].filter(([,entry])=>entry.name||entry.contact);$('sp-document-contacts').innerHTML=contacts.length?'<h2>Technische Kontakte</h2><div class="sp-document-grid">'+contacts.map(([label,entry])=>'<div class="sp-document-field"><span>'+label+'</span><strong>'+esc(entry.name||'—')+'</strong><div>'+esc(entry.contact||'')+'</div></div>').join('')+'</div>':'';$('sp-document-notes').innerHTML=(productionLines(stage).length?'<h2>Technische Anforderungen</h2><p>'+productionLines(stage).map(esc).join('<br>')+'</p>':'')+(p.notes?'<h2>Notes</h2><p>'+esc(p.notes).replaceAll('\n','<br>')+'</p>':'');$('sp-document-print').hidden=false;
@@ -8116,10 +8679,10 @@ function createStageplotSymbolV3(type, options = {}) {
     if(mode==='complete'&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}root.dataset.printDocument=mode;if(mode==='stage')renderPrint();else renderTechnicalDocument(mode);try{window.print();}finally{setTimeout(()=>{delete root.dataset.printDocument;$('sp-document-print').hidden=true;},0);}
   }
   function encodeShareDocument(document){
-    const json=JSON.stringify({kind:'stageplot-readonly',version:1,document:normalizeSetupDocument(document)}),bytes=new TextEncoder().encode(json);if(bytes.length>90000)throw new Error('Das Projekt ist für einen Link zu umfangreich. Bitte die Projektdatei exportieren.');let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(binary).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
+    const json=JSON.stringify({kind:'stageplot-readonly',version:document.stage?.geometry?2:1,document:normalizeSetupDocument(document)}),bytes=new TextEncoder().encode(json);if(bytes.length>90000)throw new Error('Das Projekt ist für einen Link zu umfangreich. Bitte die Projektdatei exportieren.');let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(binary).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
   }
   function decodeShareDocument(hash=window.location.hash){
-    const match=String(hash).match(/^#share=([A-Za-z0-9_-]+)$/);if(!match)return null;let encoded=match[1].replaceAll('-','+').replaceAll('_','/');while(encoded.length%4)encoded+='=';const binary=atob(encoded),bytes=Uint8Array.from(binary,char=>char.charCodeAt(0)),payload=JSON.parse(new TextDecoder().decode(bytes));if(payload?.kind!=='stageplot-readonly'||payload.version!==1)throw new Error('Ungültiger Freigabelink.');return normalizeSetupDocument(payload.document);
+    const match=String(hash).match(/^#share=([A-Za-z0-9_-]+)$/);if(!match)return null;let encoded=match[1].replaceAll('-','+').replaceAll('_','/');while(encoded.length%4)encoded+='=';const binary=atob(encoded),bytes=Uint8Array.from(binary,char=>char.charCodeAt(0)),payload=JSON.parse(new TextDecoder().decode(bytes));if(payload?.kind!=='stageplot-readonly'||![1,2].includes(payload.version))throw new Error('Ungültiger Freigabelink.');return normalizeSetupDocument(payload.document);
   }
   function openShareDialog(document={stage,objects}){
     try{const base=window.location.href.split('#')[0],link=base+'#share='+encodeShareDocument(document);$('sp-share-link').value=link;$('sp-share-status').textContent='Der Link enthält eine schreibgeschützte Momentaufnahme inklusive Kontaktdaten.';$('sp-share-dialog').showModal();}catch(error){say('Link nicht erstellt: '+error.message);}
@@ -8192,8 +8755,12 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   $('sp-help-open').addEventListener('click',openShortcutHelp);
   $('sp-settings-gear').addEventListener('click',()=>$('sp-settings-open').click());
+  $('sp-venue-open').addEventListener('click',()=>openVenueEditor());
+  $('sp-venue-setup').addEventListener('click',()=>openVenueEditor());
+  $('sp-house-library').addEventListener('click',()=>openVenueEditor({library:true}));
   $('sp-stage-edit').addEventListener('click',()=>{
     if(view!=='editor')show('editor');
+    if(stage.geometry){openVenueEditor();return;}
     finishEdit();
     selected=selected==='stage-zone'?null:'stage-zone';
     renderEditor();
@@ -9139,6 +9706,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-stage-form').addEventListener('submit',e=>{e.preventDefault();applyStage();});
   $('sp-stage-form').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input')){e.preventDefault();applyStage();}});
   function openStageSettings(){
+    setupGeometryOverride=stage.geometry?clone(stage.geometry):null;
     setupStageSurface=stage.surface||stageSurfaceDefault;
     const mapping={'sp-title':'title','sp-width':'w','sp-depth':'d','sp-stairs':'stairs','sp-stairs-offset':'stairsOffset','sp-iem':'iem','sp-iem-length':'iemLength','sp-iem-depth':'iemDepth','sp-iem-x':'iemX','sp-iem-y':'iemY'};
     Object.entries(mapping).forEach(([id,key])=>{$(id).value=stage[key];});
@@ -9563,7 +10131,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const data=readDraftLibrary(window.localStorage);
       $('sp-draft-list').innerHTML=data.entries.length?data.entries.slice().sort((a,b)=>b.savedAt-a.savedAt).map(entry=>{
         const date=new Date(entry.savedAt).toLocaleString('de-AT',{dateStyle:'short',timeStyle:'short'}),s=entry.document.stage;
-        return '<div class="sp-saved-setup"><div class="sp-saved-detail"><strong>'+esc(entry.name)+'</strong><small>Automatischer Entwurf · '+num(s.w)+' × '+metres(s.d)+' · '+entry.document.objects.length+' Bausteine</small><small>'+esc(date)+'</small></div><div class="sp-actions"><button class="sp-button" type="button" data-load-draft="'+entry.id+'" aria-label="Entwurf '+esc(entry.name)+' öffnen">Öffnen</button><button class="sp-button sp-danger" type="button" data-delete-draft="'+entry.id+'" aria-label="Entwurf '+esc(entry.name)+' löschen">×</button></div></div>';
+        return '<div class="sp-saved-setup"><div class="sp-saved-detail"><strong>'+esc(entry.name)+'</strong><small>Automatischer Entwurf · '+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+' · '+entry.document.objects.length+' Bausteine</small><small>'+esc(date)+'</small></div><div class="sp-actions"><button class="sp-button" type="button" data-load-draft="'+entry.id+'" aria-label="Entwurf '+esc(entry.name)+' öffnen">Öffnen</button><button class="sp-button sp-danger" type="button" data-delete-draft="'+entry.id+'" aria-label="Entwurf '+esc(entry.name)+' löschen">×</button></div></div>';
       }).join(''):'<p class="sp-muted">Noch keine Entwürfe. Die erste Änderung wird automatisch gesichert.</p>';
     }catch(error){$('sp-draft-list').innerHTML='<p class="sp-error">Entwürfe nicht verfügbar. Gespeicherte Daten bleiben unverändert.</p>';draftFailure(error);}
   }
@@ -9701,13 +10269,13 @@ function createStageplotSymbolV3(type, options = {}) {
   function localCloudRecords(kind){
     if(kind==='project')return readSetupLibrary(localStorage);
     if(kind==='drum_template')return readDrumDesignLibrary(localStorage).map(entry=>({...entry,name:entry.document.name}));
-    if(kind==='stage_template')return readStageTemplates().map(entry=>({id:entry.id,name:entry.name,savedAt:entry.savedAt,document:{stage:entry.stage}}));
+    if(kind==='stage_template')return readStageTemplates().map(entry=>({id:entry.id,name:entry.name,savedAt:entry.savedAt,document:{stage:entry.stage,...(entry.objects?{objects:entry.objects}:{})}}));
     return window.StageplotInventory.read();
   }
   function writeCloudRecord(kind,record){
     if(kind==='project'){const entries=readSetupLibrary(localStorage).filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push({...record,document:normalizeSetupDocument(record.document)});writeSetupLibrary(localStorage,entries);savedSetups=entries;}
     else if(kind==='drum_template'){const entries=readDrumDesignLibrary(localStorage).filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push({id:record.id,savedAt:record.savedAt,document:drumModel.normalizeDrumDesign(record.document)});writeDrumDesignLibrary(localStorage,entries);drumDesigns=entries;}
-    else if(kind==='stage_template'){const entries=readStageTemplates().filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push(normalizeStageTemplate({id:record.id,name:record.name.slice(0,40),savedAt:record.savedAt,stage:record.document.stage}));writeStageTemplates(entries);}
+    else if(kind==='stage_template'){const entries=readStageTemplates().filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push(normalizeStageTemplate({id:record.id,name:record.name.slice(0,40),savedAt:record.savedAt,stage:record.document.stage,...(record.document.objects?{objects:record.document.objects}:{})}));writeStageTemplates(entries);}
     else {const entries=window.StageplotInventory.read().filter(entry=>entry.id!==record.id);if(!record.deleted)entries.push(window.StageplotInventory.normalize(record));window.StageplotInventory.write(entries);}
   }
   // Promote local drafts to stable project IDs only after the user connects the device.

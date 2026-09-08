@@ -50,6 +50,7 @@ function createStageplotExportV42() {
     const document=cloneJson(value,'Das Setup');
     if(!plainObject(document)||!plainObject(document.stage)||!Array.isArray(document.objects))throw new Error('Die Datei enthält kein gültiges Stageplot-Setup.');
     const {stage,objects}=document;
+    if(stage.geometry){const geometry=typeof StageplotGeometry!=='undefined'?StageplotGeometry:typeof module==='object'&&module.exports?require('./stageplot-geometry-v1.js'):null;if(!geometry)throw new Error('Dieses Bühnenformat benötigt eine neuere App-Version.');stage.geometry=geometry.normalize(stage.geometry);}
     if(!finite(stage.w)||stage.w<2||stage.w>30||!finite(stage.d)||stage.d<2||stage.d>20)throw new Error('Die Datei enthält ungültige Bühnenmaße.');
     if(typeof stage.title!=='string'||!stage.title.trim()||stage.title.length>60)throw new Error('Die Datei enthält keinen gültigen Setup-Namen.');
     if(objects.length>2000)throw new Error('Das Setup enthält zu viele Bausteine.');
@@ -82,14 +83,15 @@ function createStageplotExportV42() {
     const exportedAt=options.exportedAt===undefined?Date.now():options.exportedAt;
     const timestamp=normalizeTimestamp(exportedAt);
     if(timestamp===null)throw new Error('Der Exportzeitpunkt ist ungültig.');
-    return {kind:SETUP_KIND,version:SETUP_VERSION,name:cleanExportName(name),exportedAt:timestamp,document:normalizeDocument(document,options.normalizeDocument)};
+    const normalized=normalizeDocument(document,options.normalizeDocument);
+    return {kind:SETUP_KIND,version:normalized.stage.geometry?2:SETUP_VERSION,name:cleanExportName(name),exportedAt:timestamp,document:normalized};
   }
 
   function normalizeSetupExport(value,options={}) {
-    if(!plainObject(value)||value.kind!==SETUP_KIND||value.version!==SETUP_VERSION)throw new Error('Die Datei ist kein gültiges Stageplot-Setup.');
+    if(!plainObject(value)||value.kind!==SETUP_KIND||![1,2].includes(value.version))throw new Error('Die Datei ist kein gültiges Stageplot-Setup.');
     const timestamp=normalizeTimestamp(value.exportedAt);
     if(timestamp===null)throw new Error('Der Exportzeitpunkt ist ungültig.');
-    return {kind:SETUP_KIND,version:SETUP_VERSION,name:cleanExportName(value.name),exportedAt:timestamp,document:normalizeDocument(value.document,options.normalizeDocument)};
+    return {kind:SETUP_KIND,version:value.version,name:cleanExportName(value.name),exportedAt:timestamp,document:normalizeDocument(value.document,options.normalizeDocument)};
   }
 
   function parseSetupJson(text,options={}) {

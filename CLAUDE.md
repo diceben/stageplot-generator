@@ -12,7 +12,7 @@ This repository is the standalone 2D Stageplot Generator. Never mix it with Gigb
 
 ## After changing code
 
-- When editing `stageplot-drums-v12.js`, `stageplot-symbols-v3.js` or `stageplot-export-v42.js`, run `npm run build` to regenerate the embedded copies in `stageplot-studio.html`. These `.js` files are the single source; never hand-edit the embedded blocks (between the `build-inline:start/end` markers).
+- When editing `stageplot-drums-v12.js`, `stageplot-symbols-v3.js`, `stageplot-export-v42.js`, `stageplot-geometry-v1.js` or `stageplot-venue-v1.js` / `.css`, run `npm run build` to regenerate the embedded copies in `stageplot-studio.html`. These `.js` files are the single source; never hand-edit the embedded blocks (between the `build-inline:start/end` markers).
 - Run `npm test`.
 - Verify the actual app through `npm run dev` when behavior or layout changed.
 - Report browser validation separately from static or syntax checks.

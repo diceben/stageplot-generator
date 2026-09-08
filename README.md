@@ -11,6 +11,9 @@ Die Feedback-Erweiterungen in diesem Entwicklungsstand sind noch nicht veröffen
 ## Funktionen
 
 - **Projekte anlegen** über ein Popup: Band + Location (→ automatischer Projektname), Bühnengröße per Vorschau-Buttons (Breite/Tiefe mit ±1 m), erweiterte Einstellungen aufklappbar.
+- **Hausbühnen und freie Grundrisse:** Einstieg über „Hausbühnen“ auf der Projektseite oder „Bühnenform“ im Editor. Rechteck, runde Vorbühne, Kreis/Oval, Trapez, Steg, T-/L-/U-Form, Seitenbühnen und Treppennischen; beliebige Umrisse zeichnen und Kanten oder Punkte bearbeiten.
+- **Feste Einbauten:** echte Ausschnitte, Säulen, Wände, Zugänge, Vorhang/Portal, Treppen, Rampen, FOH und freizuhaltende Bereiche. Exakte Zahlen bleiben erhalten; Griffe bewegen sich wahlweise in 10-cm-Schritten. Zwei Finger verschieben und zoomen den Grundriss.
+- **Hausvorlagen:** lokale, revisionierte Bühnenbibliothek mit ausgewähltem festem Equipment. „Neue Veranstaltung“ erstellt eine unabhängige Kopie. Umrisse, Höhen und Hausnotizen bleiben in Projektdateien, Vorschau und Freigabelinks erhalten.
 - **Bühneneditor** mit Bausteinkatalog, Drag & Drop, Drehen, Sperren, Ebenen-Liste (Rechtsklick: 90° drehen/Duplizieren/Sperren/Löschen).
 - **Bühne & Treppe direkt auf dem Canvas** in der Größe ziehen — smooth mit Live-Redraw; Treppe zusätzlich breitenverstellbar per Pfeile inkl. Reset auf Standardbreite.
 - **IEM-/Rack-Bereich** auch außerhalb der Bühne platzierbar. Riser, IEM-Fläche und FOH lassen sich über Griffe in 10-cm-Schritten skalieren; Zwei-Finger-Gesten sind vorbereitet. Riser zeigen Breite, Tiefe und Aufbauhöhe im Plan.
@@ -91,6 +94,10 @@ Nicht gleichzeitig auf zwei Laptops uncommittete Änderungen an denselben Dateie
 - `stageplot-drums-v12.js`: Drummodell — einzige Quelle, wird in die HTML eingebettet
 - `stageplot-symbols-v3.js`: Symbolrenderer — einzige Quelle, wird in die HTML eingebettet
 - `stageplot-export-v42.js`: Export-Helfer — einzige Quelle, wird in die HTML eingebettet
+- `stageplot-geometry-v1.js`: reine Geometrie in Metern, Konturen, Ausschnitte, Flächenprüfung und Anker
+- `stageplot-venue-v1.js` / `.css`: Hausgrundriss-Editor und gemeinsame Planbeschriftung
+- `stageplot-assets/vendor/polygon-clipping.js`: lokale MIT-lizenzierte Polygonbibliothek; über `npm run build:vendor` reproduzierbar
+- `BUEHNENFORMEN_KONZEPT.md`: recherchiertes Konzept mit Implementierungsstand und späteren Ausbauschritten
 - `scripts/build-inline.cjs`: bettet die Module aus den `.js`-Quellen in die HTML ein
 - `stageplot-assets/`: lokale Bildassets
 - `stageplot-assets/branding/`: optimierte Stageplotter-Logos für Header, Projektübersicht und Browser-Icon
@@ -130,3 +137,13 @@ npm test
 Browserentwürfe sind lokale Laufzeitdaten und gehören nicht ins Repository. Ebenso niemals `.env`-Dateien, Zugriffstokens, Supabase-`service_role`-Schlüssel oder exportierte Projekte mit Kontaktdaten committen.
 
 Der öffentliche Supabase-Publishable-Key wird optional über GitHub-Repository-Variablen in die Build-Konfiguration eingesetzt. Serverseitige Geheimnisse bleiben ausschließlich in Supabase beziehungsweise der Hosting-Umgebung.
+
+## Hausgrundrisse: Daten und Prüfungen
+
+Neue Umrisse liegen als `stage.geometry.version: 1` vor. Die Ausgangsformen bleiben editierbar; vereinigte Konturen und echte Löcher werden für Vorschau, Export und Flächenprüfung daraus berechnet. Bestehende rechteckige Entwürfe werden erst beim Übernehmen im Grundriss-Editor umgestellt. Bühnenmodule und vorhandene Treppen werden dabei in den Grundriss übernommen.
+
+Projektdateien und Freigabelinks mit Geometrie verwenden die Hüllformat-Version 2, damit ältere Apps sie nicht stillschweigend als Rechteck öffnen. Alte Dateien und Links bleiben lesbar. Hausvorlagen speichern Geometrie und ausgewähltes Equipment, aber keine Veranstaltungs-Kontakte oder Routinglisten. Vorlagenänderungen wirken nicht nachträglich auf vorhandene Veranstaltungskopien.
+
+`npm test` prüft zusätzlich Rundungen, Flächenvereinigung, Löcher, Hindernisse, exakte Maße, Anker, Vorlagen-/Datei-/Link-Roundtrips sowie die tatsächlichen Pointer-Handler für Resize, Sperren, Abbruch und Zwei-Finger-Zoom. Browserprüfung: 1280 × 720 und 390 × 844, Kanten-Drag, Bogen, Treppe, Hausvorlage, Veranstaltungskopie, Neuladen, PDF-Vorschau, PNG-Ausgabe und Read-only-Link. Physische Touch-Geräte und ein produktiver Supabase-Abgleich stehen separat aus.
+
+Noch nicht enthalten: PDF/Bild als maßstäbliche Durchzeichenvorlage, freie Bézierkurven, eigener Kreissektor-Dialog, Publikumsbestuhlung und eine umfangreiche technische Bauteildatenbank. Treppen und Rampen lassen sich an gerade oder gebogene Polygonkanten hängen; an Kreis-/Ovalflächen und separaten runden Vorbühnen werden sie frei platziert.

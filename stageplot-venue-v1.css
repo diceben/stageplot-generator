@@ -1,0 +1,65 @@
+#sp-prototype .sp-venue-dialog { box-sizing:border-box; width:min(1280px,calc(100vw - 28px)); max-width:none; height:min(880px,calc(100dvh - 28px)); max-height:none; margin:auto; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-paper); color:var(--sp-art); overflow:hidden; box-shadow:0 24px 100px #0007; }
+#sp-prototype .sp-venue-dialog[open] { display:flex; flex-direction:column; }
+#sp-prototype .sp-venue-dialog::backdrop { background:#101810a8; backdrop-filter:blur(3px); }
+#sp-prototype .sp-venue-dialog :is(button,input,select,textarea) { font:inherit; font-size:12px; color:inherit; box-sizing:border-box; }
+#sp-prototype .sp-venue-dialog button { min-height:40px; padding:8px 12px; border:1px solid var(--sp-line); border-radius:8px; background:var(--sp-paper); cursor:pointer; line-height:1.25; }
+#sp-prototype .sp-venue-dialog button:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-venue-dialog button:disabled { opacity:.4; cursor:default; }
+#sp-prototype .sp-venue-dialog button[aria-pressed="true"] { border-color:var(--sp-teal); background:color-mix(in srgb,var(--sp-teal) 12%,var(--sp-paper)); }
+#sp-prototype .sp-venue-dialog :focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
+#sp-prototype .sp-venue-dialog [hidden] { display:none !important; }
+#sp-prototype .sv-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sv-head strong { display:block; font-size:19px; }
+#sp-prototype .sv-head small { display:block; margin-top:3px; color:var(--sp-muted); font-size:12px; }
+#sp-prototype .sv-head button { width:40px; font-size:24px; }
+#sp-prototype .sv-tools { display:flex; flex-wrap:wrap; gap:8px; align-items:end; padding:12px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-venue-dialog label { display:flex; flex-direction:column; gap:5px; font-size:11px; line-height:1.4; }
+#sp-prototype .sp-venue-dialog :is(input:not([type="checkbox"]),select,textarea) { min-width:0; width:100%; min-height:40px; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-paper); }
+#sp-prototype .sv-tools label { min-width:130px; }
+#sp-prototype .sv-work { display:grid; grid-template-columns:minmax(0,1fr) 310px; flex:1; min-height:0; }
+#sp-prototype .sv-plan-column { display:flex; flex-direction:column; min-width:0; min-height:0; padding:12px; background:color-mix(in srgb,var(--sp-line) 12%,var(--sp-paper)); }
+#sp-prototype .sv-canvas-tools { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding-bottom:10px; }
+#sp-prototype .sv-canvas-tools label,#sp-prototype .sp-venue-dialog .sv-check,#sp-prototype .sv-house label:has(input[type="checkbox"]) { flex-direction:row; align-items:center; gap:6px; min-height:36px; }
+#sp-prototype .sp-venue-dialog input[type="checkbox"] { width:17px; height:17px; accent-color:var(--sp-teal); }
+#sp-prototype .sv-canvas { display:block; width:100%; min-height:200px; flex:1; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); touch-action:none; user-select:none; }
+#sp-prototype .sv-summary { padding-top:10px; font-size:12px; font-weight:650; }
+#sp-prototype .sv-hint { font-size:11px; color:var(--sp-muted); margin:6px 0 0; line-height:1.5; }
+#sp-prototype .sv-sidebar { padding:14px; overflow-y:auto; border-left:1px solid var(--sp-line); }
+#sp-prototype .sv-sidebar h3 { font-size:15px; margin:0 0 12px; }
+#sp-prototype .sv-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+#sp-prototype .sv-fields label:first-child:has([data-prop="name"]) { grid-column:1/-1; }
+#sp-prototype .sv-sidebar details { border-top:1px solid var(--sp-line); margin-top:14px; padding-top:10px; }
+#sp-prototype .sv-sidebar summary { cursor:pointer; min-height:30px; font-size:12px; font-weight:650; }
+#sp-prototype :is(.sv-house,.sv-edge,.sv-templates,.sv-parts) { display:flex; flex-direction:column; gap:8px; }
+#sp-prototype .sv-edge { background:color-mix(in srgb,var(--sp-teal) 6%,var(--sp-paper)); padding:10px; border:1px solid var(--sp-line); border-radius:8px; margin-top:10px; }
+#sp-prototype .sv-row { display:flex; gap:6px; margin-top:8px; }
+#sp-prototype .sv-row>* { flex:1; }
+#sp-prototype .sv-parts button { text-align:left; }
+#sp-prototype .sv-template { padding:8px 0; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sv-template :is(strong,small) { display:block; font-size:12px; }
+#sp-prototype .sv-template small { color:var(--sp-muted); margin-top:4px; }
+#sp-prototype .sv-house p,#sp-prototype .sv-templates p { font-size:11px; color:var(--sp-muted); }
+#sp-prototype .sp-venue-dialog footer { display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:12px 20px; border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-venue-dialog .sv-primary { background:var(--sp-teal); border-color:var(--sp-teal); color:#fff; font-weight:650; }
+#sp-prototype .sv-status { flex:1; font-size:12px; color:var(--sp-muted); }
+#sp-prototype #sp-canvas-tools #sp-venue-open { width:auto; min-width:90px; font-size:11px; padding:0 10px; white-space:nowrap; }
+#sp-prototype[data-readonly="true"] :is(#sp-venue-open,#sp-venue-setup,#sp-house-library) { display:none !important; }
+@media(max-width:740px) {
+  #sp-prototype .sp-venue-dialog { width:100vw; height:100dvh; border:0; border-radius:0; }
+  #sp-prototype .sv-head { padding:10px 12px; }
+  #sp-prototype .sv-head strong { font-size:16px; }
+  #sp-prototype .sv-tools { padding:8px 12px; gap:6px; }
+  #sp-prototype .sv-tools label { flex:1; min-width:110px; }
+  #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; }
+  #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
+  #sp-prototype .sv-canvas { height:280px; min-height:280px; flex:none; }
+  #sp-prototype .sv-sidebar { overflow:visible; border-left:0; border-top:1px solid var(--sp-line); }
+  #sp-prototype .sp-venue-dialog footer { flex-wrap:wrap; padding:8px 12px; gap:6px; }
+  #sp-prototype .sv-status:empty { display:none; }
+  #sp-prototype .sv-status { flex-basis:100%; }
+  #sp-prototype .sp-venue-dialog footer button { flex:1; padding:8px 6px; font-size:11px; }
+  #sp-prototype .sp-venue-dialog :is(button,input:not([type="checkbox"]),select) { min-height:44px; }
+}
+
+#sp-prototype .sv-plan-column { --sp-teal:#617b31; }
+#sp-prototype .sv-canvas-tools button { font-family:system-ui,sans-serif; font-size:15px; }
