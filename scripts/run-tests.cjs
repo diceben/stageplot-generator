@@ -14,6 +14,7 @@ const tests=[
   'stageplot-sync-v2.test.cjs',
   'stageplot-project-identity.test.cjs',
   'stageplot-usability.test.cjs',
+  'stageplot-print-v1.test.cjs',
   'stageplot-feedback.test.cjs',
   'stageplot-studio-v60.test.cjs',
   'stageplot-studio-v61.test.cjs',

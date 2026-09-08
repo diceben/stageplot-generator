@@ -316,11 +316,13 @@
   <section id="sp-print" class="sp-print" hidden>
     <div class="sp-export-wizard">
       <aside class="sp-export-controls" aria-label="Export-Einstellungen">
-        <header><span class="sp-eyebrow">EXPORT &amp; TEILEN</span><h1>Was möchtest du weitergeben?</h1></header>
-        <div class="sp-export-intents" role="group" aria-label="Verwendungszweck"><button type="button" data-export-intent="image" aria-pressed="true"><strong>Bühnenplan als Bild</strong><small>Für Nachrichten, Websites oder Präsentationen</small></button><button type="button" data-export-intent="technical" aria-pressed="false"><strong>Technische Infos für Veranstalter</strong><small>Bühne, Kontakte, Strom, FOH und Kanallisten</small></button><button type="button" data-export-intent="share" aria-pressed="false"><strong>Ansichtslink teilen</strong><small>Projekt ohne Bearbeitungszugriff ansehen</small></button></div>
-        <p id="sp-export-purpose" class="sp-export-purpose">Ein Bild des Bühnenplans, passend zugeschnitten.</p>
-        <details id="sp-export-details" class="sp-export-details"><summary>Details anpassen</summary>
-        <section class="sp-export-control-group"><h2>Format</h2><input id="sp-export-format" type="hidden" value="png-normal"><div class="sp-export-choice-grid" role="group" aria-label="Ausgabeformat"><button type="button" data-export-format="png-normal" aria-pressed="true"><strong>PNG</strong><small>Normal</small></button><button type="button" data-export-format="png-4k" aria-pressed="false"><strong>PNG</strong><small>4K</small></button><button type="button" data-export-format="pdf" aria-pressed="false"><strong>PDF</strong><small>Drucken</small></button></div><input id="sp-export-scale" type="hidden" value="2"></section>
+        <header><span class="sp-eyebrow">EXPORT &amp; TEILEN</span><h1>Exportieren &amp; teilen</h1></header>
+        <div class="sp-export-intents" role="group" aria-label="Exportformat"><button type="button" data-export-intent="technical" aria-pressed="true">PDF</button><button type="button" data-export-intent="image" aria-pressed="false">Bild</button><button type="button" data-export-intent="share" aria-pressed="false">Link</button></div>
+        <p id="sp-export-purpose" class="sp-export-purpose">Druckfertiges PDF im A4-Querformat.</p>
+        <input id="sp-export-format" type="hidden" value="pdf"><input id="sp-export-scale" type="hidden" value="2">
+        <div id="sp-export-presets" class="sp-export-presets" role="group" aria-label="PDF-Umfang"><button type="button" data-pdf-preset="plan" aria-pressed="true"><strong>Nur Bühnenplan</strong><small>Eine Seite mit Strom &amp; Signalübergabe</small></button><button type="button" data-pdf-preset="full" aria-pressed="false"><strong>Mit Technik &amp; Kanälen</strong><small>Kontakte, Equipment, Notizen und Listen</small></button></div>
+        <section id="sp-export-image-options" class="sp-export-control-group" hidden><h2>Bildqualität</h2><div class="sp-export-choice-grid" role="group" aria-label="Bildqualität"><button type="button" data-export-format="png-normal" aria-pressed="true"><strong>Standard</strong><small>Für Nachrichten</small></button><button type="button" data-export-format="png-4k" aria-pressed="false"><strong>4K</strong><small>Für Präsentationen</small></button></div></section>
+        <details id="sp-export-details" class="sp-export-details"><summary>Darstellung &amp; Inhalte anpassen</summary>
         <section class="sp-export-control-group"><h2>Beschriftungen &amp; Darstellung</h2><div class="sp-export-toggle-grid">
           <label class="sp-export-toggle"><input id="sp-print-labels" type="checkbox" checked><span>Objektbezeichnungen</span></label>
           <label class="sp-export-toggle"><input id="sp-print-outs" type="checkbox" checked><span>Inputs &amp; Outs</span></label>
@@ -335,12 +337,12 @@
           <label class="sp-export-toggle"><input id="sp-print-inputs" type="checkbox"><span>Input-Liste</span></label>
           <label class="sp-export-toggle"><input id="sp-print-routing" type="checkbox"><span>Output-Routing</span></label>
         </div></section>
-        <section class="sp-export-control-group" id="sp-export-background-group"><h2>PNG-Hintergrund</h2><input id="sp-export-background" type="hidden" value="white"><div class="sp-export-background-pills" role="group" aria-label="PNG-Hintergrund"><button type="button" data-export-background="white" aria-pressed="true">Weiß</button><button type="button" data-export-background="transparent" aria-pressed="false">Transparent</button></div></section>
-        </details><div class="sp-export-actions"><button class="sp-button sp-primary" type="button" id="sp-export-png">Bild herunterladen</button><p id="sp-export-beta-hint" hidden>Veranstalter-PDF: kostenlos mit aktivierter Pro-Beta.</p><button type="button" id="sp-print-complete" hidden>Veranstalter-PDF</button><button type="button" id="sp-share-open" hidden>Ansichtslink erstellen</button><button type="button" id="sp-print-page" hidden>PDF drucken</button></div>
+        <section class="sp-export-control-group" id="sp-export-background-group" hidden><h2>Bildhintergrund</h2><input id="sp-export-background" type="hidden" value="white"><div class="sp-export-background-pills" role="group" aria-label="PNG-Hintergrund"><button type="button" data-export-background="white" aria-pressed="true">Weiß</button><button type="button" data-export-background="transparent" aria-pressed="false">Transparent</button></div></section>
+        </details><div class="sp-export-actions"><button class="sp-button sp-primary" type="button" id="sp-export-png">PDF erstellen / drucken</button><p id="sp-export-print-help">Im Druckdialog „Als PDF sichern“ wählen. Maßstab 100 %; Kopf- und Fußzeilen des Browsers ausschalten.</p><p id="sp-export-beta-hint" hidden>Veranstalter-PDF: kostenlos mit aktivierter Pro-Beta.</p><button type="button" id="sp-print-complete" hidden>Veranstalter-PDF</button><button type="button" id="sp-share-open" hidden>Ansichtslink erstellen</button><button type="button" id="sp-print-page" hidden>PDF drucken</button></div>
         <span id="sp-preview-live" role="status" aria-live="polite" hidden></span>
       </aside>
       <main class="sp-export-preview" aria-label="Exportvorschau">
-        <div class="sp-export-preview-head"><div><span class="sp-eyebrow">LIVE-VORSCHAU</span><strong>So sieht die Ausgabe aus</strong></div><span id="sp-print-status" class="sp-print-status"></span></div>
+        <div class="sp-export-preview-head"><div><span class="sp-eyebrow">LIVE-VORSCHAU</span><strong id="sp-export-preview-title">Druckvorschau</strong></div><button type="button" id="sp-preview-zoom" class="sp-button" aria-pressed="false">Vergrößern</button><span id="sp-print-status" class="sp-print-status"></span></div>
         <div class="sp-preview-body">
           <article class="sp-paper" id="sp-export-paper">
             <header class="sp-paper-header"><div><span>STAGEPLOT</span><h2 id="sp-print-title"></h2></div><strong id="sp-print-dimensions"></strong></header>
@@ -353,6 +355,7 @@
               <section id="sp-print-routing-section" class="sp-print-paper-section sp-print-routing-section" hidden><h3>Output-Routing</h3><div id="sp-print-output-list"></div></section>
             </div>
           </article>
+          <div id="sp-report-pages" aria-label="PDF-Seiten"></div>
         </div>
         <div class="sp-preview-foot"><span class="sp-preview-caption">Papiergetreue Vorschau · lokal und offline</span></div>
       </main>
@@ -4833,12 +4836,267 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-project-settings .sp-project-dialog-actions { position:static; margin:0; }
   #sp-prototype .sp-project-dialog-actions .sp-button { flex:1 1 150px; }
 }
+/* build-inline:start stageplot-print-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Export controls and a single physical layout for screen preview and paper. */
+#sp-prototype .sp-export-wizard { grid-template-columns:300px minmax(0,1fr); }
+#sp-prototype .sp-export-controls { padding:22px 20px; }
+#sp-prototype .sp-export-controls h1 { font-size:25px; line-height:1.2; }
+#sp-prototype .sp-export-intents { grid-template-columns:repeat(3,1fr); gap:4px; background:var(--sp-soft); padding:4px; border-radius:12px; }
+#sp-prototype .sp-export-intents button { display:block; min-height:44px; padding:9px; text-align:center; background:transparent; border-color:transparent; font-size:14px; font-weight:700; }
+#sp-prototype .sp-export-intents button[aria-pressed="true"] { background:var(--sp-panel); border-color:var(--sp-line); box-shadow:0 1px 4px #0001; color:var(--sp-ink); }
+#sp-prototype .sp-export-purpose { min-height:36px; margin:14px 0; }
+#sp-prototype .sp-export-presets { display:grid; gap:8px; }
+#sp-prototype .sp-export-presets button { padding:12px; min-height:58px; text-align:left; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-panel); color:var(--sp-ink); }
+#sp-prototype .sp-export-presets button[aria-pressed="true"] { border-color:var(--sp-teal); box-shadow:inset 3px 0 var(--sp-teal); background:var(--sp-accent-bg); }
+#sp-prototype .sp-export-presets :is(strong,small) { display:block; line-height:1.4; }
+#sp-prototype .sp-export-presets strong { font-size:13px; }
+#sp-prototype .sp-export-presets small { margin-top:3px; font-size:11px; color:var(--sp-muted); }
+#sp-prototype .sp-export-choice-grid { grid-template-columns:repeat(2,1fr); }
+#sp-prototype .sp-export-control-group h2 { font-size:12px; letter-spacing:0; text-transform:none; }
+#sp-prototype .sp-export-details { margin:12px 0; }
+#sp-prototype .sp-export-details summary { min-height:44px; padding:13px 0; }
+#sp-prototype .sp-export-toggle-grid { grid-template-columns:1fr; gap:0; }
+#sp-prototype .sp-export-toggle { display:flex; align-items:center; gap:9px; min-height:38px; }
+#sp-prototype .sp-export-toggle input { position:static; opacity:1; pointer-events:auto; width:17px; height:17px; flex:0 0 17px; margin:0; accent-color:var(--sp-teal); }
+#sp-prototype .sp-export-toggle span,#sp-prototype .sp-export-toggle input:checked + span,#sp-prototype .sp-export-toggle:hover span { display:block; min-height:0; padding:0; border:0; border-radius:0; background:none; box-shadow:none; color:var(--sp-ink); text-align:left; font-size:12px; font-weight:450; }
+#sp-prototype .sp-export-actions { position:sticky; bottom:-22px; grid-template-columns:1fr; margin-top:12px; padding:14px 0 5px; background:var(--sp-panel); }
+#sp-prototype .sp-export-actions > .sp-primary { width:100%; min-height:46px; font-size:13px; }
+#sp-prototype #sp-export-print-help { margin:9px 0 4px; color:var(--sp-muted); font-size:11px; line-height:1.45; }
+#sp-prototype :is(#sp-export-presets,#sp-export-print-help,#sp-export-image-options,#sp-report-pages)[hidden] { display:none!important; }
+#sp-prototype .sp-export-preview-head .sp-print-status { font-size:11px; }
+#sp-prototype #sp-preview-zoom { flex:0 0 auto; min-height:36px; padding:6px 10px; font-size:11px; }
+#sp-prototype #sp-preview-zoom[hidden] { display:none!important; }
+#sp-prototype #sp-report-pages { width:100%; }
+#sp-prototype .sp-report-sheet { position:relative; margin:0 auto 20px; }
+#sp-prototype .sp-report-page { box-sizing:border-box; width:297mm; height:210mm; padding:10mm; display:flex; flex-direction:column; gap:4mm; transform-origin:top left; color:#202620; color-scheme:light; background:#fff; box-shadow:0 8px 30px #0002; font-family:Arial,Helvetica,sans-serif; font-size:9pt; line-height:1.45; --sp-paper:#fff; --sp-art:#343a33; --sp-muted:#626b62; --sp-line:#bfc6bc; --sp-ink:#202620; }
+#sp-prototype .sp-report-header { display:flex; flex:0 0 auto; justify-content:space-between; align-items:flex-end; gap:8mm; padding-bottom:3mm; border-bottom:.3mm solid #343a33; }
+#sp-prototype .sp-report-header > div { min-width:0; flex:1; }
+#sp-prototype .sp-report-kicker { font-size:8pt; letter-spacing:1.5px; font-weight:700; color:#626b62; }
+#sp-prototype .sp-report-header h2 { margin:1mm 0 0; font:700 17pt/1.15 Arial,Helvetica,sans-serif; overflow-wrap:anywhere; }
+#sp-prototype .sp-report-subtitle { max-width:110mm; margin:0; font-size:9pt; text-align:right; white-space:pre-line; overflow-wrap:anywhere; }
+#sp-prototype .sp-report-content { flex:1 1 auto; min-height:0; }
+#sp-prototype .sp-report-footer { display:flex; flex:0 0 auto; justify-content:space-between; gap:6mm; border-top:.2mm solid #bfc6bc; padding-top:2mm; font-size:8pt; color:#626b62; }
+#sp-prototype .sp-report-plan { height:100%; display:flex; flex-direction:column; gap:3mm; }
+#sp-prototype .sp-report-figure { flex:1 1 auto; min-height:0; }
+#sp-prototype .sp-report-figure svg { display:block; width:100%; height:100%; max-width:none; max-height:none; }
+#sp-prototype .sp-report-summary { flex:0 0 auto; padding:2mm 3mm; border-left:1mm solid #75816c; background:#f4f6f2; }
+#sp-prototype .sp-report-summary p { margin:0; font-size:9pt; }
+#sp-prototype .sp-report-section { margin:0 0 4mm; }
+#sp-prototype .sp-report-section h3 { margin:0 0 2mm; padding:0 0 1.5mm; border-bottom:.2mm solid #bfc6bc; font-size:12pt; line-height:1.25; }
+#sp-prototype .sp-report-section p { margin:0 0 2mm; white-space:pre-wrap; overflow-wrap:anywhere; }
+#sp-prototype .sp-report-section dl { display:grid; grid-template-columns:38mm 1fr; gap:1mm 4mm; margin:0 0 3mm; }
+#sp-prototype .sp-report-section dd { margin:0; overflow-wrap:anywhere; }
+#sp-prototype .sp-report-section dt { color:#626b62; }
+#sp-prototype .sp-report-project { display:grid; grid-template-columns:1fr 1fr; gap:8mm; }
+#sp-prototype .sp-report-section table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:9pt; line-height:1.35; }
+#sp-prototype .sp-report-section :is(th,td) { padding:1mm 2mm; text-align:left; vertical-align:top; border-bottom:.2mm solid #d9ded5; overflow-wrap:anywhere; white-space:normal; }
+#sp-prototype .sp-report-section th { background:#edf0e9; color:#374030; font-size:8pt; font-weight:700; letter-spacing:.2px; }
+#sp-prototype .sp-report-section tbody tr:nth-child(even) { background:#f8f9f6; }
+#sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(1) { width:5%; }
+#sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(2) { width:25%; }
+#sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(3) { width:22%; }
+#sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(4) { width:18%; }
+#sp-prototype .sp-report-section .sp-report-legend th:first-child { width:28%; }
+@media screen {
+  #sp-prototype[data-preview-kind="pdf"] #sp-export-paper { position:fixed; left:-20000px; top:0; width:1047px; padding:0; min-height:0; visibility:hidden; pointer-events:none; }
+  #sp-prototype[data-preview-kind="pdf"] #sp-print-floor { width:1047px; height:610px; min-height:0; }
+  #sp-prototype[data-preview-kind="pdf"] #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
+  #sp-prototype[data-preview-kind="image"] #sp-print-floor { height:auto; aspect-ratio:1047/610; min-height:0; }
+}
+@container sp-frame (max-width:760px) {
+  #sp-prototype .sp-export-controls { padding:16px; }
+  #sp-prototype .sp-export-controls header { padding-bottom:8px; }
+  #sp-prototype .sp-export-controls h1 { font-size:21px; }
+  #sp-prototype .sp-export-presets { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #sp-prototype .sp-export-actions { position:static; }
+  #sp-prototype .sp-export-preview { min-height:0; flex:0 0 auto; }
+  #sp-prototype .sp-export-preview .sp-preview-body { overflow:auto; }
+}
+@media print {
+  @page { size:A4 landscape; margin:0; }
+  html,body { margin:0!important; padding:0!important; height:auto!important; overflow:visible!important; background:#fff!important; }
+  #sp-frame,#sp-prototype { height:auto!important; max-height:none!important; overflow:visible!important; container-type:normal!important; }
+  #sp-prototype #sp-print { display:block!important; }
+  #sp-prototype #sp-document-print { display:none!important; }
+  #sp-prototype .sp-export-preview #sp-export-paper { display:block!important; position:fixed!important; left:-20000px!important; top:0!important; width:1047px!important; padding:0!important; visibility:hidden!important; }
+  #sp-prototype .sp-export-preview #sp-print-floor { width:1047px!important; height:610px!important; min-height:0!important; }
+  #sp-prototype #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none!important; }
+  #sp-prototype .sp-export-preview,#sp-prototype .sp-preview-body { height:auto!important; max-height:none!important; overflow:visible!important; }
+  #sp-prototype #sp-report-pages { display:block!important; }
+  #sp-prototype .sp-report-sheet { width:297mm!important; height:210mm!important; margin:0!important; break-after:page; }
+  #sp-prototype .sp-report-sheet:last-child { break-after:auto; }
+  #sp-prototype .sp-report-page { transform:none!important; box-shadow:none!important; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+}
+/* build-inline:end stageplot-print-v1.css */
+
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
 <script src="./stageplot-cloud-config.js"></script>
 <script src="./stageplot-sync-v2.js"></script>
 <script src="./stageplot-inventory-v1.js"></script>
+<script>
+/* build-inline:start stageplot-print-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Physical A4 pages shared by the preview and browser print output. */
+const StageplotPrint = (() => {
+  const element = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  };
+
+  function render(host, report) {
+    host.replaceChildren();
+    const pages = [];
+    function page(label) {
+      const sheet = element('div', 'sp-report-sheet');
+      const paper = element('article', 'sp-report-page');
+      const header = element('header', 'sp-report-header');
+      const heading = element('div');
+      heading.append(element('span', 'sp-report-kicker', label), element('h2', '', report.title));
+      header.append(heading, element('p', 'sp-report-subtitle', report.subtitle));
+      const content = element('div', 'sp-report-content');
+      const footer = element('footer', 'sp-report-footer');
+      footer.append(element('span', '', 'Projekt-ID · ' + report.id), element('span', 'sp-report-page-number'));
+      paper.append(header, content, footer);
+      sheet.append(paper);
+      host.append(sheet);
+      pages.push(paper);
+      return content;
+    }
+
+    const plan = page('BÜHNENPLAN');
+    const layout = element('div', 'sp-report-plan');
+    const figure = element('div', 'sp-report-figure');
+    const svg = report.svg.cloneNode(true);
+    // Keep local clip paths, hatches and gradients independent of the source SVG.
+    const ids = new Map([...svg.querySelectorAll('[id]')].map(node => [node.id, node.id + '-report']));
+    for (const node of [svg, ...svg.querySelectorAll('*')]) {
+      if (ids.has(node.id)) node.id = ids.get(node.id);
+      for (const attr of [...node.attributes]) {
+        let value = attr.value.replace(/url\(#([^)]*)\)/g, (match, id) => ids.has(id) ? 'url(#' + ids.get(id) + ')' : match);
+        if (attr.name === 'href' && ids.has(value.slice(1))) value = '#' + ids.get(value.slice(1));
+        if (value !== attr.value) node.setAttribute(attr.name, value);
+      }
+    }
+    figure.append(svg);
+    layout.append(figure);
+    if (report.summary.length) {
+      const summary = element('div', 'sp-report-summary');
+      report.summary.forEach(line => summary.append(element('p', '', line)));
+      layout.append(summary);
+    }
+    plan.append(layout);
+
+    let content = null;
+    const fits = () => content.scrollHeight <= content.clientHeight + 1;
+    function newContent() { content = page('TECHNIK & KANÄLE'); }
+    function section(title, continued = false) {
+      const node = element('section', 'sp-report-section');
+      node.append(element('h3', '', title + (continued ? ' · Fortsetzung' : '')));
+      content.append(node);
+      return node;
+    }
+    for (const source of report.sections) {
+      const template = element('div');
+      template.innerHTML = source.html;
+      if (!template.textContent.trim()) continue;
+      if (!content) newContent();
+      let block = section(source.title);
+      const table = template.querySelector('table');
+      if (table) {
+        // Keep a short table together when it would otherwise leave a few rows alone.
+        const probe = table.cloneNode(true);
+        block.append(probe);
+        const moveTogether = !fits() && block.offsetHeight < content.clientHeight * .65 && content.children.length > 1;
+        probe.remove();
+        if (moveTogether) { block.remove(); newContent(); block = section(source.title); }
+        function tableShell() {
+          const copy = table.cloneNode(true);
+          copy.querySelector('tbody').replaceChildren();
+          block.append(copy);
+          return copy.querySelector('tbody');
+        }
+        let body = tableShell();
+        for (const row of [...table.querySelectorAll('tbody > tr')]) {
+          body.append(row);
+          if (!fits()) {
+            row.remove();
+            const continued = body.children.length > 0;
+            if (!continued) block.remove();
+            newContent();
+            block = section(source.title, continued);
+            body = tableShell();
+            body.append(row);
+          }
+        }
+      } else {
+        for (const child of [...template.children]) {
+          block.append(child);
+          if (fits()) continue;
+          child.remove();
+          const continued = block.children.length > 1;
+          if (!continued) block.remove();
+          newContent();
+          block = section(source.title, continued);
+          block.append(child);
+          // A long unbroken note is divided at word boundaries, never clipped.
+          if (!fits() && child.tagName === 'P') {
+            let remaining = child.textContent;
+            child.remove();
+            while (remaining) {
+              const part = element('p', '', remaining);
+              block.append(part);
+              if (fits()) break;
+              let low = 1, high = remaining.length;
+              while (low < high) {
+                const middle = Math.ceil((low + high) / 2);
+                part.textContent = remaining.slice(0, middle);
+                if (fits()) low = middle; else high = middle - 1;
+              }
+              const space = remaining.lastIndexOf(' ', low);
+              const cut = space > low / 2 ? space : low;
+              part.textContent = remaining.slice(0, cut);
+              remaining = remaining.slice(cut).trimStart();
+              newContent();
+              block = section(source.title, true);
+            }
+          }
+        }
+      }
+    }
+    // An oversized first note can move to its own page before being split.
+    for (let i = pages.length - 1; i > 0; i--) {
+      if (!pages[i].querySelector('.sp-report-content').textContent.trim()) {
+        pages[i].parentElement.remove();
+        pages.splice(i, 1);
+      }
+    }
+    pages.forEach((paper, index) => {
+      paper.setAttribute('aria-label', 'Seite ' + (index + 1) + ' von ' + pages.length);
+      paper.querySelector('.sp-report-page-number').textContent = (index + 1) + ' / ' + pages.length;
+    });
+    fit(host);
+    return pages.length;
+  }
+
+  function fit(host) {
+    const width = host.clientWidth;
+    if (!width) return;
+    for (const sheet of host.children) {
+      const paper = sheet.firstElementChild;
+      const scale = host.dataset.zoom === 'actual' ? 1 : Math.min(1, width / paper.offsetWidth);
+      sheet.style.width = paper.offsetWidth * scale + 'px';
+      sheet.style.height = paper.offsetHeight * scale + 'px';
+      paper.style.transform = 'scale(' + scale + ')';
+    }
+  }
+  return { render, fit };
+})();
+/* build-inline:end stageplot-print-v1.js */
+
+</script>
 <script>
 /* build-inline:start stageplot-assets/vendor/polygon-clipping.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 !function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(t="undefined"!=typeof globalThis?globalThis:t||self).polygonClipping=e()}(this,(function(){"use strict";
@@ -7756,7 +8014,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-stage-surface-toggle').setAttribute('aria-pressed',String(black));
     $('sp-stage-surface-toggle').setAttribute('aria-label',black?'Bühne hell darstellen':'Bühne schwarz darstellen');
     $('sp-stage-surface-toggle').dataset.tooltip=black?'Bühne hell':'Bühne schwarz';
-    $('sp-print-black-stage').checked=black;
+    if(view!=='print')$('sp-print-black-stage').checked=black;
     $('sp-setting-labels').checked=labels;
     $('sp-setting-black-stage').checked=black;
   }
@@ -7812,7 +8070,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(W<80||!s) return;
     renderedWidths.set(host.id,W);
     const left=W<340?31:40,right=23,coarse=window.matchMedia('(pointer: coarse)').matches;
-    const technicalLines=productionLines(s).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
+    const technicalLines=(mode==='print'&&$('sp-export-format').value==='pdf'?[]:productionLines(s)).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
     const editorFooter=mode==='editor'?56:0;
     const header=43,bottom=(mode==='editor'?36:47)+technicalHeight+editorFooter;
     const area=mode==='editor'?editorWorkspaceBounds(s,list):workspaceBounds(s,list);
@@ -7820,7 +8078,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const fit=fitFloor(W,height,area,left,right,header,bottom,mode==='print'?'start':'center'),H=fixed?fixed.H:fit.H;
     const {scale,mx,top}=fixed?fixed:(mode==='editor'?floorView(fit,W,H,camera):fit);
     renderedHeights.set(host.id,H);
-    const blackStage=s.surface==='black',transparentPreview=mode==='print'&&$('sp-export-format').value!=='pdf'&&$('sp-export-background').value==='transparent',showPrintMeasures=mode!=='print'||$('sp-print-measures').checked,showPrintOuts=mode==='print'?$('sp-print-outs').checked:showOutsGlobal;
+    const blackStage=mode==='print'?$('sp-print-black-stage').checked:s.surface==='black',transparentPreview=mode==='print'&&$('sp-export-format').value!=='pdf'&&$('sp-export-background').value==='transparent',showPrintMeasures=mode!=='print'||$('sp-print-measures').checked,showPrintOuts=mode==='print'?$('sp-print-outs').checked:showOutsGlobal;
     const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,width:W,height:H,class:'sp-floor',role:'img','data-stage-surface':blackStage?'black':'light','aria-label':'Bühnenplan: '+num(s.w)+' mal '+metres(s.d)+', '+(blackStage?'schwarze Bühne, ':'')+'2 mal 1 Meter Module, Publikum unten'});
     sEl('title',{},svg,'Bühne in Draufsicht mit Upstage, Downstage, Stage Left und Stage Right');
     host.replaceChildren(svg);
@@ -7842,7 +8100,8 @@ function createStageplotSymbolV3(type, options = {}) {
       sEl('text',{x:mx+rectW/2,y:11,'text-anchor':'middle',class:'sp-dimension','data-dim-width':'true'},svg,metres(s.w));
     }
     sEl('text',{x:mx+rectW*(s.stairs==='back'?.25:.5),y:36,'text-anchor':'middle',class:'sp-orientation'},svg,'UPSTAGE · HINTEN');
-    if(showPrintMeasures)sEl('text',{x:13,y:top+rectH/2,'text-anchor':'middle',class:'sp-dimension','data-dim-depth':'true',transform:'rotate(-90 13 '+(top+rectH/2)+')'},svg,metres(s.d));
+    const depthX=mode==='print'?Math.max(13,mx-22):13;
+    if(showPrintMeasures)sEl('text',{x:depthX,y:top+rectH/2,'text-anchor':'middle',class:'sp-dimension','data-dim-depth':'true',transform:'rotate(-90 '+depthX+' '+(top+rectH/2)+')'},svg,metres(s.d));
     const stageFill=blackStage?'#20211f':'var(--sp-paper)',moduleStroke=blackStage?'#666862':'#c8cbc5';
     if(venue)sEl('path',{d:venuePath,fill:stageFill,'fill-rule':'evenodd','data-stage-deck':'true'},svg);
     else sEl('rect',{x:mx,y:top,width:rectW,height:rectH,fill:stageFill,'data-stage-deck':'true'},svg);
@@ -9243,7 +9502,6 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage)return;
     refreshExportAction();
     syncRoutingFromStage(false,false);
-    syncAppearanceControls();
     const pdf=$('sp-export-format').value==='pdf',transparent=!pdf&&$('sp-export-background').value==='transparent';
     root.dataset.previewBackground=transparent?'transparent':'white';
     sizePrintWorkspace();updateProjectHeading();
@@ -9255,7 +9513,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(objects.some(o=>iemOverlap(o,stage)))warnings.push('IEM-Stellfläche prüfen');
     $('sp-print-status').textContent=warnings.join(' · ');
     drawFloor($('sp-print-floor'),stage,objects,'print');
-    if(!pdf&&exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);}}
+    if(exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);}}
 
     const legendOn=$('sp-print-legend-toggle').checked,notesOn=$('sp-print-notes').checked,inputsOn=$('sp-print-inputs').checked,outputsOn=$('sp-print-routing').checked;
     $('sp-print-legend-section').hidden=!legendOn;$('sp-print-notes-section').hidden=!notesOn;$('sp-print-inputs-section').hidden=!inputsOn;$('sp-print-routing-section').hidden=!outputsOn;
@@ -9264,6 +9522,8 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-print-legend').innerHTML=objects.length?objects.map(o=>'<div class="sp-legend-row"><strong>'+esc(o.label||byId[o.type].name)+'</strong>'+(objectDetail(o)?'<small>'+esc(objectDetail(o))+'</small>':'')+(outsText(o)&&$('sp-print-outs').checked?'<small>'+esc(outsText(o))+'</small>':'')+objectProductionLines(o).map(line=>'<small>'+esc(line)+'</small>').join('')+(o.note?'<small>'+esc(o.note)+'</small>':'')+'</div>').join(''):'<span class="sp-muted">Noch keine Bausteine.</span>';
     const notes=[normalizeProjectInfo(stage.project,stage.title).notes.trim(),stage.geometry?.notes,...(stage.geometry?.parts||[]).filter(p=>p.note).map(p=>p.name+': '+p.note)].filter(Boolean).join('\n\n');$('sp-print-notes-copy').textContent=notes||'Keine Projektnotizen hinterlegt.';
     $('sp-print-input-list').innerHTML=printRoutingPreview('inputs');$('sp-print-output-list').innerHTML=printRoutingPreview('outputs');
+    $('sp-report-pages').hidden=!pdf;
+    if(pdf)renderPrintPages(notes);
   }
   function sizePrintWorkspace(){
     const documentTop=root.getBoundingClientRect().top+window.scrollY;
@@ -9275,36 +9535,67 @@ function createStageplotSymbolV3(type, options = {}) {
     root.querySelectorAll('[data-export-format]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.exportFormat===format)));
     $('sp-export-background-group').hidden=format==='pdf';refreshExportAction();renderPrint();
   }
-  let exportIntent='image';
+  let exportIntent='technical';
+  function technicalExportNeedsPro(){
+    return ['sp-print-production','sp-print-legend-toggle','sp-print-notes'].some(id=>$(id).checked);
+  }
   function refreshExportAction(){
-    const format=$('sp-export-format').value;
-    root.dataset.previewKind=exportIntent==='share'?'share':format==='pdf'?'pdf':'image';$('sp-export-paper-options').hidden=format!=='pdf';
-    root.querySelector('.sp-preview-caption').textContent=exportIntent==='share'?'Ansicht des geteilten Bühnenplans':format==='pdf'?'PDF-Vorschau · Seitenumbrüche entstehen beim Drucken':'Bildvorschau · passend zugeschnitten · lokal und offline';
-    $('sp-export-png').textContent=exportIntent==='share'?'Ansichtslink erstellen':exportIntent==='technical'?'Veranstalter-PDF erstellen':format==='pdf'?'Bühnenplan als PDF erstellen':format==='png-4k'?'4K-Bild herunterladen':'Bild herunterladen';
-    $('sp-export-beta-hint').hidden=exportIntent!=='technical'||accountPlan==='pro';
+    const format=$('sp-export-format').value,pdf=format==='pdf',share=exportIntent==='share';
+    root.dataset.previewKind=share?'share':pdf?'pdf':'image';
+    $('sp-export-paper-options').hidden=!pdf;$('sp-export-presets').hidden=!pdf||share;
+    $('sp-export-image-options').hidden=pdf||share;$('sp-export-background-group').hidden=pdf||share;
+    $('sp-export-details').hidden=share;$('sp-export-print-help').hidden=!pdf||share;$('sp-preview-zoom').hidden=!pdf||share;
+    root.querySelector('.sp-preview-caption').textContent=share?'Schreibgeschützte Momentaufnahme · inklusive Projektdaten':pdf?'A4 quer · Seiten entsprechen der Druckausgabe bei 100 %':'PNG · passend zugeschnitten · lokal und offline';
+    $('sp-export-preview-title').textContent=share?'Geteilter Bühnenplan':pdf?'Druckvorschau':'Bildvorschau';
+    $('sp-export-png').textContent=share?'Ansichtslink erstellen':pdf?'PDF erstellen / drucken':format==='png-4k'?'4K-Bild herunterladen':'Bild herunterladen';
+    $('sp-export-beta-hint').hidden=!pdf||!technicalExportNeedsPro()||accountPlan==='pro';
+    const selections=['sp-print-legend-toggle','sp-print-notes','sp-print-inputs','sp-print-routing','sp-print-production'].map(id=>$(id).checked);
+    root.querySelectorAll('[data-pdf-preset]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pdfPreset==='plan'?selections.every(on=>!on):selections.every(Boolean))));
   }
   function setExportIntent(intent){
-    exportIntent=['image','technical','share'].includes(intent)?intent:'image';root.dataset.exportIntent=exportIntent;
+    exportIntent=['image','technical','share'].includes(intent)?intent:'technical';root.dataset.exportIntent=exportIntent;
     root.querySelectorAll('[data-export-intent]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.exportIntent===exportIntent)));
-    const technical=exportIntent==='technical';
-    for(const id of ['sp-print-labels','sp-print-outs','sp-print-cables','sp-print-measures'])$(id).checked=true;
-    for(const id of ['sp-print-legend-toggle','sp-print-notes','sp-print-inputs','sp-print-routing','sp-print-production'])$(id).checked=technical;
-    $('sp-export-details').hidden=exportIntent==='share';$('sp-export-format').closest('section').hidden=technical;$('sp-export-purpose').textContent=technical?'Ein PDF mit Bühnenplan, Projektdaten und technischen Anforderungen. Die Inhalte kannst du unten anpassen.':exportIntent==='share'?'Schreibgeschützte Momentaufnahme des Projekts. Für spätere Änderungen erstellst du einen neuen Link.':'Ein Bild des Bühnenplans, passend zugeschnitten. Format und Beschriftungen kannst du unten anpassen.';
-    setExportFormat(technical?'pdf':'png-normal');
+    $('sp-export-purpose').textContent=exportIntent==='technical'?'Druckfertiges PDF im A4-Querformat.':exportIntent==='share'?'Ein Link zum Ansehen, inklusive Kontaktdaten. Für spätere Änderungen erstellst du einen neuen Link.':'Ein zugeschnittenes Bild für Nachrichten oder Präsentationen.';
+    setExportFormat(exportIntent==='technical'?'pdf':'png-normal');
+  }
+  function setPdfPreset(preset){
+    for(const id of ['sp-print-legend-toggle','sp-print-notes','sp-print-inputs','sp-print-routing','sp-print-production'])$(id).checked=preset==='full';
+    renderPrint();
+  }
+  function renderPrintPages(notes){
+    const p=normalizeProjectInfo(stage.project,stage.title),sections=[];
+    if($('sp-print-production').checked&&([p.artist,p.venue,p.date,p.author,p.tour,p.company].some(Boolean)||Object.values(p.contacts||{}).some(c=>c.name||c.contact)))sections.push({title:'Projektdaten & Kontakte',html:'<div class="sp-report-project">'+projectPrintMarkup()+'</div>'});
+    if($('sp-print-legend-toggle').checked&&objects.length){
+      const rows=objects.map(o=>'<tr><td><strong>'+esc(o.label||byId[o.type].name)+'</strong></td><td>'+[objectDetail(o),$('sp-print-outs').checked?outsText(o):'',...objectProductionLines(o),o.note].filter(Boolean).map(esc).join(' · ')+'</td></tr>').join('');
+      sections.push({title:'Equipment & Anforderungen',html:'<table class="sp-report-legend"><thead><tr><th>Element</th><th>Details</th></tr></thead><tbody>'+rows+'</tbody></table>'});
+    }
+    if($('sp-print-notes').checked&&notes)sections.push({title:'Notizen',html:notes.split(/\n\s*\n/).filter(Boolean).map(note=>'<p>'+esc(note)+'</p>').join('')});
+    for(const [id,direction,title] of [['sp-print-inputs','inputs','Input-Liste'],['sp-print-routing','outputs','Output-Routing']])if($(id).checked&&stage.routing[direction].length)sections.push({title:title+' · '+stage.routing[direction].length+' Kanäle',html:printRoutingPreview(direction)});
+    const svg=$('sp-print-floor').querySelector('svg');if(!svg)return;
+    const date=p.date?p.date.split('-').reverse().join('.'):'',subtitle=[[p.artist,p.venue].filter(Boolean).join(' · '),[date,$('sp-print-measures').checked?$('sp-print-dimensions').textContent:''].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
+    const pages=StageplotPrint.render($('sp-report-pages'),{title:stage.title,subtitle,id:projectIdentity(stage.projectId),svg,summary:productionLines(stage),sections});
+    $('sp-export-preview-title').textContent=pages+' '+(pages===1?'Seite':'Seiten')+' · A4 quer';
   }
   function projectPrintMarkup(){
-    const p=normalizeProjectInfo(stage.project,stage.title),m=projectMeasurements(stage,objects),fields=[['Projekt-ID',projectIdentity(stage.projectId)],['Datum',p.date],['Band / Act',p.artist],['Location',p.venue],['Autor',p.author],['Tour',p.tour],['Produktionsfirma',p.company],['Bühnenfläche',num(m.width)+' × '+metres(m.depth)]];
+    const p=normalizeProjectInfo(stage.project,stage.title),m=projectMeasurements(stage,objects),fields=[['Projekt-ID',projectIdentity(stage.projectId)],['Datum',p.date.split('-').reverse().join('.')],['Band / Act',p.artist],['Location',p.venue],['Autor',p.author],['Tour',p.tour],['Produktionsfirma',p.company],['Bühnenfläche',num(m.width)+' × '+metres(m.depth)]];
     if(Math.abs(m.totalWidth-m.width)>.005||Math.abs(m.totalDepth-m.depth)>.005)fields.push(['Gesamt inkl. Anbauten',num(m.totalWidth)+' × '+metres(m.totalDepth)]);
     const contacts=Object.entries(p.contacts).filter(([,c])=>c.name||c.contact),labels={stageManager:'Stage Manager',foh:'FOH',monitor:'Monitor',advance:'Advance'},requirements=productionLines(stage);
-    return '<dl class="sp-print-project-fields">'+fields.filter(([,value])=>value).map(([label,value])=>'<dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd>').join('')+'</dl><div>'+(contacts.length?'<strong>Technische Kontakte</strong>'+contacts.map(([key,c])=>'<p>'+esc(labels[key]+': '+[c.name,c.contact].filter(Boolean).join(' · '))+'</p>').join(''):'')+'<strong>Technische Anforderungen</strong><p>'+esc(requirements.join('\n')||'Noch keine technischen Anforderungen hinterlegt.')+'</p></div>';
+    return '<dl class="sp-print-project-fields">'+fields.filter(([,value])=>value).map(([label,value])=>'<dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd>').join('')+'</dl><div>'+(contacts.length?'<strong>Technische Kontakte</strong>'+contacts.map(([key,c])=>'<p>'+esc(labels[key]+': '+[c.name,c.contact].filter(Boolean).join(' · '))+'</p>').join(''):'')+(requirements.length?'<strong>Technische Anforderungen</strong><p>'+esc(requirements.join('\n'))+'</p>':'')+'</div>';
   }
   function runExportIntent(){
     if(!flushProjectForm(true))return;
     if(exportIntent==='share'){openShareDialog();return;}
-    if(exportIntent==='technical'&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}
+    if($('sp-export-format').value==='pdf'&&technicalExportNeedsPro()&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}
     if(exportIntent==='technical'||$('sp-export-format').value==='pdf')printReport('stage');else exportPng();
   }
   root.querySelector('.sp-export-intents').addEventListener('click',event=>{const button=event.target.closest('[data-export-intent]');if(button)setExportIntent(button.dataset.exportIntent);});
+  $('sp-preview-zoom').addEventListener('click',()=>{
+    const host=$('sp-report-pages'),actual=host.dataset.zoom!=='actual';host.dataset.zoom=actual?'actual':'fit';
+    $('sp-preview-zoom').setAttribute('aria-pressed',String(actual));$('sp-preview-zoom').textContent=actual?'Einpassen':'Vergrößern';
+    StageplotPrint.fit(host);
+    const viewport=root.querySelector('.sp-preview-body');viewport.scrollLeft=actual?(viewport.scrollWidth-viewport.clientWidth)/2:0;
+  });
+  $('sp-export-presets').addEventListener('click',event=>{const button=event.target.closest('[data-pdf-preset]');if(button)setPdfPreset(button.dataset.pdfPreset);});
   root.querySelector('.sp-export-choice-grid').addEventListener('click',event=>{const button=event.target.closest('[data-export-format]');if(button)setExportFormat(button.dataset.exportFormat);});
   root.querySelector('.sp-export-background-pills').addEventListener('click',event=>{const button=event.target.closest('[data-export-background]');if(!button)return;$('sp-export-background').value=button.dataset.exportBackground;root.querySelectorAll('[data-export-background]').forEach(choice=>choice.setAttribute('aria-pressed',String(choice===button)));renderPrint();});
   ['sp-print-outs','sp-print-cables','sp-print-measures','sp-print-legend-toggle','sp-print-inputs','sp-print-routing'].forEach(id=>$(id).addEventListener('change',renderPrint));
@@ -9317,7 +9608,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function exportArtworkBounds(svg,padding=4){
     const view=svg.viewBox.baseVal,boxes=[];
-    for(const node of svg.children){if(['defs','title'].includes(node.tagName.toLowerCase())||node.matches('[data-canvas-background]'))continue;try{const box=node.getBBox();if(box.width||box.height)boxes.push(box);}catch(error){}}
+    for(const node of svg.children){if(['defs','title'].includes(node.tagName.toLowerCase())||node.matches('[data-canvas-background]'))continue;try{const box=node.getBBox(),matrix=node.transform.baseVal.consolidate()?.matrix;if(box.width||box.height){if(matrix){const points=[[box.x,box.y],[box.x+box.width,box.y],[box.x,box.y+box.height],[box.x+box.width,box.y+box.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix)),xs=points.map(p=>p.x),ys=points.map(p=>p.y);boxes.push({x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)});}else boxes.push(box);}}catch(error){}}
     if(!boxes.length)return null;const left=Math.max(view.x,Math.min(...boxes.map(box=>box.x))-padding),top=Math.max(view.y,Math.min(...boxes.map(box=>box.y))-padding),right=Math.min(view.x+view.width,Math.max(...boxes.map(box=>box.x+box.width))+padding),bottom=Math.min(view.y+view.height,Math.max(...boxes.map(box=>box.y+box.height))+padding);
     return {x:left,y:top,width:Math.max(1,right-left),height:Math.max(1,bottom-top)};
   }
@@ -9408,8 +9699,25 @@ function createStageplotSymbolV3(type, options = {}) {
     const contacts=[['Stage Manager',p.contacts.stageManager],['FOH Engineer',p.contacts.foh],['Monitor Engineer',p.contacts.monitor],['Technical / Advance',p.contacts.advance]].filter(([,entry])=>entry.name||entry.contact);$('sp-document-contacts').innerHTML=contacts.length?'<h2>Technische Kontakte</h2><div class="sp-document-grid">'+contacts.map(([label,entry])=>'<div class="sp-document-field"><span>'+label+'</span><strong>'+esc(entry.name||'—')+'</strong><div>'+esc(entry.contact||'')+'</div></div>').join('')+'</div>':'';$('sp-document-notes').innerHTML=(productionLines(stage).length?'<h2>Technische Anforderungen</h2><p>'+productionLines(stage).map(esc).join('<br>')+'</p>':'')+(p.notes?'<h2>Notes</h2><p>'+esc(p.notes).replaceAll('\n','<br>')+'</p>':'');$('sp-document-print').hidden=false;
   }
   function printReport(mode){
-    if(mode==='complete'&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}root.dataset.printDocument=mode;if(mode==='stage')renderPrint();else renderTechnicalDocument(mode);try{window.print();}finally{setTimeout(()=>{delete root.dataset.printDocument;$('sp-document-print').hidden=true;},0);}
+    if(mode==='complete'&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}
+    if(mode!=='stage'){show('print');setExportIntent('technical');setPdfPreset(mode==='complete'?'full':'plan');if(mode==='routing'){$('sp-print-inputs').checked=true;$('sp-print-routing').checked=true;}}
+    $('sp-export-format').value='pdf';renderPrint();
+    root.dataset.printDocument='stage';
+    try{window.print();}finally{delete root.dataset.printDocument;}
   }
+  let formatBeforePrint=null,titleBeforePrint=null;
+  window.addEventListener('beforeprint',()=>{
+    if(!stage)return;
+    formatBeforePrint=$('sp-export-format').value;
+    titleBeforePrint=document.title;document.title=stage.title+' - Stageplot';
+    $('sp-export-format').value='pdf';
+    renderPrint();
+  });
+  window.addEventListener('afterprint',()=>{
+    if(titleBeforePrint!==null){document.title=titleBeforePrint;titleBeforePrint=null;}
+    if(formatBeforePrint!==null){$('sp-export-format').value=formatBeforePrint;formatBeforePrint=null;}
+    if(view==='print')requestAnimationFrame(renderPrint);
+  });
   function encodeShareDocument(document){
     const json=JSON.stringify({kind:'stageplot-readonly',version:document.stage?.geometry?2:1,document:normalizeSetupDocument(document)}),bytes=new TextEncoder().encode(json);if(bytes.length>90000)throw new Error('Das Projekt ist für einen Link zu umfangreich. Bitte die Projektdatei exportieren.');let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(binary).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
   }
@@ -9425,7 +9733,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-share-preview').addEventListener('click',()=>{const link=$('sp-share-link').value;if(link)window.open(link,'_blank','noopener');});
   $('sp-print-page').addEventListener('click',()=>printReport('stage'));
   $('sp-print-complete').addEventListener('click',()=>printReport('complete'));
-  $('sp-routing-pdf').addEventListener('click',()=>printReport('routing'));
+  $('sp-routing-pdf').addEventListener('click',()=>{show('print');setExportIntent('technical');setPdfPreset('plan');$('sp-print-inputs').checked=true;$('sp-print-routing').checked=true;renderPrint();});
   $('sp-routing-csv').addEventListener('click',exportRoutingCsv);
   $('sp-routing-xlsx').addEventListener('click',exportRoutingXlsx);
   $('sp-routing-csv-import').addEventListener('click',()=>$('sp-routing-csv-file').click());
@@ -10497,7 +10805,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-stage-surface-toggle').addEventListener('click',()=>setStageSurface($('sp-stage-surface-toggle').getAttribute('aria-pressed')!=='true'));
   $('sp-outs-global-toggle').addEventListener('click',()=>{showOutsGlobal=!showOutsGlobal;$('sp-outs-global-toggle').setAttribute('aria-pressed',String(showOutsGlobal));renderEditor();say(showOutsGlobal?'Outs am Symbol eingeblendet':'Outs am Symbol ausgeblendet');});
   $('sp-cable-view-toggle').addEventListener('click',()=>{if(cableDrag)cancelCableDrag();if(cableById(selected))selected=null;cableViewEnabled=!cableViewEnabled;persistCableViewPreference();syncViewControls();renderEditor();say(cableViewEnabled?'Verkabelung eingeblendet · Kabel und Anschlussbuchsen sind aktiv':'Verkabelung ausgeblendet · der Bühnenaufbau bleibt unverändert');});
-  $('sp-print-black-stage').addEventListener('change',()=>setStageSurface($('sp-print-black-stage').checked));
+  $('sp-print-black-stage').addEventListener('change',renderPrint);
   $('sp-print-notes').addEventListener('change',renderPrint);
   $('sp-print-production').addEventListener('change',renderPrint);
   ['sp-label','sp-note','sp-outs'].forEach(id=>{

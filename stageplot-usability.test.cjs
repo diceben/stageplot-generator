@@ -46,13 +46,14 @@ failed.$('sp-project-name').value='Speichertest';failed.$('sp-project-unit').val
 const originalId=failed.stage.projectId;failed.localStorage.setItem=()=>{throw new Error('Speicher voll');};failed.queueProjectFormSave();assert.equal(failed.flushProjectForm(),false);assert.equal(failed.draftState,'error');assert.equal(failed.stage.projectId,originalId);assert.equal(failed.duplicateCurrentProject(),false);
 const exp=environment();exp.exportIntent='image';exp.root={dataset:{},querySelector:()=>exp.$('caption'),querySelectorAll:()=>[]};exp.renderPrint=()=>exp.rendered=true;
 exp.printReport=mode=>exp.printed=mode;exp.exportPng=()=>exp.png=true;exp.openShareDialog=()=>exp.shared=true;
-vm.runInContext(['refreshExportAction','setExportFormat','setExportIntent','runExportIntent'].map(extract).join('\n'),exp);
+vm.runInContext(['technicalExportNeedsPro','refreshExportAction','setExportFormat','setExportIntent','setPdfPreset','runExportIntent'].map(extract).join('\n'),exp);
 exp.setExportIntent('technical');assert.equal(exp.$('sp-export-format').value,'pdf');
+exp.setPdfPreset('full');
 for(const id of ['sp-print-production','sp-print-notes','sp-print-inputs','sp-print-routing'])assert(exp.$(id).checked,id);
 assert.equal(exp.$('sp-export-paper-options').hidden,false);exp.accountPlan='free';exp.runExportIntent();assert(exp.$('sp-upgrade-dialog').open);assert.equal(exp.printed,undefined);
 exp.accountPlan='pro';exp.runExportIntent();assert.equal(exp.printed,'stage','Veranstalter-PDF druckt die angezeigte Vorschau.');
-exp.setExportIntent('image');assert.equal(exp.$('sp-print-production').checked,false);assert.equal(exp.$('sp-export-paper-options').hidden,true);exp.runExportIntent();assert(exp.png);
-exp.setExportFormat('pdf');assert.equal(exp.$('sp-export-paper-options').hidden,false);assert.equal(exp.root.dataset.previewKind,'pdf');
+exp.setExportIntent('image');assert.equal(exp.$('sp-print-production').checked,true,'PDF-Inhalte bleiben beim Wechsel zu Bild erhalten.');assert.equal(exp.$('sp-export-paper-options').hidden,true);exp.runExportIntent();assert(exp.png);
+exp.setPdfPreset('plan');exp.setExportFormat('pdf');assert.equal(exp.$('sp-export-paper-options').hidden,false);assert.equal(exp.root.dataset.previewKind,'pdf');
 exp.setExportIntent('share');assert(exp.$('sp-export-details').hidden);exp.runExportIntent();assert(exp.shared);
 exp.flushProjectForm=()=>false;exp.shared=false;exp.runExportIntent();assert.equal(exp.shared,false);
 exp.stage={routing:{inputs:[{number:1,instrument:'Gesang',mode:'Mono',signalType:'Mic',connector:'XLR',phantom:true,notes:'Kabel stellt Location'}]}};
