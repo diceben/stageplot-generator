@@ -19,7 +19,8 @@ for(const id of [
   'sp-print-legend-section','sp-print-notes-section','sp-print-inputs-section','sp-print-routing-section'
 ])assert.ok(html.includes(`id="${id}"`),id+' fehlt im Export-Wizard.');
 
-for(const format of ['png-normal','png-4k','pdf'])assert.ok(html.includes(`data-export-format="${format}"`),format+' fehlt als direkte Ausgabe-Pill.');
+for(const format of ['png-normal','png-4k'])assert.ok(html.includes(`data-export-format="${format}"`),format+' fehlt als direkte Ausgabe-Pill.');
+assert.ok(html.includes('data-export-intent="technical"'), 'PDF ist direkt wählbar.');
 for(const background of ['white','transparent'])assert.ok(html.includes(`data-export-background="${background}"`),background+' fehlt als Hintergrund-Pill.');
 assert.ok(!html.includes('id="sp-print-details-panel"'),'Legende und Notizen liegen noch in einem Sidepanel.');
 assert.ok(!html.includes('Read-only-Link</button>'),'Der alte Read-only-Link-Button ist noch beschriftet.');
