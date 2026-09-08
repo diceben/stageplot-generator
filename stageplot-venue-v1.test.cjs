@@ -42,4 +42,31 @@ handlers.pointerdown(event(1,209,213.5));handlers.pointermove(event(1,242,230));
 handlers.pointerdown(event(1,244,228.5));handlers.pointermove(event(1,294,278.5));handlers.pointercancel(event(1,294,278.5));assert.equal(pc.g.parts[0].w,4.88,'Abgebrochener Drag wird vollständig zurückgesetzt.');
 const beforeGesture=JSON.stringify(pc.g);handlers.pointerdown(event(1,100,100,target('select-shape')));handlers.pointermove(event(1,110,100,target('select-shape')));handlers.pointerdown(event(2,200,100,target('select-shape')));handlers.pointermove(event(2,300,100));handlers.pointerup(event(2,300,100));handlers.pointerup(event(1,110,100));assert.equal(JSON.stringify(pc.g),beforeGesture,'Zwei Finger zoomen die Ansicht, ohne eine Fläche versehentlich zu verschieben.');assert.ok(pc.pan.zoom>1);assert.equal(captures.size,0);
 pc.g.parts[0].locked=true;handlers.pointerdown(event(1,200,200));handlers.pointermove(event(1,250,250));handlers.pointerup(event(1,250,250));assert.equal(pc.g.parts[0].w,4.88,'Gesperrte Bauteile können nicht gezogen werden.');
-console.log('PASS VENUE: Hausvorlagen, unabhängige Veranstaltungskopien, JSON/Link-Roundtrip, Polygon-Flächenprüfung und echte Pointer-Handler.');
+handlers.pointerdown(event(1,20,20,{closest:()=>null}));handlers.pointerup(event(1,20,20,{closest:()=>null}));assert.equal(pc.selected,null,'Ein Tipp auf den Hintergrund blendet die Auswahlkontur aus.');assert.equal(pc.edge,null);
+// Render the shared SVG annotations and check physical lengths/positions, including rotated shapes.
+class SvgNode{
+  constructor(tag){this.tag=tag;this.attrs={};this.children=[];this.textContent='';}
+  setAttribute(key,value){this.attrs[key]=String(value);}
+  append(node){this.children.push(node);}
+}
+const rc={StageplotGeometry:G,document:{createElementNS:(_,tag)=>new SvgNode(tag)}};vm.createContext(rc);vm.runInContext(ui,rc);
+const descendants=n=>[n,...n.children.flatMap(descendants)];
+const renderDetails=(geometry,options={})=>{const svg=new SvgNode('svg');rc.StageplotVenue.drawDetails(svg,geometry,{scale:50,x:100,y:100,...options});return descendants(svg);};
+const measurements=nodes=>nodes.filter(n=>n.attrs['data-venue-measures']).flatMap(descendants).filter(n=>n.tag==='text');
+const box=G.legacy({w:4.18,d:2.27});let dims=measurements(renderDetails(box,{editing:true,selected:'main-stage'}));
+assert.deepEqual(dims.map(n=>n.textContent),['4,18 m','2,27 m','4,18 m','2,27 m']);
+assert.ok(Number(dims[0].attrs.y)<100,'Breite steht oberhalb der oberen Kante.');assert.ok(Number(dims[1].attrs.x)>309,'Tiefe steht rechts neben der rechten Kante.');assert.match(dims[1].attrs.transform,/rotate\(90 /);
+box.parts[0].angle=90;dims=measurements(renderDetails(box,{editing:true,selected:'main-stage'}));assert.equal(dims[0].textContent,'4,18 m');assert.match(dims[0].attrs.transform,/rotate\(90 /);assert.ok(Number(dims[0].attrs.x)>100,'Maßlinie dreht sich mit dem Element nach außen.');
+const overlap=G.legacy({w:8,d:5});overlap.parts.push(G.part({id:'oval',name:'Oval',shape:'ellipse',x:3,y:4,w:2,d:3}));
+let drawing=renderDetails(overlap,{editing:true});assert.equal(drawing.filter(n=>n.attrs['data-venue-part']).length,0,'Verdeckte Ausgangskonturen werden nicht mitgezeichnet.');assert.deepEqual(measurements(drawing).map(n=>n.textContent),['8 m','7 m']);
+dims=measurements(renderDetails(overlap,{editing:true,selected:'oval'}));assert.deepEqual(dims.map(n=>n.textContent),['2 m','3 m'],'Auswahl zeigt die beiden Achsenmaße des Ovals.');assert.ok(Number(dims[0].attrs.y)<300);assert.ok(Number(dims[1].attrs.x)>350);
+const round=G.preset('round',6,4),apron=round.parts[1];dims=measurements(renderDetails(round,{editing:true,selected:apron.id}));assert.deepEqual(dims.map(n=>n.textContent),['6 m','1,5 m']);
+const thrust=G.legacy({w:8,d:5});thrust.parts.push(G.part({x:3,y:4,w:2,d:3.7}));drawing=renderDetails(thrust);
+assert.ok(!measurements(drawing).some(n=>n.textContent==='3,7 m'),'Export bemaßt nur freiliegende Kanten, keine verdeckte Teilflächenlänge.');assert.ok(measurements(drawing).some(n=>n.textContent==='2,7 m'));
+assert.equal(drawing.filter(n=>n.attrs['stroke-dasharray']).length,0,'Export enthält keine gestrichelten Bearbeitungskonturen.');
+overlap.parts.push(G.part({id:'hole',kind:'opening',x:1,y:1,w:1,d:1}),G.part({id:'reserve',kind:'zone',x:10,y:1,w:2,d:2}));
+drawing=renderDetails(overlap,{editing:true});assert.deepEqual(drawing.filter(n=>n.attrs['stroke-dasharray']).map(n=>n.attrs['data-venue-part']),['reserve'],'Sachliche Freihalte-Markierungen bleiben auch ohne Auswahl sichtbar.');
+assert.equal(measurements(renderDetails(overlap,{measures:false})).length,0,'Exportoption ohne Maße bleibt wirksam.');
+const withStairs=G.legacy({w:8,d:5});withStairs.parts.push(G.part({kind:'stairs',x:8,y:1,w:1.2,d:1}));
+dims=measurements(renderDetails(withStairs,{editing:true,selected:'main-stage'}));assert.ok(Number(dims[1].attrs.x)>100+9.2*50,'Die Maßlinie steht außerhalb einer angrenzenden Treppe.');
+console.log('PASS VENUE: Hausvorlagen, JSON/Link-Roundtrip, Flächenprüfung, echte Pointer-Handler, Auswahlkonturen und kantenrichtige SVG-Bemaßung.');

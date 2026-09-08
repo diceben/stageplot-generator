@@ -12,10 +12,18 @@
 #sp-prototype .sv-head strong { display:block; font-size:19px; }
 #sp-prototype .sv-head small { display:block; margin-top:3px; color:var(--sp-muted); font-size:12px; }
 #sp-prototype .sv-head button { width:40px; font-size:24px; }
-#sp-prototype .sv-tools { display:flex; flex-wrap:wrap; gap:8px; align-items:end; padding:12px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sv-tools { padding:10px 20px 8px; border-bottom:1px solid var(--sp-line); flex:none; }
+#sp-prototype .sv-tool-modes { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+#sp-prototype .sv-tool-modes [role="group"] { display:flex; gap:4px; margin-right:auto; }
+#sp-prototype .sv-palette-row { display:flex; align-items:stretch; gap:6px; }
+#sp-prototype .sv-palette { display:flex; gap:6px; min-width:0; flex:1; overflow-x:auto; scrollbar-width:thin; padding:2px 2px 5px; scroll-snap-type:x proximity; }
+#sp-prototype .sp-venue-dialog .sv-tool-card { flex:0 0 88px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; padding:6px 3px; min-height:76px; scroll-snap-align:start; font-size:11px; }
+#sp-prototype .sv-tool-card svg { width:38px; height:30px; flex:none; fill:color-mix(in srgb,var(--sp-teal) 9%,var(--sp-paper)); stroke:currentColor; stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; fill-rule:evenodd; }
+#sp-prototype .sv-tool-card span { display:block; min-height:27px; align-content:center; }
+#sp-prototype .sv-palette-row>button { align-self:center; padding:6px; width:28px; font-size:22px; flex:none; }
+#sp-prototype .sv-palette-hint { display:block; margin-top:3px; font-size:11px; color:var(--sp-muted); }
 #sp-prototype .sp-venue-dialog label { display:flex; flex-direction:column; gap:5px; font-size:11px; line-height:1.4; }
 #sp-prototype .sp-venue-dialog :is(input:not([type="checkbox"]),select,textarea) { min-width:0; width:100%; min-height:40px; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-paper); }
-#sp-prototype .sv-tools label { min-width:130px; }
 #sp-prototype .sv-work { display:grid; grid-template-columns:minmax(0,1fr) 310px; flex:1; min-height:0; }
 #sp-prototype .sv-plan-column { display:flex; flex-direction:column; min-width:0; min-height:0; padding:12px; background:color-mix(in srgb,var(--sp-line) 12%,var(--sp-paper)); }
 #sp-prototype .sv-canvas-tools { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding-bottom:10px; }
@@ -48,8 +56,12 @@
   #sp-prototype .sp-venue-dialog { width:100vw; height:100dvh; border:0; border-radius:0; }
   #sp-prototype .sv-head { padding:10px 12px; }
   #sp-prototype .sv-head strong { font-size:16px; }
-  #sp-prototype .sv-tools { padding:8px 12px; gap:6px; }
-  #sp-prototype .sv-tools label { flex:1; min-width:110px; }
+  #sp-prototype .sv-tools { padding:6px 12px; }
+  #sp-prototype .sv-tool-modes { gap:4px; margin-bottom:4px; flex-wrap:wrap; }
+  #sp-prototype .sv-tool-modes button { padding:6px 8px; font-size:11px; }
+  #sp-prototype .sp-venue-dialog .sv-tool-card { flex-basis:80px; min-height:70px; }
+  #sp-prototype .sv-palette-row { gap:3px; }
+  #sp-prototype .sv-palette-row>button { width:24px; padding:4px; }
   #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; }
   #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
   #sp-prototype .sv-canvas { height:280px; min-height:280px; flex:none; }

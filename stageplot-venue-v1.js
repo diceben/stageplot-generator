@@ -5,12 +5,55 @@
   const num=n=>Number(n.toFixed(2)).toLocaleString('de-AT'), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function svgEl(tag,attrs,parent,text){const n=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;parent.append(n);return n;}
   function bounds(p){const points=G.ring(p);return {minX:Math.min(...points.map(v=>v[0])),minY:Math.min(...points.map(v=>v[1])),maxX:Math.max(...points.map(v=>v[0])),maxY:Math.max(...points.map(v=>v[1]))};}
-  function drawDetails(svg,g,{scale=1,x=0,y=0,measures=true,labels=true,editing=false}={}){
-    const group=svgEl('g',{'data-venue-details':'true'},svg), ink='var(--sp-art)', muted='var(--sp-muted)';
+  const toolIcons={
+    rect:'M5 7H35V25H5Z',round:'M5 4H35V17Q20 34 5 17Z',circle:'M35 16A15 11 0 1 1 5 16A15 11 0 1 1 35 16Z',
+    trapezoid:'M11 6H29L36 26H4Z',thrust:'M4 5H36V16H24V29H16V16H4Z',t:'M4 3H36V12H24V21H32V29H8V21H16V12H4Z',
+    wings:'M10 4H30V10H38V25H30V29H10V25H2V12H10Z',l:'M5 5H35V15H19V27H5Z',u:'M5 5H35V27H25V15H15V27H5Z',
+    notch:'M4 5H36V17H25V27H4ZM29 20H36M29 23H36M29 26H36',irregular:'M5 5H29L36 12V27H10L5 21Z',
+    segment:'M4 8H36A16 16 0 0 1 4 8Z',opening:'M4 4H36V28H4ZM14 11H26V21H14Z',column:'M28 16A8 8 0 1 1 12 16A8 8 0 1 1 28 16ZM15 11L25 21M25 11L15 21',
+    wall:'M4 10H36V22H4ZM10 10L4 16M20 10L8 22M30 10L18 22M36 14L28 22',door:'M4 24H11M29 24H36M11 24V6A18 18 0 0 1 29 24',
+    stairs:'M7 4H33V28H7ZM7 10H33M7 16H33M7 22H33',ramp:'M7 4H33V28H7ZM20 25V8M15 13L20 8L25 13',
+    curtain:'M4 5H36M6 5V27L12 21L16 27V5M24 5V27L28 21L34 27V5',reserve:'M5 5H35V27H5ZM10 10L30 22M30 10L10 22',
+    foh:'M5 7H35V25H5ZM10 12H30M12 16V22M20 16V22M28 16V22'
+  };
+  const presets=[['rect','Rechteck'],['round','Runde Vorbühne'],['circle','Kreis / Oval'],['trapezoid','Trapez'],['thrust','Steg'],['t','T-Form'],['wings','Seitenbühnen'],['l','L-Form'],['u','U-Form'],['notch','Treppenausschnitt'],['irregular','Freier Grundriss']];
+  const elements=[['floor','Bühnenfläche','rect'],['segment','Runde Vorbühne'],['ellipse','Kreis / Oval','circle'],['opening','Ausschnitt / Öffnung'],['column','Säule'],['wall','Wand'],['door','Tür / Zugang'],['stairs','Treppe'],['ramp','Rampe'],['curtain','Vorhang / Portal'],['reserve','Fläche freihalten'],['foh','FOH-Bereich']];
+  const toolCards=(list,action)=>list.map(([kind,label,icon])=>'<button type="button" class="sv-tool-card" data-action="'+action+'" data-kind="'+kind+'" aria-label="'+label+(action==='add'?' hinzufügen':' als Grundform verwenden')+'"><svg viewBox="0 0 40 32" aria-hidden="true"><path d="'+toolIcons[icon||kind]+'"/></svg><span>'+label+'</span></button>').join('');
+  function dimension(group,a,b,label,offset=16){
+    const dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);if(length<1)return;
+    const nx=dy/length,ny=-dx/length,at=(p,n)=>[p[0]+nx*n,p[1]+ny*n],v=at(a,offset),w=at(b,offset),cx=(v[0]+w[0])/2,cy=(v[1]+w[1])/2;
+    const line=(a,b)=>svgEl('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'var(--sp-muted)','stroke-width':.7},group);
+    line(v,w);for(const p of [a,b]){line(at(p,Math.sign(offset)*3),at(p,offset+Math.sign(offset)*4));line(at(p,offset-3),at(p,offset+3));}
+    let angle=Math.atan2(dy,dx)*180/Math.PI;if(angle>90)angle-=180;if(angle< -90)angle+=180;
+    svgEl('text',{x:cx,y:cy,transform:'rotate('+angle+' '+cx+' '+cy+')','text-anchor':'middle','dominant-baseline':'central',fill:'var(--sp-art)','font-size':11,'paint-order':'stroke',stroke:'var(--sp-paper)','stroke-width':5,'stroke-linejoin':'round'},group,label);
+  }
+  function partDimensions(group,p,scale,x,y,otherParts=[]){
+    const point=v=>{const a=G.transform(p,v);return [x+a[0]*scale,y+a[1]*scale];};
+    if(['ellipse','segment'].includes(p.shape)||p.kind==='line'||p.shape==='rect'&&Math.min(p.w,p.d)*scale<32){
+      const d=p.shape==='segment'?p.rise:p.d;
+      dimension(group,point([0,0]),point([p.w,0]),num(p.w)+' m');
+      dimension(group,point([p.w,0]),point([p.w,d]),num(d)+' m');
+    }else{
+      const points=G.vertices(p),area=points.reduce((sum,a,i)=>{const b=points[(i+1)%points.length];return sum+a[0]*b[1]-b[0]*a[1];},0),side=area<0?-1:1;
+      points.forEach((a,i)=>{const b=points[(i+1)%points.length],length=Math.hypot(b[0]-a[0],b[1]-a[1]);if(length*scale<32)return;
+        // A curved edge is dimensioned by its chord and sagitta, never by a tessellated arc length.
+        const rise=a[2]||0,ux=(b[0]-a[0])/length,uy=(b[1]-a[1])/length;let clearance=Math.max(0,-rise*side);
+        for(const q of otherParts){
+          if(q.id===p.id||!['stairs','ramp','obstacle','line'].includes(q.kind))continue;
+          const points=G.ring(q).map(v=>G.inverse(p,v)),along=points.map(v=>(v[0]-a[0])*ux+(v[1]-a[1])*uy),out=points.map(v=>((v[0]-a[0])*uy-(v[1]-a[1])*ux)*side);
+          if(Math.max(...along)>0&&Math.min(...along)<length&&Math.min(...out)<=Math.max(0,-rise*side)+.15)clearance=Math.max(clearance,Math.max(...out));
+        }
+        const offset=side*(16+clearance*scale);
+        dimension(group,point(a),point(b),num(length)+' m'+(rise?' · Bogen '+num(Math.abs(rise))+' m':''),offset);
+      });
+    }
+  }
+  function drawDetails(svg,g,{scale=1,x=0,y=0,measures=true,labels=true,editing=false,selected=null}={}){
+    const group=svgEl('g',{'data-venue-details':'true','pointer-events':'none'},svg), ink='var(--sp-art)', muted='var(--sp-muted)';
     for(const p of g.parts){
       const path=G.path([G.polygon(p)],scale,x,y), b=bounds(p), cx=x+(b.minX+b.maxX)/2*scale, cy=y+(b.minY+b.maxY)/2*scale;
       const attrs={d:path,fill:'none',stroke:ink,'stroke-width':1,'fill-rule':'evenodd','data-venue-part':p.id};
-      if(p.kind==='opening'){if(editing)svgEl('path',{...attrs,stroke:'var(--sp-pink,#d82773)','stroke-dasharray':'5 3'},group);continue;}
+      if(p.kind==='opening'&&editing&&p.id===selected)svgEl('path',{...attrs,stroke:'var(--sp-pink,#d82773)','stroke-dasharray':'5 3'},group);
       if(p.kind==='obstacle')svgEl('path',{...attrs,fill:'var(--sp-line)'},group);
       else if(p.kind==='zone')svgEl('path',{...attrs,fill:'none','stroke-dasharray':'5 3',stroke:muted},group);
       else if(p.kind==='line')svgEl('path',{...attrs,fill:muted,stroke:muted},group);
@@ -19,21 +62,33 @@
         if(p.kind==='stairs')for(let i=1;i<5;i++){const a=G.transform(p,[0,p.d*i/5]),b=G.transform(p,[p.w,p.d*i/5]);svgEl('line',{x1:x+a[0]*scale,y1:y+a[1]*scale,x2:x+b[0]*scale,y2:y+b[1]*scale,stroke:muted,'stroke-width':.8},group);}
         const a=G.transform(p,[p.w/2,p.d*.8]),b=G.transform(p,[p.w/2,p.d*.2]),l=G.transform(p,[p.w/2-.12,p.d*.2+.18]),r=G.transform(p,[p.w/2+.12,p.d*.2+.18]);
         svgEl('path',{d:'M'+(x+a[0]*scale)+' '+(y+a[1]*scale)+'L'+(x+b[0]*scale)+' '+(y+b[1]*scale)+'M'+(x+l[0]*scale)+' '+(y+l[1]*scale)+'L'+(x+b[0]*scale)+' '+(y+b[1]*scale)+'L'+(x+r[0]*scale)+' '+(y+r[1]*scale),fill:'none',stroke:ink,'stroke-width':1},group);
-      }else if(p.kind==='floor'&&g.parts.filter(q=>q.kind==='floor').length>1)svgEl('path',{...attrs,stroke:muted,'stroke-dasharray':'3 4','stroke-width':.5},group);
-      if(labels){
+      }
+      if(labels&&(p.kind!=='opening'||editing&&p.id===selected)){
         const outside=['stairs','ramp','line'].includes(p.kind), lines=[p.name];
-        if(measures)lines.push(p.shape==='segment'?num(p.w)+' m · Ausl. '+num(p.rise)+' m':num(p.w)+' × '+num(p.d)+' m');
         if(p.height!==null)lines.push('H '+num(p.height)+' m');
         const labelY=outside?y+b.maxY*scale+12:cy-(lines.length-1)*5;
         lines.forEach((line,i)=>svgEl('text',{x:cx,y:labelY+i*11,'text-anchor':'middle',fill:ink,'font-size':9,'pointer-events':'none','paint-order':'stroke',stroke:'var(--sp-paper)','stroke-width':3,'stroke-linejoin':'round'},group,line));
       }
-      if(measures&&p.kind==='floor'&&['rect','polygon'].includes(p.shape)){
-        const points=G.vertices(p);
-        points.forEach((a,i)=>{const b=points[(i+1)%points.length],v=G.transform(p,a),w=G.transform(p,b),length=Math.hypot(b[0]-a[0],b[1]-a[1]);if(length*scale<38)return;
-          let angle=Math.atan2(w[1]-v[1],w[0]-v[0])*180/Math.PI;if(angle>90)angle-=180;if(angle< -90)angle+=180;
-          const tx=x+(v[0]+w[0])/2*scale,ty=y+(v[1]+w[1])/2*scale-5;
-          svgEl('text',{x:tx,y:ty,transform:'rotate('+angle+' '+tx+' '+ty+')','text-anchor':'middle',fill:muted,'font-size':8,'pointer-events':'none','paint-order':'stroke',stroke:'var(--sp-paper)','stroke-width':3},group,num(length)+' m'+(a[2]?' · Bogen '+num(Math.abs(a[2]))+' m':''));
-        });
+    }
+    if(measures){
+      const annotations=svgEl('g',{'data-venue-measures':'true'},group),active=editing&&g.parts.find(p=>p.id===selected);
+      if(active)partDimensions(annotations,active,scale,x,y,g.parts);
+      else {
+        // Only the merged perimeter is dimensioned in the plan; hidden source edges stay hidden.
+        const c=G.compile(g),pixel=v=>[x+v[0]*scale,y+v[1]*scale];
+        if(!editing)for(const polygon of c.floor)for(const ring of polygon){
+          const points=ring.slice(0,-1),area=points.reduce((sum,a,i)=>{const b=points[(i+1)%points.length];return sum+a[0]*b[1]-b[0]*a[1];},0);
+          points.forEach((a,i)=>{const b=points[(i+1)%points.length],prev=points[(i+points.length-1)%points.length],next=points[(i+2)%points.length],dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);
+            const bend=v=>Math.abs(dx*v[1]-dy*v[0])/Math.max(.000001,length*Math.hypot(...v));
+            if(length*scale>=38&&(bend([a[0]-prev[0],a[1]-prev[1]])>.15||bend([next[0]-b[0],next[1]-b[1]])>.15))dimension(annotations,pixel(a),pixel(b),num(length)+' m',area<0?-16:16);
+          });
+        }
+        if(editing){
+          // Overall width/depth also cover continuous curves, which have no straight edges to label.
+          const vertices=c.floor.flat(2),b={minX:Math.min(...vertices.map(v=>v[0])),maxX:Math.max(...vertices.map(v=>v[0])),minY:Math.min(...vertices.map(v=>v[1])),maxY:Math.max(...vertices.map(v=>v[1]))};
+          dimension(annotations,pixel([b.minX,b.minY]),pixel([b.maxX,b.minY]),num(b.maxX-b.minX)+' m',16+(b.minY-c.bounds.minY)*scale);
+          dimension(annotations,pixel([b.maxX,b.minY]),pixel([b.maxX,b.maxY]),num(b.maxY-b.minY)+' m',16+(c.bounds.maxX-b.maxX)*scale);
+        }else for(const p of g.parts.filter(p=>!['floor','opening'].includes(p.kind)))partDimensions(annotations,p,scale,x,y);
       }
     }
     return group;
@@ -41,17 +96,17 @@
   function rebox(p){if(!p.points)return;const minX=Math.min(...p.points.map(v=>v[0])),minY=Math.min(...p.points.map(v=>v[1])),maxX=Math.max(...p.points.map(v=>v[0])),maxY=Math.max(...p.points.map(v=>v[1])),o=G.transform(p,[minX,minY]);p.points=p.points.map(v=>[G.round(v[0]-minX),G.round(v[1]-minY),v[2]||0]);p.x=o[0];p.y=o[1];p.w=Math.max(.02,maxX-minX);p.d=Math.max(.02,maxY-minY);}
   function open(options){
     const host=options.root||document.body, returnFocus=document.activeElement;
-    let g=G.normalize(options.geometry||G.legacy(options.stage)),selected=g.parts[0].id,edge=null,history=[],future=[],drawPoints=null,drag=null,pan={x:0,y:0,zoom:1},fitArea=G.compile(g).bounds,metrics=null,lastField=null;
+    let g=G.normalize(options.geometry||G.legacy(options.stage)),selected=null,edge=null,history=[],future=[],drawPoints=null,drag=null,pan={x:0,y:0,zoom:1},fitArea=G.compile(g).bounds,metrics=null,lastField=null;
     const included=new Set((options.objects||[]).filter(o=>o.house).map(o=>o.id)),touches=new Map();let gesture=null;
     const dialog=document.createElement('dialog');dialog.className='sp-venue-dialog';dialog.setAttribute('aria-label','Hausgrundriss bearbeiten');
     dialog.innerHTML='<header class="sv-head"><div><strong>Hausgrundriss bearbeiten</strong><small>Bühnenform, feste Einbauten und Hausvorlagen</small></div><button type="button" data-action="close" aria-label="Grundrissbearbeitung abbrechen">×</button></header>'+
-      '<div class="sv-tools"><label>Grundform<select data-field="preset"><option value="rect">Rechteck</option><option value="round">Runde Vorbühne</option><option value="circle">Kreis / Oval</option><option value="trapezoid">Trapez</option><option value="thrust">Steg</option><option value="t">T-Form</option><option value="wings">Seitenbühnen</option><option value="l">L-Form</option><option value="u">U-Form</option><option value="notch">Treppenausschnitt</option><option value="irregular">Freier Grundriss</option></select></label><button type="button" data-action="preset">Form anwenden</button><label>Bauelement<select data-field="add"><option value="floor">Bühnenfläche</option><option value="segment">Runde Vorbühne</option><option value="ellipse">Kreis / Oval</option><option value="opening">Ausschnitt / Öffnung</option><option value="column">Säule</option><option value="wall">Wand</option><option value="door">Tür / Zugang</option><option value="stairs">Treppe</option><option value="ramp">Rampe</option><option value="curtain">Vorhang / Portal</option><option value="reserve">Fläche freihalten</option><option value="foh">FOH-Bereich</option></select></label><button type="button" data-action="add">Hinzufügen</button><button type="button" data-action="draw">Umriss zeichnen</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div>'+
+      '<div class="sv-tools"><div class="sv-tool-modes"><div role="group" aria-label="Werkzeugauswahl"><button type="button" data-tool-mode="add" aria-pressed="true">Bauelemente</button><button type="button" data-tool-mode="preset" aria-pressed="false">Grundformen</button></div><button type="button" data-action="draw">Umriss zeichnen</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-palette-row"><button type="button" data-action="palette-prev" aria-label="Vorherige Formen">‹</button><div class="sv-palette" data-tool-panel="add" role="group" aria-label="Bauelement hinzufügen">'+toolCards(elements,'add')+'</div><div class="sv-palette" data-tool-panel="preset" role="group" aria-label="Grundform wählen" hidden>'+toolCards(presets,'preset')+'</div><button type="button" data-action="palette-next" aria-label="Weitere Formen">›</button></div><small class="sv-palette-hint">Bauelement anklicken, dann im Plan platzieren.</small></div>'+
       '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><svg class="sv-canvas" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Griffe ziehen · Kante für Maße und Rundung auswählen · zwei Finger zum Zoomen</p></div><aside class="sv-sidebar"><div class="sv-selection"></div><details open><summary>Elemente</summary><div class="sv-parts"></div></details><details><summary>Hausangaben &amp; festes Inventar</summary><div class="sv-house"></div></details><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></aside></div>'+
       '<footer><span class="sv-status" role="status"></span><button type="button" data-action="save-template">Als Hausvorlage sichern</button><button type="button" data-action="close">Abbrechen</button><button type="button" class="sv-primary" data-action="apply">Grundriss übernehmen</button></footer>';
     host.append(dialog);const $=s=>dialog.querySelector(s),canvas=$('.sv-canvas');
     const status=t=>$('.sv-status').textContent=t;
     const state=()=>JSON.stringify({g,included:[...included]});
-    function restore(value){const s=JSON.parse(value);g=s.g;included.clear();s.included.forEach(id=>included.add(id));if(!g.parts.some(p=>p.id===selected))selected=g.parts[0]?.id;edge=null;}
+    function restore(value){const s=JSON.parse(value);g=s.g;included.clear();s.included.forEach(id=>included.add(id));if(!g.parts.some(p=>p.id===selected))selected=null;edge=null;}
     function commit(fn,fit=false,field=null){const before=state();try{fn();G.syncAnchors(g);g=G.normalize(g);if(state()!==before){if(!field||lastField!==field)history.push(before);lastField=field;if(history.length>40)history.shift();future=[];}status('');field?.setCustomValidity('');if(fit)fitView();if(field)draw();else render();return true;}catch(error){const previousEdge=edge,previousSelected=selected;restore(before);edge=previousEdge;selected=previousSelected;status(error.message);if(field)field.setCustomValidity(error.message);else render();return false;}}
     function fitView(){fitArea=G.compile(g).bounds;pan={x:0,y:0,zoom:1};}
     const field=(label,key,value,type='number',extra='')=>'<label>'+label+'<input data-prop="'+key+'" type="'+type+'" value="'+esc(value??'')+'" '+(type==='number'?'step="any"':'maxlength="80"')+' '+extra+'></label>';
@@ -82,13 +137,15 @@
       const defs=svgEl('defs',{},canvas),pattern=svgEl('pattern',{id:'sv-grid',width:s,height:s,patternUnits:'userSpaceOnUse',x,y},defs);svgEl('path',{d:'M'+s+' 0H0V'+s,fill:'none',stroke:'var(--sp-line)','stroke-width':.6},pattern);
       svgEl('rect',{width:W,height:H,fill:'url(#sv-grid)'},canvas);
       svgEl('path',{d:G.path(c.floor,s,x,y),fill:'var(--sp-panel-alt,var(--sp-panel))',stroke:'var(--sp-art)','stroke-width':1.5,'fill-rule':'evenodd'},canvas);
-      drawDetails(canvas,g,{scale:s,x,y,measures:false,editing:true});
+      drawDetails(canvas,g,{scale:s,x,y,editing:true,selected});
       if($('[data-field="objects"]').checked)for(const o of options.footprints||[]){const p=G.part({x:o.x,y:o.y,w:o.w,d:o.d,angle:o.angle});const pp=G.transform(p,[-o.w/2,-o.d/2]);p.x=pp[0];p.y=pp[1];svgEl('path',{d:G.path([G.polygon(p)],s,x,y),fill:'none',stroke:'var(--sp-muted)','stroke-dasharray':'3 3','pointer-events':'none'},canvas);svgEl('text',{x:x+o.x*s,y:y+o.y*s,fill:'var(--sp-muted)','font-size':9,'text-anchor':'middle','pointer-events':'none'},canvas,o.name);}
-      const ordered=[...g.parts.filter(p=>p.id!==selected),...g.parts.filter(p=>p.id===selected)];
-      for(const p of ordered){
+      for(const p of g.parts){
         const active=p.id===selected,path=G.path([G.polygon(p)],s,x,y);
-        svgEl('path',{d:path,fill:'transparent',stroke:active?'var(--sp-teal)':'transparent','stroke-width':active?2:1,'data-select-shape':p.id,style:'cursor:'+ (p.locked?'default':'move'),'fill-rule':'evenodd'},canvas);
-        if(!active||p.locked||drawPoints)continue;
+        svgEl('path',{d:path,fill:'transparent',stroke:active?'var(--sp-teal)':'transparent','stroke-width':active?2:1,'stroke-dasharray':active&&p.kind==='floor'?'5 4':'none','data-select-shape':p.id,style:'cursor:'+ (p.locked?'default':'move'),'fill-rule':'evenodd'},canvas);
+      }
+      // Grips stay on top; selecting a lower surface must not cover the hit area of a smaller one.
+      for(const p of g.parts.filter(p=>p.id===selected)){
+        if(p.locked||drawPoints)continue;
         if(['rect','polygon'].includes(p.shape)){const points=G.vertices(p);points.forEach((a,i)=>{const b=points[(i+1)%points.length],v=G.transform(p,a),w=G.transform(p,b);svgEl('path',{d:'M'+(x+v[0]*s)+' '+(y+v[1]*s)+'L'+(x+w[0]*s)+' '+(y+w[1]*s),stroke:'transparent','stroke-width':22,fill:'none','data-edge-handle':i,'data-part':p.id},canvas);if(edge===i)svgEl('path',{d:'M'+(x+v[0]*s)+' '+(y+v[1]*s)+'L'+(x+w[0]*s)+' '+(y+w[1]*s),stroke:'var(--sp-teal)','stroke-width':3,fill:'none','pointer-events':'none'},canvas);});
           points.forEach((v,i)=>handle(G.transform(p,v),'data-point-handle',i,p.id));
         }
@@ -107,7 +164,7 @@
       if(touches.size===2){if(drag){restore(drag.before);drag=null;}const values=[...touches.values()];gesture={distance:Math.hypot(values[0][0]-values[1][0],values[0][1]-values[1][1]),center:[(values[0][0]+values[1][0])/2,(values[0][1]+values[1][1])/2],pan:{...pan}};return;}
       if(drawPoints){drawPoints.push(local(e).map(snap));draw();return;}
       const point=e.target.closest('[data-point-handle]'),ed=e.target.closest('[data-edge-handle]'),resize=e.target.closest('[data-resize-handle]'),shape=e.target.closest('[data-select-shape]'),partId=(point||ed||resize)?.dataset.part||shape?.dataset.selectShape;
-      if(!partId){drag={kind:'pan',start:[e.clientX,e.clientY],pan:{...pan},before:state(),pointer:e.pointerId};return;}
+      if(!partId){selected=null;edge=null;render();drag={kind:'pan',start:[e.clientX,e.clientY],pan:{...pan},before:state(),pointer:e.pointerId};return;}
       selected=partId;edge=ed?Number(ed.dataset.edgeHandle):null;const p=g.parts.find(q=>q.id===selected);render();if(p.locked)return;
       drag={kind:point?'point':ed?'edge':resize?'resize':'move',index:Number(point?.dataset.pointHandle??ed?.dataset.edgeHandle??0),start:local(e),original:G.copy(p),before:state(),pointer:e.pointerId};
     });
@@ -140,6 +197,11 @@
 
     dialog.addEventListener('click',async e=>{
       const b=e.target.closest('button');if(!b)return;const p=g.parts.find(q=>q.id===selected),action=b.dataset.action;
+      if(b.dataset.toolMode){
+        const mode=b.dataset.toolMode;dialog.querySelectorAll('[data-tool-mode]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.toolMode===mode));dialog.querySelectorAll('[data-tool-panel]').forEach(el=>el.hidden=el.dataset.toolPanel!==mode);
+        $('.sv-palette-hint').textContent=mode==='add'?'Bauelement anklicken, dann im Plan platzieren.':'Ersetzt den gesamten Grundriss · mit ↶ rückgängig machen.';return;
+      }
+      if(action==='palette-prev'||action==='palette-next'){const palette=$('[data-tool-panel]:not([hidden])');palette.scrollBy({left:(action==='palette-next'?1:-1)*palette.clientWidth*.8,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return;}
       if(b.dataset.select){selected=b.dataset.select;edge=null;render();return;}
       if(b.dataset.templateLoad){const t=options.templates.find(t=>t.id===b.dataset.templateLoad);commit(()=>{g=G.copy(t.stage.geometry||G.legacy(t.stage));selected=g.parts[0].id;edge=null;},true);return;}
       if(b.dataset.templateNew){const t=options.templates.find(t=>t.id===b.dataset.templateNew);try{await options.onNewEvent(t);dialog.close();}catch(error){status(error.message);}return;}
@@ -153,9 +215,9 @@
         try{const invalid=dialog.querySelector(':invalid');if(invalid){invalid.reportValidity();return;}g=G.normalize(g);if(action==='save-template'){if(!g.name.trim()){status('Unter „Hausangaben“ einen Namen für die Hausbühne eingeben.');$('.sv-house').closest('details').open=true;$('[data-house="name"]').focus();return;}const saved=await options.onSaveTemplate(G.copy(g),[...included]);options.templates=saved.templates;g.revision=saved.revision;render();status('Hausvorlage gespeichert · Revision '+g.revision);}else{await options.onApply(G.copy(g),[...included]);dialog.close();}}catch(error){status(error.message);}return;
       }
       commit(()=>{
-        if(action==='preset'){const next=G.preset($('[data-field="preset"]').value,options.stage.w,options.stage.d);Object.assign(next,{name:g.name,notes:g.notes,height:g.height,clearance:g.clearance,revision:g.revision,measured:g.measured});g=next;selected=g.parts[0].id;edge=null;}
+        if(action==='preset'){const next=G.preset(b.dataset.kind,options.stage.w,options.stage.d);Object.assign(next,{name:g.name,notes:g.notes,height:g.height,clearance:g.clearance,revision:g.revision,measured:g.measured});g=next;selected=g.parts[0].id;edge=null;}
         if(action==='add'){
-          const kind=$('[data-field="add"]').value,c=G.compile(g).bounds,q=G.part({x:snap((c.minX+c.maxX)/2-1),y:snap((c.minY+c.maxY)/2-.5)});
+          const kind=b.dataset.kind,c=G.compile(g).bounds,q=G.part({x:snap((c.minX+c.maxX)/2-1),y:snap((c.minY+c.maxY)/2-.5)});
           if(kind==='segment')Object.assign(q,{name:'Vorbühne',shape:'segment',x:0,y:options.stage.d,w:options.stage.w,d:1,rise:1});
           else if(kind==='ellipse')Object.assign(q,{name:'Rundfläche',shape:'ellipse',w:2,d:2});
           else if(kind==='opening')Object.assign(q,{name:'Ausschnitt',kind:'opening'});
