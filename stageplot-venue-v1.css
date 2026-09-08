@@ -74,7 +74,7 @@
 #sp-prototype .sv-plan-focus :is(.sv-tools,.sv-sidebar) { display:none; }
 #sp-prototype .sv-plan-focus .sv-work { grid-template-columns:minmax(0,1fr); }
 #sp-prototype #sp-canvas-tools #sp-venue-open { width:auto; min-width:90px; font-size:11px; padding:0 10px; white-space:nowrap; }
-#sp-prototype[data-readonly="true"] :is(#sp-venue-open,#sp-venue-setup,#sp-house-library) { display:none !important; }
+#sp-prototype[data-readonly="true"] :is(#sp-venue-open,#sp-venue-setup) { display:none !important; }
 @media(max-width:900px) {
   #sp-prototype .sp-venue-dialog { width:100vw; height:100dvh; border:0; border-radius:0; }
   #sp-prototype .sv-head { padding:6px 10px; gap:6px; }

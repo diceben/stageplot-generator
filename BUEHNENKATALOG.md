@@ -1,6 +1,6 @@
 # Bühnenkatalog · kostenlose Beta
 
-„Bühnen finden“ auf der Projektseite öffnet den Katalog. Der Einstieg steht zusätzlich im Dialog zum Anlegen eines Projekts; dort wird ein bereits eingetragener Act übernommen. Suche nach Name, Stadt, Bühne und Schlagworten; Umlaute und Schreibweisen wie „guertel“ sind austauschbar. Die Kategorieauswahl besteht aus sichtbaren Buttons.
+Der Katalog öffnet sich über „Neues Projekt → Location-Vorlage → Location suchen“. Ein bereits eingetragener Act wird übernommen. Im selben Projektfenster stehen „Bühne selbst festlegen“ und „Meine Bühnenvorlagen“ zur Wahl; eigene Vorlagen werden direkt aufgelistet. Es gibt keine separaten Startbuttons für Hausbühnen oder den Katalog auf der Projektseite. Suche nach Name, Stadt, Bühne und Schlagworten; Umlaute und Schreibweisen wie „guertel“ sind austauschbar. Die Kategorieauswahl besteht aus sichtbaren Buttons.
 
 Alle Katalogeinträge lassen sich während der Beta direkt verwenden, auch im Standard-Modus mit bestehenden Projekten. Weder Account, Pro-Aktivierung, Kauf noch Freischaltcode sind nötig. Der Katalog und seine SVG-Vorschauen sind in die HTML eingebettet. Nur das bewusste Öffnen der Originalquelle benötigt eine Verbindung zur Website der Location.
 
