@@ -4958,7 +4958,7 @@ const StageplotPrint = (() => {
       header.append(heading, element('p', 'sp-report-subtitle', report.subtitle));
       const content = element('div', 'sp-report-content');
       const footer = element('footer', 'sp-report-footer');
-      footer.append(element('span', '', 'Projekt-ID · ' + report.id), element('span', 'sp-report-page-number'));
+      footer.append(element('span', '', report.id ? 'Projekt-ID · ' + report.id : 'Stageplotter'), element('span', 'sp-report-page-number'));
       paper.append(header, content, footer);
       sheet.append(paper);
       host.append(sheet);
@@ -7599,7 +7599,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const width=svg.querySelector('[data-dim-width]');if(width){width.textContent=metres(b.maxX-b.minX);width.setAttribute('x',x+w/2);}
     const line=svg.querySelector('[data-stage-measure="width"]');if(line){line.setAttribute('x1',x);line.setAttribute('x2',x+w);}
     svg.querySelectorAll('[data-stage-measure-tick="width"]').forEach((n,i)=>{n.setAttribute('x1',x+i*w);n.setAttribute('x2',x+i*w);});
-    const depth=svg.querySelector('[data-dim-depth]');if(depth){depth.textContent=metres(b.maxY-b.minY);depth.setAttribute('y',y+d/2);depth.setAttribute('transform','rotate(-90 13 '+(y+d/2)+')');}
+    const depth=svg.querySelector('[data-dim-depth]');if(depth){const depthX=svg.parentElement?.id==='sp-print-floor'?Math.max(13,x-58):13;depth.textContent=metres(b.maxY-b.minY);depth.setAttribute('x',depthX);depth.setAttribute('y',y+d/2);depth.setAttribute('transform','rotate(-90 '+depthX+' '+(y+d/2)+')');}
     svg.querySelectorAll('.sp-orientation').forEach(n=>n.setAttribute('x',x+w/2));
     const sideOffset=svg.querySelector('[data-venue-measures] text')?38:18;
     svg.querySelectorAll('[data-stage-side]').forEach(n=>{const left=n.dataset.stageSide==='left',tx=left?mx+c.bounds.maxX*scale+sideOffset:mx+c.bounds.minX*scale-sideOffset,ty=y+d/2;n.setAttribute('x',tx);n.setAttribute('y',ty);n.setAttribute('fill','var(--sp-muted)');n.setAttribute('transform','rotate('+(left?90:-90)+' '+tx+' '+ty+')');});

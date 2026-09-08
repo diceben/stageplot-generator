@@ -19,7 +19,7 @@ const StageplotPrint = (() => {
       header.append(heading, element('p', 'sp-report-subtitle', report.subtitle));
       const content = element('div', 'sp-report-content');
       const footer = element('footer', 'sp-report-footer');
-      footer.append(element('span', '', 'Projekt-ID · ' + report.id), element('span', 'sp-report-page-number'));
+      footer.append(element('span', '', report.id ? 'Projekt-ID · ' + report.id : 'Stageplotter'), element('span', 'sp-report-page-number'));
       paper.append(header, content, footer);
       sheet.append(paper);
       host.append(sheet);

@@ -22,4 +22,8 @@ const crop=ctx.exportArtworkBounds({viewBox,children:[rotated]});
 assert.deepEqual(JSON.parse(JSON.stringify(crop)),{x:-24,y:6,width:18,height:28},'Gedrehte Elemente werden in den SVG-Zuschnitt eingerechnet.');
 assert.equal(ctx.exportArtworkBounds({viewBox,children:[]}),null);
 assert.match(html,/sp-print-black-stage'\)\.addEventListener\('change',renderPrint\)/,'Schwarzer Exporthintergrund darf das Projekt nicht ändern.');
+const depth={attributes:{},setAttribute(name,value){this.attributes[name]=value;}};
+ctx.metres=value=>value+' m';vm.runInContext(extract('positionVenueDimensions'),ctx);
+ctx.positionVenueDimensions({parentElement:{id:'sp-print-floor'},querySelector:selector=>selector==='[data-dim-depth]'?depth:null,querySelectorAll:()=>[],setAttribute(){}},{floorBounds:{minX:0,minY:0,maxX:4,maxY:5},bounds:{minX:0,maxX:4}},50,300,50);
+assert.equal(depth.attributes.x,242);assert.equal(depth.attributes.transform,'rotate(-90 242 175)','Seitliche Venue-Maße drehen sich um ihre tatsächliche Textposition.');
 console.log('PASS PRINT: optionale Inhalte ohne Leerseiten, escaped Notizen, Projektkennung, Datum, Maße und rotierter SVG-Zuschnitt.');
