@@ -17,14 +17,14 @@
     <details id="sp-file-menu" class="sp-file-menu" hidden>
       <summary>Datei <span aria-hidden="true">⌄</span></summary>
       <div class="sp-file-panel" aria-label="Datei-Aktionen">
-        <button type="button" id="sp-file-save" aria-keyshortcuts="Meta+s Control+s"><span>Speichern</span><small aria-hidden="true">⌘ / Ctrl S</small></button>
-        <button type="button" id="sp-file-save-as" aria-keyshortcuts="Meta+Shift+s Control+Shift+s"><span>Speichern unter …</span><small aria-hidden="true">⇧ ⌘ / Ctrl S</small></button>
+        <button type="button" id="sp-file-save" aria-keyshortcuts="Meta+s Control+s"><span>Jetzt lokal sichern</span><small aria-hidden="true">⌘ / Ctrl S</small></button>
+        <button type="button" id="sp-file-save-as" aria-keyshortcuts="Meta+Shift+s Control+Shift+s"><span>Projekt duplizieren</span><small aria-hidden="true">⇧ ⌘ / Ctrl S</small></button>
         <button type="button" id="sp-setups-open">Projekte öffnen …</button>
-        <button type="button" id="sp-setup-download">Projekt exportieren …</button>
+        <button type="button" id="sp-setup-download">Sicherung herunterladen</button>
         <button type="button" id="sp-setup-upload">Projekt importieren …</button>
         <input id="sp-setup-file" type="file" accept="application/json,.json,.stageplot.json" hidden>
         <hr>
-        <button type="button" id="sp-settings-open">Einstellungen …</button>
+        <button type="button" id="sp-settings-open">App-Einstellungen …</button>
         <div data-editor-actions>
           <hr>
           <button type="button" id="sp-edit-stage">Bühne bearbeiten …</button>
@@ -38,15 +38,15 @@
       <li class="sp-nav-active-pill" aria-hidden="true"></li>
       <li class="sp-nav-hover-bar" aria-hidden="true"></li>
       <li data-step="dashboard"><button type="button" data-view="dashboard"><span aria-hidden="true"><svg data-nav-icon="folder" viewBox="0 0 24 24"><path d="M3 6.75A1.75 1.75 0 0 1 4.75 5h4.1l2 2.25h8.4A1.75 1.75 0 0 1 21 9v8.25A1.75 1.75 0 0 1 19.25 19H4.75A1.75 1.75 0 0 1 3 17.25Z"/></svg></span> Projekte</button></li>
-      <li data-step="editor"><button type="button" data-view="editor"><span>1</span> Entwurf</button></li>
-      <li data-step="print"><button type="button" data-view="print" id="sp-show-print"><span>2</span> Vorschau</button></li>
-      <li data-step="routing"><button type="button" data-view="routing"><span aria-hidden="true"><svg data-nav-icon="share" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.35"/><circle cx="18.5" cy="5.5" r="2.35"/><circle cx="18.5" cy="18.5" r="2.35"/><path d="m7.15 10.95 9.2-4.4M7.15 13.05l9.2 4.4"/></svg></span> Routing</button></li>
-      <li data-step="project"><button type="button" data-view="project"><span aria-hidden="true"><svg data-nav-icon="settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44A1.78 1.78 0 0 0 10 3.78v.04a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.04-.02a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.04.02a2 2 0 0 1 1 1.74v.5a2 2 0 0 1-1 1.74l-.04.02a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.04-.02a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.04c0 .98.8 1.78 1.78 1.78h.44c.98 0 1.78-.8 1.78-1.78v-.04a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.04.02a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.04-.02a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.04-.02a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.04.02a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73v-.04C14 2.8 13.2 2 12.22 2Z"/><circle cx="12" cy="12" r="3"/></svg></span> Project Settings</button></li>
+      <li data-step="editor"><button type="button" data-view="editor"><span aria-hidden="true">1</span> Bühnenplan</button></li>
+      <li data-step="routing"><button type="button" data-view="routing"><span aria-hidden="true"><svg data-nav-icon="share" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.35"/><circle cx="18.5" cy="5.5" r="2.35"/><circle cx="18.5" cy="18.5" r="2.35"/><path d="m7.15 10.95 9.2-4.4M7.15 13.05l9.2 4.4"/></svg></span> Kanäle &amp; Routing</button></li>
+      <li data-step="project"><button type="button" data-view="project"><span aria-hidden="true"><svg data-nav-icon="settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44A1.78 1.78 0 0 0 10 3.78v.04a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.04-.02a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.04.02a2 2 0 0 1 1 1.74v.5a2 2 0 0 1-1 1.74l-.04.02a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.04-.02a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.04c0 .98.8 1.78 1.78 1.78h.44c.98 0 1.78-.8 1.78-1.78v-.04a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.04.02a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.04-.02a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.04-.02a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.04.02a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73v-.04C14 2.8 13.2 2 12.22 2Z"/><circle cx="12" cy="12" r="3"/></svg></span> Projektdaten</button></li>
+      <li data-step="print"><button type="button" data-view="print" id="sp-show-print"><span aria-hidden="true">↗</span> Export &amp; Teilen</button></li>
     </ol></nav>
     <div class="sp-otter-mode" id="sp-otter-mode" aria-hidden="true"><span class="sp-otter-trail">🐾　✦　🐾　✧　🐾</span><img class="sp-otter-surfer" src="./stageplot-assets/branding/stageplotter-icon.png" alt=""><span class="sp-otter-mode-label" role="status" aria-live="polite"></span></div>
     <div class="sp-project-summary"><h2 id="sp-project-heading" role="button" tabindex="0" aria-label="Projekt umbenennen" title="Projektname anklicken zum Umbenennen">Mein Live-Setup</h2><div id="sp-editor-meta"></div><form id="sp-project-rename-form" hidden><label class="sp-visually-hidden" for="sp-project-rename-input">Projektname</label><input id="sp-project-rename-input" type="text" maxlength="60" required autocomplete="off" spellcheck="false" aria-label="Projektname bearbeiten"></form></div>
     <div class="sp-header-status" aria-label="Speicherstatus"><span class="sp-save-dot" aria-hidden="true"></span><span id="sp-header-draft-status">Entwurf lokal</span></div>
-    <button class="sp-header-help sp-header-gear" type="button" id="sp-settings-gear" aria-label="Einstellungen" title="Einstellungen"><svg data-header-icon="settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44A1.78 1.78 0 0 0 10 3.78v.04a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.04-.02a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.04.02a2 2 0 0 1 1 1.74v.5a2 2 0 0 1-1 1.74l-.04.02a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.04-.02a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.04c0 .98.8 1.78 1.78 1.78h.44c.98 0 1.78-.8 1.78-1.78v-.04a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.04.02a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.04-.02a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.04-.02a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.04.02a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73v-.04C14 2.8 13.2 2 12.22 2Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    <button class="sp-header-help sp-header-gear" type="button" id="sp-settings-gear" aria-label="App-Einstellungen" title="App-Einstellungen"><svg data-header-icon="settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44A1.78 1.78 0 0 0 10 3.78v.04a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.04-.02a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.04.02a2 2 0 0 1 1 1.74v.5a2 2 0 0 1-1 1.74l-.04.02a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.04-.02a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.04c0 .98.8 1.78 1.78 1.78h.44c.98 0 1.78-.8 1.78-1.78v-.04a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.04.02a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.04-.02a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.04-.02a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.04.02a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73v-.04C14 2.8 13.2 2 12.22 2Z"/><circle cx="12" cy="12" r="3"/></svg></button>
     <button class="sp-header-help" type="button" id="sp-help-open" aria-label="Tastaturbefehle und Hilfe" title="Tastaturbefehle">?</button>
   </header>
 
@@ -56,8 +56,8 @@
       <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
     <div class="sp-plan-card" id="sp-plan-card">
-      <div class="sp-plan-message"><span class="sp-plan-kicker" id="sp-plan-kicker">KOSTENLOSE PRO-BETA</span><strong id="sp-plan-usage">Pro-Funktionen während der Beta kostenlos testen</strong><small id="sp-plan-copy">Aktiviere Pro-Beta ohne Zahlung und ohne Abo.</small></div>
-      <div class="sp-plan-control"><button class="sp-plan-switch" type="button" id="sp-upgrade-open" role="switch" aria-checked="false" aria-label="Kostenlose Pro-Beta aktivieren"><span class="sp-plan-standard">Standard</span><span class="sp-plan-switch-track" aria-hidden="true"><span></span></span><span class="sp-plan-pro">Pro-Beta</span></button><small id="sp-plan-action-copy">Der Schalter gilt nur lokal auf diesem Gerät.</small></div>
+      <div class="sp-plan-message"><span class="sp-plan-kicker" id="sp-plan-kicker">KOSTENLOSE PRO-BETA</span><details class="sp-beta-details"><summary>Was ist enthalten?</summary><strong id="sp-plan-usage"></strong><small id="sp-plan-copy"></small><small id="sp-plan-action-copy"></small></details></div>
+      <div class="sp-plan-control"><button class="sp-plan-switch" type="button" id="sp-upgrade-open" role="switch" aria-checked="false" aria-label="Kostenlose Pro-Beta aktivieren"><span class="sp-plan-standard">Standard</span><span class="sp-plan-switch-track" aria-hidden="true"><span></span></span><span class="sp-plan-pro">Pro-Beta</span></button></div>
     </div>
     <div class="sp-dashboard-section-head"><div><h2>Vorhandene Projekte</h2><span id="sp-project-count" class="sp-muted"></span></div><label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-project-search" type="search" placeholder="Projekt suchen …" aria-label="Projekt suchen"></label></div>
     <div id="sp-project-grid" class="sp-project-grid"></div>
@@ -276,17 +276,17 @@
         </div>
         </section>
       </aside>
-      <button class="sp-sidebar-edge-toggle sp-sidebar-edge-toggle-left" type="button" id="sp-library-open" aria-label="Bausteinbibliothek aufklappen" aria-controls="sp-library" aria-expanded="false" title="Bausteinbibliothek aufklappen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button class="sp-sidebar-edge-toggle sp-sidebar-edge-toggle-right" type="button" id="sp-inspector-open" aria-label="Eigenschaften und Ebenen aufklappen" aria-controls="sp-inspector" aria-expanded="false" title="Eigenschaften und Ebenen aufklappen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 5-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="sp-sidebar-edge-toggle sp-sidebar-edge-toggle-left" type="button" id="sp-library-open" aria-label="Bausteinbibliothek aufklappen" aria-controls="sp-library" aria-expanded="false" title="Bausteinbibliothek aufklappen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Bausteine</button>
+      <button class="sp-sidebar-edge-toggle sp-sidebar-edge-toggle-right" type="button" id="sp-inspector-open" aria-label="Eigenschaften und Ebenen aufklappen" aria-controls="sp-inspector" aria-expanded="false" title="Eigenschaften und Ebenen aufklappen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 5-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="sp-inspector-open-label">Ebenen</span></button>
       <button class="sp-sidebar-scrim" type="button" id="sp-sidebar-scrim" aria-label="Seitenleiste schließen"></button>
     </div>
   </section>
 
   <section id="sp-routing" class="sp-routing" hidden>
-    <div class="sp-page-heading sp-routing-heading"><div><h1>Routing</h1><p id="sp-routing-summary">0 Inputs · 0 Outputs</p></div><div class="sp-page-actions"><button class="sp-button" type="button" id="sp-routing-sync">Aus Bühne aktualisieren</button><button class="sp-button sp-primary" type="button" id="sp-routing-auto">Auto-Assign</button></div></div>
+    <div class="sp-page-heading sp-routing-heading"><div><h1>Routing</h1><p id="sp-routing-summary">0 Inputs · 0 Outputs</p></div><div class="sp-page-actions"><button class="sp-button" type="button" id="sp-routing-sync">Aus Bühne aktualisieren</button><button class="sp-button sp-primary" type="button" id="sp-routing-auto">Automatisch zuordnen</button></div></div>
     <div class="sp-routing-toolbar">
-      <div id="sp-routing-tabs" class="sp-routing-tabs" role="tablist" aria-label="Routing-Bereiche"><button type="button" id="sp-input-tab" role="tab" aria-selected="true" data-routing-tab="inputs">Input Channels <span id="sp-input-count">0</span></button><button type="button" id="sp-output-tab" role="tab" aria-selected="false" data-routing-tab="outputs">Output Channels <span id="sp-output-count">0</span></button><button type="button" id="sp-stagebox-tab" role="tab" aria-selected="false" data-routing-tab="stageboxes">Stagebox-View <span id="sp-stagebox-count">0</span></button></div>
-      <div class="sp-routing-actions"><button class="sp-button" type="button" id="sp-routing-add">+ Kanal</button><button class="sp-button" type="button" id="sp-routing-csv-import">CSV importieren</button><input id="sp-routing-csv-file" type="file" accept="text/csv,.csv" hidden><button class="sp-button" type="button" id="sp-routing-pdf">PDF / Drucken</button><button class="sp-button" type="button" id="sp-routing-csv">CSV exportieren</button><button class="sp-button" type="button" id="sp-routing-xlsx">XLSX <span class="sp-pro-badge">PRO</span></button><button class="sp-button sp-danger-quiet" type="button" id="sp-routing-reset">Reset Routing</button></div>
+      <div id="sp-routing-tabs" class="sp-routing-tabs" role="tablist" aria-label="Routing-Bereiche"><button type="button" id="sp-input-tab" role="tab" aria-selected="true" data-routing-tab="inputs">Eingänge <span id="sp-input-count">0</span></button><button type="button" id="sp-output-tab" role="tab" aria-selected="false" data-routing-tab="outputs">Ausgänge <span id="sp-output-count">0</span></button><button type="button" id="sp-stagebox-tab" role="tab" aria-selected="false" data-routing-tab="stageboxes">Stagebox-Belegung <span id="sp-stagebox-count">0</span></button></div>
+      <div class="sp-routing-actions"><button class="sp-button" type="button" id="sp-routing-add">+ Kanal</button><button class="sp-button" type="button" id="sp-routing-csv-import">CSV importieren</button><input id="sp-routing-csv-file" type="file" accept="text/csv,.csv" hidden><button class="sp-button" type="button" id="sp-routing-pdf">PDF / Drucken</button><button class="sp-button" type="button" id="sp-routing-csv">CSV exportieren</button><button class="sp-button" type="button" id="sp-routing-xlsx">XLSX <span class="sp-pro-badge">PRO</span></button><button class="sp-button sp-danger-quiet" type="button" id="sp-routing-reset">Routing zurücksetzen</button></div>
     </div>
     <div class="sp-routing-table-wrap"><table class="sp-routing-table"><thead><tr><th aria-label="Reihenfolge"></th><th>CH</th><th>Instrument / Input</th><th>Mode</th><th>Signal</th><th>Mikrofon</th><th>48V</th><th>Stagebox</th><th>Notizen</th><th></th></tr></thead><tbody id="sp-routing-rows"></tbody></table><div id="sp-routing-empty" class="sp-routing-empty" hidden><strong>Noch keine Kanäle</strong><span>„Aus Bühne aktualisieren“ übernimmt Instrumente und Drum-Mikrofonierung.</span></div></div>
     <div id="sp-stagebox-view" class="sp-stagebox-view" aria-label="Stagebox-Ports" hidden></div>
@@ -294,17 +294,17 @@
   </section>
 
   <section id="sp-project" class="sp-project-settings" aria-labelledby="sp-project-dialog-title" hidden>
-    <div class="sp-dialog-heading sp-project-dialog-heading"><div><span class="sp-eyebrow">PRODUKTIONSDATEN</span><h1 id="sp-project-dialog-title">Project Settings</h1><p>Angaben für geteilte Pläne und technische PDFs.</p></div><button class="sp-button" type="button" id="sp-project-close" aria-label="Zurück zum Entwurf">← Zurück</button></div>
+    <div class="sp-dialog-heading sp-project-dialog-heading"><div><span class="sp-eyebrow">PRODUKTIONSDATEN</span><h1 id="sp-project-dialog-title">Projektdaten</h1><p>Angaben für geteilte Pläne und technische PDFs.</p></div><button class="sp-button" type="button" id="sp-project-close" aria-label="Zurück zum Bühnenplan">← Zurück</button></div>
     <div class="sp-project-tabs" role="tablist" aria-label="Projekteinstellungen"><button type="button" role="tab" aria-selected="true" aria-controls="sp-project-panel-general" data-project-tab="general"><span>01</span> Projekt</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-contacts" data-project-tab="contacts"><span>02</span> Kontakte</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-notes" data-project-tab="notes"><span>03</span> Notizen</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-production" data-project-tab="production"><span>04</span> Technik &amp; FOH</button></div>
     <form id="sp-project-form" class="sp-project-form">
       <section id="sp-project-panel-general" class="sp-settings-card" role="tabpanel" data-project-panel="general"><div class="sp-settings-card-title"><div><h2>Projektinformationen</h2><p>Gig, Produktion und Bühnenmaße</p></div></div><div class="sp-settings-fields">
         <div class="sp-project-identity-summary"><button type="button" class="sp-project-identity" id="sp-project-id-copy" aria-label="Projekt-ID kopieren"><span>Projekt-ID</span><code id="sp-project-id"></code><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 4V3H3v9h1"/></svg></button><p id="sp-project-storage" class="sp-project-storage" role="status" aria-live="polite"></p></div>
         <label class="sp-field sp-project-name-field">Projektname<input id="sp-project-name" maxlength="60" required></label>
-        <label class="sp-field sp-project-date-field">Datum<input id="sp-project-date" type="date"></label><label class="sp-field">Artist / Band Name<input id="sp-project-artist" maxlength="80"></label>
-        <label class="sp-field">Venue<input id="sp-project-venue" maxlength="100"></label><label class="sp-field">Autor / Engineer<input id="sp-project-author" maxlength="80"></label>
-        <label class="sp-field">Tour Name<input id="sp-project-tour" maxlength="80"></label><label class="sp-field">Production Company<input id="sp-project-company" maxlength="100"></label>
-        <label class="sp-field"><span id="sp-project-width-label">Bühnenbreite (m)</span><input id="sp-project-width" type="number" min="2" step="any" required></label><label class="sp-field"><span id="sp-project-depth-label">Bühnentiefe (m)</span><input id="sp-project-depth" type="number" min="2" step="any" required></label>
-        <label class="sp-field">Maßeinheit<select id="sp-project-unit"><option value="m">Meter</option><option value="ft">Feet</option></select></label>
+        <label class="sp-field sp-project-date-field">Datum<input id="sp-project-date" type="date"></label><label class="sp-field">Band / Act<input id="sp-project-artist" maxlength="80"></label>
+        <label class="sp-field">Location<input id="sp-project-venue" maxlength="100"></label><label class="sp-field">Autor / Engineer<input id="sp-project-author" maxlength="80"></label>
+        <label class="sp-field">Tour<input id="sp-project-tour" maxlength="80"></label><label class="sp-field">Produktionsfirma<input id="sp-project-company" maxlength="100"></label>
+        <label class="sp-field"><span id="sp-project-width-label">Bühnenbreite (m)</span><input id="sp-project-width" type="number" min="2" max="30" step="any" required></label><label class="sp-field"><span id="sp-project-depth-label">Bühnentiefe (m)</span><input id="sp-project-depth" type="number" min="2" max="20" step="any" required></label>
+        <div class="sp-project-identity-summary"><p id="sp-project-footprint" class="sp-project-storage"></p><button type="button" class="sp-button" id="sp-project-shape">Bühnenform bearbeiten</button></div><label class="sp-field">Maßeinheit<select id="sp-project-unit"><option value="m">Meter</option><option value="ft">Feet</option></select></label>
       </div></section>
       <section id="sp-project-panel-contacts" class="sp-settings-card" role="tabpanel" data-project-panel="contacts" hidden><div class="sp-settings-card-title"><div><h2>Technische Kontakte</h2><p>Ansprechpersonen für Venue und Produktion</p></div></div><div class="sp-settings-fields">
         <label class="sp-field">Stage Manager<input id="sp-contact-stage-manager" maxlength="80"></label><label class="sp-field">Stage Manager Kontakt<input id="sp-contact-stage-manager-value" maxlength="120"></label>
@@ -321,30 +321,34 @@
         <label class="sp-field">Details zur Übergabe<input id="sp-handover-notes" maxlength="120" placeholder="z. B. L/R, Kabel stellt Venue"></label>
         <div><strong>FOH-Platz</strong><p class="sp-muted">Den FOH-Platz im Bausteinkatalog unter Technik platzieren. Dort Größe, Strom, Tisch, Absperrung und Wetterschutz festlegen.</p><button type="button" class="sp-button" id="sp-add-foh">FOH-Platz vor der Bühne ergänzen</button></div>
       </div></section>
-      <div class="sp-actions sp-project-dialog-actions"><button class="sp-button" type="button" id="sp-project-cancel">Zurück zum Entwurf</button><button class="sp-button" type="button" id="sp-project-export">Exportieren …</button><button class="sp-button" type="button" id="sp-project-saveas">Speichern unter …</button><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-project-apply">Übernehmen</button><button class="sp-button sp-primary" type="submit" id="sp-project-save">Speichern</button></div>
+      <div class="sp-actions sp-project-dialog-actions"><span class="sp-autosave-hint">Änderungen werden automatisch lokal gespeichert.</span><button class="sp-button" type="button" id="sp-project-export">Sicherung herunterladen</button><button class="sp-button" type="button" id="sp-project-saveas">Projekt duplizieren</button><button class="sp-button sp-primary" type="button" id="sp-project-cancel">Zurück zum Bühnenplan</button></div>
     </form>
   </section>
 
   <section id="sp-print" class="sp-print" hidden>
     <div class="sp-export-wizard">
       <aside class="sp-export-controls" aria-label="Export-Einstellungen">
-        <header><span class="sp-eyebrow">EXPORT-WIZARD</span><h1>Stageplot ausgeben</h1><p>Die Vorschau rechts entspricht dem späteren PDF. PNG-Dateien werden ohne weißen Außenrand auf den Plan zugeschnitten.</p></header>
-        <section class="sp-export-control-group"><h2>1. Ausgabe</h2><input id="sp-export-format" type="hidden" value="png-normal"><div class="sp-export-choice-grid" role="group" aria-label="Ausgabeformat"><button type="button" data-export-format="png-normal" aria-pressed="true"><strong>PNG</strong><small>Normal</small></button><button type="button" data-export-format="png-4k" aria-pressed="false"><strong>PNG</strong><small>4K</small></button><button type="button" data-export-format="pdf" aria-pressed="false"><strong>PDF</strong><small>Drucken</small></button></div><input id="sp-export-scale" type="hidden" value="2"></section>
-        <section class="sp-export-control-group"><h2>2. Plan</h2><div class="sp-export-toggle-grid">
+        <header><span class="sp-eyebrow">EXPORT &amp; TEILEN</span><h1>Was möchtest du weitergeben?</h1></header>
+        <div class="sp-export-intents" role="group" aria-label="Verwendungszweck"><button type="button" data-export-intent="image" aria-pressed="true"><strong>Bühnenplan als Bild</strong><small>Für Nachrichten, Websites oder Präsentationen</small></button><button type="button" data-export-intent="technical" aria-pressed="false"><strong>Technische Infos für Veranstalter</strong><small>Bühne, Kontakte, Strom, FOH und Kanallisten</small></button><button type="button" data-export-intent="share" aria-pressed="false"><strong>Ansichtslink teilen</strong><small>Projekt ohne Bearbeitungszugriff ansehen</small></button></div>
+        <p id="sp-export-purpose" class="sp-export-purpose">Ein Bild des Bühnenplans, passend zugeschnitten.</p>
+        <details id="sp-export-details" class="sp-export-details"><summary>Details anpassen</summary>
+        <section class="sp-export-control-group"><h2>Format</h2><input id="sp-export-format" type="hidden" value="png-normal"><div class="sp-export-choice-grid" role="group" aria-label="Ausgabeformat"><button type="button" data-export-format="png-normal" aria-pressed="true"><strong>PNG</strong><small>Normal</small></button><button type="button" data-export-format="png-4k" aria-pressed="false"><strong>PNG</strong><small>4K</small></button><button type="button" data-export-format="pdf" aria-pressed="false"><strong>PDF</strong><small>Drucken</small></button></div><input id="sp-export-scale" type="hidden" value="2"></section>
+        <section class="sp-export-control-group"><h2>Beschriftungen &amp; Darstellung</h2><div class="sp-export-toggle-grid">
           <label class="sp-export-toggle"><input id="sp-print-labels" type="checkbox" checked><span>Objektbezeichnungen</span></label>
           <label class="sp-export-toggle"><input id="sp-print-outs" type="checkbox" checked><span>Inputs &amp; Outs</span></label>
           <label class="sp-export-toggle"><input id="sp-print-cables" type="checkbox" checked><span>Kabel</span></label>
           <label class="sp-export-toggle"><input id="sp-print-measures" type="checkbox" checked><span>Maße</span></label>
           <label class="sp-export-toggle"><input id="sp-print-black-stage" type="checkbox"><span>Schwarze Bühne</span></label>
         </div></section>
-        <section class="sp-export-control-group"><h2>3. Papierinhalt</h2><div class="sp-export-toggle-grid">
+        <section class="sp-export-control-group" id="sp-export-paper-options" hidden><h2>PDF-Inhalte</h2><div class="sp-export-toggle-grid">
           <label class="sp-export-toggle"><input id="sp-print-legend-toggle" type="checkbox"><span>Legende</span></label>
-          <label class="sp-export-toggle"><input id="sp-print-notes" type="checkbox" checked><span>Notizen</span></label>
+          <label class="sp-export-toggle"><input id="sp-print-production" type="checkbox"><span>Projektdaten &amp; Technik</span></label>
+          <label class="sp-export-toggle"><input id="sp-print-notes" type="checkbox"><span>Notizen</span></label>
           <label class="sp-export-toggle"><input id="sp-print-inputs" type="checkbox"><span>Input-Liste</span></label>
           <label class="sp-export-toggle"><input id="sp-print-routing" type="checkbox"><span>Output-Routing</span></label>
         </div></section>
         <section class="sp-export-control-group" id="sp-export-background-group"><h2>PNG-Hintergrund</h2><input id="sp-export-background" type="hidden" value="white"><div class="sp-export-background-pills" role="group" aria-label="PNG-Hintergrund"><button type="button" data-export-background="white" aria-pressed="true">Weiß</button><button type="button" data-export-background="transparent" aria-pressed="false">Transparent</button></div></section>
-        <div class="sp-export-actions"><button class="sp-button sp-primary" type="button" id="sp-export-png">PNG exportieren</button><button class="sp-button" type="button" id="sp-print-complete">Produktions-PDF <span class="sp-pro-badge">PRO</span></button><button class="sp-button" type="button" id="sp-share-open">Teilen</button><button class="sp-button" type="button" id="sp-print-page" hidden>PDF drucken</button></div>
+        </details><div class="sp-export-actions"><button class="sp-button sp-primary" type="button" id="sp-export-png">Bild herunterladen</button><p id="sp-export-beta-hint" hidden>Veranstalter-PDF: kostenlos mit aktivierter Pro-Beta.</p><button type="button" id="sp-print-complete" hidden>Veranstalter-PDF</button><button type="button" id="sp-share-open" hidden>Ansichtslink erstellen</button><button type="button" id="sp-print-page" hidden>PDF drucken</button></div>
         <span id="sp-preview-live" role="status" aria-live="polite" hidden></span>
       </aside>
       <main class="sp-export-preview" aria-label="Exportvorschau">
@@ -354,6 +358,7 @@
             <header class="sp-paper-header"><div><span>STAGEPLOT</span><h2 id="sp-print-title"></h2></div><strong id="sp-print-dimensions"></strong></header>
             <div id="sp-print-floor" class="sp-floor-host"></div>
             <div id="sp-print-paper-sections" class="sp-print-paper-sections">
+              <section id="sp-print-production-section" class="sp-print-paper-section" hidden><h3>Projektdaten &amp; technische Anforderungen</h3><div id="sp-print-production-copy"></div></section>
               <section id="sp-print-legend-section" class="sp-print-paper-section" hidden><h3>Legende</h3><div id="sp-print-legend" class="sp-print-legend"></div></section>
               <section id="sp-print-notes-section" class="sp-print-paper-section" hidden><h3>Notizen</h3><p id="sp-print-notes-copy"></p></section>
               <section id="sp-print-inputs-section" class="sp-print-paper-section sp-print-routing-section" hidden><h3>Input-Liste</h3><div id="sp-print-input-list"></div></section>
@@ -379,7 +384,7 @@
         <fieldset class="sp-channel-pill-field"><legend>Signal</legend><input id="sp-channel-signal" type="hidden" value="Mic"><div class="sp-channel-pills" data-channel-pill-group="sp-channel-signal"><button type="button" data-channel-value="Mic">Mic</button><button type="button" data-channel-value="Line">Line</button><button type="button" data-channel-value="Instrument">Instrument</button><button type="button" data-channel-value="Digital">Digital</button></div></fieldset>
       </div>
       <div class="sp-channel-detail-row"><fieldset class="sp-channel-pill-field sp-channel-microphone-field"><legend>Mikrofon</legend><input id="sp-channel-microphone" type="hidden" value=""><div class="sp-microphone-pills" data-channel-pill-group="sp-channel-microphone"><button type="button" class="sp-mic-none" data-channel-value="" aria-label="Kein Mikrofon">Keines</button><button type="button" data-channel-value="Shure SM57" aria-label="Shure SM57" title="Shure SM57"><span class="sp-mic-sprite sp-mic-sm57" aria-hidden="true"></span><small>SM57</small></button><button type="button" data-channel-value="Telefunken M80" aria-label="Telefunken M80" title="Telefunken M80"><span class="sp-mic-sprite sp-mic-m80" aria-hidden="true"></span><small>M80</small></button><button type="button" data-channel-value="Beyerdynamic M201TG" aria-label="Beyerdynamic M201TG" title="Beyerdynamic M201TG"><span class="sp-mic-sprite sp-mic-m201" aria-hidden="true"></span><small>M201TG</small></button><button type="button" data-channel-value="Neumann KM 184" aria-label="Neumann KM 184" title="Neumann KM 184"><span class="sp-mic-sprite sp-mic-km184" aria-hidden="true"></span><small>KM 184</small></button><button type="button" data-channel-value="sE Electronics V7" aria-label="sE Electronics V7" title="sE Electronics V7"><span class="sp-mic-sprite sp-mic-v7" aria-hidden="true"></span><small>V7</small></button><button type="button" data-channel-value="Audix i5" aria-label="Audix i5" title="Audix i5"><span class="sp-mic-sprite sp-mic-i5" aria-hidden="true"></span><small>i5</small></button><button type="button" data-channel-value="Sennheiser 421" aria-label="Sennheiser 421" title="Sennheiser 421"><span class="sp-mic-sprite sp-mic-421" aria-hidden="true"></span><small>421</small></button></div></fieldset><label class="sp-channel-toggle"><input id="sp-channel-phantom" type="checkbox"><span>48V</span></label></div>
-      <fieldset class="sp-channel-pill-field sp-channel-stagebox-field"><legend>Stagebox</legend><input id="sp-channel-stagebox" type="hidden" value=""><div id="sp-channel-stagebox-pills" class="sp-channel-pills sp-channel-stagebox-pills" data-channel-pill-group="sp-channel-stagebox"></div><small id="sp-channel-stagebox-hint">Auto-Assign nutzt die nächste Stagebox mit freien Ports.</small></fieldset>
+      <fieldset class="sp-channel-pill-field sp-channel-stagebox-field"><legend>Stagebox</legend><input id="sp-channel-stagebox" type="hidden" value=""><div id="sp-channel-stagebox-pills" class="sp-channel-pills sp-channel-stagebox-pills" data-channel-pill-group="sp-channel-stagebox"></div><small id="sp-channel-stagebox-hint">Automatisch zuordnen nutzt die nächste Stagebox mit freien Ports.</small></fieldset>
       <label class="sp-field">Notizen<textarea id="sp-channel-notes" rows="2" maxlength="240"></textarea></label>
       <div class="sp-actions"><button class="sp-button sp-danger-quiet" type="button" id="sp-channel-delete">Kanal löschen</button><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-channel-cancel">Abbrechen</button><button class="sp-button sp-primary" type="submit">Übernehmen</button></div>
     </form>
@@ -404,7 +409,7 @@
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">MODELLWECHSEL</span><h2 id="sp-model-dialog-title">Modell auswählen</h2><p id="sp-model-dialog-summary" class="sp-muted"></p></div><button class="sp-stagebox-close-button" type="button" id="sp-model-dialog-close" aria-label="Modellauswahl schließen">×</button></div>
     <div class="sp-model-dialog-options" id="sp-model-dialog-options" role="listbox" aria-labelledby="sp-model-dialog-title"></div>
   </dialog>
-  <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title"><div class="sp-dialog-heading"><h2 id="sp-share-title">Read-only-Link teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div><p>Empfänger sehen Stageplot und Projektdaten, können sie aber nicht bearbeiten.</p><label class="sp-field">Link<textarea id="sp-share-link" rows="4" readonly></textarea></label><div class="sp-actions"><button class="sp-button" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button sp-primary" type="button" id="sp-share-preview">Read-only öffnen</button></div><p id="sp-share-status" class="sp-muted" role="status"></p></dialog>
+  <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title"><div class="sp-dialog-heading"><h2 id="sp-share-title">Ansichtslink teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div><p>Empfänger sehen Bühnenplan und Projektdaten, können sie aber nicht bearbeiten. Der Link enthält den aktuellen Stand; für spätere Änderungen einen neuen Link erstellen.</p><label class="sp-field">Link<textarea id="sp-share-link" rows="4" readonly></textarea></label><div class="sp-actions"><button class="sp-button" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button sp-primary" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div><p id="sp-share-status" class="sp-muted" role="status"></p></dialog>
   <dialog id="sp-upgrade-dialog" class="sp-clear-dialog sp-upgrade-dialog" aria-labelledby="sp-upgrade-title"><div class="sp-dialog-heading"><div><span class="sp-eyebrow">KOSTENLOSE PRO-BETA</span><h2 id="sp-upgrade-title">Pro-Funktionen kostenlos aktivieren</h2></div><button class="sp-button" type="button" id="sp-upgrade-close" aria-label="Pro-Beta schließen">×</button></div><p>Während der öffentlichen Beta kannst du Pro auf diesem Gerät kostenlos nutzen:</p><ul><li>Unbegrenzte Projekte</li><li>Complete-PDF mit Routing und Kontakten</li><li>XLSX-Export der Kanalliste</li></ul><p class="sp-muted">Keine Zahlung, kein Abo. Die Freischaltung wird nur lokal gespeichert und lässt sich jederzeit wieder auf „Standard“ stellen.</p><button class="sp-button sp-primary sp-upgrade-button" type="button" id="sp-upgrade-demo">Pro-Beta kostenlos aktivieren</button></dialog>
   <dialog id="sp-newproject-dialog" class="sp-clear-dialog sp-newproject-dialog" aria-labelledby="sp-np-heading">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">NEUES PROJEKT</span><h2 id="sp-np-heading">Projekt anlegen</h2><p class="sp-muted" id="sp-np-name-preview">Neues Projekt</p></div><button class="sp-button" type="button" id="sp-np-close" aria-label="Schließen">×</button></div>
@@ -525,12 +530,12 @@
             <h4>Produktionsworkflow, Export und kompakte Modellwahl</h4>
             <ul>
               <li>Neue Projekte, gespeicherte Projekte und automatische Entwürfe besitzen getrennte IDs; ein neues Projekt überschreibt keinen älteren Aufbau mehr.</li>
-              <li>Project Settings ist eine eigene Seite, Projektkarten stehen in einem Drei-Spalten-Raster und enthalten eine echte Planvorschau, Download sowie abgesichertes Löschen.</li>
+              <li>Projektdaten ist eine eigene Seite, Projektkarten stehen in einem Drei-Spalten-Raster und enthalten eine echte Planvorschau, Download sowie abgesichertes Löschen.</li>
               <li>Der papiergetreue Export-Wizard bietet PNG, 4K-PNG und PDF sowie direkte Pills für Beschriftungen, I/O, Kabel, Maße, Legende, Notizen und Routinglisten.</li>
               <li>Kabel können sowohl im Entwurf über den Kabel-Tab als auch separat in Vorschau und Export ausgeblendet werden.</li>
               <li>Keyboard, Gitarre und Bass erscheinen links jeweils nur einmal; derselbe große Modell-Picker dient zum Platzieren und zum späteren Modellwechsel.</li>
               <li>Das Patch Overview unterstützt IEM-Ausgänge, rote 48-V-Schaltung, automatische Kanalnummern sowie MADI und Dante; Quellen werden sofort verbunden und nach Instrument gruppiert.</li>
-              <li>Der allgemeine System-/Hell-/Dunkel-Schalter gilt nun auch für Projekte, Routing, Project Settings und die Export-Bedienoberfläche; das Druckpapier bleibt bewusst weiß.</li>
+              <li>Der allgemeine System-/Hell-/Dunkel-Schalter gilt nun auch für Projekte, Routing, Projektdaten und die Export-Bedienoberfläche; das Druckpapier bleibt bewusst weiß.</li>
               <li>Neue Produktionsobjekte umfassen Korg KRONOS 3, Korg SV-1, Hammond B-3, EW-D, SM57, XR18, WING Compact/Rack, Hocker und zusätzliche Bühnenbauteile.</li>
               <li>CM14-Wedge, Quad Cortex und Blechbläser besitzen detailliertere technische Draufsichten; Handmikrofone sind als gut lesbare 2×-Plansymbole mit dokumentiertem Originalmaß verfügbar.</li>
               <li>Treppen sind realistischer gezeichnet, ihre Bearbeitungsbox liegt außerhalb der Stufen und die Ziehlogik bleibt auch an oberer und rechter Bühnenkante korrekt verankert.</li>
@@ -574,7 +579,7 @@
               <li>Rastermaß in Zentimetern, maßstäbliche Bühnenanzeige und präzisere Treppen mit Breite, Tiefe, verankerter Skalierung und Duplizieren.</li>
               <li>Komplexe Bühnen mit magnetisch anklippbaren 2 × 1-m-Modulen und eigenem Bühnen-Hovermenü.</li>
               <li>Stufenlose Drehung, direkter 0°-Reset und Ebenensteuerung auf Canvas und im Drum-Designer.</li>
-              <li>Stagebox-View und manuell ziehbare, weiche Multicore-Kabel mit magnetischer Portzuweisung und frei einstellbarer Kabellänge.</li>
+              <li>Stagebox-Belegung und manuell ziehbare, weiche Multicore-Kabel mit magnetischer Portzuweisung und frei einstellbarer Kabellänge.</li>
               <li>Neue technische Draufsichten: Teleprompter, CM14-Wedge, Spot/Wash Moving Heads, Funkeneffekt, Nebelmaschine, Wave Bar und Licht-Flightcase.</li>
               <li>Projektkarten mit echter Vorschau, portablem Projekt-Download und abgesichertem Löschen durch Eingabe des Projektnamens.</li>
               <li>Projektname direkt im Kopfbereich umbenennen, ohne das mittige Navigationsband zu verschieben.</li>
@@ -587,7 +592,7 @@
             <header><div><strong>v0.1.0-beta.2</strong></div><time datetime="2026-09-02">2. September 2026</time></header>
             <h4>Direkter planen, leichter lesen</h4>
             <ul>
-              <li>Neuer Projekt-Workflow mit Dashboard, Band-/Location-Popup, Größenvorschau und Project Settings.</li>
+              <li>Neuer Projekt-Workflow mit Dashboard, Band-/Location-Popup, Größenvorschau und Projektdaten.</li>
               <li>Bühne und Treppe lassen sich direkt und flüssig auf dem Canvas skalieren; IEM-Bereich und Treppe sind auswählbar und löschbar.</li>
               <li>Ebenen-Menü mit Duplizieren, Sperren und Löschen sowie korrigierter Auswahl- und Vorschau-Logik.</li>
               <li>Outs-Schalter in der Canvas-Toolbar und schnelleres Zurücklegen aufgenommener Bausteine.</li>
@@ -607,7 +612,7 @@
             <ul>
               <li>Eigenständiger 2D-Bühneneditor mit Bausteinkatalog, Drag &amp; Drop, Drehen, Sperren und Ebenenliste.</li>
               <li>Maßstäbliche Bühne mit Podesten, Bühnentreppe, IEM-/Rack-Bereich und frei konfigurierbaren Drumsets.</li>
-              <li>Input-/Output-Routing mit Stageboxen, Auto-Assign sowie CSV-, XLSX- und PDF-Ausgabe.</li>
+              <li>Input-/Output-Routing mit Stageboxen, Automatisch zuordnen sowie CSV-, XLSX- und PDF-Ausgabe.</li>
               <li>Druckvorschau, technische Dokumente und portabler Projekt-Export.</li>
               <li>Lokale Projekte und automatische Entwürfe mit Wiederherstellung und Migration bestehender Browserdaten.</li>
               <li>Offline nutzbare Einzeldatei und erste öffentliche Veröffentlichung über GitHub Pages.</li>
@@ -2918,7 +2923,7 @@
 #sp-prototype[data-readonly="true"] :is(#sp-file-menu,[data-editor-actions],#sp-project-new,#sp-project-import,#sp-project-save,#sp-project-apply,#sp-routing-auto,#sp-routing-sync,#sp-routing-add,#sp-routing-reset,.sp-object-rotate,.sp-drum-hover-open,.sp-stagebox-hover-open) { display:none !important; }
 #sp-prototype[data-readonly="true"] :is(#sp-library,#sp-library-open,[data-route-edit],#sp-routing-xlsx,#sp-routing-csv,#sp-routing-pdf) { display:none !important; }
 #sp-prototype[data-readonly="true"] #sp-editor-floor .sp-object { pointer-events:none !important; }
-#sp-prototype[data-readonly="true"] .sp-header-status::after { content:"Read-only"; color:#c2f52e; font-size:10px; }
+#sp-prototype[data-readonly="true"] .sp-header-status::after { content:"Nur Ansicht"; color:#c2f52e; font-size:10px; }
 
 /* V49: den Arbeitsbereich ruhiger, direkter und platzsparender bedienen. */
 #sp-prototype[data-view="editor"] > .sp-footer { display:none; }
@@ -4221,7 +4226,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-io-body { min-height:0; height:calc(100% - 68px); overflow:auto; }
 #sp-prototype .sp-stagebox-io-body .sp-stagebox-workbench { min-height:100%; }
 
-/* Stagebox-View nutzt im Routing die komplette verbleibende App-Fläche. */
+/* Stagebox-Belegung nutzt im Routing die komplette verbleibende App-Fläche. */
 #sp-prototype #sp-routing[data-stagebox-mode="true"] { padding:0; background:#07111b; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-heading,#sp-prototype #sp-routing[data-stagebox-mode="true"] #sp-routing-status { display:none; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-toolbar { position:relative; top:auto; max-width:none; min-height:46px; margin:0; padding:6px 12px; border-bottom:1px solid #202b38; background:#09131e; }
@@ -4374,7 +4379,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-drum-output-row small { overflow:visible; text-overflow:clip; white-space:normal; overflow-wrap:anywhere; }
 #sp-prototype .sp-outs-row { width:100%; grid-template-columns:34px minmax(0,1fr) 34px; }
 
-/* V78: Project Settings as a page and a paper-accurate, dropdown-free export wizard. */
+/* V78: Projektdaten as a page and a paper-accurate, dropdown-free export wizard. */
 #sp-prototype > #sp-project { flex:1 1 auto; min-height:0; overflow:auto; }
 #sp-prototype .sp-project-settings .sp-project-form { max-width:1120px; padding:18px clamp(14px,3vw,32px) 26px; }
 #sp-prototype .sp-project-settings .sp-project-dialog-heading { position:sticky; top:0; z-index:3; }
@@ -4763,6 +4768,83 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .svc-facts dd { font-size:16px; }
 }
 /* build-inline:end stageplot-venue-catalog-v1.css */
+
+/* Clear project workflows and more room for the plan. */
+#sp-prototype .sp-export-intents { display:grid; gap:8px; }
+#sp-prototype .sp-export-intents button { display:grid; gap:5px; padding:12px; min-height:60px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-panel); color:var(--sp-ink); text-align:left; }
+#sp-prototype .sp-export-intents button[aria-pressed="true"] { border-color:var(--sp-teal); background:var(--sp-accent-bg); box-shadow:inset 3px 0 var(--sp-teal); }
+#sp-prototype .sp-export-intents strong { font-size:13px; line-height:1.35; }
+#sp-prototype .sp-export-intents small { font-size:11px; line-height:1.4; color:var(--sp-muted); }
+#sp-prototype .sp-export-purpose,#sp-prototype #sp-export-beta-hint { font-size:12px; line-height:1.5; color:var(--sp-muted); }
+#sp-prototype .sp-export-details { margin:14px 0; }
+#sp-prototype .sp-export-details summary { cursor:pointer; padding:10px 0; font-size:12px; font-weight:650; }
+#sp-prototype :is(#sp-export-details,#sp-export-beta-hint,#sp-print-production-section,#sp-print-complete,#sp-share-open,.sp-export-control-group)[hidden] { display:none!important; }
+#sp-prototype #sp-print-production-section { grid-column:1/-1; }
+#sp-prototype #sp-print-production-copy { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 16px; font-size:10px; line-height:1.5; }
+#sp-prototype #sp-print-production-copy p { white-space:pre-wrap; margin:3px 0; }
+#sp-prototype .sp-print-project-fields { display:grid; grid-template-columns:auto minmax(0,1fr); gap:3px 12px; margin:0; }
+#sp-prototype .sp-print-project-fields dt { color:#586058; }
+#sp-prototype .sp-print-project-fields dd { margin:0; overflow-wrap:anywhere; }
+@media screen {
+  #sp-prototype[data-preview-kind="image"] .sp-export-preview .sp-paper { min-height:0; padding:12px; }
+  #sp-prototype[data-preview-kind="image"] :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
+}
+@container sp-frame (min-width:1051px) and (max-width:1450px) {
+  #sp-prototype .sp-header nav { position:relative; top:auto; left:auto; transform:none; order:1; flex:1 1 auto; margin:0; justify-content:center; }
+  #sp-prototype .sp-header .sp-brand-logo { width:130px; }
+  #sp-prototype .sp-header .sp-steps button { padding-inline:8px; gap:5px; }
+  #sp-prototype .sp-header .sp-steps button > span { width:20px; height:20px; flex-basis:20px; }
+  #sp-prototype .sp-header > .sp-project-summary { min-width:120px; width:140px; max-width:140px; flex:0 1 140px; }
+  #sp-prototype .sp-header .sp-header-status { width:130px; flex-basis:130px; }
+}
+#sp-prototype .sp-autosave-hint { flex:1 1 200px; color:var(--sp-muted); font-size:12px; }
+#sp-prototype .sp-project-dialog-actions { flex-wrap:wrap; }
+#sp-prototype > #sp-project { display:flex; flex-direction:column; padding:0; overflow:hidden; }
+#sp-prototype .sp-project-settings :is(.sp-project-dialog-heading,.sp-project-tabs) { position:static; flex:0 0 auto; }
+#sp-prototype .sp-project-settings .sp-project-form { flex:1 1 auto; min-height:0; width:100%; overflow:auto; }
+#sp-prototype .sp-project-settings .sp-project-dialog-actions { position:static; }
+#sp-prototype .sp-project-identity-summary > .sp-button { margin-top:8px; }
+#sp-prototype .sp-plan-card { align-items:flex-start; padding:10px 14px; margin-bottom:14px; }
+#sp-prototype .sp-beta-details { font-size:11px; color:#c7cec7; }
+#sp-prototype .sp-beta-details summary { cursor:pointer; padding:3px 0; }
+#sp-prototype .sp-beta-details[open] { max-width:640px; }
+#sp-prototype .sp-beta-details[open] :is(strong,small) { display:block; margin-top:7px; }
+#sp-prototype .sp-beta-details strong { font-size:13px; }
+#sp-prototype .sp-sidebar-edge-toggle { inset-block-start:64px; width:auto; height:auto; min-height:40px; max-width:46%; padding:8px 10px; gap:5px; grid-auto-flow:column; transform:none; font-size:11px; font-weight:650; border:1px solid var(--sp-line); border-radius:9px; }
+#sp-prototype .sp-sidebar-edge-toggle-left { inset-inline-start:10px; }
+#sp-prototype .sp-sidebar-edge-toggle-right { inset-inline-end:10px; }
+#sp-prototype[data-library-collapsed="true"] .sp-library,
+#sp-prototype[data-inspector-collapsed="true"] .sp-inspector { visibility:hidden; }
+@container sp-frame (max-width:859px) {
+  #sp-prototype .sp-sidebar-edge-toggle { display:grid; }
+  #sp-prototype .sp-sidebar-toggle { min-width:44px; min-height:44px; }
+  #sp-prototype[data-library-collapsed="false"] #sp-library-open,
+  #sp-prototype[data-inspector-collapsed="false"] #sp-inspector-open { visibility:hidden; }
+}
+@container sp-frame (max-width:760px) {
+  #sp-prototype > #sp-dashboard { display:block; overflow:auto; padding:12px; }
+  #sp-prototype .sp-dashboard-hero { gap:10px; margin-bottom:12px; }
+  #sp-prototype .sp-dashboard-intro { gap:12px; align-items:center; }
+  #sp-prototype .sp-dashboard-logo { width:64px; max-height:64px; object-fit:contain; }
+  #sp-prototype .sp-dashboard-intro :is(.sp-eyebrow,p),#sp-prototype .sp-new-project-cta small { display:none; }
+  #sp-prototype .sp-dashboard-intro h1 { font-size:27px; }
+  #sp-prototype .sp-dashboard-actions { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) auto; gap:6px; }
+  #sp-prototype .sp-dashboard-actions .sp-button { min-width:0; min-height:44px; padding:8px; font-size:11px; }
+  #sp-prototype .sp-plan-card { flex-direction:row; align-items:center; gap:8px; padding:9px 10px; }
+  #sp-prototype .sp-plan-card > .sp-plan-control { width:auto; align-items:flex-end; }
+  #sp-prototype .sp-plan-kicker { font-size:9px; letter-spacing:.03em; }
+  #sp-prototype .sp-plan-switch { grid-template-columns:auto 36px auto; gap:5px; font-size:9px; }
+  #sp-prototype .sp-plan-switch-track { width:36px; }
+  #sp-prototype .sp-plan-switch[aria-checked="true"] .sp-plan-switch-track > span { transform:translateX(10px); }
+  #sp-prototype .sp-plan-card:has(details[open]) { align-items:flex-start; flex-wrap:wrap; }
+  #sp-prototype .sp-plan-card:has(details[open]) .sp-plan-message { flex-basis:100%; }
+  #sp-prototype .sp-dashboard-section-head { gap:8px; margin-bottom:10px; }
+  #sp-prototype .sp-project-grid { overflow:visible; height:auto; padding:0; scrollbar-gutter:auto; }
+  #sp-prototype .sp-project-add-card { min-height:120px; padding:10px; }
+  #sp-prototype .sp-project-add-card button { min-height:92px; padding:10px; }
+  #sp-prototype .sp-project-settings .sp-project-dialog-actions { position:static; margin:0; }
+  #sp-prototype .sp-project-dialog-actions .sp-button { flex:1 1 150px; }
+}
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
@@ -5877,6 +5959,7 @@ function createStageplotExportV42() {
   const workspaceCompact=()=>root.getBoundingClientRect().width<=859;
   function syncWorkspaceUi(announce=''){
     root.dataset.libraryCollapsed=String(libraryCollapsed);root.dataset.inspectorCollapsed=String(inspectorCollapsed);root.dataset.canvasFocus=String(canvasFocus);
+    $('sp-library').inert=libraryCollapsed||canvasFocus;$('sp-inspector').inert=inspectorCollapsed||canvasFocus;
     $('sp-library-toggle').setAttribute('aria-expanded',String(!libraryCollapsed&&!canvasFocus));
     $('sp-inspector-toggle').setAttribute('aria-expanded',String(!inspectorCollapsed&&!canvasFocus));
     $('sp-canvas-focus').setAttribute('aria-pressed',String(canvasFocus));$('sp-canvas-focus').textContent=canvasFocus?'↙':'↗';
@@ -5888,6 +5971,7 @@ function createStageplotExportV42() {
     if(panel==='library'){libraryCollapsed=!open;if(open&&workspaceCompact())inspectorCollapsed=true;}
     else {inspectorCollapsed=!open;if(open&&workspaceCompact())libraryCollapsed=true;}
     syncWorkspaceUi();
+    if(!open)$(panel==='library'?'sp-library-open':'sp-inspector-open').focus({preventScroll:true});
   }
   function setCanvasFocus(on=!canvasFocus){
     if(on&&!canvasFocus)workspaceBeforeFocus={libraryCollapsed,inspectorCollapsed};
@@ -5899,7 +5983,7 @@ function createStageplotExportV42() {
   function syncResponsiveWorkspace(force=false){
     const compact=workspaceCompact();if(!force&&compact===lastWorkspaceCompact)return;lastWorkspaceCompact=compact;
     if(compact&&!canvasFocus){libraryCollapsed=true;inspectorCollapsed=true;}
-    if(!compact&&!canvasFocus){libraryCollapsed=false;inspectorCollapsed=false;}
+    if(!compact&&!canvasFocus){libraryCollapsed=false;inspectorCollapsed=!selected;}
     syncWorkspaceUi();
   }
   function setInspectorTab(name,focus=false){
@@ -7535,6 +7619,8 @@ function createStageplotSymbolV3(type, options = {}) {
     syncNavigationHoverBar(null,animate);
   }
   function show(which) {
+    if(view==='project'&&which==='project')return true;
+    if(view==='project'&&which!=='project'&&!flushProjectForm(true))return false;
     if(typeof sharedReadOnly!=='undefined'&&sharedReadOnly&&['setup','editor','project','dashboard'].includes(which))which='print';
     if(!stage&&['editor','routing','print','project'].includes(which)){openNewProjectDialog();return;}
     const previousView=view;
@@ -7552,7 +7638,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(which==='editor') renderEditor();
     if(which==='routing')renderRouting();
     if(which==='print'){$('sp-preview-live').hidden=true;renderPrint();}
-    if(which==='project'){if(previousView!=='project')projectReturnView=previousView==='dashboard'?'dashboard':'editor';fillProjectForm();setProjectTab('general');}
+    if(which==='project'){if(previousView!=='project')projectReturnView=previousView==='dashboard'?'dashboard':'editor';fillProjectForm();setProjectTab('general');$('sp-project-form').scrollTop=0;}
   }
   function restoredAppView(storage=window.sessionStorage){
     try{const saved=storage.getItem(viewStorageKey);return ['dashboard','setup','editor','routing','print','project'].includes(saved)?saved:'dashboard';}catch(error){return 'dashboard';}
@@ -8261,7 +8347,8 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-outs').value=ioValueText(io.outputs,'outputs').replace(/^Keine Outs$/,'');
   }
   function inspector(){
-    if(selected!==lastInspectorSelection){lastInspectorSelection=selected;setInspectorTab(selected?'properties':'layers');}
+    if(selected!==lastInspectorSelection){lastInspectorSelection=selected;setInspectorTab(selected?'properties':'layers');if(!workspaceCompact()&&!canvasFocus){inspectorCollapsed=!selected;syncWorkspaceUi();}}
+    $('sp-inspector-open-label').textContent=selected?'Auswahl bearbeiten':'Ebenen';$('sp-inspector-open').setAttribute('aria-label',selected?'Auswahl bearbeiten':'Ebenen öffnen');
     const o=objects.find(o=>o.id===selected),zone=selected==='iem-zone'?iemRect(stage):null,stairs=String(selected||'').startsWith('stairs-zone')?stairsGeometry(stage,selected):null,stageZone=selected==='stage-zone',cable=cableById(selected);
     $('sp-stage-edit').setAttribute('aria-pressed',String(stageZone));
     $('sp-selected').hidden=!o;$('sp-no-selection').hidden=!!o||!!zone||!!stairs||stageZone||!!cable;$('sp-iem-selected').hidden=!zone;$('sp-stairs-selected').hidden=!stairs;
@@ -8493,6 +8580,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function downloadSetupFile(){
     try{
+      if(!flushProjectForm(true))return;
       closeFileMenu();finishEdit();if(!stage)throw new Error('Bitte zuerst eine Bühne erstellen.');
       const payload=exportModel.createSetupExport(stage.title,{stage,objects},{normalizeDocument:normalizeSetupDocument});
       const json=exportModel.stringifySetupJson(payload,{normalizeDocument:normalizeSetupDocument});
@@ -8534,18 +8622,23 @@ function createStageplotSymbolV3(type, options = {}) {
     if(mode!=='load'){$('sp-setup-name').focus();$('sp-setup-name').select();}
   }
   function saveCurrentSetup(asCopy=false){
+    if(!flushProjectForm(true))return false;
     closeFileMenu();cancelPlacement(false);finishEdit();
-    if(view==='setup'){applyStage();if(view==='setup')return;}
-    if(!stage)return;
-    if(asCopy&&activeSetupId&&typeof accountPlan!=='undefined'&&accountPlan!=='pro'&&typeof dashboardProjects==='function'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}
-    if(asCopy||!activeSetupId){openSetupLibrary(asCopy?'saveCopy':'saveAs');return;}
-    try{
-      const entry=readSetupLibrary(window.localStorage).find(item=>item.id===activeSetupId);
-      if(!entry){activeSetupId=null;openSetupLibrary('saveAs');return;}
-      saveSetup(stage.title,activeSetupId);
-    }catch(error){openSetupLibrary('saveAs');setupError(error);}
+    if(view==='setup'){applyStage();if(view==='setup')return false;}
+    if(!stage)return false;
+    if(asCopy)return duplicateCurrentProject();
+    const saved=persistDraft(true);if(saved)say('Projekt lokal gespeichert');return saved;
   }
-  $('sp-setups-open').addEventListener('click',()=>openSetupLibrary('load'));
+  function duplicateCurrentProject(){
+    if(sharedReadOnly||!stage||!flushProjectForm(true))return false;
+    if(accountPlan!=='pro'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return false;}
+    finishEdit();if(!persistDraft(true))return false;
+    const names=new Set(dashboardProjects().map(entry=>entry.name.toLocaleLowerCase('de'))),base=stage.title.slice(0,44);let name=base+' · Kopie',i=2;
+    while(names.has(name.toLocaleLowerCase('de')))name=base+' · Kopie '+i++;
+    const document=normalizeSetupDocument({stage:{...stage,title:name},objects});document.stage.project.name=name;
+    activateSetupDocument(document,null,{copy:true,persist:true});if(draftState==='error')return false;say('Eigenständige Projektkopie angelegt');return true;
+  }
+  $('sp-setups-open').addEventListener('click',()=>show('dashboard'));
   $('sp-file-save').addEventListener('click',()=>saveCurrentSetup());
   $('sp-file-save-as').addEventListener('click',()=>saveCurrentSetup(true));
   $('sp-setup-download').addEventListener('click',downloadSetupFile);
@@ -8586,14 +8679,14 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-editor-meta').textContent=sample?'':stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d);
   }
   function beginProjectRename(){
-    if(!stage||isSampleProject()||sharedReadOnly||projectRenameActive)return;projectRenameActive=true;root.querySelector('.sp-project-summary').dataset.renaming='true';$('sp-project-rename-form').hidden=false;const input=$('sp-project-rename-input');input.value=stage.title;input.setCustomValidity('');requestAnimationFrame(()=>{input.focus();input.select();});
+    if(!stage||isSampleProject()||sharedReadOnly||projectRenameActive||!flushProjectForm(true))return;projectRenameActive=true;root.querySelector('.sp-project-summary').dataset.renaming='true';$('sp-project-rename-form').hidden=false;const input=$('sp-project-rename-input');input.value=stage.title;input.setCustomValidity('');requestAnimationFrame(()=>{input.focus();input.select();});
   }
   function finishProjectRename(commit=true){
     if(!projectRenameActive)return true;const input=$('sp-project-rename-input'),name=input.value.trim();
     if(commit&&!name){input.setCustomValidity('Bitte einen Projektnamen eingeben.');input.reportValidity();input.focus();return false;}
     projectRenameActive=false;delete root.querySelector('.sp-project-summary').dataset.renaming;$('sp-project-rename-form').hidden=true;input.setCustomValidity('');
     if(commit&&name!==stage.title)change(()=>{stage.title=name;stage.project=normalizeProjectInfo({...stage.project,name},name);$('sp-title').value=name;},'Projekt umbenannt: '+name);
-    updateProjectHeading();renderDashboard();$('sp-project-heading').focus({preventScroll:true});return true;
+    if(view==='project')fillProjectForm();updateProjectHeading();renderDashboard();$('sp-project-heading').focus({preventScroll:true});return true;
   }
   $('sp-project-heading').addEventListener('click',beginProjectRename);
   $('sp-project-heading').addEventListener('keydown',e=>{if(['Enter',' ','F2'].includes(e.key)){e.preventDefault();beginProjectRename();}});
@@ -8669,7 +8762,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function refreshProjectIdentity(){
     if(view!=='project'||!stage)return;
     const id=projectIdentity(stage.projectId),button=$('sp-project-id-copy');$('sp-project-id').textContent=id||'Nach erster Speicherung';button.disabled=!id;button.dataset.projectIdCopy=id;
-    const entry=dashboardProjects().find(item=>item.id===activeDraftId||item.draftId===activeDraftId||(!activeDraftId&&item.id===activeSetupId)),status=projectFormDirty?{state:'pending',text:'Formularänderungen noch nicht übernommen'}:projectStorageStatus(entry,true);
+    const entry=dashboardProjects().find(item=>item.id===activeDraftId||item.draftId===activeDraftId||(!activeDraftId&&item.id===activeSetupId)),status=projectFormDirty?{state:projectFormInvalid?'error':'pending',text:projectFormInvalid?'Noch nicht gespeichert · bitte markierte Felder prüfen':'Änderungen werden automatisch gespeichert …'}:projectStorageStatus(entry,true);
     $('sp-project-storage').textContent=status.text;$('sp-project-storage').dataset.state=status.state;
   }
   function refreshProjectCardStatuses(){
@@ -8694,7 +8787,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-project-new').disabled=false;
     const cards=entries.map(entry=>{
       const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title),cardName=p.name,current=entry.id===activeDraftId||entry.draftId===activeDraftId||(!activeDraftId&&entry.id===activeSetupId),status=projectStorageStatus(entry,current);
-      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,entry.draft?'ENTWURF':'VORSCHAU')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Automatischer Entwurf':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div>'+projectIdentityMarkup(projectIdentity(s.projectId))+'<p class="sp-project-storage" data-project-storage="'+entry.id+'" data-state="'+status.state+'">'+esc(status.text)+'</p><p>'+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Settings</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Projektdatei herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Projektdatei</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
+      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,'BÜHNENPLAN')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Lokal gespeichert':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div>'+projectIdentityMarkup(projectIdentity(s.projectId))+'<p class="sp-project-storage" data-project-storage="'+entry.id+'" data-state="'+status.state+'">'+esc(status.text)+'</p><p>'+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Projektdaten</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Sicherung herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Sicherung</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
     }).join(''),empty=!entries.length&&query?'<div class="sp-empty-projects"><div><strong>Kein passendes Projekt</strong><p>Versuche einen anderen Suchbegriff.</p></div></div>':'',add='<article class="sp-project-add-card"><button type="button" data-project-add><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><span><strong>Projekt hinzufügen</strong><small>Neuen Stageplot anlegen</small></span></button></article>';
     $('sp-project-grid').innerHTML=add+cards+empty;
   }
@@ -8814,30 +8907,56 @@ function createStageplotSymbolV3(type, options = {}) {
 
   const metresToDisplay=(value,unit)=>unit==='ft'?value/0.3048:value;
   const displayToMetres=(value,unit)=>unit==='ft'?value*0.3048:value;
-  let projectFormDirty=false;
-  function syncProjectUnitLabels(){const suffix=projectFormUnit==='ft'?'ft':'m';$('sp-project-width-label').textContent='Bühnenbreite ('+suffix+')';$('sp-project-depth-label').textContent='Bühnentiefe ('+suffix+')';}
+  let projectFormDirty=false,projectFormTimer=null,projectFormInvalid=false;
+  function projectMeasurements(s,list=[]){
+    if(!s.geometry)return {width:s.w,depth:s.d,totalWidth:s.w,totalDepth:s.d};
+    const {floorBounds:f,bounds:b}=compiledVenue(s,list);
+    return {width:f.maxX-f.minX,depth:f.maxY-f.minY,totalWidth:b.maxX-b.minX,totalDepth:b.maxY-b.minY};
+  }
+  function refreshProjectMeasurements(){
+    if(!stage)return;const m=projectMeasurements(stage,objects),unit=projectFormUnit,suffix=unit==='ft'?'ft':'m';
+    $('sp-project-width').value=Math.round(metresToDisplay(m.width,unit)*100)/100;$('sp-project-depth').value=Math.round(metresToDisplay(m.depth,unit)*100)/100;
+    const extra=Math.abs(m.totalWidth-m.width)>.005||Math.abs(m.totalDepth-m.depth)>.005;
+    $('sp-project-footprint').textContent=stage.geometry?'Bühnenfläche: '+num(metresToDisplay(m.width,unit))+' × '+num(metresToDisplay(m.depth,unit))+' '+suffix+(extra?' · Gesamt inkl. Anbauten: '+num(metresToDisplay(m.totalWidth,unit))+' × '+num(metresToDisplay(m.totalDepth,unit))+' '+suffix:''):'Die Maße gelten für die rechteckige Bühnenfläche.';
+  }
+  function syncProjectUnitLabels(){const suffix=projectFormUnit==='ft'?'ft':'m';$('sp-project-width-label').textContent='Bühnenbreite ('+suffix+')';$('sp-project-depth-label').textContent='Bühnentiefe ('+suffix+')';for(const [id,max] of [['sp-project-width',30],['sp-project-depth',20]]){$(id).min=Math.round(metresToDisplay(2,projectFormUnit)*100)/100;$(id).max=Math.round(metresToDisplay(max,projectFormUnit)*100)/100;}}
   function fillProjectForm(){
     if(!stage)return;
-    projectFormDirty=false;refreshProjectIdentity();
+    if(projectFormTimer!==null)clearTimeout(projectFormTimer);projectFormTimer=null;projectFormDirty=false;projectFormInvalid=false;refreshProjectIdentity();
     ['sp-project-width','sp-project-depth'].forEach(id=>{$(id).disabled=!!stage.geometry;$(id).title=stage.geometry?'Maße unter Bühnenform bearbeiten':'';});const p=normalizeProjectInfo(stage.project,stage.title);projectFormUnit=p.unit;
     const values={'sp-project-name':stage.title,'sp-project-date':p.date,'sp-project-artist':p.artist,'sp-project-venue':p.venue,'sp-project-author':p.author,'sp-project-tour':p.tour,'sp-project-company':p.company,'sp-contact-stage-manager':p.contacts.stageManager.name,'sp-contact-stage-manager-value':p.contacts.stageManager.contact,'sp-contact-foh':p.contacts.foh.name,'sp-contact-foh-value':p.contacts.foh.contact,'sp-contact-monitor':p.contacts.monitor.name,'sp-contact-monitor-value':p.contacts.monitor.contact,'sp-contact-advance':p.contacts.advance.name,'sp-contact-advance-value':p.contacts.advance.contact,'sp-project-notes':p.notes};
     for(const [id,value] of Object.entries(values))$(id).value=value;
     const production=normalizeProductionInfo(p.production);$('sp-production-power').value=production.power;for(const key of ['mode','point','connection','notes'])$('sp-handover-'+key).value=production.handover[key];
-    $('sp-project-unit').value=projectFormUnit;$('sp-project-width').value=Math.round(metresToDisplay(stage.w,projectFormUnit)*100)/100;$('sp-project-depth').value=Math.round(metresToDisplay(stage.d,projectFormUnit)*100)/100;syncProjectUnitLabels();
+    $('sp-project-unit').value=projectFormUnit;refreshProjectMeasurements();syncProjectUnitLabels();
   }
   function setProjectTab(tab='general'){
-    const selected=['general','contacts','notes','production'].includes(tab)?tab:'general';root.querySelectorAll('[data-project-tab]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.projectTab===selected)));root.querySelectorAll('[data-project-panel]').forEach(panel=>panel.hidden=panel.dataset.projectPanel!==selected);
+    const selected=['general','contacts','notes','production'].includes(tab)?tab:'general';root.querySelectorAll('[data-project-tab]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.projectTab===selected)));root.querySelectorAll('[data-project-panel]').forEach(panel=>panel.hidden=panel.dataset.projectPanel!==selected);$('sp-project-form').scrollTop=0;
   }
   function openProjectSettings(){if(!stage){openNewProjectDialog();return;}show('project');}
   function readProjectForm(){
     const unit=$('sp-project-unit').value==='ft'?'ft':'m',name=$('sp-project-name').value.trim(),contacts={stageManager:{name:$('sp-contact-stage-manager').value,contact:$('sp-contact-stage-manager-value').value},foh:{name:$('sp-contact-foh').value,contact:$('sp-contact-foh-value').value},monitor:{name:$('sp-contact-monitor').value,contact:$('sp-contact-monitor-value').value},advance:{name:$('sp-contact-advance').value,contact:$('sp-contact-advance-value').value}};
-    return {name,w:displayToMetres(Number($('sp-project-width').value),unit),d:displayToMetres(Number($('sp-project-depth').value),unit),project:normalizeProjectInfo({name,date:$('sp-project-date').value,artist:$('sp-project-artist').value,venue:$('sp-project-venue').value,author:$('sp-project-author').value,tour:$('sp-project-tour').value,company:$('sp-project-company').value,unit,contacts,notes:$('sp-project-notes').value,production:{power:$('sp-production-power').value,handover:Object.fromEntries(['mode','point','connection','notes'].map(key=>[key,$('sp-handover-'+key).value]))}},name)};
+    return {name,w:projectFormDimension(Number($('sp-project-width').value),unit,stage.w,30),d:projectFormDimension(Number($('sp-project-depth').value),unit,stage.d,20),project:normalizeProjectInfo({name,date:$('sp-project-date').value,artist:$('sp-project-artist').value,venue:$('sp-project-venue').value,author:$('sp-project-author').value,tour:$('sp-project-tour').value,company:$('sp-project-company').value,unit,contacts,notes:$('sp-project-notes').value,production:{power:$('sp-production-power').value,handover:Object.fromEntries(['mode','point','connection','notes'].map(key=>[key,$('sp-handover-'+key).value]))}},name)};
   }
-  function applyProjectForm(saveAfter=false){
-    if(!stage)return false;if(!$('sp-project-form').checkValidity()){setProjectTab($('sp-project-form').querySelector(':invalid')?.closest('[data-project-panel]')?.dataset.projectPanel||'general');$('sp-project-form').reportValidity();return false;}const next=readProjectForm();
-    if(!next.name||!Number.isFinite(next.w)||!Number.isFinite(next.d)||next.w<2||next.w>30||next.d<2||next.d>20){say('Bühnenmaße: 2–30 m breit und 2–20 m tief.');return false;}
+  function projectFormDimension(value,unit,original,max){
+    if(value===Math.round(metresToDisplay(original,unit)*100)/100)return original;
+    return Math.max(2,Math.min(max,displayToMetres(value,unit)));
+  }
+  function applyProjectForm(report=false){
+    if(!stage||sharedReadOnly)return false;
+    const form=$('sp-project-form'),next=readProjectForm();$('sp-project-name').setCustomValidity(next.name?'':'Bitte einen Projektnamen eingeben.');projectFormInvalid=!form.checkValidity();
+    if(projectFormInvalid){refreshProjectIdentity();if(report){setProjectTab(form.querySelector(':invalid')?.closest('[data-project-panel]')?.dataset.projectPanel||'general');form.reportValidity();say('Bitte die markierten Projektdaten vervollständigen.');}return false;}
     if(stage.geometry){next.w=stage.w;next.d=stage.d;}
-    const before=snapshot(),resized=Math.abs(stage.w-next.w)>.001||Math.abs(stage.d-next.d)>.001;stage={...stage,title:next.name,w:next.w,d:next.d,project:next.project,routing:normalizeRouting(stage.routing)};constrainIem(stage);$('sp-title').value=stage.title;if(resized)resetEditorView();keepHistory(before);updateProjectHeading();fillProjectForm();say('Projektdaten übernommen');if(saveAfter){saveCurrentSetup();show(projectReturnView==='dashboard'?'dashboard':'editor');}return true;
+    const before=snapshot(),resized=Math.abs(stage.w-next.w)>.001||Math.abs(stage.d-next.d)>.001;
+    stage={...stage,title:next.name,w:next.w,d:next.d,project:next.project,routing:normalizeRouting(stage.routing)};constrainIem(stage);$('sp-title').value=stage.title;if(resized)resetEditorView();
+    const changed=before!==snapshot();projectFormDirty=false;keepHistory(before);const saved=changed?draftState!=='error':persistDraft(true);updateProjectHeading();refreshProjectIdentity();return saved;
+  }
+  function flushProjectForm(report=false){
+    if(projectFormTimer!==null)clearTimeout(projectFormTimer);projectFormTimer=null;
+    if(!projectFormDirty)return true;return applyProjectForm(report);
+  }
+  function queueProjectFormSave(){
+    projectFormDirty=true;projectFormInvalid=false;$('sp-project-name').setCustomValidity('');refreshProjectIdentity();if(projectFormTimer!==null)clearTimeout(projectFormTimer);
+    projectFormTimer=setTimeout(()=>{projectFormTimer=null;applyProjectForm(false);},350);
   }
   $('sp-project-unit').addEventListener('change',()=>{const next=$('sp-project-unit').value==='ft'?'ft':'m',w=displayToMetres(Number($('sp-project-width').value),projectFormUnit),d=displayToMetres(Number($('sp-project-depth').value),projectFormUnit);projectFormUnit=next;$('sp-project-width').value=Math.round(metresToDisplay(w,next)*100)/100;$('sp-project-depth').value=Math.round(metresToDisplay(d,next)*100)/100;syncProjectUnitLabels();});
   $('sp-add-foh').addEventListener('click',()=>{if(!applyProjectForm(false))return;show('editor');add('foh',{x:stage.w/2,y:stage.d+4});fitView();});
@@ -8848,12 +8967,13 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   for(const key of ['table','barrier','sun','rain'])$('sp-foh-'+key).addEventListener('change',()=>{const o=objects.find(o=>o.id===selected);if(!o||o.locked||o.type!=='foh')return;change(()=>{o.foh={...o.foh,[key]:$('sp-foh-'+key).checked};},'FOH-Anforderungen angepasst');});
   for(const key of ['width','depth'])$('sp-foh-'+key).addEventListener('change',()=>{const o=objects.find(o=>o.id===selected),input=$('sp-foh-'+key),value=Number(input.value);if(!o||o.locked||o.type!=='foh'||!input.reportValidity()||!Number.isFinite(value))return;change(()=>{o[key]=Math.round(value*10)/10;},'FOH-Maße angepasst');});
-  $('sp-project-apply').addEventListener('click',()=>applyProjectForm(false));
+  $('sp-project-shape').addEventListener('click',()=>{if(!flushProjectForm(true))return;show('editor');openVenueEditor();});
   const leaveProjectSettings=()=>show(projectReturnView==='dashboard'?'dashboard':'editor');
   $('sp-project-close').addEventListener('click',leaveProjectSettings);$('sp-project-cancel').addEventListener('click',leaveProjectSettings);
   $('sp-project').addEventListener('click',e=>{const button=e.target.closest('[data-project-tab]');if(button)setProjectTab(button.dataset.projectTab);});
-  $('sp-project-form').addEventListener('submit',e=>{e.preventDefault();applyProjectForm(true);});
-  $('sp-project-form').addEventListener('input',()=>{projectFormDirty=true;refreshProjectIdentity();});
+  $('sp-project-form').addEventListener('submit',e=>{e.preventDefault();flushProjectForm(true);});
+  $('sp-project-form').addEventListener('input',queueProjectFormSave);
+  $('sp-project-form').addEventListener('change',queueProjectFormSave);
   $('sp-project-id-copy').addEventListener('click',e=>copyProjectIdentity(e.currentTarget.dataset.projectIdCopy,e.currentTarget));
 
   const stageboxCapacity={"stagebox-8":{inputs:8,outputs:4},"stagebox-16":{inputs:16,outputs:8},"stagebox-32":{inputs:32,outputs:16},"stagebox-46":{inputs:46,outputs:0},"stagebox-48":{inputs:48,outputs:16}};
@@ -9037,7 +9157,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function renderChannelStageboxPills(direction,selected=''){
     const boxes=routingStageboxes(direction),rows=stage.routing?.[direction]||[],host=$('sp-channel-stagebox-pills'),valid=boxes.some(box=>box.id===selected)?selected:'';
     host.innerHTML='<button type="button" data-channel-value="">Ohne</button>'+boxes.map(box=>{const used=new Set(rows.filter(row=>row.stagebox===box.id&&row.id!==editingRoute?.id&&Number.isFinite(row.stageboxPort)).map(row=>row.stageboxPort)).size,full=used>=box.capacity&&box.id!==valid,incompatible=routeNeedsDi(editingRoute,direction,box),disabled=full||incompatible,label=direction==='inputs'?'In':'Out',reason=incompatible?' · DI-Box nötig':full?' · voll':'';return '<button type="button" data-channel-value="'+box.id+'"'+(disabled?' disabled aria-label="'+esc(box.name+reason)+'"':'')+'>'+esc(box.name)+' · '+used+'/'+box.capacity+' '+label+reason+'</button>';}).join('');
-    setChannelPillValue('sp-channel-stagebox',valid);$('sp-channel-stagebox-hint').textContent=boxes.length?'Auto-Assign nimmt die räumlich nächste Stagebox und den nächsten freien '+(direction==='inputs'?'Input':'Output')+'.':'Noch keine passende Stagebox auf der Bühne.';
+    setChannelPillValue('sp-channel-stagebox',valid);$('sp-channel-stagebox-hint').textContent=boxes.length?'Automatisch zuordnen nimmt die räumlich nächste Stagebox und den nächsten freien '+(direction==='inputs'?'Input':'Output')+'.':'Noch keine passende Stagebox auf der Bühne.';
   }
   function openChannelDialog(direction,id=null){
     const rows=stage.routing[direction],row=rows.find(item=>item.id===id)||normalizeRouteChannel({id:'route-'+routeToken(),manual:true,instrument:'Neuer '+routingDirectionLabel(direction),mode:'Mono',signalType:direction==='inputs'?'Mic':'Line'},rows.length,direction);editingRoute={direction,id:row.id,isNew:!id,sourceKey:row.sourceKey,generatedInstrument:row.generatedInstrument,manual:row.manual,connector:row.connector,portIndex:row.portIndex,stereoGroup:row.stereoGroup,index:rows.findIndex(item=>item.id===row.id)};
@@ -9129,10 +9249,11 @@ function createStageplotSymbolV3(type, options = {}) {
   function printRoutingPreview(direction){
     const rows=stage?.routing?.[direction]||[],boxes=new Map(routingStageboxes(direction).map(box=>[box.id,box.name]));
     if(!rows.length)return '<p class="sp-paper-routing-empty">Noch keine '+(direction==='inputs'?'Inputs':'Outputs')+' angelegt.</p>';
-    return '<table class="sp-paper-routing-table"><thead><tr><th>CH</th><th>Quelle</th><th>Signal</th><th>Stagebox / Ziel</th></tr></thead><tbody>'+rows.map(row=>{const target=row.stagebox?(boxes.get(row.stagebox)||'Stagebox')+(row.stageboxPort?' · '+row.stageboxPort:''):'—',signal=[row.mode,row.connector||row.signalType,row.phantom?'48V':''].filter(Boolean).join(' · ');return '<tr><td>'+(row.number||'#')+'</td><td><strong>'+esc(row.instrument||'—')+'</strong>'+(row.microphone?'<br>'+esc(row.microphone):'')+(routeFrequency(row)?'<br>Funk: '+esc(routeFrequency(row)):'')+'</td><td>'+esc(signal||'—')+'</td><td>'+esc(target)+'</td></tr>';}).join('')+'</tbody></table>';
+    return '<table class="sp-paper-routing-table"><thead><tr><th>CH</th><th>Quelle</th><th>Signal</th><th>Stagebox / Ziel</th><th>Notizen</th></tr></thead><tbody>'+rows.map(row=>{const target=row.stagebox?(boxes.get(row.stagebox)||'Stagebox')+(row.stageboxPort?' · '+row.stageboxPort:''):'—',signal=[row.mode,row.signalType,row.connector,row.phantom?'48V':''].filter(Boolean).join(' · ');return '<tr><td>'+(row.number||'#')+'</td><td><strong>'+esc(row.instrument||'—')+'</strong>'+(row.microphone?'<br>'+esc(row.microphone):'')+(routeFrequency(row)?'<br>Funk: '+esc(routeFrequency(row)):'')+'</td><td>'+esc(signal||'—')+'</td><td>'+esc(target)+'</td><td>'+esc(row.notes||'—')+'</td></tr>';}).join('')+'</tbody></table>';
   }
   function renderPrint(){
     if(!stage)return;
+    refreshExportAction();
     syncRoutingFromStage(false,false);
     syncAppearanceControls();
     const pdf=$('sp-export-format').value==='pdf',transparent=!pdf&&$('sp-export-background').value==='transparent';
@@ -9146,10 +9267,12 @@ function createStageplotSymbolV3(type, options = {}) {
     if(objects.some(o=>iemOverlap(o,stage)))warnings.push('IEM-Stellfläche prüfen');
     $('sp-print-status').textContent=warnings.join(' · ');
     drawFloor($('sp-print-floor'),stage,objects,'print');
+    if(!pdf&&exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);}}
 
     const legendOn=$('sp-print-legend-toggle').checked,notesOn=$('sp-print-notes').checked,inputsOn=$('sp-print-inputs').checked,outputsOn=$('sp-print-routing').checked;
     $('sp-print-legend-section').hidden=!legendOn;$('sp-print-notes-section').hidden=!notesOn;$('sp-print-inputs-section').hidden=!inputsOn;$('sp-print-routing-section').hidden=!outputsOn;
-    $('sp-print-paper-sections').hidden=!(legendOn||notesOn||inputsOn||outputsOn);
+    const productionOn=$('sp-print-production').checked;$('sp-print-production-section').hidden=!productionOn;$('sp-print-production-copy').innerHTML=productionOn?projectPrintMarkup():'';
+    $('sp-print-paper-sections').hidden=!(legendOn||notesOn||inputsOn||outputsOn||productionOn);
     $('sp-print-legend').innerHTML=objects.length?objects.map(o=>'<div class="sp-legend-row"><strong>'+esc(o.label||byId[o.type].name)+'</strong>'+(objectDetail(o)?'<small>'+esc(objectDetail(o))+'</small>':'')+(outsText(o)&&$('sp-print-outs').checked?'<small>'+esc(outsText(o))+'</small>':'')+objectProductionLines(o).map(line=>'<small>'+esc(line)+'</small>').join('')+(o.note?'<small>'+esc(o.note)+'</small>':'')+'</div>').join(''):'<span class="sp-muted">Noch keine Bausteine.</span>';
     const notes=[normalizeProjectInfo(stage.project,stage.title).notes.trim(),stage.geometry?.notes,...(stage.geometry?.parts||[]).filter(p=>p.note).map(p=>p.name+': '+p.note)].filter(Boolean).join('\n\n');$('sp-print-notes-copy').textContent=notes||'Keine Projektnotizen hinterlegt.';
     $('sp-print-input-list').innerHTML=printRoutingPreview('inputs');$('sp-print-output-list').innerHTML=printRoutingPreview('outputs');
@@ -9162,8 +9285,38 @@ function createStageplotSymbolV3(type, options = {}) {
   function setExportFormat(format){
     if(!['png-normal','png-4k','pdf'].includes(format))format='png-normal';$('sp-export-format').value=format;$('sp-export-scale').value=format==='png-4k'?'4':'2';
     root.querySelectorAll('[data-export-format]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.exportFormat===format)));
-    $('sp-export-background-group').hidden=format==='pdf';$('sp-export-png').textContent=format==='pdf'?'PDF drucken':format==='png-4k'?'PNG in 4K exportieren':'PNG exportieren';renderPrint();
+    $('sp-export-background-group').hidden=format==='pdf';refreshExportAction();renderPrint();
   }
+  let exportIntent='image';
+  function refreshExportAction(){
+    const format=$('sp-export-format').value;
+    root.dataset.previewKind=exportIntent==='share'?'share':format==='pdf'?'pdf':'image';$('sp-export-paper-options').hidden=format!=='pdf';
+    root.querySelector('.sp-preview-caption').textContent=exportIntent==='share'?'Ansicht des geteilten Bühnenplans':format==='pdf'?'PDF-Vorschau · Seitenumbrüche entstehen beim Drucken':'Bildvorschau · passend zugeschnitten · lokal und offline';
+    $('sp-export-png').textContent=exportIntent==='share'?'Ansichtslink erstellen':exportIntent==='technical'?'Veranstalter-PDF erstellen':format==='pdf'?'Bühnenplan als PDF erstellen':format==='png-4k'?'4K-Bild herunterladen':'Bild herunterladen';
+    $('sp-export-beta-hint').hidden=exportIntent!=='technical'||accountPlan==='pro';
+  }
+  function setExportIntent(intent){
+    exportIntent=['image','technical','share'].includes(intent)?intent:'image';root.dataset.exportIntent=exportIntent;
+    root.querySelectorAll('[data-export-intent]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.exportIntent===exportIntent)));
+    const technical=exportIntent==='technical';
+    for(const id of ['sp-print-labels','sp-print-outs','sp-print-cables','sp-print-measures'])$(id).checked=true;
+    for(const id of ['sp-print-legend-toggle','sp-print-notes','sp-print-inputs','sp-print-routing','sp-print-production'])$(id).checked=technical;
+    $('sp-export-details').hidden=exportIntent==='share';$('sp-export-format').closest('section').hidden=technical;$('sp-export-purpose').textContent=technical?'Ein PDF mit Bühnenplan, Projektdaten und technischen Anforderungen. Die Inhalte kannst du unten anpassen.':exportIntent==='share'?'Schreibgeschützte Momentaufnahme des Projekts. Für spätere Änderungen erstellst du einen neuen Link.':'Ein Bild des Bühnenplans, passend zugeschnitten. Format und Beschriftungen kannst du unten anpassen.';
+    setExportFormat(technical?'pdf':'png-normal');
+  }
+  function projectPrintMarkup(){
+    const p=normalizeProjectInfo(stage.project,stage.title),m=projectMeasurements(stage,objects),fields=[['Projekt-ID',projectIdentity(stage.projectId)],['Datum',p.date],['Band / Act',p.artist],['Location',p.venue],['Autor',p.author],['Tour',p.tour],['Produktionsfirma',p.company],['Bühnenfläche',num(m.width)+' × '+metres(m.depth)]];
+    if(Math.abs(m.totalWidth-m.width)>.005||Math.abs(m.totalDepth-m.depth)>.005)fields.push(['Gesamt inkl. Anbauten',num(m.totalWidth)+' × '+metres(m.totalDepth)]);
+    const contacts=Object.entries(p.contacts).filter(([,c])=>c.name||c.contact),labels={stageManager:'Stage Manager',foh:'FOH',monitor:'Monitor',advance:'Advance'},requirements=productionLines(stage);
+    return '<dl class="sp-print-project-fields">'+fields.filter(([,value])=>value).map(([label,value])=>'<dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd>').join('')+'</dl><div>'+(contacts.length?'<strong>Technische Kontakte</strong>'+contacts.map(([key,c])=>'<p>'+esc(labels[key]+': '+[c.name,c.contact].filter(Boolean).join(' · '))+'</p>').join(''):'')+'<strong>Technische Anforderungen</strong><p>'+esc(requirements.join('\n')||'Noch keine technischen Anforderungen hinterlegt.')+'</p></div>';
+  }
+  function runExportIntent(){
+    if(!flushProjectForm(true))return;
+    if(exportIntent==='share'){openShareDialog();return;}
+    if(exportIntent==='technical'&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}
+    if(exportIntent==='technical'||$('sp-export-format').value==='pdf')printReport('stage');else exportPng();
+  }
+  root.querySelector('.sp-export-intents').addEventListener('click',event=>{const button=event.target.closest('[data-export-intent]');if(button)setExportIntent(button.dataset.exportIntent);});
   root.querySelector('.sp-export-choice-grid').addEventListener('click',event=>{const button=event.target.closest('[data-export-format]');if(button)setExportFormat(button.dataset.exportFormat);});
   root.querySelector('.sp-export-background-pills').addEventListener('click',event=>{const button=event.target.closest('[data-export-background]');if(!button)return;$('sp-export-background').value=button.dataset.exportBackground;root.querySelectorAll('[data-export-background]').forEach(choice=>choice.setAttribute('aria-pressed',String(choice===button)));renderPrint();});
   ['sp-print-outs','sp-print-cables','sp-print-measures','sp-print-legend-toggle','sp-print-inputs','sp-print-routing'].forEach(id=>$(id).addEventListener('change',renderPrint));
@@ -9215,7 +9368,7 @@ function createStageplotSymbolV3(type, options = {}) {
     }catch(error){status.hidden=false;status.textContent='PNG nicht exportiert: '+(error.message||'Unbekannter Fehler');say(status.textContent);}
     finally{button.disabled=false;button.removeAttribute('aria-busy');}
   }
-  $('sp-export-png').addEventListener('click',()=>{$('sp-export-format').value==='pdf'?printReport('stage'):exportPng();});
+  $('sp-export-png').addEventListener('click',runExportIntent);
   function routeFrequency(row){return routeSourceObject(row)?.wireless||row.frequencyBand||'';}
   const routingHeaders=['Kanalnummer','Instrument / Input','Mode','Signaltyp','Mikrofon','48V','Stagebox','Notizen','Funk / Frequenz'];
   function routingExportRows(direction){
@@ -9261,7 +9414,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const rows=routingExportRows(direction);return '<h2>'+routingDirectionLabel(direction)+' Channels · '+rows.length+'</h2><table><thead><tr>'+routingHeaders.map(value=>'<th>'+esc(value)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(value=>'<td>'+esc(value||'—')+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   }
   function renderTechnicalDocument(mode){
-    renderPrint();syncRoutingFromStage(false);const p=normalizeProjectInfo(stage.project,stage.title),fields=[['Datum',p.date],['Artist / Band',p.artist],['Venue',p.venue],['Autor / Engineer',p.author],['Tour',p.tour],['Production Company',p.company],['Bühne',stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d)]];
+    renderPrint();syncRoutingFromStage(false);const p=normalizeProjectInfo(stage.project,stage.title),fields=[['Datum',p.date],['Artist / Band',p.artist],['Venue',p.venue],['Autor / Engineer',p.author],['Tour',p.tour],['Produktionsfirma',p.company],['Bühne',stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d)]];
     $('sp-document-title').textContent=stage.title;$('sp-document-meta').textContent=mode==='routing'?'Routing / Channel List':'Complete Production Document';$('sp-document-project').innerHTML='<div class="sp-document-grid">'+fields.filter(([,value])=>value).map(([label,value])=>'<div class="sp-document-field"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('')+'</div>';
     $('sp-document-floor').innerHTML=$('sp-print-floor').innerHTML;$('sp-document-routing').innerHTML=routingTableMarkup('inputs')+routingTableMarkup('outputs');
     const contacts=[['Stage Manager',p.contacts.stageManager],['FOH Engineer',p.contacts.foh],['Monitor Engineer',p.contacts.monitor],['Technical / Advance',p.contacts.advance]].filter(([,entry])=>entry.name||entry.contact);$('sp-document-contacts').innerHTML=contacts.length?'<h2>Technische Kontakte</h2><div class="sp-document-grid">'+contacts.map(([label,entry])=>'<div class="sp-document-field"><span>'+label+'</span><strong>'+esc(entry.name||'—')+'</strong><div>'+esc(entry.contact||'')+'</div></div>').join('')+'</div>':'';$('sp-document-notes').innerHTML=(productionLines(stage).length?'<h2>Technische Anforderungen</h2><p>'+productionLines(stage).map(esc).join('<br>')+'</p>':'')+(p.notes?'<h2>Notes</h2><p>'+esc(p.notes).replaceAll('\n','<br>')+'</p>':'');$('sp-document-print').hidden=false;
@@ -9280,7 +9433,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   $('sp-share-close').addEventListener('click',()=>$('sp-share-dialog').close());
   $('sp-share-open').addEventListener('click',()=>openShareDialog());
-  $('sp-share-copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('sp-share-link').value);$('sp-share-status').textContent='Read-only-Link kopiert.';}catch(error){$('sp-share-link').focus();$('sp-share-link').select();$('sp-share-status').textContent='Link markiert · bitte kopieren.';}});
+  $('sp-share-copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('sp-share-link').value);$('sp-share-status').textContent='Ansichtslink kopiert.';}catch(error){$('sp-share-link').focus();$('sp-share-link').select();$('sp-share-status').textContent='Link markiert · bitte kopieren.';}});
   $('sp-share-preview').addEventListener('click',()=>{const link=$('sp-share-link').value;if(link)window.open(link,'_blank','noopener');});
   $('sp-print-page').addEventListener('click',()=>printReport('stage'));
   $('sp-print-complete').addEventListener('click',()=>printReport('complete'));
@@ -9332,8 +9485,8 @@ function createStageplotSymbolV3(type, options = {}) {
   });
   $('sp-library-toggle').addEventListener('click',()=>setWorkspacePanel('library',libraryCollapsed));
   $('sp-inspector-toggle').addEventListener('click',()=>setWorkspacePanel('inspector',inspectorCollapsed));
-  $('sp-library-open').addEventListener('click',()=>setWorkspacePanel('library',true));
-  $('sp-inspector-open').addEventListener('click',()=>setWorkspacePanel('inspector',true));
+  $('sp-library-open').addEventListener('click',()=>setWorkspacePanel('library',libraryCollapsed||canvasFocus));
+  $('sp-inspector-open').addEventListener('click',()=>{const open=inspectorCollapsed||canvasFocus;if(open)setInspectorTab(selected?'properties':'layers');setWorkspacePanel('inspector',open);});
   $('sp-sidebar-scrim').addEventListener('click',()=>{libraryCollapsed=true;inspectorCollapsed=true;syncWorkspaceUi();$('sp-editor-floor').focus({preventScroll:true});});
   $('sp-canvas-focus').addEventListener('click',()=>setCanvasFocus());
   root.querySelector('.sp-inspector-tabs').addEventListener('click',e=>{const button=e.target.closest('[data-inspector-tab-target]');if(button)setInspectorTab(button.dataset.inspectorTabTarget);});
@@ -10358,6 +10511,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-cable-view-toggle').addEventListener('click',()=>{if(cableDrag)cancelCableDrag();if(cableById(selected))selected=null;cableViewEnabled=!cableViewEnabled;persistCableViewPreference();syncViewControls();renderEditor();say(cableViewEnabled?'Verkabelung eingeblendet · Kabel und Anschlussbuchsen sind aktiv':'Verkabelung ausgeblendet · der Bühnenaufbau bleibt unverändert');});
   $('sp-print-black-stage').addEventListener('change',()=>setStageSurface($('sp-print-black-stage').checked));
   $('sp-print-notes').addEventListener('change',renderPrint);
+  $('sp-print-production').addEventListener('change',renderPrint);
   ['sp-label','sp-note','sp-outs'].forEach(id=>{
     $(id).addEventListener('focus',()=>{editBefore=snapshot();});
     $(id).addEventListener('input',()=>{
@@ -10567,7 +10721,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-lock').addEventListener('click',toggleObjectLock);
   $('sp-object-locked').addEventListener('change',toggleObjectLock);
   function undo(redo=false){
-    finishEdit();const from=redo?future:history,to=redo?history:future;if(!from.length)return;
+    if(!flushProjectForm(true))return;finishEdit();const from=redo?future:history,to=redo?history:future;if(!from.length)return;
     to.push(snapshot());const old=JSON.parse(from.pop());stage=old.stage;objects=old.objects;if(!objects.some(o=>o.id===selected)&&!cableById(selected)&&!(selected==='iem-zone'&&iemRect(stage))&&!(String(selected||'').startsWith('stairs-zone')&&stairsGeometry(stage,selected)))selected=null;
     if(!stage){$('sp-cancel-stage').hidden=true;$('sp-create').textContent='Bühne erstellen →';show('setup');}else show('editor');
     persistDraft();say(redo?'Wiederhergestellt':'Rückgängig');
@@ -10580,7 +10734,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function draftStatus(state,message){
     draftState=state;
     $('sp-draft-status').dataset.state=state;$('sp-draft-status').textContent=message;
-    const header=root.querySelector('.sp-header-status'),short={pending:'Speichert …',saved:'Entwurf gespeichert',error:'Speicherfehler',idle:'Autosave bereit'}[state]||message;
+    const header=root.querySelector('.sp-header-status'),short={pending:'Speichert …',saved:'Lokal gespeichert',error:'Speicherfehler',idle:'Autosave bereit'}[state]||message;
     header.dataset.state=state;header.title=message;$('sp-header-draft-status').textContent=short;
     $('sp-draft-retry').hidden=state!=='error';
     if(view==='print'&&state==='error')say(message);
@@ -10768,8 +10922,9 @@ function createStageplotSymbolV3(type, options = {}) {
     else confirmSetupAction('Entwurf löschen?','Nur dieser automatische Entwurf wird entfernt. Benannte Setups und die geöffnete Bühne bleiben erhalten.','Entwurf löschen',()=>deleteDraft(id),true);
   });
   $('sp-draft-retry').addEventListener('click',()=>persistDraft(true));
-  window.addEventListener('pagehide',()=>{flushDraft();flushViewport();});
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){flushDraft();flushViewport();}});
+  window.addEventListener('pagehide',()=>{flushProjectForm();flushDraft();flushViewport();});
+  window.addEventListener('beforeunload',e=>{flushProjectForm();flushDraft();if(projectFormDirty||draftState==='error'){e.preventDefault();e.returnValue='';}});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){flushProjectForm();flushDraft();flushViewport();}});
 
   root.querySelectorAll('.sp-steps [data-step]').forEach(item=>{
     item.addEventListener('pointerenter',()=>syncNavigationHoverBar(item,true));
