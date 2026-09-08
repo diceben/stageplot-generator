@@ -4506,7 +4506,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-foh-fields .sp-check { display:flex; align-items:center; gap:7px; padding:8px 0; }
 @media(max-width:700px) { #sp-prototype .sp-inventory-layout { grid-template-columns:1fr; } #sp-prototype .sp-account-dialog { padding:14px; } }
 /* build-inline:start stageplot-venue-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
-#sp-prototype .sp-venue-dialog { box-sizing:border-box; width:min(1280px,calc(100vw - 28px)); max-width:none; height:min(880px,calc(100dvh - 28px)); max-height:none; margin:auto; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-paper); color:var(--sp-art); overflow:hidden; box-shadow:0 24px 100px #0007; }
+#sp-prototype .sp-venue-dialog { box-sizing:border-box; width:calc(100vw - 16px); max-width:none; height:calc(100dvh - 16px); max-height:none; margin:auto; padding:0; border:1px solid var(--sp-line); border-radius:14px; background:var(--sp-paper); color:var(--sp-art); overflow:hidden; box-shadow:0 24px 100px #0007; }
 #sp-prototype .sp-venue-dialog[open] { display:flex; flex-direction:column; }
 #sp-prototype .sp-venue-dialog::backdrop { background:#101810a8; backdrop-filter:blur(3px); }
 #sp-prototype .sp-venue-dialog :is(button,input,select,textarea) { font:inherit; font-size:12px; color:inherit; box-sizing:border-box; }
@@ -4516,38 +4516,52 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-venue-dialog button[aria-pressed="true"] { border-color:var(--sp-teal); background:color-mix(in srgb,var(--sp-teal) 12%,var(--sp-paper)); }
 #sp-prototype .sp-venue-dialog :focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
 #sp-prototype .sp-venue-dialog [hidden] { display:none !important; }
-#sp-prototype .sv-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 20px; border-bottom:1px solid var(--sp-line); }
-#sp-prototype .sv-head strong { display:block; font-size:19px; }
-#sp-prototype .sv-head small { display:block; margin-top:3px; color:var(--sp-muted); font-size:12px; }
-#sp-prototype .sv-head button { width:40px; font-size:24px; }
-#sp-prototype .sv-tools { padding:10px 20px 8px; border-bottom:1px solid var(--sp-line); flex:none; }
-#sp-prototype .sv-tool-modes { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-#sp-prototype .sv-tool-modes [role="group"] { display:flex; gap:4px; margin-right:auto; }
-#sp-prototype .sv-palette-row { display:flex; align-items:stretch; gap:6px; }
-#sp-prototype .sv-palette { display:flex; gap:6px; min-width:0; flex:1; overflow-x:auto; scrollbar-width:thin; padding:2px 2px 5px; scroll-snap-type:x proximity; }
-#sp-prototype .sp-venue-dialog .sv-tool-card { flex:0 0 88px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; padding:6px 3px; min-height:76px; scroll-snap-align:start; font-size:11px; }
-#sp-prototype .sv-tool-card svg { width:38px; height:30px; flex:none; fill:color-mix(in srgb,var(--sp-teal) 9%,var(--sp-paper)); stroke:currentColor; stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; fill-rule:evenodd; }
-#sp-prototype .sv-tool-card span { display:block; min-height:27px; align-content:center; }
+#sp-prototype .sv-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 16px; border-bottom:1px solid var(--sp-line); flex:none; }
+#sp-prototype .sv-head strong { display:block; font-size:18px; }
+#sp-prototype .sv-head-actions { display:flex; align-items:center; gap:8px; flex:none; }
+#sp-prototype .sv-head .sv-close { width:40px; padding:0; font-size:24px; border-color:transparent; background:transparent; }
+#sp-prototype .sv-tools { display:grid; grid-template-columns:214px minmax(0,1fr); gap:0 14px; padding:8px 16px 6px; border-bottom:1px solid var(--sp-line); flex:none; }
+#sp-prototype .sv-tool-modes { display:flex; flex-direction:column; align-items:stretch; gap:4px; grid-row:1/3; padding-right:14px; border-right:1px solid var(--sp-line); }
+#sp-prototype .sv-tool-modes [role="group"] { display:flex; gap:4px; }
+#sp-prototype .sv-tool-modes [role="group"] button { flex:1; padding:6px 8px; }
+#sp-prototype .sv-tool-modes [data-action="draw"] { border-color:transparent; background:transparent; }
+#sp-prototype .sv-palette-row { display:flex; align-items:stretch; gap:6px; min-width:0; }
+#sp-prototype .sv-palette { display:flex; gap:6px; min-width:0; flex:1; overflow-x:auto; scrollbar-width:none; padding:2px; scroll-snap-type:x proximity; }
+#sp-prototype .sp-venue-dialog .sv-tool-card { flex:0 0 88px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:3px; padding:5px 3px; min-height:62px; scroll-snap-align:start; font-size:11px; }
+#sp-prototype .sv-tool-card svg { width:34px; height:26px; flex:none; fill:color-mix(in srgb,var(--sp-teal) 9%,var(--sp-paper)); stroke:currentColor; stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; fill-rule:evenodd; }
+#sp-prototype .sv-tool-card span { display:block; min-height:24px; align-content:center; }
 #sp-prototype .sv-palette-row>button { align-self:center; padding:6px; width:28px; font-size:22px; flex:none; }
-#sp-prototype .sv-palette-hint { display:block; margin-top:3px; font-size:11px; color:var(--sp-muted); }
+#sp-prototype .sv-palette-hint { display:block; margin:0 34px; font-size:11px; color:var(--sp-muted); }
 #sp-prototype .sp-venue-dialog label { display:flex; flex-direction:column; gap:5px; font-size:11px; line-height:1.4; }
 #sp-prototype .sp-venue-dialog :is(input:not([type="checkbox"]),select,textarea) { min-width:0; width:100%; min-height:40px; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-paper); }
-#sp-prototype .sv-work { display:grid; grid-template-columns:minmax(0,1fr) 310px; flex:1; min-height:0; }
-#sp-prototype .sv-plan-column { display:flex; flex-direction:column; min-width:0; min-height:0; padding:12px; background:color-mix(in srgb,var(--sp-line) 12%,var(--sp-paper)); }
-#sp-prototype .sv-canvas-tools { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding-bottom:10px; }
+#sp-prototype .sv-work { position:relative; display:grid; grid-template-columns:minmax(0,1fr) 284px; flex:1; min-height:0; overflow:hidden; }
+#sp-prototype .sv-plan-column { display:flex; flex-direction:column; min-width:0; min-height:0; padding:10px 14px; background:color-mix(in srgb,var(--sp-line) 12%,var(--sp-paper)); }
+#sp-prototype .sv-canvas-tools { display:flex; align-items:center; flex-wrap:wrap; gap:6px 16px; padding-bottom:8px; flex:none; }
+#sp-prototype :is(.sv-view-actions,.sv-view-options) { display:flex; align-items:center; gap:6px; }
+#sp-prototype .sv-view-options { gap:12px; }
+#sp-prototype .sp-venue-dialog :is(.sv-details-toggle,.sv-details-close) { display:none; }
 #sp-prototype .sv-canvas-tools label,#sp-prototype .sp-venue-dialog .sv-check,#sp-prototype .sv-house label:has(input[type="checkbox"]) { flex-direction:row; align-items:center; gap:6px; min-height:36px; }
 #sp-prototype .sp-venue-dialog input[type="checkbox"] { width:17px; height:17px; accent-color:var(--sp-teal); }
-#sp-prototype .sv-canvas-wrap { position:relative; flex:1; min-height:200px; }
-#sp-prototype .sv-canvas { display:block; box-sizing:border-box; width:100%; height:100%; min-height:200px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); touch-action:none; user-select:none; }
+#sp-prototype .sv-canvas-wrap { position:relative; flex:1; min-height:0; overflow:hidden; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); }
+#sp-prototype .sv-canvas { display:block; box-sizing:border-box; width:100%; height:100%; touch-action:none; user-select:none; }
 #sp-prototype .sp-venue-dialog .sv-part-toolbar { position:absolute; display:flex; width:max-content; max-width:calc(100% - 12px); margin:0; transform:none; z-index:3; }
 #sp-prototype .sv-part-toolbar .sp-object-tool { display:flex; align-items:center; justify-content:center; touch-action:none; user-select:none; }
 #sp-prototype .sv-part-toolbar [data-part-action="lock"][aria-pressed="true"],#sp-prototype .sv-part-toolbar [data-part-action="behind"] { background:#c4eb43; border-color:#c4eb43; color:#20271a; }
 #sp-prototype .sp-venue-dialog .sv-part-menu { z-index:10; padding:5px; }
 #sp-prototype .sp-venue-dialog .sv-part-menu button { min-height:40px; border:0; background:transparent; }
 #sp-prototype .sp-venue-dialog .sv-part-menu button:hover { background:var(--sp-line); }
-#sp-prototype .sv-summary { padding-top:10px; font-size:12px; font-weight:650; }
+#sp-prototype .sv-plan-caption { display:flex; flex-wrap:wrap; justify-content:space-between; gap:4px 12px; padding-top:8px; flex:none; }
+#sp-prototype .sv-summary { font-size:11px; font-weight:650; }
 #sp-prototype .sv-hint { font-size:11px; color:var(--sp-muted); margin:6px 0 0; line-height:1.5; }
-#sp-prototype .sv-sidebar { padding:14px; overflow-y:auto; border-left:1px solid var(--sp-line); }
+#sp-prototype .sv-plan-caption .sv-hint { margin:0; }
+#sp-prototype .sv-sidebar { display:flex; flex-direction:column; min-height:0; border-left:1px solid var(--sp-line); background:var(--sp-paper); }
+#sp-prototype .sv-sidebar-tabs { display:flex; gap:4px; padding:10px; border-bottom:1px solid var(--sp-line); flex:none; }
+#sp-prototype .sv-sidebar-tabs button { flex:1; padding:8px 6px; }
+#sp-prototype .sv-side-content { padding:16px; overflow-y:auto; min-height:0; overscroll-behavior:contain; }
+#sp-prototype .sv-empty { padding:12px 0; }
+#sp-prototype .sv-empty p { font-size:12px; color:var(--sp-muted); line-height:1.6; }
+#sp-prototype .sv-selection>label { margin-top:10px; }
+#sp-prototype .sv-save-template { width:100%; margin-top:12px; }
 #sp-prototype .sv-sidebar h3 { font-size:15px; margin:0 0 12px; }
 #sp-prototype .sv-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 #sp-prototype .sv-fields label:first-child:has([data-prop="name"]) { grid-column:1/-1; }
@@ -4562,30 +4576,42 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sv-template :is(strong,small) { display:block; font-size:12px; }
 #sp-prototype .sv-template small { color:var(--sp-muted); margin-top:4px; }
 #sp-prototype .sv-house p,#sp-prototype .sv-templates p { font-size:11px; color:var(--sp-muted); }
-#sp-prototype .sp-venue-dialog footer { display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:12px 20px; border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-venue-dialog footer { display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:8px 16px; border-top:1px solid var(--sp-line); flex:none; }
 #sp-prototype .sp-venue-dialog .sv-primary { background:var(--sp-teal); border-color:var(--sp-teal); color:#fff; font-weight:650; }
 #sp-prototype .sv-status { flex:1; font-size:12px; color:var(--sp-muted); }
+#sp-prototype .sv-plan-focus :is(.sv-tools,.sv-sidebar) { display:none; }
+#sp-prototype .sv-plan-focus .sv-work { grid-template-columns:minmax(0,1fr); }
 #sp-prototype #sp-canvas-tools #sp-venue-open { width:auto; min-width:90px; font-size:11px; padding:0 10px; white-space:nowrap; }
 #sp-prototype[data-readonly="true"] :is(#sp-venue-open,#sp-venue-setup,#sp-house-library) { display:none !important; }
-@media(max-width:740px) {
+@media(max-width:900px) {
   #sp-prototype .sp-venue-dialog { width:100vw; height:100dvh; border:0; border-radius:0; }
-  #sp-prototype .sv-head { padding:10px 12px; }
-  #sp-prototype .sv-head strong { font-size:16px; }
-  #sp-prototype .sv-tools { padding:6px 12px; }
-  #sp-prototype .sv-tool-modes { gap:4px; margin-bottom:4px; flex-wrap:wrap; }
+  #sp-prototype .sv-head { padding:6px 10px; gap:6px; }
+  #sp-prototype .sv-head strong { font-size:15px; }
+  #sp-prototype .sv-head-actions { gap:2px; }
+  #sp-prototype .sv-head [data-action="focus-plan"] { max-width:124px; padding:6px 8px; font-size:11px; }
+  #sp-prototype .sv-tools { display:block; padding:4px 10px; }
+  #sp-prototype .sv-tool-modes { flex-direction:row; align-items:center; justify-content:space-between; gap:4px; padding:0; border:0; margin-bottom:2px; }
   #sp-prototype .sv-tool-modes button { padding:6px 8px; font-size:11px; }
-  #sp-prototype .sp-venue-dialog .sv-tool-card { flex-basis:80px; min-height:70px; }
+  #sp-prototype .sp-venue-dialog .sv-tool-card { flex-basis:80px; min-height:60px; }
   #sp-prototype .sv-palette-row { gap:3px; }
   #sp-prototype .sv-palette-row>button { width:24px; padding:4px; }
-  #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; overflow-x:hidden; }
-  #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
-  #sp-prototype .sv-canvas-wrap { height:320px; min-height:320px; flex:none; }
-  #sp-prototype .sv-canvas { height:100%; min-height:320px; }
+  #sp-prototype .sv-palette-hint { display:none; }
+  #sp-prototype .sv-work { grid-template-columns:minmax(0,1fr); }
+  #sp-prototype .sv-plan-column { padding:6px 10px; }
+  #sp-prototype .sv-canvas-tools { gap:2px 8px; padding-bottom:4px; }
+  #sp-prototype .sv-view-options { order:2; flex-basis:100%; }
+  #sp-prototype .sv-view-options label { min-height:28px; }
+  #sp-prototype .sp-venue-dialog .sv-details-toggle { display:block; margin-left:auto; }
+  #sp-prototype .sv-plan-caption { padding-top:6px; }
+  #sp-prototype .sv-plan-caption .sv-hint { display:none; }
   #sp-prototype .sp-venue-dialog .sv-part-toolbar { flex-direction:column; gap:3px; }
   #sp-prototype .sv-part-toolbar .sp-edit-controls { border-top:1px solid #4a514a; margin:0; padding:3px 0 0; }
   #sp-prototype .sv-part-toolbar .sp-edit-controls::before { display:none; }
   #sp-prototype .sp-venue-dialog .sv-part-toolbar .sp-object-tool { width:44px; min-width:44px; height:44px; min-height:44px; }
-  #sp-prototype .sv-sidebar { overflow:visible; border-left:0; border-top:1px solid var(--sp-line); }
+  #sp-prototype .sv-sidebar { display:none; position:absolute; inset:auto 0 0; max-height:80%; border:1px solid var(--sp-line); border-bottom:0; border-radius:14px 14px 0 0; box-shadow:0 -12px 40px #0003; z-index:5; }
+  #sp-prototype .sv-details-open .sv-sidebar { display:flex; }
+  #sp-prototype .sv-sidebar-tabs { padding:8px 10px; }
+  #sp-prototype .sp-venue-dialog .sv-details-close { display:block; flex:0 0 44px; font-size:24px; }
   #sp-prototype .sp-venue-dialog footer { flex-wrap:wrap; padding:8px 12px; gap:6px; }
   #sp-prototype .sv-status:empty { display:none; }
   #sp-prototype .sv-status { flex-basis:100%; }
@@ -4593,8 +4619,19 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-venue-dialog :is(button,input:not([type="checkbox"]),select) { min-height:44px; }
 }
 
+@media(min-width:601px) and (max-width:900px) {
+  #sp-prototype .sv-details-open .sv-work { grid-template-columns:minmax(0,1fr) 300px; }
+  #sp-prototype .sv-details-open .sv-sidebar { position:static; max-height:none; border:0; border-left:1px solid var(--sp-line); border-radius:0; box-shadow:none; }
+}
+
+@media(max-height:540px) and (min-width:901px) {
+  #sp-prototype .sv-plan-caption .sv-hint { display:none; }
+  #sp-prototype .sv-tools { padding-top:4px; padding-bottom:4px; }
+}
+
 #sp-prototype .sv-plan-column { --sp-teal:#617b31; }
-#sp-prototype .sv-canvas-tools button { font-family:system-ui,sans-serif; font-size:15px; }
+#sp-prototype .sv-canvas-tools button { font-family:system-ui,sans-serif; }
+#sp-prototype .sv-view-actions :is([data-action="undo"],[data-action="redo"]) { width:40px; padding:0; font-size:18px; }
 /* build-inline:end stageplot-venue-v1.css */
 </style>
 
@@ -4943,13 +4980,16 @@ html,body { height:100%; overflow:hidden; }
     let g=G.normalize(options.geometry||G.legacy(options.stage)),selected=null,edge=null,history=[],future=[],drawPoints=null,drag=null,pan={x:0,y:0,zoom:1},fitArea=G.compile(g).bounds,metrics=null,lastField=null,rotateHold=null;
     const included=new Set((options.objects||[]).filter(o=>o.house).map(o=>o.id)),touches=new Map();let gesture=null;
     const dialog=document.createElement('dialog');dialog.className='sp-venue-dialog';dialog.setAttribute('aria-label','Hausgrundriss bearbeiten');
-    dialog.innerHTML='<header class="sv-head"><div><strong>Hausgrundriss bearbeiten</strong><small>Bühnenform, feste Einbauten und Hausvorlagen</small></div><button type="button" data-action="close" aria-label="Grundrissbearbeitung abbrechen">×</button></header>'+
-      '<div class="sv-tools"><div class="sv-tool-modes"><div role="group" aria-label="Werkzeugauswahl"><button type="button" data-tool-mode="add" aria-pressed="true">Bauelemente</button><button type="button" data-tool-mode="preset" aria-pressed="false">Grundformen</button></div><button type="button" data-action="draw">Umriss zeichnen</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-palette-row"><button type="button" data-action="palette-prev" aria-label="Vorherige Formen">‹</button><div class="sv-palette" data-tool-panel="add" role="group" aria-label="Bauelement hinzufügen">'+toolCards(elements,'add')+'</div><div class="sv-palette" data-tool-panel="preset" role="group" aria-label="Grundform hinzufügen" hidden>'+toolCards(presets,'preset')+'</div><button type="button" data-action="palette-next" aria-label="Weitere Formen">›</button></div><small class="sv-palette-hint">Bauelement anklicken, dann im Plan platzieren.</small></div>'+
-      '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><div class="sv-canvas-wrap"><svg class="sv-canvas" tabindex="0" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg>'+actionToolbar+'</div><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Werkzeugleiste oder Rechtsklick für Aktionen · Griffe ziehen · zwei Finger zum Zoomen</p></div><aside class="sv-sidebar"><div class="sv-selection"></div><details open><summary>Elemente</summary><div class="sv-parts"></div></details><details><summary>Hausangaben &amp; festes Inventar</summary><div class="sv-house"></div></details><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></aside></div>'+
+    dialog.innerHTML='<header class="sv-head"><strong>Bühnenform bearbeiten</strong><div class="sv-head-actions"><button type="button" data-action="focus-plan" aria-pressed="false">Plan vergrößern</button><button type="button" class="sv-close" data-action="close" aria-label="Grundrissbearbeitung abbrechen">×</button></div></header>'+
+      '<div class="sv-tools"><div class="sv-tool-modes"><div role="group" aria-label="Werkzeugauswahl"><button type="button" data-tool-mode="add" aria-pressed="true">Bauelemente</button><button type="button" data-tool-mode="preset" aria-pressed="false">Grundformen</button></div><button type="button" data-action="draw">Umriss zeichnen</button></div><div class="sv-palette-row"><button type="button" data-action="palette-prev" aria-label="Vorherige Formen">‹</button><div class="sv-palette" data-tool-panel="add" role="group" aria-label="Bauelement hinzufügen">'+toolCards(elements,'add')+'</div><div class="sv-palette" data-tool-panel="preset" role="group" aria-label="Grundform hinzufügen" hidden>'+toolCards(presets,'preset')+'</div><button type="button" data-action="palette-next" aria-label="Weitere Formen">›</button></div><small class="sv-palette-hint">Bauelement anklicken, dann im Plan platzieren.</small></div>'+
+      '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><div class="sv-view-actions"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button></div><div class="sv-view-options"><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><button type="button" class="sv-details-toggle" data-action="toggle-details" aria-expanded="false" aria-controls="sv-inspector">Details</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-canvas-wrap"><svg class="sv-canvas" tabindex="0" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg>'+actionToolbar+'</div><div class="sv-plan-caption"><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Griffe ziehen · zwei Finger zum Zoomen</p></div></div><aside class="sv-sidebar" id="sv-inspector" aria-label="Grundrissdetails"><div class="sv-sidebar-tabs" role="group" aria-label="Detailansicht"><button type="button" data-side-view="element" aria-pressed="true">Element</button><button type="button" data-side-view="parts" aria-pressed="false">Aufbau</button><button type="button" data-side-view="house" aria-pressed="false">Haus</button><button type="button" class="sv-details-close" data-action="toggle-details" aria-label="Details schließen">×</button></div><div class="sv-side-content"><section data-side-panel="element"><div class="sv-selection"></div></section><section data-side-panel="parts" hidden><h3>Elemente im Grundriss</h3><div class="sv-parts"></div></section><section data-side-panel="house" hidden><h3>Hausangaben &amp; Inventar</h3><div class="sv-house"></div><button type="button" class="sv-save-template" data-action="save-template">Als Hausvorlage sichern</button><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></section></div></aside></div>'+
       '<div class="sv-part-menu sp-context-menu" role="menu" aria-label="Elementaktionen" hidden><button type="button" role="menuitem" data-part-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-part-action="rotate" data-amount="90">90° drehen ↻</button><button type="button" role="menuitem" data-part-action="behind">Nach hinten</button><button type="button" role="menuitem" data-part-action="lock">Sperren</button><button type="button" role="menuitem" data-part-action="remove" class="sp-danger">Löschen</button></div>'+
-      '<footer><span class="sv-status" role="status"></span><button type="button" data-action="save-template">Als Hausvorlage sichern</button><button type="button" data-action="close">Abbrechen</button><button type="button" class="sv-primary" data-action="apply">Grundriss übernehmen</button></footer>';
+      '<footer><span class="sv-status" role="status"></span><button type="button" data-action="close">Abbrechen</button><button type="button" class="sv-primary" data-action="apply">Grundriss übernehmen</button></footer>';
     host.append(dialog);const $=s=>dialog.querySelector(s),canvas=$('.sv-canvas'),toolbar=$('.sv-part-toolbar'),menu=$('.sv-part-menu');
     const status=t=>$('.sv-status').textContent=t;
+    function sideView(view){dialog.querySelectorAll('[data-side-view]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.sideView===view));dialog.querySelectorAll('[data-side-panel]').forEach(el=>el.hidden=el.dataset.sidePanel!==view);$('.sv-side-content').scrollTop=0;}
+    function focusPlan(active){dialog.classList.toggle('sv-plan-focus',active);const button=$('[data-action="focus-plan"]');button.setAttribute('aria-pressed',String(active));button.textContent=active?'Werkzeuge einblenden':'Plan vergrößern';closePartMenu();}
+    function showDetails(active){dialog.classList.toggle('sv-details-open',active);const button=$('[data-action="toggle-details"]');button.setAttribute('aria-expanded',String(active));button.textContent=active?'Details schließen':'Details';if(active)focusPlan(false);else if($('.sv-sidebar').contains(document.activeElement))button.focus({preventScroll:true});}
     const state=()=>JSON.stringify({g,included:[...included]});
     function restore(value){const s=JSON.parse(value);g=s.g;included.clear();s.included.forEach(id=>included.add(id));if(!g.parts.some(p=>p.id===selected))selected=null;edge=null;}
     function commit(fn,fit=false,field=null){const before=state();try{fn();G.syncAnchors(g);g=G.normalize(g);if(state()!==before){if(!field||lastField!==field)history.push(before);lastField=field;if(history.length>40)history.shift();future=[];}status('');field?.setCustomValidity('');if(fit)fitView();if(field)draw();else render();return true;}catch(error){const previousEdge=edge,previousSelected=selected;restore(before);edge=previousEdge;selected=previousSelected;status(error.message);if(field)field.setCustomValidity(error.message);else render();return false;}}
@@ -4967,7 +5007,7 @@ html,body { height:100%; overflow:hidden; }
         (p.kind==='opening'?'<label>Ausschnitt betrifft<select data-prop="target"><option value="">Alle Bühnenflächen</option>'+g.parts.filter(q=>q.kind==='floor').map(q=>'<option value="'+q.id+'" '+(p.target===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>':'')+
         (edge!==null&&['rect','polygon'].includes(p.shape)?edgeFields(p):'')+
         (['stairs','ramp'].includes(p.kind)?'<label>Anschlussfläche<select data-anchor="owner"><option value="">Frei platzieren</option>'+g.parts.filter(q=>q.kind==='floor'&&['rect','polygon'].includes(q.shape)).map(q=>'<option value="'+q.id+'" '+(p.anchor?.partId===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>'+(p.anchor?'<label>Anschlusskante<select data-anchor="edge">'+(g.parts.find(q=>q.id===p.anchor.partId)?G.vertices(g.parts.find(q=>q.id===p.anchor.partId)).map((v,i)=>'<option value="'+i+'" '+(p.anchor.edge===i?'selected':'')+'>Kante '+(i+1)+'</option>').join(''):'<option>Fläche fehlt – neu zuordnen</option>')+'</select></label><label>Position entlang Kante (%)<input type="number" min="0" max="100" step="any" data-anchor="t" value="'+p.anchor.t*100+'"></label>':''):'')+
-        '<div class="sv-row"><button type="button" data-part-action="duplicate">Duplizieren</button><button type="button" data-part-action="remove" '+(p.locked?'disabled':'')+'>Entfernen</button></div>':'<p>Fläche oder Kante antippen.</p>';
+        '<div class="sv-row"><button type="button" data-part-action="duplicate">Duplizieren</button><button type="button" data-part-action="remove" '+(p.locked?'disabled':'')+'>Entfernen</button></div>':'<div class="sv-empty"><h3>Element bearbeiten</h3><p>Wähle eine Fläche oder Kante im Plan. Hier kannst du Maße, Position und weitere Eigenschaften genau einstellen.</p><button type="button" data-side-view="parts">Elemente anzeigen</button></div>';
       if(p?.locked)$('.sv-selection').querySelectorAll('[data-prop]:not([data-prop="locked"]),[data-edge],[data-anchor],[data-action="insert-point"],[data-action="remove-point"],[data-action="attach-stairs"]').forEach(el=>el.disabled=true);
       $('.sv-house').innerHTML='<label>Name der Hausbühne<input type="text" maxlength="60" data-house="name" value="'+esc(g.name)+'" placeholder="z. B. Kulturhaus · großer Saal"></label><div class="sv-fields"><label>Bühnenhöhe (m)<input type="number" step="any" data-house="height" value="'+(g.height??'')+'" placeholder="unbekannt"></label><label>Lichte Höhe (m)<input type="number" step="any" data-house="clearance" value="'+(g.clearance??'')+'" placeholder="unbekannt"></label></div><label><input type="checkbox" data-house="measured" '+(g.measured?'checked':'')+'> Maße vor Ort geprüft</label><label><input type="checkbox" data-house="showModules" '+(g.showModules?'checked':'')+'> 2 × 1 m Modulraster anzeigen</label><label>Hinweise zur Location<textarea data-house="notes" maxlength="2000" rows="3">'+esc(g.notes)+'</textarea></label><p>Revision '+g.revision+' · ausgewähltes Equipment gehört zur Hausvorlage:</p>'+(options.objects||[]).map(o=>'<label class="sv-check"><input type="checkbox" data-house-object="'+o.id+'" '+(included.has(o.id)?'checked':'')+'> '+esc(o.label||o.type)+'</label>').join('');
       $('.sv-templates').innerHTML=(options.templates||[]).length?(options.templates||[]).map(t=>'<div class="sv-template"><strong>'+esc(t.name)+'</strong><small>'+new Date(t.savedAt).toLocaleDateString('de-AT')+(t.stage.geometry?' · Revision '+t.stage.geometry.revision:'')+'</small><div class="sv-row"><button type="button" data-template-load="'+t.id+'">Grundriss laden</button><button type="button" data-template-new="'+t.id+'">Neue Veranstaltung</button></div></div>').join(''):'<p>Noch keine Hausvorlagen gespeichert.</p>';
@@ -5037,7 +5077,7 @@ html,body { height:100%; overflow:hidden; }
     function edgeFields(p){const points=G.vertices(p),a=points[edge],b=points[(edge+1)%points.length];if(!a)return '';return '<div class="sv-edge"><strong>Kante '+(edge+1)+'</strong><label>Länge (m)<input data-edge="length" type="number" step="any" min="0.02" value="'+G.round(Math.hypot(b[0]-a[0],b[1]-a[1]))+'"></label><label>Rundung (m; Vorzeichen wechselt Seite)<input data-edge="rise" type="number" step="any" value="'+(a[2]||0)+'"></label><div class="sv-row"><button type="button" data-action="insert-point">Punkt ergänzen</button><button type="button" data-action="remove-point" '+(points.length<=3?'disabled':'')+'>Eckpunkt entfernen</button></div><button type="button" data-action="attach-stairs">Treppe hier ansetzen</button></div>';}
     function draw(){
       $('[data-action="undo"]').disabled=!history.length;$('[data-action="redo"]').disabled=!future.length;
-      const W=Math.max(280,canvas.clientWidth),H=Math.max(260,canvas.clientHeight),b=fitArea,s=Math.min((W-84)/Math.max(.5,b.maxX-b.minX),(H-84)/Math.max(.5,b.maxY-b.minY))*pan.zoom;
+      const W=Math.max(1,canvas.clientWidth),H=Math.max(1,canvas.clientHeight),b=fitArea,s=Math.max(.001,Math.min((W-84)/Math.max(.5,b.maxX-b.minX),(H-84)/Math.max(.5,b.maxY-b.minY)))*pan.zoom;
       const x=W/2-(b.minX+b.maxX)/2*s+pan.x,y=H/2-(b.minY+b.maxY)/2*s+pan.y;metrics={scale:s,x,y};canvas.setAttribute('viewBox','0 0 '+W+' '+H);canvas.replaceChildren();
       const c=G.compile(g);svgEl('title',{},canvas,'Hausgrundriss · '+num(c.area)+' m² Bodenfläche');
       const defs=svgEl('defs',{},canvas),pattern=svgEl('pattern',{id:'sv-grid',width:s,height:s,patternUnits:'userSpaceOnUse',x,y},defs);svgEl('path',{d:'M'+s+' 0H0V'+s,fill:'none',stroke:'var(--sp-line)','stroke-width':.6},pattern);
@@ -5105,12 +5145,15 @@ html,body { height:100%; overflow:hidden; }
     dialog.addEventListener('click',async e=>{
       const b=e.target.closest('button');if(!b||b.disabled)return;const p=g.parts.find(q=>q.id===selected),action=b.dataset.action;
       if(b.dataset.partAction){if(b.dataset.partAction==='hold'){if(e.detail===0)partAction('rotate',Number(b.dataset.hold));}else partAction(b.dataset.partAction,Number(b.dataset.amount)||0);return;}
+      if(b.dataset.sideView){sideView(b.dataset.sideView);return;}
+      if(action==='focus-plan'){showDetails(false);focusPlan(!dialog.classList.contains('sv-plan-focus'));return;}
+      if(action==='toggle-details'){showDetails(!dialog.classList.contains('sv-details-open'));return;}
       if(b.dataset.toolMode){
         const mode=b.dataset.toolMode;dialog.querySelectorAll('[data-tool-mode]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.toolMode===mode));dialog.querySelectorAll('[data-tool-panel]').forEach(el=>el.hidden=el.dataset.toolPanel!==mode);
         $('.sv-palette-hint').textContent=mode==='add'?'Bauelement anklicken, dann im Plan platzieren.':'Grundform ergänzen · neue Formen erscheinen rechts neben dem Aufbau.';return;
       }
       if(action==='palette-prev'||action==='palette-next'){const palette=$('[data-tool-panel]:not([hidden])');palette.scrollBy({left:(action==='palette-next'?1:-1)*palette.clientWidth*.8,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return;}
-      if(b.dataset.select){selected=b.dataset.select;edge=null;render();return;}
+      if(b.dataset.select){selected=b.dataset.select;edge=null;sideView('element');render();return;}
       if(b.dataset.templateLoad){const t=options.templates.find(t=>t.id===b.dataset.templateLoad);commit(()=>{g=G.copy(t.stage.geometry||G.legacy(t.stage));selected=g.parts[0].id;edge=null;},true);return;}
       if(b.dataset.templateNew){const t=options.templates.find(t=>t.id===b.dataset.templateNew);try{await options.onNewEvent(t);dialog.close();}catch(error){status(error.message);}return;}
       if(action==='close'){dialog.close();return;}
@@ -5120,10 +5163,10 @@ html,body { height:100%; overflow:hidden; }
       if(action==='cancel-draw'){drawPoints=null;status('');render();return;}
       if(action==='finish'){if(drawPoints.length<3){status('Mindestens drei Punkte setzen.');return;}if(commit(()=>{const q=G.part({name:'Freie Bühnenfläche',shape:'polygon',points:drawPoints});rebox(q);g.parts.push(q);selected=q.id;})){drawPoints=null;render();}return;}
       if(action==='apply'||action==='save-template'){
-        try{const invalid=dialog.querySelector(':invalid');if(invalid){invalid.reportValidity();return;}g=G.normalize(g);if(action==='save-template'){if(!g.name.trim()){status('Unter „Hausangaben“ einen Namen für die Hausbühne eingeben.');$('.sv-house').closest('details').open=true;$('[data-house="name"]').focus();return;}const saved=await options.onSaveTemplate(G.copy(g),[...included]);options.templates=saved.templates;g.revision=saved.revision;render();status('Hausvorlage gespeichert · Revision '+g.revision);}else{await options.onApply(G.copy(g),[...included]);dialog.close();}}catch(error){status(error.message);}return;
+        try{const invalid=dialog.querySelector(':invalid');if(invalid){sideView(invalid.closest('[data-side-panel]')?.dataset.sidePanel||'element');showDetails(true);invalid.reportValidity();return;}g=G.normalize(g);if(action==='save-template'){if(!g.name.trim()){status('Unter „Hausangaben“ einen Namen für die Hausbühne eingeben.');sideView('house');showDetails(true);$('[data-house="name"]').focus();return;}const saved=await options.onSaveTemplate(G.copy(g),[...included]);options.templates=saved.templates;g.revision=saved.revision;render();status('Hausvorlage gespeichert · Revision '+g.revision);}else{await options.onApply(G.copy(g),[...included]);dialog.close();}}catch(error){status(error.message);}return;
       }
       commit(()=>{
-        if(action==='preset'){selected=addPreset(g,b.dataset.kind,options.stage.w,options.stage.d,b.textContent.trim());edge=null;}
+        if(action==='preset'){selected=addPreset(g,b.dataset.kind,options.stage.w,options.stage.d,b.textContent.trim());edge=null;sideView('element');showDetails(false);}
         if(action==='add'){
           const kind=b.dataset.kind,c=G.compile(g).bounds,q=G.part({x:snap((c.minX+c.maxX)/2-1),y:snap((c.minY+c.maxY)/2-.5)});
           if(kind==='segment')Object.assign(q,{name:'Vorbühne',shape:'segment',x:0,y:options.stage.d,w:options.stage.w,d:1,rise:1});
@@ -5135,7 +5178,7 @@ html,body { height:100%; overflow:hidden; }
           else if(kind==='door'||kind==='curtain')Object.assign(q,{name:kind==='door'?'Tür / Zugang':'Vorhang / Portal',kind:'line',w:kind==='door'?1:4,d:.08});
           else if(kind==='reserve'||kind==='foh')Object.assign(q,{name:kind==='foh'?'FOH':'Freihalten',kind:'zone',role:kind,w:2,d:2});
           else if(kind==='stairs'||kind==='ramp')Object.assign(q,{name:kind==='stairs'?'Treppe':'Rampe',kind,w:1.2,d:kind==='stairs'?1:3});
-          g.parts.push(q);selected=q.id;edge=null;
+          g.parts.push(q);selected=q.id;edge=null;sideView('element');showDetails(false);
         }
         if(action==='insert-point'&&!p.locked){makePolygon(p);const a=p.points[edge],b=p.points[(edge+1)%p.points.length];a[2]=0;p.points.splice(edge+1,0,[(a[0]+b[0])/2,(a[1]+b[1])/2,0]);}
         if(action==='remove-point'&&!p.locked){makePolygon(p);p.points.splice(edge,1);edge=null;rebox(p);}
@@ -5148,6 +5191,7 @@ html,body { height:100%; overflow:hidden; }
         if(rotateHold){e.preventDefault();stopRotateHold(null,true);return;}
         if(!menu.hidden){e.preventDefault();closePartMenu(true);return;}
         if(drawPoints){e.preventDefault();drawPoints=null;status('');render();return;}
+        if(dialog.classList.contains('sv-details-open')){e.preventDefault();showDetails(false);return;}
         if(selected){e.preventDefault();selected=null;edge=null;render();canvas.focus({preventScroll:true});return;}
       }
       if(e.target.matches('input,textarea,select,[contenteditable="true"]'))return;
