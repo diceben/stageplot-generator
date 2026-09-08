@@ -54,7 +54,7 @@
 #sp-prototype .svc-use p { font-size:12px; line-height:1.5; color:var(--sp-muted); }
 #sp-prototype .svc-use [data-use] { width:100%; color:var(--sp-primary-ink); background:var(--sp-primary); border-color:var(--sp-primary); font-weight:650; min-height:46px; }
 #sp-prototype .svc-use .svc-error { color:var(--sp-red,#b22); }
-#sp-prototype[data-readonly="true"] :is(#sp-venue-catalog-open,#sp-np-venue-catalog) { display:none !important; }
+#sp-prototype[data-readonly="true"] #sp-np-venue-catalog { display:none !important; }
 @media(max-width:700px) {
   #sp-prototype .sp-venue-catalog { width:calc(100vw - 12px); height:calc(100dvh - 12px); border-radius:12px; }
   #sp-prototype .svc-head { padding:16px; gap:10px; }

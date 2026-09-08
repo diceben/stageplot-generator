@@ -53,7 +53,7 @@
   <section id="sp-dashboard" class="sp-dashboard" hidden>
     <div class="sp-dashboard-hero">
       <div class="sp-dashboard-intro"><img class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
-      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-venue-catalog-open">Bühnen finden</button><button type="button" class="sp-button" id="sp-house-library">Hausbühnen</button><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
+      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
     <div class="sp-plan-card" id="sp-plan-card">
       <div class="sp-plan-message"><span class="sp-plan-kicker" id="sp-plan-kicker">KOSTENLOSE PRO-BETA</span><strong id="sp-plan-usage">Pro-Funktionen während der Beta kostenlos testen</strong><small id="sp-plan-copy">Aktiviere Pro-Beta ohne Zahlung und ohne Abo.</small></div>
@@ -412,7 +412,20 @@
         <label class="sp-field"><span>Band / Act</span><input id="sp-np-band" maxlength="80" placeholder="z. B. The Sonics" autocomplete="off"></label>
         <label class="sp-field"><span>Location</span><input id="sp-np-location" maxlength="100" placeholder="z. B. Arena Wien" autocomplete="off"></label>
       </div>
-      <button type="button" class="sp-button" id="sp-np-venue-catalog">Vorhandene Location suchen · kostenlose Beta</button>
+      <div class="sp-np-source-options" role="group" aria-label="Bühne für das neue Projekt">
+        <button type="button" data-np-source="custom" aria-pressed="true">Bühne selbst festlegen</button>
+        <button type="button" data-np-source="catalog" aria-pressed="false">Location-Vorlage</button>
+        <button type="button" data-np-source="templates" aria-pressed="false">Meine Bühnenvorlagen</button>
+      </div>
+      <div class="sp-np-source-panel" data-np-panel="catalog" hidden>
+        <h3>Bühne einer Location verwenden</h3><p>Suche einen Club oder ein Theater und übernimm die vorhandene Bühnenvorlage für dein Projekt.</p>
+        <button type="button" class="sp-button sp-primary" id="sp-np-venue-catalog">Location suchen</button><small>In der Beta kostenlos und ohne Account.</small>
+      </div>
+      <div class="sp-np-source-panel" data-np-panel="templates" hidden>
+        <h3>Meine Bühnenvorlagen</h3><p>Mit einer gespeicherten Bühne ein neues Projekt starten.</p><div id="sp-np-templates"></div>
+      </div>
+      <div class="sp-np-custom" data-np-panel="custom">
+      <p class="sp-np-source-hint">Lege zuerst die Maße fest. Form, Anbauten und Ausschnitte kannst du danach im Editor unter „Bühnenform“ gestalten.</p>
       <div class="sp-np-stage">
         <div class="sp-np-dims">
           <div class="sp-np-dim">
@@ -442,6 +455,7 @@
           <label class="sp-field"><span>Bühnenform</span><select id="sp-np-stage-mode"><option value="standard">Rechteckige Bühne</option><option value="complex">Komplexes Bühnensetup · Stage Builder Pack</option></select></label>
         </div>
       </details>
+      </div>
       <p id="sp-np-error" class="sp-error" role="alert" hidden></p>
     </div>
     <div class="sp-actions"><button class="sp-button" type="button" id="sp-np-cancel">Abbrechen</button><button class="sp-button sp-primary" type="button" id="sp-np-create">Projekt erstellen <span aria-hidden="true">→</span></button></div>
@@ -3388,12 +3402,31 @@
 #sp-prototype[data-plan="pro"] .sp-pro-flag { display:block; }
 #sp-prototype .sp-newproject-dialog { width:min(700px,94vw); max-width:94vw; }
 #sp-prototype .sp-newproject-dialog #sp-np-name-preview { margin:5px 0 0; font-weight:650; font-size:15px; color:var(--sp-ink); }
-#sp-prototype .sp-np-body { display:grid; gap:18px; margin-top:8px; }
-#sp-prototype .sp-np-identity { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+#sp-prototype .sp-np-source-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; padding:5px; background:var(--sp-accent-bg); border-radius:12px; }
+#sp-prototype .sp-np-source-options button { min-height:46px; padding:10px 8px; border:1px solid transparent; border-radius:8px; background:transparent; color:var(--sp-art); font:inherit; font-size:12px; line-height:1.4; cursor:pointer; }
+#sp-prototype .sp-np-source-options [aria-pressed="true"] { background:var(--sp-paper); border-color:var(--sp-teal); font-weight:650; }
+#sp-prototype .sp-np-source-options button:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
+#sp-prototype .sp-newproject-dialog > .sp-actions { margin-top:18px; }
+#sp-prototype .sp-np-custom { display:grid; grid-template-columns:minmax(0,1fr); gap:18px; }
+#sp-prototype .sp-np-source-hint { margin:0; font-size:12px; line-height:1.6; color:var(--sp-muted); }
+#sp-prototype .sp-np-source-panel { padding:22px; border:1px solid var(--sp-line); border-radius:12px; }
+#sp-prototype .sp-np-source-panel h3 { margin:0; font-size:17px; }
+#sp-prototype .sp-np-source-panel p { font-size:13px; line-height:1.6; color:var(--sp-muted); }
+#sp-prototype .sp-np-source-panel>small { display:block; margin-top:12px; font-size:11px; color:var(--sp-muted); }
+#sp-prototype #sp-np-templates { display:grid; gap:8px; }
+#sp-prototype .sp-np-template { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:64px; padding:12px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); color:var(--sp-art); font:inherit; font-size:12px; text-align:left; cursor:pointer; }
+#sp-prototype .sp-np-template:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-np-template strong { display:block; overflow-wrap:anywhere; }
+#sp-prototype .sp-np-template small { display:block; margin-top:4px; color:var(--sp-muted); }
+#sp-prototype .sp-newproject-dialog [hidden] { display:none !important; }
+@media (max-width:420px) { #sp-prototype .sp-np-source-options { grid-template-columns:1fr; } #sp-prototype .sp-np-source-options button { min-height:40px; padding:7px; } #sp-prototype .sp-np-source-panel { padding:16px; } }
+#sp-prototype .sp-np-body { display:grid; grid-template-columns:minmax(0,1fr); gap:18px; margin-top:8px; }
+#sp-prototype .sp-np-identity { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 #sp-prototype .sp-np-identity .sp-field span, #sp-prototype .sp-np-advanced-body .sp-field span { display:block; font-size:11px; font-weight:600; margin-bottom:5px; color:var(--sp-muted); text-transform:uppercase; letter-spacing:.4px; }
 #sp-prototype .sp-np-identity input { width:100%; min-height:42px; }
-#sp-prototype .sp-np-stage { display:grid; grid-template-columns:1fr 168px; gap:20px; align-items:center; }
-#sp-prototype .sp-np-dims { display:grid; gap:16px; }
+#sp-prototype .sp-np-stage { display:grid; grid-template-columns:minmax(0,1fr) 168px; gap:20px; align-items:center; }
+#sp-prototype .sp-np-dims { display:grid; min-width:0; gap:16px; }
 #sp-prototype .sp-np-dim-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; font-size:12px; font-weight:600; }
 #sp-prototype .sp-np-dim-head strong { color:var(--sp-lime,#9dbc2c); font-size:15px; }
 #sp-prototype .sp-np-dim-row { display:flex; align-items:stretch; gap:6px; }
@@ -3409,7 +3442,7 @@
 #sp-prototype .sp-np-advanced summary:hover { color:var(--sp-ink); }
 #sp-prototype .sp-np-advanced-body { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-top:8px; }
 #sp-prototype .sp-np-advanced-body select { width:100%; min-height:40px; }
-@media (max-width:560px){ #sp-prototype .sp-np-stage{ grid-template-columns:1fr; } #sp-prototype .sp-np-identity, #sp-prototype .sp-np-advanced-body{ grid-template-columns:1fr; } }
+@media (max-width:560px){ #sp-prototype .sp-np-stage{ grid-template-columns:minmax(0,1fr); } #sp-prototype .sp-np-presets { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); min-width:0; } #sp-prototype .sp-np-dim-row { align-items:center; } #sp-prototype .sp-np-identity, #sp-prototype .sp-np-advanced-body{ grid-template-columns:1fr; } }
 #sp-prototype #sp-canvas-tools .sp-stage-divide { margin-left:5px; border-left:1px solid var(--sp-line); padding-left:7px; }
 #sp-prototype .sp-zone-remove { margin-top:12px; width:100%; }
 #sp-prototype .sp-context-menu { position:fixed; z-index:120; min-width:158px; background:var(--sp-panel); border:1px solid var(--sp-line); border-radius:9px; box-shadow:0 10px 28px rgb(0 0 0 / 20%); padding:5px; display:flex; flex-direction:column; gap:1px; }
@@ -4592,7 +4625,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sv-plan-focus :is(.sv-tools,.sv-sidebar) { display:none; }
 #sp-prototype .sv-plan-focus .sv-work { grid-template-columns:minmax(0,1fr); }
 #sp-prototype #sp-canvas-tools #sp-venue-open { width:auto; min-width:90px; font-size:11px; padding:0 10px; white-space:nowrap; }
-#sp-prototype[data-readonly="true"] :is(#sp-venue-open,#sp-venue-setup,#sp-house-library) { display:none !important; }
+#sp-prototype[data-readonly="true"] :is(#sp-venue-open,#sp-venue-setup) { display:none !important; }
 @media(max-width:900px) {
   #sp-prototype .sp-venue-dialog { width:100vw; height:100dvh; border:0; border-radius:0; }
   #sp-prototype .sv-head { padding:6px 10px; gap:6px; }
@@ -4700,7 +4733,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .svc-use p { font-size:12px; line-height:1.5; color:var(--sp-muted); }
 #sp-prototype .svc-use [data-use] { width:100%; color:var(--sp-primary-ink); background:var(--sp-primary); border-color:var(--sp-primary); font-weight:650; min-height:46px; }
 #sp-prototype .svc-use .svc-error { color:var(--sp-red,#b22); }
-#sp-prototype[data-readonly="true"] :is(#sp-venue-catalog-open,#sp-np-venue-catalog) { display:none !important; }
+#sp-prototype[data-readonly="true"] #sp-np-venue-catalog { display:none !important; }
 @media(max-width:700px) {
   #sp-prototype .sp-venue-catalog { width:calc(100vw - 12px); height:calc(100dvh - 12px); border-radius:12px; }
   #sp-prototype .svc-head { padding:16px; gap:10px; }
@@ -5091,7 +5124,7 @@ html,body { height:100%; overflow:hidden; }
     const dialog=document.createElement('dialog');dialog.className='sp-venue-dialog';dialog.setAttribute('aria-label','Hausgrundriss bearbeiten');
     dialog.innerHTML='<header class="sv-head"><strong>Bühnenform bearbeiten</strong><div class="sv-head-actions"><button type="button" data-action="focus-plan" aria-pressed="false">Plan vergrößern</button><button type="button" class="sv-close" data-action="close" aria-label="Grundrissbearbeitung abbrechen">×</button></div></header>'+
       '<div class="sv-tools"><div class="sv-tool-modes"><div role="group" aria-label="Werkzeugauswahl"><button type="button" data-tool-mode="add" aria-pressed="true">Bauelemente</button><button type="button" data-tool-mode="preset" aria-pressed="false">Grundformen</button></div><button type="button" data-action="draw">Umriss zeichnen</button></div><div class="sv-palette-row"><button type="button" data-action="palette-prev" aria-label="Vorherige Formen">‹</button><div class="sv-palette" data-tool-panel="add" role="group" aria-label="Bauelement hinzufügen">'+toolCards(elements,'add')+'</div><div class="sv-palette" data-tool-panel="preset" role="group" aria-label="Grundform hinzufügen" hidden>'+toolCards(presets,'preset')+'</div><button type="button" data-action="palette-next" aria-label="Weitere Formen">›</button></div><small class="sv-palette-hint">Bauelement anklicken, dann im Plan platzieren.</small></div>'+
-      '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><div class="sv-view-actions"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button></div><div class="sv-view-options"><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><button type="button" class="sv-details-toggle" data-action="toggle-details" aria-expanded="false" aria-controls="sv-inspector">Details</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-canvas-wrap"><svg class="sv-canvas" tabindex="0" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg>'+actionToolbar+'</div><div class="sv-plan-caption"><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Griffe ziehen · zwei Finger zum Zoomen</p></div></div><aside class="sv-sidebar" id="sv-inspector" aria-label="Grundrissdetails"><div class="sv-sidebar-tabs" role="group" aria-label="Detailansicht"><button type="button" data-side-view="element" aria-pressed="true">Element</button><button type="button" data-side-view="parts" aria-pressed="false">Aufbau</button><button type="button" data-side-view="house" aria-pressed="false">Haus</button><button type="button" class="sv-details-close" data-action="toggle-details" aria-label="Details schließen">×</button></div><div class="sv-side-content"><section data-side-panel="element"><div class="sv-selection"></div></section><section data-side-panel="parts" hidden><h3>Elemente im Grundriss</h3><div class="sv-parts"></div></section><section data-side-panel="house" hidden><h3>Hausangaben &amp; Inventar</h3><div class="sv-house"></div><button type="button" class="sv-save-template" data-action="save-template">Als Hausvorlage sichern</button><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></section></div></aside></div>'+
+      '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><div class="sv-view-actions"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button></div><div class="sv-view-options"><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><button type="button" class="sv-details-toggle" data-action="toggle-details" aria-expanded="false" aria-controls="sv-inspector">Details</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-canvas-wrap"><svg class="sv-canvas" tabindex="0" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg>'+actionToolbar+'</div><div class="sv-plan-caption"><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Griffe ziehen · zwei Finger zum Zoomen</p></div></div><aside class="sv-sidebar" id="sv-inspector" aria-label="Grundrissdetails"><div class="sv-sidebar-tabs" role="group" aria-label="Detailansicht"><button type="button" data-side-view="element" aria-pressed="true">Element</button><button type="button" data-side-view="parts" aria-pressed="false">Aufbau</button><button type="button" data-side-view="house" aria-pressed="false">Vorlage</button><button type="button" class="sv-details-close" data-action="toggle-details" aria-label="Details schließen">×</button></div><div class="sv-side-content"><section data-side-panel="element"><div class="sv-selection"></div></section><section data-side-panel="parts" hidden><h3>Elemente im Grundriss</h3><div class="sv-parts"></div></section><section data-side-panel="house" hidden><h3>Bühnenangaben &amp; Inventar</h3><div class="sv-house"></div><button type="button" class="sv-save-template" data-action="save-template">Als Bühnenvorlage speichern</button><details><summary>Meine Bühnenvorlagen</summary><div class="sv-templates"></div></details></section></div></aside></div>'+
       '<div class="sv-part-menu sp-context-menu" role="menu" aria-label="Elementaktionen" hidden><button type="button" role="menuitem" data-part-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-part-action="rotate" data-amount="90">90° drehen ↻</button><button type="button" role="menuitem" data-part-action="behind">Nach hinten</button><button type="button" role="menuitem" data-part-action="lock">Sperren</button><button type="button" role="menuitem" data-part-action="remove" class="sp-danger">Löschen</button></div>'+
       '<footer><span class="sv-status" role="status"></span><button type="button" data-action="close">Abbrechen</button><button type="button" class="sv-primary" data-action="apply">Grundriss übernehmen</button></footer>';
     host.append(dialog);const $=s=>dialog.querySelector(s),canvas=$('.sv-canvas'),toolbar=$('.sv-part-toolbar'),menu=$('.sv-part-menu');
@@ -5118,8 +5151,8 @@ html,body { height:100%; overflow:hidden; }
         (['stairs','ramp'].includes(p.kind)?'<label>Anschlussfläche<select data-anchor="owner"><option value="">Frei platzieren</option>'+g.parts.filter(q=>q.kind==='floor'&&['rect','polygon'].includes(q.shape)).map(q=>'<option value="'+q.id+'" '+(p.anchor?.partId===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>'+(p.anchor?'<label>Anschlusskante<select data-anchor="edge">'+(g.parts.find(q=>q.id===p.anchor.partId)?G.vertices(g.parts.find(q=>q.id===p.anchor.partId)).map((v,i)=>'<option value="'+i+'" '+(p.anchor.edge===i?'selected':'')+'>Kante '+(i+1)+'</option>').join(''):'<option>Fläche fehlt – neu zuordnen</option>')+'</select></label><label>Position entlang Kante (%)<input type="number" min="0" max="100" step="any" data-anchor="t" value="'+p.anchor.t*100+'"></label>':''):'')+
         '<div class="sv-row"><button type="button" data-part-action="duplicate">Duplizieren</button><button type="button" data-part-action="remove" '+(p.locked?'disabled':'')+'>Entfernen</button></div>':'<div class="sv-empty"><h3>Element bearbeiten</h3><p>Wähle eine Fläche oder Kante im Plan. Hier kannst du Maße, Position und weitere Eigenschaften genau einstellen.</p><button type="button" data-side-view="parts">Elemente anzeigen</button></div>';
       if(p?.locked)$('.sv-selection').querySelectorAll('[data-prop]:not([data-prop="locked"]),[data-edge],[data-anchor],[data-action="insert-point"],[data-action="remove-point"],[data-action="attach-stairs"]').forEach(el=>el.disabled=true);
-      $('.sv-house').innerHTML='<label>Name der Hausbühne<input type="text" maxlength="60" data-house="name" value="'+esc(g.name)+'" placeholder="z. B. Kulturhaus · großer Saal"></label><div class="sv-fields"><label>Bühnenhöhe (m)<input type="number" step="any" data-house="height" value="'+(g.height??'')+'" placeholder="unbekannt"></label><label>Lichte Höhe (m)<input type="number" step="any" data-house="clearance" value="'+(g.clearance??'')+'" placeholder="unbekannt"></label></div><label><input type="checkbox" data-house="measured" '+(g.measured?'checked':'')+'> Maße vor Ort geprüft</label><label><input type="checkbox" data-house="showModules" '+(g.showModules?'checked':'')+'> 2 × 1 m Modulraster anzeigen</label><label>Hinweise zur Location<textarea data-house="notes" maxlength="2000" rows="3">'+esc(g.notes)+'</textarea></label><p>Revision '+g.revision+' · ausgewähltes Equipment gehört zur Hausvorlage:</p>'+(options.objects||[]).map(o=>'<label class="sv-check"><input type="checkbox" data-house-object="'+o.id+'" '+(included.has(o.id)?'checked':'')+'> '+esc(o.label||o.type)+'</label>').join('');
-      $('.sv-templates').innerHTML=(options.templates||[]).length?(options.templates||[]).map(t=>'<div class="sv-template"><strong>'+esc(t.name)+'</strong><small>'+new Date(t.savedAt).toLocaleDateString('de-AT')+(t.stage.geometry?' · Revision '+t.stage.geometry.revision:'')+'</small><div class="sv-row"><button type="button" data-template-load="'+t.id+'">Grundriss laden</button><button type="button" data-template-new="'+t.id+'">Neue Veranstaltung</button></div></div>').join(''):'<p>Noch keine Hausvorlagen gespeichert.</p>';
+      $('.sv-house').innerHTML='<label>Name der Bühnenvorlage<input type="text" maxlength="60" data-house="name" value="'+esc(g.name)+'" placeholder="z. B. Kulturhaus · großer Saal"></label><div class="sv-fields"><label>Bühnenhöhe (m)<input type="number" step="any" data-house="height" value="'+(g.height??'')+'" placeholder="unbekannt"></label><label>Lichte Höhe (m)<input type="number" step="any" data-house="clearance" value="'+(g.clearance??'')+'" placeholder="unbekannt"></label></div><label><input type="checkbox" data-house="measured" '+(g.measured?'checked':'')+'> Maße vor Ort geprüft</label><label><input type="checkbox" data-house="showModules" '+(g.showModules?'checked':'')+'> 2 × 1 m Modulraster anzeigen</label><label>Hinweise zur Location<textarea data-house="notes" maxlength="2000" rows="3">'+esc(g.notes)+'</textarea></label><p>Revision '+g.revision+' · ausgewähltes Equipment gehört zur Bühnenvorlage:</p>'+(options.objects||[]).map(o=>'<label class="sv-check"><input type="checkbox" data-house-object="'+o.id+'" '+(included.has(o.id)?'checked':'')+'> '+esc(o.label||o.type)+'</label>').join('');
+      $('.sv-templates').innerHTML=(options.templates||[]).length?(options.templates||[]).map(t=>'<div class="sv-template"><strong>'+esc(t.name)+'</strong><small>'+new Date(t.savedAt).toLocaleDateString('de-AT')+(t.stage.geometry?' · Revision '+t.stage.geometry.revision:'')+'</small><div class="sv-row"><button type="button" data-template-load="'+t.id+'">Grundriss laden</button><button type="button" data-template-new="'+t.id+'">Neue Veranstaltung</button></div></div>').join(''):'<p>Noch keine Bühnenvorlagen gespeichert.</p>';
       syncPartControls();draw();
     }
     function syncPartControls(){
@@ -5272,7 +5305,7 @@ html,body { height:100%; overflow:hidden; }
       if(action==='cancel-draw'){drawPoints=null;status('');render();return;}
       if(action==='finish'){if(drawPoints.length<3){status('Mindestens drei Punkte setzen.');return;}if(commit(()=>{const q=G.part({name:'Freie Bühnenfläche',shape:'polygon',points:drawPoints});rebox(q);g.parts.push(q);selected=q.id;})){drawPoints=null;render();}return;}
       if(action==='apply'||action==='save-template'){
-        try{const invalid=dialog.querySelector(':invalid');if(invalid){sideView(invalid.closest('[data-side-panel]')?.dataset.sidePanel||'element');showDetails(true);invalid.reportValidity();return;}g=G.normalize(g);if(action==='save-template'){if(!g.name.trim()){status('Unter „Hausangaben“ einen Namen für die Hausbühne eingeben.');sideView('house');showDetails(true);$('[data-house="name"]').focus();return;}const saved=await options.onSaveTemplate(G.copy(g),[...included]);options.templates=saved.templates;g.revision=saved.revision;render();status('Hausvorlage gespeichert · Revision '+g.revision);}else{await options.onApply(G.copy(g),[...included]);dialog.close();}}catch(error){status(error.message);}return;
+        try{const invalid=dialog.querySelector(':invalid');if(invalid){sideView(invalid.closest('[data-side-panel]')?.dataset.sidePanel||'element');showDetails(true);invalid.reportValidity();return;}g=G.normalize(g);if(action==='save-template'){if(!g.name.trim()){status('Unter „Vorlage“ einen Namen für die Bühnenvorlage eingeben.');sideView('house');showDetails(true);$('[data-house="name"]').focus();return;}const saved=await options.onSaveTemplate(G.copy(g),[...included]);options.templates=saved.templates;g.revision=saved.revision;render();status('Bühnenvorlage gespeichert · Revision '+g.revision);}else{await options.onApply(G.copy(g),[...included]);dialog.close();}}catch(error){status(error.message);}return;
       }
       commit(()=>{
         if(action==='preset'){selected=addPreset(g,b.dataset.kind,options.stage.w,options.stage.d,b.textContent.trim());edge=null;sideView('element');showDetails(false);}
@@ -5382,8 +5415,8 @@ html,body { height:100%; overflow:hidden; }
     const existing=options.root.querySelector('.sp-venue-catalog');if(existing)return existing;
     const returnFocus=document.activeElement,dialog=document.createElement('dialog');
     dialog.className='sp-venue-catalog';dialog.setAttribute('aria-labelledby','svc-title');
-    dialog.innerHTML='<header class="svc-head"><div><span class="svc-beta">BETA · KOSTENLOS</span><h2 id="svc-title">Bühnen finden</h2><p>Reale Locations für deinen nächsten Stageplot. Frei zugänglich, ohne Account.</p></div><button type="button" data-close aria-label="Bühnenkatalog schließen">×</button></header>'+
-      '<div class="svc-searchbar"><label class="svc-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Location, Stadt oder Bühne suchen …" aria-label="Bühnen suchen" autocomplete="off" autofocus></label><div class="svc-filters" aria-label="Art der Location">'+['Alle','Club','Theater'].map(type=>'<button type="button" data-filter="'+type+'" aria-pressed="'+(type==='Alle')+'">'+type+'</button>').join('')+'</div></div>'+
+    dialog.innerHTML='<header class="svc-head"><div><span class="svc-beta">BETA · KOSTENLOS</span><h2 id="svc-title">Location suchen</h2><p>Bühnenvorlagen von Clubs und Theatern für dein Projekt. Ohne Account nutzbar.</p></div><button type="button" data-close aria-label="Bühnenkatalog schließen">×</button></header>'+
+      '<div class="svc-searchbar"><label class="svc-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Name oder Stadt, z. B. B72 oder Wien …" aria-label="Location oder Stadt suchen" autocomplete="off" autofocus></label><div class="svc-filters" aria-label="Art der Location">'+['Alle','Club','Theater'].map(type=>'<button type="button" data-filter="'+type+'" aria-pressed="'+(type==='Alle')+'">'+type+'</button>').join('')+'</div></div>'+
       '<div class="svc-body"><section class="svc-results" aria-label="Gefundene Bühnen"><p class="svc-count" role="status" aria-live="polite"></p><div class="svc-list"></div><div class="svc-empty" hidden><strong>Keine passende Bühne gefunden</strong><p>Versuche einen anderen Namen oder Ort. Der Katalog startet mit einer kleinen Auswahl.</p><button type="button" data-reset>Suche zurücksetzen</button></div><p class="svc-offline">Alle Katalogvorlagen sind in der App enthalten und auch offline nutzbar.</p></section><section class="svc-detail" aria-label="Bühnenvorschau"></section></div>';
     options.root.append(dialog);
     const $=selector=>dialog.querySelector(selector),input=$('input'),detail=$('.svc-detail');
@@ -7251,10 +7284,10 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     return G.normalize(g);
   }
-  function newVenueEvent(template){
+  function newVenueEvent(template,options={}){
     if(sharedReadOnly)return;
-    const t=normalizeStageTemplate(template),title=(t.name+' · Veranstaltung').slice(0,60),s={...clone(t.stage),title,venueRef:{templateId:t.id,name:t.name,revision:t.stage.geometry?.revision||1}};
-    activateSetupDocument({stage:s,objects:clone(t.objects||[])},null,{persist:true,message:'Neue Veranstaltung aus Hausvorlage · die Vorlage bleibt erhalten'});
+    const t=normalizeStageTemplate(template),artist=String(options.artist||'').trim().slice(0,80),title=(String(options.title||'').trim()||(artist?artist+' · '+t.name:t.name+' · Veranstaltung')).slice(0,60),s={...clone(t.stage),title,project:normalizeProjectInfo({artist,venue:String(options.venue||t.name).trim()},title),venueRef:{templateId:t.id,name:t.name,revision:t.stage.geometry?.revision||1}};
+    activateSetupDocument({stage:s,objects:clone(t.objects||[])},null,{persist:true,message:'Neues Projekt aus Bühnenvorlage angelegt'});
   }
   function createCatalogProject(id,artist=''){
     if(sharedReadOnly)return;
@@ -8597,11 +8630,11 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-plan-action-copy').textContent=proActive?'Du kannst jederzeit zurück zu Standard wechseln.':'Der Schalter gilt nur lokal auf diesem Gerät.';
     $('sp-upgrade-open').setAttribute('aria-checked',String(proActive));
     $('sp-upgrade-open').setAttribute('aria-label',proActive?'Zu Standard wechseln':'Kostenlose Pro-Beta aktivieren');
-    $('sp-project-new').disabled=!proActive&&all.length>=1;
+    $('sp-project-new').disabled=false;
     const cards=entries.map(entry=>{
       const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title),cardName=p.name,date=new Date(entry.savedAt).toLocaleString('de-AT',{dateStyle:'medium',timeStyle:'short'}),current=entry.id===activeDraftId||entry.draftId===activeDraftId||entry.id===activeSetupId;
       return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,entry.draft?'ENTWURF':'VORSCHAU')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Automatischer Entwurf':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div><p>Geändert '+esc(date)+' · '+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Settings</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Projektdatei herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Projektdatei</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
-    }).join(''),empty=!entries.length&&query?'<div class="sp-empty-projects"><div><strong>Kein passendes Projekt</strong><p>Versuche einen anderen Suchbegriff.</p></div></div>':'',add='<article class="sp-project-add-card"><button type="button" data-project-add'+(!proActive&&all.length>=1?' disabled':'')+'><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><span><strong>Projekt hinzufügen</strong><small>Neuen Stageplot anlegen</small></span></button></article>';
+    }).join(''),empty=!entries.length&&query?'<div class="sp-empty-projects"><div><strong>Kein passendes Projekt</strong><p>Versuche einen anderen Suchbegriff.</p></div></div>':'',add='<article class="sp-project-add-card"><button type="button" data-project-add><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><span><strong>Projekt hinzufügen</strong><small>Neuen Stageplot anlegen</small></span></button></article>';
     $('sp-project-grid').innerHTML=cards+empty+add;
   }
   function activateDashboardEntry(id,target='editor'){
@@ -8620,7 +8653,7 @@ function createStageplotSymbolV3(type, options = {}) {
   const npSize={width:8,depth:5};
   const npClampDim=(dim,v)=>Math.max(2,Math.min(dim==='width'?30:20,Math.round(v)));
   function npProjectName(){
-    const b=$('sp-np-band').value.trim(),l=$('sp-np-location').value.trim();
+    const b=$('sp-np-band').value.trim(),l=npStageSource==='catalog'?'':$('sp-np-location').value.trim();
     return (b&&l?b+' – '+l:b||l||'Neues Projekt').slice(0,60);
   }
   function renderNewProjectDialog(){
@@ -8634,26 +8667,46 @@ function createStageplotSymbolV3(type, options = {}) {
     box.style.width=Math.round(w)+'px';box.style.height=Math.round(h)+'px';
   }
   function openNewProjectDialog(){
-    if(accountPlan!=='pro'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}
+    if(sharedReadOnly)return;
     $('sp-np-band').value='';$('sp-np-location').value='';npSize.width=8;npSize.depth=5;
     $('sp-np-stairs').value='left';$('sp-np-iem').value='right';$('sp-np-stage-mode').value='standard';$('sp-np-error').hidden=true;
     const adv=root.querySelector('.sp-np-advanced');if(adv)adv.open=false;
-    renderNewProjectDialog();$('sp-newproject-dialog').showModal();
+    setNewProjectSource('custom');$('sp-newproject-dialog').showModal();
     setTimeout(()=>{try{$('sp-np-band').focus();}catch(error){}},40);
   }
   function createProjectFromDialog(){
+    if(sharedReadOnly||npStageSource!=='custom')return;
+    if(accountPlan!=='pro'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}
     const band=$('sp-np-band').value.trim(),location=$('sp-np-location').value.trim(),name=npProjectName();
-    finishEdit();if(stage&&!isSampleProject())persistDraft(true);activeSetupId=null;activeDraftId=null;objects=[];selected=null;nextId=1;history=[];future=[];editBefore=null;resetEditorView();
-    setupStageSurface=stageSurfaceDefault;
-    $('sp-title').value=name;$('sp-width').value=npSize.width;$('sp-depth').value=npSize.depth;
-    $('sp-stairs').value=$('sp-np-stairs').value;$('sp-stairs-offset').value=.5;$('sp-iem').value=$('sp-np-iem').value;
-    const s=draft(),error=validStage(s);
-    if(error){$('sp-np-error').hidden=false;$('sp-np-error').textContent=error;return;}
-    stage=s;stage.complex=$('sp-np-stage-mode').value==='complex';stage.project=defaultProjectInfo(name);stage.project.artist=band;stage.project.venue=location;stage.routing=defaultRouting();
-    resetEditorView();resetDraftTracking();persistDraft(true);
-    $('sp-newproject-dialog').close();show('editor');updateProjectHeading();renderDashboard();
-    say('Projekt „'+name+'“ angelegt');
+    try{
+      const value=normalizeSetupDocument({stage:{title:name,w:npSize.width,d:npSize.depth,surface:stageSurfaceDefault,complex:$('sp-np-stage-mode').value==='complex',stairs:$('sp-np-stairs').value,stairsOffset:.5,stairsWidth:1.2,stairsDepth:.9,extraStairs:[],iem:$('sp-np-iem').value,iemLength:2,iemDepth:.8,iemX:Math.max(0,npSize.width-.8),iemY:0,project:{...defaultProjectInfo(name),artist:band,venue:location},routing:defaultRouting(),cables:[]},objects:[]});
+      finishEdit();if(stage&&!isSampleProject()&&!persistDraft(true))throw new Error('Bitte zuerst den aktuellen Entwurf lokal sichern.');
+      activateSetupDocument(value,null,{persist:true,message:'Projekt „'+name+'“ angelegt'});
+      $('sp-newproject-dialog').close();
+    }catch(error){$('sp-np-error').hidden=false;$('sp-np-error').textContent=error.message;}
   }
+  let npStageSource='custom';
+  function setNewProjectSource(source){
+    if(!['custom','catalog','templates'].includes(source))return;npStageSource=source;
+    root.querySelectorAll('[data-np-source]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.npSource===source)));
+    root.querySelectorAll('[data-np-panel]').forEach(panel=>panel.hidden=panel.dataset.npPanel!==source);
+    $('sp-np-create').hidden=source!=='custom';$('sp-np-error').hidden=true;
+    $('sp-np-location').closest('label').hidden=source==='catalog';renderNewProjectDialog();
+    if(source==='templates'){
+      try{const templates=readStageTemplates();$('sp-np-templates').innerHTML=templates.length?templates.slice().sort((a,b)=>b.savedAt-a.savedAt).map(t=>'<button type="button" class="sp-np-template" data-np-template="'+t.id+'"><span><strong>'+esc(t.name)+'</strong><small>'+esc(t.stage.geometry?venueSizeText(t.stage):num(t.stage.w)+' × '+metres(t.stage.d))+'</small></span><span>Verwenden →</span></button>').join(''):'<p class="sp-muted">Noch keine Bühnenvorlagen gespeichert. Du kannst deine Bühne im Editor unter „Bühnenform → Vorlage“ speichern und später wiederverwenden.</p>';}
+      catch(error){$('sp-np-templates').textContent='Bühnenvorlagen konnten nicht geladen werden. Deine gespeicherten Vorlagen bleiben erhalten.';}
+    }
+  }
+  function createProjectFromTemplate(id){
+    if(sharedReadOnly)return;
+    try{
+      const template=readStageTemplates().find(t=>t.id===id);if(!template)throw new Error('Diese Bühnenvorlage wurde inzwischen entfernt.');
+      finishEdit();if(stage&&!isSampleProject()&&!persistDraft(true))throw new Error('Bitte zuerst den aktuellen Entwurf lokal sichern.');
+      newVenueEvent(template,{artist:$('sp-np-band').value,venue:$('sp-np-location').value,title:$('sp-np-band').value.trim()||$('sp-np-location').value.trim()?npProjectName():''});$('sp-newproject-dialog').close();
+    }catch(error){$('sp-np-error').hidden=false;$('sp-np-error').textContent=error.message;}
+  }
+  root.querySelectorAll('[data-np-source]').forEach(button=>button.addEventListener('click',()=>setNewProjectSource(button.dataset.npSource)));
+  $('sp-np-templates').addEventListener('click',event=>{const button=event.target.closest('[data-np-template]');if(button)createProjectFromTemplate(button.dataset.npTemplate);});
   $('sp-project-new').addEventListener('click',openNewProjectDialog);
   $('sp-np-close').addEventListener('click',()=>$('sp-newproject-dialog').close());
   $('sp-np-cancel').addEventListener('click',()=>$('sp-newproject-dialog').close());
@@ -9229,8 +9282,6 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-settings-gear').addEventListener('click',()=>$('sp-settings-open').click());
   $('sp-venue-open').addEventListener('click',()=>openVenueEditor());
   $('sp-venue-setup').addEventListener('click',()=>openVenueEditor());
-  $('sp-house-library').addEventListener('click',()=>openVenueEditor({library:true}));
-  $('sp-venue-catalog-open').addEventListener('click',()=>openVenueCatalog());
   $('sp-np-venue-catalog').addEventListener('click',()=>openVenueCatalog({artist:$('sp-np-band').value}));
   $('sp-stage-edit').addEventListener('click',()=>{
     if(view!=='editor')show('editor');
