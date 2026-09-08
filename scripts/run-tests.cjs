@@ -12,6 +12,7 @@ const tests=[
   'stageplot-venue-catalog-v1.test.cjs',
   'stageplot-account-v1.test.cjs',
   'stageplot-sync-v2.test.cjs',
+  'stageplot-project-identity.test.cjs',
   'stageplot-feedback.test.cjs',
   'stageplot-studio-v60.test.cjs',
   'stageplot-studio-v61.test.cjs',

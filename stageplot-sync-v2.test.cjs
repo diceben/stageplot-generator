@@ -21,7 +21,7 @@ class Server{
     const row={owner:this.user,id:a.p_id,kind:a.p_kind,name:a.p_name,payload:clone(a.p_payload),client_updated_at:a.p_client_updated_at,revision:(old?.revision||0)+1,change_seq:++this.seq,deleted:a.p_deleted};this.records.set(key,row);return {data:{status:a.p_deleted?'deleted':'saved',revision:row.revision,change_seq:row.change_seq}};
   }};}
 }
-const project=(title='Probe',id='setup-probe')=>({id,name:title,savedAt:10,document:{stage:{title},objects:[]}});
+const project=(title='Probe',id='setup-probe')=>({id,name:title,savedAt:10,document:{stage:{title,projectId:'SP-'+id.slice(6).toUpperCase()},objects:[]}});
 assert.equal(runtime.fingerprint({name:'Probe',document:{stage:{w:8,d:5},objects:[]}}),runtime.fingerprint({name:'Probe',document:{objects:[],stage:{d:5,w:8}}}),'JSONB-Schlüsselreihenfolge ist keine Projektänderung.');
 assert.equal(runtime.fingerprint({name:'Probe',document:{stage:{routing:{generatedAt:10,inputs:[]}}}}),runtime.fingerprint({name:'Probe',document:{stage:{routing:{generatedAt:20,inputs:[]}}}}),'Ein neu gerenderter Routing-Zeitstempel erzeugt keinen Cloud-Konflikt.');
 (async()=>{
@@ -31,9 +31,14 @@ assert.equal(runtime.fingerprint({name:'Probe',document:{stage:{routing:{generat
   const sdkResult=await sdkClient.rpc('stageplot_sync_pull',{p_kind:'inventory'});assert.equal(sdkResult.error,null);assert.equal(sdkResult.data.cursor,0);assert.equal(requestHeaders.get('Authorization'),'Bearer test-owner-token');
   const server=new Server(),deviceA=new Storage(),deviceB=new Storage(),a=runtime.create({client:server.client(),storage:deviceA,ownerId:'user-a'}),b=runtime.create({client:server.client(),storage:deviceB,ownerId:'user-a'});
   server.offline=true;await a.projects.save(project());await assert.rejects(()=>a.flush(),/offline/);assert.equal(a.local.state().pending.length,1);
+  assert.equal(a.local.confirmed('project',project()),false,'Ein vorgemerkter Upload ist keine Sync-Bestätigung.');
   server.offline=false;const reloaded=runtime.create({client:server.client(),storage:deviceA,ownerId:'user-a'});await reloaded.flush();assert.equal((await b.projects.list())[0].name,'Probe');
+  assert.equal(reloaded.local.confirmed('project',project()),true);assert.equal(b.local.confirmed('project',project()),true);
+  assert.equal(b.local.confirmed('project',project('Noch ungespeicherte Änderung')),false);
+  assert.equal((await b.projects.list())[0].document.stage.projectId,'SP-PROBE','Geräte erhalten dieselbe sichtbare ID.');
   await a.projects.save(project('Zuhause'));await a.flush();await b.projects.save(project('Tablet'));const result=await b.flush();assert.equal(result.copies,1);
   const both=await b.projects.list();assert.equal(both.length,2);assert(both.some(p=>p.name==='Zuhause'));assert(both.some(p=>p.name==='Tablet · Konfliktkopie'));assert.equal(server.records.get('user-a:project:setup-probe').payload.stage.title,'Zuhause');
+  assert.equal(both.find(p=>p.name==='Zuhause').document.stage.projectId,'SP-PROBE');assert.notEqual(both.find(p=>p.name==='Tablet · Konfliktkopie').document.stage.projectId,'SP-PROBE');
   // A disconnection after detecting a conflict must never make the stale original
   // overwrite the remote original on the next scan/reload.
   const failingStorage=new Storage();let failAfterConflict=false;
@@ -42,6 +47,7 @@ assert.equal(runtime.fingerprint({name:'Probe',document:{stage:{routing:{generat
   failAfterConflict=true;const localConflict=project('Tablet offline');await failing.projects.save(localConflict);await assert.rejects(()=>failing.flush(),/offline/);
   server.offline=false;const retry=runtime.create({client:server.client(),storage:failingStorage,ownerId:'user-a'});
   assert(retry.local.matches('project',localConflict));await retry.projects.save(localConflict);await retry.flush();
+  assert.equal(retry.local.confirmed('project',localConflict),false,'Eine verworfene Konfliktbasis ist trotz Queue-Deduplizierung nicht synchronisiert.');
   assert.equal(server.records.get('user-a:project:setup-probe').payload.stage.title,'Remote neuer');
   await retry.projects.save(project('Noch eine Eingabe'));assert.equal((await retry.flush()).copies,1,'Eine Änderung vor dem Anwenden der Cloud-Fassung bleibt ein Konflikt.');
   // Conflict names remain valid for the narrower stage-template library.
@@ -55,6 +61,7 @@ assert.equal(runtime.fingerprint({name:'Probe',document:{stage:{routing:{generat
   // Different users and projects on the same browser never share a queue.
   const other=runtime.create({client:server.client(),storage:deviceA,ownerId:'user-b'});assert.equal(other.local.state().pending.length,0);await other.projects.save(project('Privat'));await assert.rejects(()=>other.flush(),/verbundenen Account/);assert.equal(other.local.state().pending.length,1);
   const isolated=runtime.create({client:server.client(),storage:deviceA,ownerId:'user-a',scope:'other-project'});assert.equal(Object.keys(isolated.local.state().revisions).length,0);
+  assert.equal(isolated.local.confirmed('project',project()),false);
   // Pending edits aren't overwritten by pull acknowledgement.
   await a.inventory.save({id:'inventory-mic',name:'Mic',savedAt:1,document:{name:'Mic',quantity:2}});await a.flush();await b.inventory.list();await b.inventory.save({id:'inventory-mic',name:'Mic',savedAt:2,document:{name:'Mic',quantity:3}});assert.equal((await b.pull('inventory')).length,0);await b.flush();assert.equal((await a.inventory.list())[0].document.quantity,3);
   // List all pages, including tombstones; no 1000-record cutoff.

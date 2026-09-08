@@ -15,7 +15,7 @@ const nodes=new Map(),ctx={StageplotGeometry:G,StageplotVenueCatalog:catalog,Wea
   draftStorageKey:'drafts',workspaceStorageKey:'workspace',finishEdit:()=>{},flushDraft:()=>{},resetEditorView:()=>{},show:()=>{},say:()=>{},draftStatus:()=>{},persistViewport:()=>{},draftFailure:()=>{},
   $:id=>{if(!nodes.has(id))nodes.set(id,{open:false,close(){this.open=false;}});return nodes.get(id);},isSampleProject:()=>false};
 ctx.snapshot=()=>JSON.stringify({stage:ctx.stage,objects:ctx.objects});vm.createContext(ctx);
-vm.runInContext(['iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument','encodeShareDocument','decodeShareDocument','readDraftLibrary','writeDraftLibrary','writeWorkspace','resetDraftTracking','persistDraft','activateSetupDocument','createCatalogProject'].map(extract).join('\n'),ctx);
+vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument','encodeShareDocument','decodeShareDocument','readDraftLibrary','writeDraftLibrary','writeWorkspace','resetDraftTracking','persistDraft','activateSetupDocument','createCatalogProject'].map(extract).join('\n'),ctx);
 for(const entry of catalog.search()){
   assert.match(entry.source.url,/^https:\/\//);assert.match(entry.source.checkedAt,/^\d{4}-\d{2}-\d{2}$/);assert.ok(entry.source.date);assert.ok(entry.scope);
   const document=json(ctx.normalizeSetupDocument(catalog.createDocument(entry.id))),g=G.compile(document.stage.geometry);
@@ -29,9 +29,11 @@ for(const entry of catalog.search()){
 }
 // Actual activation and local persistence: a second event preserves all old projects and source data.
 ctx.createCatalogProject('at-wien-b72','Testband');const firstId=ctx.activeDraftId;
+const firstIdentity=ctx.stage.projectId;assert(firstIdentity);
 assert.equal(ctx.stage.title,'Testband · B72');ctx.stage.geometry.parts[0].w=5.18;ctx.stage.project.notes='Eigene Notiz';
 ctx.createCatalogProject('at-wien-b72');const secondId=ctx.activeDraftId;
 assert.notEqual(secondId,firstId);assert.equal(ctx.stage.geometry.parts[0].w,4.18);assert.equal(ctx.stage.project.notes,'');
+assert.notEqual(ctx.stage.projectId,firstIdentity);
 const saved=json(ctx.readDraftLibrary(storage));assert.equal(saved.entries.length,2);assert.equal(saved.entries.find(v=>v.id===firstId).document.stage.geometry.parts[0].w,5.18);
 assert.equal(saved.entries.find(v=>v.id===firstId).document.stage.project.notes,'Eigene Notiz');assert.equal(saved.lastId,secondId);
 ctx.sharedReadOnly=true;ctx.createCatalogProject('at-wien-muth');assert.equal(ctx.activeDraftId,secondId);ctx.sharedReadOnly=false;
