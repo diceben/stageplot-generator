@@ -1,0 +1,78 @@
+/* The audio editor has one primary path; socket capacity remains in device details. */
+#sp-audio-object { gap:10px; }
+#sp-audio-object p { margin:0; }
+.sp-audio-object-row { width:100%;display:grid;gap:5px;text-align:left;padding:12px;border:1px solid var(--sp-line,#cbd0c8);border-radius:9px;background:var(--sp-panel,#fff);color:inherit;cursor:pointer; }
+.sp-audio-object-row:hover { border-color:var(--sp-teal,#52713b); }
+.sp-audio-object-row small,.sp-routing-table td small,.sp-audio-merge-option small { display:block;font-size:12px;font-weight:400;line-height:1.5; }
+#sp-audio-device summary,#sp-audio-chain summary,#sp-audio-object summary { cursor:pointer;font-weight:650;padding:12px 0; }
+#sp-audio-device .sp-stereo-links,#sp-audio-device .sp-io-aliases { display:none; }
+.sp-audio-available { display:grid;gap:8px; }
+.sp-audio-available .sp-button { white-space:normal;text-align:left;justify-content:space-between; }
+#sp-channel-dialog { width:min(740px,calc(100vw - 32px));max-width:740px;max-height:calc(100dvh - 32px);overflow:auto; }
+#sp-channel-form { display:grid;gap:16px; }
+#sp-channel-form .sp-channel-top-fields { grid-template-columns:1fr 1.5fr; }
+#sp-channel-microphone { box-sizing:border-box;width:100%;margin-bottom:8px; }
+.sp-audio-patch-fields { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+#sp-audio-error { margin:0;color:#bd2443;font-weight:650; }
+#sp-audio-chain { border-top:1px solid var(--sp-line,#cbd0c8); }
+#sp-audio-chain-options { max-height:220px;overflow:auto; }
+.sp-audio-merge-option { display:flex;gap:12px;align-items:center;padding:10px;border-bottom:1px solid var(--sp-line,#cbd0c8); }
+.sp-audio-merge-option[hidden] { display:none; }
+#sp-audio-right-patch:empty { display:none; }
+.sp-routing-table td { vertical-align:middle; }
+.sp-routing-table [data-audio-stereo="true"] td:nth-child(3) { border-left:3px solid #9da897; }
+#sp-routing-sync,[data-stagebox-sync] { display:none!important; }
+@media(max-width:620px){#sp-channel-dialog{width:calc(100vw - 20px);max-height:calc(100dvh - 20px);padding:16px;}#sp-channel-form .sp-channel-top-fields,.sp-audio-patch-fields{grid-template-columns:1fr;}#sp-channel-form .sp-channel-pills button{min-height:42px;}.sp-audio-merge-option{min-height:44px;}}
+.sp-audio-print-table th:first-child,.sp-audio-print-table td:first-child { width:8mm; }
+.sp-audio-print-table small { display:block;font-size:8pt;line-height:1.3; }
+
+#sp-prototype[data-readonly="true"] :is(#sp-audio-number,[data-audio-use],[data-audio-edit]) { display:none!important; }
+
+#sp-channel-form .sp-channel-top-fields { display:flex;align-items:start;gap:20px;flex-wrap:wrap; }
+#sp-channel-form .sp-channel-top-fields .sp-field { flex:0 0 100px; }
+#sp-channel-form .sp-channel-top-fields .sp-channel-pill-field { flex:1;min-width:170px; }
+#sp-channel-form .sp-channel-top-fields input { width:80px;max-width:100%; }
+#sp-channel-microphone { padding:10px 12px;border:1px solid #ccd1c9;border-radius:8px;font:inherit;background:white;color:#222; }
+#sp-audio-mic-choices summary { cursor:pointer;font-size:12px;padding:5px 0; }
+#sp-channel-dialog .sp-actions { position:sticky;bottom:-24px;z-index:2;background:#fff;padding:14px 0;margin:0;border-top:1px solid #d8ddd4; }
+#sp-channel-dialog #sp-audio-error:empty { display:none; }
+@media(max-width:620px){#sp-channel-dialog .sp-actions{bottom:-16px;gap:8px;flex-wrap:wrap;}#sp-channel-dialog .sp-actions .sp-button{min-height:42px;}#sp-channel-dialog .sp-actions .sp-spacer{display:none;}#sp-channel-form .sp-channel-top-fields{gap:12px;}#sp-channel-form .sp-channel-top-fields .sp-channel-pill-field{flex-basis:100%;}}
+
+#sp-prototype .sp-report-section .sp-audio-print-table th:nth-child(1) { width:5%; }
+#sp-prototype .sp-report-section .sp-audio-print-table th:nth-child(2) { width:25%; }
+#sp-prototype .sp-report-section .sp-audio-print-table th:nth-child(3) { width:18%; }
+#sp-prototype .sp-report-section .sp-audio-print-table th:nth-child(4) { width:5%; }
+#sp-prototype .sp-report-section .sp-audio-print-table th:nth-child(5) { width:20%; }
+#sp-prototype .sp-report-section .sp-audio-print-table th:nth-child(6) { width:27%; }
+#sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(3) { width:16%; }
+#sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(4) { width:20%; }
+#sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(5) { width:17%; }
+#sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(6) { width:17%; }
+
+.sp-audio-order { display:flex;gap:8px;align-items:center;flex-wrap:wrap; }
+.sp-audio-order span { margin-right:auto;font-size:12px; }
+#sp-audio-order[hidden] { display:none; }
+#sp-routing[data-audio-direction="outputs"] .sp-routing-table :is(th,td):nth-child(6),#sp-routing[data-audio-direction="outputs"] .sp-routing-table :is(th,td):nth-child(7) { display:none; }
+@container sp-frame (max-width:760px) {
+  #sp-prototype .sp-routing-table { min-width:0;display:block; }
+  #sp-prototype .sp-routing-table thead { display:none; }
+  #sp-prototype .sp-routing-table tbody { display:grid; }
+  #sp-prototype .sp-routing-table tr[data-route-row] { display:grid;grid-template-columns:44px minmax(0,1fr) 90px;padding:12px 8px;border-bottom:1px solid var(--sp-line); }
+  #sp-prototype .sp-routing-table td { min-width:0;max-width:none;width:auto;padding:4px 6px;border:0;font-size:12px; }
+  #sp-prototype .sp-routing-table td:first-child { display:none; }
+  #sp-prototype .sp-routing-table td:nth-child(2) { grid-column:1;grid-row:1; }
+  #sp-prototype .sp-routing-table td:nth-child(3) { grid-column:2;grid-row:1;font-size:14px; }
+  #sp-prototype .sp-routing-table td:nth-child(4) { grid-column:2;grid-row:2; }
+  #sp-prototype .sp-routing-table td:nth-child(5) { grid-column:2;grid-row:3; }
+  #sp-prototype .sp-routing-table td:nth-child(6) { grid-column:2;grid-row:4; }
+  #sp-prototype .sp-routing-table td:nth-child(7) { grid-column:3;grid-row:2 / 4; }
+  #sp-prototype .sp-routing-table td:nth-child(8) { grid-column:2 / 4;grid-row:5;font-weight:550; }
+  #sp-prototype .sp-routing-table td:nth-child(9) { grid-column:2 / 4;grid-row:6;color:var(--sp-muted); }
+  #sp-prototype .sp-routing-table td:nth-child(10) { grid-column:3;grid-row:1; }
+  #sp-prototype .sp-routing-table .sp-button,#sp-prototype .sp-route-number,#sp-prototype .sp-routing-phantom { min-height:40px;font-size:11px; }
+}
+
+#sp-channel-dialog .sp-channel-number-wrap { display:flex;flex-direction:column;align-items:flex-start;gap:4px; }
+#sp-channel-dialog #sp-channel-number-help { white-space:normal;max-width:100px; }
+#sp-audio-more-actions { flex-basis:100%;justify-content:flex-end; }
+#sp-audio-more-actions[hidden] { display:none; }

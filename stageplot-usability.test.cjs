@@ -58,6 +58,7 @@ exp.setExportIntent('share');assert(exp.$('sp-export-details').hidden);exp.runEx
 exp.flushProjectForm=()=>false;exp.shared=false;exp.runExportIntent();assert.equal(exp.shared,false);
 exp.stage={routing:{inputs:[{number:1,instrument:'Gesang',mode:'Mono',signalType:'Mic',connector:'XLR',phantom:true,notes:'Kabel stellt Location'}]}};
 exp.routingStageboxes=()=>[];exp.routeFrequency=()=>'';exp.esc=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;');
-vm.runInContext(extract('printRoutingPreview'),exp);const routing=exp.printRoutingPreview('inputs');
-assert.match(routing,/Kabel stellt Location/);assert.match(routing,/Mic · XLR · 48V/,'Das Veranstalter-PDF erhält Signaltyp und Kanalnotizen.');
+exp.stageboxRouteLocation=()=>'Kein Stagebox-Patch';exp.audioKind=()=>'line';
+const audioSource=fs.readFileSync('stageplot-audio-v1.js','utf8');vm.runInContext(audioSource.slice(audioSource.indexOf('function audioPrintTable('),audioSource.indexOf('function audioPatchSections('))+extract('printRoutingPreview'),exp);const routing=exp.printRoutingPreview('inputs');
+assert.match(routing,/Kabel stellt Location/);assert.match(routing,/<th>Mikrofon \/ DI<\/th><th>48V<\/th>/);assert.match(routing,/<td>48V<\/td>/,'48V steht lesbar in einer eigenen Spalte.');
 console.log('PASS USABILITY: Formular-Autosave, Navigationsschutz, Speicherfehler, unabhängige Kopien, reale Maße, Einheiten und Exportzwecke.');
