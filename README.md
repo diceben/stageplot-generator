@@ -37,6 +37,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 - **Technische Topviews** für Teleprompter, Wedges, Licht, Effekte, Nebelmaschine und Flightcases.
 - **Object Packs** mit Shop-Vorschau, lokalen Offline-Freischaltungen, signierten Codes, Beta Crew Pass und Crew Rewards.
 - **Projektverwaltung** mit Karten-Vorschau, direktem Umbenennen, portablem Download und abgesichertem Löschen.
+- **Dauerhafte Projekt-ID** auf jeder Projektkarte und in den Projekteinstellungen, per Klick kopierbar und über die Projektsuche auffindbar. Bestehende lokale Projekte erhalten automatisch eine ID; Umbenennen, normales Speichern und Gerätesync behalten sie bei. „Speichern unter“, importierte Kopien und Konfliktkopien erhalten eigene IDs. Der Speicherstatus unterscheidet lokale Speicherung, offene Änderungen und tatsächlich bestätigten Sync.
 - **Outs am Symbol** global per Toolbar-Button ein-/ausblendbar.
 - **Offline-first mit optionalem Account-Abgleich** für Projekte, Entwürfe, Vorlagen und Inventar. Lokale Speicherung bleibt primär; Übertragungen werden vorgemerkt, gleichzeitige Änderungen als Konfliktkopien erhalten. Ohne konfigurierte Supabase-Anbindung bleibt der Account-Dienst deaktiviert.
 

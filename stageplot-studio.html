@@ -286,6 +286,7 @@
     <div class="sp-project-tabs" role="tablist" aria-label="Projekteinstellungen"><button type="button" role="tab" aria-selected="true" aria-controls="sp-project-panel-general" data-project-tab="general"><span>01</span> Projekt</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-contacts" data-project-tab="contacts"><span>02</span> Kontakte</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-notes" data-project-tab="notes"><span>03</span> Notizen</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-production" data-project-tab="production"><span>04</span> Technik &amp; FOH</button></div>
     <form id="sp-project-form" class="sp-project-form">
       <section id="sp-project-panel-general" class="sp-settings-card" role="tabpanel" data-project-panel="general"><div class="sp-settings-card-title"><div><h2>Projektinformationen</h2><p>Gig, Produktion und Bühnenmaße</p></div></div><div class="sp-settings-fields">
+        <div class="sp-project-identity-summary"><button type="button" class="sp-project-identity" id="sp-project-id-copy" aria-label="Projekt-ID kopieren"><span>Projekt-ID</span><code id="sp-project-id"></code><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 4V3H3v9h1"/></svg></button><p id="sp-project-storage" class="sp-project-storage" role="status" aria-live="polite"></p></div>
         <label class="sp-field sp-project-name-field">Projektname<input id="sp-project-name" maxlength="60" required></label>
         <label class="sp-field sp-project-date-field">Datum<input id="sp-project-date" type="date"></label><label class="sp-field">Artist / Band Name<input id="sp-project-artist" maxlength="80"></label>
         <label class="sp-field">Venue<input id="sp-project-venue" maxlength="100"></label><label class="sp-field">Autor / Engineer<input id="sp-project-author" maxlength="80"></label>
@@ -2840,6 +2841,14 @@
 #sp-prototype .sp-project-add-card svg { width:34px; height:34px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; }
 #sp-prototype .sp-project-add-card strong { display:block; font-size:15px; }
 #sp-prototype .sp-project-add-card small { display:block; color:#747c74; font-size:10px; }
+#sp-prototype .sp-project-identity-summary { grid-column:1/-1; }
+#sp-prototype .sp-project-identity { display:inline-flex; align-items:center; flex-wrap:wrap; gap:6px; max-width:100%; min-height:36px; padding:5px 8px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-soft); color:var(--sp-muted); font-size:11px; text-align:left; cursor:pointer; }
+#sp-prototype .sp-project-identity code { color:var(--sp-ink); font-size:11px; overflow-wrap:anywhere; }
+#sp-prototype .sp-project-identity svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.5; }
+#sp-prototype .sp-project-identity:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-project-identity:focus-visible { outline:2px solid var(--sp-teal); outline-offset:3px; }
+#sp-prototype .sp-project-storage { margin:7px 0 0; color:var(--sp-muted); font-size:11px; line-height:1.5; }
+#sp-prototype .sp-project-storage[data-state="error"] { color:light-dark(#a42c28,#ffb5aa); }
 @container sp-frame (max-width:980px) { #sp-prototype .sp-project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @container sp-frame (max-width:620px) { #sp-prototype .sp-project-grid { grid-template-columns:1fr; } }
 #sp-prototype .sp-project-delete-dialog form { display:grid; gap:13px; }
@@ -7319,6 +7328,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const geometry=typeof setupGeometryOverride!=='undefined'?setupGeometryOverride:stage?.geometry;
     if(geometry)result.geometry=clone(geometry);
     if(stage?.venueRef)result.venueRef=clone(stage.venueRef);
+    if(stage?.projectId)result.projectId=stage.projectId;
     if(result.stairsAlong===undefined)delete result.stairsAlong;
     return result;
   }
@@ -8333,6 +8343,12 @@ function createStageplotSymbolV3(type, options = {}) {
   const setupStorageKey='stageplot-studio:setups:v1';
   const projectAccountStore=()=>window.StageplotAccount?.projects||null;
   let savedSetups=[],setupLibraryReady=false,pendingSetupAction=null,activeSetupId=null,setupDialogMode='load';
+  function projectIdentity(value,recordId=''){
+    // Keep the original storage token as a portable identity, even after a draft
+    // becomes a named/cloud project. Legacy reads are deterministic and read-only.
+    if(typeof value==='string'&&/^SP-[A-Z0-9]+(?:-[A-Z0-9]+)*$/.test(value)&&value.length<=80)return value;
+    return /^(?:setup|draft)-[a-z0-9-]+$/.test(recordId)?'SP-'+recordId.replace(/^(?:setup|draft)-/,'').toUpperCase():'';
+  }
   function normalizeSetupDocument(value){
     if(!value||!value.stage||!Array.isArray(value.objects))throw new Error('Ungültiges Setup.');
     const source=value.stage,finite=(n,min,max)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
@@ -8372,6 +8388,7 @@ function createStageplotSymbolV3(type, options = {}) {
     });
     s.extraStairs=normalizeExtraStairs(source.extraStairs,s);s.cables=normalizeCables(source.cables,idMap,list);s.project=cleanProject(source.project,s.title);s.project.name=s.title;
     s.routing=cleanRouting(source.routing,idMap);
+    const identity=projectIdentity(source.projectId);if(identity)s.projectId=identity;
     if(source.geometry)s.geometry=StageplotGeometry.normalize(source.geometry);
     if(source.venueRef&&typeof source.venueRef==='object')s.venueRef={templateId:cleanText(source.venueRef.templateId,100),name:cleanText(source.venueRef.name,60),revision:Math.max(1,Math.min(1000000,Math.floor(Number(source.venueRef.revision)||1)))};
     if(s.stairsAlong===undefined)delete s.stairsAlong;
@@ -8385,7 +8402,8 @@ function createStageplotSymbolV3(type, options = {}) {
     return data.setups.map(entry=>{
       if(!entry||typeof entry.id!=='string'||!/^setup-[a-z0-9-]+$/.test(entry.id)||ids.has(entry.id)||typeof entry.name!=='string'||!entry.name.trim()||entry.name.length>60||!Number.isFinite(entry.savedAt)||entry.savedAt<0||entry.savedAt>8640000000000000)throw new Error('Ein gespeichertes Setup ist beschädigt.');
       ids.add(entry.id);
-      return {id:entry.id,name:entry.name,savedAt:entry.savedAt,document:normalizeSetupDocument(entry.document)};
+      const document=normalizeSetupDocument(entry.document);document.stage.projectId=projectIdentity(document.stage.projectId,entry.id);
+      return {id:entry.id,name:entry.name,savedAt:entry.savedAt,document};
     });
   }
   function writeSetupLibrary(storage,entries){
@@ -8422,22 +8440,26 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-setup-confirm-accept').className='sp-button '+(danger?'sp-danger':'sp-primary');
     $('sp-setup-confirm-dialog').showModal();
   }
-  function saveSetup(name,replaceId=null){
+  function saveSetup(name,replaceId=null,asCopy=false){
     try{
       name=String(name).trim().slice(0,60);if(!name||!stage)throw new Error('Bitte einen Setup-Namen und eine Bühne angeben.');
       const latest=readSetupLibrary(window.localStorage),existing=latest.find(entry=>entry.name.toLocaleLowerCase('de')===name.toLocaleLowerCase('de'));
       if(replaceId&&!latest.some(entry=>entry.id===replaceId))throw new Error('Dieses Setup wurde entfernt. Bitte Speichern unter verwenden.');
       if(existing&&existing.id!==replaceId){
-        confirmSetupAction('Setup überschreiben?','„'+existing.name+'“ wird durch den aktuellen Aufbau ersetzt. Die bisherige gespeicherte Version wird überschrieben.','Überschreiben',()=>saveSetup(name,existing.id));return;
+        confirmSetupAction('Setup überschreiben?','„'+existing.name+'“ wird durch den aktuellen Aufbau ersetzt. Die bisherige gespeicherte Version wird überschrieben.','Überschreiben',()=>saveSetup(name,existing.id,asCopy));return;
       }
       const document=normalizeSetupDocument({stage:{...stage,title:name},objects});
       const entry={id:replaceId||existing?.id||'setup-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9),name,savedAt:Date.now(),document};
+      const separate=replaceId?activeSetupId!==replaceId:asCopy||!!activeSetupId;
+      if(separate&&!persistDraft(true))throw new Error('Bitte zuerst den aktuellen Entwurf lokal sichern.');
+      document.stage.projectId=projectIdentity(replaceId?latest.find(item=>item.id===replaceId)?.document.stage.projectId:separate?'':stage.projectId,entry.id);
       const updated=latest.filter(item=>item.id!==entry.id).concat(entry);
       writeSetupLibrary(window.localStorage,updated);
       const account=projectAccountStore();if(account?.save)account.save(entry).then(result=>{if(result?.queued)say('Projekt lokal gespeichert · Cloud-Abgleich ausstehend');}).catch(()=>{});
       savedSetups=updated;setupLibraryReady=true;activeSetupId=entry.id;
+      stage.projectId=document.stage.projectId;if(separate){resetDraftTracking();history=[];future=[];editBefore=null;}
       if(stage.title!==name)change(()=>{stage.title=name;stage.project=normalizeProjectInfo(stage.project,name);stage.project.name=name;});
-      $('sp-title').value=name;syncDraftAfterManualSave();if(typeof draftStatus==='function')draftStatus('saved','Setup gespeichert · '+new Date().toLocaleTimeString('de-AT',{hour:'2-digit',minute:'2-digit'}));
+      $('sp-title').value=name;if(syncDraftAfterManualSave()&&typeof draftStatus==='function')draftStatus('saved','Setup gespeichert · '+new Date().toLocaleTimeString('de-AT',{hour:'2-digit',minute:'2-digit'}));
       $('sp-setup-error').hidden=true;renderSetupLibrary();
       $('sp-setup-feedback').textContent='„'+name+'“ gespeichert.';say(account?.save?'Projekt gespeichert · Cloud-Abgleich aktiv':'Setup lokal gespeichert: '+name);
       updateProjectHeading();if(view==='print')renderPrint();
@@ -8446,6 +8468,8 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function activateSetupDocument(value,setupId=null,options={}){
     finishEdit();flushDraft();const document=clone(normalizeSetupDocument(value));stage=document.stage;objects=document.objects;activeSetupId=setupId;
+    if(options.copy)delete stage.projectId;
+    else if(setupId)stage.projectId=projectIdentity(stage.projectId,setupId);
     setupGeometryOverride=undefined;
     nextId=objects.length+1;selected=null;history=[];future=[];editBefore=null;
     resetEditorView();panMode=false;spaceHeld=false;$('sp-title').value=stage.title;resetDraftTracking();
@@ -8469,7 +8493,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(!file) return;if(file.size>5000000)throw new Error('Bitte eine Setup-Datei unter 5 MB wählen.');
       const payload=exportModel.parseSetupJson(await file.text(),{normalizeDocument:normalizeSetupDocument});
       const asProject=dashboardImport;dashboardImport=false;
-      const open=()=>{activateSetupDocument(payload.document,null,{persist:true,message:'Projektdatei geöffnet: '+payload.name});if(asProject)saveSetup(payload.name);};
+      const open=()=>{activateSetupDocument(payload.document,null,{persist:true,copy:true,message:'Projektdatei als eigene Kopie geöffnet: '+payload.name});if(asProject)saveSetup(payload.name);};
       if(stage)confirmSetupAction('Setup-Datei öffnen?','„'+payload.name+'“ ersetzt den aktuell geöffneten Entwurf. Der bisherige Stand bleibt in den automatischen Entwürfen erhalten.','Datei öffnen',open);
       else open();
     }catch(error){setupError(error);}
@@ -8502,7 +8526,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(view==='setup'){applyStage();if(view==='setup')return;}
     if(!stage)return;
     if(asCopy&&activeSetupId&&typeof accountPlan!=='undefined'&&accountPlan!=='pro'&&typeof dashboardProjects==='function'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}
-    if(asCopy||!activeSetupId){openSetupLibrary('saveAs');return;}
+    if(asCopy||!activeSetupId){openSetupLibrary(asCopy?'saveCopy':'saveAs');return;}
     try{
       const entry=readSetupLibrary(window.localStorage).find(item=>item.id===activeSetupId);
       if(!entry){activeSetupId=null;openSetupLibrary('saveAs');return;}
@@ -8520,7 +8544,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-setup-name').addEventListener('input',()=>{$('sp-setup-feedback').textContent='';syncSetupSave();});
   $('sp-setup-save-form').addEventListener('submit',e=>{
     e.preventDefault();const name=$('sp-setup-name').value.trim();if(!stage||!name||!setupLibraryReady)return;
-    finishEdit();saveSetup(name);
+    finishEdit();saveSetup(name,null,setupDialogMode==='saveCopy');
   });
   $('sp-saved-setups').addEventListener('click',e=>{
     const button=e.target.closest('[data-load-setup],[data-delete-setup]');if(!button)return;
@@ -8607,8 +8631,45 @@ function createStageplotSymbolV3(type, options = {}) {
     const previewCables=s.cables||[],cables=previewCables.slice(0,40).map(cable=>{const source=list.find(o=>o.id===cable.sourceId),target=list.find(o=>o.id===cable.targetId);if(!source||!target)return'';const route=Array.isArray(cable.route)&&cable.route.length>=2?cable.route:[{x:source.x,y:source.y},{x:target.x,y:target.y}],lane=cableBundleInfo(cable,previewCables),base=route.map(point=>({x:left+point.x*scale,y:top+point.y*scale})),offset=(lane.index-(lane.count-1)/2)*Math.max(2.5,cablePlanSpacing*scale),points=offsetCablePolyline(base,offset),start=points[0],end=points.at(-1);return '<path d="'+roundedCablePath(points,3)+'" fill="none" stroke="#111311" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+start.x.toFixed(2)+'" cy="'+start.y.toFixed(2)+'" r="1.4" fill="#b9beb9" stroke="#333" stroke-width=".4"/><circle cx="'+end.x.toFixed(2)+'" cy="'+end.y.toFixed(2)+'" r="1.4" fill="#b9beb9" stroke="#333" stroke-width=".4"/>';}).join('');
     return '<div class="sp-project-card-preview"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><rect width="'+W+'" height="'+H+'" fill="'+(black?'#171917':'#eef0eb')+'"/><rect x="'+left.toFixed(2)+'" y="'+top.toFixed(2)+'" width="'+stageW.toFixed(2)+'" height="'+stageH.toFixed(2)+'" rx="2" fill="'+(black?'#242624':'#fff')+'" stroke="'+(black?'#0c0d0c':'#545b54')+'" stroke-width="1.2"/><g stroke="'+(black?'#3f433e':'#dfe2dc')+'" stroke-width=".45">'+moduleLines.join('')+'</g>'+cables+items+'</svg><span>'+esc(badge)+'</span></div>';
   }
+  function projectStorageStatus(entry,current=false){
+    if(current&&sharedReadOnly)return {state:'readonly',text:'Geteilter Plan · nur ansehen'};
+    if(current&&draftState==='error')return {state:'error',text:'Änderungen nicht gespeichert · bitte erneut speichern'};
+    if(current&&draftState==='pending')return {state:'pending',text:'Änderungen werden lokal gespeichert …'};
+    if(!entry?.savedAt)return {state:'idle',text:'Noch nicht lokal gespeichert'};
+    const date=new Date(entry.savedAt).toLocaleString('de-AT',{dateStyle:'medium',timeStyle:'short'});
+    try{
+      if(cloudBridge&&hasLinkedAccount()){
+        const binding=linkedAccount(),id=entry.sourceSetupId||(entry.kind==='setup'?entry.id:null);
+        if(accountSession?.user?.id===binding?.ownerId&&id&&cloudBridge.local.confirmed('project',{...entry,id}))return {state:'synced',text:'Synchronisiert · Stand '+date};
+        return {state:'saved',text:'Lokal gespeichert · '+date+' · Sync ausstehend'};
+      }
+    }catch(error){}
+    return {state:'saved',text:'Lokal gespeichert · '+date};
+  }
+  function projectIdentityMarkup(id){
+    return '<button type="button" class="sp-project-identity" data-project-id-copy="'+esc(id)+'" aria-label="Projekt-ID '+esc(id)+' kopieren" title="Projekt-ID kopieren"><span>Projekt-ID</span><code>'+esc(id)+'</code><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 4V3H3v9h1"/></svg></button>';
+  }
+  async function copyProjectIdentity(id,button){
+    if(!projectIdentity(id))return;
+    try{await navigator.clipboard.writeText(id);say('Projekt-ID kopiert: '+id);}
+    catch(error){const range=window.document.createRange();range.selectNodeContents(button.querySelector('code'));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);say('Projekt-ID markiert · bitte kopieren');}
+  }
+  function refreshProjectIdentity(){
+    if(view!=='project'||!stage)return;
+    const id=projectIdentity(stage.projectId),button=$('sp-project-id-copy');$('sp-project-id').textContent=id||'Nach erster Speicherung';button.disabled=!id;button.dataset.projectIdCopy=id;
+    const entry=dashboardProjects().find(item=>item.id===activeDraftId||item.draftId===activeDraftId||(!activeDraftId&&item.id===activeSetupId)),status=projectFormDirty?{state:'pending',text:'Formularänderungen noch nicht übernommen'}:projectStorageStatus(entry,true);
+    $('sp-project-storage').textContent=status.text;$('sp-project-storage').dataset.state=status.state;
+  }
+  function refreshProjectCardStatuses(){
+    if(view!=='dashboard')return;
+    const entries=dashboardProjects();root.querySelectorAll('[data-project-storage]').forEach(node=>{
+      const entry=entries.find(item=>item.id===node.dataset.projectStorage);if(!entry)return;
+      const current=entry.id===activeDraftId||entry.draftId===activeDraftId||(!activeDraftId&&entry.id===activeSetupId),status=projectStorageStatus(entry,current);
+      node.textContent=status.text;node.dataset.state=status.state;
+    });
+  }
   function renderDashboard(){
-    const query=String($('sp-project-search').value||'').trim().toLocaleLowerCase('de'),all=dashboardProjects(),entries=all.filter(entry=>{const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title);return !query||p.name.toLocaleLowerCase('de').includes(query)||p.artist.toLocaleLowerCase('de').includes(query);});
+    const query=String($('sp-project-search').value||'').trim().toLocaleLowerCase('de'),all=dashboardProjects(),entries=all.filter(entry=>{const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title);return !query||p.name.toLocaleLowerCase('de').includes(query)||p.artist.toLocaleLowerCase('de').includes(query)||projectIdentity(s.projectId).toLocaleLowerCase('de').includes(query);});
     const proActive=accountPlan==='pro';
     $('sp-project-count').textContent=all.length+(all.length===1?' Projekt':' Projekte');
     $('sp-plan-card').dataset.plan=accountPlan;
@@ -8620,8 +8681,8 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-upgrade-open').setAttribute('aria-label',proActive?'Zu Standard wechseln':'Kostenlose Pro-Beta aktivieren');
     $('sp-project-new').disabled=false;
     const cards=entries.map(entry=>{
-      const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title),cardName=p.name,date=new Date(entry.savedAt).toLocaleString('de-AT',{dateStyle:'medium',timeStyle:'short'}),current=entry.id===activeDraftId||entry.draftId===activeDraftId||entry.id===activeSetupId;
-      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,entry.draft?'ENTWURF':'VORSCHAU')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Automatischer Entwurf':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div><p>Geändert '+esc(date)+' · '+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Settings</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Projektdatei herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Projektdatei</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
+      const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title),cardName=p.name,current=entry.id===activeDraftId||entry.draftId===activeDraftId||(!activeDraftId&&entry.id===activeSetupId),status=projectStorageStatus(entry,current);
+      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,entry.draft?'ENTWURF':'VORSCHAU')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Automatischer Entwurf':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div>'+projectIdentityMarkup(projectIdentity(s.projectId))+'<p class="sp-project-storage" data-project-storage="'+entry.id+'" data-state="'+status.state+'">'+esc(status.text)+'</p><p>'+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Settings</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Projektdatei herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Projektdatei</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
     }).join(''),empty=!entries.length&&query?'<div class="sp-empty-projects"><div><strong>Kein passendes Projekt</strong><p>Versuche einen anderen Suchbegriff.</p></div></div>':'',add='<article class="sp-project-add-card"><button type="button" data-project-add><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><span><strong>Projekt hinzufügen</strong><small>Neuen Stageplot anlegen</small></span></button></article>';
     $('sp-project-grid').innerHTML=add+cards+empty;
   }
@@ -8635,7 +8696,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const count=dashboardProjects().length;if(accountPlan!=='pro'&&count>=1){$('sp-upgrade-dialog').showModal();return;}
     finishEdit();if(stage&&!isSampleProject())persistDraft(true);activeSetupId=null;activeDraftId=null;objects=[];selected=null;nextId=1;history=[];future=[];editBefore=null;resetEditorView();
     setupStageSurface=stageSurfaceDefault;$('sp-title').value='Neues Projekt';$('sp-width').value=8;$('sp-depth').value=5;$('sp-stairs').value='left';$('sp-stairs-offset').value=.5;$('sp-iem').value='right';$('sp-iem-length').value=2;$('sp-iem-depth').value=.8;$('sp-iem-x').value=7.2;$('sp-iem-y').value=0;
-    stage=draft();stage.complex=false;stage.project=defaultProjectInfo('Neues Projekt');stage.routing=defaultRouting();resetDraftTracking();persistDraft(true);show('dashboard');openProjectSettings();say('Neues Projekt angelegt');
+    stage=draft();delete stage.projectId;stage.complex=false;stage.project=defaultProjectInfo('Neues Projekt');stage.routing=defaultRouting();resetDraftTracking();persistDraft(true);show('dashboard');openProjectSettings();say('Neues Projekt angelegt');
   }
   $('sp-project-search').addEventListener('input',renderDashboard);
   const npSize={width:8,depth:5};
@@ -8726,6 +8787,7 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-project-delete-cancel').addEventListener('click',closeProjectDeleteDialog);$('sp-project-delete-dialog').addEventListener('cancel',()=>{pendingProjectDelete=null;});
   $('sp-project-delete-form').addEventListener('submit',e=>{e.preventDefault();if(!pendingProjectDelete||$('sp-project-delete-input').value!==pendingProjectDelete.name)return;const id=pendingProjectDelete.id;closeProjectDeleteDialog();deleteDashboardProject(id);});
   $('sp-project-grid').addEventListener('click',e=>{
+    const identity=e.target.closest('[data-project-id-copy]');if(identity){copyProjectIdentity(identity.dataset.projectIdCopy,identity);return;}
     const button=e.target.closest('[data-project-open],[data-project-settings],[data-project-share],[data-project-download],[data-project-delete],[data-project-add]');
     if(!button){const card=e.target.closest('[data-project-open-card]');if(card)activateDashboardEntry(card.dataset.projectOpenCard,'editor');return;}
     if(button.dataset.projectAdd!==undefined){openNewProjectDialog();return;}
@@ -8740,9 +8802,11 @@ function createStageplotSymbolV3(type, options = {}) {
 
   const metresToDisplay=(value,unit)=>unit==='ft'?value/0.3048:value;
   const displayToMetres=(value,unit)=>unit==='ft'?value*0.3048:value;
+  let projectFormDirty=false;
   function syncProjectUnitLabels(){const suffix=projectFormUnit==='ft'?'ft':'m';$('sp-project-width-label').textContent='Bühnenbreite ('+suffix+')';$('sp-project-depth-label').textContent='Bühnentiefe ('+suffix+')';}
   function fillProjectForm(){
     if(!stage)return;
+    projectFormDirty=false;refreshProjectIdentity();
     ['sp-project-width','sp-project-depth'].forEach(id=>{$(id).disabled=!!stage.geometry;$(id).title=stage.geometry?'Maße unter Bühnenform bearbeiten':'';});const p=normalizeProjectInfo(stage.project,stage.title);projectFormUnit=p.unit;
     const values={'sp-project-name':stage.title,'sp-project-date':p.date,'sp-project-artist':p.artist,'sp-project-venue':p.venue,'sp-project-author':p.author,'sp-project-tour':p.tour,'sp-project-company':p.company,'sp-contact-stage-manager':p.contacts.stageManager.name,'sp-contact-stage-manager-value':p.contacts.stageManager.contact,'sp-contact-foh':p.contacts.foh.name,'sp-contact-foh-value':p.contacts.foh.contact,'sp-contact-monitor':p.contacts.monitor.name,'sp-contact-monitor-value':p.contacts.monitor.contact,'sp-contact-advance':p.contacts.advance.name,'sp-contact-advance-value':p.contacts.advance.contact,'sp-project-notes':p.notes};
     for(const [id,value] of Object.entries(values))$(id).value=value;
@@ -8777,6 +8841,8 @@ function createStageplotSymbolV3(type, options = {}) {
   $('sp-project-close').addEventListener('click',leaveProjectSettings);$('sp-project-cancel').addEventListener('click',leaveProjectSettings);
   $('sp-project').addEventListener('click',e=>{const button=e.target.closest('[data-project-tab]');if(button)setProjectTab(button.dataset.projectTab);});
   $('sp-project-form').addEventListener('submit',e=>{e.preventDefault();applyProjectForm(true);});
+  $('sp-project-form').addEventListener('input',()=>{projectFormDirty=true;refreshProjectIdentity();});
+  $('sp-project-id-copy').addEventListener('click',e=>copyProjectIdentity(e.currentTarget.dataset.projectIdCopy,e.currentTarget));
 
   const stageboxCapacity={"stagebox-8":{inputs:8,outputs:4},"stagebox-16":{inputs:16,outputs:8},"stagebox-32":{inputs:32,outputs:16},"stagebox-46":{inputs:46,outputs:0},"stagebox-48":{inputs:48,outputs:16}};
   const routeToken=()=>Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
@@ -10506,6 +10572,8 @@ function createStageplotSymbolV3(type, options = {}) {
     header.dataset.state=state;header.title=message;$('sp-header-draft-status').textContent=short;
     $('sp-draft-retry').hidden=state!=='error';
     if(view==='print'&&state==='error')say(message);
+    if(view==='project')refreshProjectIdentity();
+    if(view==='dashboard')refreshProjectCardStatuses();
   }
   function draftFailure(error){
     const reason=error?.name==='QuotaExceededError'?'Lokaler Speicher voll.':error?.name==='SecurityError'?'Lokaler Speicher ist nicht erlaubt.':error?.message||'Lokaler Speicher nicht verfügbar.';
@@ -10555,10 +10623,20 @@ function createStageplotSymbolV3(type, options = {}) {
     const raw=storage.getItem(draftStorageKey);if(raw===null)return {entries:[],lastId:null};
     const data=JSON.parse(raw),ids=new Set();
     if(!data||data.version!==1||!Array.isArray(data.entries))throw new Error('Entwurfsspeicher kann nicht gelesen werden.');
+    const latestBySetup=new Map();for(const entry of data.entries){if(entry?.sourceSetupId&&(!latestBySetup.has(entry.sourceSetupId)||entry.savedAt>latestBySetup.get(entry.sourceSetupId).savedAt))latestBySetup.set(entry.sourceSetupId,entry);}
     const entries=data.entries.map(entry=>{
       if(!entry||typeof entry.id!=='string'||!/^draft-[a-z0-9-]+$/.test(entry.id)||ids.has(entry.id)||typeof entry.revision!=='string'||!/^[a-z0-9-]{1,100}$/.test(entry.revision)||typeof entry.name!=='string'||!entry.name.trim()||entry.name.length>60||!Number.isFinite(entry.savedAt)||entry.savedAt<0||entry.savedAt>8640000000000000)throw new Error('Ein gespeicherter Entwurf ist beschädigt.');
       ids.add(entry.id);
-      return {id:entry.id,revision:entry.revision,name:entry.name,savedAt:entry.savedAt,sourceSetupId:typeof entry.sourceSetupId==='string'&&/^setup-[a-z0-9-]+$/.test(entry.sourceSetupId)?entry.sourceSetupId:null,document:normalizeSetupDocument(entry.document)};
+      let sourceSetupId=typeof entry.sourceSetupId==='string'&&/^setup-[a-z0-9-]+$/.test(entry.sourceSetupId)?entry.sourceSetupId:null;const document=normalizeSetupDocument(entry.document),latest=sourceSetupId&&latestBySetup.get(sourceSetupId);
+      if(latest&&latest!==entry){
+        // Older working copies are already separate dashboard projects. Detach
+        // them once so their identity never follows a later save of the original.
+        const original=projectIdentity(latest.document?.stage?.projectId,sourceSetupId);
+        document.stage.projectId=projectIdentity(document.stage.projectId);
+        if(!document.stage.projectId||document.stage.projectId===original)document.stage.projectId=projectIdentity('',entry.id+'-copy');
+        sourceSetupId=null;
+      }else document.stage.projectId=projectIdentity(document.stage.projectId,sourceSetupId||entry.id);
+      return {id:entry.id,revision:entry.revision,name:entry.name,savedAt:entry.savedAt,sourceSetupId,document};
     });
     if(data.lastId!==null&&!ids.has(data.lastId))throw new Error('Der letzte Entwurf ist beschädigt.');
     return {entries,lastId:data.lastId};
@@ -10571,7 +10649,10 @@ function createStageplotSymbolV3(type, options = {}) {
     const raw=storage.getItem(workspaceStorageKey);if(raw===null||raw==='')return null;
     const data=JSON.parse(raw),entry=data?.entry;
     if(!data||data.version!==1||!entry||typeof entry.id!=='string'||!/^draft-[a-z0-9-]+$/.test(entry.id)||typeof entry.revision!=='string'||!/^[a-z0-9-]{1,100}$/.test(entry.revision)||typeof entry.name!=='string'||!entry.name.trim()||entry.name.length>60||!Number.isFinite(entry.savedAt)||entry.savedAt<0||entry.savedAt>8640000000000000)throw new Error('Der zuletzt bearbeitete Stand ist beschädigt.');
-    return {id:entry.id,revision:entry.revision,name:entry.name,savedAt:entry.savedAt,sourceSetupId:typeof entry.sourceSetupId==='string'&&/^setup-[a-z0-9-]+$/.test(entry.sourceSetupId)?entry.sourceSetupId:null,document:normalizeSetupDocument(entry.document)};
+    const sourceSetupId=typeof entry.sourceSetupId==='string'&&/^setup-[a-z0-9-]+$/.test(entry.sourceSetupId)?entry.sourceSetupId:null,document=normalizeSetupDocument(entry.document);
+    document.stage.projectId=projectIdentity(document.stage.projectId,sourceSetupId||entry.id);
+    try{const indexed=readDraftLibrary(storage).entries.find(item=>item.id===entry.id);if(indexed){document.stage.projectId=indexed.document.stage.projectId;return {...entry,sourceSetupId:indexed.sourceSetupId,document};}}catch(error){}
+    return {id:entry.id,revision:entry.revision,name:entry.name,savedAt:entry.savedAt,sourceSetupId,document};
   }
   function writeWorkspace(storage,entry){
     // Independent recovery pointer: a damaged/stale draft index must never expose the sample instead.
@@ -10598,11 +10679,13 @@ function createStageplotSymbolV3(type, options = {}) {
       let id=prior&&!conflict?prior.id:'draft-'+token();
       while((!prior||conflict)&&data.entries.some(entry=>entry.id===id))id='draft-'+token();
       const document=normalizeSetupDocument({stage,objects});
-      const entry={id,revision:token(),name:document.stage.title,savedAt:Date.now(),sourceSetupId:activeSetupId,document};
+      document.stage.projectId=projectIdentity(conflict?'':document.stage.projectId,activeSetupId&&!conflict?activeSetupId:id);
+      const entry={id,revision:token(),name:document.stage.title,savedAt:Date.now(),sourceSetupId:conflict?null:activeSetupId,document};
       writeDraftLibrary(window.localStorage,{entries:data.entries.filter(item=>item.id!==id).concat(entry),lastId:id});
       // The draft library remains authoritative; the compact second record is recovery-only.
       try{writeWorkspace(window.localStorage,entry);}catch(error){}
-      activeDraftId=id;activeDraftSavedAt=entry.savedAt;draftRevision=entry.revision;draftBaseline=current;
+      stage.projectId=document.stage.projectId;if(conflict){activeSetupId=null;history=[];future=[];editBefore=null;}
+      activeDraftId=id;activeDraftSavedAt=entry.savedAt;draftRevision=entry.revision;draftBaseline=snapshot();
       persistViewport();
       if(typeof scheduleAccountSync==='function')scheduleAccountSync();
       draftStatus('saved',conflict?'Eigene Entwurfskopie lokal gespeichert':'Entwurf lokal gespeichert');
@@ -10621,7 +10704,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(draftTimer!==null||editBefore)persistDraft();
   }
   function syncDraftAfterManualSave(){
-    if(activeDraftId)persistDraft(true);
+    return stage?persistDraft(true):true;
   }
   function restoreDraftEntry(entry){
     const document=clone(entry.document);stage=document.stage;objects=document.objects;activeSetupId=entry.sourceSetupId;
@@ -10838,12 +10921,13 @@ function createStageplotSymbolV3(type, options = {}) {
       }
       if(view==='dashboard')renderDashboard();renderStageTemplates();renderDrumDesignLibrary();if($('sp-account-dialog').open)renderInventory();accountMessage('Synchronisiert · '+new Date().toLocaleTimeString('de-AT',{hour:'2-digit',minute:'2-digit'})+(syncResult.copies?' · '+syncResult.copies+' Konfliktkopie(n) gespeichert':''));
     }catch(error){accountMessage('Lokal gesichert · Sync ausstehend: '+error.message);}
-    finally{accountSyncing=false;$('sp-account-sync').disabled=false;}
+    finally{accountSyncing=false;$('sp-account-sync').disabled=false;refreshProjectIdentity();refreshProjectCardStatuses();}
   }
   function renderAccountState(){
     const user=accountSession?.user,binding=linkedAccount(),wrong=!!user&&!!binding&&(binding.ownerId!==user.id||binding.url!==accountConfig.url);
     $('sp-account-login').hidden=!accountClient||!!user;$('sp-account-verify').hidden=true;$('sp-account-signout').hidden=!user;$('sp-account-link').hidden=!user||!!binding;$('sp-account-link-hint').hidden=!user||!!binding;$('sp-account-sync').hidden=!hasLinkedAccount();
     accountMessage(!accountClient?'Account-Sync ist noch nicht eingerichtet. Inventar und Projekte bleiben lokal verfügbar.':wrong?'Dieses Gerät ist mit einem anderen Account verbunden. Bitte wieder mit diesem Account anmelden.':user?(hasLinkedAccount()?'Angemeldet · Gerätesync aktiv':'Angemeldet als '+user.email+' · Gerät noch nicht verbunden'):'Melde dich an, um deine Projekte und dein Inventar auf weiteren Geräten zu nutzen.');
+    refreshProjectIdentity();refreshProjectCardStatuses();
   }
   async function initializeAccount(){
     if(sharedReadOnly)return;configureAccountBridge();renderAccountState();

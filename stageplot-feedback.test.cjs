@@ -17,7 +17,7 @@ const production={power:'2 × Schuko 230 V',handover:{mode:'Analog',point:'FOH',
 assert.deepEqual(plain(ctx.normalizeProductionInfo(production)),production);
 // Preserve legacy documents while round-tripping all new production fields.
 const nc={drumModel:{isDrums:()=>false},byId:{foh:{},riser:{}},stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:value=>value||{},projectText:(v,max)=>String(v??'').slice(0,max)};vm.createContext(nc);
-vm.runInContext(['iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument'].map(extract).join('\n'),nc);
+vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument'].map(extract).join('\n'),nc);
 const document={stage:{...offstage,title:'Probe',stairs:'none',project:{name:'Probe',production}},objects:[{id:'station-1',type:'foh',x:4,y:9,angle:0,width:3.5,depth:2.2,foh:{table:true,sun:true},power:'2 × Schuko 230 V',wireless:'470–526 MHz',inventoryId:'inventory-mixer'},{id:'station-2',type:'riser',x:2,y:1,angle:0,width:2.6,depth:1.4,height:40}]};
 const roundtrip=plain(nc.normalizeSetupDocument(document));assert.deepEqual(roundtrip.stage.project.production,production);assert.equal(roundtrip.stage.iemX,-2);assert.equal(roundtrip.objects[0].foh.sun,true);assert.equal(roundtrip.objects[0].width,3.5);assert.equal(roundtrip.objects[0].inventoryId,'inventory-mixer');assert.equal(roundtrip.objects[1].width,2.6);assert.deepEqual(plain(nc.normalizeSetupDocument(roundtrip)),roundtrip);
 assert.equal(nc.normalizeSetupDocument({...document,stage:{...document.stage,project:{name:'Probe'}}}).stage.project.production.power,'');
