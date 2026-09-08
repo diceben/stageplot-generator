@@ -12,10 +12,10 @@ This repository is the standalone 2D Stageplot Generator. Never mix it with Gigb
 
 ## After changing code
 
-- When editing `stageplot-drums-v12.js`, `stageplot-symbols-v3.js` or `stageplot-export-v42.js`, run `npm run build` to regenerate the embedded copies in `stageplot-studio.html`. These `.js` files are the single source; never hand-edit the embedded blocks (between the `build-inline:start/end` markers).
+- When editing `stageplot-drums-v12.js`, `stageplot-symbols-v3.js`, `stageplot-export-v42.js`, `stageplot-geometry-v1.js` or `stageplot-venue-v1.js` / `.css`, run `npm run build` to regenerate the embedded copies in `stageplot-studio.html`. These `.js` files are the single source; never hand-edit the embedded blocks (between the `build-inline:start/end` markers).
 - Run `npm test`.
 - Verify the actual app through `npm run dev` when behavior or layout changed.
 - Report browser validation separately from static or syntax checks.
 - Keep Stageplot assets local so the editor continues to work offline.
 
-The Supabase adapter is prepared but the visible login and production configuration are not yet complete.
+The optional Supabase login and sync client are prepared. Production credentials and live integration testing remain outstanding; see `ACCOUNT_SETUP.md`. Keep the default public configuration empty and the SDK bundle local. Run `npm run build:vendor` when updating its dependencies.

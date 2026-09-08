@@ -5,6 +5,7 @@ from urllib.parse import urlsplit, parse_qs
 import argparse
 import gzip
 import hashlib
+import re
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, default=8872)
@@ -20,8 +21,8 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(204)
             self.end_headers()
             return
-        if route.path == "/stageplot-account-v1.js":
-            asset = root / "stageplot-account-v1.js"
+        if route.path in ("/stageplot-account-v1.js", "/stageplot-cloud-config.js", "/stageplot-sync-v2.js", "/stageplot-inventory-v1.js", "/stageplot-assets/vendor/supabase.js"):
+            asset = root / route.path.lstrip("/")
             if not asset.is_file():
                 self.send_error(404)
                 return
@@ -85,7 +86,8 @@ class Handler(BaseHTTPRequestHandler):
         theme = query.get("theme", ["auto"])[0]
         scheme = theme if theme in ("light", "dark") else "light dark"
         account_runtime = root / "stageplot-account-v1.js"
-        key = (path.name, path.stat().st_mtime_ns, account_runtime.stat().st_mtime_ns, scheme)
+        config_path = root / "stageplot-cloud-config.js"
+        key = (path.name, path.stat().st_mtime_ns, account_runtime.stat().st_mtime_ns, config_path.stat().st_mtime_ns, scheme)
         if key not in cache:
             fragment = path.read_text(encoding="utf-8")
             # The preview is deliberately a single self-contained response. Public builds
@@ -98,7 +100,7 @@ class Handler(BaseHTTPRequestHandler):
             document = '<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stageplot Studio</title><link rel="icon" type="image/png" href="./stageplot-assets/branding/stageplotter-icon.png"><link rel="apple-touch-icon" href="./stageplot-assets/branding/stageplotter-icon.png"><style>html{color-scheme:' + scheme + '}body{margin:0;padding:16px;background:light-dark(#fff,#171b1d)}</style></head><body>' + fragment + '</body></html>'
             raw = document.encode("utf-8")
             cache.clear()
-            cache[key] = (raw, gzip.compress(raw, compresslevel=6, mtime=0), '"' + hashlib.sha256(raw).hexdigest()[:20] + '"')
+            cache[key] = (raw, gzip.compress(raw, compresslevel=6, mtime=0), '"' + hashlib.sha256(raw + config_path.read_bytes()).hexdigest()[:20] + '"')
         raw, compressed, etag = cache[key]
         if self.headers.get("If-None-Match") == etag:
             self.send_response(304)
@@ -115,7 +117,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Vary", "Accept-Encoding")
         if use_gzip:
             self.send_header("Content-Encoding", "gzip")
-        self.send_header("Content-Security-Policy", "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'")
+        config = (root / "stageplot-cloud-config.js").read_text(encoding="utf-8")
+        match = re.search(r'https://[a-z0-9-]+\.supabase\.co', config)
+        connect = "'none'" if not match else match.group(0)
+        self.send_header("Content-Security-Policy", "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src " + connect + "; base-uri 'none'; form-action 'none'; frame-ancestors 'self'")
         self.end_headers()
         self.wfile.write(body)
 

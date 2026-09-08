@@ -8,9 +8,16 @@
     "build": "node scripts/build-inline.cjs",
     "pack-code": "node scripts/issue-pack-code.cjs",
     "test": "node scripts/run-tests.cjs",
-    "check": "node --check stageplot-account-v1.js"
+    "check": "node --check stageplot-account-v1.js",
+    "build:vendor": "node scripts/build-vendor.cjs",
+    "build:cloud-config": "node scripts/build-cloud-config.cjs"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "2.116.0",
+    "esbuild": "0.28.2",
+    "polygon-clipping": "0.15.7"
   }
 }
