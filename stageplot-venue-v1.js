@@ -10,14 +10,14 @@
     trapezoid:'M11 6H29L36 26H4Z',thrust:'M4 5H36V16H24V29H16V16H4Z',t:'M4 3H36V12H24V21H32V29H8V21H16V12H4Z',
     wings:'M10 4H30V10H38V25H30V29H10V25H2V12H10Z',l:'M5 5H35V15H19V27H5Z',u:'M5 5H35V27H25V15H15V27H5Z',
     notch:'M4 5H36V17H25V27H4ZM29 20H36M29 23H36M29 26H36',irregular:'M5 5H29L36 12V27H10L5 21Z',
-    segment:'M4 8H36A16 16 0 0 1 4 8Z',opening:'M4 4H36V28H4ZM14 11H26V21H14Z',column:'M28 16A8 8 0 1 1 12 16A8 8 0 1 1 28 16ZM15 11L25 21M25 11L15 21',
+    segment:'M4 8H36A16 16 0 0 1 4 8Z',opening:'M4 4H36V28H4ZM14 11H26V21H14Z','opening-ellipse':'M4 4H36V28H4ZM30 16A10 7 0 1 1 10 16A10 7 0 1 1 30 16Z',column:'M28 16A8 8 0 1 1 12 16A8 8 0 1 1 28 16ZM15 11L25 21M25 11L15 21',
     wall:'M4 10H36V22H4ZM10 10L4 16M20 10L8 22M30 10L18 22M36 14L28 22',door:'M4 24H11M29 24H36M11 24V6A18 18 0 0 1 29 24',
     stairs:'M7 4H33V28H7ZM7 10H33M7 16H33M7 22H33',ramp:'M7 4H33V28H7ZM20 25V8M15 13L20 8L25 13',
     curtain:'M4 5H36M6 5V27L12 21L16 27V5M24 5V27L28 21L34 27V5',reserve:'M5 5H35V27H5ZM10 10L30 22M30 10L10 22',
     foh:'M5 7H35V25H5ZM10 12H30M12 16V22M20 16V22M28 16V22'
   };
   const presets=[['rect','Rechteck'],['round','Runde Vorbühne'],['circle','Kreis / Oval'],['trapezoid','Trapez'],['thrust','Steg'],['t','T-Form'],['wings','Seitenbühnen'],['l','L-Form'],['u','U-Form'],['notch','Treppenausschnitt'],['irregular','Freier Grundriss']];
-  const elements=[['floor','Bühnenfläche','rect'],['segment','Runde Vorbühne'],['ellipse','Kreis / Oval','circle'],['opening','Ausschnitt / Öffnung'],['column','Säule'],['wall','Wand'],['door','Tür / Zugang'],['stairs','Treppe'],['ramp','Rampe'],['curtain','Vorhang / Portal'],['reserve','Fläche freihalten'],['foh','FOH-Bereich']];
+  const elements=[['floor','Bühnenfläche','rect'],['segment','Runde Vorbühne'],['ellipse','Kreis / Oval','circle'],['opening','Ausschnitt / Öffnung'],['opening-ellipse','Runder Ausschnitt'],['column','Säule'],['wall','Wand'],['door','Tür / Zugang'],['stairs','Treppe'],['ramp','Rampe'],['curtain','Vorhang / Portal'],['reserve','Fläche freihalten'],['foh','FOH-Bereich']];
   const toolCards=(list,action)=>list.map(([kind,label,icon])=>'<button type="button" class="sv-tool-card" data-action="'+action+'" data-kind="'+kind+'" aria-label="'+label+(action==='add'?' hinzufügen':' als Grundform verwenden')+'"><svg viewBox="0 0 40 32" aria-hidden="true"><path d="'+toolIcons[icon||kind]+'"/></svg><span>'+label+'</span></button>').join('');
   const actionIcons={left:'<path d="M8.2 7H4V2.8M4.4 7.1A8.2 8.2 0 1 1 4 15"/>',right:'<path d="M15.8 7H20V2.8M19.6 7.1A8.2 8.2 0 1 0 20 15"/>',behind:'<rect x="7" y="4" width="12" height="10" rx="2"/><rect x="5" y="10" width="12" height="10" rx="2"/><path d="M12 7v8m-3-3 3 3 3-3"/>',lock:'<path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10"/><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M12 14v3"/>',duplicate:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/>',remove:'<path d="m7.5 7.5 9 9m0-9-9 9"/>'};
   const actionButton=(action,label,icon,caption='',extra='')=>'<button type="button" class="sp-button sp-object-tool '+(caption?'sp-rotate-tool ':'')+(action==='remove'?'sp-remove-tool':'')+'" data-part-action="'+action+'" aria-label="'+label+'" data-tooltip="'+label+'" '+extra+'>'+(icon?'<svg viewBox="0 0 24 24" aria-hidden="true">'+actionIcons[icon]+'</svg>':'')+(caption?'<span>'+caption+'</span>':'')+'</button>';
@@ -139,7 +139,7 @@
       $('[data-action="finish"]').hidden=!drawPoints;$('[data-action="cancel-draw"]').hidden=!drawPoints;$('[data-action="draw"]').hidden=!!drawPoints;
       $('.sv-parts').innerHTML=g.parts.map(q=>'<button type="button" data-select="'+q.id+'" aria-pressed="'+(q.id===selected)+'">'+esc(q.name)+(q.locked?' · gesperrt':'')+'</button>').join('');
       $('.sv-selection').innerHTML=p?'<h3>'+esc(p.name)+'</h3><div class="sv-fields">'+field('Name','name',p.name,'text')+field('Breite (m)','w',p.w)+field('Tiefe (m)','d',p.shape==='segment'?p.rise:p.d)+field('Position X (m)','x',p.x)+field('Position Y (m)','y',p.y)+field('Drehung (°)','angle',p.angle)+field('Höhe (m, optional)','height',p.height)+field('Hinweis','note',p.note,'text')+
-        (p.shape==='segment'?field('Ausladung (m)','rise',p.rise):'')+'</div><label class="sv-check"><input type="checkbox" data-prop="locked" '+(p.locked?'checked':'')+'> Element sperren</label>'+
+        (p.shape==='segment'?field('Ausladung (m)','rise',p.rise):'')+'</div>'+(p.kind==='opening'&&p.shape==='ellipse'?'<p class="sv-hint">Gleiche Breite und Tiefe ergeben einen Kreis, unterschiedliche Maße ein Oval.</p>':'')+'<label class="sv-check"><input type="checkbox" data-prop="locked" '+(p.locked?'checked':'')+'> Element sperren</label>'+
         (p.kind==='floor'?'<label>Nutzung<select data-prop="role">'+[['stage','Spielfläche'],['side','Seitenbühne'],['backstage','Backstage']].map(([v,t])=>'<option value="'+v+'" '+(p.role===v?'selected':'')+'>'+t+'</option>').join('')+'</select></label>':'')+
         (p.kind==='opening'?'<label>Ausschnitt betrifft<select data-prop="target"><option value="">Alle Bühnenflächen</option>'+g.parts.filter(q=>q.kind==='floor').map(q=>'<option value="'+q.id+'" '+(p.target===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>':'')+
         (edge!==null&&['rect','polygon'].includes(p.shape)?edgeFields(p):'')+
@@ -306,6 +306,7 @@
           if(kind==='segment')Object.assign(q,{name:'Vorbühne',shape:'segment',x:0,y:options.stage.d,w:options.stage.w,d:1,rise:1});
           else if(kind==='ellipse')Object.assign(q,{name:'Rundfläche',shape:'ellipse',w:2,d:2});
           else if(kind==='opening')Object.assign(q,{name:'Ausschnitt',kind:'opening'});
+          else if(kind==='opening-ellipse')Object.assign(q,{name:'Runder Ausschnitt',kind:'opening',shape:'ellipse',w:2,d:2});
           else if(kind==='column')Object.assign(q,{name:'Säule',kind:'obstacle',shape:'ellipse',w:.5,d:.5});
           else if(kind==='wall')Object.assign(q,{name:'Wand',kind:'obstacle',w:2,d:.2});
           else if(kind==='door'||kind==='curtain')Object.assign(q,{name:kind==='door'?'Tür / Zugang':'Vorhang / Portal',kind:'line',w:kind==='door'?1:4,d:.08});

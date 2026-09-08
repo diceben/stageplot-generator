@@ -28,4 +28,9 @@ assert.throws(()=>G.normalize({...G.legacy({w:8,d:5}),parts:[G.part({id:'same'})
 g=G.legacy({w:8,d:5});g.parts[0].shape='polygon';g.parts[0].points=[[0,0],[8,0],[8,5,-2],[0,5]];c=G.compile(G.normalize(g));near(c.bounds.maxY,7,.002);
 const p=G.part({x:4,y:3,angle:37});const q=G.transform(p,[1.13,2.54]);const q2=G.inverse(p,q);near(q2[0],1.13,.00001);near(q2[1],2.54,.00001);
 g=G.legacy({w:8,d:5});g.parts.push(G.part({id:'stair',kind:'stairs',w:1,d:1,anchor:{partId:'main-stage',edge:2,t:.5}}));G.syncAnchors(g);near(g.parts[1].x,3.5,.000001);near(g.parts[1].y,5,.000001);g.parts[0].d=6;G.syncAnchors(g);near(g.parts[1].y,6,.000001);
+g=G.legacy({w:8,d:5});g.parts.push(G.part({id:'round-cut',kind:'opening',shape:'ellipse',x:3,y:1,w:2,d:2}));c=G.compile(G.normalize(g));
+near(c.area,40-Math.PI);assert.equal(c.floor[0].length,2,'Kreisförmiger Ausschnitt ist ein echtes Loch.');
+assert.equal(G.containsFootprint(c.floor,rect(3.9,1.9,.2,.2)),false);assert.equal(G.containsFootprint(c.floor,rect(3.02,1.02,.05,.05)),true,'Außerhalb des Kreises bleibt der Boden erhalten, auch innerhalb seiner Bounding Box.');
+Object.assign(g.parts[1],G.resize(g.parts[1],3,1),{angle:30});c=G.compile(G.normalize(g));near(c.area,40-Math.PI*.75);
+const ovalCenter=G.transform(g.parts[1],[1.5,.5]);assert.equal(G.containsFootprint(c.floor,rect(ovalCenter[0]-.1,ovalCenter[1]-.1,.2,.2)),false,'Ein gedrehtes Oval bleibt eine Bodenöffnung.');
 console.log('PASS GEOMETRY: Rundungen, Vereinigung, Löcher, Ausschnitte, Hindernisse, präzise Maße, Anker und Validierung.');
