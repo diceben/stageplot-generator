@@ -4525,7 +4525,14 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sv-canvas-tools { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding-bottom:10px; }
 #sp-prototype .sv-canvas-tools label,#sp-prototype .sp-venue-dialog .sv-check,#sp-prototype .sv-house label:has(input[type="checkbox"]) { flex-direction:row; align-items:center; gap:6px; min-height:36px; }
 #sp-prototype .sp-venue-dialog input[type="checkbox"] { width:17px; height:17px; accent-color:var(--sp-teal); }
-#sp-prototype .sv-canvas { display:block; width:100%; min-height:200px; flex:1; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); touch-action:none; user-select:none; }
+#sp-prototype .sv-canvas-wrap { position:relative; flex:1; min-height:200px; }
+#sp-prototype .sv-canvas { display:block; box-sizing:border-box; width:100%; height:100%; min-height:200px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); touch-action:none; user-select:none; }
+#sp-prototype .sp-venue-dialog .sv-part-toolbar { position:absolute; display:flex; width:max-content; max-width:calc(100% - 12px); margin:0; transform:none; z-index:3; }
+#sp-prototype .sv-part-toolbar .sp-object-tool { display:flex; align-items:center; justify-content:center; touch-action:none; user-select:none; }
+#sp-prototype .sv-part-toolbar [data-part-action="lock"][aria-pressed="true"],#sp-prototype .sv-part-toolbar [data-part-action="behind"] { background:#c4eb43; border-color:#c4eb43; color:#20271a; }
+#sp-prototype .sp-venue-dialog .sv-part-menu { z-index:10; padding:5px; }
+#sp-prototype .sp-venue-dialog .sv-part-menu button { min-height:40px; border:0; background:transparent; }
+#sp-prototype .sp-venue-dialog .sv-part-menu button:hover { background:var(--sp-line); }
 #sp-prototype .sv-summary { padding-top:10px; font-size:12px; font-weight:650; }
 #sp-prototype .sv-hint { font-size:11px; color:var(--sp-muted); margin:6px 0 0; line-height:1.5; }
 #sp-prototype .sv-sidebar { padding:14px; overflow-y:auto; border-left:1px solid var(--sp-line); }
@@ -4560,7 +4567,12 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sv-palette-row>button { width:24px; padding:4px; }
   #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; }
   #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
-  #sp-prototype .sv-canvas { height:280px; min-height:280px; flex:none; }
+  #sp-prototype .sv-canvas-wrap { height:320px; min-height:320px; flex:none; }
+  #sp-prototype .sv-canvas { height:100%; min-height:320px; }
+  #sp-prototype .sp-venue-dialog .sv-part-toolbar { flex-direction:column; gap:3px; }
+  #sp-prototype .sv-part-toolbar .sp-edit-controls { border-top:1px solid #4a514a; margin:0; padding:3px 0 0; }
+  #sp-prototype .sv-part-toolbar .sp-edit-controls::before { display:none; }
+  #sp-prototype .sp-venue-dialog .sv-part-toolbar .sp-object-tool { width:44px; min-width:44px; height:44px; min-height:44px; }
   #sp-prototype .sv-sidebar { overflow:visible; border-left:0; border-top:1px solid var(--sp-line); }
   #sp-prototype .sp-venue-dialog footer { flex-wrap:wrap; padding:8px 12px; gap:6px; }
   #sp-prototype .sv-status:empty { display:none; }
@@ -4732,6 +4744,7 @@ html,body { height:100%; overflow:hidden; }
     if (!multi.length) return false;
     return area(clip.difference([footprint], multi)) < .0001;
   }
+  function overlaps(a, b) { return area(clip.intersection(polygon(a), polygon(b))) > .0001; }
   function resize(p, w, d) {
     const next = copy(p), sx = w / p.w, sy = d / p.d;
     next.w = w; next.d = d;
@@ -4780,7 +4793,7 @@ html,body { height:100%; overflow:hidden; }
     if (name === 'irregular') Object.assign(main, { shape: 'polygon', points: [[0, 0], [w * .8, 0], [w, d * .3], [w, d], [w * .1, d], [0, d * .7]] });
     return normalize(g);
   }
-  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
+  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, overlaps, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
 });
 /* build-inline:end stageplot-geometry-v1.js */
 /* build-inline:start stageplot-venue-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
@@ -4805,6 +4818,27 @@ html,body { height:100%; overflow:hidden; }
   const presets=[['rect','Rechteck'],['round','Runde Vorbühne'],['circle','Kreis / Oval'],['trapezoid','Trapez'],['thrust','Steg'],['t','T-Form'],['wings','Seitenbühnen'],['l','L-Form'],['u','U-Form'],['notch','Treppenausschnitt'],['irregular','Freier Grundriss']];
   const elements=[['floor','Bühnenfläche','rect'],['segment','Runde Vorbühne'],['ellipse','Kreis / Oval','circle'],['opening','Ausschnitt / Öffnung'],['column','Säule'],['wall','Wand'],['door','Tür / Zugang'],['stairs','Treppe'],['ramp','Rampe'],['curtain','Vorhang / Portal'],['reserve','Fläche freihalten'],['foh','FOH-Bereich']];
   const toolCards=(list,action)=>list.map(([kind,label,icon])=>'<button type="button" class="sv-tool-card" data-action="'+action+'" data-kind="'+kind+'" aria-label="'+label+(action==='add'?' hinzufügen':' als Grundform verwenden')+'"><svg viewBox="0 0 40 32" aria-hidden="true"><path d="'+toolIcons[icon||kind]+'"/></svg><span>'+label+'</span></button>').join('');
+  const actionIcons={left:'<path d="M8.2 7H4V2.8M4.4 7.1A8.2 8.2 0 1 1 4 15"/>',right:'<path d="M15.8 7H20V2.8M19.6 7.1A8.2 8.2 0 1 0 20 15"/>',behind:'<rect x="7" y="4" width="12" height="10" rx="2"/><rect x="5" y="10" width="12" height="10" rx="2"/><path d="M12 7v8m-3-3 3 3 3-3"/>',lock:'<path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10"/><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M12 14v3"/>',duplicate:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/>',remove:'<path d="m7.5 7.5 9 9m0-9-9 9"/>'};
+  const actionButton=(action,label,icon,caption='',extra='')=>'<button type="button" class="sp-button sp-object-tool '+(caption?'sp-rotate-tool ':'')+(action==='remove'?'sp-remove-tool':'')+'" data-part-action="'+action+'" aria-label="'+label+'" data-tooltip="'+label+'" '+extra+'>'+(icon?'<svg viewBox="0 0 24 24" aria-hidden="true">'+actionIcons[icon]+'</svg>':'')+(caption?'<span>'+caption+'</span>':'')+'</button>';
+  const actionToolbar='<div class="sv-part-toolbar sp-object-rotate" role="group" aria-label="Grundrisselement bearbeiten" hidden><div class="sp-rotate-controls" role="group" aria-label="Drehen">'+actionButton('rotate','45 Grad nach links','left','45°','data-amount="-45"')+actionButton('hold','Stufenlos nach links drehen · halten','left','↶','data-hold="-1"')+actionButton('zero','Drehung auf 0 Grad setzen',null,'0°')+actionButton('hold','Stufenlos nach rechts drehen · halten','right','↷','data-hold="1"')+actionButton('rotate','45 Grad nach rechts','right','45°','data-amount="45"')+'</div><div class="sp-edit-controls" role="group" aria-label="Elementaktionen">'+actionButton('behind','Nach hinten','behind')+actionButton('lock','Element sperren','lock','', 'aria-pressed="false"')+actionButton('duplicate','Duplizieren','duplicate')+actionButton('remove','Element entfernen','remove')+'</div></div>';
+  function rotatePart(p,amount){
+    const points=G.localRing(p),center=[(Math.min(...points.map(v=>v[0]))+Math.max(...points.map(v=>v[0])))/2,(Math.min(...points.map(v=>v[1]))+Math.max(...points.map(v=>v[1])))/2],before=G.transform(p,center);
+    p.angle=G.round((p.angle+amount%360+360)%360);const after=G.transform(p,center);p.x=G.round(p.x+before[0]-after[0]);p.y=G.round(p.y+before[1]-after[1]);delete p.anchor;
+  }
+  function partBelow(g,p){const index=g.parts.indexOf(p);for(let i=index-1;i>=0;i--)if(g.parts[i].kind===p.kind&&G.overlaps(p,g.parts[i]))return g.parts[i];return null;}
+  function changePart(g,id,action,amount=0){
+    const p=g.parts.find(q=>q.id===id);if(!p)return id;
+    if(p.locked&&!['lock','duplicate'].includes(action))return id;
+    if(action==='rotate'||action==='zero')rotatePart(p,action==='zero'?-p.angle:amount);
+    if(action==='lock')p.locked=!p.locked;
+    if(action==='duplicate'){const q=G.part({...p,id:undefined,x:p.x+.5,y:p.y+.5,locked:false});delete q.anchor;g.parts.push(q);return q.id;}
+    if(action==='remove'){
+      if(p.kind==='floor'&&g.parts.filter(q=>q.kind==='floor').length===1)throw new Error('Die letzte Bühnenfläche kann nicht entfernt werden.');
+      g.parts=g.parts.filter(q=>q.id!==p.id&&q.target!==p.id);for(const q of g.parts)if(q.anchor?.partId===p.id)delete q.anchor;return null;
+    }
+    if(action==='behind'){const below=partBelow(g,p);if(below){g.parts.splice(g.parts.indexOf(p),1);g.parts.splice(g.parts.indexOf(below),0,p);}}
+    return id;
+  }
   function dimension(group,a,b,label,offset=16){
     const dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);if(length<1)return;
     const nx=dy/length,ny=-dx/length,at=(p,n)=>[p[0]+nx*n,p[1]+ny*n],v=at(a,offset),w=at(b,offset),cx=(v[0]+w[0])/2,cy=(v[1]+w[1])/2;
@@ -4882,14 +4916,15 @@ html,body { height:100%; overflow:hidden; }
   function rebox(p){if(!p.points)return;const minX=Math.min(...p.points.map(v=>v[0])),minY=Math.min(...p.points.map(v=>v[1])),maxX=Math.max(...p.points.map(v=>v[0])),maxY=Math.max(...p.points.map(v=>v[1])),o=G.transform(p,[minX,minY]);p.points=p.points.map(v=>[G.round(v[0]-minX),G.round(v[1]-minY),v[2]||0]);p.x=o[0];p.y=o[1];p.w=Math.max(.02,maxX-minX);p.d=Math.max(.02,maxY-minY);}
   function open(options){
     const host=options.root||document.body, returnFocus=document.activeElement;
-    let g=G.normalize(options.geometry||G.legacy(options.stage)),selected=null,edge=null,history=[],future=[],drawPoints=null,drag=null,pan={x:0,y:0,zoom:1},fitArea=G.compile(g).bounds,metrics=null,lastField=null;
+    let g=G.normalize(options.geometry||G.legacy(options.stage)),selected=null,edge=null,history=[],future=[],drawPoints=null,drag=null,pan={x:0,y:0,zoom:1},fitArea=G.compile(g).bounds,metrics=null,lastField=null,rotateHold=null;
     const included=new Set((options.objects||[]).filter(o=>o.house).map(o=>o.id)),touches=new Map();let gesture=null;
     const dialog=document.createElement('dialog');dialog.className='sp-venue-dialog';dialog.setAttribute('aria-label','Hausgrundriss bearbeiten');
     dialog.innerHTML='<header class="sv-head"><div><strong>Hausgrundriss bearbeiten</strong><small>Bühnenform, feste Einbauten und Hausvorlagen</small></div><button type="button" data-action="close" aria-label="Grundrissbearbeitung abbrechen">×</button></header>'+
       '<div class="sv-tools"><div class="sv-tool-modes"><div role="group" aria-label="Werkzeugauswahl"><button type="button" data-tool-mode="add" aria-pressed="true">Bauelemente</button><button type="button" data-tool-mode="preset" aria-pressed="false">Grundformen</button></div><button type="button" data-action="draw">Umriss zeichnen</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-palette-row"><button type="button" data-action="palette-prev" aria-label="Vorherige Formen">‹</button><div class="sv-palette" data-tool-panel="add" role="group" aria-label="Bauelement hinzufügen">'+toolCards(elements,'add')+'</div><div class="sv-palette" data-tool-panel="preset" role="group" aria-label="Grundform wählen" hidden>'+toolCards(presets,'preset')+'</div><button type="button" data-action="palette-next" aria-label="Weitere Formen">›</button></div><small class="sv-palette-hint">Bauelement anklicken, dann im Plan platzieren.</small></div>'+
-      '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><svg class="sv-canvas" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Griffe ziehen · Kante für Maße und Rundung auswählen · zwei Finger zum Zoomen</p></div><aside class="sv-sidebar"><div class="sv-selection"></div><details open><summary>Elemente</summary><div class="sv-parts"></div></details><details><summary>Hausangaben &amp; festes Inventar</summary><div class="sv-house"></div></details><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></aside></div>'+
+      '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><div class="sv-canvas-wrap"><svg class="sv-canvas" tabindex="0" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg>'+actionToolbar+'</div><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Werkzeugleiste oder Rechtsklick für Aktionen · Griffe ziehen · zwei Finger zum Zoomen</p></div><aside class="sv-sidebar"><div class="sv-selection"></div><details open><summary>Elemente</summary><div class="sv-parts"></div></details><details><summary>Hausangaben &amp; festes Inventar</summary><div class="sv-house"></div></details><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></aside></div>'+
+      '<div class="sv-part-menu sp-context-menu" role="menu" aria-label="Elementaktionen" hidden><button type="button" role="menuitem" data-part-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-part-action="rotate" data-amount="90">90° drehen ↻</button><button type="button" role="menuitem" data-part-action="behind">Nach hinten</button><button type="button" role="menuitem" data-part-action="lock">Sperren</button><button type="button" role="menuitem" data-part-action="remove" class="sp-danger">Löschen</button></div>'+
       '<footer><span class="sv-status" role="status"></span><button type="button" data-action="save-template">Als Hausvorlage sichern</button><button type="button" data-action="close">Abbrechen</button><button type="button" class="sv-primary" data-action="apply">Grundriss übernehmen</button></footer>';
-    host.append(dialog);const $=s=>dialog.querySelector(s),canvas=$('.sv-canvas');
+    host.append(dialog);const $=s=>dialog.querySelector(s),canvas=$('.sv-canvas'),toolbar=$('.sv-part-toolbar'),menu=$('.sv-part-menu');
     const status=t=>$('.sv-status').textContent=t;
     const state=()=>JSON.stringify({g,included:[...included]});
     function restore(value){const s=JSON.parse(value);g=s.g;included.clear();s.included.forEach(id=>included.add(id));if(!g.parts.some(p=>p.id===selected))selected=null;edge=null;}
@@ -4908,12 +4943,73 @@ html,body { height:100%; overflow:hidden; }
         (p.kind==='opening'?'<label>Ausschnitt betrifft<select data-prop="target"><option value="">Alle Bühnenflächen</option>'+g.parts.filter(q=>q.kind==='floor').map(q=>'<option value="'+q.id+'" '+(p.target===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>':'')+
         (edge!==null&&['rect','polygon'].includes(p.shape)?edgeFields(p):'')+
         (['stairs','ramp'].includes(p.kind)?'<label>Anschlussfläche<select data-anchor="owner"><option value="">Frei platzieren</option>'+g.parts.filter(q=>q.kind==='floor'&&['rect','polygon'].includes(q.shape)).map(q=>'<option value="'+q.id+'" '+(p.anchor?.partId===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>'+(p.anchor?'<label>Anschlusskante<select data-anchor="edge">'+(g.parts.find(q=>q.id===p.anchor.partId)?G.vertices(g.parts.find(q=>q.id===p.anchor.partId)).map((v,i)=>'<option value="'+i+'" '+(p.anchor.edge===i?'selected':'')+'>Kante '+(i+1)+'</option>').join(''):'<option>Fläche fehlt – neu zuordnen</option>')+'</select></label><label>Position entlang Kante (%)<input type="number" min="0" max="100" step="any" data-anchor="t" value="'+p.anchor.t*100+'"></label>':''):'')+
-        '<div class="sv-row"><button type="button" data-action="duplicate">Duplizieren</button><button type="button" data-action="remove" '+(p.locked?'disabled':'')+'>Entfernen</button></div>':'<p>Fläche oder Kante antippen.</p>';
+        '<div class="sv-row"><button type="button" data-part-action="duplicate">Duplizieren</button><button type="button" data-part-action="remove" '+(p.locked?'disabled':'')+'>Entfernen</button></div>':'<p>Fläche oder Kante antippen.</p>';
       if(p?.locked)$('.sv-selection').querySelectorAll('[data-prop]:not([data-prop="locked"]),[data-edge],[data-anchor],[data-action="insert-point"],[data-action="remove-point"],[data-action="attach-stairs"]').forEach(el=>el.disabled=true);
       $('.sv-house').innerHTML='<label>Name der Hausbühne<input type="text" maxlength="60" data-house="name" value="'+esc(g.name)+'" placeholder="z. B. Kulturhaus · großer Saal"></label><div class="sv-fields"><label>Bühnenhöhe (m)<input type="number" step="any" data-house="height" value="'+(g.height??'')+'" placeholder="unbekannt"></label><label>Lichte Höhe (m)<input type="number" step="any" data-house="clearance" value="'+(g.clearance??'')+'" placeholder="unbekannt"></label></div><label><input type="checkbox" data-house="measured" '+(g.measured?'checked':'')+'> Maße vor Ort geprüft</label><label><input type="checkbox" data-house="showModules" '+(g.showModules?'checked':'')+'> 2 × 1 m Modulraster anzeigen</label><label>Hinweise zur Location<textarea data-house="notes" maxlength="2000" rows="3">'+esc(g.notes)+'</textarea></label><p>Revision '+g.revision+' · ausgewähltes Equipment gehört zur Hausvorlage:</p>'+(options.objects||[]).map(o=>'<label class="sv-check"><input type="checkbox" data-house-object="'+o.id+'" '+(included.has(o.id)?'checked':'')+'> '+esc(o.label||o.type)+'</label>').join('');
       $('.sv-templates').innerHTML=(options.templates||[]).length?(options.templates||[]).map(t=>'<div class="sv-template"><strong>'+esc(t.name)+'</strong><small>'+new Date(t.savedAt).toLocaleDateString('de-AT')+(t.stage.geometry?' · Revision '+t.stage.geometry.revision:'')+'</small><div class="sv-row"><button type="button" data-template-load="'+t.id+'">Grundriss laden</button><button type="button" data-template-new="'+t.id+'">Neue Veranstaltung</button></div></div>').join(''):'<p>Noch keine Hausvorlagen gespeichert.</p>';
-      draw();
+      syncPartControls();draw();
     }
+    function syncPartControls(){
+      const p=g.parts.find(q=>q.id===selected),below=p&&partBelow(g,p),lastFloor=p?.kind==='floor'&&g.parts.filter(q=>q.kind==='floor').length===1;
+      dialog.querySelectorAll('[data-part-action]').forEach(b=>{
+        const action=b.dataset.partAction;b.disabled=!p||(p.locked&&!['lock','duplicate'].includes(action))||(action==='remove'&&lastFloor)||(action==='behind'&&!below);
+        if(action==='behind')b.hidden=!below;
+        if(action==='lock'){
+          if(b.closest('.sv-part-menu'))b.textContent=p?.locked?'Entsperren':'Sperren';
+          else {const label=p?.locked?'Element entsperren':'Element sperren';b.setAttribute('aria-label',label);b.setAttribute('aria-pressed',String(!!p?.locked));b.dataset.tooltip=label;}
+        }
+        if(action==='remove')b.title=lastFloor?'Die letzte Bühnenfläche bleibt erhalten.':'';
+      });
+    }
+    function positionPartToolbar(){
+      toolbar.hidden=!selected||!!drawPoints||!!drag||!!gesture;
+      if(toolbar.hidden||rotateHold)return;
+      syncPartControls();
+      const shape=canvas.querySelector('[data-select-shape="'+selected+'"]');if(!shape){toolbar.hidden=true;return;}
+      const r=shape.getBoundingClientRect(),wrap=$('.sv-canvas-wrap').getBoundingClientRect(),w=toolbar.offsetWidth,h=toolbar.offsetHeight;
+      const left=Math.max(6,Math.min((r.left+r.right)/2-wrap.left-w/2,wrap.width-w-6)),above=r.top-wrap.top-h-30,below=r.bottom-wrap.top+35;
+      toolbar.style.left=left+'px';toolbar.style.top=Math.max(6,Math.min(above>=6?above:below,wrap.height-h-6))+'px';
+    }
+    function closePartMenu(focus=false){if(menu.hidden)return;menu.hidden=true;if(focus)canvas.focus({preventScroll:true});}
+    function openPartMenu(id,x,y){
+      stopRotateHold();selected=id;edge=null;render();menu.hidden=false;
+      menu.style.left=Math.max(6,Math.min(x,innerWidth-menu.offsetWidth-8))+'px';menu.style.top=Math.max(6,Math.min(y,innerHeight-menu.offsetHeight-8))+'px';
+      menu.querySelector('button:not(:disabled):not([hidden])')?.focus({preventScroll:true});
+    }
+    function partAction(action,amount=0){
+      stopRotateHold();closePartMenu();
+      const changed=commit(()=>{selected=changePart(g,selected,action,amount);edge=null;});
+      if(changed)canvas.focus({preventScroll:true});
+    }
+    function stopRotateHold(pointerId=null,cancel=false,redraw=true){
+      const hold=rotateHold;if(!hold||(pointerId!==null&&hold.pointer!==pointerId))return;rotateHold=null;cancelAnimationFrame(hold.frame);
+      if(hold.button.hasPointerCapture(hold.pointer))hold.button.releasePointerCapture(hold.pointer);
+      if(cancel)restore(hold.before);
+      else if(state()!==hold.before){history.push(hold.before);if(history.length>40)history.shift();future=[];lastField=null;}
+      if(redraw)render();
+    }
+    function startRotateHold(e){
+      const button=e.target.closest('[data-hold]'),p=g.parts.find(q=>q.id===selected);if(!button||button.disabled||!p||p.locked||e.button!==0)return;
+      e.preventDefault();closePartMenu();const start=performance.now();rotateHold={pointer:e.pointerId,button,id:p.id,direction:Number(button.dataset.hold),before:state(),start,last:start,frame:0};button.setPointerCapture(e.pointerId);
+      try{rotatePart(p,rotateHold.direction);G.syncAnchors(g);g=G.normalize(g);draw();}catch(error){stopRotateHold(null,true);status(error.message);return;}
+      const tick=now=>{
+        const hold=rotateHold;if(!hold)return;const p=g.parts.find(q=>q.id===hold.id);if(!p||p.locked){stopRotateHold();return;}
+        const elapsed=Math.min(34,now-hold.last||16),speed=now-hold.start<260?28:95,previous=G.copy(g);hold.last=now;
+        try{rotatePart(p,hold.direction*speed*elapsed/1000);G.syncAnchors(g);g=G.normalize(g);const angle=$('[data-prop="angle"]');if(angle)angle.value=G.round(g.parts.find(q=>q.id===hold.id).angle);draw();}
+        catch(error){g=previous;stopRotateHold();status(error.message);return;}
+        hold.frame=requestAnimationFrame(tick);
+      };
+      rotateHold.frame=requestAnimationFrame(tick);
+    }
+    toolbar.addEventListener('pointerdown',startRotateHold);
+    toolbar.addEventListener('pointerup',e=>stopRotateHold(e.pointerId));toolbar.addEventListener('pointercancel',e=>stopRotateHold(e.pointerId,true));toolbar.addEventListener('lostpointercapture',e=>stopRotateHold(e.pointerId));
+    const blurHold=()=>stopRotateHold();window.addEventListener('blur',blurHold);
+    dialog.addEventListener('pointerdown',e=>{if(!menu.contains(e.target))closePartMenu();});
+    dialog.addEventListener('contextmenu',e=>{
+      const target=e.target.closest('[data-select-shape],[data-part],[data-select]'),id=target?.dataset.selectShape||target?.dataset.part||target?.dataset.select;
+      if(!id||drawPoints)return;e.preventDefault();openPartMenu(id,e.clientX,e.clientY);
+    });
+    $('.sv-work').addEventListener('scroll',()=>closePartMenu(),true);
     function edgeFields(p){const points=G.vertices(p),a=points[edge],b=points[(edge+1)%points.length];if(!a)return '';return '<div class="sv-edge"><strong>Kante '+(edge+1)+'</strong><label>Länge (m)<input data-edge="length" type="number" step="any" min="0.02" value="'+G.round(Math.hypot(b[0]-a[0],b[1]-a[1]))+'"></label><label>Rundung (m; Vorzeichen wechselt Seite)<input data-edge="rise" type="number" step="any" value="'+(a[2]||0)+'"></label><div class="sv-row"><button type="button" data-action="insert-point">Punkt ergänzen</button><button type="button" data-action="remove-point" '+(points.length<=3?'disabled':'')+'>Eckpunkt entfernen</button></div><button type="button" data-action="attach-stairs">Treppe hier ansetzen</button></div>';}
     function draw(){
       $('[data-action="undo"]').disabled=!history.length;$('[data-action="redo"]').disabled=!future.length;
@@ -4940,13 +5036,14 @@ html,body { height:100%; overflow:hidden; }
       function handle(v,key,value,id,resize=false){const group=svgEl('g',{[key]:value,'data-part':id,style:'cursor:'+(resize?'nwse-resize':'crosshair')},canvas);svgEl('circle',{cx:x+v[0]*s,cy:y+v[1]*s,r:19,fill:'transparent',stroke:'none'},group);svgEl(resize?'rect':'circle',resize?{x:x+v[0]*s-5,y:y+v[1]*s-5,width:10,height:10,rx:2,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':2}:{cx:x+v[0]*s,cy:y+v[1]*s,r:4,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':2},group);}
       if(drawPoints){if(drawPoints.length)svgEl('path',{d:drawPoints.map((p,i)=>(i?'L':'M')+(x+p[0]*s)+' '+(y+p[1]*s)).join(''),stroke:'var(--sp-teal)',fill:'none','stroke-width':2,'pointer-events':'none'},canvas);drawPoints.forEach(p=>svgEl('circle',{cx:x+p[0]*s,cy:y+p[1]*s,r:4,fill:'var(--sp-teal)','pointer-events':'none'},canvas));}
       $('.sv-summary').textContent=num(c.bounds.maxX-c.bounds.minX)+' × '+num(c.bounds.maxY-c.bounds.minY)+' m gesamt · '+num(c.area)+' m² Boden · '+num(c.usableArea)+' m² frei'+(G.attachmentIssues(g).length?' · '+G.attachmentIssues(g).join(' · '):'');
+      positionPartToolbar();
       svgEl('text',{x:W/2,y:18,'text-anchor':'middle',fill:'var(--sp-muted)','font-size':10},canvas,'UPSTAGE · HINTEN');svgEl('text',{x:W/2,y:H-8,'text-anchor':'middle',fill:'var(--sp-muted)','font-size':10},canvas,'DOWNSTAGE · PUBLIKUM');
     }
     const local=e=>{const b=canvas.getBoundingClientRect();return [(e.clientX-b.left-metrics.x)/metrics.scale,(e.clientY-b.top-metrics.y)/metrics.scale];};
     const snap=n=>$('[data-field="snap"]').checked?Math.round(n*10)/10:n;
     function makePolygon(p){if(p.shape!=='polygon'){p.points=G.copy(G.vertices(p));p.shape='polygon';}}
     canvas.addEventListener('pointerdown',e=>{
-      if(e.button!==0)return;e.preventDefault();canvas.setPointerCapture(e.pointerId);touches.set(e.pointerId,[e.clientX,e.clientY]);
+      if(e.button!==0)return;closePartMenu();e.preventDefault();canvas.focus({preventScroll:true});canvas.setPointerCapture(e.pointerId);touches.set(e.pointerId,[e.clientX,e.clientY]);
       if(touches.size===2){if(drag){restore(drag.before);drag=null;}const values=[...touches.values()];gesture={distance:Math.hypot(values[0][0]-values[1][0],values[0][1]-values[1][1]),center:[(values[0][0]+values[1][0])/2,(values[0][1]+values[1][1])/2],pan:{...pan}};return;}
       if(drawPoints){drawPoints.push(local(e).map(snap));draw();return;}
       const point=e.target.closest('[data-point-handle]'),ed=e.target.closest('[data-edge-handle]'),resize=e.target.closest('[data-resize-handle]'),shape=e.target.closest('[data-select-shape]'),partId=(point||ed||resize)?.dataset.part||shape?.dataset.selectShape;
@@ -4971,7 +5068,7 @@ html,body { height:100%; overflow:hidden; }
     function editField(e){
       const p=g.parts.find(q=>q.id===selected),el=e.target,preview=e.type==='input'?el:null;
       const edit=fn=>commit(fn,false,preview);
-      if(el.dataset.prop){edit(()=>{const key=el.dataset.prop,value=el.type==='checkbox'?el.checked:el.type==='number'?(el.value===''?null:Number(el.value)):el.value;if(key==='w'||key==='d')Object.assign(p,G.resize(p,key==='w'?value:p.w,key==='d'?value:p.d));else if(key==='target'){if(value)p.target=value;else delete p.target;}else p[key]=value;if(p.shape==='segment')p.d=p.rise;});}
+      if(el.dataset.prop){edit(()=>{const key=el.dataset.prop,value=el.type==='checkbox'?el.checked:el.type==='number'?(el.value===''?null:Number(el.value)):el.value;if(key==='w'||key==='d')Object.assign(p,G.resize(p,key==='w'?value:p.w,key==='d'?value:p.d));else if(key==='target'){if(value)p.target=value;else delete p.target;}else if(key==='angle')rotatePart(p,value-p.angle);else p[key]=value;if(p.shape==='segment')p.d=p.rise;});}
       else if(el.dataset.edge){edit(()=>{makePolygon(p);const a=p.points[edge],b=p.points[(edge+1)%p.points.length],v=Number(el.value);if(el.dataset.edge==='rise')a[2]=v;else{const length=Math.hypot(b[0]-a[0],b[1]-a[1]);b[0]=a[0]+(b[0]-a[0])*v/length;b[1]=a[1]+(b[1]-a[1])*v/length;rebox(p);}});}
       else if(el.dataset.house)edit(()=>{g[el.dataset.house]=el.type==='checkbox'?el.checked:el.type==='number'?(el.value===''?null:Number(el.value)):el.value;});
       else if(el.dataset.houseObject)edit(()=>{if(el.checked)included.add(el.dataset.houseObject);else included.delete(el.dataset.houseObject);});
@@ -4982,7 +5079,8 @@ html,body { height:100%; overflow:hidden; }
     dialog.addEventListener('change',editField);
 
     dialog.addEventListener('click',async e=>{
-      const b=e.target.closest('button');if(!b)return;const p=g.parts.find(q=>q.id===selected),action=b.dataset.action;
+      const b=e.target.closest('button');if(!b||b.disabled)return;const p=g.parts.find(q=>q.id===selected),action=b.dataset.action;
+      if(b.dataset.partAction){if(b.dataset.partAction==='hold'){if(e.detail===0)partAction('rotate',Number(b.dataset.hold));}else partAction(b.dataset.partAction,Number(b.dataset.amount)||0);return;}
       if(b.dataset.toolMode){
         const mode=b.dataset.toolMode;dialog.querySelectorAll('[data-tool-mode]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.toolMode===mode));dialog.querySelectorAll('[data-tool-panel]').forEach(el=>el.hidden=el.dataset.toolPanel!==mode);
         $('.sv-palette-hint').textContent=mode==='add'?'Bauelement anklicken, dann im Plan platzieren.':'Ersetzt den gesamten Grundriss · mit ↶ rückgängig machen.';return;
@@ -4993,7 +5091,7 @@ html,body { height:100%; overflow:hidden; }
       if(b.dataset.templateNew){const t=options.templates.find(t=>t.id===b.dataset.templateNew);try{await options.onNewEvent(t);dialog.close();}catch(error){status(error.message);}return;}
       if(action==='close'){dialog.close();return;}
       if(action==='fit'){fitView();draw();return;}
-      if(action==='undo'||action==='redo'){const from=action==='undo'?history:future,to=action==='undo'?future:history;if(from.length){to.push(state());restore(from.pop());render();}return;}
+      if(action==='undo'||action==='redo'){stopRotateHold();closePartMenu();const from=action==='undo'?history:future,to=action==='undo'?future:history;if(from.length){to.push(state());restore(from.pop());render();}return;}
       if(action==='draw'){drawPoints=[];status('Eckpunkte auf dem Plan antippen, dann „Umriss schließen“.');render();return;}
       if(action==='cancel-draw'){drawPoints=null;status('');render();return;}
       if(action==='finish'){if(drawPoints.length<3){status('Mindestens drei Punkte setzen.');return;}if(commit(()=>{const q=G.part({name:'Freie Bühnenfläche',shape:'polygon',points:drawPoints});rebox(q);g.parts.push(q);selected=q.id;})){drawPoints=null;render();}return;}
@@ -5014,16 +5112,33 @@ html,body { height:100%; overflow:hidden; }
           else if(kind==='stairs'||kind==='ramp')Object.assign(q,{name:kind==='stairs'?'Treppe':'Rampe',kind,w:1.2,d:kind==='stairs'?1:3});
           g.parts.push(q);selected=q.id;edge=null;
         }
-        if(action==='duplicate'){const q=G.part({...p,id:undefined,x:p.x+.3,y:p.y+.3,locked:false});delete q.anchor;g.parts.push(q);selected=q.id;edge=null;}
-        if(action==='remove'&&!p.locked){g.parts=g.parts.filter(q=>q.id!==p.id&&q.target!==p.id);selected=g.parts[0]?.id;edge=null;}
         if(action==='insert-point'&&!p.locked){makePolygon(p);const a=p.points[edge],b=p.points[(edge+1)%p.points.length];a[2]=0;p.points.splice(edge+1,0,[(a[0]+b[0])/2,(a[1]+b[1])/2,0]);}
         if(action==='remove-point'&&!p.locked){makePolygon(p);p.points.splice(edge,1);edge=null;rebox(p);}
         if(action==='attach-stairs'){const q=G.part({kind:'stairs',name:'Treppe',w:1.2,d:1,anchor:{partId:p.id,edge,t:.5}});g.parts.push(q);selected=q.id;edge=null;}
       },action==='preset'||action==='add');
     });
-    dialog.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'&&!e.target.matches('input,textarea')){e.preventDefault();$('[data-action="'+(e.shiftKey?'redo':'undo')+'"]').click();}e.stopPropagation();});
+    dialog.addEventListener('keydown',e=>{
+      e.stopPropagation();
+      if(e.key==='Escape'){
+        if(rotateHold){e.preventDefault();stopRotateHold(null,true);return;}
+        if(!menu.hidden){e.preventDefault();closePartMenu(true);return;}
+        if(drawPoints){e.preventDefault();drawPoints=null;status('');render();return;}
+        if(selected){e.preventDefault();selected=null;edge=null;render();canvas.focus({preventScroll:true});return;}
+      }
+      if(e.target.matches('input,textarea,select,[contenteditable="true"]'))return;
+      if(!menu.hidden&&['ArrowDown','ArrowUp','Home','End'].includes(e.key)){
+        e.preventDefault();const items=[...menu.querySelectorAll('button:not(:disabled):not([hidden])')],index=items.indexOf(document.activeElement),next=e.key==='Home'?0:e.key==='End'?items.length-1:(index+(e.key==='ArrowDown'?1:-1)+items.length)%items.length;items[next]?.focus();return;
+      }
+      if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();stopRotateHold();closePartMenu();$('[data-action="'+(e.shiftKey?'redo':'undo')+'"]').click();return;}
+      if(e.key==='ContextMenu'||e.shiftKey&&e.key==='F10'){if(selected){e.preventDefault();const r=toolbar.getBoundingClientRect();openPartMenu(selected,r.left,r.bottom);}return;}
+      if(e.metaKey||e.ctrlKey||e.altKey||!selected)return;
+      if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();if(!e.repeat)partAction('remove');return;}
+      if(e.key.toLowerCase()==='r'){e.preventDefault();partAction('rotate',e.shiftKey?45:10);return;}
+      const delta={ArrowLeft:[-.1,0],ArrowRight:[.1,0],ArrowUp:[0,-.1],ArrowDown:[0,.1]}[e.key];
+      if(delta){e.preventDefault();commit(()=>{const p=g.parts.find(q=>q.id===selected);if(p&&!p.locked){p.x=G.round(p.x+delta[0]);p.y=G.round(p.y+delta[1]);delete p.anchor;}});}
+    });
     const observer=new ResizeObserver(()=>draw());observer.observe(canvas);
-    dialog.addEventListener('close',()=>{observer.disconnect();dialog.remove();returnFocus?.focus({preventScroll:true});options.onClose?.();},{once:true});
+    dialog.addEventListener('close',()=>{stopRotateHold(null,true,false);window.removeEventListener('blur',blurHold);observer.disconnect();dialog.remove();returnFocus?.focus({preventScroll:true});options.onClose?.();},{once:true});
     dialog.showModal();render();return dialog;
   }
   root.StageplotVenue={open,drawDetails,bounds};

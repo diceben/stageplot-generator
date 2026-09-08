@@ -124,6 +124,7 @@
     if (!multi.length) return false;
     return area(clip.difference([footprint], multi)) < .0001;
   }
+  function overlaps(a, b) { return area(clip.intersection(polygon(a), polygon(b))) > .0001; }
   function resize(p, w, d) {
     const next = copy(p), sx = w / p.w, sy = d / p.d;
     next.w = w; next.d = d;
@@ -172,5 +173,5 @@
     if (name === 'irregular') Object.assign(main, { shape: 'polygon', points: [[0, 0], [w * .8, 0], [w, d * .3], [w, d], [w * .1, d], [0, d * .7]] });
     return normalize(g);
   }
-  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
+  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, overlaps, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
 });

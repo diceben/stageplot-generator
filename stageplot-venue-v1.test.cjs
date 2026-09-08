@@ -32,8 +32,8 @@ ctx.openVenueEditor();const houseGeometry=json(normalized.stage.geometry);houseG
 const savedHouse=editorOptions.onSaveTemplate(houseGeometry,[ctx.objects[0].id]);assert.equal(savedHouse.revision,4);const latestHouse=savedHouse.templates.find(t=>t.id==='stage-template-demo');assert.equal(latestHouse.objects.length,1);assert.equal(latestHouse.objects[0].locked,true);assert.equal(latestHouse.objects[0].house,true);assert.equal(latestHouse.stage.project,undefined);
 editorOptions.onNewEvent(latestHouse);eventCopy.stage.geometry.parts[0].w=18;assert.equal(ctx.readStageTemplates()[0].stage.geometry.parts[0].w,4.18);assert.equal(eventCopy.stage.venueRef.revision,4);
 // Exercise the actual pointer handlers, not a mirrored resize implementation.
-const handlers={},captures=new Set(),canvas={addEventListener:(name,fn)=>handlers[name]=fn,setPointerCapture:id=>captures.add(id),hasPointerCapture:id=>captures.has(id),releasePointerCapture:id=>captures.delete(id),getBoundingClientRect:()=>({left:0,top:0})};
-const pc={G,canvas,metrics:{x:0,y:0,scale:50},$:()=>({checked:true}),g:G.legacy({w:4.18,d:4.27}),drag:null,gesture:null,touches:new Map(),pan:{x:0,y:0,zoom:1},history:[],future:[],drawPoints:null,selected:'main-stage',edge:null,draw:()=>{},render:()=>{},status:()=>{}};
+const handlers={},captures=new Set(),canvas={focus:()=>{},addEventListener:(name,fn)=>handlers[name]=fn,setPointerCapture:id=>captures.add(id),hasPointerCapture:id=>captures.has(id),releasePointerCapture:id=>captures.delete(id),getBoundingClientRect:()=>({left:0,top:0})};
+const pc={G,canvas,metrics:{x:0,y:0,scale:50},$:()=>({checked:true}),g:G.legacy({w:4.18,d:4.27}),drag:null,gesture:null,touches:new Map(),pan:{x:0,y:0,zoom:1},history:[],future:[],drawPoints:null,selected:'main-stage',edge:null,draw:()=>{},render:()=>{},status:()=>{},closePartMenu:()=>{}};
 pc.state=()=>JSON.stringify(pc.g);pc.restore=s=>pc.g=JSON.parse(s);vm.createContext(pc);
 vm.runInContext(ui.slice(ui.indexOf('  function rebox('),ui.indexOf('  function open('))+ui.slice(ui.indexOf('    const local=e=>'),ui.indexOf('    function editField(')),pc);
 const target=(kind,id='main-stage',value='se')=>({closest:selector=>selector==='[data-'+kind+']'?{dataset:{part:id,selectShape:id,resizeHandle:value,pointHandle:value,edgeHandle:value}}:null});
@@ -69,4 +69,28 @@ drawing=renderDetails(overlap,{editing:true});assert.deepEqual(drawing.filter(n=
 assert.equal(measurements(renderDetails(overlap,{measures:false})).length,0,'Exportoption ohne Maße bleibt wirksam.');
 const withStairs=G.legacy({w:8,d:5});withStairs.parts.push(G.part({kind:'stairs',x:8,y:1,w:1.2,d:1}));
 dims=measurements(renderDetails(withStairs,{editing:true,selected:'main-stage'}));assert.ok(Number(dims[1].attrs.x)>100+9.2*50,'Die Maßlinie steht außerhalb einer angrenzenden Treppe.');
-console.log('PASS VENUE: Hausvorlagen, JSON/Link-Roundtrip, Flächenprüfung, echte Pointer-Handler, Auswahlkonturen und kantenrichtige SVG-Bemaßung.');
+// The same commands power the toolbar, context menu, sidebar and keyboard.
+const ac={G};vm.createContext(ac);vm.runInContext(ui.slice(ui.indexOf('  function rotatePart('),ui.indexOf('  function dimension(')),ac);
+const center=p=>{const b=rc.StageplotVenue.bounds(p);return [(b.minX+b.maxX)/2,(b.minY+b.maxY)/2];};
+const closeTo=(a,b)=>assert.ok(Math.abs(a-b)<.00001,`${a} != ${b}`);
+for(const shape of ['rect','ellipse','segment','polygon']){
+  const p=G.part({shape,w:4.18,d:2.27,rise:1.3,x:2.4,y:-1.2}),before=center(p);ac.rotatePart(p,90);center(p).forEach((n,i)=>closeTo(n,before[i]));ac.rotatePart(p,-90);closeTo(p.x,2.4);closeTo(p.y,-1.2);
+}
+let commands=G.legacy({w:8,d:5});commands.parts.push(G.part({id:'editable',shape:'ellipse',x:2,y:2,w:2,d:1}),G.part({id:'separate',x:15,y:15}));
+assert.equal(ac.partBelow(commands,commands.parts[1]).id,'main-stage');const areaBefore=G.compile(commands).area;ac.changePart(commands,'editable','behind');assert.equal(commands.parts[0].id,'editable');closeTo(G.compile(commands).area,areaBefore);
+ac.changePart(commands,'editable','lock');const lockedBefore=JSON.stringify(commands);ac.changePart(commands,'editable','rotate',45);ac.changePart(commands,'editable','remove');assert.equal(JSON.stringify(commands),lockedBefore);
+const duplicateId=ac.changePart(commands,'editable','duplicate'),duplicate=commands.parts.find(p=>p.id===duplicateId);assert.equal(duplicate.locked,false);assert.equal(duplicate.x,2.5);duplicate.w=9;assert.equal(commands.parts[0].w,2);
+commands.parts.push(G.part({id:'cut',kind:'opening',target:duplicateId,x:4,y:2,w:1,d:1}),G.part({id:'attached',kind:'stairs',x:10,y:10,anchor:{partId:duplicateId,edge:0,t:.5}}));ac.changePart(commands,duplicateId,'remove');assert.ok(!commands.parts.some(p=>p.id==='cut'));assert.equal(commands.parts.find(p=>p.id==='attached').anchor,undefined);assert.doesNotThrow(()=>G.normalize(commands));
+assert.throws(()=>ac.changePart(G.legacy({w:8,d:5}),'main-stage','remove'),/letzte Bühnenfläche/);
+assert.equal(G.overlaps(G.part({shape:'ellipse',w:2,d:2}),G.part({x:1.9,y:1.9,w:.1,d:.1})),false,'Bounding boxes alone do not establish overlap.');assert.equal(G.overlaps(G.part(),G.part({x:2})),false,'Touching edges do not overlap.');
+// Exercise the actual held-rotation handlers with controlled animation frames.
+const frames=new Map();let frameId=0,holdCaptured=false;
+const hc={G,g:G.legacy({w:4.18,d:2.27}),selected:'main-stage',rotateHold:null,history:[],future:['redo'],lastField:'old',performance:{now:()=>0},requestAnimationFrame:fn=>{frames.set(++frameId,fn);return frameId;},cancelAnimationFrame:id=>frames.delete(id),render:()=>{},draw:()=>{},status:()=>{},closePartMenu:()=>{},$:()=>({value:''})};
+hc.state=()=>JSON.stringify(hc.g);hc.restore=s=>hc.g=JSON.parse(s);vm.createContext(hc);vm.runInContext(ui.slice(ui.indexOf('  function rotatePart('),ui.indexOf('  function partBelow('))+ui.slice(ui.indexOf('    function stopRotateHold('),ui.indexOf("    toolbar.addEventListener('pointerdown'")),hc);
+const holdButton={disabled:false,dataset:{hold:'1'},setPointerCapture:()=>holdCaptured=true,hasPointerCapture:()=>holdCaptured,releasePointerCapture:()=>holdCaptured=false};
+const holdEvent={button:0,pointerId:7,target:{closest:()=>holdButton},preventDefault(){}};
+const frame=now=>{const id=hc.rotateHold.frame,fn=frames.get(id);frames.delete(id);fn(now);};
+const holdBefore=hc.state(),holdCenter=center(hc.g.parts[0]);hc.startRotateHold(holdEvent);frame(100);frame(300);frame(500);assert.ok(hc.g.parts[0].angle>1);assert.equal(hc.history.length,0);center(hc.g.parts[0]).forEach((n,i)=>closeTo(n,holdCenter[i]));hc.stopRotateHold(7);assert.equal(hc.history.length,1);assert.equal(hc.history[0],holdBefore);assert.equal(hc.future.length,0);assert.equal(holdCaptured,false);assert.equal(frames.size,0);
+const beforeCancel=hc.state();hc.startRotateHold(holdEvent);frame(200);hc.stopRotateHold(7,true);assert.equal(hc.state(),beforeCancel);assert.equal(hc.history.length,1,'Cancel rolls back the complete held rotation.');
+hc.g.parts[0].locked=true;hc.startRotateHold(holdEvent);assert.equal(hc.rotateHold,null);assert.equal(frames.size,0);
+console.log('PASS VENUE: Hausvorlagen, JSON/Link-Roundtrip, Flächenprüfung, echte Pointer-Handler, Auswahlkonturen kantenrichtige SVG-Bemaßung und Elementaktionen mit gehaltenem Drehen.');

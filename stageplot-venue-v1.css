@@ -29,7 +29,14 @@
 #sp-prototype .sv-canvas-tools { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding-bottom:10px; }
 #sp-prototype .sv-canvas-tools label,#sp-prototype .sp-venue-dialog .sv-check,#sp-prototype .sv-house label:has(input[type="checkbox"]) { flex-direction:row; align-items:center; gap:6px; min-height:36px; }
 #sp-prototype .sp-venue-dialog input[type="checkbox"] { width:17px; height:17px; accent-color:var(--sp-teal); }
-#sp-prototype .sv-canvas { display:block; width:100%; min-height:200px; flex:1; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); touch-action:none; user-select:none; }
+#sp-prototype .sv-canvas-wrap { position:relative; flex:1; min-height:200px; }
+#sp-prototype .sv-canvas { display:block; box-sizing:border-box; width:100%; height:100%; min-height:200px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); touch-action:none; user-select:none; }
+#sp-prototype .sp-venue-dialog .sv-part-toolbar { position:absolute; display:flex; width:max-content; max-width:calc(100% - 12px); margin:0; transform:none; z-index:3; }
+#sp-prototype .sv-part-toolbar .sp-object-tool { display:flex; align-items:center; justify-content:center; touch-action:none; user-select:none; }
+#sp-prototype .sv-part-toolbar [data-part-action="lock"][aria-pressed="true"],#sp-prototype .sv-part-toolbar [data-part-action="behind"] { background:#c4eb43; border-color:#c4eb43; color:#20271a; }
+#sp-prototype .sp-venue-dialog .sv-part-menu { z-index:10; padding:5px; }
+#sp-prototype .sp-venue-dialog .sv-part-menu button { min-height:40px; border:0; background:transparent; }
+#sp-prototype .sp-venue-dialog .sv-part-menu button:hover { background:var(--sp-line); }
 #sp-prototype .sv-summary { padding-top:10px; font-size:12px; font-weight:650; }
 #sp-prototype .sv-hint { font-size:11px; color:var(--sp-muted); margin:6px 0 0; line-height:1.5; }
 #sp-prototype .sv-sidebar { padding:14px; overflow-y:auto; border-left:1px solid var(--sp-line); }
@@ -64,7 +71,12 @@
   #sp-prototype .sv-palette-row>button { width:24px; padding:4px; }
   #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; }
   #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
-  #sp-prototype .sv-canvas { height:280px; min-height:280px; flex:none; }
+  #sp-prototype .sv-canvas-wrap { height:320px; min-height:320px; flex:none; }
+  #sp-prototype .sv-canvas { height:100%; min-height:320px; }
+  #sp-prototype .sp-venue-dialog .sv-part-toolbar { flex-direction:column; gap:3px; }
+  #sp-prototype .sv-part-toolbar .sp-edit-controls { border-top:1px solid #4a514a; margin:0; padding:3px 0 0; }
+  #sp-prototype .sv-part-toolbar .sp-edit-controls::before { display:none; }
+  #sp-prototype .sp-venue-dialog .sv-part-toolbar .sp-object-tool { width:44px; min-width:44px; height:44px; min-height:44px; }
   #sp-prototype .sv-sidebar { overflow:visible; border-left:0; border-top:1px solid var(--sp-line); }
   #sp-prototype .sp-venue-dialog footer { flex-wrap:wrap; padding:8px 12px; gap:6px; }
   #sp-prototype .sv-status:empty { display:none; }
