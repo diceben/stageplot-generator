@@ -54,7 +54,7 @@ const descendants=n=>[n,...n.children.flatMap(descendants)];
 const renderDetails=(geometry,options={})=>{const svg=new SvgNode('svg');rc.StageplotVenue.drawDetails(svg,geometry,{scale:50,x:100,y:100,...options});return descendants(svg);};
 const measurements=nodes=>nodes.filter(n=>n.attrs['data-venue-measures']).flatMap(descendants).filter(n=>n.tag==='text');
 const box=G.legacy({w:4.18,d:2.27});let dims=measurements(renderDetails(box,{editing:true,selected:'main-stage'}));
-assert.deepEqual(dims.map(n=>n.textContent),['4,18 m','2,27 m','4,18 m','2,27 m']);
+assert.deepEqual(dims.map(n=>n.textContent),['4,18 m','2,27 m'],'Gegenüberliegende gleiche Kanten werden nur einmal bemaßt.');
 assert.ok(Number(dims[0].attrs.y)<100,'Breite steht oberhalb der oberen Kante.');assert.ok(Number(dims[1].attrs.x)>309,'Tiefe steht rechts neben der rechten Kante.');assert.match(dims[1].attrs.transform,/rotate\(90 /);
 box.parts[0].angle=90;dims=measurements(renderDetails(box,{editing:true,selected:'main-stage'}));assert.equal(dims[0].textContent,'4,18 m');assert.match(dims[0].attrs.transform,/rotate\(90 /);assert.ok(Number(dims[0].attrs.x)>100,'Maßlinie dreht sich mit dem Element nach außen.');
 const overlap=G.legacy({w:8,d:5});overlap.parts.push(G.part({id:'oval',name:'Oval',shape:'ellipse',x:3,y:4,w:2,d:3}));
@@ -69,6 +69,25 @@ drawing=renderDetails(overlap,{editing:true});assert.deepEqual(drawing.filter(n=
 assert.equal(measurements(renderDetails(overlap,{measures:false})).length,0,'Exportoption ohne Maße bleibt wirksam.');
 const withStairs=G.legacy({w:8,d:5});withStairs.parts.push(G.part({kind:'stairs',x:8,y:1,w:1.2,d:1}));
 dims=measurements(renderDetails(withStairs,{editing:true,selected:'main-stage'}));assert.ok(Number(dims[1].attrs.x)>100+9.2*50,'Die Maßlinie steht außerhalb einer angrenzenden Treppe.');
+const stair=withStairs.parts[1];
+for(const angle of [0,37,90]){
+  stair.angle=angle;dims=measurements(renderDetails(withStairs,{editing:true,selected:stair.id}));
+  assert.deepEqual(dims.map(n=>n.textContent),['1,2 m','1 m'],'Treppenbreite und -tiefe erscheinen auch gedreht nur je einmal.');
+}
+stair.angle=0;
+dims=measurements(renderDetails(withStairs,{overallBounds:{minX:0,minY:0,maxX:8,maxY:5}}));
+assert.deepEqual(dims.map(n=>n.textContent),['1,2 m','1 m'],'Gesamtmaße ersetzen doppelte Bühnenrandmaße; die Treppe behält eigene Maße.');
+const square=G.legacy({w:2,d:2});assert.equal(measurements(renderDetails(square,{editing:true,selected:'main-stage'})).length,2,'Auch am Quadrat bleiben Breite und Tiefe erkennbar.');
+const separate=G.legacy({w:2,d:1});separate.parts.push(G.part({kind:'stairs',x:4,w:2,d:1}));
+assert.equal(measurements(renderDetails(separate)).filter(n=>n.textContent==='1 m').length,2,'Gleiche Längen verschiedener Bauteile werden nicht zusammengelegt.');
+const nearEqual=G.legacy({w:4,d:2});Object.assign(nearEqual.parts[0],{shape:'polygon',points:[[0,0],[4,0],[4,2],[0,2.0002]]});
+assert.equal(measurements(renderDetails(nearEqual,{editing:true,selected:'main-stage'})).filter(n=>n.textContent==='2 m').length,2,'Nur die Anzeige zu runden macht ungleiche Kanten nicht identisch.');
+const curved=G.legacy({w:4,d:2});Object.assign(curved.parts[0],{shape:'polygon',points:[[0,0],[4,0,.3],[4,2],[0,2]]});
+assert.deepEqual(measurements(renderDetails(curved,{editing:true,selected:'main-stage'})).map(n=>n.textContent),['4 m','2 m · Bogen 0,3 m','2 m'],'Gerade und gebogene Kante behalten unterschiedliche Maßangaben.');
+const stepped=G.legacy({w:4,d:3});Object.assign(stepped.parts[0],{shape:'polygon',points:[[0,0],[2,0],[2,1],[4,1],[4,3],[2,3],[2,2],[0,2]]});
+assert.equal(measurements(renderDetails(stepped,{editing:true,selected:'main-stage'})).filter(n=>n.textContent==='1 m').length,2,'Versetzte gleich lange Absätze behalten beide Maßangaben.');
+const holePlan=G.legacy({w:8,d:5});holePlan.parts.push(G.part({kind:'opening',x:1,y:1,w:2,d:1}));
+dims=measurements(renderDetails(holePlan,{overallBounds:{minX:0,minY:0,maxX:8,maxY:5}}));assert.deepEqual(dims.map(n=>n.textContent).sort(),['1 m','2 m'],'Auch Innenkonturen werden ohne gegenüberliegende Doppelmaße beschriftet.');
 // The same commands power the toolbar, context menu, sidebar and keyboard.
 const ac={G};vm.createContext(ac);vm.runInContext(ui.slice(ui.indexOf('  function rotatePart('),ui.indexOf('  function dimension(')),ac);
 const center=p=>{const b=rc.StageplotVenue.bounds(p);return [(b.minX+b.maxX)/2,(b.minY+b.maxY)/2];};
