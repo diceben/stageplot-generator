@@ -83,6 +83,17 @@ const duplicateId=ac.changePart(commands,'editable','duplicate'),duplicate=comma
 commands.parts.push(G.part({id:'cut',kind:'opening',target:duplicateId,x:4,y:2,w:1,d:1}),G.part({id:'attached',kind:'stairs',x:10,y:10,anchor:{partId:duplicateId,edge:0,t:.5}}));ac.changePart(commands,duplicateId,'remove');assert.ok(!commands.parts.some(p=>p.id==='cut'));assert.equal(commands.parts.find(p=>p.id==='attached').anchor,undefined);assert.doesNotThrow(()=>G.normalize(commands));
 assert.throws(()=>ac.changePart(G.legacy({w:8,d:5}),'main-stage','remove'),/letzte Bühnenfläche/);
 assert.equal(G.overlaps(G.part({shape:'ellipse',w:2,d:2}),G.part({x:1.9,y:1.9,w:.1,d:.1})),false,'Bounding boxes alone do not establish overlap.');assert.equal(G.overlaps(G.part(),G.part({x:2})),false,'Touching edges do not overlap.');
+// Adding a preset keeps the complete existing venue and scopes any new cutouts to the new form.
+let additions=G.normalize({...G.copy(normalized.stage.geometry),name:'Bestehender Saal',height:1.2,clearance:6,showModules:true,measured:true,revision:9});
+for(const name of ['rect','rect','circle','round','trapezoid','thrust','t','wings','l','u','notch','irregular']){
+  const before=G.copy(additions),oldArea=G.compile(before).area,id=ac.addPreset(additions,name,8,5,'Neue Form');additions=G.normalize(additions);
+  assert.deepEqual(additions.parts.slice(0,before.parts.length),before.parts,'Grundform '+name+' darf keine vorhandenen Elemente verändern.');
+  assert.deepEqual({...additions,parts:[]},{...before,parts:[]},'Hausangaben bleiben erhalten.');assert.equal(new Set(additions.parts.map(p=>p.id)).size,additions.parts.length);
+  const added=additions.parts.slice(before.parts.length);assert.ok(added.some(p=>p.id===id));assert.ok(rc.StageplotVenue.bounds(added[0]).minX>G.compile(before).bounds.maxX);
+  for(const cut of added.filter(p=>p.kind==='opening'))assert.ok(added.some(p=>p.kind==='floor'&&p.id===cut.target),'Neue Ausschnitte dürfen keine alte Bühne betreffen.');
+  closeTo(G.compile(additions).area,oldArea+G.compile(G.preset(name,8,5)).area);
+}
+assert.deepEqual(json(ctx.normalizeSetupDocument({stage:{...stage,geometry:additions},objects:normalized.objects}).stage.geometry),json(additions),'Ergänzte Grundformen bleiben beim Speichern und Laden erhalten.');
 // Exercise the actual held-rotation handlers with controlled animation frames.
 const frames=new Map();let frameId=0,holdCaptured=false;
 const hc={G,g:G.legacy({w:4.18,d:2.27}),selected:'main-stage',rotateHold:null,history:[],future:['redo'],lastField:'old',performance:{now:()=>0},requestAnimationFrame:fn=>{frames.set(++frameId,fn);return frameId;},cancelAnimationFrame:id=>frames.delete(id),render:()=>{},draw:()=>{},status:()=>{},closePartMenu:()=>{},$:()=>({value:''})};

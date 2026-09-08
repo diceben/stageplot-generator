@@ -4577,7 +4577,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-venue-dialog .sv-tool-card { flex-basis:80px; min-height:70px; }
   #sp-prototype .sv-palette-row { gap:3px; }
   #sp-prototype .sv-palette-row>button { width:24px; padding:4px; }
-  #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; }
+  #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; overflow-x:hidden; }
   #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
   #sp-prototype .sv-canvas-wrap { height:320px; min-height:320px; flex:none; }
   #sp-prototype .sv-canvas { height:100%; min-height:320px; }
@@ -4829,7 +4829,7 @@ html,body { height:100%; overflow:hidden; }
   };
   const presets=[['rect','Rechteck'],['round','Runde Vorbühne'],['circle','Kreis / Oval'],['trapezoid','Trapez'],['thrust','Steg'],['t','T-Form'],['wings','Seitenbühnen'],['l','L-Form'],['u','U-Form'],['notch','Treppenausschnitt'],['irregular','Freier Grundriss']];
   const elements=[['floor','Bühnenfläche','rect'],['segment','Runde Vorbühne'],['ellipse','Kreis / Oval','circle'],['opening','Ausschnitt / Öffnung'],['opening-ellipse','Runder Ausschnitt'],['column','Säule'],['wall','Wand'],['door','Tür / Zugang'],['stairs','Treppe'],['ramp','Rampe'],['curtain','Vorhang / Portal'],['reserve','Fläche freihalten'],['foh','FOH-Bereich']];
-  const toolCards=(list,action)=>list.map(([kind,label,icon])=>'<button type="button" class="sv-tool-card" data-action="'+action+'" data-kind="'+kind+'" aria-label="'+label+(action==='add'?' hinzufügen':' als Grundform verwenden')+'"><svg viewBox="0 0 40 32" aria-hidden="true"><path d="'+toolIcons[icon||kind]+'"/></svg><span>'+label+'</span></button>').join('');
+  const toolCards=(list,action)=>list.map(([kind,label,icon])=>'<button type="button" class="sv-tool-card" data-action="'+action+'" data-kind="'+kind+'" aria-label="'+label+(action==='add'?' hinzufügen':' als Grundform hinzufügen')+'"><svg viewBox="0 0 40 32" aria-hidden="true"><path d="'+toolIcons[icon||kind]+'"/></svg><span>'+label+'</span></button>').join('');
   const actionIcons={left:'<path d="M8.2 7H4V2.8M4.4 7.1A8.2 8.2 0 1 1 4 15"/>',right:'<path d="M15.8 7H20V2.8M19.6 7.1A8.2 8.2 0 1 0 20 15"/>',behind:'<rect x="7" y="4" width="12" height="10" rx="2"/><rect x="5" y="10" width="12" height="10" rx="2"/><path d="M12 7v8m-3-3 3 3 3-3"/>',lock:'<path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10"/><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M12 14v3"/>',duplicate:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/>',remove:'<path d="m7.5 7.5 9 9m0-9-9 9"/>'};
   const actionButton=(action,label,icon,caption='',extra='')=>'<button type="button" class="sp-button sp-object-tool '+(caption?'sp-rotate-tool ':'')+(action==='remove'?'sp-remove-tool':'')+'" data-part-action="'+action+'" aria-label="'+label+'" data-tooltip="'+label+'" '+extra+'>'+(icon?'<svg viewBox="0 0 24 24" aria-hidden="true">'+actionIcons[icon]+'</svg>':'')+(caption?'<span>'+caption+'</span>':'')+'</button>';
   const actionToolbar='<div class="sv-part-toolbar sp-object-rotate" role="group" aria-label="Grundrisselement bearbeiten" hidden><div class="sp-rotate-controls" role="group" aria-label="Drehen">'+actionButton('rotate','45 Grad nach links','left','45°','data-amount="-45"')+actionButton('hold','Stufenlos nach links drehen · halten','left','↶','data-hold="-1"')+actionButton('zero','Drehung auf 0 Grad setzen',null,'0°')+actionButton('hold','Stufenlos nach rechts drehen · halten','right','↷','data-hold="1"')+actionButton('rotate','45 Grad nach rechts','right','45°','data-amount="45"')+'</div><div class="sp-edit-controls" role="group" aria-label="Elementaktionen">'+actionButton('behind','Nach hinten','behind')+actionButton('lock','Element sperren','lock','', 'aria-pressed="false"')+actionButton('duplicate','Duplizieren','duplicate')+actionButton('remove','Element entfernen','remove')+'</div></div>';
@@ -4850,6 +4850,18 @@ html,body { height:100%; overflow:hidden; }
     }
     if(action==='behind'){const below=partBelow(g,p);if(below){g.parts.splice(g.parts.indexOf(p),1);g.parts.splice(g.parts.indexOf(below),0,p);}}
     return id;
+  }
+  function addPreset(g,name,w,d,label){
+    const next=G.preset(name,w,d),parts=next.parts.map(p=>G.part({...p,id:undefined})),ids=new Map(next.parts.map((p,i)=>[p.id,parts[i].id]));
+    const area=G.compile(next).bounds,existing=g.parts.length?G.compile(g).bounds:null,dx=existing?existing.maxX+.5-area.minX:0,dy=existing?existing.minY-area.minY:0;
+    const main=parts.find(p=>p.kind==='floor');if(label)main.name=label;
+    for(const p of parts){
+      p.x=G.round(p.x+dx);p.y=G.round(p.y+dy);
+      // Template cutouts belong to the new form, never to an existing floor.
+      if(p.kind==='opening')p.target=ids.get(p.target)||main.id;
+      if(p.anchor)p.anchor.partId=ids.get(p.anchor.partId)||p.anchor.partId;
+    }
+    g.parts.push(...parts);return main.id;
   }
   function dimension(group,a,b,label,offset=16){
     const dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);if(length<1)return;
@@ -4932,7 +4944,7 @@ html,body { height:100%; overflow:hidden; }
     const included=new Set((options.objects||[]).filter(o=>o.house).map(o=>o.id)),touches=new Map();let gesture=null;
     const dialog=document.createElement('dialog');dialog.className='sp-venue-dialog';dialog.setAttribute('aria-label','Hausgrundriss bearbeiten');
     dialog.innerHTML='<header class="sv-head"><div><strong>Hausgrundriss bearbeiten</strong><small>Bühnenform, feste Einbauten und Hausvorlagen</small></div><button type="button" data-action="close" aria-label="Grundrissbearbeitung abbrechen">×</button></header>'+
-      '<div class="sv-tools"><div class="sv-tool-modes"><div role="group" aria-label="Werkzeugauswahl"><button type="button" data-tool-mode="add" aria-pressed="true">Bauelemente</button><button type="button" data-tool-mode="preset" aria-pressed="false">Grundformen</button></div><button type="button" data-action="draw">Umriss zeichnen</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-palette-row"><button type="button" data-action="palette-prev" aria-label="Vorherige Formen">‹</button><div class="sv-palette" data-tool-panel="add" role="group" aria-label="Bauelement hinzufügen">'+toolCards(elements,'add')+'</div><div class="sv-palette" data-tool-panel="preset" role="group" aria-label="Grundform wählen" hidden>'+toolCards(presets,'preset')+'</div><button type="button" data-action="palette-next" aria-label="Weitere Formen">›</button></div><small class="sv-palette-hint">Bauelement anklicken, dann im Plan platzieren.</small></div>'+
+      '<div class="sv-tools"><div class="sv-tool-modes"><div role="group" aria-label="Werkzeugauswahl"><button type="button" data-tool-mode="add" aria-pressed="true">Bauelemente</button><button type="button" data-tool-mode="preset" aria-pressed="false">Grundformen</button></div><button type="button" data-action="draw">Umriss zeichnen</button><button type="button" data-action="finish" hidden>Umriss schließen</button><button type="button" data-action="cancel-draw" hidden>Zeichnen abbrechen</button></div><div class="sv-palette-row"><button type="button" data-action="palette-prev" aria-label="Vorherige Formen">‹</button><div class="sv-palette" data-tool-panel="add" role="group" aria-label="Bauelement hinzufügen">'+toolCards(elements,'add')+'</div><div class="sv-palette" data-tool-panel="preset" role="group" aria-label="Grundform hinzufügen" hidden>'+toolCards(presets,'preset')+'</div><button type="button" data-action="palette-next" aria-label="Weitere Formen">›</button></div><small class="sv-palette-hint">Bauelement anklicken, dann im Plan platzieren.</small></div>'+
       '<div class="sv-work"><div class="sv-plan-column"><div class="sv-canvas-tools"><button type="button" data-action="undo" aria-label="Grundriss rückgängig">↶</button><button type="button" data-action="redo" aria-label="Grundriss wiederholen">↷</button><button type="button" data-action="fit">Einpassen</button><label><input type="checkbox" data-field="snap" checked> 10-cm-Schritte</label><label><input type="checkbox" data-field="objects"> Aufbau anzeigen</label></div><div class="sv-canvas-wrap"><svg class="sv-canvas" tabindex="0" role="img" aria-label="Hausgrundriss mit bearbeitbaren Kanten"></svg>'+actionToolbar+'</div><div class="sv-summary" aria-live="polite"></div><p class="sv-hint">Element antippen · Werkzeugleiste oder Rechtsklick für Aktionen · Griffe ziehen · zwei Finger zum Zoomen</p></div><aside class="sv-sidebar"><div class="sv-selection"></div><details open><summary>Elemente</summary><div class="sv-parts"></div></details><details><summary>Hausangaben &amp; festes Inventar</summary><div class="sv-house"></div></details><details><summary>Gespeicherte Hausvorlagen</summary><div class="sv-templates"></div></details></aside></div>'+
       '<div class="sv-part-menu sp-context-menu" role="menu" aria-label="Elementaktionen" hidden><button type="button" role="menuitem" data-part-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-part-action="rotate" data-amount="90">90° drehen ↻</button><button type="button" role="menuitem" data-part-action="behind">Nach hinten</button><button type="button" role="menuitem" data-part-action="lock">Sperren</button><button type="button" role="menuitem" data-part-action="remove" class="sp-danger">Löschen</button></div>'+
       '<footer><span class="sv-status" role="status"></span><button type="button" data-action="save-template">Als Hausvorlage sichern</button><button type="button" data-action="close">Abbrechen</button><button type="button" class="sv-primary" data-action="apply">Grundriss übernehmen</button></footer>';
@@ -5095,7 +5107,7 @@ html,body { height:100%; overflow:hidden; }
       if(b.dataset.partAction){if(b.dataset.partAction==='hold'){if(e.detail===0)partAction('rotate',Number(b.dataset.hold));}else partAction(b.dataset.partAction,Number(b.dataset.amount)||0);return;}
       if(b.dataset.toolMode){
         const mode=b.dataset.toolMode;dialog.querySelectorAll('[data-tool-mode]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.toolMode===mode));dialog.querySelectorAll('[data-tool-panel]').forEach(el=>el.hidden=el.dataset.toolPanel!==mode);
-        $('.sv-palette-hint').textContent=mode==='add'?'Bauelement anklicken, dann im Plan platzieren.':'Ersetzt den gesamten Grundriss · mit ↶ rückgängig machen.';return;
+        $('.sv-palette-hint').textContent=mode==='add'?'Bauelement anklicken, dann im Plan platzieren.':'Grundform ergänzen · neue Formen erscheinen rechts neben dem Aufbau.';return;
       }
       if(action==='palette-prev'||action==='palette-next'){const palette=$('[data-tool-panel]:not([hidden])');palette.scrollBy({left:(action==='palette-next'?1:-1)*palette.clientWidth*.8,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return;}
       if(b.dataset.select){selected=b.dataset.select;edge=null;render();return;}
@@ -5111,7 +5123,7 @@ html,body { height:100%; overflow:hidden; }
         try{const invalid=dialog.querySelector(':invalid');if(invalid){invalid.reportValidity();return;}g=G.normalize(g);if(action==='save-template'){if(!g.name.trim()){status('Unter „Hausangaben“ einen Namen für die Hausbühne eingeben.');$('.sv-house').closest('details').open=true;$('[data-house="name"]').focus();return;}const saved=await options.onSaveTemplate(G.copy(g),[...included]);options.templates=saved.templates;g.revision=saved.revision;render();status('Hausvorlage gespeichert · Revision '+g.revision);}else{await options.onApply(G.copy(g),[...included]);dialog.close();}}catch(error){status(error.message);}return;
       }
       commit(()=>{
-        if(action==='preset'){const next=G.preset(b.dataset.kind,options.stage.w,options.stage.d);Object.assign(next,{name:g.name,notes:g.notes,height:g.height,clearance:g.clearance,revision:g.revision,measured:g.measured});g=next;selected=g.parts[0].id;edge=null;}
+        if(action==='preset'){selected=addPreset(g,b.dataset.kind,options.stage.w,options.stage.d,b.textContent.trim());edge=null;}
         if(action==='add'){
           const kind=b.dataset.kind,c=G.compile(g).bounds,q=G.part({x:snap((c.minX+c.maxX)/2-1),y:snap((c.minY+c.maxY)/2-.5)});
           if(kind==='segment')Object.assign(q,{name:'Vorbühne',shape:'segment',x:0,y:options.stage.d,w:options.stage.w,d:1,rise:1});

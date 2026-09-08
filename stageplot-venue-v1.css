@@ -69,7 +69,7 @@
   #sp-prototype .sp-venue-dialog .sv-tool-card { flex-basis:80px; min-height:70px; }
   #sp-prototype .sv-palette-row { gap:3px; }
   #sp-prototype .sv-palette-row>button { width:24px; padding:4px; }
-  #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; }
+  #sp-prototype .sv-work { display:flex; flex-direction:column; overflow-y:auto; overflow-x:hidden; }
   #sp-prototype .sv-plan-column { flex:none; min-height:360px; padding:8px 12px; }
   #sp-prototype .sv-canvas-wrap { height:320px; min-height:320px; flex:none; }
   #sp-prototype .sv-canvas { height:100%; min-height:320px; }
