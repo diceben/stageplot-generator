@@ -23,6 +23,8 @@ const MODULES = [
   { file: 'stageplot-geometry-v1.js', transform: (s) => s.trim() },
   { file: 'stageplot-venue-v1.js', transform: (s) => s.trim() },
   { file: 'stageplot-venue-v1.css', transform: (s) => s.trim() },
+  { file: 'stageplot-venue-catalog-v1.js', transform: (s) => s.trim() },
+  { file: 'stageplot-venue-catalog-v1.css', transform: (s) => s.trim() },
   { file: 'stageplot-export-v42.js', transform: stripCommonJsExport },
   { file: 'stageplot-drums-v12.js', transform: (s) => s.trim() },
   { file: 'stageplot-symbols-v3.js', transform: (s) => s.trim() },

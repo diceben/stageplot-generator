@@ -9,6 +9,7 @@ if(sync.status!==0)process.exit(sync.status||1);
 const tests=[
   'stageplot-geometry-v1.test.cjs',
   'stageplot-venue-v1.test.cjs',
+  'stageplot-venue-catalog-v1.test.cjs',
   'stageplot-account-v1.test.cjs',
   'stageplot-sync-v2.test.cjs',
   'stageplot-feedback.test.cjs',

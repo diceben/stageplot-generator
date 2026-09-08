@@ -10,6 +10,7 @@ Die Feedback-Erweiterungen in diesem Entwicklungsstand sind noch nicht veröffen
 
 ## Funktionen
 
+- **Bühnen finden:** frei zugänglicher Beta-Katalog mit Suche nach Location, Stadt oder Bühne, sichtbaren Kategorie-Buttons und maßstäblicher Vorschau. Alle Einträge sind ohne Account, Code oder Pro-Aktivierung nutzbar und lokal mitgeliefert. Start mit Maßskizzen von B72, MuTh und Volksoper Wien; Umfang, Originalquelle und Quellenstand stehen bei jedem Eintrag. „Auf dieser Bühne planen“ legt eine unabhängige Veranstaltung an. Details und Pflege: [BUEHNENKATALOG.md](BUEHNENKATALOG.md).
 - **Projekte anlegen** über ein Popup: Band + Location (→ automatischer Projektname), Bühnengröße per Vorschau-Buttons (Breite/Tiefe mit ±1 m), erweiterte Einstellungen aufklappbar.
 - **Hausbühnen und freie Grundrisse:** Einstieg über „Hausbühnen“ auf der Projektseite oder „Bühnenform“ im Editor. Rechteck, runde Vorbühne, Kreis/Oval, Trapez, Steg, T-/L-/U-Form, Seitenbühnen und Treppennischen; beliebige Umrisse zeichnen und Kanten oder Punkte bearbeiten. Ein Klick auf eine Grundform fügt sie rechts neben dem vorhandenen Aufbau hinzu. Bestehende Elemente und Hausangaben bleiben erhalten; jeder Neuzugang lässt sich mit einem Undo-Schritt zurücknehmen.
 - **Feste Einbauten:** rechteckige, kreisförmige und ovale Ausschnitte, Säulen, Wände, Zugänge, Vorhang/Portal, Treppen, Rampen, FOH und freizuhaltende Bereiche. „Runder Ausschnitt“ ergibt bei gleicher Breite und Tiefe einen Kreis, sonst ein Oval. Exakte Zahlen bleiben erhalten; Griffe bewegen sich wahlweise in 10-cm-Schritten. Zwei Finger verschieben und zoomen den Grundriss.
@@ -98,6 +99,7 @@ Nicht gleichzeitig auf zwei Laptops uncommittete Änderungen an denselben Dateie
 - `stageplot-export-v42.js`: Export-Helfer — einzige Quelle, wird in die HTML eingebettet
 - `stageplot-geometry-v1.js`: reine Geometrie in Metern, Konturen, Ausschnitte, Flächenprüfung und Anker
 - `stageplot-venue-v1.js` / `.css`: Hausgrundriss-Editor und gemeinsame Planbeschriftung
+- `stageplot-venue-catalog-v1.js` / `.css`: lokal eingebetteter Beta-Bühnenkatalog, Quelldaten, Suche und Vorschau
 - `stageplot-assets/vendor/polygon-clipping.js`: lokale MIT-lizenzierte Polygonbibliothek; über `npm run build:vendor` reproduzierbar
 - `BUEHNENFORMEN_KONZEPT.md`: recherchiertes Konzept mit Implementierungsstand und späteren Ausbauschritten
 - `scripts/build-inline.cjs`: bettet die Module aus den `.js`-Quellen in die HTML ein
@@ -132,7 +134,7 @@ Optional kann mit `--expires 2027-09-02` ein Ablaufdatum gesetzt werden. Verkauf
 npm test
 ```
 
-20 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
+23 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar, Katalogkopien mit Quellenangaben und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
 
 ## Daten und Geheimnisse
 
