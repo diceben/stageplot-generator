@@ -231,6 +231,13 @@
             <div class="sp-direct-field"><span>Aufbauhöhe</span><div class="sp-choice-pills" id="sp-riser-height-options" role="group" aria-label="Riser-Höhe"><button type="button" data-riser-height="20">20 cm</button><button type="button" data-riser-height="40">40 cm</button><button type="button" data-riser-height="60">60 cm</button><button type="button" data-riser-height="80">80 cm</button><button type="button" data-riser-height="100">100 cm</button></div><label class="sp-field">Eigene Höhe (cm)<input id="sp-riser-height" type="number" min="5" max="240" step="5"></label></div>
             <span class="sp-muted">Übliches Podestmodul: 2 × 1 m. Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern.</span>
           </div>
+          <div id="sp-access-fields" class="sp-special-fields" hidden>
+            <div class="sp-fields">
+              <label class="sp-field">Breite (m)<input id="sp-access-width" type="number" min="0.3" max="30" step="0.1" inputmode="decimal"></label>
+              <label class="sp-field">Tiefe (m)<input id="sp-access-depth" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
+            </div>
+            <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern. Der Pfeil zeigt die Aufstiegsrichtung.</span>
+          </div>
           <div id="sp-production-object" class="sp-special-fields">
             <label class="sp-field">Strombedarf<input id="sp-object-power" maxlength="100" placeholder="z. B. 2 × Schuko 230 V / 16 A"></label>
             <label class="sp-field" id="sp-object-wireless-field">Funk / IEM · Frequenzbereich<input id="sp-object-wireless" maxlength="100" placeholder="z. B. 470–516 MHz · Kanal 490,250 MHz"></label>
@@ -6150,7 +6157,8 @@ function createStageplotExportV42() {
     {id:'riser-2',name:'Riser-Gruppe · 2×',short:'Riser · 2×',art:'riser',category:'tech',w:2,d:2,vb:[200,200],underlay:true,riserCount:2},
     {id:'riser-3',name:'Riser-Gruppe · 3×',short:'Riser · 3×',art:'riser',category:'tech',w:3,d:2,vb:[150,100],underlay:true,riserCount:3},
     {id:'stage-module',name:'Bühnenmodul · 2 × 1 m',short:'Bühnenmodul 2×1',art:'riser',category:'tech',w:2,d:1,vb:[200,100],underlay:true,stageExtension:true,keywords:'bühne komplex modul podest 2x1 anklippen erweitern',detail:'Magnetisch an Bühnenkante oder weiteres Modul anklippen'},
-    {id:'stage-ramp',name:'Bühnenrampe · 2 × 1 m',short:'Bühnenrampe',category:'tech',w:2,d:1,vb:[200,100],underlay:true,libraryGroup:'stage',keywords:'bühne rampe equipment barrierefrei verladerampe',detail:'Gerade Rampe mit rutschhemmender Oberfläche'},
+    {id:'stage-stairs',name:'Bühnentreppe',short:'Treppe',category:'tech',w:1.2,d:1,vb:[120,100],underlay:true,stageAccess:'stairs',libraryGroup:'stage',keywords:'bühne treppe stufen aufgang zugang stairs',detail:'Pfeil zeigt die Aufstiegsrichtung'},
+    {id:'stage-ramp',name:'Bühnenrampe',short:'Rampe',category:'tech',w:2,d:1,vb:[200,100],underlay:true,stageAccess:'ramp',libraryGroup:'stage',keywords:'bühne rampe equipment zugang verladerampe ramp',detail:'Pfeil zeigt die Aufstiegsrichtung'},
     {id:'stage-railing',name:'Bühnengeländer · 2 m',short:'Bühnengeländer',category:'tech',w:2,d:.14,vb:[300,21],libraryGroup:'stage',keywords:'bühne geländer absturzsicherung rail',detail:'2 m Bühnengeländer in Draufsicht'},
     {id:'stage-truss-tower',name:'Traversentower · Bodenplatte',short:'Traversentower',category:'tech',w:.7,d:.7,vb:[100,100],underlay:true,libraryGroup:'stage',keywords:'bühne truss tower traverse bodenplatte licht',detail:'Vierpunkt-Traverse auf quadratischer Bodenplatte'},
     {id:'stage-cable-ramp',name:'Kabelbrücke · 1 m',short:'Kabelbrücke',category:'tech',w:1,d:.45,vb:[200,90],underlay:true,libraryGroup:'stage',keywords:'bühne kabelbrücke cable ramp defender kabelschutz',detail:'Fünfkanal-Kabelbrücke in Draufsicht'},
@@ -6178,9 +6186,9 @@ function createStageplotExportV42() {
     'electric-basses':{label:'Bass',representative:'bass'}
   };
   const objectPacks=[
-    {id:'core',name:'Core',kicker:'KOSTENLOS',price:'Kostenlos',description:'Die Grundausstattung für vollständige Stageplots, Routing und technische Übergaben.',objectIds:['drums','keys-stage4','guitar','mic','stagebox-16','amp'],free:true},
+    {id:'core',name:'Core',kicker:'KOSTENLOS',price:'Kostenlos',description:'Die Grundausstattung für vollständige Stageplots, Routing und technische Übergaben.',objectIds:['drums','keys-stage4','guitar','mic','stagebox-16','amp','stage-stairs','stage-ramp'],free:true},
     {id:'light-lab',name:'Light Lab',kicker:'LICHT & FX',price:'6,90 €',description:'Technische Draufsichten für moderne Lichtshows und Bühneneffekte.',objectIds:['light-moving-spot','light-moving-wash','light-spark','light-fog','light-wave-bar','light-flightcase']},
-    {id:'stage-builder',name:'Stage Builder',kicker:'BÜHNE & PODESTE',price:'5,90 €',description:'Flexible Bühnenmodule, Rampen, Sicherungen und Produktionsflächen für komplexere Aufbauten.',objectIds:['stage-module','riser-2','riser-3','rug','stage-ramp','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier']},
+    {id:'stage-builder',name:'Stage Builder',kicker:'BÜHNE & PODESTE',price:'5,90 €',description:'Flexible Bühnenmodule, Sicherungen und Produktionsflächen für komplexere Aufbauten.',objectIds:['stage-module','riser-2','riser-3','rug','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier']},
     {id:'pro-crew',name:'Pro Crew',kicker:'MONITORING & PRODUCTION',price:'5,90 €',description:'Spezialisierte Produktionsobjekte für professionelle Bühnenarbeitsplätze.',objectIds:['teleprompter','wedge','quad-cortex','stagebox-48']},
     {id:'crew-rewards',name:'Crew Rewards',kicker:'VERDIENEN STATT KAUFEN',price:'Kostenlos verdienen',description:'Bonusobjekte für hilfreiches Feedback und deine Newsletter-Vormerkung.',objectIds:['guitar-tree-empty','guitar-tree-full','iem-earphones','cajon'],reward:true},
     {id:'production-bundle',name:'Production Bundle',kicker:'ALLE PRO-PACKS',price:'14,90 €',description:'Light Lab, Stage Builder und Pro Crew in einer gemeinsamen Freischaltung.',includes:['light-lab','stage-builder','pro-crew'],bundle:true}
@@ -6194,7 +6202,7 @@ function createStageplotExportV42() {
   const packStorageKey='stageplot-studio:object-packs:v1';
   const stationIds = ['drums','keys-stage4','keys-bassstation2','keys-moog-sub37','mic','guitar','bass','acoustic','double-bass','laptop','rack','iem-earphones','wedge','teleprompter','amp','quad-cortex','bass-stack','riser','riser-2','riser-3'];
   const instrumentLibraryCategories = new Set(['drums','keys','strings','winds']);
-  const stageLibraryIds = new Set(['riser','riser-2','riser-3','stage-module','stage-ramp','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier','rug']);
+  const stageLibraryIds = new Set(['riser','riser-2','riser-3','stage-module','stage-stairs','stage-ramp','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier','rug']);
   function libraryGroupFor(c){
     if(c.family==='lights')return 'lights';
     if(c.libraryGroup==='stage'||stageLibraryIds.has(c.id))return 'stage';
@@ -7302,11 +7310,16 @@ function createStageplotSymbolV3(type, options = {}) {
     if(count===2)line(5,h/2,w-5,h/2,.6);
     if(count===3){line(w/3,5,w/3,h-5,.6);line(w*2/3,5,w*2/3,h-5,.6);}
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
+  }else if(type==='stage-stairs'){
+    group('','stage-stairs-top-view');rect(2,2,116,96,'#f3f4f1',.85,.5,'#4a504a');
+    for(const y of [20,40,60,80])line(2,y,118,y,.65,'#858c85');
+    const arrow='M60 85V18M49 30L60 18L71 30';path(arrow,'none',3.5,'#f3f4f1');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-ramp'){
     group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');
     const rampPattern=scopedId('pattern','ramp-grip');out+='<defs><pattern id="'+rampPattern+'" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0M-3 3L3-3M6 12L12 6" stroke="#aeb4ae" stroke-width=".65"/></pattern></defs>';
     path('M9 10H191L184 90H16Z','url(#'+rampPattern+')',.35,'#b7bcb7');
-    for(const y of [12,88])line(13,y,187,y,.7,'#767c76');for(const [x,y] of [[11,10],[189,10],[17,88],[183,88]])bolt(x,y,.8);end();
+    for(const y of [12,88])line(13,y,187,y,.7,'#767c76');for(const [x,y] of [[11,10],[189,10],[17,88],[183,88]])bolt(x,y,.8);
+    const arrow='M100 80V20M90 32L100 20L110 32';path(arrow,'none',3.5,'#eceeeb');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-railing'){
     group('','stage-railing-top-view');rod(5,10.5,295,10.5,4.8);for(let x=10;x<=290;x+=40){circle(x,10.5,5.2,'#606561',.65,'#222522');circle(x,10.5,2.3,'#d3d7d3',.3,'#555');rect(x-8,2,16,4,'#777c78',.4,1,'#343734');rect(x-8,15,16,4,'#777c78',.4,1,'#343734');}end();
   }else if(type==='stage-truss-tower'){
@@ -7506,7 +7519,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const rw=Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h,rh=Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h;
     return '<svg viewBox="'+[w/2-rw/2-3,h/2-rh/2-3,rw+6,rh+6].join(' ')+'" aria-hidden="true"><use href="#'+artId(c,o)+'" transform="rotate('+angle+' '+w/2+' '+h/2+')"/></svg>';
   }
-  const objectSize = o => ['riser','foh'].includes(o.type)?{w:o.width||(o.type==='foh'?3:2),d:o.depth||(o.type==='foh'?2:1)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
+  const objectSize = o => ['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
   function objectCatalog(o){return typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?{...byId[o.type],...drumModel.drumLayout(o.type,o.drums)}:byId[o.type];}
   function drumRenderGeometry(o,c,w,h){
     if(!drumModel.isDrums(o.type)||!Array.isArray(c.parts))return null;
@@ -7615,8 +7628,16 @@ function createStageplotSymbolV3(type, options = {}) {
     svg.querySelectorAll('[data-stage-side]').forEach(n=>{const left=n.dataset.stageSide==='left',tx=left?mx+c.bounds.maxX*scale+sideOffset:mx+c.bounds.minX*scale-sideOffset,ty=y+d/2;n.setAttribute('x',tx);n.setAttribute('y',ty);n.setAttribute('fill','var(--sp-muted)');n.setAttribute('transform','rotate('+(left?90:-90)+' '+tx+' '+ty+')');});
     svg.setAttribute('aria-label','Bühnenplan: '+metres(b.maxX-b.minX)+' mal '+metres(b.maxY-b.minY)+', freier Grundriss, Publikum unten');
   }
+  function projectPreviewBounds(s,list){
+    const b=s.geometry?{...compiledVenue(s,list).bounds}:{minX:0,minY:0,maxX:s.w,maxY:s.d};
+    for(const o of list.filter(o=>byId[o.type]?.stageAccess)){
+      const size=objectSize(o),r=(Number(o.angle)||0)*Math.PI/180,hw=(Math.abs(Math.cos(r))*size.w+Math.abs(Math.sin(r))*size.d)/2,hd=(Math.abs(Math.sin(r))*size.w+Math.abs(Math.cos(r))*size.d)/2;
+      b.minX=Math.min(b.minX,o.x-hw);b.maxX=Math.max(b.maxX,o.x+hw);b.minY=Math.min(b.minY,o.y-hd);b.maxY=Math.max(b.maxY,o.y+hd);
+    }
+    return b;
+  }
   function venuePreviewMarkup(document,badge){
-    const s=document.stage,list=document.objects||[],c=compiledVenue(s,list),b=c.bounds,W=320,H=120,scale=Math.min(288/(b.maxX-b.minX),90/(b.maxY-b.minY)),x=W/2-(b.minX+b.maxX)/2*scale,y=H/2-(b.minY+b.maxY)/2*scale;
+    const s=document.stage,list=document.objects||[],c=compiledVenue(s,list),b=projectPreviewBounds(s,list),W=320,H=120,scale=Math.min(288/(b.maxX-b.minX),90/(b.maxY-b.minY)),x=W/2-(b.minX+b.maxX)/2*scale,y=H/2-(b.minY+b.maxY)/2*scale;
     const svg=sEl('svg',{viewBox:'0 0 320 120','aria-hidden':'true'});
     sEl('rect',{width:W,height:H,fill:'var(--sp-paper)'},svg);sEl('path',{d:StageplotGeometry.path(c.floor,scale,x,y),fill:s.surface==='black'?'#252725':'#f6f8f3',stroke:'var(--sp-art)','stroke-width':1,'fill-rule':'evenodd'},svg);
     StageplotVenue.drawDetails(svg,s.geometry,{scale,x,y,measures:false,labels:false});
@@ -7839,7 +7860,7 @@ function createStageplotSymbolV3(type, options = {}) {
     return o.x+b.hw>r.x&&o.x-b.hw<r.x+r.w&&o.y+b.hd>r.y&&o.y-b.hd<r.y+r.d;
   }
   function outside(o,s) {
-    if(o.type==='foh'||byId[o.type]?.stageExtension)return false;
+    if(o.type==='foh'||byId[o.type]?.stageExtension||byId[o.type]?.stageAccess)return false;
     if(s.geometry){if(o.type==='text')return false;const c=compiledVenue(s,typeof objects!=='undefined'?objects:[]),p=venueObjectPart(o);return !StageplotGeometry.containsFootprint(c.usable,StageplotGeometry.ring(p));}
     const b=bounds(o);
     return o.x-b.hw<-.011||o.x+b.hw>s.w+.011||o.y-b.hd<-.011||o.y+b.hd>s.d+.011;
@@ -7934,7 +7955,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function labelOwnerBox(o,x,y,scale,artBox){
     const c=objectCatalog(o),size=objectSize(o),unit=Math.min(size.w/c.vb[0],size.d/c.vb[1])*scale;
-    const local=o.type==='riser'||o.type==='foh'||c.stageExtension||c.art==='text'||!artBox
+    const local=o.type==='riser'||o.type==='foh'||c.stageExtension||c.stageAccess||c.art==='text'||!artBox
       ?{left:-size.w*scale/2,right:size.w*scale/2,top:-size.d*scale/2,bottom:size.d*scale/2}
       :{left:(artBox.x-c.vb[0]/2)*unit,right:(artBox.x+artBox.width-c.vb[0]/2)*unit,top:(artBox.y-c.vb[1]/2)*unit,bottom:(artBox.y+artBox.height-c.vb[1]/2)*unit};
     const angle=o.angle*Math.PI/180,cos=Math.cos(angle),sin=Math.sin(angle);
@@ -8234,6 +8255,15 @@ function createStageplotSymbolV3(type, options = {}) {
         if(gridOn){const spacing=gridStep()*scale;for(let xx=-w/2+spacing;xx<w/2-.1;xx+=spacing)sEl('line',{x1:xx,y1:-h/2,x2:xx,y2:h/2,stroke:blackStage?'#3b3d39':'var(--sp-grid)','stroke-width':.6,'pointer-events':'none'},deck);for(let yy=-h/2+spacing;yy<h/2-.1;yy+=spacing)sEl('line',{x1:-w/2,y1:yy,x2:w/2,y2:yy,stroke:blackStage?'#3b3d39':'var(--sp-grid)','stroke-width':.6,'pointer-events':'none'},deck);}
         sEl('line',{x1:0,y1:-h/2,x2:0,y2:h/2,stroke,'stroke-width':blackStage ? .85 : .65,'pointer-events':'none'},deck);
         if(mode==='editor'&&o.id===selected)for(const [cx,cy] of [[-w/2,0],[w/2,0],[0,-h/2],[0,h/2]])sEl('circle',{cx,cy,r:2.1,fill:stageFill,stroke:'var(--sp-teal)','stroke-width':1,'data-module-magnet':'true'},deck);
+      }else if(c.stageAccess){
+        const art=sEl('g',{transform:'translate('+(-w/2)+' '+(-h/2)+') scale('+(w/c.vb[0])+' '+(h/c.vb[1])+')',class:'sp-symbol','data-stage-access':c.stageAccess},visual);
+        sEl('use',{href:'#'+artId(c,o)},art);
+        if(showPrintMeasures){
+          const style={'text-anchor':'middle',fill:'#454b45','font-size':8,'font-weight':700,'paint-order':'stroke',stroke:'#fff','stroke-width':2,'stroke-linejoin':'round','pointer-events':'none'};
+          const upright=angle=>{const world=((o.angle+angle)%360+360)%360;return world>90&&world<270?angle+180:angle;};
+          if(w>=24){const ty=-h/2+10;sEl('text',{...style,x:0,y:ty,transform:'rotate('+upright(0)+' 0 '+ty+')','data-access-measure':'width'},visual,metres(size.w));}
+          if(h>=24){const tx=w/2-7;sEl('text',{...style,x:tx,y:0,transform:'rotate('+upright(90)+' '+tx+' 0)','data-access-measure':'depth'},visual,metres(size.d));}
+        }
       }else if(c.art!=='text'){
         const unit=Math.min(w/c.vb[0],h/c.vb[1]);
         const art=sEl('g',{transform:'translate('+(-c.vb[0]*unit/2)+' '+(-c.vb[1]*unit/2)+') scale('+unit+')',class:'sp-symbol'},visual);
@@ -8246,7 +8276,7 @@ function createStageplotSymbolV3(type, options = {}) {
         }
         else {
           sEl('rect',{x:-w/2-3,y:-h/2-3,width:w+6,height:h+6,fill:'none',stroke:'var(--sp-teal)','stroke-width':1.2,'data-selection-frame':o.id,'stroke-dasharray':o.locked?'4 3':'none','pointer-events':'none'},rotation);
-          if(!o.locked&&['riser','foh'].includes(o.type))drawFootprintHandles(rotation,-w/2,-h/2,w,h,o.id,coarse);
+          if(!o.locked&&(['riser','foh'].includes(o.type)||c.stageAccess))drawFootprintHandles(rotation,-w/2,-h/2,w,h,o.id,coarse);
           else if(!o.locked)for(const dx of [-w/2-3,w/2+3])for(const dy of [-h/2-3,h/2+3])sEl('rect',{x:dx-2.5,y:dy-2.5,width:5,height:5,fill:'var(--sp-selection)',stroke:'var(--sp-teal)','pointer-events':'none'},rotation);
         }
       }
@@ -8595,6 +8625,8 @@ function createStageplotSymbolV3(type, options = {}) {
       $('sp-boom-direction-field').hidden=o.stand==='round';$('sp-boom-direction').value=o.boomDirection||'up';
       syncChoiceButtons($('sp-mic-stand-options'),$('sp-mic-stand').value,locked);syncChoiceButtons($('sp-boom-direction-options'),$('sp-boom-direction').value,locked);syncChoiceButtons($('sp-mic-purpose-options'),$('sp-mic-purpose').value,false);
     }
+    $('sp-access-fields').hidden=!c.stageAccess;
+    for(const [id,value] of [['sp-access-width',size.w],['sp-access-depth',size.d]]){$(id).disabled=locked;if(c.stageAccess)$(id).value=value;}
     $('sp-riser-fields').hidden=o.type!=='riser';
     if(o.type==='riser'){
       $('sp-riser-width').value=size.w;$('sp-riser-depth').value=size.d;$('sp-riser-height').value=o.height||40;
@@ -8691,6 +8723,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(type==='rack')item.iem=normalizeIemConfig(o.iem,item.label);
       if(type==='mic')Object.assign(item,{stand:o.stand==='round'?'round':'boom',purpose:['vocals','talkback','instrument'].includes(o.purpose)?o.purpose:'vocals',boomDirection:['up','left','right'].includes(o.boomDirection)?o.boomDirection:'up'});
       if(type==='foh'){const f=o.foh||{};Object.assign(item,{width:finite(o.width,.3,30)?o.width:3,depth:finite(o.depth,.3,20)?o.depth:2,foh:{table:f.table===true,barrier:f.barrier===true,sun:f.sun===true,rain:f.rain===true}});}
+      if(byId[type].stageAccess)Object.assign(item,{width:finite(o.width,.3,30)?o.width:byId[type].w,depth:finite(o.depth,.3,20)?o.depth:byId[type].d});
       if(type==='riser'){
         if(!finite(o.width,.25,30)||!finite(o.depth,.25,20)||!finite(o.height,5,240))throw new Error('Ungültige Riser-Maße.');
         Object.assign(item,{width:o.width,depth:o.depth,height:o.height});
@@ -8944,12 +8977,13 @@ function createStageplotSymbolV3(type, options = {}) {
       const c=objectCatalog(o),size=objectSize(o),x=left+o.x*scale,y=top+o.y*scale,w=Math.max(3,size.w*scale),h=Math.max(3,size.d*scale);
       if(c.art==='text')return '<text x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" text-anchor="middle" font-size="4.5" fill="'+(black?'#f3f3ee':'#353a35')+'">T</text>';
       const unit=Math.min(w/c.vb[0],h/c.vb[1]),id=artId(c,o);
+      if(c.stageAccess)return '<g transform="translate('+x.toFixed(2)+' '+y.toFixed(2)+') rotate('+(Number(o.angle)||0)+') translate('+(-w/2).toFixed(3)+' '+(-h/2).toFixed(3)+') scale('+(w/c.vb[0]).toFixed(4)+' '+(h/c.vb[1]).toFixed(4)+')"><use href="#'+id+'"/></g>';
       return '<g transform="translate('+x.toFixed(2)+' '+y.toFixed(2)+') rotate('+(Number(o.angle)||0)+') translate('+(-c.vb[0]*unit/2).toFixed(3)+' '+(-c.vb[1]*unit/2).toFixed(3)+') scale('+unit.toFixed(4)+')"><use href="#'+id+'"/></g>';
     }).join('');
   }
   function dashboardPreviewMarkup(document,badge='VORSCHAU'){
     if(document.stage.geometry)return venuePreviewMarkup(document,badge);
-    const s=document.stage,list=document.objects||[],W=320,H=120,padX=14,padY=14,scale=Math.min((W-padX*2)/s.w,(H-padY*2)/s.d),stageW=s.w*scale,stageH=s.d*scale,left=(W-stageW)/2,top=(H-stageH)/2,black=s.surface==='black',moduleLines=[];
+    const s=document.stage,list=document.objects||[],b=projectPreviewBounds(s,list),W=320,H=120,padX=14,padY=14,scale=Math.min((W-padX*2)/(b.maxX-b.minX),(H-padY*2)/(b.maxY-b.minY)),stageW=s.w*scale,stageH=s.d*scale,left=W/2-(b.minX+b.maxX)/2*scale,top=H/2-(b.minY+b.maxY)/2*scale,black=s.surface==='black',moduleLines=[];
     for(let x=2;x<s.w;x+=2)moduleLines.push('<line x1="'+(left+x*scale).toFixed(2)+'" y1="'+top.toFixed(2)+'" x2="'+(left+x*scale).toFixed(2)+'" y2="'+(top+stageH).toFixed(2)+'"/>');
     for(let y=1;y<s.d;y+=1)moduleLines.push('<line x1="'+left.toFixed(2)+'" y1="'+(top+y*scale).toFixed(2)+'" x2="'+(left+stageW).toFixed(2)+'" y2="'+(top+y*scale).toFixed(2)+'"/>');
     const items=projectPreviewObjectsMarkup(list,scale,left,top,black);
@@ -10604,6 +10638,7 @@ $('sp-audio-di-help').addEventListener('click',()=>{setChannelPillValue('sp-audi
     const c=byId[type];
     const o={id,type:c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
     if(c.riserCount)Object.assign(o,{width:c.w,depth:c.d,height:40});
+    if(c.stageAccess)Object.assign(o,{width:c.w,depth:c.d});
     if(type==='foh')Object.assign(o,{width:3,depth:2,foh:{table:false,barrier:false,sun:false,rain:false}});
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type))o.drums=drumModel.drumDefaults();
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type)&&seed?.drums)o.drums=drumModel.normalizeDrums(type,seed.drums);
@@ -10694,7 +10729,7 @@ $('sp-audio-di-help').addEventListener('click',()=>{setChannelPillValue('sp-audi
   }
   function selectedFootprint(id=selected){
     if(id==='iem-zone'){const r=iemRect(stage);return r?{x:r.x+r.w/2,y:r.y+r.d/2,w:r.w,d:r.d,angle:0}:null;}
-    const o=objects.find(o=>o.id===id);return o&&!o.locked&&['riser','foh'].includes(o.type)?{x:o.x,y:o.y,w:objectSize(o).w,d:objectSize(o).d,angle:o.angle}:null;
+    const o=objects.find(o=>o.id===id);return o&&!o.locked&&(['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess)?{x:o.x,y:o.y,w:objectSize(o).w,d:objectSize(o).d,angle:o.angle}:null;
   }
   function applyFootprint(id,value){
     if(id==='iem-zone'){stage.iem='free';stage.iemX=value.x-value.w/2;stage.iemY=value.y-value.d/2;stage.iemDepth=value.w;stage.iemLength=value.d;constrainIem(stage);}
@@ -11129,6 +11164,17 @@ $('sp-audio-di-help').addEventListener('click',()=>{setChannelPillValue('sp-audi
     $(id).addEventListener('change',finishEdit);
     $(id).addEventListener('blur',()=>{finishEdit();inspector();});
   });
+  for(const [id,key] of [['sp-access-width','width'],['sp-access-depth','depth']]){
+    $(id).addEventListener('focus',()=>{editBefore=snapshot();});
+    $(id).addEventListener('input',()=>{
+      const o=objects.find(o=>o.id===selected),input=$(id),value=Number(input.value);
+      if(!o||o.locked||!byId[o.type]?.stageAccess||!Number.isFinite(value)||value<Number(input.min)||value>Number(input.max))return;
+      if(!editBefore)editBefore=snapshot();o[key]=value;queueDraw();
+      const size=objectSize(o);$('sp-footprint').textContent='Planmaß: '+num(size.w)+' × '+metres(size.d)+' · '+objectDetail(o);
+    });
+    $(id).addEventListener('change',finishEdit);
+    $(id).addEventListener('blur',()=>{finishEdit();inspector();});
+  }
   function writeIoFromDirectControls(kind){
     const o=objects.find(item=>item.id===selected);if(!o||o.locked||drumModel.isDrums(o.type)||!byId[o.type].instrument)return;const input=$(kind==='inputs'?'sp-ins-count':'sp-outs-count'),options=$(kind==='inputs'?'sp-ins-connector-options':'sp-outs-connector-options'),count=Math.max(0,Math.min(64,Math.round(Number(input.value)||0))),pressed=options.querySelector('[aria-pressed="true"]'),connector=normalizeIoConnector(kind==='inputs'?pressed?.dataset.insConnector:pressed?.dataset.outsConnector,'XLR');
     change(()=>{const io=objectIo(o);io[kind]={count,connector};io.aliases[kind]=normalizeIoAliasList(io.aliases[kind],count);io.stereoPairs=io.stereoPairs.filter(start=>start<io.outputs.count);o.io=io;o.outs=ioValueText(io.outputs,'outputs').replace(/^Keine Outs$/,'');syncRoutingFromStage(false);},(kind==='inputs'?'Inputs':'Outs')+' definiert · '+count+' × '+connector);

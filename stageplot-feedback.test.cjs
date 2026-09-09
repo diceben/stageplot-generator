@@ -34,6 +34,23 @@ const start=html.indexOf('  const footprintTouches='),end=html.indexOf("  window
 const event=(id,x,y=0)=>({pointerType:'touch',pointerId:id,clientX:x,clientY:y,preventDefault(){},stopImmediatePropagation(){}});
 hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,150));assert.equal(pc.objects[0].w,3);assert.equal(pc.objects[0].d,1.5);listeners.pointerup(event(2,150));assert.equal(pc.history.length,1);assert.equal(captures.size,0);
 hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,200));listeners.pointercancel(event(2,200));assert.equal(pc.objects[0].w,3,'Abgebrochene Geste stellt den Ausgangszustand wieder her.');
+// Access pieces use the existing object creation, resize, locking and persistence paths.
+const accessCatalog=Object.fromEntries(['stage-stairs','stage-ramp'].map(id=>{const line=html.split('\n').find(line=>line.includes("{id:'"+id+"',name:"));assert(line,id+' fehlt');const entry=vm.runInNewContext('('+line.trim().replace(/,$/,'')+')');return [id,entry];}));
+const accessContext={byId:accessCatalog,drumModel:{isDrums:()=>false},stageboxCapacity:{},constrain:()=>{},objects:[],stage:{w:8,d:5},selected:null};vm.createContext(accessContext);
+const sizeSource=html.match(/  const objectSize = [^\n]+/)[0];
+vm.runInContext(sizeSource+'\n'+['makeObject','resizeFootprint','selectedFootprint','applyFootprint','outside'].map(extract).join('\n'),accessContext);
+Object.assign(nc.byId,accessCatalog);
+for(const type of Object.keys(accessCatalog)){
+  const o=accessContext.makeObject(type,{x:-2,y:6},'station-access');accessContext.objects=[o];accessContext.selected=o.id;o.angle=90;
+  assert.equal(accessContext.outside(o,accessContext.stage),false,'Treppen und Rampen sind auch außerhalb der Bühne vorgesehen.');
+  const base=accessContext.selectedFootprint(),resized=accessContext.resizeFootprint(base,{x:-.43,y:.64},'se');accessContext.applyFootprint(o.id,resized);
+  assert.equal(o.width,Math.round((base.w+.6)*10)/10);assert.equal(o.depth,Math.round((base.d+.4)*10)/10);
+  assert.ok(Math.abs((o.x+o.depth/2)-(base.x+base.d/2))<1e-9,'Gegenüberliegende Ecke bleibt beim gedrehten Resize fest.');
+  const saved=plain(nc.normalizeSetupDocument({...document,objects:[o]})),restored=plain(nc.normalizeSetupDocument(saved));
+  assert.deepEqual(restored,saved);assert.equal(restored.objects[0].width,o.width);assert.equal(restored.objects[0].depth,o.depth);assert.equal(restored.objects[0].angle,90);
+  o.locked=true;const locked=JSON.stringify(o);assert.equal(accessContext.selectedFootprint(),null);accessContext.applyFootprint(o.id,{x:0,y:0,w:10,d:10});assert.equal(JSON.stringify(o),locked);
+}
+const oldRamp=nc.normalizeSetupDocument({...document,objects:[{id:'station-ramp',type:'stage-ramp',x:1,y:1,angle:0}]}).objects[0];assert.equal(oldRamp.width,2);assert.equal(oldRamp.depth,1,'Bestehende Rampen ohne eigene Maße behalten ihr altes Planmaß.');
 // Inventory round trips and quantity checks use the same runtime as the browser.
 const storage={data:new Map(),getItem(k){return this.data.get(k)??null;},setItem(k,v){this.data.set(k,String(v));}};
 const invContext={};vm.createContext(invContext);vm.runInContext(fs.readFileSync('stageplot-inventory-v1.js','utf8'),invContext);const inventory=invContext.StageplotInventory;
