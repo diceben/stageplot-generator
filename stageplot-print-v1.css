@@ -12,7 +12,12 @@
 #sp-prototype .sp-export-presets :is(strong,small) { display:block; line-height:1.4; }
 #sp-prototype .sp-export-presets strong { font-size:13px; }
 #sp-prototype .sp-export-presets small { margin-top:3px; font-size:11px; color:var(--sp-muted); }
-#sp-prototype .sp-export-choice-grid { grid-template-columns:repeat(2,1fr); }
+#sp-prototype .sp-export-choice-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+#sp-prototype .sp-export-choice-grid button strong { font-size:13px; }
+#sp-prototype .sp-export-choice-grid button small { font-size:11px; }
+#sp-prototype .sp-export-choice-grid button[aria-pressed="true"] { border-color:var(--sp-teal); background:var(--sp-accent-bg); color:var(--sp-ink); box-shadow:inset 0 0 0 1px var(--sp-teal); }
+#sp-prototype .sp-export-choice-grid button[aria-pressed="true"] strong { color:var(--sp-ink); }
+#sp-prototype .sp-export-resolution-hint { margin:8px 0 0; font-size:11px; line-height:1.4; color:var(--sp-muted); }
 #sp-prototype .sp-export-control-group h2 { font-size:12px; letter-spacing:0; text-transform:none; }
 #sp-prototype .sp-export-details { margin:12px 0; }
 #sp-prototype .sp-export-details summary { min-height:44px; padding:13px 0; }
@@ -69,11 +74,12 @@
 #sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(3) { width:22%; }
 #sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(4) { width:18%; }
 #sp-prototype .sp-report-section .sp-report-legend th:first-child { width:28%; }
+#sp-prototype[data-preview-kind="image"][data-preview-background="transparent"] .sp-report-page { background:transparent; }
+#sp-prototype[data-preview-kind="image"][data-preview-background="transparent"] .sp-report-sheet { background:repeating-conic-gradient(#d9ddd7 0% 25%,#f8f8f5 0% 50%) 0 / 16px 16px; }
 @media screen {
-  #sp-prototype[data-preview-kind="pdf"] #sp-export-paper { position:fixed; left:-20000px; top:0; width:1047px; padding:0; min-height:0; visibility:hidden; pointer-events:none; }
-  #sp-prototype[data-preview-kind="pdf"] #sp-print-floor { width:1047px; height:610px; min-height:0; }
-  #sp-prototype[data-preview-kind="pdf"] #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
-  #sp-prototype[data-preview-kind="image"] #sp-print-floor { height:auto; aspect-ratio:1047/610; min-height:0; }
+  #sp-prototype:is([data-preview-kind="pdf"],[data-preview-kind="image"]) #sp-export-paper { position:fixed; left:-20000px; top:0; width:1047px; padding:0; min-height:0; visibility:hidden; pointer-events:none; }
+  #sp-prototype:is([data-preview-kind="pdf"],[data-preview-kind="image"]) #sp-print-floor { width:1047px; height:610px; min-height:0; }
+  #sp-prototype:is([data-preview-kind="pdf"],[data-preview-kind="image"]) #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
 }
 @container sp-frame (max-width:760px) {
   #sp-prototype .sp-export-controls { padding:16px; }

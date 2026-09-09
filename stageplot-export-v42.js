@@ -5,6 +5,7 @@ function createStageplotExportV42() {
   const SETUP_KIND='stageplot-setup';
   const SETUP_VERSION=1;
   const PNG_SCALES=[2,4];
+  const PNG_RESOLUTIONS={hd:1280,'2k':2048,'4k':3840};
   const PNG_BACKGROUNDS=['white','transparent'];
   const unsafeKeys=new Set(['__proto__','prototype','constructor']);
   const reservedFilename=/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i;
@@ -147,6 +148,11 @@ function createStageplotExportV42() {
     if(!plainObject(value))throw new TypeError('PNG-Optionen müssen ein Objekt sein.');
     const scale=value.scale===undefined?2:Number(value.scale);
     const background=value.background===undefined?'white':String(value.background);
+    if(value.resolution!==undefined){
+      if(!Object.hasOwn(PNG_RESOLUTIONS,value.resolution))throw new Error('Bitte HD, 2K oder 4K wählen.');
+      if(!PNG_BACKGROUNDS.includes(background))throw new Error('Der PNG-Hintergrund muss weiß oder transparent sein.');
+      return {resolution:value.resolution,background};
+    }
     if(!PNG_SCALES.includes(scale))throw new Error('PNG-Exporte sind nur in 2× oder 4× möglich.');
     if(!PNG_BACKGROUNDS.includes(background))throw new Error('Der PNG-Hintergrund muss weiß oder transparent sein.');
     return {scale,background};
@@ -156,9 +162,10 @@ function createStageplotExportV42() {
     if(!plainObject(dimensions))throw new TypeError('SVG-Maße müssen ein Objekt sein.');
     const width=Number(dimensions.width),height=Number(dimensions.height),png=normalizePngOptions(options);
     if(!Number.isFinite(width)||width<=0||!Number.isFinite(height)||height<=0)throw new Error('Das SVG hat keine gültigen Exportmaße.');
-    const pixelWidth=Math.ceil(width*png.scale),pixelHeight=Math.ceil(height*png.scale),pixels=pixelWidth*pixelHeight;
+    const scale=png.resolution?PNG_RESOLUTIONS[png.resolution]/Math.max(width,height):png.scale;
+    const pixelWidth=png.resolution?Math.round(width*scale):Math.ceil(width*scale),pixelHeight=png.resolution?Math.round(height*scale):Math.ceil(height*scale),pixels=pixelWidth*pixelHeight;
     if(pixelWidth>16384||pixelHeight>16384||pixels>100000000)throw new RangeError('Der PNG-Export wäre zu groß. Bitte 2× wählen oder die Ausgabe verkleinern.');
-    return {mimeType:'image/png',sourceWidth:width,sourceHeight:height,scale:png.scale,pixelWidth,pixelHeight,background:png.background,backgroundColor:png.background==='white'?'#ffffff':null,fillBackground:png.background==='white',imageSmoothingEnabled:true,imageSmoothingQuality:'high'};
+    return {mimeType:'image/png',sourceWidth:width,sourceHeight:height,scale,pixelWidth,pixelHeight,background:png.background,backgroundColor:png.background==='white'?'#ffffff':null,fillBackground:png.background==='white',imageSmoothingEnabled:true,imageSmoothingQuality:'high'};
   }
 
   function svgDimensions(svgText) {
@@ -184,7 +191,7 @@ function createStageplotExportV42() {
     return createPngPlan(svgDimensions(svgText),options);
   }
 
-  return {SETUP_KIND,SETUP_VERSION,PNG_SCALES:[...PNG_SCALES],PNG_BACKGROUNDS:[...PNG_BACKGROUNDS],safeFilename,filenameFor,basicNormalizeSetupDocument,createSetupExport,normalizeSetupExport,parseSetupJson,stringifySetupJson,normalizePngOptions,svgDimensions,createPngPlan,createPngPlanFromSvg};
+  return {SETUP_KIND,SETUP_VERSION,PNG_SCALES:[...PNG_SCALES],PNG_RESOLUTIONS:{...PNG_RESOLUTIONS},PNG_BACKGROUNDS:[...PNG_BACKGROUNDS],safeFilename,filenameFor,basicNormalizeSetupDocument,createSetupExport,normalizeSetupExport,parseSetupJson,stringifySetupJson,normalizePngOptions,svgDimensions,createPngPlan,createPngPlanFromSvg};
 }
 
 if(typeof module!=='undefined'&&module.exports)module.exports={createStageplotExportV42};

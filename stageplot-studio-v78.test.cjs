@@ -14,18 +14,18 @@ assert.match(script,/button\.setAttribute\('aria-disabled',String\(unavailable\)
 assert.match(script,/else openNewProjectDialog\(\)/,'Ein deaktivierter Arbeitsbereich startet nicht den Neues-Projekt-Workflow.');
 
 for(const id of [
-  'sp-export-format','sp-export-scale','sp-export-background','sp-print-labels','sp-print-outs','sp-print-measures',
+  'sp-export-format','sp-export-background','sp-print-labels','sp-print-outs','sp-print-measures',
   'sp-print-legend-toggle','sp-print-notes','sp-print-inputs','sp-print-routing','sp-export-paper',
   'sp-print-legend-section','sp-print-notes-section','sp-print-inputs-section','sp-print-routing-section'
 ])assert.ok(html.includes(`id="${id}"`),id+' fehlt im Export-Wizard.');
 
-for(const format of ['png-normal','png-4k'])assert.ok(html.includes(`data-export-format="${format}"`),format+' fehlt als direkte Ausgabe-Pill.');
+for(const format of ['png-normal','png-2k','png-4k'])assert.ok(html.includes(`data-export-format="${format}"`),format+' fehlt als direkte Ausgabe-Pill.');
 assert.ok(html.includes('data-export-intent="technical"'), 'PDF ist direkt wählbar.');
 for(const background of ['white','transparent'])assert.ok(html.includes(`data-export-background="${background}"`),background+' fehlt als Hintergrund-Pill.');
 assert.ok(!html.includes('id="sp-print-details-panel"'),'Legende und Notizen liegen noch in einem Sidepanel.');
 assert.ok(!html.includes('Read-only-Link</button>'),'Der alte Read-only-Link-Button ist noch beschriftet.');
 assert.match(script,/function exportArtworkBounds\(svg,padding=4\)/,'PNG-Dateien werden nicht auf den eigentlichen Plan zugeschnitten.');
-assert.match(script,/exportSvgMarkup\(svg,exportArtworkBounds\(svg\)\)/,'Der PNG-Export verwendet die berechneten Zuschnittmaße nicht.');
+assert.match(script,/StageplotPrint\.pageSvg\(page,exportSvgMarkup\)/,'PNG muss die vollständigen PDF-Seiten einschließlich eingebetteter Instrumentenbilder exportieren.');
 assert.match(script,/function printRoutingPreview\(direction\)/,'Input- und Output-Listen fehlen in der Papier-Vorschau.');
 assert.match(script,/syncRoutingFromStage\(false,false\)/,'Die Export-Vorschau aktualisiert ihre Routing-Daten nicht automatisch.');
 assert.match(script,/const blackStage=.*showPrintMeasures=.*showPrintOuts=/,'Maße und Outs sind im Plan nicht unabhängig schaltbar.');
