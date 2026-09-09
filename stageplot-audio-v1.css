@@ -193,30 +193,30 @@
 .sp-audio-console-fields { display:grid;gap:12px; }
 #sp-channel-form .sp-audio-console-fields .sp-field { flex:1; }
 #sp-channel-form .sp-audio-console-fields input { width:100%;font-size:22px;font-weight:650;min-height:48px; }
-.sp-audio-port-choices { display:flex;align-items:center;justify-content:space-between;gap:14px; }
+.sp-audio-port-choices { display:grid;gap:14px; }
+.sp-audio-patch-summary { display:flex;align-items:center;justify-content:space-between;gap:14px; }
 #sp-channel-dialog .sp-audio-patch-fields input { min-height:46px;font-size:18px; }
 #sp-audio-manual-ports small { font-size:11px;color:var(--sp-muted); }
 .sp-audio-remove { border-top:1px solid var(--sp-line);padding-top:16px; }
 #sp-prototype #sp-channel-dialog .sp-actions { position:static;flex:none;padding:14px 0 0;gap:10px;background:var(--sp-panel);border-top:1px solid var(--sp-line); }
 #sp-prototype #sp-channel-dialog .sp-actions .sp-button { min-height:44px;padding-inline:20px; }
 #sp-channel-dialog #sp-audio-error:not(:empty) { padding:10px 0;font-size:12px; }
-#sp-prototype #sp-audio-connect-dialog { width:min(480px,calc(100vw - 24px));max-width:480px;max-height:calc(100dvh - 24px);padding:22px;border-radius:18px;box-sizing:border-box;overflow:auto; }
+#sp-prototype #sp-audio-connect-dialog { width:min(700px,calc(100vw - 24px));max-width:700px;max-height:calc(100dvh - 24px);padding:22px;border-radius:18px;box-sizing:border-box;overflow:hidden; }
+#sp-prototype #sp-audio-connect-dialog[open] { display:flex;flex-direction:column; }
+#sp-audio-connect-dialog > :not(.sp-audio-connect-body) { flex:none; }
+.sp-audio-connect-body { min-height:0;overflow:auto;overscroll-behavior:contain;padding:3px; }
 #sp-audio-connect-title { font-size:20px;margin:6px 0;overflow-wrap:anywhere; }
 #sp-audio-connect-source { font-size:13px;font-weight:650;padding:12px;border-radius:10px;background:#202923;color:#e5fdbb; }
-.sp-audio-connect-boxes { display:grid;gap:10px;max-height:300px;overflow:auto; }
-#sp-prototype .sp-audio-connect-boxes button { display:flex;align-items:center;gap:14px;width:100%;min-height:96px;padding:12px;border:1px solid var(--sp-line);border-radius:12px;background:var(--sp-panel);color:var(--sp-ink);font:inherit;text-align:left;cursor:pointer; }
+.sp-audio-connect-boxes { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-height:190px;overflow:auto;padding:2px; }
+#sp-prototype .sp-audio-connect-boxes button { display:flex;align-items:center;gap:14px;width:100%;min-height:80px;padding:10px;border:1px solid var(--sp-line);border-radius:12px;background:var(--sp-panel);color:var(--sp-ink);font:inherit;text-align:left;cursor:pointer; }
 .sp-audio-connect-boxes button > span:last-child { display:grid;gap:5px;min-width:0; }
 .sp-audio-connect-boxes strong { font-size:14px; }
 .sp-audio-connect-boxes small { font-size:11px;line-height:1.5; }
 .sp-audio-connect-boxes em { font-size:10px;font-weight:650;font-style:normal;color:var(--sp-teal); }
 #sp-prototype .sp-audio-connect-boxes [aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-accent-bg);box-shadow:inset 0 0 0 1px var(--sp-teal); }
 .sp-audio-connect-boxes button:disabled { opacity:.55;cursor:default; }
-.sp-audio-box-picture { display:block;width:80px;height:60px;flex:none; }
+.sp-audio-box-picture { display:block;width:64px;height:50px;flex:none; }
 #sp-prototype .sp-audio-box-picture svg { width:100%;height:100%; }
-.sp-audio-connect-port { display:flex;gap:16px;align-items:center;margin:16px 0; }
-.sp-audio-connect-port .sp-field { flex:0 0 130px; }
-#sp-prototype .sp-audio-connect-port input { min-height:46px;font-size:20px; }
-.sp-audio-connect-port > span { font-size:12px;line-height:1.5; }
 #sp-audio-connect-error { font-size:12px;line-height:1.5;color:#bd2443; }
 #sp-audio-connect-error:empty { display:none; }
 #sp-audio-connect-dialog .sp-actions { margin:16px 0 0;gap:8px; }
@@ -281,3 +281,29 @@
 .sp-audio-mic-brands { position:relative; }
 #sp-channel-form #sp-audio-panel-signal:has(.sp-channel-detail-row[hidden]) { grid-template-columns:1fr; }
 #sp-channel-dialog[data-audio-direction="outputs"] .sp-audio-pickup-config .sp-audio-signal-options { grid-template-columns:1fr 1fr; }
+
+/* Physical patch surface uses the very same sockets and pink sparkle as the workbench. */
+#sp-prototype .sp-stagebox-card[data-combo-jacks] .sp-stagebox-ports button[data-active-port="true"] .sp-stagebox-socket { box-shadow:0 0 0 2px #f04c9a,0 0 18px rgb(240 76 154 / 55%),0 2px 5px #000a; }
+#sp-audio-connect-ports { margin-top:16px; }
+#sp-prototype .sp-audio-socket-board-head { display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid #334151;color:#eef2f7; }
+#sp-prototype .sp-audio-socket-board-head strong { font-size:14px; }
+#sp-prototype .sp-audio-socket-board-head span { color:#aab5c2;font-size:11px; }
+#sp-prototype .sp-audio-socket-board .sp-stagebox-ports { grid-template-columns:repeat(8,minmax(0,1fr));gap:8px; }
+#sp-prototype .sp-audio-socket-board .sp-stagebox-ports button { min-height:92px;grid-template-rows:15px 38px minmax(22px,auto); }
+#sp-prototype :is(.sp-audio-socket-board,.sp-audio-current-sockets) .sp-stagebox-port-number { font-size:11px; }
+#sp-prototype :is(.sp-audio-socket-board,.sp-audio-current-sockets) .sp-stagebox-port-name { font-size:10px;white-space:normal;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical; }
+#sp-prototype .sp-audio-socket-board .sp-stagebox-ports button:disabled { opacity:.58;cursor:not-allowed;transform:none; }
+#sp-prototype :is(.sp-audio-socket-board,.sp-audio-current-sockets) .sp-stagebox-ports button:focus-visible { outline:2px solid #fff;outline-offset:3px; }
+.sp-audio-socket-help { margin:10px 0 0;font-size:11px;line-height:1.5;color:var(--sp-muted); }
+#sp-audio-connect-selection { margin:14px 0 0;font-size:13px;font-weight:650; }
+#sp-audio-connect-selection:empty { display:none; }
+.sp-audio-current-sockets { display:flex;gap:12px;flex-wrap:wrap; }
+.sp-audio-current-sockets:empty { display:none; }
+#sp-prototype .sp-audio-current-sockets .sp-stagebox-card { width:116px;box-sizing:border-box;padding:12px; }
+.sp-audio-socket-box-name { display:block;overflow-wrap:anywhere;color:#c4ceda;font-size:11px;margin-bottom:8px; }
+@media(max-width:620px) {
+ #sp-prototype #sp-audio-connect-dialog { padding:14px; }
+ .sp-audio-connect-boxes { grid-template-columns:1fr;max-height:148px; }
+ #sp-prototype .sp-audio-socket-board .sp-stagebox-ports { grid-template-columns:repeat(4,minmax(0,1fr)); }
+ .sp-audio-patch-summary { align-items:flex-start;flex-direction:column; }
+}
