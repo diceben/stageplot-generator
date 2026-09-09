@@ -190,3 +190,5 @@ dialogCtx.stage.routing.outputs=[{id:'out',instrument:'Monitor Gesang',number:7,
 // A full or incompatible box remains inspectable without allowing an invalid connection.
 dialogCtx.stage.routing.inputs=[...quickRows(),{id:'full1',stagebox:'a',stageboxPort:1},{id:'full2',stagebox:'a',stageboxPort:2}];dialogCtx.openAudioPatch('inputs','l');dialogCtx.selectAudioQuickBox('a');assert.equal(dialogCtx.$('sp-audio-connect-save').disabled,true);assert.equal((dialogCtx.$('sp-audio-connect-ports').innerHTML.match(/data-audio-connect-port=/g)||[]).length,2);
 console.log('PASS PHYSICAL PATCH: real input/output sockets, stereo L/R pink selection, occupied/invalid ports, right-side no-op, commit revalidation, full-box inspection and hidden legacy storage fields.');
+
+assert.match(ctx.audioSocketMarkup(patchBox,'inputs',{port:1,disabled:true,reason:'DI-Box nötig'},'data-audio-connect-port=\"1\"'),/Gesperrt/,'A blocked mono/DI socket must not be mislabeled as a missing stereo pair.');

@@ -337,7 +337,7 @@ function renderAudioQuickBoxes(){
 }
 // The socket artwork and active-port sparkle are shared with Stagebox-Belegung.
 function audioSocketMarkup(box,direction,{port,selected=false,occupant=null,disabled=false,reason='',side=''},attribute){
-  const socket=direction==='inputs'?'IN':'OUT',name=selected?(side?side+' · gewählt':'Gewählt'):occupant?occupant.instrument||'Belegt':disabled?'kein Paar':'frei';
+  const socket=direction==='inputs'?'IN':'OUT',name=selected?(side?side+' · gewählt':'Gewählt'):occupant?occupant.instrument||'Belegt':disabled?'Gesperrt':'frei';
   const label=box.name+' · '+socket+' '+port+' · '+(selected?(side?side+' · ':'')+'ausgewählt':occupant?'belegt: '+(occupant.instrument||'Signal')+(occupant.number?' · CH '+occupant.number:''):reason||'frei');
   return '<button type="button" '+attribute+' data-stagebox-direction="'+direction+'" data-active-port="'+selected+'" data-used="'+!!occupant+'" aria-pressed="'+selected+'" aria-label="'+esc(label)+'" title="'+esc(label)+(reason?' · '+esc(reason):'')+'"'+(disabled?' disabled':'')+'><span class="sp-stagebox-port-number">'+socket+' '+port+'</span><span class="sp-stagebox-socket" aria-hidden="true"></span><span class="sp-stagebox-port-name">'+esc(name)+'</span></button>';
 }
