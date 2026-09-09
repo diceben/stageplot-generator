@@ -72,7 +72,7 @@ for(const marker of [
   'data-stage-extension'
 ])assert.ok(html.includes(marker),marker+' fehlt in der gebauten App.');
 
-assert.equal(packageJson.version,'0.1.0-beta.6','Paketversion und sichtbare Release-Version laufen auseinander.');
+assert.equal(packageJson.version,html.match(/data-release-version="([^"]+)"/)?.[1],'Paketversion und sichtbare Release-Version laufen auseinander.');
 
 assert.match(html,/record\.stairsAlong=Math\.max\(0,Math\.min\(1,center\/drag\.maxW\)\);record\.stairsOffset=record\.stairsAlong;record\.stairsWidth=w/,'Beim Ziehen der Treppenbreite bleibt die gegenüberliegende Seite nicht verankert.');
 assert.match(html,/stairsDepth:finite\(source\.stairsDepth,\.45,3\)\?source\.stairsDepth:\.9/,'Die Treppentiefe wird beim Projektimport nicht migriert.');

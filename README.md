@@ -4,7 +4,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
-**Aktuelle Version:** v0.1.0-beta.6 · Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.7 · Release Notes sind in der App über `?` erreichbar.
 
 Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 

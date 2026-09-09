@@ -22,7 +22,7 @@ for(const marker of [
   'sp-stagebox-port-sparkles'
 ])assert.ok(html.includes(marker),marker+' fehlt in der gebauten App.');
 
-assert.equal(packageJson.version,'0.1.0-beta.6','Paketversion und sichtbare Release-Version laufen auseinander.');
+assert.equal(packageJson.version,html.match(/data-release-version="([^"]+)"/)?.[1],'Paketversion und sichtbare Release-Version laufen auseinander.');
 assert.match(html,/stereoPairs=\[\.\.\.new Set\(pairs\.map\(Number\)\.filter\(start=>Number\.isInteger\(start\)&&start>0&&start%2===1&&start<outputs\.count\)\)\]/,'Stereo-Links werden nicht auf ungerade linke Kanäle mit rechtem Nachbarn begrenzt.');
 assert.match(html,/io\.stereoPairs=io\.stereoPairs\.filter\(start=>start<io\.outputs\.count\)/,'Das Ändern der Instrument-Inputs würde gültige Output-Stereo-Links löschen.');
 assert.match(html,/if\(context\?\.candidate&&routeNeedsDi\(context\.candidate,context\.patch\.direction,context\.box\)\)\{renderStageboxSurface\(surface\);return;\}applyStageboxPatch\(\)/,'Die Stagebox-Quellenauswahl lässt inkompatible Klinke-zu-XLR-Patches zu.');

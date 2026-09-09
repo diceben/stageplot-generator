@@ -25,7 +25,7 @@ for(const marker of [
   'Abnahme / Outputs'
 ])assert.ok(html.includes(marker),marker+' fehlt in der gebauten App.');
 
-assert.equal(packageJson.version,'0.1.0-beta.6','Paketversion und sichtbare Release-Version laufen auseinander.');
+assert.equal(packageJson.version,html.match(/data-release-version="([^"]+)"/)?.[1],'Paketversion und sichtbare Release-Version laufen auseinander.');
 assert.match(html,/io\.aliases\[kind\]\[port-1\]=value/,'Signal-Aliase werden nicht an den gewählten Port geschrieben.');
 assert.match(html,/io\.aliases\.outputs\[start-1\]=alias;io\.aliases\.outputs\[start\]=alias/,'Stereo-Links teilen ihren Alias nicht.');
 assert.match(html,/syncRoutingFromStage\(false\);\},'Drumset übernommen'/,'Geänderte Drum-Abnahmen werden nicht ins Routing übernommen.');
