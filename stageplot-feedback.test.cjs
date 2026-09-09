@@ -56,3 +56,20 @@ const storage={data:new Map(),getItem(k){return this.data.get(k)??null;},setItem
 const invContext={};vm.createContext(invContext);vm.runInContext(fs.readFileSync('stageplot-inventory-v1.js','utf8'),invContext);const inventory=invContext.StageplotInventory;
 const mic=inventory.save({id:'inventory-mic',savedAt:1,document:{name:'Testmikrofon',quantity:2,symbol:'mic',wireless:'470–516 MHz',power:'1 × Schuko 230 V'}},storage);assert.equal(inventory.read(storage)[0].document.wireless,'470–516 MHz');assert.equal(inventory.usage(mic.id,[{inventoryId:mic.id},{inventoryId:mic.id}]),2);assert.throws(()=>inventory.save({...mic,document:{...mic.document,quantity:-1}},storage));const removed=inventory.remove(mic.id,storage);assert.equal(inventory.read(storage).length,0);inventory.save(removed,storage);assert.equal(inventory.read(storage).length,1);
 console.log('PASS FEEDBACK: verankertes Resize, 10-cm-Raster, Zwei-Finger-Gesten, IEM außerhalb der Bühne, Produktionsdaten und Inventar.');
+
+// Riser annotations stay on their own edges and yield space to equipment and captions.
+const labelCtx={objectSize:o=>({w:o.width,d:o.depth}),byId:{riser:{underlay:true},keys:{instrument:true}},measureLabel:text=>text.length*6,labelText:o=>o.label||'',labelVisible:o=>o.showLabel!==false&&Boolean(o.label),num:String,metres:value=>value+' m'};vm.createContext(labelCtx);vm.runInContext(['riserEdgeLabels','drawRiserEdgeLabels','syncRiserEdgeLabels'].map(extract).join('\n'),labelCtx);
+const riser={id:'riser',type:'riser',x:0,y:0,angle:0,width:4,depth:2,height:60,label:'Riser · 1×'},bottomKeys={id:'keys',type:'keys',x:0,y:.9,angle:0,width:4,depth:.4};
+const cleanLabels=plain(labelCtx.riserEdgeLabels(riser,50,[riser]));assert.deepEqual(cleanLabels.map(label=>[label.kind,label.text]),[['width','4 m · H 60 cm'],['depth','2 m']],'Each dimension and the height appears once, without a duplicate floating card.');
+assert.equal(labelCtx.riserEdgeLabels(riser,50,[riser,bottomKeys]).find(label=>label.kind==='width').side,'top','A keyboard at the front edge moves the annotation to the free rear edge.');
+assert.equal(labelCtx.riserEdgeLabels({...riser,angle:90},50,[riser,{...bottomKeys,x:-.9,y:0,angle:90}]).find(label=>label.kind==='width').side,'top','Collision checks use the rotated riser coordinates.');
+assert.equal(labelCtx.riserEdgeLabels(riser,50,[riser],{avoid:[{left:-2,right:2,top:.7,bottom:1}]}).find(label=>label.kind==='width').side,'top','Instrument captions also reserve space.');
+const named={...riser,label:'Drum-Riser mit einem sehr langen Namen'};
+assert(labelCtx.riserEdgeLabels(named,30,[named]).find(label=>label.kind==='caption').text.endsWith('…'));
+for(const label of labelCtx.riserEdgeLabels(named,30,[named])){assert(label.box.left>=-60&&label.box.right<=60);assert(label.box.top>=-30&&label.box.bottom<=30);}
+assert.equal(labelCtx.riserEdgeLabels({...named,showLabel:false},50,[named]).some(label=>label.kind==='caption'),false,'Object visibility hides its name while preserving measurement settings.');
+assert.deepEqual(plain(labelCtx.riserEdgeLabels(named,50,[named],{labels:false,measures:false})),[]);
+assert.deepEqual(labelCtx.riserEdgeLabels(named,50,[named],{measures:false}).map(label=>label.kind).join(','),'caption','Disabling dimensions in the export also removes the height.');
+const painted=[];labelCtx.sEl=(tag,attrs,_parent,text)=>painted.push({tag,attrs,text});labelCtx.drawRiserEdgeLabels({}, {...riser,angle:180},50,[riser],{});assert(painted.every(item=>{const rotation=Number(item.attrs.transform.match(/rotate\(([-\d.]+)/)[1]),world=((180+rotation)%360+360)%360;return world<=90||world>=270;}),'Rotated edge annotations remain upright.');
+assert(!html.includes('data-riser-caption'),'No large Riser caption remains above the equipment layer.');
+console.log('PASS RISER LABELS: single edge dimensions, compact height, collision avoidance, rotations, long names and export visibility.');
