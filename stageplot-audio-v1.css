@@ -32,9 +32,9 @@
 #sp-channel-form .sp-channel-top-fields .sp-field { flex:0 0 100px; }
 #sp-channel-form .sp-channel-top-fields .sp-channel-pill-field { flex:1;min-width:170px; }
 #sp-channel-form .sp-channel-top-fields input { width:80px;max-width:100%; }
-#sp-channel-microphone { padding:10px 12px;border:1px solid #ccd1c9;border-radius:8px;font:inherit;background:white;color:#222; }
+#sp-channel-microphone { padding:10px 12px;border:1px solid var(--sp-line);border-radius:8px;font:inherit;background:var(--sp-panel);color:var(--sp-ink); }
 #sp-audio-mic-choices summary { cursor:pointer;font-size:12px;padding:5px 0; }
-#sp-channel-dialog .sp-actions { position:sticky;bottom:-24px;z-index:2;background:#fff;padding:14px 0;margin:0;border-top:1px solid #d8ddd4; }
+#sp-channel-dialog .sp-actions { position:sticky;bottom:-24px;z-index:2;background:var(--sp-panel);padding:14px 0;margin:0;border-top:1px solid var(--sp-line); }
 #sp-channel-dialog #sp-audio-error:empty { display:none; }
 @media(max-width:620px){#sp-channel-dialog .sp-actions{bottom:-16px;gap:8px;flex-wrap:wrap;}#sp-channel-dialog .sp-actions .sp-button{min-height:42px;}#sp-channel-dialog .sp-actions .sp-spacer{display:none;}#sp-channel-form .sp-channel-top-fields{gap:12px;}#sp-channel-form .sp-channel-top-fields .sp-channel-pill-field{flex-basis:100%;}}
 
@@ -48,6 +48,9 @@
 #sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(4) { width:20%; }
 #sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(5) { width:17%; }
 #sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(6) { width:17%; }
+#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(1),#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(2) { width:15%; }
+#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(3) { width:50%; }
+#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(4) { width:20%; }
 
 .sp-audio-order { display:flex;gap:8px;align-items:center;flex-wrap:wrap; }
 .sp-audio-order span { margin-right:auto;font-size:12px; }
@@ -76,3 +79,44 @@
 #sp-channel-dialog #sp-channel-number-help { white-space:normal;max-width:100px; }
 #sp-audio-more-actions { flex-basis:100%;justify-content:flex-end; }
 #sp-audio-more-actions[hidden] { display:none; }
+
+/* Search and patch controls share the same signal records and editor. */
+#sp-prototype .sp-audio-find { display:flex;align-items:center;flex-wrap:wrap;gap:8px;width:100%;max-width:1320px;margin:4px auto 0;flex:0 0 auto; }
+#sp-prototype .sp-audio-find[hidden],#sp-prototype .sp-routing-table tr[hidden] { display:none; }
+.sp-audio-search { flex:1;min-width:220px; }
+.sp-audio-search input { width:100%;min-height:36px;padding:8px 12px;border:1px solid var(--sp-line);border-radius:8px;background:var(--sp-panel);color:var(--sp-ink);font:inherit; }
+.sp-audio-filters { display:flex;gap:5px; }
+#sp-prototype .sp-audio-filters .sp-button { min-height:36px; }
+#sp-prototype .sp-audio-filters [aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-soft);box-shadow:inset 0 -2px var(--sp-teal); }
+#sp-prototype .sp-audio-patch-button { max-width:100%;min-height:34px;padding:6px 9px;border:1px solid var(--sp-line);border-radius:7px;background:var(--sp-panel);color:var(--sp-ink);font:inherit;text-align:left;cursor:pointer; }
+#sp-prototype .sp-audio-patch-button[data-patch-status="unpatched"] { border-style:dashed;color:var(--sp-teal); }
+#sp-prototype .sp-audio-patch-button[data-patch-status="review"] { border-color:#b98925; }
+.sp-audio-patch-panel { display:grid;gap:12px;padding:16px;border:1px solid var(--sp-line);border-radius:10px;background:var(--sp-soft);scroll-margin:20px; }
+.sp-audio-patch-panel p { margin:0; }
+#sp-prototype #sp-channel-dialog .sp-channel-pill-field legend { color:var(--sp-ink);font-size:12px; }
+#sp-prototype #sp-channel-dialog .sp-channel-pills button { min-height:36px;border-color:var(--sp-line);background:var(--sp-panel);color:var(--sp-ink);font-size:12px; }
+#sp-prototype #sp-channel-dialog .sp-channel-pills button[aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-accent-bg);color:var(--sp-ink);box-shadow:inset 0 -2px var(--sp-teal); }
+#sp-prototype #sp-channel-dialog .sp-channel-pills button:disabled { border-color:var(--sp-line);background:var(--sp-soft);color:var(--sp-muted);box-shadow:none; }
+#sp-prototype #sp-channel-dialog .sp-channel-stagebox-field { padding:0;border:0;background:transparent; }
+#sp-prototype #sp-channel-dialog .sp-channel-stagebox-field > small { color:var(--sp-muted);font-size:12px;line-height:1.5; }
+#sp-prototype #sp-channel-dialog .sp-audio-di-help { margin-top:8px;white-space:normal; }
+@media(max-width:620px) { #sp-prototype #sp-channel-dialog .sp-channel-pills button { min-height:42px; } }
+.sp-audio-port-choices { display:grid;gap:8px; }
+.sp-audio-port-choices[hidden] { display:none; }
+.sp-audio-port-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:5px;max-height:160px;overflow:auto; }
+#sp-prototype .sp-audio-port-grid .sp-button { min-height:36px;padding:6px; }
+#sp-prototype .sp-audio-port-grid [aria-pressed="true"] { border-color:var(--sp-teal);box-shadow:inset 0 -2px var(--sp-teal); }
+@container sp-frame (max-width:760px) { .sp-audio-search { flex-basis:100%; }.sp-audio-filters { flex:1; }#sp-prototype .sp-audio-filters .sp-button { flex:1;padding:6px;font-size:11px; } }
+
+#sp-prototype .sp-stagebox-signal-actions { display:grid;gap:8px; }
+#sp-prototype .sp-stagebox-signal-actions .sp-button { min-height:40px;white-space:normal; }
+#sp-prototype .sp-stagebox-device-details summary { padding:12px 0;font-weight:650;cursor:pointer; }
+#sp-prototype .sp-stagebox-source-actions .sp-check { display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sp-sb-ink); }
+#sp-prototype .sp-stagebox-source-actions input { width:18px;height:18px;flex:0 0 auto; }
+#sp-prototype .sp-stagebox-card-menu { width:auto;padding:6px 8px;font-size:12px; }
+#sp-prototype .sp-stagebox-fix-di { margin:8px 15px; }
+#sp-prototype .sp-stagebox-source-status[data-status="warning"] { color:light-dark(#956515,#ffd285); }
+#sp-prototype .sp-stagebox-source-panel { top:16px;height:calc(100% - 32px);max-height:600px; }
+#sp-prototype .sp-stagebox-source-actions { flex-wrap:wrap; }
+#sp-prototype .sp-stagebox-source-option[hidden],#sp-prototype .sp-stagebox-source-group[hidden] { display:none; }
+@container sp-frame (max-width:620px) { #sp-prototype .sp-stagebox-source-panel { top:12px;height:min(580px,calc(100dvh - 210px));max-height:calc(100dvh - 210px); } }

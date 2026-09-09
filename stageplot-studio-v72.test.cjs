@@ -14,9 +14,9 @@ for(const marker of [
   'sp-stagebox-source-group',
   'data-stagebox-source-search',
   'sp-stagebox-channel-details',
-  'data-stagebox-info-tab="source"',
-  'data-stagebox-info-tab="details"',
-  'data-stagebox-info-tab="notes"',
+  'data-stagebox-change-source',
+  'data-stagebox-source-close',
+  'data-stagebox-next',
   'data-stagebox-clear-assignment',
   'data-stagebox-sync',
   'function filterStageboxSources(',
@@ -38,11 +38,12 @@ assert.match(html,/candidate&&routeNeedsDi\(candidate,context\.patch\.direction,
 assert.match(html,/option\.hidden=!visible/,'Die Stagebox-Quellensuche filtert die vorhandenen Channels nicht.');
 assert.match(html,/infoBox=boxes\.find\(box=>box\.id===activeStageboxId\)\|\|boxes\[0\],detail=shownContext\?stageboxDetailMarkup\(shownContext,dialog\):infoBox\?stageboxGeneralDetailMarkup\(infoBox,dialog\):''/,'Das Stagebox-Info-Sidepanel ist ohne ausgewählten Port nicht geöffnet.');
 assert.match(html,/function nextFreeStageboxPortAfter\(context\)/,'Nach einer Belegung wird der nächste freie Stagebox-Port nicht bestimmt.');
-assert.match(html,/activeStageboxPatch=\{boxId:context\.box\.id,direction:context\.patch\.direction,port:nextPort\}/,'Die Stagebox-Ansicht springt nach einer Belegung nicht zum nächsten freien Port.');
+assert.match(html,/activeStageboxPatch=\{boxId:context\.box\.id,direction:context\.patch\.direction,port:nextPort\}/,'Die optionale Serienbelegung kann nicht zur nächsten freien Buchse wechseln.');
 assert.match(html,/\.sp-stagebox-source-panel \{[^}]*width:min\(900px[^}]*height:min\(600px[^}]*max-height:min\(620px/,'Die Channel-Auswahl ist nicht groß genug ausgeführt.');
 assert.match(html,/function stageboxSourceGroup\(row,direction\)/,'Channels werden in der Auswahl nicht nach Instrument gruppiert.');
 assert.match(html,/const source=e\.target\.closest\('\[data-stagebox-source\]'\);if\(source\)\{stageboxPatchCandidateId=source\.dataset\.stageboxSource;[\s\S]*?applyStageboxPatch\(\);return;\}/,'Die Channel-Auswahl verbindet nicht unmittelbar beim Anklicken.');
 assert.ok(!html.includes('data-stagebox-patch-apply'),'Der veraltete zusätzliche Verbinden-Schritt ist noch vorhanden.');
+assert.ok(!html.includes('Polarity'),'Erfundene Signalmetadaten werden noch angezeigt.');
 assert.ok(!html.includes('Recent Sources'),'Die veraltete Liste „Recent Sources“ ist noch vorhanden.');
 assert.ok(!html.includes('sp-stagebox-card-online'),'Der veraltete Online-Status ist noch auf Stagebox-Karten vorhanden.');
 assert.match(html,/\.sp-stagebox-rename-form input \{[^}]*background:light-dark\(#fff,#0a1520\); color:light-dark\(#171b17,#f0f3f7\)/,'Der Stagebox-Name hat keinen lesbaren Hell-/Dunkel-Kontrast.');
