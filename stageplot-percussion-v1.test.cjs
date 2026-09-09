@@ -99,3 +99,32 @@ for(const c of model.catalog){
  assert.match(markup,/viewBox="1 1 /,'Packaging margins must not count as instrument size.');
 }
 console.log('PASS PERCUSSION: generated local assets, geometry, portable project data, stable mono/stereo IDs, real editor add/rotate/duplicate/preset/undo/save/cancel and pointer/pinch handlers.');
+
+// Hold rotation uses the real pointer handlers for every instrument, including table/pad.
+let now=0,frameId=0;const frames=new Map();
+Object.assign(editorContext,{performance:{now:()=>now},requestAnimationFrame:fn=>{frames.set(++frameId,fn);return frameId;},cancelAnimationFrame:id=>frames.delete(id)});
+const rotationPointer=(type,direction=1,pointerId=11)=>{
+ const button={dataset:{percRotateHold:String(direction)},closest:()=>null};
+ modal.emit(type,{button:0,pointerId,stopPropagation(){},target:{closest:selector=>selector==='[data-perc-rotate-hold]'?button:null}});
+};
+const advance=milliseconds=>{const until=now+milliseconds;while(now<until){now=Math.min(until,now+16);const scheduled=[...frames.values()];frames.clear();for(const fn of scheduled)fn(now);}};
+for(const c of model.catalog){
+ const original=model.normalize({parts:[{...model.part(c.id,'p1',.4,-.3),angle:12,width:.47,depth:.29}]});
+ editor.open({id:'station-1',percussion:original});click({select:'p1'});
+ rotationPointer('pointerdown');advance(800);rotationPointer('pointerup');assert.equal(frames.size,0);
+ click({action:'undo'});click({action:'save'});assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),original,c.id+' hold must be one undo step.');
+ editor.open({id:'station-1',percussion:original});click({select:'p1'});
+ rotationPointer('pointerdown',-1);advance(800);rotationPointer('pointerup',-1);click({action:'save'});
+ const result=results.at(-1).config,p=result.parts[0];assert(p.angle>270&&p.angle<360,c.id+' rotates continuously in the requested direction.');
+ assert.deepEqual({...p,angle:original.parts[0].angle},original.parts[0],c.id+' rotation preserves position, dimensions, label and pickup.');
+ assert.deepEqual(model.channels(result),model.channels(original),c.id+' rotation preserves all audio identities.');
+}
+open();click({select:'p1'});rotationPointer('pointerdown');rotationPointer('pointerup');click({action:'save'});assert.equal(results.at(-1).config.parts[0].angle,10,'A quick tap must also rotate when no animation frame ran.');
+open();click({select:'p1'});rotationPointer('pointerdown');advance(600);rotationPointer('pointercancel');click({action:'save'});assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),compact,'An interrupted touch restores the rotation draft.');
+open();click({select:'p1'});rotationPointer('pointerdown');advance(600);rotationPointer('lostpointercapture');assert.equal(frames.size,0);click({action:'undo'});click({action:'save'});assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),compact,'Lost capture stops rotation and retains one undo step.');
+const count=results.length;open();click({select:'p1'});rotationPointer('pointerdown');advance(600);click({action:'cancel'});assert.equal(frames.size,0);advance(1000);assert.equal(results.length,count,'Closing during a hold cancels animation and does not commit.');
+console.log('PASS PERCUSSION ROTATION: all 14 object types, both directions, unchanged scale and signal identities, single-step undo, quick tap, pointer cancellation, lost capture and closing during a hold.');
+
+open();click({select:'p1'});rotationPointer('pointerdown');rotationPointer('pointerup');
+modal.emit('click',{detail:1,target:{closest:()=>({dataset:{percRotation:'',action:'rotate-reset'},closest:()=>null})}});
+click({action:'save'});assert.equal(results.at(-1).config.parts[0].angle,0,'Reset stays immediately usable after releasing a rotation button.');

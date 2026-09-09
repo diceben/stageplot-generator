@@ -5,9 +5,10 @@ Im Bausteinkatalog unter **Instrumente** das **Percussion-Set** direkt neben **S
 ## Bedienung
 
 - Links ein Instrument hinzufügen, in der Mitte auswählen und verschieben. Ziehen rastet in 5-cm-Schritten ein; Zahlenfelder erlauben genaue Positionen.
-- Rechts Bezeichnung, Drehung sowie **Breite und Tiefe in Zentimetern** anpassen. Die Außenmaße lassen sich unabhängig mit 0,1-mm-Auflösung eingeben; der unspezifische Größenregler entfällt. R / Shift+R drehen um 15°, Pfeiltasten verschieben um 5 cm, Shift+Pfeil um 10 cm. Rechtsklick dreht ebenfalls um 15°. Duplizieren und Entfernen stehen direkt daneben.
+- Beim Überfahren oder Auswählen erscheint direkt am Objekt eine schwebende Drehleiste mit denselben Pfeil- und Reset-Symbolen wie im Drumdesigner. Links/rechts gedrückt halten dreht stufenlos mit derselben Beschleunigung; 0° setzt die Drehung zurück. Das funktioniert für alle 14 Varianten, einschließlich Becken, Multipad und Tisch. Die Leiste bleibt bei Zoom und auf dem Handy innerhalb der Zeichenfläche; Touch-Buttons sind mindestens 44 px groß. Dieselben Buttons stehen auch rechts bei den Eigenschaften.
+- Rechts Bezeichnung, Drehung sowie **Breite und Tiefe in Zentimetern** anpassen. Die Außenmaße lassen sich unabhängig mit 0,1-mm-Auflösung eingeben; der unspezifische Größenregler entfällt. Enter/Leertaste auf einem Drehpfeil dreht um 10°. R / Shift+R drehen weiterhin um 15°, Pfeiltasten verschieben um 5 cm, Shift+Pfeil um 10 cm. Rechtsklick dreht ebenfalls um 15°. Duplizieren und Entfernen stehen direkt daneben.
 - „Vorlagen“ bietet einen kompakten Aufbau, ein großes Latin-Setup und einen leeren Anfang. Ein Vorlagenwechsel ersetzt den Entwurf und lässt sich rückgängig machen.
-- Änderungen werden erst mit **Auf Bühne übernehmen** gespeichert. Abbrechen und Escape lassen das Bühnenobjekt unverändert. Undo/Redo ist sowohl im Percussion-Editor als auch nach der Übernahme im Bühneneditor verfügbar.
+- Änderungen werden erst mit **Auf Bühne übernehmen** gespeichert. Abbrechen und Escape lassen das Bühnenobjekt unverändert. Eine gehaltene Drehung erzeugt genau einen Undo-Schritt. Loslassen außerhalb des Buttons stoppt sie ebenfalls; eine abgebrochene Touch-Geste setzt die begonnene Drehung zurück. Undo/Redo ist sowohl im Percussion-Editor als auch nach der Übernahme im Bühneneditor verfügbar.
 - Auf kleinen Bildschirmen schalten **Instrumente**, **Aufbau** und **Auswahl** zwischen den drei Bereichen um. Zwei Finger zoomen und verschieben die Ansicht.
 
 Bühne, Instrumente und Export verwenden dieselben Meter. Das Editor-Raster zeigt 10 cm. Die Größen sind Außenmaße einschließlich Rand und Beschlägen. Bei generischen Instrumenten sind es anpassbare Planmaße, keine verbindlichen Herstellermaße. Quinto, Conga und Tumba verwenden dieselbe generierte Draufsicht in unterschiedlichen Größen. Stativfüße und Bewegungsflächen sind nicht Teil der Instrumentabmessungen; dafür im Bühnenplan ausreichend Platz vorsehen.
@@ -42,6 +43,8 @@ Die Darstellung ist generisch und ohne Markenlogos. Größenorientierung: [LP Co
 ## Validierung
 
 `npm test` prüft unter anderem normalisierte Imports, portable Projektdateien, gedrehte Abmessungen, stabile Kanal-IDs, Mono/Stereo, Asset-Prüfsummen, voneinander unabhängige Vorschaubilder sowie die echten Editor-Handler für Hinzufügen, Drehen, Duplizieren, Vorlagen, Eingaben, Undo, Speichern, Abbrechen und Pointer-Gesten.
+
+Die Drehleiste wurde zusätzlich in Chrome und WebKit geprüft: alle 14 Objekttypen, Hover und Auswahl, Tastatur und Reset, Halten mit Loslassen außerhalb, genau ein Undo-Schritt, Speichern und Abbrechen, mobile Touch-Tipps sowie Toolbar-Grenzen. In Chrome zusätzlich eine emulierte gehaltene Touch-Drehung.
 
 Im Browser geprüft: kompakter und großer Aufbau, Bilddarstellung, Ziehen, Zahlenfelder, Speichern und erneutes Laden, gemeinsame Inputliste, Druckvorschau, erfolgreicher PNG-Export und eine 390 Pixel breite Ansicht. Mehrfinger-Handler sind automatisiert geprüft; ein zusätzlicher Test auf physischer Touch-Hardware steht aus.
 
