@@ -94,7 +94,7 @@ class PreviewNode extends SvgNode{
 }
 const previewCatalog={guitar:{art:'guitar',vb:[100,50]},riser:{art:'riser',vb:[100,50],underlay:true},mic:{art:'mic',vb:[50,50]}};
 const previewContext={StageplotGeometry:G,StageplotVenue:rc.StageplotVenue,venueCompileCache:new WeakMap(),byId:previewCatalog,objectSize:o=>({w:o.width,d:o.depth}),objectCatalog:o=>previewCatalog[o.type],artId:(c,o)=>'sp-art-'+c.art+(o.stand?'-'+o.stand:''),esc:s=>s,sEl:(tag,attrs,parent)=>{const n=new PreviewNode(tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);parent?.append(n);return n;}};
-vm.createContext(previewContext);vm.runInContext(['stageObjectOrder','venueObjectPart','compiledVenue','projectPreviewObjectsMarkup','venuePreviewMarkup','dashboardPreviewMarkup'].map(extract).join('\n'),previewContext);
+vm.createContext(previewContext);vm.runInContext(['stageObjectOrder','venueObjectPart','compiledVenue','projectPreviewBounds','projectPreviewObjectsMarkup','venuePreviewMarkup','dashboardPreviewMarkup'].map(extract).join('\n'),previewContext);
 const previewObjects=[{id:'instrument',type:'guitar',x:2,y:2,width:1.5,depth:.75,angle:45},{id:'platform',type:'riser',x:2,y:2,width:3,depth:2,angle:0},{id:'vocal',type:'mic',x:4,y:3,width:.5,depth:.5,angle:90,stand:'round'}];
 for(const geometry of [undefined,withStairs,G.preset('round',8,5)]){
   const previewDocument={stage:{w:8,d:5,geometry},objects:previewObjects},before=JSON.stringify(previewDocument),markup=previewContext.dashboardPreviewMarkup(previewDocument);
@@ -104,6 +104,15 @@ for(const geometry of [undefined,withStairs,G.preset('round',8,5)]){
   assert.match(markup,/rotate\(45\)/);assert.match(markup,/rotate\(90\)/);assert.doesNotMatch(markup,/#a4b9a0/);
   if(geometry)assert.match(markup,/fill-rule="evenodd"/,'Freie Bühnenkonturen bleiben in der Vorschau erhalten.');
   assert.equal(JSON.stringify(previewDocument),before,'Vorschaurendering verändert keine gespeicherten Objekte.');
+}
+// Off-stage access pieces remain fully visible in project cards, even after rotation.
+previewCatalog['stage-ramp']={art:'stage-ramp',vb:[200,100],underlay:true,stageAccess:'ramp'};
+const accessPreview=[{id:'access',type:'stage-ramp',x:-2,y:3,width:1.2,depth:4,angle:90}];
+for(const geometry of [undefined,G.preset('round',8,5)]){
+  const s={w:8,d:5,geometry},b=previewContext.projectPreviewBounds(s,accessPreview),markup=previewContext.dashboardPreviewMarkup({stage:s,objects:accessPreview});
+  assert.equal(b.minX,-4);assert.ok(b.maxX>=8);assert.match(markup,/<use href="#sp-art-stage-ramp"/);
+  const transform=markup.match(/rotate\(90\) translate\(([^)]+)\) scale\(([^)]+)\)/);assert.ok(transform,'Rampe wird in beiden Achsen auf ihr gespeichertes Maß skaliert.');
+  const [sx,sy]=transform[2].split(' ').map(Number);assert.ok(sy>sx*6,'Schmale, lange Rampen behalten das richtige Seitenverhältnis.');
 }
 // The same commands power the toolbar, context menu, sidebar and keyboard.
 const ac={G};vm.createContext(ac);vm.runInContext(ui.slice(ui.indexOf('  function rotatePart('),ui.indexOf('  function dimension(')),ac);

@@ -800,11 +800,16 @@ function createStageplotSymbolV3(type, options = {}) {
     if(count===2)line(5,h/2,w-5,h/2,.6);
     if(count===3){line(w/3,5,w/3,h-5,.6);line(w*2/3,5,w*2/3,h-5,.6);}
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
+  }else if(type==='stage-stairs'){
+    group('','stage-stairs-top-view');rect(2,2,116,96,'#f3f4f1',.85,.5,'#4a504a');
+    for(const y of [20,40,60,80])line(2,y,118,y,.65,'#858c85');
+    const arrow='M60 85V18M49 30L60 18L71 30';path(arrow,'none',3.5,'#f3f4f1');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-ramp'){
     group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');
     const rampPattern=scopedId('pattern','ramp-grip');out+='<defs><pattern id="'+rampPattern+'" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0M-3 3L3-3M6 12L12 6" stroke="#aeb4ae" stroke-width=".65"/></pattern></defs>';
     path('M9 10H191L184 90H16Z','url(#'+rampPattern+')',.35,'#b7bcb7');
-    for(const y of [12,88])line(13,y,187,y,.7,'#767c76');for(const [x,y] of [[11,10],[189,10],[17,88],[183,88]])bolt(x,y,.8);end();
+    for(const y of [12,88])line(13,y,187,y,.7,'#767c76');for(const [x,y] of [[11,10],[189,10],[17,88],[183,88]])bolt(x,y,.8);
+    const arrow='M100 80V20M90 32L100 20L110 32';path(arrow,'none',3.5,'#eceeeb');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-railing'){
     group('','stage-railing-top-view');rod(5,10.5,295,10.5,4.8);for(let x=10;x<=290;x+=40){circle(x,10.5,5.2,'#606561',.65,'#222522');circle(x,10.5,2.3,'#d3d7d3',.3,'#555');rect(x-8,2,16,4,'#777c78',.4,1,'#343734');rect(x-8,15,16,4,'#777c78',.4,1,'#343734');}end();
   }else if(type==='stage-truss-tower'){
