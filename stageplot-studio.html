@@ -5655,6 +5655,43 @@ const StageplotPrint = (() => {
     return area(clip.difference([footprint], multi)) < .0001;
   }
   function overlaps(a, b) { return area(clip.intersection(polygon(a), polygon(b))) > .0001; }
+  // Work on the visible perimeter, never on a bounding box or hidden source seams.
+  // The returned translation is exact in metres and must not be rounded back to a grid.
+  function snapToFloor(p, floor, { threshold = .2, exterior = true } = {}) {
+    if (!floor?.length || !Number.isFinite(threshold) || threshold <= 0) return null;
+    const moving = ring(p), candidates = [], epsilon = .000002;
+    const edges = points => points.map((a, i) => ({ a, b: points[(i + 1) % points.length] }))
+      .filter(e => Math.hypot(e.b[0] - e.a[0], e.b[1] - e.a[1]) >= .08);
+    for (const target of floor.flatMap(poly => poly.flatMap(edges))) {
+      const length = Math.hypot(target.b[0] - target.a[0], target.b[1] - target.a[1]);
+      const ux = (target.b[0] - target.a[0]) / length, uy = (target.b[1] - target.a[1]) / length, nx = -uy, ny = ux;
+      for (const edge of edges(moving)) {
+        const ex = edge.b[0] - edge.a[0], ey = edge.b[1] - edge.a[1], edgeLength = Math.hypot(ex, ey);
+        if (Math.abs(ex * uy - ey * ux) > epsilon * edgeLength) continue;
+        const normal = (target.a[0] - edge.a[0]) * nx + (target.a[1] - edge.a[1]) * ny;
+        if (Math.abs(normal) > threshold) continue;
+        const projection = point => (point[0] - target.a[0]) * ux + (point[1] - target.a[1]) * uy;
+        const start = Math.min(projection(edge.a), projection(edge.b)), end = Math.max(projection(edge.a), projection(edge.b));
+        const overlap = shift => Math.min(length, end + shift) - Math.max(0, start + shift);
+        const minimum = Math.min(.15, length / 2, edgeLength / 2);
+        // Close corners align too, even if neither corner is on a grid intersection.
+        const alignments = [-start, length - end, -end, length - start]
+          .filter(shift => Math.abs(shift) <= threshold && overlap(shift) >= minimum - epsilon)
+          .sort((a, b) => Math.abs(a) - Math.abs(b));
+        const shifts = [...alignments.slice(0, 1), 0];
+        for (const tangent of shifts) {
+          if (overlap(tangent) < minimum - epsilon) continue;
+          const dx = normal * nx + tangent * ux, dy = normal * ny + tangent * uy;
+          const next = { ...p, x: round(p.x + dx), y: round(p.y + dy) };
+          if (exterior && area(clip.intersection(polygon(next), floor)) > .00001) continue;
+          candidates.push({ x: next.x, y: next.y, dx: round(dx), dy: round(dy), distance: Math.hypot(dx, dy), normal: Math.abs(normal) });
+          break;
+        }
+      }
+    }
+    candidates.sort((a, b) => a.distance - b.distance);
+    return candidates[0] || null;
+  }
   function resize(p, w, d) {
     const next = copy(p), sx = w / p.w, sy = d / p.d;
     next.w = w; next.d = d;
@@ -5703,7 +5740,7 @@ const StageplotPrint = (() => {
     if (name === 'irregular') Object.assign(main, { shape: 'polygon', points: [[0, 0], [w * .8, 0], [w, d * .3], [w, d], [w * .1, d], [0, d * .7]] });
     return normalize(g);
   }
-  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, overlaps, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
+  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, overlaps, snapToFloor, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
 });
 /* build-inline:end stageplot-geometry-v1.js */
 /* build-inline:start stageplot-venue-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
@@ -6003,7 +6040,13 @@ const StageplotPrint = (() => {
       if(!drag||drag.pointer!==e.pointerId)return;
       if(drag.kind==='pan'){pan.x=drag.pan.x+e.clientX-drag.start[0];pan.y=drag.pan.y+e.clientY-drag.start[1];draw();return;}
       const pos=local(e),a=G.inverse(drag.original,pos),b=G.inverse(drag.original,drag.start),delta=[snap(a[0]-b[0]),snap(a[1]-b[1])],p=G.copy(drag.original);
-      if(drag.kind==='move'){p.x=G.round(p.x+snap(pos[0]-drag.start[0]));p.y=G.round(p.y+snap(pos[1]-drag.start[1]));delete p.anchor;}
+      if(drag.kind==='move'){
+        p.x=G.round(p.x+snap(pos[0]-drag.start[0]));p.y=G.round(p.y+snap(pos[1]-drag.start[1]));delete p.anchor;
+        if($('[data-field="snap"]').checked&&['floor','stairs','ramp'].includes(p.kind)){
+          const floor=G.compile({...g,parts:g.parts.filter(q=>q.id!==p.id)}).floor,target=G.snapToFloor(p,floor,{threshold:.2});
+          if(target){p.x=target.x;p.y=target.y;}
+        }
+      }
       else if(drag.kind==='resize'){Object.assign(p,G.resize(p,Math.max(.1,p.w+delta[0]),Math.max(.1,p.d+delta[1])));}
       else {makePolygon(p);const i=drag.index,j=(i+1)%p.points.length;if(drag.kind==='point'){p.points[i][0]+=delta[0];p.points[i][1]+=delta[1];}else{const v=p.points[i],w=p.points[j],len=Math.hypot(w[0]-v[0],w[1]-v[1]),normal=[-(w[1]-v[1])/len,(w[0]-v[0])/len],distance=snap(delta[0]*normal[0]+delta[1]*normal[1]);for(const index of [i,j]){p.points[index][0]+=normal[0]*distance;p.points[index][1]+=normal[1]*distance;}}rebox(p);}
       const previous=G.copy(g),index=g.parts.findIndex(q=>q.id===p.id);g.parts[index]=p;try{G.syncAnchors(g);g=G.normalize(g);draw();status('');}catch(error){g=previous;status(error.message);}
@@ -8323,15 +8366,22 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   const gridStep = () => $('sp-grid-size').value==='0.125'?.125:.25;
   function constrain(o, snap=true) {
-    // Stage edges are a reference, not a movement boundary. Keep 12.5 cm coordinates exact.
-    if(snap&&$('sp-snap').checked){const q=gridStep();o.x=Math.round(o.x/q)*q;o.y=Math.round(o.y/q)*q;}
-    if(snap&&byId[o.type]?.stageExtension&&stage)snapStageModule(o);
-    o.x=Math.round(o.x*1000)/1000;o.y=Math.round(o.y*1000)/1000;
+    // Grid first; a real stage edge has priority and keeps its exact position.
+    const grid=snap&&$('sp-snap').checked;
+    if(grid){const q=gridStep();o.x=Math.round(o.x/q)*q;o.y=Math.round(o.y/q)*q;}
+    const attached=grid&&(byId[o.type]?.stageExtension?snapStageModule(o):snapStageElement(o));
+    if(!attached){o.x=Math.round(o.x*1000)/1000;o.y=Math.round(o.y*1000)/1000;}
+  }
+  function snapStageElement(o,threshold=.2){
+    const c=byId[o?.type];if(!stage||!c||(!c.stageExtension&&!c.stageAccess&&o.type!=='riser')||typeof StageplotGeometry==='undefined')return false;
+    const G=StageplotGeometry,geometry=stage.geometry||G.legacy(stage),extensions=objects.filter(item=>item!==o&&byId[item.type]?.stageExtension).map(venueObjectPart),floor=G.compile(geometry,extensions).floor,p=venueObjectPart(o);
+    const target=G.snapToFloor(p,floor,{threshold,exterior:o.type!=='riser'});if(!target)return false;
+    o.x=G.round(o.x+target.dx);o.y=G.round(o.y+target.dy);return true;
   }
   function snapStageModule(o){
-    if(!stage||!byId[o?.type]?.stageExtension)return false;o.angle=((Math.round((Number(o.angle)||0)/90)*90)%360+360)%360;const size=objectSize(o),vertical=o.angle%180!==0,ow=vertical?size.d:size.w,oh=vertical?size.w:size.d,q=.25,minimumOverlap=.25,anchors=[{x:stage.w/2,y:stage.d/2,w:stage.w,h:stage.d},...objects.filter(item=>item!==o&&byId[item.type]?.stageExtension).map(item=>{const s=objectSize(item),v=(Number(item.angle)||0)%180!==0;return{x:item.x,y:item.y,w:v?s.d:s.w,h:v?s.w:s.d};})],candidates=[];
-    for(const anchor of anchors){const left=anchor.x-anchor.w/2,right=anchor.x+anchor.w/2,top=anchor.y-anchor.h/2,bottom=anchor.y+anchor.h/2,clamp=(value,min,max)=>Math.max(min,Math.min(max,value)),cy=Math.round(clamp(o.y,top-oh/2+minimumOverlap,bottom+oh/2-minimumOverlap)/q)*q,cx=Math.round(clamp(o.x,left-ow/2+minimumOverlap,right+ow/2-minimumOverlap)/q)*q;candidates.push({x:left-ow/2,y:cy},{x:right+ow/2,y:cy},{x:cx,y:top-oh/2},{x:cx,y:bottom+oh/2});}
-    const nearest=candidates.map(point=>({...point,distance:Math.hypot(point.x-o.x,point.y-o.y)})).sort((a,b)=>a.distance-b.distance)[0];if(!nearest||nearest.distance>.55)return false;o.x=nearest.x;o.y=nearest.y;return true;
+    if(!stage||!byId[o?.type]?.stageExtension)return false;
+    o.angle=((Math.round((Number(o.angle)||0)/90)*90)%360+360)%360;
+    return snapStageElement(o,.55);
   }
   const stairLocations=new Set(['left','right','back','side-left','side-right']);
   function stairSelectionId(record){return record?.id?'stairs-zone-'+record.id:'stairs-zone';}
@@ -12450,7 +12500,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     }
     if(e.key.toLowerCase()==='r'){e.preventDefault();rotate(e.shiftKey?45:10);}
     const q=gridStep(),delta={ArrowLeft:[-q,0],ArrowRight:[q,0],ArrowUp:[0,-q],ArrowDown:[0,q]}[e.key];
-    if(delta){e.preventDefault();change(()=>{o.x+=delta[0];o.y+=delta[1];constrain(o);});}
+    if(delta){e.preventDefault();change(()=>{o.x+=delta[0];o.y+=delta[1];constrain(o,false);});}
   });
   window.addEventListener('keyup',e=>{if(e.code==='Space'){spaceHeld=false;syncViewControls();}});
   window.addEventListener('blur',()=>{spaceHeld=false;keyboardScope=false;cancelLibraryDrag();cancelPlacement(false);if(panDrag)endViewPan({pointerId:panDrag.pointer},true);if(drag)cancelObjectDrag();syncViewControls();});

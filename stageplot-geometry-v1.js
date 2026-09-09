@@ -125,6 +125,43 @@
     return area(clip.difference([footprint], multi)) < .0001;
   }
   function overlaps(a, b) { return area(clip.intersection(polygon(a), polygon(b))) > .0001; }
+  // Work on the visible perimeter, never on a bounding box or hidden source seams.
+  // The returned translation is exact in metres and must not be rounded back to a grid.
+  function snapToFloor(p, floor, { threshold = .2, exterior = true } = {}) {
+    if (!floor?.length || !Number.isFinite(threshold) || threshold <= 0) return null;
+    const moving = ring(p), candidates = [], epsilon = .000002;
+    const edges = points => points.map((a, i) => ({ a, b: points[(i + 1) % points.length] }))
+      .filter(e => Math.hypot(e.b[0] - e.a[0], e.b[1] - e.a[1]) >= .08);
+    for (const target of floor.flatMap(poly => poly.flatMap(edges))) {
+      const length = Math.hypot(target.b[0] - target.a[0], target.b[1] - target.a[1]);
+      const ux = (target.b[0] - target.a[0]) / length, uy = (target.b[1] - target.a[1]) / length, nx = -uy, ny = ux;
+      for (const edge of edges(moving)) {
+        const ex = edge.b[0] - edge.a[0], ey = edge.b[1] - edge.a[1], edgeLength = Math.hypot(ex, ey);
+        if (Math.abs(ex * uy - ey * ux) > epsilon * edgeLength) continue;
+        const normal = (target.a[0] - edge.a[0]) * nx + (target.a[1] - edge.a[1]) * ny;
+        if (Math.abs(normal) > threshold) continue;
+        const projection = point => (point[0] - target.a[0]) * ux + (point[1] - target.a[1]) * uy;
+        const start = Math.min(projection(edge.a), projection(edge.b)), end = Math.max(projection(edge.a), projection(edge.b));
+        const overlap = shift => Math.min(length, end + shift) - Math.max(0, start + shift);
+        const minimum = Math.min(.15, length / 2, edgeLength / 2);
+        // Close corners align too, even if neither corner is on a grid intersection.
+        const alignments = [-start, length - end, -end, length - start]
+          .filter(shift => Math.abs(shift) <= threshold && overlap(shift) >= minimum - epsilon)
+          .sort((a, b) => Math.abs(a) - Math.abs(b));
+        const shifts = [...alignments.slice(0, 1), 0];
+        for (const tangent of shifts) {
+          if (overlap(tangent) < minimum - epsilon) continue;
+          const dx = normal * nx + tangent * ux, dy = normal * ny + tangent * uy;
+          const next = { ...p, x: round(p.x + dx), y: round(p.y + dy) };
+          if (exterior && area(clip.intersection(polygon(next), floor)) > .00001) continue;
+          candidates.push({ x: next.x, y: next.y, dx: round(dx), dy: round(dy), distance: Math.hypot(dx, dy), normal: Math.abs(normal) });
+          break;
+        }
+      }
+    }
+    candidates.sort((a, b) => a.distance - b.distance);
+    return candidates[0] || null;
+  }
   function resize(p, w, d) {
     const next = copy(p), sx = w / p.w, sy = d / p.d;
     next.w = w; next.d = d;
@@ -173,5 +210,5 @@
     if (name === 'irregular') Object.assign(main, { shape: 'polygon', points: [[0, 0], [w * .8, 0], [w, d * .3], [w, d], [w * .1, d], [0, d * .7]] });
     return normalize(g);
   }
-  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, overlaps, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
+  return { VERSION, TOLERANCE, MAX_PARTS, MAX_POINTS, part, normalize, legacy, transform, inverse, ring, localRing, polygon, compile, path, area, containsFootprint, overlaps, snapToFloor, resize, vertices, edgePoint, syncAnchors, attachmentIssues, preset, copy, round };
 });
