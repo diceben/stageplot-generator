@@ -19,6 +19,9 @@ const INDEX = path.join(root, 'index.html');
 // Reihenfolge = Ladereihenfolge in der HTML (export vor drums vor symbols).
 // transform() muss exakt den Text erzeugen, der eingebettet werden soll.
 const MODULES = [
+  { file: 'stageplot-percussion-v1.js', transform: s => s.trim() },
+  { file: 'stageplot-percussion-editor-v1.js', transform: s => s.trim() },
+  { file: 'stageplot-percussion-editor-v1.css', transform: s => s.trim() },
   { file: 'stageplot-audio-v1.js', transform: (s) => s.trim() },
   { file: 'stageplot-audio-v1.css', transform: (s) => s.trim() },
   { file: 'stageplot-print-v1.js', transform: (s) => s.trim() },

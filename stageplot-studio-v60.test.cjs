@@ -28,7 +28,7 @@ for(const method of ['account?.list','account?.save','account?.remove'])assert.o
 
 const catalogContext={createStageplotSymbolV3:()=>''};vm.createContext(catalogContext);
 vm.runInContext(between('  const catalog =','  let stage =')+'\nthis.catalog=catalog;',catalogContext);
-const drumCatalog=catalogContext.catalog.filter(item=>item.category==='drums'&&item.id!=='cajon');
+const drumCatalog=catalogContext.catalog.filter(item=>item.category==='drums'&&item.id!=='cajon'&&!item.id.startsWith('percussion'));
 assert.deepEqual(JSON.parse(JSON.stringify(drumCatalog.map(item=>({id:item.id,name:item.name,short:item.short})))),[{id:'drums',name:'Schlagzeug',short:'Schlagzeug'}]);
 
 const drumContext={};vm.createContext(drumContext);vm.runInContext(drumSource+'\nthis.model=createStageplotDrumModel();',drumContext);

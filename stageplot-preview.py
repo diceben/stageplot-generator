@@ -35,8 +35,8 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
-        if route.path.startswith("/stageplot-assets/drums/"):
-            asset_root = (root / "stageplot-assets" / "drums").resolve()
+        if route.path.startswith(("/stageplot-assets/drums/", "/stageplot-assets/percussion/")):
+            asset_root = (root / "stageplot-assets" / ("percussion" if "/percussion/" in route.path else "drums")).resolve()
             asset = (root / route.path.lstrip("/")).resolve()
             if asset.parent != asset_root or asset.suffix not in (".png", ".webp", ".svg") or not asset.is_file():
                 self.send_error(404)
