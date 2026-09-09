@@ -1,0 +1,34 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),crypto=require('node:crypto');
+const model=require('./stageplot-orchestra-v1.js')(),exporter=require('./stageplot-export-v42.js').createStageplotExportV42(),html=fs.readFileSync('stageplot-studio.html','utf8');
+const plain=v=>JSON.parse(JSON.stringify(v)),preset=model.preset(),layout=model.layout(preset);
+assert.equal(preset.parts.length,99);assert.equal(new Set(preset.parts.map(p=>p.id)).size,99);
+assert.deepEqual(model.normalize(JSON.parse(JSON.stringify(preset))),preset);
+for(const s of model.sections)assert.equal(preset.parts.filter(p=>p.section===s.id).length,s.count,s.name);
+for(const type of ['violin','viola','cello','double-bass','harp','piccolo','english-horn','bass-clarinet','contrabassoon','timpani','triangle'])assert(preset.parts.some(p=>p.type===type),type);
+assert(preset.parts.filter(p=>p.section==='violin1').every(p=>p.x<0));assert(preset.parts.filter(p=>p.section==='violin2').every(p=>p.x>0));
+assert.equal(model.channels(preset).length,0,'An acoustic orchestra must not invent microphone channels.');
+const off=plain(preset);for(const s of model.sections)if(['woodwinds','brass','percussion'].includes(s.family))off.groups[s.id]=false;
+const hidden=model.layout(off);assert.equal(hidden.parts.length,62);assert.equal(hidden.w,layout.w);assert.equal(hidden.d,layout.d);assert.equal(hidden.minX,layout.minX);assert.equal(hidden.minY,layout.minY);
+assert(!model.artwork(off).includes('data-orchestra-image="tuba"'));assert(!model.artwork(off).includes('data-orchestra-image="timpani"'));
+for(const p of hidden.parts)assert.deepEqual(p,layout.parts.find(x=>x.id===p.id));
+const custom=model.single('violin');custom.parts[0].width=.2134;custom.parts[0].depth=.5978;custom.parts[0].angle=45;custom.parts[0].pickup='mic';custom.parts[0].label='<script> & Violine';
+assert.deepEqual(model.dimensions(custom.parts[0]),{w:.2134,d:.5978});assert.match(model.imageMarkup(custom.parts[0]),/width="21.34" height="59.78"/);
+assert.equal(model.channels(custom)[0].id,'o1');assert.equal(model.channels({...custom,groups:{violin1:false}}).length,0);
+const malformed=model.normalize({parts:[{...custom.parts[0],x:Infinity,y:-1e9,width:1e9},{...custom.parts[0]},{id:'bad',type:'__proto__'},null]});
+assert.equal(malformed.parts.length,2);assert.equal(new Set(malformed.parts.map(p=>p.id)).size,2);assert.equal(malformed.parts[0].x,0);assert.equal(malformed.parts[0].y,-25);assert.equal(malformed.parts[0].width,5);
+assert(!model.artwork({...custom,mode:'ensemble'}).includes('<script>'));
+const manifest=JSON.parse(fs.readFileSync('stageplot-assets/orchestra/manifest.json'));
+assert.equal(manifest.assets.length,25);assert.equal(model.catalog.length,25);
+for(const c of model.catalog){const a=manifest.assets.find(a=>a.id===c.asset);assert(a,c.id);const bytes=fs.readFileSync('stageplot-assets/orchestra/'+a.file);assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),a.sha256);assert(a.alpha);assert.match(a.prompt,/monochrome|grayscale/i);}
+const extract=name=>{const m=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert(m,name);return m[0];};
+const drawings=new Map(),ctx={orchestraModel:model,byId:{orchestra:{instrument:true}},objects:[{id:'station-1',type:'orchestra',x:12,y:8,angle:0,label:'Symphonie-Orchester',orchestra:custom}],artCache:new Map(),artBoundsCache:new Map(),artDefs:{},drumModel:{isDrums:()=>false},sEl:(_tag,attrs)=>{const n={...attrs};drawings.set(attrs.id,n);return n;},routeSpec:(o,port,instrument,mode,signalType,extra)=>({sourceKey:o.id+':'+port,instrument,mode,signalType,...extra})};
+vm.createContext(ctx);vm.runInContext(['artId','generatedInputSpecs'].map(extract).join('\n'),ctx);
+const a=ctx.artId({id:'orchestra'},{id:'same',orchestra:preset}),original=drawings.get(a).innerHTML,b=ctx.artId({id:'orchestra'},{id:'same',orchestra:off});assert.notEqual(a,b);assert.equal(drawings.get(a).innerHTML,original,'Project thumbnails with equal object IDs cannot mutate one another.');
+assert.equal(ctx.generatedInputSpecs()[0].sourceKey,'station-1:orch-o1');assert.equal(ctx.generatedInputSpecs()[0].connector,'XLR');
+const doc={stage:{w:24,d:16,title:'Orchestra QA'},objects:ctx.objects};const exported=exporter.createSetupExport('Orchestra QA',doc,{exportedAt:100});assert.deepEqual(exporter.parseSetupJson(exporter.stringifySetupJson(exported)).document.objects[0].orchestra,custom);
+// Execute the actual import normalizer and verify hidden groups and exact dimensions survive.
+Object.assign(ctx,{stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:(v,max)=>String(v??'').slice(0,max),normalizeObjectIo:()=>({inputs:{count:0},outputs:{count:1}}),ioValueText:()=>''});
+vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument'].map(extract).join('\n'),ctx);
+const valid={stage:{w:24,d:16,title:'Orchestra QA',stairs:'none',iem:'none',iemLength:2,iemDepth:1,iemX:0,iemY:0},objects:[{...ctx.objects[0],x:12,y:8,angle:0}]};
+assert.deepEqual(plain(ctx.normalizeSetupDocument(valid).objects[0].orchestra),custom);
+console.log('PASS ORCHESTRA: all groups, stable hidden seats, exact metre geometry, acoustic defaults, input identities, import/export, immutable previews and 25 verified image assets.');
