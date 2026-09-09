@@ -389,7 +389,7 @@
           <fieldset class="sp-channel-pill-field" id="sp-audio-kind-field" hidden><legend>Verwendung</legend><input id="sp-audio-kind" type="hidden" value="line"><div class="sp-channel-pills" data-channel-pill-group="sp-audio-kind"><button type="button" data-channel-value="monitor">Monitor</button><button type="button" data-channel-value="iem">IEM</button><button type="button" data-channel-value="line">Line / sonstiger Output</button></div></fieldset>
           <div hidden><input id="sp-channel-mode" value="Mono"><input id="sp-channel-signal" value="Mic"></div>
           <div class="sp-audio-signal-options"><fieldset class="sp-channel-pill-field"><legend>Richtung</legend><input id="sp-channel-direction" type="hidden" value="inputs"><div id="sp-channel-direction-pills" class="sp-channel-pills" data-channel-pill-group="sp-channel-direction"><button type="button" data-channel-value="inputs"><strong>Input</strong><small>Zum Mischpult</small></button><button type="button" data-channel-value="outputs"><strong>Output</strong><small>Vom Mischpult</small></button></div></fieldset><fieldset class="sp-channel-pill-field"><legend>Format</legend><input id="sp-audio-format" type="hidden" value="mono"><div class="sp-channel-pills" data-channel-pill-group="sp-audio-format"><button type="button" data-channel-value="mono"><strong>Mono</strong><small>Ein Kanal</small></button><button type="button" data-channel-value="stereo"><strong>Stereo L/R</strong><small>Zwei Kanäle</small></button></div></fieldset></div></div>
-          <div class="sp-channel-detail-row"><fieldset class="sp-channel-pill-field sp-channel-microphone-field"><legend id="sp-audio-model-heading">Mikrofon auswählen</legend><input id="sp-channel-microphone" type="hidden" value=""><div id="sp-audio-mic-selected" class="sp-audio-mic-selected"></div><div id="sp-audio-mic-choices"><div class="sp-audio-manufacturer-nav"><button type="button" data-audio-brand-scroll="-1" aria-label="Vorherige Hersteller">‹</button><div id="sp-audio-mic-brands" class="sp-audio-mic-brands" role="group" aria-label="Mikrofon-Hersteller"></div><button type="button" data-audio-brand-scroll="1" aria-label="Weitere Hersteller">›</button></div><p id="sp-audio-mic-hint" class="sp-muted"></p><div id="sp-audio-mic-models" class="sp-audio-mic-models" role="group" aria-label="Mikrofonmodelle"></div></div><label class="sp-field" id="sp-audio-custom-model-field" hidden>Eigenes Modell<input id="sp-audio-custom-model" maxlength="80" placeholder="Hersteller und Modell"></label></fieldset><label class="sp-audio-switch"><input id="sp-channel-phantom" type="checkbox"><span><strong>48 V Phantomspeisung</strong><small>Für dieses Signal verwenden</small></span></label></div>
+          <div class="sp-channel-detail-row"><fieldset class="sp-channel-pill-field sp-channel-microphone-field"><legend id="sp-audio-model-heading">Mikrofon auswählen</legend><input id="sp-channel-microphone" type="hidden" value=""><div id="sp-audio-mic-selected" class="sp-audio-mic-selected"></div><div id="sp-audio-mic-choices"></div><label class="sp-field" id="sp-audio-custom-model-field" hidden>Eigenes Modell<input id="sp-audio-custom-model" maxlength="80" placeholder="Hersteller und Modell"></label></fieldset><label class="sp-audio-switch"><input id="sp-channel-phantom" type="checkbox"><span><strong>48 V Phantomspeisung</strong><small>Für dieses Signal verwenden</small></span></label></div>
         </section>
         <section id="sp-audio-panel-chain" data-audio-panel="chain" role="tabpanel" aria-labelledby="sp-audio-tab-chain" hidden>
           <div class="sp-audio-section-heading"><h3 id="sp-audio-chain-title">Ein Weg zum Mischpult</h3><p id="sp-audio-chain-description">Instrument, Verstärker und Mikrofon können zu einem gemeinsamen Kanal gehören.</p></div>
@@ -527,7 +527,6 @@
           <div class="sp-drum-hardware" aria-label="Größen und Hardware"><div id="sp-drum-hardware"></div></div>
         </aside>
       </div>
-      <div id="sp-drum-mic-popup" class="sp-drum-mic-popup" role="dialog" aria-label="Mikrofon auswählen" hidden><div class="sp-drum-mic-popup-tabs" role="tablist" aria-label="Mikrofonfilter"><button type="button" data-drum-mic-filter="all" role="tab" aria-selected="false">Alle</button><button type="button" data-drum-mic-filter="typical" role="tab" aria-selected="true">Typisch</button></div><label class="sp-drum-mic-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.3"/><path d="m12.5 12.5 4.2 4.2"/></svg><span class="sp-visually-hidden">Mikrofon suchen</span><input id="sp-drum-mic-search" type="search" placeholder="Mikrofon oder Bauart suchen …" autocomplete="off" spellcheck="false"></label><div id="sp-drum-mic-popup-options" class="sp-drum-mic-popup-options" role="group" aria-label="Mikrofone"></div></div>
       <div class="sp-actions sp-drum-actions"><button class="sp-button" type="button" id="sp-drum-cancel">Abbrechen</button><button class="sp-button sp-primary" type="submit">Drumset übernehmen</button></div>
     </form>
   </dialog>
@@ -551,7 +550,7 @@
               <li><strong>Percussion-Set:</strong> Direkt neben dem Schlagzeug verfügbar, mit eigenem Editor für Congas, Bongos, Timbales und weiteres Zubehör. Monochrome Draufsichten und korrigierte Größenverhältnisse für Percussion und Schlagzeug gelten auch in Vorschau und Export.</li>
               <li><strong>Freie Bühnenformen:</strong> Flächen, Rundungen, Stege, Seitenbühnen und Ausschnitte kombinieren. Der größere Bühnenbauer bietet Formkarten, direkte Kantenmaße und dieselben Aktionen zum Drehen, Duplizieren und Löschen wie Bühnenobjekte.</li>
               <li><strong>Bündiger Aufbau:</strong> Treppen und Rampen sind eigene Bausteine. Bühnenkanten haben beim Einrasten Vorrang vor dem Raster, auch bei ungeraden Maßen. Riserbeschriftungen stehen kompakter an freien Kanten.</li>
-              <li><strong>Klarer Audioplan:</strong> Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Mikrofone lassen sich nach Hersteller mit Vorschlägen auswählen; für ausgewählte Modelle sind Original-Herstellerfotos enthalten. Gemeinsame Signalwege vermeiden doppelte Inputs.</li>
+              <li><strong>Klarer Audioplan:</strong> Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Audio-Plan und Drum-Editor teilen dieselbe Mikrofon-Auswahl: Sofortsuche, Herstellerfilter, passende Vorschläge, Favoriten und zuletzt verwendete Modelle. 19 Original-Herstellerfotos sind lokal enthalten. Mikrofon und 48 V werden in beide Richtungen abgeglichen; Kanalnummern, Patch und Notizen bleiben erhalten. Overheads lassen sich direkt im Drum-Editor auswählen. Gemeinsame Signalwege vermeiden doppelte Inputs.</li>
               <li><strong>Stageboxen schnell verbinden:</strong> Ein kleines Fenster zeigt verfügbare Stageboxen mit Bild und schlägt freie Buchsen vor. Die vollständige Belegung bleibt als eigene Übersicht erreichbar; die Navigation ist in allen Audio-Ansichten einheitlich.</li>
               <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. PDF und Bild nutzen dieselben Seiten mit Maßlinien direkt an den Bühnenkanten und Zusatzinfos neben oder unter dem Plan. Bilder gibt es in HD, 2K und 4K; mehrseitige Ausgaben als ZIP. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
               <li><strong>Projekte &amp; Locations:</strong> „Neues Projekt“ bündelt eigene Bühnen und Location-Vorlagen. Projekt hinzufügen steht zuerst; dauerhafte Projekt-IDs und echte Instrumente in den Vorschauen erleichtern die Übersicht. Der Location-Katalog ist in der Beta frei zugänglich.</li>
@@ -5364,12 +5363,247 @@ html,body { height:100%; overflow:hidden; }
  #sp-prototype .sp-orch-catalog .sp-orch-section { display:inline-flex; width:calc(50% - 8px); margin:4px; }
 }
 /* build-inline:end stageplot-orchestra-editor-v1.css */
+
+/* build-inline:start stageplot-mic-picker-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Shared microphone chooser in every editor. Original photos retain their full frame. */
+#sp-prototype .sp-mic-picker { min-width:0; color:#252925; font:400 13px/1.4 system-ui,sans-serif; }
+#sp-prototype .sp-mic-picker button,#sp-prototype .sp-mic-dialog>header button { font:inherit; cursor:pointer; border:1px solid #d9ddd5; border-radius:9px; color:#252925; background:#fff; min-height:40px; }
+#sp-prototype .sp-mic-picker button:hover { border-color:#818e72; background:#f8faef; }
+#sp-prototype .sp-mic-picker :focus-visible { outline:3px solid #728d32; outline-offset:2px; }
+#sp-prototype .sp-mic-current { display:flex; align-items:center; gap:10px; margin-bottom:12px; padding:10px; border-radius:12px; background:#f2f4ed; }
+#sp-prototype .sp-mic-current>div { flex:1; min-width:0; }
+#sp-prototype .sp-mic-current strong,#sp-prototype .sp-mic-current small { display:block; overflow-wrap:anywhere; }
+#sp-prototype .sp-mic-current small { font-size:11px; color:#626b5a; }
+#sp-prototype .sp-mic-current>img { width:56px; height:56px; object-fit:contain; background:white; border-radius:6px; padding:3px; }
+#sp-prototype .sp-mic-current>.sp-mic-no-photo { display:none; }
+#sp-prototype .sp-mic-current>button { padding:5px 9px; font-size:12px; }
+#sp-prototype .sp-mic-search { display:block; font-size:12px; font-weight:650; margin-bottom:10px; }
+#sp-prototype .sp-mic-search>div { display:flex; gap:6px; margin-top:4px; }
+#sp-prototype .sp-mic-search input,#sp-prototype .sp-mic-custom input { width:100%; min-width:0; height:44px; padding:9px 12px; border:1px solid #afb6a7; border-radius:9px; font:400 14px/1.3 system-ui,sans-serif; background:white; color:#252925; }
+#sp-prototype .sp-mic-filters { display:flex; gap:6px; flex-wrap:wrap; margin:8px 0; }
+#sp-prototype .sp-mic-filters button,#sp-prototype .sp-mic-brands button { padding:7px 12px; white-space:nowrap; }
+#sp-prototype .sp-mic-picker [data-mic-filter][aria-pressed="true"] { background:#292e27; color:#d7f39a; border-color:#292e27; }
+#sp-prototype .sp-mic-manufacturers { display:flex; align-items:center; gap:5px; }
+#sp-prototype .sp-mic-manufacturers>button { flex:0 0 30px; }
+#sp-prototype .sp-mic-brands { display:flex; gap:5px; overflow:auto; min-width:0; flex:1; scrollbar-width:thin; padding:3px 0 6px; }
+#sp-prototype .sp-mic-brands button { font-size:12px; min-height:36px; }
+#sp-prototype .sp-mic-status { margin:8px 0; color:#65705c; font-size:12px; }
+#sp-prototype .sp-mic-results { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; max-height:350px; overflow:auto; overscroll-behavior:contain; padding:3px; align-content:start; }
+#sp-prototype .sp-mic-card { position:relative; border:1px solid #dce0d7; border-radius:12px; overflow:visible; background:white; min-width:0; }
+#sp-prototype .sp-mic-card[data-selected="true"] { border-color:#718f36; box-shadow:0 0 0 2px #99b05c; }
+#sp-prototype .sp-mic-card>[data-mic-choice] { width:100%; height:100%; display:flex; flex-direction:column; align-items:stretch; border:0; border-radius:12px; text-align:left; padding:8px; }
+#sp-prototype .sp-mic-card img { width:100%; height:112px; object-fit:contain; object-position:center; padding:5px 12px; box-sizing:border-box; background:#fff; border-radius:8px; }
+#sp-prototype .sp-mic-card>[data-mic-choice]>span:last-child { padding:7px 3px 3px; }
+#sp-prototype .sp-mic-card strong,#sp-prototype .sp-mic-card small { display:block; overflow-wrap:anywhere; }
+#sp-prototype .sp-mic-card strong { font-size:14px; line-height:1.25; margin:2px 0 5px; }
+#sp-prototype .sp-mic-card small { font-size:10px; color:#63705b; }
+#sp-prototype .sp-mic-card>.sp-mic-favorite { position:absolute; top:4px; right:4px; width:34px; min-height:34px; padding:0; font-size:22px; background:#ffffffe8; border-color:transparent; }
+#sp-prototype .sp-mic-favorite[aria-pressed="true"] { color:#566f21; }
+#sp-prototype .sp-mic-no-photo { display:flex; flex-direction:column; align-items:center; justify-content:center; height:112px; padding:8px; box-sizing:border-box; color:#526048; font-size:18px; text-align:center; background:#f5f6f2; border-radius:8px; }
+#sp-prototype .sp-mic-no-photo small { margin-top:7px; }
+#sp-prototype .sp-mic-empty { grid-column:1/-1; }
+#sp-prototype .sp-mic-custom { display:flex; gap:8px; align-items:end; margin:10px 0; }
+#sp-prototype .sp-mic-custom label { flex:1; min-width:0; }
+#sp-prototype .sp-mic-custom button { padding:8px; }
+#sp-prototype .sp-mic-dialog { width:min(720px,calc(100vw - 24px)); max-width:none; max-height:calc(100dvh - 24px); box-sizing:border-box; padding:0; border:1px solid #b8c0ac; border-radius:18px; box-shadow:0 22px 90px #18201050; background:#fff; color:#252925; }
+#sp-prototype .sp-mic-dialog::backdrop { background:#18201466; }
+#sp-prototype .sp-mic-dialog>header { display:flex; align-items:center; gap:12px; justify-content:space-between; padding:16px 20px; border-bottom:1px solid #e1e5db; }
+#sp-prototype .sp-mic-dialog>header small { font:700 10px/1.4 system-ui,sans-serif; letter-spacing:.08em; color:#6a765f; }
+#sp-prototype .sp-mic-dialog h2 { margin:3px 0 0; font:700 20px/1.25 system-ui,sans-serif; }
+#sp-prototype .sp-mic-dialog>header button { width:40px; }
+#sp-prototype .sp-mic-dialog-body { padding:14px 20px; }
+#sp-prototype .sp-mic-dialog footer { padding:0 20px 14px; font:400 11px/1.4 system-ui,sans-serif; color:#64715a; }
+#sp-prototype .sp-mic-dialog .sp-mic-results { max-height: min(360px,40dvh); }
+#sp-prototype .sp-mic-picker [hidden] { display:none!important; }
+@media(max-width:620px) {
+ #sp-prototype .sp-mic-results { grid-template-columns:repeat(2,minmax(0,1fr)); max-height:340px; }
+ #sp-prototype .sp-mic-card img { height:110px; }
+ #sp-prototype .sp-mic-dialog-body { padding:10px; }
+ #sp-prototype .sp-mic-current { flex-wrap:wrap; }
+ #sp-prototype .sp-mic-current>div { min-width:calc(100% - 80px); }
+ #sp-prototype .sp-mic-picker input { font-size:16px; }
+ #sp-prototype .sp-mic-card>.sp-mic-favorite { width:40px; min-height:40px; }
+}
+#sp-prototype .sp-mic-search input::-webkit-search-cancel-button { -webkit-appearance:none; appearance:none; }
+#sp-prototype .sp-drum-overhead-models { margin-top:10px; }
+#sp-prototype .sp-drum-overhead-models>strong { display:block; margin-bottom:6px; font-size:11px; }
+/* build-inline:end stageplot-mic-picker-v1.css */
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
 <script src="./stageplot-cloud-config.js"></script>
 <script src="./stageplot-sync-v2.js"></script>
 <script src="./stageplot-inventory-v1.js"></script>
+
+<script>
+/* build-inline:start stageplot-mics-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Shared microphone identities, manufacturer originals and offline preferences. */
+const StageplotMics=(()=>{
+  'use strict';
+  const drumMic=(name,short,type,options={})=>({name,short,type,phantom:options.phantom??(!type.startsWith('Röhren-')&&/(?:SDC|LDC|Kond\.|Grenz-K|Mini-K|Dual)/.test(type)),legacy:options.legacy===true,supplement:options.supplement===true,asset:options.asset||''});
+  const drumMicCatalog=[
+    drumMic('Generisches Drum-Mikrofon','Drum Mic','Dyn'),drumMic('Grenzflächenmikrofon','Boundary','Grenz-K'),drumMic('Generisches Kick-Mikrofon','Kick Mic','Dyn'),drumMic('Generisches Kleinmembran-Mikrofon','Kleinmembran','SDC'),drumMic('Generisches Kondensatormikrofon','Kondensator','Kond.'),
+    drumMic('Shure Beta 91A','Beta 91A','Grenz-K'),drumMic('Sennheiser e 901','e 901','Grenz-K'),drumMic('Shure Beta 52A','Beta 52A','Dyn'),drumMic('AKG D112 MkII','D112 MkII','Dyn'),drumMic('Audix D6','D6','Dyn'),drumMic('Sennheiser e 602 II','e 602 II','Dyn'),drumMic('Electro-Voice RE20','RE20','Dyn'),drumMic('Electro-Voice RE320','RE320','Dyn'),drumMic('beyerdynamic M 88','M 88','Dyn'),drumMic('AKG D12 VR','D12 VR','Dyn'),drumMic('Telefunken M82','M82','Dyn'),drumMic('Audio-Technica AE2500','AE2500','Dual'),drumMic('LEWITT DTP 640 REX','DTP 640 REX','Dual'),drumMic('DPA 4055','DPA 4055','Kond.'),drumMic('sE Electronics V KICK','V KICK','Dyn'),
+    drumMic('Neumann U 47 fet','U 47 fet','LDC'),drumMic('AKG D12','D12','Dyn',{legacy:true}),drumMic('Sennheiser e 902','e 902','Dyn'),drumMic('Sennheiser MD 421','MD 421','Dyn',{asset:'421'}),drumMic('AKG C414','C414','LDC'),drumMic('Neumann TLM 102','TLM 102','LDC'),drumMic('Shure KSM32','KSM32','LDC'),drumMic('Audio-Technica AT4047/SV','AT4047/SV','LDC'),drumMic('Royer R-121','R-121','Bänd.'),drumMic('Yamaha SKRM-100 SubKick','SKRM-100','Sub',{legacy:true,supplement:true}),drumMic('Solomon LoFReQ','LoFReQ','Sub',{supplement:true}),
+    drumMic('Shure SM57','SM57','Dyn',{asset:'sm57'}),drumMic('Shure Beta 57A','Beta 57A','Dyn'),drumMic('Audix i5','i5','Dyn',{asset:'i5'}),drumMic('beyerdynamic M 201','M 201','Dyn',{asset:'m201'}),drumMic('Sennheiser MD 441-U','MD 441-U','Dyn'),drumMic('Sennheiser e 904','e 904','Dyn'),drumMic('Telefunken M80-SH','M80-SH','Dyn',{asset:'m80'}),drumMic('AKG C451 B','C451 B','SDC'),drumMic('Neumann KM 84','KM 84','SDC',{legacy:true}),drumMic('Shure Beta 98AMP/C','Beta 98AMP/C','Mini-K'),drumMic('Earthworks DM20','DM20','SDC'),drumMic('Josephson e22S','e22S','Kond.'),drumMic('DPA 4099 CORE','DPA 4099','Mini-K'),drumMic('Audio-Technica ATM230','ATM230','Dyn'),drumMic('sE Electronics V BEAT','V BEAT','Dyn'),
+    drumMic('Shure KSM137','KSM137','SDC'),drumMic('Shure SM81','SM81','SDC'),drumMic('Shure Beta 181/S','Beta 181/S','SDC'),drumMic('Audix ADX51','ADX51','SDC'),drumMic('Telefunken M81-SH','M81-SH','Dyn'),drumMic('DPA 4011A','DPA 4011A','SDC'),drumMic('Audix D2','D2','Dyn'),drumMic('Electro-Voice ND44','ND44','Dyn'),
+    drumMic('Sennheiser e 604','e 604','Dyn'),drumMic('Shure Beta 56A','Beta 56A','Dyn'),drumMic('AKG D40','D40','Dyn'),drumMic('LEWITT DTP 340 TT','DTP 340 TT','Dyn'),drumMic('Audix D4','D4','Dyn'),
+    drumMic('Neumann KM 184','KM 184','SDC',{asset:'km184'}),drumMic('Shure KSM141','KSM141','SDC'),drumMic('Audio-Technica AT4041','AT4041','SDC'),drumMic('Audix SCX1HC','SCX1HC','SDC'),drumMic('Sennheiser e 614','e 614','SDC'),drumMic('beyerdynamic MC 930','MC 930','SDC'),drumMic('Telefunken M60 FET','M60 FET','SDC'),drumMic('Schoeps CMC 6 + MK 4','CMC 6 + MK 4','SDC'),drumMic('RØDE NT5','NT5','SDC'),drumMic('LEWITT LCT 140 AIR','LCT 140 AIR','SDC'),drumMic('Audio-Technica AT4051b','AT4051b','SDC'),drumMic('Audix SCX1/SCX1HC','SCX1/SCX1HC','SDC'),drumMic('Earthworks SR25','SR25','SDC'),
+    drumMic('AKG C414 XLS/XLII','C414 XLS/XLII','LDC'),drumMic('Neumann U 87 Ai','U 87 Ai','LDC'),drumMic('Shure KSM44A','KSM44A','LDC'),drumMic('Earthworks SR25mp','SR25mp','SDC'),drumMic('Coles 4038','Coles 4038','Bänd.'),drumMic('beyerdynamic M 160','M 160','Bänd.'),drumMic('Royer SF-24','SF-24','Stereo-Bänd.',{phantom:true}),
+    drumMic('Neumann U 67','U 67','Röhren-LDC'),drumMic('Audio-Technica AT4050','AT4050','LDC'),drumMic('AEA R84','R84','Bänd.'),drumMic('AEA R88/R88A','R88/R88A','Stereo-Bänd.'),drumMic('DPA 4006A','DPA 4006A','Omni-SDC'),drumMic('Earthworks QTC40','QTC40','Omni-Kond.'),drumMic('Schoeps CMC 6 + MK 2','CMC 6 + MK 2','Omni-SDC'),drumMic('Austrian Audio OC818','OC818','LDC'),
+    drumMic('Beyerdynamic M201TG','M201TG','Dyn',{asset:'m201'}),drumMic('Telefunken M80','M80','Dyn',{asset:'m80'}),drumMic('Sennheiser 421','421','Dyn',{asset:'421'})
+  ];
+  const drumTypicalMics={
+    kickIn:['Grenzflächenmikrofon','Shure Beta 91A','Sennheiser e 901','Shure Beta 52A','AKG D112 MkII','Audix D6','Sennheiser e 602 II','Electro-Voice RE20','Electro-Voice RE320','beyerdynamic M 88','AKG D12 VR','Telefunken M82','Audio-Technica AE2500','LEWITT DTP 640 REX','DPA 4055','sE Electronics V KICK'],
+    kickOut:['Generisches Kick-Mikrofon','Neumann U 47 fet','AKG D12','AKG D112 MkII','Sennheiser e 902','Electro-Voice RE20','Sennheiser MD 421','Shure Beta 52A','beyerdynamic M 88','AKG C414','Neumann TLM 102','Shure KSM32','Audio-Technica AT4047/SV','Royer R-121','Yamaha SKRM-100 SubKick','Solomon LoFReQ'],
+    snareTop:['Generisches Drum-Mikrofon','Shure SM57','Shure Beta 57A','Audix i5','beyerdynamic M 201','Sennheiser MD 441-U','Sennheiser e 904','Telefunken M80-SH','AKG C451 B','Neumann KM 84','Shure Beta 98AMP/C','Earthworks DM20','Josephson e22S','DPA 4099 CORE','Audio-Technica ATM230','sE Electronics V BEAT'],
+    snareBottom:['Generisches Drum-Mikrofon','Shure SM57','AKG C451 B','Neumann KM 84','Sennheiser MD 441-U','Shure KSM137','Shure SM81','Shure Beta 181/S','Audix ADX51','Telefunken M81-SH','DPA 4011A','Sennheiser e 904','beyerdynamic M 201','Shure Beta 57A','Audix D2','Electro-Voice ND44'],
+    rackTom:['Generisches Drum-Mikrofon','Sennheiser MD 421','Sennheiser e 604','Sennheiser e 904','Audix D2','Shure SM57','Shure Beta 56A','Shure Beta 98AMP/C','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','Electro-Voice ND44','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','beyerdynamic M 201'],
+    floorTom:['Generisches Drum-Mikrofon','Audix D4','Sennheiser MD 421','Sennheiser e 904','Sennheiser e 604','Shure SM57','beyerdynamic M 88','Electro-Voice RE20','Shure Beta 56A','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','DPA 4099 CORE'],
+    hihat:['Shure SM57','AKG C451 B','Neumann KM 184','Neumann KM 84','Shure SM81','Shure KSM137','Shure KSM141','Audio-Technica AT4041','Audix SCX1HC','Audix ADX51','Sennheiser e 614','beyerdynamic MC 930','Telefunken M60 FET','Schoeps CMC 6 + MK 4','RØDE NT5','LEWITT LCT 140 AIR'],
+    ride:['Generisches Kleinmembran-Mikrofon','AKG C451 B','Neumann KM 184','Shure SM81','Shure KSM137','Shure KSM141','Audio-Technica AT4041','Audio-Technica AT4051b','Audix SCX1/SCX1HC','Sennheiser e 614','beyerdynamic MC 930','Telefunken M60 FET','Schoeps CMC 6 + MK 4','DPA 4011A','Earthworks SR25','Royer R-121'],
+    overhead:['Generisches Kleinmembran-Mikrofon','AKG C414 XLS/XLII','AKG C451 B','Neumann KM 184','Neumann KM 84','Shure SM81','Neumann U 87 Ai','Schoeps CMC 6 + MK 4','DPA 4011A','Shure KSM44A','Audio-Technica AT4041','RØDE NT5','Earthworks SR25mp','Coles 4038','beyerdynamic M 160','Royer SF-24'],
+    room:['Generisches Kondensatormikrofon','Neumann U 87 Ai','Neumann U 67','AKG C414 XLS/XLII','Audio-Technica AT4050','Shure KSM44A','Coles 4038','Royer R-121','AEA R84','AEA R88/R88A','beyerdynamic M 160','DPA 4006A','Earthworks QTC40','Schoeps CMC 6 + MK 2','Neumann TLM 102','Austrian Audio OC818']
+  };
+function audioMicBrand(name){if(/^beyerdynamic /i.test(name))return 'beyerdynamic';return ['Audio-Technica','Austrian Audio','Electro-Voice','sE Electronics'].find(brand=>name.startsWith(brand))||(/^Generisch|^Grenzflächen/.test(name)?'Allgemein':name.split(' ')[0]);}
+function suggestions(name){
+  const text=String(name).toLocaleLowerCase('de');
+  if(/kick|bassdrum/.test(text))return ['Shure Beta 52A','Audix D6','AKG D112 MkII','Shure Beta 91A'];
+  if(/snare|timbal/.test(text))return ['Shure SM57','Audix i5','beyerdynamic M 201','Telefunken M80'];
+  if(/overhead|\boh\b|hi.?hat|ride|chimes|cymbal/.test(text))return ['Neumann KM 184','Shure SM81','AKG C451 B','RØDE NT5'];
+  if(/tom|conga|bongo/.test(text))return ['Sennheiser MD 421 II','Shure SM57','Audix i5','beyerdynamic M 201'];
+  if(/guitar|gitarre|amp|cabinet|brass|sax|tromp/.test(text))return ['Shure SM57','Sennheiser MD 421 II','beyerdynamic M 201','Audix i5'];
+  if(/piano|flügel|akust|acoustic|string|violin/.test(text))return ['Neumann KM 184','AKG C414 XLS/XLII','Shure SM81'];
+  if(/percussion|pandeiro|tamburin|cowbell|maracas/.test(text))return ['Shure SM57','Neumann KM 184','Audix i5','beyerdynamic M 201'];
+  return ['Shure SM58','sE Electronics V7','Telefunken M80','Shure SM57'];
+}
+
+  function drumSuggestions(channel){
+    if(/^kick\d+-in$/.test(channel))return drumTypicalMics.kickIn;
+    if(/^kick\d+-out$/.test(channel))return drumTypicalMics.kickOut;
+    if(/^(snare|side)-up$/.test(channel))return drumTypicalMics.snareTop;
+    if(/^(snare|side)-down$/.test(channel))return drumTypicalMics.snareBottom;
+    if(/^rack\d+$/.test(channel))return drumTypicalMics.rackTom;
+    if(/^floor\d+$/.test(channel))return drumTypicalMics.floorTom;
+    if(channel==='hihat')return drumTypicalMics.hihat;
+    if(channel==='ride'||channel==='clapstack'||/^(crash|splash|china)\d+$/.test(channel))return drumTypicalMics.ride;
+    if(/^oh-(?:mono|l|r)$/.test(channel))return drumTypicalMics.overhead;
+    if(/^room-(?:mono|l|r)$/.test(channel))return drumTypicalMics.room;
+    return['Generisches Drum-Mikrofon','Shure SM57','Beyerdynamic M201TG','Sennheiser e 604'];
+  }
+  const normalize=value=>String(value||'').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ø/g,'o').replace(/[^a-z0-9]/g,'');
+  const files={"Shure SM57": "sm57-original-v2.png", "Shure SM58": "sm58-original-v2.webp", "Telefunken M80": "m80-original-v2.jpg", "beyerdynamic M 201": "m201-original-v2.png", "Neumann KM 184": "km184-original-v2.webp", "sE Electronics V7": "v7-original-v2.png", "Audix i5": "i5-original-v2.png", "Sennheiser MD 421 II": "421-original-v2.webp", "Shure Beta 57A": "beta57a-original-v1.png", "Shure SM81": "sm81-original-v1.webp", "Audix D2": "d2-original-v1.png", "Audix D6": "d6-original-v1.png", "Shure Beta 52A": "beta52a-original-v1.webp", "Shure Beta 91A": "beta91a-original-v1.webp", "sE Electronics V BEAT": "vbeat-original-v1.png", "Audix D4": "d4-original-v1.png", "Telefunken M80-SH": "m80sh-original-v1.jpg", "Sennheiser e 604": "e604-original-v1.webp", "sE Electronics V KICK": "vkick-original-v1.png"};
+  const photoFiles=new Map(Object.entries(files).map(([name,file])=>[normalize(name),file]));
+  const catalog=[...drumMicCatalog,drumMic('Shure SM58','SM58','Dyn'),drumMic('sE Electronics V7','V7','Dyn'),drumMic('Sennheiser MD 421 II','MD 421 II','Dyn')].map(mic=>Object.freeze({...mic,id:normalize(mic.name),brand:audioMicBrand(mic.name),photo:photoFiles.has(normalize(mic.name))?'stageplot-assets/mics/'+photoFiles.get(normalize(mic.name)):''}));
+  const byId=new Map(catalog.map(mic=>[mic.id,mic]));
+  const find=value=>byId.get(normalize(value))||null;
+  const lookup=value=>find(value)||{id:'',name:String(value||''),short:String(value||'Mic'),brand:'Eigenes Modell',type:'',phantom:false,photo:''};
+  const photo=value=>find(value)?.photo||'';
+  function search(query,pool=catalog){
+    const words=String(query||'').trim().split(/\s+/).map(normalize).filter(Boolean),flat=normalize(query);
+    return pool.filter(mic=>words.every(word=>normalize([mic.name,mic.type,mic.phantom?'48V':'',mic.legacy?'Vintage Legacy':'',mic.supplement?'Zusatz Subkick':''].join(' ')).includes(word))).sort((a,b)=>Number(b.id===flat||normalize(b.short)===flat)-Number(a.id===flat||normalize(a.short)===flat)||Number(!!b.photo)-Number(!!a.photo)||a.name.localeCompare(b.name,'de',{numeric:true}));
+  }
+  function preferences(storage){
+    const key='stageplot-studio:microphone-preferences:v1';let state={favorites:[],recent:[]};
+    try{const saved=JSON.parse(storage?.getItem(key)||'null');for(const field of ['favorites','recent'])state[field]=[...new Set((Array.isArray(saved?.[field])?saved[field]:[]).filter(id=>byId.has(id)))].slice(0,field==='recent'?12:100);}catch{}
+    const save=()=>{try{storage?.setItem(key,JSON.stringify(state));}catch{}};
+    return {get:()=>({favorites:[...state.favorites],recent:[...state.recent]}),toggle(value){const id=find(value)?.id;if(!id)return;state.favorites=state.favorites.includes(id)?state.favorites.filter(v=>v!==id):[...state.favorites,id];save();},use(value){const id=find(value)?.id;if(!id)return;state.recent=[id,...state.recent.filter(v=>v!==id)].slice(0,12);save();}};
+  }
+  // Only microphone fields cross the editor boundary; patch, CH, names and notes stay on routes.
+  function hydrateDrums(config,objectId,routing){
+    const next=JSON.parse(JSON.stringify(config));next.mics??={};
+    for(const row of routing?.inputs||[]){
+      const prefix=objectId+':drum-';if(!row.sourceKey?.startsWith(prefix)||row.adoptedSource)continue;
+      const id=row.sourceKey.slice(prefix.length);if(!Object.hasOwn(next.mics,id))continue;
+      next.mics[id]={...next.mics[id],model:row.microphone||'',phantom:row.phantom===true};
+    }
+    for(const id of Object.keys(next.mics))if(routing?.disabledSources?.includes(objectId+':drum-'+id))next.mics[id].enabled=false;
+    return next;
+  }
+  function writeDrumRoute(objects,row,isDrums,normalize=value=>value){
+    if(row.adoptedSource)return;const object=objects.find(o=>row.sourceKey?.startsWith(o.id+':drum-')&&isDrums(o.type));if(!object)return;object.drums=normalize(object.drums);if(!object.drums?.mics)return;
+    const id=row.sourceKey.slice((object.id+':drum-').length);if(!Object.hasOwn(object.drums.mics,id))return;
+    object.drums.mics[id]={...object.drums.mics[id],model:row.microphone||'',phantom:row.phantom===true};
+  }
+  function applyDrumChanges(routing,objectId,before,after){
+    for(const [id,mic] of Object.entries(after.mics||{})){
+      const old=before.mics?.[id];if(old&&old.model===mic.model&&old.phantom===mic.phantom&&old.enabled===mic.enabled)continue;
+      const key=objectId+':drum-'+id;
+      for(const row of routing.inputs||[])if(row.sourceKey===key&&!row.adoptedSource){row.microphone=mic.model||'';row.phantom=mic.phantom===true;}
+      if(mic.enabled!==false)routing.disabledSources=(routing.disabledSources||[]).filter(source=>source!==key);
+    }
+  }
+  return {catalog,typical:drumTypicalMics,brand:audioMicBrand,suggestions,drumSuggestions,normalize,find,lookup,photo,search,preferences,hydrateDrums,writeDrumRoute,applyDrumChanges};
+})();
+if(typeof module==='object'&&module.exports)module.exports=StageplotMics;
+/* build-inline:end stageplot-mics-v1.js */
+</script>
+<script>
+/* build-inline:start stageplot-mic-picker-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* One picker for Audio and instrument editors. Selection stays in the caller's draft. */
+const StageplotMicPicker=(()=>{
+  'use strict';
+  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let storage;try{storage=globalThis.localStorage;}catch{}
+  const prefs=StageplotMics.preferences(storage);let sequence=0;
+  const picture=mic=>mic.photo?'<img src="'+esc(mic.photo)+'" alt="'+esc(mic.name)+' · Original-Produktfoto" loading="lazy">':'<span class="sp-mic-no-photo">'+esc(mic.short||'Modell offen')+'<small>Ohne Produktfoto</small></span>';
+  function mount(host,options){
+    const id='sp-mic-search-'+(++sequence);let opts=options,filter='Vorschläge',query='',custom=false;
+    host.classList.add('sp-mic-picker');
+    host.innerHTML='<div class="sp-mic-current"></div><div class="sp-mic-custom" hidden><label>Eigenes Mikrofonmodell<input maxlength="80" placeholder="Hersteller und Modell"></label><button type="button" data-mic-custom-use>Modell verwenden</button></div><label class="sp-mic-search" for="'+id+'"><span>Mikrofon suchen</span><div><input id="'+id+'" type="search" placeholder="Modell, Hersteller oder Bauart …" autocomplete="off" spellcheck="false" aria-describedby="'+id+'-status"><button type="button" data-mic-search-clear aria-label="Mikrofonsuche leeren" hidden>×</button></div></label><div class="sp-mic-filters" role="group" aria-label="Mikrofon-Schnellzugriffe"></div><div class="sp-mic-manufacturers"><button type="button" data-mic-scroll="-1" aria-label="Vorherige Hersteller">‹</button><div class="sp-mic-brands" role="group" aria-label="Mikrofon-Hersteller"></div><button type="button" data-mic-scroll="1" aria-label="Weitere Hersteller">›</button></div><p class="sp-mic-status" id="'+id+'-status" role="status" aria-live="polite"></p><div class="sp-mic-results" role="group" aria-label="Mikrofonmodelle"></div>';
+    const $=selector=>host.querySelector(selector),search=$('input[type="search"]'),results=$('.sp-mic-results');
+    const chips=(list)=>list.map(name=>'<button type="button" data-mic-filter="'+esc(name)+'" aria-pressed="'+(!query&&filter===name)+'">'+esc(name)+'</button>').join('');
+    function render(){
+      const current=StageplotMics.lookup(opts.selected),state=prefs.get();
+      $('.sp-mic-current').innerHTML=(current.name?picture(current):'')+'<div><small>'+esc(opts.context||'Mikrofon')+'</small><strong>'+esc(current.name||'Mikrofon wählen')+'</strong></div><button type="button" data-mic-custom aria-expanded="'+custom+'">Eigenes Modell</button>'+(current.name?'<button type="button" data-mic-clear aria-label="Mikrofonmodell entfernen">×</button>':'');
+      $('.sp-mic-custom').hidden=!custom;
+      $('.sp-mic-filters').innerHTML=chips(['Vorschläge','Favoriten','Zuletzt','Alle']);
+      const brandScroll=$('.sp-mic-brands').scrollLeft;
+      $('.sp-mic-brands').innerHTML=chips([...new Set(StageplotMics.catalog.map(m=>m.brand))].sort((a,b)=>a.localeCompare(b,'de')));$('.sp-mic-brands').scrollLeft=brandScroll;
+      let models;
+      if(query)models=StageplotMics.search(query);
+      else if(filter==='Vorschläge')models=[...new Set(opts.suggestions||StageplotMics.suggestions(opts.context))].map(StageplotMics.find).filter(Boolean).sort((a,b)=>Number(!!b.photo)-Number(!!a.photo));
+      else if(filter==='Favoriten'||filter==='Zuletzt')models=state[filter==='Favoriten'?'favorites':'recent'].map(StageplotMics.find).filter(Boolean);
+      else models=StageplotMics.search('',filter==='Alle'?StageplotMics.catalog:StageplotMics.catalog.filter(m=>m.brand===filter));
+      $('.sp-mic-status').textContent=query?models.length+' Treffer im gesamten Katalog':filter==='Vorschläge'?'Passend zu '+(opts.context||'diesem Signal'):filter==='Favoriten'&&!models.length?'Mit dem Stern deine häufigsten Mikrofone merken.':filter==='Zuletzt'&&!models.length?'Deine zuletzt verwendeten Modelle erscheinen hier.':filter+' · '+models.length+' Modelle';
+      $('[data-mic-search-clear]').hidden=!query;
+      results.innerHTML=models.map(m=>'<article class="sp-mic-card" data-selected="'+(StageplotMics.find(opts.selected)?.id===m.id)+'"><button type="button" data-mic-choice="'+m.id+'" aria-pressed="'+(StageplotMics.find(opts.selected)?.id===m.id)+'" aria-label="'+esc(m.name)+' verwenden">'+picture(m)+'<span><small>'+esc(m.brand)+'</small><strong>'+esc(m.name.slice(m.brand.length).trim()||m.name)+'</strong><small>'+esc([m.type,m.phantom?'48 V':'',m.legacy?'Vintage / Legacy':'',m.supplement?'Zusatzmikrofon':''].filter(Boolean).join(' · '))+'</small></span></button><button type="button" class="sp-mic-favorite" data-mic-favorite="'+m.id+'" aria-label="'+esc(m.name)+' als Favorit" aria-pressed="'+state.favorites.includes(m.id)+'">'+(state.favorites.includes(m.id)?'★':'☆')+'</button></article>').join('')||'<p class="sp-mic-empty">'+(query?'Kein Treffer. Suche verkürzen oder ein eigenes Modell verwenden.':'')+'</p>';
+    }
+    function choose(mic){prefs.use(mic.name);opts={...opts,selected:mic.name};render();opts.onSelect(mic);}
+    host.addEventListener('input',e=>{if(e.target===search){query=search.value.trim();render();results.scrollTop=0;}});
+    host.addEventListener('keydown',e=>{
+      if(e.target===search&&e.key==='ArrowDown'){e.preventDefault();results.querySelector('[data-mic-choice]')?.focus();}
+      if(e.target===search&&e.key==='Enter'){e.preventDefault();const first=results.querySelector('[data-mic-choice]');if(first)choose(StageplotMics.find(first.dataset.micChoice));}
+      if(e.key==='Escape'&&query){e.preventDefault();e.stopPropagation();query='';search.value='';render();search.focus();}
+      if(e.target.matches('[data-mic-choice]')&&['ArrowDown','ArrowUp','ArrowRight','ArrowLeft'].includes(e.key)){e.preventDefault();const buttons=[...results.querySelectorAll('[data-mic-choice]')],i=buttons.indexOf(e.target),delta=['ArrowDown','ArrowRight'].includes(e.key)?1:-1;buttons[Math.max(0,Math.min(buttons.length-1,i+delta))]?.focus();}
+      if(e.target===$('.sp-mic-custom input')&&e.key==='Enter'){e.preventDefault();$('[data-mic-custom-use]').click();}
+    });
+    host.addEventListener('click',e=>{
+      const b=e.target.closest('button');if(!b||!host.contains(b))return;
+      if(b.hasAttribute('data-mic-choice')){const mic=StageplotMics.find(b.dataset.micChoice);choose(mic);results.querySelector('[data-mic-choice="'+mic.id+'"]')?.focus({preventScroll:true});}
+      if(b.hasAttribute('data-mic-filter')){filter=b.dataset.micFilter;query='';search.value='';render();results.scrollTop=0;host.querySelector('[data-mic-filter="'+CSS.escape(filter)+'"]')?.focus({preventScroll:true});}
+      if(b.hasAttribute('data-mic-favorite')){prefs.toggle(b.dataset.micFavorite);render();host.querySelector('[data-mic-favorite="'+b.dataset.micFavorite+'"]')?.focus({preventScroll:true});}
+      if(b.hasAttribute('data-mic-search-clear')){query='';search.value='';render();search.focus();}
+      if(b.hasAttribute('data-mic-custom')){custom=!custom;render();if(custom){$('.sp-mic-custom input').value=opts.selected||query;$('.sp-mic-custom input').focus();}}
+      if(b.hasAttribute('data-mic-custom-use')){const name=$('.sp-mic-custom input').value.trim().slice(0,80);if(name){custom=false;choose(StageplotMics.lookup(name));}}
+      if(b.hasAttribute('data-mic-clear'))choose(StageplotMics.lookup(''));
+      if(b.hasAttribute('data-mic-scroll'))$('.sp-mic-brands').scrollBy({left:Number(b.dataset.micScroll)*240,behavior:'auto'});
+    });
+    render();return {update(next){opts={...opts,...next};render();},focus(){search.focus();},reset(next){opts=next;query='';filter='Vorschläge';custom=false;search.value='';render();results.scrollTop=0;}};
+  }
+  function open(root,options){
+    const returnFocus=document.activeElement,dialog=document.createElement('dialog');dialog.className='sp-mic-dialog';dialog.setAttribute('aria-label','Mikrofon auswählen · '+options.context);
+    dialog.innerHTML='<header><div><small>MIKROFON AUSWÄHLEN</small><h2>'+esc(options.context)+'</h2></div><button type="button" data-mic-close aria-label="Mikrofonauswahl schließen">×</button></header><div class="sp-mic-dialog-body"></div><footer>Ein Klick übernimmt das Modell in diesen Editor.</footer>';
+    root.append(dialog);const close=()=>{if(dialog.open)dialog.close();};
+    const picker=mount(dialog.querySelector('.sp-mic-dialog-body'),{...options,onSelect(mic){options.onSelect(mic);close();}});
+    dialog.querySelector('[data-mic-close]').addEventListener('click',close);
+    dialog.addEventListener('close',()=>{dialog.remove();if(returnFocus?.isConnected)returnFocus.focus({preventScroll:true});options.onClose?.();},{once:true});
+    dialog.addEventListener('keydown',e=>e.stopPropagation());dialog.showModal();picker.focus();return {close};
+  }
+  return {mount,open,picture};
+})();
+/* build-inline:end stageplot-mic-picker-v1.js */
+</script>
 <script>
 /* build-inline:start stageplot-print-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 /* Physical A4 pages shared by the preview, PNG and browser print output. */
@@ -7068,7 +7302,7 @@ function createStageplotDrumModel() {
     for(const id of ['splash3','splash4']){c.overheadPickup[id]=true;c.mics[id]={enabled:false,model:'Generisches Kleinmembran-Mikrofon',phantom:true};}
     if(v.mics&&typeof v.mics==='object')for(const [id,m] of Object.entries(v.mics)){
       if(/^(kick[12]-(in|out)|snare-(up|down)|side-(up|down)|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|oh-(mono|l|r)|room-(mono|l|r)|pad-[lr]|bongos)$/.test(id)&&m&&typeof m==='object')
-        c.mics[id]={enabled:m.enabled!==false,model:short(m.model).trim()||base.mics[id]?.model||c.mics[id]?.model||'',phantom:m.phantom===true};
+        c.mics[id]={enabled:m.enabled!==false,model:typeof m.model==='string'?m.model.slice(0,80).trim():base.mics[id]?.model||c.mics[id]?.model||'',phantom:m.phantom===true};
     }
     if(v.overheadPickup&&typeof v.overheadPickup==='object')for(const id of allCymbalPartIds)if(typeof v.overheadPickup[id]==='boolean')c.overheadPickup[id]=v.overheadPickup[id];
     for(const id of allCymbalPartIds)if(c.overheadPickup[id]!==false&&c.mics[id])c.mics[id].enabled=false;
@@ -10435,7 +10669,7 @@ function openAudioChannel(direction,id=null){
   $('sp-channel-number').value=id?(row.number||''):'#';$('sp-audio-right-number').value=partner?(partner.number||''):'#';
   setChannelPillValue('sp-channel-direction',direction);$('sp-channel-instrument').value=partner?audioBaseName(row):row.instrument;
   setChannelPillValue('sp-audio-format',partner?'stereo':'mono');setChannelPillValue('sp-audio-pickup',row.pickup);setChannelPillValue('sp-audio-kind',audioKind(row));setChannelPillValue('sp-audio-transport',row.iemTransport||'wireless');
-  $('sp-channel-microphone').value=row.microphone;$('sp-channel-phantom').checked=row.phantom;$('sp-audio-wireless').checked=Boolean(routeFrequency(row));audioMicManufacturer='Vorschläge';audioCustomModel=false;$('sp-audio-custom-model').value=row.microphone;$('sp-channel-notes').value=row.notes;$('sp-audio-frequency').value=routeFrequency(row);
+  $('sp-channel-microphone').value=row.microphone;$('sp-channel-phantom').checked=row.phantom;$('sp-audio-wireless').checked=Boolean(routeFrequency(row));audioMicPickerReset=true;audioCustomModel=false;$('sp-audio-custom-model').value=row.microphone;$('sp-channel-notes').value=row.notes;$('sp-audio-frequency').value=routeFrequency(row);
   renderChannelStageboxPills(direction,row.stagebox);$('sp-audio-port').value=row.stageboxPort||'';$('sp-audio-right-port').value=partner?.stageboxPort||'';
   $('sp-audio-right-patch').textContent=partner?.stagebox&&partner.stagebox!==row.stagebox?'Rechts: '+stageboxRouteLocation(partner,direction)+'. Bleibt erhalten, solange die Stagebox nicht geändert wird.':'';
   const canMerge=direction==='inputs'&&!partner,options=canMerge?rows.filter(item=>item.id!==row.id&&!item.stereoGroup&&(!item.sourceKey||!row.sourceKey.startsWith(item.sourceKey.split(':')[0]+':'))):[];
@@ -10512,6 +10746,7 @@ function saveAudioChannel(){
     stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>key!==next.sourceKey&&key!==partner?.sourceKey);
     const index=direction===original.direction&&original.index>=0?Math.min(original.index,stage.routing[direction].length):stage.routing[direction].length;stage.routing[direction].splice(index,0,...[next,partner].filter(Boolean));
     const source=routeSourceObject(next);if(source&&nameChanged&&!merges.length&&!next.linkedSources.length){const sourceGroups=new Set(audioObjectRows(source).map(item=>item.row.stereoGroup||item.row.id));if(sourceGroups.size===1)source.label=name.slice(0,42);}if(source&&next.frequencyBand!==routeFrequency(original))source.wireless=next.frequencyBand;
+    if(direction==='inputs')for(const row of [next,partner].filter(Boolean))StageplotMics.writeDrumRoute(objects,row,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));
     reconcileCablesWithRouting();keepHistory(before);$('sp-channel-dialog').close();refreshAudioSurface();say('Signal gespeichert · Bühne, Patch und Druckliste aktualisiert');
   };
   if(oldPartner&&!stereo&&(oldPartner.number||oldPartner.stagebox||oldPartner.notes))return confirmSetupAction('Stereosignal auf Mono ändern?','Der rechte Kanal „'+oldPartner.instrument+'“ mit CH '+(oldPartner.number||'—')+' wird entfernt. Rückgängig stellt das Paar mit seinen Zuordnungen wieder her.','Auf Mono ändern',commit,true);
@@ -10534,45 +10769,25 @@ function audioPatchSections(){
     return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table sp-audio-patch-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th></tr></thead><tbody>'+rows.map(({row,direction})=>'<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+'</td><td>'+esc(row.connector)+'</td></tr>').join('')+'</tbody></table>'}];
   });
 }
-// Manufacturer originals only. The provenance and byte hashes live beside the assets.
-function audioMicPhoto(name){
-  const key=String(name||'').toLocaleLowerCase('de').replace(/[\s-]+/g,'');
-  const files={shuresm57:'sm57-original-v2.png',shuresm58:'sm58-original-v2.webp',telefunkenm80:'m80-original-v2.jpg',beyerdynamicm201:'m201-original-v2.png',neumannkm184:'km184-original-v2.webp',seelectronicsv7:'v7-original-v2.png',audixi5:'i5-original-v2.png',sennheisermd421ii:'421-original-v2.webp'};
-  return files[key]?'stageplot-assets/mics/'+files[key]:'';
-}
-function audioMicBrand(name){if(/^beyerdynamic /i.test(name))return 'beyerdynamic';return ['Audio-Technica','Austrian Audio','Electro-Voice','sE Electronics'].find(brand=>name.startsWith(brand))||(/^Generisch|^Grenzflächen/.test(name)?'Allgemein':name.split(' ')[0]);}
-function audioMicCatalog(){
-  const extras=[{name:'Shure SM58',type:'Dyn',phantom:false},{name:'sE Electronics V7',type:'Dyn',phantom:false},{name:'Sennheiser MD 421 II',type:'Dyn',phantom:false}];
-  return [...drumMicCatalog,...extras].filter((mic,i,all)=>all.findIndex(item=>item.name===mic.name)===i).map(mic=>({...mic,brand:audioMicBrand(mic.name)}));
-}
-function audioMicSuggestions(name){
-  const text=String(name).toLocaleLowerCase('de');
-  if(/kick|bassdrum/.test(text))return ['Shure Beta 52A','Audix D6','AKG D112 MkII','Shure Beta 91A'];
-  if(/snare|timbal/.test(text))return ['Shure SM57','Audix i5','beyerdynamic M 201','Telefunken M80'];
-  if(/overhead|\boh\b|hi.?hat|ride|chimes|cymbal/.test(text))return ['Neumann KM 184','Shure SM81','AKG C451 B','RØDE NT5'];
-  if(/tom|conga|bongo/.test(text))return ['Sennheiser MD 421 II','Shure SM57','Audix i5','beyerdynamic M 201'];
-  if(/guitar|gitarre|amp|cabinet|brass|sax|tromp/.test(text))return ['Shure SM57','Sennheiser MD 421 II','beyerdynamic M 201','Audix i5'];
-  if(/piano|flügel|akust|acoustic|string|violin/.test(text))return ['Neumann KM 184','AKG C414 XLS/XLII','Shure SM81'];
-  if(/percussion|pandeiro|tamburin|cowbell|maracas/.test(text))return ['Shure SM57','Neumann KM 184','Audix i5','beyerdynamic M 201'];
-  return ['Shure SM58','sE Electronics V7','Telefunken M80','Shure SM57'];
-}
-let audioMicManufacturer='Vorschläge',audioCustomModel=false,audioQuickPatch=null,audioPickupModels={},audioLastPickup='Mic';
-function audioMicImage(name){const src=audioMicPhoto(name);return src?'<img class="sp-audio-mic-photo" src="'+src+'" alt="'+esc(name)+' · Original-Produktfoto" loading="lazy">':'<span class="sp-audio-model-text" aria-hidden="true">'+esc(name.replace(audioMicBrand(name),'').trim()||'Modell offen')+'</span>';}
+// Every microphone entry point uses the same identities, photos and picker.
+function audioMicPhoto(name){return StageplotMics.photo(name);}
+function audioMicBrand(name){return StageplotMics.brand(name);}
+function audioMicCatalog(){return StageplotMics.catalog;}
+function audioMicSuggestions(name){return StageplotMics.suggestions(name);}
+let audioCustomModel=false,audioQuickPatch=null,audioPickupModels={},audioLastPickup='Mic',audioMicPicker=null,audioMicPickerReset=true;
 function renderAudioMicPicker(){
-  const pickup=$('sp-audio-pickup').value,selected=$('sp-channel-microphone').value,models=audioMicCatalog(),mic=pickup==='Mic';
+  const pickup=$('sp-audio-pickup').value,selected=$('sp-channel-microphone').value,mic=pickup==='Mic';
   $('sp-audio-model-heading').textContent=mic?'Mikrofon auswählen':pickup==='DI'?'DI-Box angeben':'Abnahme';
-  $('sp-audio-mic-choices').hidden=!mic;$('sp-audio-mic-selected').hidden=!['Mic','DI'].includes(pickup);
-  $('sp-audio-custom-model-field').hidden=!['Mic','DI'].includes(pickup)||!audioCustomModel;
-  $('sp-audio-mic-selected').innerHTML=(selected?audioMicImage(selected):'')+'<div><small>'+(selected?'Aktuell gewählt':'Modell noch offen')+'</small><strong>'+esc(selected|| (mic?'Mikrofon wählen':'DI-Box wählen'))+'</strong></div><button class="sp-button" type="button" data-audio-custom-model>Eigenes Modell</button>'+(selected?'<button class="sp-button" type="button" data-audio-clear-model aria-label="Modell entfernen">×</button>':'');
+  $('sp-audio-mic-choices').hidden=!mic;$('sp-audio-mic-selected').hidden=pickup!=='DI';
+  $('sp-audio-custom-model-field').hidden=pickup!=='DI'||!audioCustomModel;
+  $('sp-audio-mic-selected').innerHTML='<div><small>DI-Box</small><strong>'+esc(selected||'Modell noch offen')+'</strong></div><button class="sp-button" type="button" data-audio-custom-model>Eigenes Modell</button>'+(selected?'<button class="sp-button" type="button" data-audio-clear-model aria-label="Modell entfernen">×</button>':'');
   if(!mic)return;
-  const brands=['Vorschläge',...new Set(models.map(item=>item.brand).sort((a,b)=>a.localeCompare(b,'de')))];
-  $('sp-audio-mic-brands').innerHTML=brands.map(brand=>'<button type="button" data-audio-mic-brand="'+esc(brand)+'" aria-pressed="'+(brand===audioMicManufacturer)+'">'+esc(brand)+'</button>').join('');
-  const suggestions=audioMicSuggestions($('sp-channel-instrument').value),shown=audioMicManufacturer==='Vorschläge'?suggestions.map(name=>models.find(mic=>mic.name===name)).filter(Boolean):models.filter(mic=>mic.brand===audioMicManufacturer).sort((a,b)=>Number(Boolean(audioMicPhoto(b.name)))-Number(Boolean(audioMicPhoto(a.name)))||a.name.localeCompare(b.name,'de',{numeric:true}));
-  centerAudioMicBrand();
-  $('sp-audio-mic-hint').textContent=audioMicManufacturer==='Vorschläge'?'Vorschläge für '+$('sp-channel-instrument').value+' · ein Klick wählt das Modell.':audioMicManufacturer+' · Modell auswählen';
-  $('sp-audio-mic-models').innerHTML=shown.map(mic=>'<button type="button" class="sp-audio-mic-card" data-audio-mic-model="'+esc(mic.name)+'" aria-pressed="'+(selected===mic.name)+'" aria-label="'+esc(mic.name)+' verwenden">'+audioMicImage(mic.name)+'<span><small>'+esc(mic.brand)+'</small><strong>'+esc(mic.name.slice(mic.brand.length).trim()||mic.name)+'</strong><small>'+esc(mic.type||'Mikrofon')+(mic.phantom?' · 48 V':'')+'</small></span><b aria-hidden="true">'+(selected===mic.name?'✓':'+')+'</b></button>').join('');
+  const channel=$('sp-channel-number').value,context=(channel&&channel!=='#'?'CH '+channel+' · ':'')+$('sp-channel-instrument').value;
+  const options={selected,context,suggestions:editingRoute?.sourceKey?.includes(':drum-')?StageplotMics.drumSuggestions(editingRoute.sourceKey.split(':drum-')[1]):audioMicSuggestions($('sp-channel-instrument').value),onSelect(model){$('sp-channel-microphone').value=model.name;$('sp-audio-custom-model').value=model.name;$('sp-channel-phantom').checked=model.phantom===true;renderAudioEditorContext();}};
+  if(!audioMicPicker)audioMicPicker=StageplotMicPicker.mount($('sp-audio-mic-choices'),options);
+  else if(audioMicPickerReset)audioMicPicker.reset(options);else audioMicPicker.update(options);
+  audioMicPickerReset=false;
 }
-function centerAudioMicBrand(){const host=$('sp-audio-mic-brands'),active=host.querySelector('[aria-pressed="true"]');if(active)host.scrollLeft=active.offsetLeft-(host.clientWidth-active.offsetWidth)/2;}
 function audioObjectPicture(row){const source=routeSourceObject(row);return source&&byId[source.type]?'<span class="sp-audio-object-picture">'+icon(byId[source.type],source)+'</span>':'';}
 function renderAudioChainPreview(){
   if(!editingRoute)return;
@@ -10684,8 +10899,6 @@ $('sp-audio-editor-tabs').addEventListener('keydown',e=>{
 });
 $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textContent='';renderAudioEditorContext();});
 
-$('sp-audio-mic-brands').addEventListener('click',e=>{const button=e.target.closest('[data-audio-mic-brand]');if(!button)return;audioMicManufacturer=button.dataset.audioMicBrand;renderAudioMicPicker();$('sp-audio-mic-brands').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});});
-$('sp-audio-mic-models').addEventListener('click',e=>{const button=e.target.closest('[data-audio-mic-model]');if(!button)return;const model=audioMicCatalog().find(mic=>mic.name===button.dataset.audioMicModel);if(!model)return;$('sp-channel-microphone').value=model.name;$('sp-audio-custom-model').value=model.name;$('sp-channel-phantom').checked=model.phantom===true;audioCustomModel=false;renderAudioMicPicker();renderAudioEditorContext();$('sp-audio-mic-models').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});});
 $('sp-audio-mic-selected').addEventListener('click',e=>{if(e.target.closest('[data-audio-custom-model]')){audioCustomModel=true;renderAudioMicPicker();$('sp-audio-custom-model').focus();}if(e.target.closest('[data-audio-clear-model]')){$('sp-channel-microphone').value='';$('sp-audio-custom-model').value='';renderAudioMicPicker();renderAudioEditorContext();}});
 $('sp-audio-custom-model').addEventListener('input',e=>{$('sp-channel-microphone').value=e.target.value;renderAudioEditorContext();});
 $('sp-audio-custom-model').addEventListener('change',renderAudioMicPicker);
@@ -10695,8 +10908,6 @@ $('sp-audio-connect-save').addEventListener('click',()=>commitAudioQuickPatch())
 $('sp-audio-connect-disconnect').addEventListener('click',()=>commitAudioQuickPatch(true));
 $('sp-audio-connect-close').addEventListener('click',()=>$('sp-audio-connect-dialog').close());
 $('sp-audio-connect-dialog').addEventListener('close',()=>{audioQuickPatch=null;});
-
-$('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.closest('[data-audio-brand-scroll]');if(button)$('sp-audio-mic-brands').scrollBy({left:Number(button.dataset.audioBrandScroll)*260,behavior:'auto'});});
 /* build-inline:end stageplot-audio-v1.js */
   $('sp-routing-tabs').addEventListener('click',e=>{const button=e.target.closest('[data-routing-tab]');if(button){routingTab=button.dataset.routingTab;renderRouting();}});
   function handleStageboxWorkspaceClick(e,surface){
@@ -10736,7 +10947,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
   $('sp-routing-sync').addEventListener('click',()=>{const before=snapshot();syncRoutingFromStage();keepHistory(before);renderRouting();});
   $('sp-routing-auto').addEventListener('click',autoAssignRouting);
   $('sp-routing-add').addEventListener('click',()=>openChannelDialog(routingTab));
-  $('sp-routing-rows').addEventListener('click',e=>{if(suppressRoutingClick||e.target.closest('[data-route-drag]'))return;const phantom=e.target.closest('[data-route-phantom]');if(phantom){const row=stage.routing.inputs.find(item=>item.id===phantom.dataset.routePhantom);if(row){const before=snapshot(),enabled=!row.phantom;for(const member of audioGroup(stage.routing.inputs,row))member.phantom=enabled;keepHistory(before);renderRouting();say(row.phantom?'48V aktiviert':'48V deaktiviert');}return;}const patch=e.target.closest('[data-audio-patch]');if(patch){openAudioPatch(routingTab,patch.dataset.audioPatch);return;}const number=e.target.closest('[data-route-number]');if(number){openAudioChannel(routingTab,number.dataset.routeNumber);showAudioEditorPanel('patch');requestAnimationFrame(()=>{$('sp-channel-number').focus({preventScroll:true});$('sp-channel-number').select();});return;}const row=e.target.closest('[data-route-row]');if(row)openChannelDialog(routingTab,row.dataset.routeRow);});
+  $('sp-routing-rows').addEventListener('click',e=>{if(suppressRoutingClick||e.target.closest('[data-route-drag]'))return;const phantom=e.target.closest('[data-route-phantom]');if(phantom){const row=stage.routing.inputs.find(item=>item.id===phantom.dataset.routePhantom);if(row){const before=snapshot(),enabled=!row.phantom;for(const member of audioGroup(stage.routing.inputs,row)){member.phantom=enabled;StageplotMics.writeDrumRoute(objects,member,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));}keepHistory(before);renderRouting();say(row.phantom?'48V aktiviert':'48V deaktiviert');}return;}const patch=e.target.closest('[data-audio-patch]');if(patch){openAudioPatch(routingTab,patch.dataset.audioPatch);return;}const number=e.target.closest('[data-route-number]');if(number){openAudioChannel(routingTab,number.dataset.routeNumber);showAudioEditorPanel('patch');requestAnimationFrame(()=>{$('sp-channel-number').focus({preventScroll:true});$('sp-channel-number').select();});return;}const row=e.target.closest('[data-route-row]');if(row)openChannelDialog(routingTab,row.dataset.routeRow);});
   $('sp-routing-rows').addEventListener('keydown',e=>{if(!['Enter',' '].includes(e.key)||e.target.closest('button'))return;const row=e.target.closest('[data-route-row]');if(row){e.preventDefault();openChannelDialog(routingTab,row.dataset.routeRow);}});
   $('sp-routing-rows').addEventListener('dragstart',e=>{const handle=e.target.closest('[data-route-drag]'),row=handle?.closest('[data-route-row]');if(!handle||!row){e.preventDefault();return;}routingDrag={id:row.dataset.routeRow,moved:false};row.dataset.dragging='true';e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',routingDrag.id);});
   $('sp-routing-rows').addEventListener('dragover',e=>{if(!routingDrag)return;const row=e.target.closest('[data-route-row]');if(!row||row.dataset.routeRow===routingDrag.id)return;e.preventDefault();routingDrag.moved=true;const rect=row.getBoundingClientRect(),placement=e.clientY<rect.top+rect.height/2?'before':'after';$('sp-routing-rows').querySelectorAll('[data-drop-position]').forEach(node=>delete node.dataset.dropPosition);row.dataset.dropPosition=placement;e.dataTransfer.dropEffect='move';});
@@ -11297,81 +11508,40 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     const current=String(drumValue(path));return '<div class="sp-drum-control-row"><span class="sp-drum-control-label">'+esc(label)+'</span><div class="sp-drum-pills">'+options.map(([value,text])=>'<label><input type="radio" data-drum-field="'+path+'" data-drum-value="'+esc(value)+'" name="sp-drum-'+path+'" value="'+esc(value)+'" '+(value===current?'checked':'')+'><span>'+esc(text)+'</span></label>').join('')+'</div></div>';
   }
   const drumStaticChip=(label,value)=>'<div class="sp-drum-control-row"><span class="sp-drum-control-label">'+esc(label)+'</span><div class="sp-drum-pills"><span>'+esc(value)+'</span></div></div>';
-  const drumMic=(name,short,type,options={})=>({name,short,type,phantom:options.phantom??(!type.startsWith('Röhren-')&&/(?:SDC|LDC|Kond\.|Grenz-K|Mini-K|Dual)/.test(type)),legacy:options.legacy===true,supplement:options.supplement===true,asset:options.asset||''});
-  const drumMicCatalog=[
-    drumMic('Generisches Drum-Mikrofon','Drum Mic','Dyn'),drumMic('Grenzflächenmikrofon','Boundary','Grenz-K'),drumMic('Generisches Kick-Mikrofon','Kick Mic','Dyn'),drumMic('Generisches Kleinmembran-Mikrofon','Kleinmembran','SDC'),drumMic('Generisches Kondensatormikrofon','Kondensator','Kond.'),
-    drumMic('Shure Beta 91A','Beta 91A','Grenz-K'),drumMic('Sennheiser e 901','e 901','Grenz-K'),drumMic('Shure Beta 52A','Beta 52A','Dyn'),drumMic('AKG D112 MkII','D112 MkII','Dyn'),drumMic('Audix D6','D6','Dyn'),drumMic('Sennheiser e 602 II','e 602 II','Dyn'),drumMic('Electro-Voice RE20','RE20','Dyn'),drumMic('Electro-Voice RE320','RE320','Dyn'),drumMic('beyerdynamic M 88','M 88','Dyn'),drumMic('AKG D12 VR','D12 VR','Dyn'),drumMic('Telefunken M82','M82','Dyn'),drumMic('Audio-Technica AE2500','AE2500','Dual'),drumMic('LEWITT DTP 640 REX','DTP 640 REX','Dual'),drumMic('DPA 4055','DPA 4055','Kond.'),drumMic('sE Electronics V KICK','V KICK','Dyn'),
-    drumMic('Neumann U 47 fet','U 47 fet','LDC'),drumMic('AKG D12','D12','Dyn',{legacy:true}),drumMic('Sennheiser e 902','e 902','Dyn'),drumMic('Sennheiser MD 421','MD 421','Dyn',{asset:'421'}),drumMic('AKG C414','C414','LDC'),drumMic('Neumann TLM 102','TLM 102','LDC'),drumMic('Shure KSM32','KSM32','LDC'),drumMic('Audio-Technica AT4047/SV','AT4047/SV','LDC'),drumMic('Royer R-121','R-121','Bänd.'),drumMic('Yamaha SKRM-100 SubKick','SKRM-100','Sub',{legacy:true,supplement:true}),drumMic('Solomon LoFReQ','LoFReQ','Sub',{supplement:true}),
-    drumMic('Shure SM57','SM57','Dyn',{asset:'sm57'}),drumMic('Shure Beta 57A','Beta 57A','Dyn'),drumMic('Audix i5','i5','Dyn',{asset:'i5'}),drumMic('beyerdynamic M 201','M 201','Dyn',{asset:'m201'}),drumMic('Sennheiser MD 441-U','MD 441-U','Dyn'),drumMic('Sennheiser e 904','e 904','Dyn'),drumMic('Telefunken M80-SH','M80-SH','Dyn',{asset:'m80'}),drumMic('AKG C451 B','C451 B','SDC'),drumMic('Neumann KM 84','KM 84','SDC',{legacy:true}),drumMic('Shure Beta 98AMP/C','Beta 98AMP/C','Mini-K'),drumMic('Earthworks DM20','DM20','SDC'),drumMic('Josephson e22S','e22S','Kond.'),drumMic('DPA 4099 CORE','DPA 4099','Mini-K'),drumMic('Audio-Technica ATM230','ATM230','Dyn'),drumMic('sE Electronics V BEAT','V BEAT','Dyn'),
-    drumMic('Shure KSM137','KSM137','SDC'),drumMic('Shure SM81','SM81','SDC'),drumMic('Shure Beta 181/S','Beta 181/S','SDC'),drumMic('Audix ADX51','ADX51','SDC'),drumMic('Telefunken M81-SH','M81-SH','Dyn'),drumMic('DPA 4011A','DPA 4011A','SDC'),drumMic('Audix D2','D2','Dyn'),drumMic('Electro-Voice ND44','ND44','Dyn'),
-    drumMic('Sennheiser e 604','e 604','Dyn'),drumMic('Shure Beta 56A','Beta 56A','Dyn'),drumMic('AKG D40','D40','Dyn'),drumMic('LEWITT DTP 340 TT','DTP 340 TT','Dyn'),drumMic('Audix D4','D4','Dyn'),
-    drumMic('Neumann KM 184','KM 184','SDC',{asset:'km184'}),drumMic('Shure KSM141','KSM141','SDC'),drumMic('Audio-Technica AT4041','AT4041','SDC'),drumMic('Audix SCX1HC','SCX1HC','SDC'),drumMic('Sennheiser e 614','e 614','SDC'),drumMic('beyerdynamic MC 930','MC 930','SDC'),drumMic('Telefunken M60 FET','M60 FET','SDC'),drumMic('Schoeps CMC 6 + MK 4','CMC 6 + MK 4','SDC'),drumMic('RØDE NT5','NT5','SDC'),drumMic('LEWITT LCT 140 AIR','LCT 140 AIR','SDC'),drumMic('Audio-Technica AT4051b','AT4051b','SDC'),drumMic('Audix SCX1/SCX1HC','SCX1/SCX1HC','SDC'),drumMic('Earthworks SR25','SR25','SDC'),
-    drumMic('AKG C414 XLS/XLII','C414 XLS/XLII','LDC'),drumMic('Neumann U 87 Ai','U 87 Ai','LDC'),drumMic('Shure KSM44A','KSM44A','LDC'),drumMic('Earthworks SR25mp','SR25mp','SDC'),drumMic('Coles 4038','Coles 4038','Bänd.'),drumMic('beyerdynamic M 160','M 160','Bänd.'),drumMic('Royer SF-24','SF-24','Stereo-Bänd.',{phantom:true}),
-    drumMic('Neumann U 67','U 67','Röhren-LDC'),drumMic('Audio-Technica AT4050','AT4050','LDC'),drumMic('AEA R84','R84','Bänd.'),drumMic('AEA R88/R88A','R88/R88A','Stereo-Bänd.'),drumMic('DPA 4006A','DPA 4006A','Omni-SDC'),drumMic('Earthworks QTC40','QTC40','Omni-Kond.'),drumMic('Schoeps CMC 6 + MK 2','CMC 6 + MK 2','Omni-SDC'),drumMic('Austrian Audio OC818','OC818','LDC'),
-    drumMic('Beyerdynamic M201TG','M201TG','Dyn',{asset:'m201'}),drumMic('Telefunken M80','M80','Dyn',{asset:'m80'}),drumMic('Sennheiser 421','421','Dyn',{asset:'421'})
-  ];
-  const drumTypicalMics={
-    kickIn:['Grenzflächenmikrofon','Shure Beta 91A','Sennheiser e 901','Shure Beta 52A','AKG D112 MkII','Audix D6','Sennheiser e 602 II','Electro-Voice RE20','Electro-Voice RE320','beyerdynamic M 88','AKG D12 VR','Telefunken M82','Audio-Technica AE2500','LEWITT DTP 640 REX','DPA 4055','sE Electronics V KICK'],
-    kickOut:['Generisches Kick-Mikrofon','Neumann U 47 fet','AKG D12','AKG D112 MkII','Sennheiser e 902','Electro-Voice RE20','Sennheiser MD 421','Shure Beta 52A','beyerdynamic M 88','AKG C414','Neumann TLM 102','Shure KSM32','Audio-Technica AT4047/SV','Royer R-121','Yamaha SKRM-100 SubKick','Solomon LoFReQ'],
-    snareTop:['Generisches Drum-Mikrofon','Shure SM57','Shure Beta 57A','Audix i5','beyerdynamic M 201','Sennheiser MD 441-U','Sennheiser e 904','Telefunken M80-SH','AKG C451 B','Neumann KM 84','Shure Beta 98AMP/C','Earthworks DM20','Josephson e22S','DPA 4099 CORE','Audio-Technica ATM230','sE Electronics V BEAT'],
-    snareBottom:['Generisches Drum-Mikrofon','Shure SM57','AKG C451 B','Neumann KM 84','Sennheiser MD 441-U','Shure KSM137','Shure SM81','Shure Beta 181/S','Audix ADX51','Telefunken M81-SH','DPA 4011A','Sennheiser e 904','beyerdynamic M 201','Shure Beta 57A','Audix D2','Electro-Voice ND44'],
-    rackTom:['Generisches Drum-Mikrofon','Sennheiser MD 421','Sennheiser e 604','Sennheiser e 904','Audix D2','Shure SM57','Shure Beta 56A','Shure Beta 98AMP/C','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','Electro-Voice ND44','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','beyerdynamic M 201'],
-    floorTom:['Generisches Drum-Mikrofon','Audix D4','Sennheiser MD 421','Sennheiser e 904','Sennheiser e 604','Shure SM57','beyerdynamic M 88','Electro-Voice RE20','Shure Beta 56A','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','DPA 4099 CORE'],
-    hihat:['Shure SM57','AKG C451 B','Neumann KM 184','Neumann KM 84','Shure SM81','Shure KSM137','Shure KSM141','Audio-Technica AT4041','Audix SCX1HC','Audix ADX51','Sennheiser e 614','beyerdynamic MC 930','Telefunken M60 FET','Schoeps CMC 6 + MK 4','RØDE NT5','LEWITT LCT 140 AIR'],
-    ride:['Generisches Kleinmembran-Mikrofon','AKG C451 B','Neumann KM 184','Shure SM81','Shure KSM137','Shure KSM141','Audio-Technica AT4041','Audio-Technica AT4051b','Audix SCX1/SCX1HC','Sennheiser e 614','beyerdynamic MC 930','Telefunken M60 FET','Schoeps CMC 6 + MK 4','DPA 4011A','Earthworks SR25','Royer R-121'],
-    overhead:['Generisches Kleinmembran-Mikrofon','AKG C414 XLS/XLII','AKG C451 B','Neumann KM 184','Neumann KM 84','Shure SM81','Neumann U 87 Ai','Schoeps CMC 6 + MK 4','DPA 4011A','Shure KSM44A','Audio-Technica AT4041','RØDE NT5','Earthworks SR25mp','Coles 4038','beyerdynamic M 160','Royer SF-24'],
-    room:['Generisches Kondensatormikrofon','Neumann U 87 Ai','Neumann U 67','AKG C414 XLS/XLII','Audio-Technica AT4050','Shure KSM44A','Coles 4038','Royer R-121','AEA R84','AEA R88/R88A','beyerdynamic M 160','DPA 4006A','Earthworks QTC40','Schoeps CMC 6 + MK 2','Neumann TLM 102','Austrian Audio OC818']
-  };
-  let drumMicPopupChannel=null,drumMicPopupFilter='typical',drumMicPopupQuery='',drumMicPopupReturnFocus=null;
-  const drumMicByName=name=>drumMicCatalog.find(mic=>mic.name===name)||{name:name||'Mikrofon',short:name||'Mic'};
+  let drumMicPopupChannel=null,drumMicPopupReturnFocus=null,drumSharedMicPopup=null,drumMicBaseline=null;
+  const drumMicByName=name=>StageplotMics.lookup(name);
   const drumMicIcon=mic=>audioMicPhoto(mic.name)?'<img class="sp-drum-mic-original" src="'+audioMicPhoto(mic.name)+'" alt="" loading="lazy">':'<span class="sp-drum-mic-model-only" aria-hidden="true">MIC</span>';
   function drumMicPickerRow(row){
-    const mic=drumDraft.mics?.[row.id]||{enabled:row.enabled!==false,model:row.model||''},cymbalPart=row.part==='hihat'||row.part==='ride'||row.part==='clapstack'||/^(crash|splash|china)\d+$/.test(row.part),overheadLocked=cymbalPart&&drumDraft.overheadPickup?.[row.part]!==false,enabled=!overheadLocked&&mic.enabled!==false,current=mic.model||row.model||'',direct=row.method==='di',choice=drumMicByName(current);
+    const mic=drumDraft.mics?.[row.id]||{enabled:row.enabled!==false,model:row.model||''},cymbalPart=!row.overhead&&(row.part==='hihat'||row.part==='ride'||row.part==='clapstack'||/^(crash|splash|china)\d+$/.test(row.part)),overheadLocked=cymbalPart&&drumDraft.overheadPickup?.[row.part]!==false,enabled=!overheadLocked&&mic.enabled!==false,current=mic.model||row.model||'',direct=row.method==='di',choice=drumMicByName(current);
     if(direct)return '<div class="sp-drum-pickup-row" data-disabled="'+String(!enabled)+'"><span>'+esc(row.name)+'</span><div class="sp-drum-pickup-actions"><button class="sp-drum-direct-enable" type="button" data-drum-direct-enable="'+row.id+'" aria-label="'+esc(row.name)+' Direktausgang aktivieren">'+(enabled?drumMicIcon({name:'Direktausgang',short:'DI'}):'')+'<small>'+(enabled?'DI / Line':'Ausgang aktivieren')+'</small></button><button class="sp-drum-mic-clear" type="button" data-drum-mic-clear="'+row.id+'" aria-label="'+esc(row.name)+' deaktivieren" '+(!enabled?'disabled':'')+'>×</button></div></div>';
     return '<div class="sp-drum-pickup-row" data-disabled="'+String(!enabled)+'" data-overhead-locked="'+String(overheadLocked)+'"><span>'+esc(row.name)+'</span><div class="sp-drum-pickup-actions"><button class="sp-drum-mic-picker" type="button" data-drum-mic-open="'+row.id+'" data-drum-mic-channel="'+row.id+'" aria-haspopup="dialog" aria-expanded="false" aria-label="'+esc(row.name)+' Mikrofon auswählen · '+esc(overheadLocked?'OH L/R aktiv':enabled?choice.name:'kein Mikro')+'" '+(overheadLocked?'disabled':'')+'>'+(enabled?drumMicIcon(choice):'')+'<small>'+esc(overheadLocked?'OH L/R aktiv':enabled?choice.short:'Mic wählen')+'</small></button><button class="sp-drum-mic-clear" type="button" data-drum-mic-clear="'+row.id+'" aria-label="'+esc(row.name)+' ohne Mikrofon" '+(!enabled||overheadLocked?'disabled':'')+'>×</button></div></div>';
   }
   function drumPickupControls(selected){
-    const active=drumModel.drumChannels(drumDraftType,drumDraft),all=drumModel.drumChannels(drumDraftType,drumDraft,true);
-    if(!selected)return '<section class="sp-drum-pickup-section" data-drum-pickup="summary"><div class="sp-drum-pickup-heading"><strong>Abnahme &amp; Outputs · '+active.length+' aktiv</strong><small>Bauteil anklicken, um Mikrofon, Direktausgang oder OH-Abnahme festzulegen.</small></div></section>';
+    const active=drumModel.drumChannels(drumDraftType,drumDraft),all=drumModel.drumChannels(drumDraftType,drumDraft,true),overheadRows=all.filter(row=>row.overhead),overheadChoices=overheadRows.length?'<div class="sp-drum-overhead-models"><strong>Overhead-Mikrofone</strong><div class="sp-drum-pickup-list">'+overheadRows.map(drumMicPickerRow).join('')+'</div></div>':'';
+    if(!selected)return '<section class="sp-drum-pickup-section" data-drum-pickup="summary"><div class="sp-drum-pickup-heading"><strong>Abnahme &amp; Outputs · '+active.length+' aktiv</strong><small>Bauteil anklicken, um Mikrofon, Direktausgang oder OH-Abnahme festzulegen.</small></div>'+overheadChoices+'</section>';
     const cymbal=selected==='hihat'||selected==='ride'||selected==='clapstack'||/^(crash|splash|china)\d+$/.test(selected),rows=all.filter(row=>row.part===selected&&!row.overhead),parts=[];
     if(cymbal)parts.push('<label class="sp-drum-overhead-check"><input type="checkbox" data-drum-field="overheadPickup.'+selected+'" '+(drumDraft.overheadPickup?.[selected]!==false?'checked':'')+'> Wird von OH L &amp; R abgenommen</label>');
     if(rows.length)parts.push('<div class="sp-drum-pickup-list">'+rows.map(drumMicPickerRow).join('')+'</div>');
+    if(cymbal&&overheadChoices)parts.push(overheadChoices);
     if(!parts.length)parts.push('<p class="sp-drum-no-audio">Dieses Bauteil erzeugt selbst keinen Audio-Output.</p>');
     return '<section class="sp-drum-pickup-section" data-drum-pickup="'+esc(selected)+'"><div class="sp-drum-pickup-heading"><strong>Abnahme / Outputs</strong><small>Jede aktive Zeile erscheint als eigenes Signal in der Inputliste.</small></div>'+parts.join('')+'</section>';
   }
-  function drumTypicalMicNames(channel){
-    if(/^kick\d+-in$/.test(channel))return drumTypicalMics.kickIn;
-    if(/^kick\d+-out$/.test(channel))return drumTypicalMics.kickOut;
-    if(/^(snare|side)-up$/.test(channel))return drumTypicalMics.snareTop;
-    if(/^(snare|side)-down$/.test(channel))return drumTypicalMics.snareBottom;
-    if(/^rack\d+$/.test(channel))return drumTypicalMics.rackTom;
-    if(/^floor\d+$/.test(channel))return drumTypicalMics.floorTom;
-    if(channel==='hihat')return drumTypicalMics.hihat;
-    if(channel==='ride'||channel==='clapstack'||/^(crash|splash|china)\d+$/.test(channel))return drumTypicalMics.ride;
-    if(/^oh-(?:mono|l|r)$/.test(channel))return drumTypicalMics.overhead;
-    if(/^room-(?:mono|l|r)$/.test(channel))return drumTypicalMics.room;
-    return['Generisches Drum-Mikrofon','Shure SM57','Beyerdynamic M201TG','Sennheiser e 604'];
-  }
-  const drumChannelById=id=>drumModel.drumChannels(drumDraftType,drumDraft,true).find(row=>row.id===id&&!row.overhead)||null;
-  function renderDrumMicPopup(){
-    const row=drumChannelById(drumMicPopupChannel);if(!row)return;
-    const mic=drumDraft.mics?.[row.id]||row,current=mic.enabled===false?'':mic.model||row.model||'',catalog=drumMicCatalog.slice();if(current&&!catalog.some(entry=>entry.name===current))catalog.push(drumMicByName(current));
-    const typical=new Set(drumTypicalMicNames(row.id)),normalize=value=>String(value).toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,''),query=normalize(drumMicPopupQuery).trim(),pool=drumMicPopupFilter==='typical'?catalog.filter(entry=>typical.has(entry.name)||entry.name===current):catalog,shown=query?pool.filter(entry=>normalize([entry.name,entry.short,entry.type,entry.legacy?'vintage legacy':'',entry.supplement?'zusatz subkick':''].join(' ')).includes(query)):pool;
-    $('sp-drum-mic-popup-options').innerHTML=shown.length?shown.map(entry=>{const meta=[entry.type,entry.legacy?'Vintage / Legacy':'',entry.supplement?'Zusatzmikrofon':''].filter(Boolean).join(' · ');return '<button class="sp-drum-mic-option" type="button" data-drum-mic-choice="'+esc(entry.name)+'" data-drum-mic-type="'+esc(entry.type)+'" aria-pressed="'+String(entry.name===current)+'" title="'+esc(entry.name+(meta?' · '+meta:''))+'">'+drumMicIcon(entry)+'<span class="sp-drum-mic-option-copy"><strong>'+esc(entry.name)+'</strong><small>'+esc(meta||'Mikrofon')+'</small></span></button>';}).join(''):'<div class="sp-drum-mic-empty">Keine Mikrofone für „'+esc(drumMicPopupQuery.trim())+'“ gefunden.</div>';
-    $('sp-drum-mic-popup').querySelectorAll('[data-drum-mic-filter]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.drumMicFilter===drumMicPopupFilter)));
-  }
-  function positionDrumMicPopup(anchor){
-    const popup=$('sp-drum-mic-popup'),rect=anchor.getBoundingClientRect(),box=popup.getBoundingClientRect(),gap=6,left=Math.max(8,Math.min(window.innerWidth-box.width-8,rect.right-box.width));let top=rect.bottom+gap;if(top+box.height>window.innerHeight-8)top=Math.max(8,rect.top-box.height-gap);popup.style.left=left+'px';popup.style.top=top+'px';
-  }
+  const drumTypicalMicNames=channel=>StageplotMics.drumSuggestions(channel);
+  const drumChannelById=id=>drumModel.drumChannels(drumDraftType,drumDraft,true).find(row=>row.id===id)||null;
   function closeDrumMicPopup(restoreFocus=false){
-    const popup=$('sp-drum-mic-popup');if(popup.hidden)return;popup.hidden=true;root.querySelectorAll('[data-drum-mic-open][aria-expanded="true"]').forEach(button=>button.setAttribute('aria-expanded','false'));const target=drumMicPopupReturnFocus;drumMicPopupChannel=null;drumMicPopupReturnFocus=null;if(restoreFocus)target?.focus({preventScroll:true});
+    const popup=drumSharedMicPopup;drumSharedMicPopup=null;popup?.close();
+    root.querySelectorAll('[data-drum-mic-open][aria-expanded="true"]').forEach(button=>button.setAttribute('aria-expanded','false'));
+    const target=drumMicPopupReturnFocus;drumMicPopupChannel=null;drumMicPopupReturnFocus=null;if(restoreFocus)target?.focus({preventScroll:true});
   }
   function openDrumMicPopup(button){
-    const channel=button.dataset.drumMicOpen;if(!channel||button.disabled||!drumChannelById(channel))return;closeDrumMicPopup();drumMicPopupChannel=channel;drumMicPopupFilter='typical';drumMicPopupQuery='';drumMicPopupReturnFocus=button;$('sp-drum-mic-search').value='';button.setAttribute('aria-expanded','true');renderDrumMicPopup();const popup=$('sp-drum-mic-popup');popup.hidden=false;positionDrumMicPopup(button);$('sp-drum-mic-search').focus({preventScroll:true});
+    const channel=button.dataset.drumMicOpen,row=drumChannelById(channel);if(!row||button.disabled)return;
+    closeDrumMicPopup();drumMicPopupChannel=channel;drumMicPopupReturnFocus=button;button.setAttribute('aria-expanded','true');
+    const route=stage.routing.inputs.find(row=>row.sourceKey===drumObjectId+':drum-'+channel),context=(route?.number?'CH '+route.number+' · ':'')+'Drums · '+row.name;
+    drumSharedMicPopup=StageplotMicPicker.open(root,{context,selected:drumDraft.mics?.[channel]?.model||row.model||'',suggestions:drumTypicalMicNames(channel),onSelect:model=>setDrumChannelMic(channel,model.name,true),onClose:()=>{drumSharedMicPopup=null;button.setAttribute('aria-expanded','false');}});
   }
   function setDrumChannelMic(channel,model,enabled=true){
-    const row=drumChannelById(channel);if(!row)return;const before=drumStateSnapshot();drumDraft.mics??={};const current=drumDraft.mics[channel]||{model:row.model||'Generisches Drum-Mikrofon',phantom:false};current.enabled=enabled;if(model){current.model=String(model).slice(0,60);current.phantom=drumMicByName(current.model).phantom===true;}drumDraft.mics[channel]=current;
-    if(enabled&&(['hihat','ride','clapstack'].includes(row.part)||/^(crash|splash|china)\d+$/.test(row.part))){drumDraft.overheadPickup??={};drumDraft.overheadPickup[row.part]=false;}
+    const row=drumChannelById(channel);if(!row)return;const before=drumStateSnapshot();drumDraft.mics??={};const current=drumDraft.mics[channel]||{model:row.model||'Generisches Drum-Mikrofon',phantom:false};current.enabled=enabled;if(model!==null){current.model=String(model).slice(0,80);current.phantom=drumMicByName(current.model).phantom===true;}drumDraft.mics[channel]=current;
+    if(enabled&&!row.overhead&&(['hihat','ride','clapstack'].includes(row.part)||/^(crash|splash|china)\d+$/.test(row.part))){drumDraft.overheadPickup??={};drumDraft.overheadPickup[row.part]=false;}
     closeDrumMicPopup();refreshDrumDialog();recordDrumHistory(before);requestAnimationFrame(()=>{const selector=row.method==='di'?'[data-drum-direct-enable="'+channel+'"]':'[data-drum-mic-open="'+channel+'"]';$('sp-drum-hardware').querySelector(selector)?.focus({preventScroll:true});});
   }
   function renderDrumHardware(){
@@ -11584,7 +11754,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
   }
   for(const side of ['palette','inspector'])$('sp-drum-'+side+'-toggle').addEventListener('click',()=>setDrumSidebar(side,$('sp-drum-dialog').dataset[side+'Collapsed']!=='true'));
   $('sp-drum-dialog').addEventListener('keydown',e=>{
-    if(e.key==='Escape'&&!$('sp-drum-mic-popup').hidden){e.preventDefault();e.stopPropagation();closeDrumMicPopup(true);return;}
+    if(e.key==='Escape'&&drumSharedMicPopup){e.preventDefault();e.stopPropagation();closeDrumMicPopup(true);return;}
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undoDrum(e.shiftKey);return;}
     if(e.key==='Escape'&&drumPendingKind){e.preventDefault();e.stopPropagation();drumPendingKind=null;syncDrumPlacementState();return;}
     if((e.key==='Delete'||e.key==='Backspace')&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)&&removableDrumPart(drumSelectedPart)){e.preventDefault();removeSelectedDrumPart();}
@@ -11594,7 +11764,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     const percussionObject=objects.find(o=>o.id===selected&&o.type==='percussion');if(percussionObject){if(!percussionObject.locked){cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();percussionEditor.open(percussionObject,e?.currentTarget);}return;}
     const o=objects.find(v=>v.id===selected);if(!o||o.locked||!drumModel.isDrums(o.type))return;
     drumDialogReturnFocus=e?.currentTarget||$('sp-drums-open');
-    cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();drumObjectId=o.id;drumDraftType='drums';drumDraft=drumModel.normalizeDrums(o.drums);drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;
+    cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();drumObjectId=o.id;drumDraftType='drums';drumDraft=StageplotMics.hydrateDrums(drumModel.normalizeDrums(o.drums),o.id,stage.routing);drumMicBaseline=clone(drumDraft);drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;
     $('sp-drum-design-name').value=o.label&&o.label!==byId[o.type].short?o.label:'Mein Drumset';$('sp-drum-design-save').textContent='Speichern';$('sp-drum-hardware').replaceChildren();loadDrumDesignLibrary();drumDesignStatus('');refreshDrumDialog();setDrumMobilePanel('canvas');syncDrumHistory();$('sp-drum-dialog').showModal();
   }
   for(const id of ['sp-drums-open','sp-drum-hover-open'])$(id).addEventListener('click',openSelectedDrumDesigner);
@@ -11625,9 +11795,6 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     requestAnimationFrame(()=>{const buttons=[...$('sp-drum-hardware').querySelectorAll('[data-drum-size-path="'+path+'"]')],preferred=buttons.find(item=>Number(item.dataset.drumSizeStep)===step&&!item.disabled),fallback=buttons.find(item=>!item.disabled);(preferred||fallback)?.focus({preventScroll:true});});
   }
   $('sp-drum-hardware').addEventListener('click',e=>{const size=e.target.closest('[data-drum-size-step]'),open=e.target.closest('[data-drum-mic-open]'),clear=e.target.closest('[data-drum-mic-clear]'),direct=e.target.closest('[data-drum-direct-enable]');if(size&&!size.disabled)stepDrumSize(size);else if(open)openDrumMicPopup(open);else if(clear&&!clear.disabled)setDrumChannelMic(clear.dataset.drumMicClear,'',false);else if(direct)setDrumChannelMic(direct.dataset.drumDirectEnable,'Direktausgang',true);});
-  $('sp-drum-mic-popup').addEventListener('click',e=>{const filter=e.target.closest('[data-drum-mic-filter]'),choice=e.target.closest('[data-drum-mic-choice]');if(filter){drumMicPopupFilter=filter.dataset.drumMicFilter;renderDrumMicPopup();}else if(choice&&drumMicPopupChannel)setDrumChannelMic(drumMicPopupChannel,choice.dataset.drumMicChoice,true);});
-  $('sp-drum-mic-search').addEventListener('input',e=>{drumMicPopupQuery=e.target.value.slice(0,80);renderDrumMicPopup();});
-  $('sp-drum-dialog').addEventListener('pointerdown',e=>{const popup=$('sp-drum-mic-popup');if(!popup.hidden&&!popup.contains(e.target)&&!e.target.closest('[data-drum-mic-open]'))closeDrumMicPopup();});
   $('sp-drum-hardware').addEventListener('focusin',e=>{if(e.target.closest('[data-drum-field]')&&!drumEditBefore)drumEditBefore=drumStateSnapshot();});
   $('sp-drum-hardware').addEventListener('input',e=>{if(['number','text'].includes(e.target.type))editDrumHardware(e);});
   $('sp-drum-hardware').addEventListener('change',editDrumHardware);
@@ -11649,7 +11816,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     e.preventDefault();if(!$('sp-drum-form').reportValidity())return;
     const o=objects.find(v=>v.id===drumObjectId);if(!o||o.locked)return;
     const nextType='drums',config=drumModel.normalizeDrums(drumDraft);writeLastDrumConfig(config);$('sp-drum-dialog').close();
-    change(()=>{const prior=byId[o.type]||byId.drums;o.type=nextType;if(o.label===prior.short)o.label=byId[nextType].short;o.drums=config;delete o.drumPresetId;delete o.drumInputs;constrain(o,false);syncRoutingFromStage(false);},'Drumset übernommen');
+    change(()=>{const prior=byId[o.type]||byId.drums;o.type=nextType;if(o.label===prior.short)o.label=byId[nextType].short;o.drums=config;delete o.drumPresetId;delete o.drumInputs;constrain(o,false);StageplotMics.applyDrumChanges(stage.routing,o.id,drumMicBaseline||{},config);syncRoutingFromStage(false);},'Drumset übernommen');
   });
 /* build-inline:start stageplot-percussion-editor-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 /* Isolated modal draft: stage objects change only on Übernehmen. */

@@ -3,16 +3,10 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 
 const html=fs.readFileSync('stageplot-studio.html','utf8');
-const start=html.indexOf('const drumMic=');
-const end=html.indexOf('let drumMicPopupChannel=',start);
-assert.ok(start>0&&end>start,'Der strukturierte Mikrofonkatalog fehlt.');
-const context={};
-vm.runInNewContext(html.slice(start,end)+'\nthis.catalog=drumMicCatalog;this.typical=drumTypicalMics;',context,{filename:'drum-microphone-catalog.js'});
-const catalog=JSON.parse(JSON.stringify(context.catalog));
-const typical=JSON.parse(JSON.stringify(context.typical));
+const mics=require('./stageplot-mics-v1.js'),catalog=mics.catalog,typical=mics.typical;
 const names=catalog.map(item=>item.name),byName=Object.fromEntries(catalog.map(item=>[item.name,item]));
 
-assert.equal(catalog.length,90,'Der Mikrofonkatalog ist unvollständig.');
+assert.equal(catalog.length,93,'Der Mikrofonkatalog ist unvollständig.');
 assert.equal(new Set(names).size,names.length,'Der Mikrofonkatalog enthält doppelte Modelle.');
 
 const expected={
@@ -43,6 +37,6 @@ assert.equal(byName['Yamaha SKRM-100 SubKick'].supplement,true,'Der Yamaha SubKi
 assert.equal(byName['Solomon LoFReQ'].supplement,true,'Der Solomon LoFReQ ist nicht als Zusatzmikrofon gekennzeichnet.');
 assert.ok(catalog.every(item=>!item.asset||['sm57','m201','km184','m80','i5','421'].includes(item.asset)),'Für den erweiterten Katalog wurden unerwartet neue Bildassets vorausgesetzt.');
 
-for(const marker of ['id="sp-drum-mic-search"','Mikrofon oder Bauart suchen','drumMicPopupQuery','sp-drum-mic-empty','data-drum-mic-type=','sp-drum-mic-option-copy','Vintage / Legacy','Zusatzmikrofon','drumMicByName(current.model).phantom===true'])assert.ok(html.includes(marker),marker+' fehlt in der App.');
+for(const marker of ['StageplotMicPicker.open(root','StageplotMics.lookup(name)','drumMicByName(current.model).phantom===true'])assert.ok(html.includes(marker),marker+' fehlt in der App.');
 
 console.log('PASS V71: vollständiger Drum-Mikrofonkatalog, positionsbezogene Typisch-Filter und sichere 48-V-Metadaten.');

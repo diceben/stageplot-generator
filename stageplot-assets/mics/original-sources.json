@@ -86,5 +86,126 @@
     "sha256": "ba9ddb84d02be080d5ea32a247558c1b8eea174565e52f0b044638f4c296303e",
     "bytes": 137542,
     "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Shure Beta 57A",
+    "id": "beta57a",
+    "file": "beta57a-original-v1.png",
+    "productPage": "https://www.shure.com/en-US/products/microphones/beta_57a",
+    "imageUrl": "https://products.shureweb.eu/shure_product_db/product_images/files/930/8ee/b9-/original/0ba9be0d585a0605669a41b958e2d8e9.png",
+    "retrieved": "2026-09-09",
+    "sha256": "f304f27b988ecf40bb3c04ad8e0e5dde104db2099118fcc33ac46430e0abd93c",
+    "bytes": 590653,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Shure SM81",
+    "id": "sm81",
+    "file": "sm81-original-v1.webp",
+    "productPage": "https://www.shure.com/en-US/products/microphones/sm81",
+    "imageUrl": "https://products.shureweb.eu/shure_product_db/product_images/files/4e4/7d8/30-/original/00b6753fab7eeece160df2b16c569433.webp",
+    "retrieved": "2026-09-09",
+    "sha256": "ca3dce84d0ed8b26bbcb1bda073e833932ae6e4393219c294fe463e81aea27e7",
+    "bytes": 91666,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Audix D2",
+    "id": "d2",
+    "file": "d2-original-v1.png",
+    "productPage": "https://audixusa.com/products/d2/",
+    "imageUrl": "https://audixusa.com/cdn/shop/files/D2-Front_1200x1200.png?v=1778634542",
+    "retrieved": "2026-09-09",
+    "sha256": "0fc3c95faa52443e2be57d43073a07ed626483fe1a65941649b121987425ee09",
+    "bytes": 272747,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Audix D6",
+    "id": "d6",
+    "file": "d6-original-v1.png",
+    "productPage": "https://audixusa.com/products/d6/",
+    "imageUrl": "https://audixusa.com/cdn/shop/files/D6-Front_1200x1200.png?v=1778634817",
+    "retrieved": "2026-09-09",
+    "sha256": "b32cc704196b1af5bea45cd72a28555ecde036065e17374be8bb63124bde0499",
+    "bytes": 268332,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Shure Beta 52A",
+    "id": "beta52a",
+    "file": "beta52a-original-v1.webp",
+    "productPage": "https://www.shure.com/en-US/products/microphones/beta_52a",
+    "imageUrl": "https://products.shureweb.eu/shure_product_db/product_images/files/a23/c57/13-/original/b368647aaff91b9f38fca44af337d2cd.webp",
+    "retrieved": "2026-09-09",
+    "sha256": "68d5b7d7ad3ecbbd2fe46be1d00646ab6e46dad3713951ed9273c7430bd5c4aa",
+    "bytes": 484198,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Shure Beta 91A",
+    "id": "beta91a",
+    "file": "beta91a-original-v1.webp",
+    "productPage": "https://www.shure.com/en-US/products/microphones/beta_91a",
+    "imageUrl": "https://products.shureweb.eu/shure_product_db/product_main_images/files/570/c68/c3-/original/23309ae1ef81986353cdf8c74d90f64c.webp",
+    "retrieved": "2026-09-09",
+    "sha256": "fdb7f84284f9bd4341cdb389f132f16da4a29e6f38107a145ac45f4b33452503",
+    "bytes": 916118,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "sE Electronics V BEAT",
+    "id": "vbeat",
+    "file": "vbeat-original-v1.png",
+    "productPage": "https://seelectronics.com/products/v-beat/",
+    "imageUrl": "https://seelectronics.com/wp-content/uploads/2022/02/All-Mics-Product-Page-Featured-Image-Template-Center-Update-Final_0020_V-BEAT-Glamour.png",
+    "retrieved": "2026-09-09",
+    "sha256": "c66598e9adee9458f9765498c524d432e6323c83b8a0f48bfbfdf34d4ca0e3a3",
+    "bytes": 661585,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Audix D4",
+    "id": "d4",
+    "file": "d4-original-v1.png",
+    "productPage": "https://audixusa.com/products/d4/",
+    "imageUrl": "https://audixusa.com/cdn/shop/files/D4-Front_1200x1200.png?v=1778634772",
+    "retrieved": "2026-09-09",
+    "sha256": "ed9405636bb2f1d98721fa574daff470e3cd854950bfc17eb9e0b819d7b3233c",
+    "bytes": 328753,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Telefunken M80-SH",
+    "id": "m80sh",
+    "file": "m80sh-original-v1.jpg",
+    "productPage": "https://www.telefunken-elektroakustik.com/product/m80-sh/",
+    "imageUrl": "https://www.telefunken-elektroakustik.com/wp-content/uploads/2018/09/M80-SH-Front-1x1-1.jpg",
+    "retrieved": "2026-09-09",
+    "sha256": "b132da8725f499bf08205a9d830f113de2a6f8cbc6dec3cc0dbc0df9a0bf5b6f",
+    "bytes": 63006,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Sennheiser e 604",
+    "id": "e604",
+    "file": "e604-original-v1.webp",
+    "productPage": "https://www.sennheiser.com/en-us/catalog/products/microphones/e-604/e-604-004519",
+    "imageUrl": "https://assets.sennheiser.com/assets/e604_product_shot_cutout_shot_side_view.png.png/Zz1mNzI2NzY4NGU3YWQxMWYwYWUzMDdhZWFhOWMzNzY0YQ==?width=320&format=webp&quality=80",
+    "retrieved": "2026-09-09",
+    "sha256": "59bcdf0b85eb52bf45f86c0549368a48a45207c2cd44f6207f35868f05c93557",
+    "bytes": 6444,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "sE Electronics V KICK",
+    "id": "vkick",
+    "file": "vkick-original-v1.png",
+    "productPage": "https://seelectronics.com/products/v-kick/",
+    "imageUrl": "https://imgcdn.seelectronics.com/cdn-cgi/imagedelivery/g65XQ1NFDxpPR_G3NFTuoA/a66cace6-36f4-4392-750a-ff64a20b7f00/w=1080,h=1080,fit=crop",
+    "retrieved": "2026-09-09",
+    "sha256": "472330b7d3f930e2112d0c94ecf0ee392807ceb588eaa052961e113ba7875283",
+    "bytes": 322418,
+    "originalManufacturerPhoto": true
   }
 ]

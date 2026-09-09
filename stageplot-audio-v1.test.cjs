@@ -2,7 +2,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const html=fs.readFileSync('stageplot-studio.html','utf8'),audio=fs.readFileSync('stageplot-audio-v1.js','utf8'),clone=value=>JSON.parse(JSON.stringify(value));
 const extract=name=>{const match=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert(match,name);return match[0];};
 const fixture=(id,type,count=1)=>({id,type,label:id,io:{inputs:{count:0,connector:'XLR'},outputs:{count,connector:'XLR'},stereoPairs:count>=2?[1]:[],aliases:{inputs:[],outputs:[]}}});
-const ctx={projectText:(value,max)=>String(value??'').slice(0,max),normalizeIoConnector:value=>value||'XLR',routeModes:new Set(['Mono','Stereo L','Stereo R','Mic','DI','Direct']),routeSignals:new Set(['Mic','Line','Instrument','Digital']),
+const ctx={StageplotMics:require('./stageplot-mics-v1.js'),projectText:(value,max)=>String(value??'').slice(0,max),normalizeIoConnector:value=>value||'XLR',routeModes:new Set(['Mono','Stereo L','Stereo R','Mic','DI','Direct']),routeSignals:new Set(['Mic','Line','Instrument','Digital']),
  byId:{'keys-stage4':{category:'keys',instrument:true,short:'Keys',name:'Keyboard'},guitar:{instrument:true,category:'guitars',short:'Guitar'},amp:{instrument:true,category:'amps',short:'Amp'},mixer:{instrument:true,ioDefaults:{inputs:8,outputs:4}},wedge:{},rack:{}},
  drumModel:{isDrums:()=>false},objectIo:o=>o.io,ioAliasText:value=>value||'',objects:[fixture('keys','keys-stage4',4),fixture('guitar','guitar'),fixture('amp','amp'),fixture('mixer','mixer',4)],stage:{routing:{inputs:[],outputs:[]}},routeToken:()=>String(++ctx.token),token:0,queueDraftSave(){},say(){},reconcileCablesWithRouting(){},esc:value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;')};
 ctx.routeSourceObject=row=>ctx.objects.find(o=>o.id===String(row?.sourceKey||'').split(':')[0]);ctx.routeSpec=(o,port,instrument,mode,signalType,extra)=>({sourceKey:o.id+':'+port,instrument,mode,signalType,...extra});ctx.ioAliasAt=()=>'';
@@ -96,7 +96,7 @@ assert(!ctx.audioPortCandidates(patchBox,pair,new Set(['l','r']),true,{port:5,ri
 assert.equal(ctx.audioPortCandidates({...patchBox,capacity:1},[],new Set(),true,{}).length,0);
 
 // Run the real tab handlers and save function with persistent form controls.
-const dialogNodes=new Map(),dialogCtx={clone,editingRoute:{id:'l'},esc:ctx.esc,stage:{routing:{inputs:[],outputs:[],disabledSources:[]}},saved:0,routeSourceObject:()=>null,routeNeedsDi:()=>false,normalizeRouteChannel:row=>({...row,linkedSources:row.linkedSources||[]}),routingStageboxes:()=>summaryBoxes,reconcileCablesWithRouting(){},say(){},snapshot:()=>JSON.stringify(dialogCtx.stage),keepHistory:()=>dialogCtx.saved++};
+const dialogNodes=new Map(),dialogCtx={StageplotMics:ctx.StageplotMics,objects:[],drumModel:ctx.drumModel,clone,editingRoute:{id:'l'},esc:ctx.esc,stage:{routing:{inputs:[],outputs:[],disabledSources:[]}},saved:0,routeSourceObject:()=>null,routeNeedsDi:()=>false,normalizeRouteChannel:row=>({...row,linkedSources:row.linkedSources||[]}),routingStageboxes:()=>summaryBoxes,reconcileCablesWithRouting(){},say(){},snapshot:()=>JSON.stringify(dialogCtx.stage),keepHistory:()=>dialogCtx.saved++};
 dialogCtx.$=id=>{if(!dialogNodes.has(id))dialogNodes.set(id,{id,value:'',attributes:{},handlers:{},validity:{valid:true},hidden:false,querySelectorAll:()=>[],setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,handler){this.handlers[type]=handler;},focus(){dialogCtx.focused=id;},close(){this.open=false;},closest:()=>null});return dialogNodes.get(id);};
 const tabs=['signal','chain','patch','more'].map(key=>Object.assign(dialogCtx.$('sp-audio-tab-'+key),{dataset:{audioTab:key}}));
 dialogCtx.$('sp-audio-editor-tabs').querySelectorAll=()=>tabs;
@@ -127,15 +127,13 @@ for(const photo of photoSources){
   assert.equal(ctx.audioMicPhoto(photo.model),'stageplot-assets/mics/'+photo.file);
   assert.match(new URL(photo.productPage).hostname,/shure\.com|telefunken-elektroakustik\.com|beyerdynamic\.com|neumann\.com|seelectronics\.com|audixusa\.com|sennheiser\.com/);
 }
-assert.equal(photoSources.length,8);assert.equal(ctx.audioMicPhoto('Telefunken M80-SH'),'','Never use a full-size M80 photo for the short model.');
+assert.equal(photoSources.length,19);assert.notEqual(ctx.audioMicPhoto('Telefunken M80-SH'),ctx.audioMicPhoto('Telefunken M80'),'Short and full-length versions have their own original photos.');
 assert.equal(ctx.audioMicPhoto('Sennheiser MD 421'),'','A legacy model must not silently receive a different revision’s product photo.');
-const catalogStart=html.indexOf('const drumMic='),catalogEnd=html.indexOf('let drumMicPopupChannel=',catalogStart);
-vm.runInContext(html.slice(catalogStart,catalogEnd),ctx);
 const micCatalog=ctx.audioMicCatalog();assert(micCatalog.some(mic=>mic.name==='Shure SM58'));assert.equal(ctx.audioMicBrand('sE Electronics V7'),'sE Electronics');assert.equal(ctx.audioMicBrand('Audio-Technica ATM230'),'Audio-Technica');
 for(const name of ['Snare Top','Kick In','Hi-Hat','Drums · OH L','Congas','Gitarre','Lead Vocals'])for(const model of ctx.audioMicSuggestions(name))assert(micCatalog.some(mic=>mic.name===model),model+' is selectable for '+name);
 assert(ctx.audioMicSuggestions('Snare Top').includes('Shure SM57'));assert(ctx.audioMicSuggestions('Lead Vocals').includes('sE Electronics V7'));
 const dialogMarkup=html.slice(html.indexOf('<dialog id="sp-channel-dialog"'),html.indexOf('<dialog id="sp-audio-connect-dialog"'));
-assert(!/<details\b|<select\b|type="search"/.test(dialogMarkup),'The signal workspace has direct choices without dropdowns, search or folded headers.');
+assert(!/<details\b|<select\b/.test(dialogMarkup),'The signal workspace has direct choices without dropdowns or folded headers.');
 assert.match(dialogMarkup,/id="sp-channel-microphone" type="hidden"/);
 
 // Exercise the actual compact picker, including draft cancellation and full stereo saves.

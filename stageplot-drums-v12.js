@@ -53,7 +53,7 @@ function createStageplotDrumModel() {
     for(const id of ['splash3','splash4']){c.overheadPickup[id]=true;c.mics[id]={enabled:false,model:'Generisches Kleinmembran-Mikrofon',phantom:true};}
     if(v.mics&&typeof v.mics==='object')for(const [id,m] of Object.entries(v.mics)){
       if(/^(kick[12]-(in|out)|snare-(up|down)|side-(up|down)|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|oh-(mono|l|r)|room-(mono|l|r)|pad-[lr]|bongos)$/.test(id)&&m&&typeof m==='object')
-        c.mics[id]={enabled:m.enabled!==false,model:short(m.model).trim()||base.mics[id]?.model||c.mics[id]?.model||'',phantom:m.phantom===true};
+        c.mics[id]={enabled:m.enabled!==false,model:typeof m.model==='string'?m.model.slice(0,80).trim():base.mics[id]?.model||c.mics[id]?.model||'',phantom:m.phantom===true};
     }
     if(v.overheadPickup&&typeof v.overheadPickup==='object')for(const id of allCymbalPartIds)if(typeof v.overheadPickup[id]==='boolean')c.overheadPickup[id]=v.overheadPickup[id];
     for(const id of allCymbalPartIds)if(c.overheadPickup[id]!==false&&c.mics[id])c.mics[id].enabled=false;
