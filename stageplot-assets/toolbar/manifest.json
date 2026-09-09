@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "generatedOn": "2026-09-09",
+  "generator": "OpenAI built-in image_gen",
+  "style": "Monochrome graphite and silver 3D renders on transparent backgrounds",
+  "processing": "Original alpha preserved; transparent bounds cropped, proportionally resized to fit 240 × 240 px, centered on transparent 256 × 256 px WebP. No redrawing or creative edits.",
+  "assets": [
+    {
+      "id": "pan",
+      "file": "pan-v1.webp",
+      "sourceFile": "exec-0256574b-94a0-43f1-9bf4-012ce41f072f.png",
+      "sourceSha256": "32bd0349846907bf3d31e81af891f758452f9d2db64da96df363d9dd714a3393",
+      "sha256": "ef86c1733f829952eeb0053ce8d3923a32e1bc7f9ccbfda131f9b391da8dfc4f",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: A stylized open hand cursor, palm forward with five clear rounded fingers and a short wrist, sculpted pale silver with dark graphite beveled edge. Standard open-hand symbol for dragging the canvas. No sleeve, no skin color, no arrows, no text."
+    },
+    {
+      "id": "snap",
+      "file": "snap-v1.webp",
+      "sourceFile": "exec-8fc90a3d-2928-44ef-b7df-cd73e775c682.png",
+      "sourceSha256": "c41ffe10873442458dc3bb77aff02852d51f2e84dcf0171824dc1d5748a320ea",
+      "sha256": "33ad283aa47cf4a6c60e6ed372070f053e78061834302d373cc36a7c0c904f8d",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: An upright horseshoe magnet with thick graphite body and two pale silver squared pole tips, attracting ONE small graphite square tile just above the two tips, with two short subtle attraction strokes in the gap. Magnet is the large dominant form. No text."
+    },
+    {
+      "id": "grid",
+      "file": "grid-v1.webp",
+      "sourceFile": "exec-1d9bf76c-475b-45ab-974a-c586676cb1a5.png",
+      "sourceSha256": "d47ef5ac2b87d24126fd947122e558c91c8009bd426cf231c3ee3a5d0efaa194",
+      "sha256": "ff4181f02f86f688981b253df300181ac0ecfca7ddfdd6712be4562d5b9d33b9",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: A single square drafting grid, front-facing, exactly 3 by 3 open square cells made of thick graphite rails in a sturdy rounded graphite outer frame. Transparent gaps between rails, pale metallic bevel highlights. No extra objects, no text."
+    },
+    {
+      "id": "labels",
+      "file": "labels-v1.webp",
+      "sourceFile": "exec-777f5aaf-ebad-4b5a-ad88-94a863a486d5.png",
+      "sourceSha256": "38ab21f09cc10bf8660f7b977cb63edae3ff69561457cf8734359b4a8c78aa58",
+      "sha256": "83c725bb2206db60ba2f18ae6bd4b4ba4cf37908e198d080b107c86e4c934296",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: One horizontal name badge, pale silver inset face with a chunky graphite rounded rectangular rim and large dark embossed typography reading exactly \"Aa\". This is a label-visibility button. Badge fills most of frame, very short little pointer below like a map label. No strap, no other objects or text, no slash."
+    },
+    {
+      "id": "surface",
+      "file": "surface-v1.webp",
+      "sourceFile": "exec-9acaf7d8-7320-4de7-aead-290f125aa099.png",
+      "sourceSha256": "4c9d0082335dfb4971fc8bdee64b1aeef9e3ec46b0aabc1d0a35e8bf9daa09bc",
+      "sha256": "f51d06679a6aa8dd57a7e2096f0eb9cc4034adc6b0cdff3daa0c755f2c595141",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: A single miniature rectangular raised stage platform, three-quarter view from slightly above, broad near-black matte stage top with a very subtle dividing seam, short charcoal front fascia and silver edge, two tiny short feet barely visible below. Wide simple rectangular silhouette, no curtains, no equipment, no text."
+    },
+    {
+      "id": "outputs",
+      "file": "outputs-v1.webp",
+      "sourceFile": "exec-a7d8c75d-cc71-4398-9683-6143b3dcee24.png",
+      "sourceSha256": "437e7bb0142b558165a24081646f85d0364f7c7e27093636016bdca861aa215f",
+      "sha256": "c8315268c008cbb5676fdeb944afb28a15ac74df5ca42f66945c2f955a8c0aab",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: A chunky graphite male XLR audio connector seen nearly front-on, its round silver collar and exactly three large bright metal pins clearly visible in triangular formation. A short cable stem points down-left, and one small bold silver arrow points right alongside the connector, indicating audio output. Keep the XLR face large and recognizable. No lettering, no extra connectors."
+    },
+    {
+      "id": "stage-edit",
+      "file": "stage-edit-v1.webp",
+      "sourceFile": "exec-8e101ab2-7853-44c4-b2e1-fc935ba0afc9.png",
+      "sourceSha256": "bc68cf065413db1a1007a486bc1cb42f1398c1889fe0381ad566799cea59c47c",
+      "sha256": "99c02deda3002b80dc62ae684970db5af907a7ae8ebd6be57d7a57e339273bdc",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: A small rectangular stage platform in slight three-quarter view from above, pale silver top with dark graphite edge, and a single oversized graphite pencil diagonally across its lower right corner. Pencil has a clearly visible pale silver tip touching the stage corner, representing edit stage dimensions. Two simple objects, no text, no measurements."
+    },
+    {
+      "id": "iem",
+      "file": "iem-v1.webp",
+      "sourceFile": "exec-d6fefc3b-ab32-4ce3-88a9-7a0abcb31737.png",
+      "sourceSha256": "224823e4968ab946715783da11172a34625630e7f46eee02e0289a684ad287cf",
+      "sha256": "b5e833a37b27103563a1155d999a3b35786e40ec5256f94461ee12f1151be51b",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: A miniature dark graphite audio wireless rack receiver, ONE wide rectangular rack unit with pale silver side rack ears, two short upward antennas, one simple pale display without lettering. ONE recognizable pale silver molded in-ear monitor earpiece with a short curved graphite earhook sits prominently in front of its lower right corner. The earpiece and rack form a single compact icon. No over-ear headphones, no text, no tiny knobs."
+    },
+    {
+      "id": "clear",
+      "file": "clear-v1.webp",
+      "sourceFile": "exec-1b0814e0-ce1b-481d-8bbe-e1c8d77cc4e4.png",
+      "sourceSha256": "7785871c922df325adb271b68633b86944fc993c86ddd19ec8964efb6854a444",
+      "sha256": "9c5821f00041e256efb246293b7bd9021bb77b0c79edb39226973ac58a98b3d2",
+      "size": [
+        256,
+        256
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: one production toolbar icon for a professional 2D stage-planning app. A beautifully rendered, minimal 3D miniature icon, restrained industrial design. Neutral monochrome graphite and pale warm silver only, satin surfaces, subtle bevels, soft studio key light upper left, strong dark silhouette and clean highlights. Clearly readable at just 32 pixels: one bold idea, thick simple forms, minimal detail. Near-front view with slight depth, centered, square canvas, generous 12% transparent padding, all parts fully inside frame. Genuinely transparent background with alpha, no floor, no background tile or button, no cast shadow outside object, no watermark or branding.\nSubject: A single premium graphite trash bin with a pale silver lid and simple wide handle, upright front three-quarter view, gently tapered solid body with three broad vertical ribs. Bold familiar delete/empty icon silhouette. Lid closed, no litter or additional objects, no text."
+    }
+  ]
+}
