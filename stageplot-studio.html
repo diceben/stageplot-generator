@@ -8563,7 +8563,7 @@ function createStageplotSymbolV3(type, options = {}) {
     setInspectorTab(inspectorTab);
     const o=objects.find(o=>o.id===selected),zone=selected==='iem-zone'?iemRect(stage):null,stairs=String(selected||'').startsWith('stairs-zone')?stairsGeometry(stage,selected):null,stageZone=selected==='stage-zone';
     $('sp-stage-edit').setAttribute('aria-pressed',String(stageZone));
-    $('sp-selected').hidden=!o;$('sp-no-selection').hidden=!!o||!!zone||!!stairs||stageZone||!!cable;$('sp-iem-selected').hidden=!zone;$('sp-stairs-selected').hidden=!stairs;
+    $('sp-selected').hidden=!o;$('sp-no-selection').hidden=!!o||!!zone||!!stairs||stageZone;$('sp-iem-selected').hidden=!zone;$('sp-stairs-selected').hidden=!stairs;
     if(zone){
       $('sp-iem-side-edit').value=stage.iem;
       syncChoiceButtons($('sp-iem-side-options'),stage.iem,false);
