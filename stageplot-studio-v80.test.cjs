@@ -21,8 +21,8 @@ assert.match(script,/showCompactModelDialog\(current\.family,o\.type,'change'\)/
 assert.match(html,/\.sp-library-model-family \{ cursor:pointer; \}/,'Sammelobjekte sind nicht als Modell-Picker erkennbar.');
 
 for(const marker of [
-  "id:'mic-wireless-ewd'.*w:.536,d:.1,physicalW:.268,physicalD:.05,planScale:2",
-  "id:'mic-sm57'.*w:.314,d:.064,physicalW:.157,physicalD:.032,planScale:2"
+  "id:'mic-wireless-ewd'.*w:.268,d:.05",
+  "id:'mic-sm57'.*w:.157,d:.032"
 ])assert.match(html,new RegExp(marker),marker+' fehlt als lesbares Mikrofon-Plansymbol mit dokumentiertem Originalmaß.');
 
-console.log('PASS V80: je ein Keyboard-/Gitarren-/Bass-Sammelobjekt mit gemeinsamem Modell-Picker sowie größere Mikrofon-Plansymbole mit Originalmaßen.');
+console.log('PASS V80: je ein Keyboard-/Gitarren-/Bass-Sammelobjekt mit gemeinsamem Modell-Picker sowie maßstäbliche Mikrofon-Plansymbole.');

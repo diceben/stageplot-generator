@@ -28,7 +28,7 @@ assert.equal(ctx.generatedInputSpecs()[0].sourceKey,'station-1:orch-o1');assert.
 const doc={stage:{w:24,d:16,title:'Orchestra QA'},objects:ctx.objects};const exported=exporter.createSetupExport('Orchestra QA',doc,{exportedAt:100});assert.deepEqual(exporter.parseSetupJson(exporter.stringifySetupJson(exported)).document.objects[0].orchestra,custom);
 // Execute the actual import normalizer and verify hidden groups and exact dimensions survive.
 Object.assign(ctx,{stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:(v,max)=>String(v??'').slice(0,max),normalizeObjectIo:()=>({inputs:{count:0},outputs:{count:1}}),ioValueText:()=>''});
-vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument'].map(extract).join('\n'),ctx);
+vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizedObjectDimensions','editableObjectSize','normalizeSetupDocument'].map(extract).join('\n'),ctx);
 const valid={stage:{w:24,d:16,title:'Orchestra QA',stairs:'none',iem:'none',iemLength:2,iemDepth:1,iemX:0,iemY:0},objects:[{...ctx.objects[0],x:12,y:8,angle:0}]};
 assert.deepEqual(plain(ctx.normalizeSetupDocument(valid).objects[0].orchestra),custom);
 console.log('PASS ORCHESTRA: all groups, stable hidden seats, exact metre geometry, acoustic defaults, input identities, import/export, immutable previews and 25 verified image assets.');

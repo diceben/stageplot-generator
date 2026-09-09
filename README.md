@@ -10,6 +10,8 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Maßstäbliche Gegenstände:** Gerätekonturen entsprechen ihren Planmaßen, ohne ungenutzte Bildränder oder vergrößerte Mikrofon-/DI-Symbole. Korrigierte Laptop- und Stagebox-Maße; eigene Breite und Länge/Tiefe direkt in cm eingeben, speichern und rückgängig machen. Dieselbe Geometrie gilt in Bühne, Vorschau und Export. [Maße, Quellen und Prüfung](MASSTAB.md).
+
 - **Automatische Projektdaten:** Gültige Eingaben werden lokal gespeichert, auch beim sofortigen Seitenwechsel. Unvollständige Angaben bleiben sichtbar und verhindern versehentliches Verlassen. „Projekt duplizieren“ erstellt eine unabhängige Kopie mit neuer ID; „Sicherung herunterladen“ liefert eine portable Datei. Normales Sichern benötigt keinen zweiten Namensdialog.
 - **Klare Arbeitsbereiche:** Projekte, Bühnenplan, Audio & Verkabelung, Projektdaten sowie Export & Teilen. Projektdaten zeigen die tatsächliche Bühnenfläche und bei freien Grundrissen die Gesamtausdehnung inklusive Anbauten; „Bühnenform bearbeiten“ führt direkt zum Grundriss.
 - **Mehr Platz auf kleinen Bildschirmen:** kompakte Beta-Information und eine gemeinsam scrollende Projektübersicht. „Projekt hinzufügen“ bleibt die erste Karte. Im Editor öffnen beschriftete Schaltflächen die Bausteine und die ausgewählten Objekteigenschaften; die rechte Seitenleiste und ihr gewählter Tab bleiben beim Auswählen, Wechseln oder Abwählen von Objekten unverändert. Die Schaltflächen an der Leiste öffnen und schließen sie ausdrücklich.

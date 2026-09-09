@@ -6,7 +6,7 @@ const json=v=>JSON.parse(JSON.stringify(v));
 const storage={data:new Map(),getItem(k){return this.data.get(k)??null;},setItem(k,v){this.data.set(k,String(v));}};
 const ctx={StageplotGeometry:G,WeakMap,TextEncoder,TextDecoder,btoa:s=>Buffer.from(s,'binary').toString('base64'),atob:s=>Buffer.from(s,'base64').toString('binary'),drumModel:{isDrums:()=>false},byId:{foh:{},riser:{},'stage-module':{stageExtension:true}},stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:(v,max)=>String(v??'').slice(0,max),stageTemplateStorageKey:'templates',window:{localStorage:storage},objectSize:o=>({w:o.width||2,d:o.depth||1}),objects:[],venueCompileCache:new WeakMap(),clone:json};
 vm.createContext(ctx);
-vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument','normalizeStageTemplate','readStageTemplates','writeStageTemplates','encodeShareDocument','decodeShareDocument','venueObjectPart','compiledVenue','outside'].map(extract).join('\n'),ctx);
+vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizedObjectDimensions','editableObjectSize','normalizeSetupDocument','normalizeStageTemplate','readStageTemplates','writeStageTemplates','encodeShareDocument','decodeShareDocument','venueObjectPart','compiledVenue','outside'].map(extract).join('\n'),ctx);
 const stage={title:'Testsaal',w:8,d:5,stairs:'none',stairsAlong:.5,iem:'none',iemLength:2,iemDepth:1,iemX:0,iemY:0,geometry:G.preset('round'),venueRef:{templateId:'stage-template-demo',name:'Testsaal',revision:3}};
 stage.geometry.parts.push(G.part({id:'opening',kind:'opening',w:1.2,d:1.4,x:1,y:1}),G.part({id:'column',kind:'obstacle',shape:'ellipse',w:.4,d:.4,x:5,y:1}));stage.geometry.parts[0].w=4.18;stage.geometry.notes='Hausnotiz';stage.geometry.revision=3;
 const document={stage,objects:[{id:'station-99',type:'riser',x:2,y:3,angle:0,width:2,depth:1,height:40,locked:true,house:true},{id:'station-100',type:'foh',x:4,y:10,angle:0,width:3,depth:2}]};
@@ -93,8 +93,8 @@ class PreviewNode extends SvgNode{
   get outerHTML(){return '<'+this.tag+Object.entries(this.attrs).map(([k,v])=>' '+k+'="'+v+'"').join('')+'>'+(this.innerHTML||this.textContent)+this.children.map(n=>n.outerHTML).join('')+'</'+this.tag+'>';}
 }
 const previewCatalog={guitar:{art:'guitar',vb:[100,50]},riser:{art:'riser',vb:[100,50],underlay:true},mic:{art:'mic',vb:[50,50]}};
-const previewContext={StageplotGeometry:G,StageplotVenue:rc.StageplotVenue,venueCompileCache:new WeakMap(),byId:previewCatalog,objectSize:o=>({w:o.width,d:o.depth}),objectCatalog:o=>previewCatalog[o.type],artId:(c,o)=>'sp-art-'+c.art+(o.stand?'-'+o.stand:''),esc:s=>s,sEl:(tag,attrs,parent)=>{const n=new PreviewNode(tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);parent?.append(n);return n;}};
-vm.createContext(previewContext);vm.runInContext(['stageObjectOrder','venueObjectPart','compiledVenue','projectPreviewBounds','projectPreviewObjectsMarkup','venuePreviewMarkup','dashboardPreviewMarkup'].map(extract).join('\n'),previewContext);
+const previewContext={drumModel:{isDrums:()=>false},artBoundsCache:new Map(),StageplotGeometry:G,StageplotVenue:rc.StageplotVenue,venueCompileCache:new WeakMap(),byId:previewCatalog,objectSize:o=>({w:o.width,d:o.depth}),objectCatalog:o=>previewCatalog[o.type],artId:(c,o)=>'sp-art-'+c.art+(o.stand?'-'+o.stand:''),esc:s=>s,sEl:(tag,attrs,parent)=>{const n=new PreviewNode(tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);parent?.append(n);return n;}};
+vm.createContext(previewContext);vm.runInContext(['stageObjectOrder','venueObjectPart','compiledVenue','projectPreviewBounds','objectArtGeometry','projectPreviewObjectsMarkup','venuePreviewMarkup','dashboardPreviewMarkup'].map(extract).join('\n'),previewContext);
 const previewObjects=[{id:'instrument',type:'guitar',x:2,y:2,width:1.5,depth:.75,angle:45},{id:'platform',type:'riser',x:2,y:2,width:3,depth:2,angle:0},{id:'vocal',type:'mic',x:4,y:3,width:.5,depth:.5,angle:90,stand:'round'}];
 for(const geometry of [undefined,withStairs,G.preset('round',8,5)]){
   const previewDocument={stage:{w:8,d:5,geometry},objects:previewObjects},before=JSON.stringify(previewDocument),markup=previewContext.dashboardPreviewMarkup(previewDocument);
@@ -111,8 +111,8 @@ const accessPreview=[{id:'access',type:'stage-ramp',x:-2,y:3,width:1.2,depth:4,a
 for(const geometry of [undefined,G.preset('round',8,5)]){
   const s={w:8,d:5,geometry},b=previewContext.projectPreviewBounds(s,accessPreview),markup=previewContext.dashboardPreviewMarkup({stage:s,objects:accessPreview});
   assert.equal(b.minX,-4);assert.ok(b.maxX>=8);assert.match(markup,/<use href="#sp-art-stage-ramp"/);
-  const transform=markup.match(/rotate\(90\) translate\(([^)]+)\) scale\(([^)]+)\)/);assert.ok(transform,'Rampe wird in beiden Achsen auf ihr gespeichertes Maß skaliert.');
-  const [sx,sy]=transform[2].split(' ').map(Number);assert.ok(sy>sx*6,'Schmale, lange Rampen behalten das richtige Seitenverhältnis.');
+  const transform=markup.match(/rotate\(90\) matrix\(([^)]+)\)/);assert.ok(transform,'Rampe wird in beiden Achsen auf ihr gespeichertes Maß skaliert.');
+  const [sx,,,sy]=transform[1].split(' ').map(Number);assert.ok(sy>sx*6,'Schmale, lange Rampen behalten das richtige Seitenverhältnis.');
 }
 // The same commands power the toolbar, context menu, sidebar and keyboard.
 const ac={G};vm.createContext(ac);vm.runInContext(ui.slice(ui.indexOf('  function rotatePart('),ui.indexOf('  function dimension(')),ac);

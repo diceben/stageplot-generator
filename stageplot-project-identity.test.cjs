@@ -13,7 +13,7 @@ function environment(){
     $:id=>{if(!nodes.has(id))nodes.set(id,{open:false,close(){this.open=false;}});return nodes.get(id);}};
   ctx.snapshot=()=>JSON.stringify({stage:ctx.stage,objects:ctx.objects});ctx.draftStatus=state=>ctx.draftState=state;ctx.draftFailure=error=>{ctx.draftState='error';ctx.lastError=error;};
   vm.createContext(ctx);
-  vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument','readSetupLibrary','writeSetupLibrary','readDraftLibrary','writeDraftLibrary','readWorkspace','writeWorkspace','resetDraftTracking','persistDraft','flushDraft','syncDraftAfterManualSave','restoreDraftEntry','activateSetupDocument','saveSetup','dashboardProjects','projectStorageStatus','prepareDraftsForSync','copyProjectIdentity'].map(extract).join('\n'),ctx);
+  vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizedObjectDimensions','editableObjectSize','normalizeSetupDocument','readSetupLibrary','writeSetupLibrary','readDraftLibrary','writeDraftLibrary','readWorkspace','writeWorkspace','resetDraftTracking','persistDraft','flushDraft','syncDraftAfterManualSave','restoreDraftEntry','activateSetupDocument','saveSetup','dashboardProjects','projectStorageStatus','prepareDraftsForSync','copyProjectIdentity'].map(extract).join('\n'),ctx);
   return ctx;
 }
 const legacyDocument=()=>catalog.createDocument('at-wien-b72');
