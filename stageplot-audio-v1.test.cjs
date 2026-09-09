@@ -148,10 +148,10 @@ const quickBefore=clone(dialogCtx.stage);dialogCtx.openAudioPatch('inputs','l');
 assert.equal(vm.runInContext('audioQuickPatch.boxId',dialogCtx),'b','The complete stereo pair skips a closer stagebox with one occupied socket.');
 assert.match(dialogCtx.$('sp-audio-connect-boxes').innerHTML,/<svg>/);assert.match(dialogCtx.$('sp-audio-connect-save').textContent,/IN 1 \/ 2/);
 dialogCtx.$('sp-audio-connect-dialog').handlers.close();assert.deepEqual(clone(dialogCtx.stage),quickBefore,'Closing without connecting never changes routing.');
-dialogCtx.openAudioPatch('inputs','l');dialogCtx.$('sp-audio-connect-port').value='8';dialogCtx.$('sp-audio-connect-port').handlers.input();dialogCtx.commitAudioQuickPatch();assert.deepEqual(clone(dialogCtx.stage),quickBefore,'A stereo pair cannot partially occupy the last socket.');assert.equal(dialogCtx.saved,0);
-dialogCtx.$('sp-audio-connect-port').value='5';dialogCtx.$('sp-audio-connect-port').handlers.input();dialogCtx.commitAudioQuickPatch();assert.equal(dialogCtx.saved,1);assert.deepEqual(clone(dialogCtx.stage.routing.inputs.slice(0,2)).map(row=>[row.stagebox,row.stageboxPort,row.number,row.microphone,row.notes]),[['b',5,14,'J48','Links'],['b',6,15,'JDI','Rechts']]);
+dialogCtx.openAudioPatch('inputs','l');vm.runInContext('audioQuickPatch.preserve=false;audioQuickPatch.startPort=8;',dialogCtx);dialogCtx.commitAudioQuickPatch();assert.deepEqual(clone(dialogCtx.stage),quickBefore,'A stereo pair cannot partially occupy the last socket.');assert.equal(dialogCtx.saved,0);
+dialogCtx.$('sp-audio-connect-ports').handlers.click({target:{closest:()=>({dataset:{audioConnectPort:'5'},disabled:false})}});dialogCtx.commitAudioQuickPatch();assert.equal(dialogCtx.saved,1);assert.deepEqual(clone(dialogCtx.stage.routing.inputs.slice(0,2)).map(row=>[row.stagebox,row.stageboxPort,row.number,row.microphone,row.notes]),[['b',5,14,'J48','Links'],['b',6,15,'JDI','Rechts']]);
 // The current patch is recommended, even when a different stagebox is closer and available.
-dialogCtx.stage.routing.inputs.pop();dialogCtx.openAudioPatch('inputs','r');assert.equal(vm.runInContext('audioQuickPatch.boxId',dialogCtx),'b');assert.equal(dialogCtx.$('sp-audio-connect-port').value,5);
+dialogCtx.stage.routing.inputs.pop();dialogCtx.openAudioPatch('inputs','r');assert.equal(vm.runInContext('audioQuickPatch.boxId',dialogCtx),'b');assert.equal(vm.runInContext('audioQuickPatch.plan.assignments[0].stageboxPort',dialogCtx),5);
 dialogCtx.commitAudioQuickPatch(true);assert(dialogCtx.stage.routing.inputs.every(row=>!row.stagebox));assert.deepEqual(clone(dialogCtx.stage.routing.inputs).map(row=>row.number),[14,15]);
 // A draft connection only changes form fields, and the full save moves both halves together.
 dialogCtx.stage.routing.inputs=clone(dialogPair);dialogCtx.editingRoute={...clone(dialogPair[0]),direction:'inputs',index:0,partner:clone(dialogPair[1])};
@@ -166,3 +166,27 @@ console.log('PASS AUDIO V2: original manufacturer photos, model recommendations,
 const savedSpecs=ctx.generatedInputSpecs;ctx.generatedInputSpecs=()=>[{sourceKey:'perc:perc-pad-l',connector:'Klinke'}];ctx.objects=[{id:'perc',type:'percussion'}];
 assert.equal(ctx.audioInputConnector({sourceKey:'perc:perc-pad-l',connector:'XLR'},'Direct'),'Klinke','Switching a percussion pad from DI back to Direct restores its real jack output.');
 assert.equal(ctx.audioInputConnector({sourceKey:'perc:perc-pad-l',connector:'Klinke'},'DI'),'XLR');ctx.generatedInputSpecs=savedSpecs;
+
+// Physical sockets: every real port is visible; stereo ends, occupancy and highlights are explicit.
+const sockets=ctx.audioQuickSocketStates([...pair,...busy],pair,patchBox,'inputs',{assignments:[{id:'l',stagebox:'box',stageboxPort:5},{id:'r',stagebox:'box',stageboxPort:6}]});
+assert.equal(sockets.length,8,'All physical sockets remain visible, including the last stereo-incompatible start.');
+assert.equal(sockets[7].disabled,true);assert.equal(sockets[4].selected,true);assert.equal(sockets[4].side,'L');assert.equal(sockets[5].selected,true);assert.equal(sockets[5].side,'R');assert.equal(sockets[5].disabled,false,'The active right side can be clicked without moving the pair.');assert(sockets[0].occupant);assert(sockets[0].disabled);
+const socketHtml=ctx.audioSocketMarkup(patchBox,'outputs',{port:4,selected:true,side:'R'},'data-audio-connect-port="4"');
+assert.match(socketHtml,/data-stagebox-direction="outputs"/);assert.match(socketHtml,/data-active-port="true"/);assert.match(socketHtml,/class="sp-stagebox-socket"/);assert.match(socketHtml,/OUT 4/);assert.match(socketHtml,/R · gewählt/);
+const quickMarkup=html.slice(html.indexOf('<dialog id="sp-audio-connect-dialog"'),html.indexOf('</dialog>',html.indexOf('<dialog id="sp-audio-connect-dialog"')));
+assert(!/<input|<select/.test(quickMarkup),'Connecting a stagebox never exposes abstract port input fields.');
+assert.match(dialogMarkup,/id="sp-audio-port" type="hidden"/);assert.match(dialogMarkup,/id="sp-audio-right-port" type="hidden"/);
+// Actual socket click handlers: unavailable/occupied ports do not lose the current valid choice.
+dialogCtx.routingStageboxes=()=>quickBoxes;dialogCtx.stage.routing.inputs=[...quickRows(),{id:'busy',instrument:'Gesang',stagebox:'b',stageboxPort:3}];
+dialogCtx.openAudioPatch('inputs','l');dialogCtx.selectAudioQuickBox('b');
+const clickSocket=(port,disabled=false)=>dialogCtx.$('sp-audio-connect-ports').handlers.click({target:{closest:()=>({dataset:{audioConnectPort:String(port)},disabled})}});
+let priorPlan=clone(vm.runInContext('audioQuickPatch.plan',dialogCtx));clickSocket(3,true);clickSocket(8);assert.deepEqual(clone(vm.runInContext('audioQuickPatch.plan',dialogCtx)),priorPlan);
+clickSocket(5);priorPlan=clone(vm.runInContext('audioQuickPatch.plan',dialogCtx));clickSocket(6);assert.deepEqual(clone(vm.runInContext('audioQuickPatch.plan',dialogCtx)),priorPlan,'Clicking active R is a no-op.');
+assert.equal((dialogCtx.$('sp-audio-connect-ports').innerHTML.match(/data-active-port="true"/g)||[]).length,2);assert.match(dialogCtx.$('sp-audio-connect-ports').innerHTML,/Gesang/);
+// Revalidate at commit, even if another update occupied a proposed socket after opening.
+const beforeBusySave=dialogCtx.saved;dialogCtx.stage.routing.inputs.push({id:'late',stagebox:'b',stageboxPort:5});const lateSnapshot=clone(dialogCtx.stage);dialogCtx.commitAudioQuickPatch();assert.equal(dialogCtx.saved,beforeBusySave);assert.deepEqual(clone(dialogCtx.stage),lateSnapshot);assert.equal(dialogCtx.$('sp-audio-connect-save').disabled,true);
+// Output uses male XLR artwork and preserves mixer numbers when changing the physical port.
+dialogCtx.stage.routing.outputs=[{id:'out',instrument:'Monitor Gesang',number:7,connector:'XLR',stagebox:'b',stageboxPort:2}];dialogCtx.openAudioPatch('outputs','out');assert.match(dialogCtx.$('sp-audio-connect-ports').innerHTML,/OUTPUTS · VOM MISCHPULT/);clickSocket(8);dialogCtx.commitAudioQuickPatch();assert.equal(dialogCtx.stage.routing.outputs[0].stageboxPort,8);assert.equal(dialogCtx.stage.routing.outputs[0].number,7);
+// A full or incompatible box remains inspectable without allowing an invalid connection.
+dialogCtx.stage.routing.inputs=[...quickRows(),{id:'full1',stagebox:'a',stageboxPort:1},{id:'full2',stagebox:'a',stageboxPort:2}];dialogCtx.openAudioPatch('inputs','l');dialogCtx.selectAudioQuickBox('a');assert.equal(dialogCtx.$('sp-audio-connect-save').disabled,true);assert.equal((dialogCtx.$('sp-audio-connect-ports').innerHTML.match(/data-audio-connect-port=/g)||[]).length,2);
+console.log('PASS PHYSICAL PATCH: real input/output sockets, stereo L/R pink selection, occupied/invalid ports, right-side no-op, commit revalidation, full-box inspection and hidden legacy storage fields.');
