@@ -2,12 +2,12 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const html=fs.readFileSync('stageplot-studio.html','utf8');
 const extract=name=>{const match=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert(match,name);return match[0];};
 const nodes=new Map(),$=id=>{if(!nodes.has(id))nodes.set(id,{checked:false,textContent:'',querySelector:()=>({})});return nodes.get(id);};
-const ctx={$,stage:{title:'Konzert',projectId:'SP-TEST',project:{artist:'Band',venue:'Saal',date:'2026-10-16'},routing:{inputs:[],outputs:[]}},objects:[],byId:{},
+const ctx={$,stage:{title:'Konzert',projectId:'SP-TEST',project:{artist:'Band',venue:'Saal',date:'2026-10-16'},routing:{inputs:[],outputs:[]}},objects:[],byId:{},imageExportPlan:()=>({pixelWidth:2048,pixelHeight:1448}),
  normalizeProjectInfo:p=>p,projectIdentity:id=>id,projectPrintMarkup:()=>'<p>Kontakte</p>',productionLines:()=>['Strom: 2 × Schuko 230 V'],
  esc:value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;'),StageplotPrint:{render(host,report){ctx.report=report;return 3;}},
  DOMPoint:class {constructor(x,y){this.x=x;this.y=y;}matrixTransform(m){return {x:m.a*this.x+m.c*this.y+m.e,y:m.b*this.x+m.d*this.y+m.f};}}};
 vm.createContext(ctx);vm.runInContext(['technicalExportNeedsPro','renderPrintPages','exportArtworkBounds'].map(extract).join('\n'),ctx);
-$('sp-print-measures').checked=true;$('sp-print-dimensions').textContent='8 × 5 m';
+$('sp-export-format').value='pdf';$('sp-print-measures').checked=true;$('sp-print-dimensions').textContent='8 × 5 m';
 ctx.renderPrintPages('');assert.equal(ctx.report.sections.length,0);assert.equal(ctx.report.id,'SP-TEST');assert.match(ctx.report.subtitle,/16\.10\.2026 · 8 × 5 m/);
 assert.equal($('sp-export-preview-title').textContent,'3 Seiten · A4 quer');assert.equal(ctx.technicalExportNeedsPro(),false);
 for(const id of ['sp-print-inputs','sp-print-routing','sp-print-notes','sp-print-legend-toggle'])$(id).checked=true;
@@ -16,6 +16,32 @@ ctx.renderPrintPages('Erster Absatz\n\n<script>Ein Hinweis</script>');
 assert.equal(ctx.report.sections.length,1);assert.equal(ctx.report.sections[0].html,'<p>Erster Absatz</p><p>&lt;script>Ein Hinweis&lt;/script></p>');
 assert.equal(ctx.technicalExportNeedsPro(),true);
 $('sp-print-measures').checked=false;ctx.renderPrintPages('');assert.doesNotMatch(ctx.report.subtitle,/8 × 5 m/);
+$('sp-export-format').value='png-2k';ctx.renderPrintPages('');
+assert.equal($('sp-export-preview-title').textContent,'3 Seiten · 2K · 2048 × 1448 px');
+assert.equal($('sp-export-png').textContent,'3 Bilder als ZIP herunterladen');
+const exportModel=require('./stageplot-export-v42.js').createStageplotExportV42();
+for(const [resolution,width,height] of [['hd',1280,905],['2k',2048,1448],['4k',3840,2715]]){
+ const plan=exportModel.createPngPlan({width:297,height:210},{resolution});
+ assert.equal(plan.pixelWidth,width);assert.equal(plan.pixelHeight,height);assert.equal(plan.fillBackground,true);
+ const enlarged=exportModel.createPngPlan({width:594,height:420},{resolution,background:'transparent'});
+ assert.equal(enlarged.pixelWidth,width,'Auflösung hängt nicht von Vorschaugröße oder Zoom ab.');assert.equal(enlarged.pixelHeight,height);assert.equal(enlarged.fillBackground,false);
+}
+assert.throws(()=>exportModel.createPngPlan({width:297,height:210},{resolution:'8k'}),/HD, 2K oder 4K/);
+assert.equal(exportModel.createPngPlan({width:300,height:200},{scale:2}).pixelWidth,600,'Bestehende Export-Helfer bleiben kompatibel.');
+const zipContext={TextEncoder,Uint8Array};vm.createContext(zipContext);
+vm.runInContext(html.slice(html.indexOf('  const crcTable='),html.indexOf('  function exportRoutingXlsx(')),zipContext);
+const pngBytes=new Uint8Array([137,80,78,71,13,10,26,10,0,255,128]);
+zipContext.files={'Bühne-Seite-01.png':pngBytes,'Hinweis.txt':'Äöü'};
+const archive=Buffer.from(vm.runInContext('zipStore(files)',zipContext));
+let offset=0;
+for(const [name,expected] of Object.entries(zipContext.files)){
+ assert.equal(archive.readUInt32LE(offset),0x04034b50);
+ const length=archive.readUInt32LE(offset+18),nameLength=archive.readUInt16LE(offset+26),start=offset+30+nameLength;
+ assert.equal(archive.subarray(offset+30,start).toString('utf8'),name);
+ assert.deepEqual(archive.subarray(start,start+length),Buffer.from(expected),'ZIP erhält PNG-Binärdaten und bestehende Textdateien unverändert.');
+ offset=start+length;
+}
+assert.equal(archive.readUInt32LE(offset),0x02014b50);
 const viewBox={baseVal:{x:-100,y:-100,width:200,height:200}};
 const rotated={tagName:'g',matches:()=>false,getBBox:()=>({x:10,y:10,width:20,height:10}),transform:{baseVal:{consolidate:()=>({matrix:{a:0,b:1,c:-1,d:0,e:0,f:0}})}}};
 const crop=ctx.exportArtworkBounds({viewBox,children:[rotated]});

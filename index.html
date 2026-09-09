@@ -341,9 +341,9 @@
         <header><span class="sp-eyebrow">EXPORT &amp; TEILEN</span><h1>Exportieren &amp; teilen</h1></header>
         <div class="sp-export-intents" role="group" aria-label="Exportformat"><button type="button" data-export-intent="technical" aria-pressed="true">PDF</button><button type="button" data-export-intent="image" aria-pressed="false">Bild</button><button type="button" data-export-intent="share" aria-pressed="false">Link</button></div>
         <p id="sp-export-purpose" class="sp-export-purpose">Druckfertiges PDF im A4-Querformat.</p>
-        <input id="sp-export-format" type="hidden" value="pdf"><input id="sp-export-scale" type="hidden" value="2">
-        <div id="sp-export-presets" class="sp-export-presets" role="group" aria-label="PDF-Umfang"><button type="button" data-pdf-preset="plan" aria-pressed="true"><strong>Nur Bühnenplan</strong><small>Eine Seite mit Strom &amp; Signalübergabe</small></button><button type="button" data-pdf-preset="full" aria-pressed="false"><strong>Mit Technik &amp; Kanälen</strong><small>Kontakte, Equipment, Notizen und Listen</small></button></div>
-        <section id="sp-export-image-options" class="sp-export-control-group" hidden><h2>Bildqualität</h2><div class="sp-export-choice-grid" role="group" aria-label="Bildqualität"><button type="button" data-export-format="png-normal" aria-pressed="true"><strong>Standard</strong><small>Für Nachrichten</small></button><button type="button" data-export-format="png-4k" aria-pressed="false"><strong>4K</strong><small>Für Präsentationen</small></button></div></section>
+        <input id="sp-export-format" type="hidden" value="pdf">
+        <div id="sp-export-presets" class="sp-export-presets" role="group" aria-label="Export-Umfang"><button type="button" data-pdf-preset="plan" aria-pressed="true"><strong>Nur Bühnenplan</strong><small>Eine Seite mit Strom &amp; Signalübergabe</small></button><button type="button" data-pdf-preset="full" aria-pressed="false"><strong>Mit Technik &amp; Kanälen</strong><small>Kontakte, Equipment, Notizen und Listen</small></button></div>
+        <section id="sp-export-image-options" class="sp-export-control-group" hidden><h2>Bildauflösung</h2><div class="sp-export-choice-grid" role="group" aria-label="Bildauflösung"><button type="button" data-export-format="png-normal" aria-pressed="false"><strong>HD</strong><small>1280 px</small></button><button type="button" data-export-format="png-2k" aria-pressed="true"><strong>2K</strong><small>2048 px</small></button><button type="button" data-export-format="png-4k" aria-pressed="false"><strong>4K</strong><small>3840 px</small></button></div><p class="sp-export-resolution-hint">Breite je Seite · gleiches Layout wie PDF</p></section>
         <details id="sp-export-details" class="sp-export-details"><summary>Darstellung &amp; Inhalte anpassen</summary>
         <section class="sp-export-control-group"><h2>Beschriftungen &amp; Darstellung</h2><div class="sp-export-toggle-grid">
           <label class="sp-export-toggle"><input id="sp-print-labels" type="checkbox" checked><span>Objektbezeichnungen</span></label>
@@ -351,7 +351,7 @@
           <label class="sp-export-toggle"><input id="sp-print-measures" type="checkbox" checked><span>Maße</span></label>
           <label class="sp-export-toggle"><input id="sp-print-black-stage" type="checkbox"><span>Schwarze Bühne</span></label>
         </div></section>
-        <section class="sp-export-control-group" id="sp-export-paper-options" hidden><h2>PDF-Inhalte</h2><div class="sp-export-toggle-grid">
+        <section class="sp-export-control-group" id="sp-export-paper-options" hidden><h2>Inhalte</h2><div class="sp-export-toggle-grid">
           <label class="sp-export-toggle"><input id="sp-print-legend-toggle" type="checkbox"><span>Legende</span></label>
           <label class="sp-export-toggle"><input id="sp-print-production" type="checkbox"><span>Projektdaten &amp; Technik</span></label>
           <label class="sp-export-toggle"><input id="sp-print-notes" type="checkbox"><span>Notizen</span></label>
@@ -360,7 +360,7 @@
           <label class="sp-export-toggle"><input id="sp-print-routing" type="checkbox"><span>Outputs &amp; Monitore</span></label>
         </div></section>
         <section class="sp-export-control-group" id="sp-export-background-group" hidden><h2>Bildhintergrund</h2><input id="sp-export-background" type="hidden" value="white"><div class="sp-export-background-pills" role="group" aria-label="PNG-Hintergrund"><button type="button" data-export-background="white" aria-pressed="true">Weiß</button><button type="button" data-export-background="transparent" aria-pressed="false">Transparent</button></div></section>
-        </details><div class="sp-export-actions"><button class="sp-button sp-primary" type="button" id="sp-export-png">PDF erstellen / drucken</button><p id="sp-export-print-help">Im Druckdialog „Als PDF sichern“ wählen. Maßstab 100 %; Kopf- und Fußzeilen des Browsers ausschalten.</p><p id="sp-export-beta-hint" hidden>Veranstalter-PDF: kostenlos mit aktivierter Pro-Beta.</p><button type="button" id="sp-print-complete" hidden>Veranstalter-PDF</button><button type="button" id="sp-share-open" hidden>Ansichtslink erstellen</button><button type="button" id="sp-print-page" hidden>PDF drucken</button></div>
+        </details><div class="sp-export-actions"><button class="sp-button sp-primary" type="button" id="sp-export-png">PDF erstellen / drucken</button><p id="sp-export-print-help">Im Druckdialog „Als PDF sichern“ wählen. Maßstab 100 %; Kopf- und Fußzeilen des Browsers ausschalten.</p><p id="sp-export-beta-hint" hidden>Technik-Export: kostenlos mit aktivierter Pro-Beta.</p><button type="button" id="sp-print-complete" hidden>Veranstalter-PDF</button><button type="button" id="sp-share-open" hidden>Ansichtslink erstellen</button><button type="button" id="sp-print-page" hidden>PDF drucken</button></div>
         <span id="sp-preview-live" role="status" aria-live="polite" hidden></span>
       </aside>
       <main class="sp-export-preview" aria-label="Exportvorschau">
@@ -377,7 +377,7 @@
               <section id="sp-print-routing-section" class="sp-print-paper-section sp-print-routing-section" hidden><h3>Output-Routing</h3><div id="sp-print-output-list"></div></section>
             </div>
           </article>
-          <div id="sp-report-pages" aria-label="PDF-Seiten"></div>
+          <div id="sp-report-pages" aria-label="Export-Seiten"></div>
         </div>
         <div class="sp-preview-foot"><span class="sp-preview-caption">Papiergetreue Vorschau · lokal und offline</span></div>
       </main>
@@ -565,7 +565,7 @@
               <li><strong>Bündiger Aufbau:</strong> Treppen und Rampen sind eigene Bausteine. Bühnenkanten haben beim Einrasten Vorrang vor dem Raster, auch bei ungeraden Maßen. Riserbeschriftungen stehen kompakter an freien Kanten.</li>
               <li><strong>Klarer Audioplan:</strong> Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Mikrofone lassen sich nach Hersteller mit Vorschlägen auswählen; für ausgewählte Modelle sind Original-Herstellerfotos enthalten. Gemeinsame Signalwege vermeiden doppelte Inputs.</li>
               <li><strong>Stageboxen schnell verbinden:</strong> Ein kleines Fenster zeigt verfügbare Stageboxen mit Bild und schlägt freie Buchsen vor. Die vollständige Belegung bleibt als eigene Übersicht erreichbar; die Navigation ist in allen Audio-Ansichten einheitlich.</li>
-              <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. Maßlinien stehen direkt an den Bühnenkanten; kompakte Zusatzinfos nutzen automatisch freien Platz neben oder unter dem Plan. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
+              <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. PDF und Bild nutzen dieselben Seiten mit Maßlinien direkt an den Bühnenkanten und Zusatzinfos neben oder unter dem Plan. Bilder gibt es in HD, 2K und 4K; mehrseitige Ausgaben als ZIP. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
               <li><strong>Projekte &amp; Locations:</strong> „Neues Projekt“ bündelt eigene Bühnen und Location-Vorlagen. Projekt hinzufügen steht zuerst; dauerhafte Projekt-IDs und echte Instrumente in den Vorschauen erleichtern die Übersicht. Der Location-Katalog ist in der Beta frei zugänglich.</li>
               <li><strong>Ruhigere Bedienung:</strong> Verständlichere Kategorien, mehr Platz in den Seitenleisten und eine rechte Seitenleiste, die beim Objektwechsel geöffnet oder geschlossen bleibt. Lokale Inventarlisten, Strombedarf, Signalübergabe, FOH-Bedarf und Funkangaben ergänzen die Planung.</li>
             </ul>
@@ -4833,7 +4833,12 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-export-presets :is(strong,small) { display:block; line-height:1.4; }
 #sp-prototype .sp-export-presets strong { font-size:13px; }
 #sp-prototype .sp-export-presets small { margin-top:3px; font-size:11px; color:var(--sp-muted); }
-#sp-prototype .sp-export-choice-grid { grid-template-columns:repeat(2,1fr); }
+#sp-prototype .sp-export-choice-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+#sp-prototype .sp-export-choice-grid button strong { font-size:13px; }
+#sp-prototype .sp-export-choice-grid button small { font-size:11px; }
+#sp-prototype .sp-export-choice-grid button[aria-pressed="true"] { border-color:var(--sp-teal); background:var(--sp-accent-bg); color:var(--sp-ink); box-shadow:inset 0 0 0 1px var(--sp-teal); }
+#sp-prototype .sp-export-choice-grid button[aria-pressed="true"] strong { color:var(--sp-ink); }
+#sp-prototype .sp-export-resolution-hint { margin:8px 0 0; font-size:11px; line-height:1.4; color:var(--sp-muted); }
 #sp-prototype .sp-export-control-group h2 { font-size:12px; letter-spacing:0; text-transform:none; }
 #sp-prototype .sp-export-details { margin:12px 0; }
 #sp-prototype .sp-export-details summary { min-height:44px; padding:13px 0; }
@@ -4890,11 +4895,12 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(3) { width:22%; }
 #sp-prototype .sp-report-section .sp-paper-routing-table th:nth-child(4) { width:18%; }
 #sp-prototype .sp-report-section .sp-report-legend th:first-child { width:28%; }
+#sp-prototype[data-preview-kind="image"][data-preview-background="transparent"] .sp-report-page { background:transparent; }
+#sp-prototype[data-preview-kind="image"][data-preview-background="transparent"] .sp-report-sheet { background:repeating-conic-gradient(#d9ddd7 0% 25%,#f8f8f5 0% 50%) 0 / 16px 16px; }
 @media screen {
-  #sp-prototype[data-preview-kind="pdf"] #sp-export-paper { position:fixed; left:-20000px; top:0; width:1047px; padding:0; min-height:0; visibility:hidden; pointer-events:none; }
-  #sp-prototype[data-preview-kind="pdf"] #sp-print-floor { width:1047px; height:610px; min-height:0; }
-  #sp-prototype[data-preview-kind="pdf"] #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
-  #sp-prototype[data-preview-kind="image"] #sp-print-floor { height:auto; aspect-ratio:1047/610; min-height:0; }
+  #sp-prototype:is([data-preview-kind="pdf"],[data-preview-kind="image"]) #sp-export-paper { position:fixed; left:-20000px; top:0; width:1047px; padding:0; min-height:0; visibility:hidden; pointer-events:none; }
+  #sp-prototype:is([data-preview-kind="pdf"],[data-preview-kind="image"]) #sp-print-floor { width:1047px; height:610px; min-height:0; }
+  #sp-prototype:is([data-preview-kind="pdf"],[data-preview-kind="image"]) #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
 }
 @container sp-frame (max-width:760px) {
   #sp-prototype .sp-export-controls { padding:16px; }
@@ -5378,7 +5384,7 @@ html,body { height:100%; overflow:hidden; }
 <script src="./stageplot-inventory-v1.js"></script>
 <script>
 /* build-inline:start stageplot-print-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
-/* Physical A4 pages shared by the preview and browser print output. */
+/* Physical A4 pages shared by the preview, PNG and browser print output. */
 const StageplotPrint = (() => {
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -5585,7 +5591,34 @@ const StageplotPrint = (() => {
       paper.style.transform = 'scale(' + scale + ')';
     }
   }
-  return { render, fit };
+
+  async function pageSvg(paper, serializeSvg) {
+    // Freeze the actual page layout before awaiting local image assets. No
+    // second layout engine: text, tables and the plan retain their PDF positions.
+    const copy = paper.cloneNode(true);
+    const properties = ('display box-sizing position width height min-width min-height max-width max-height margin padding border border-top border-right border-bottom border-left border-radius background-color color opacity font-family font-size font-style font-weight font-variant line-height letter-spacing word-spacing white-space overflow-wrap word-break text-align text-indent text-decoration text-transform vertical-align table-layout border-collapse border-spacing flex flex-direction flex-wrap align-items align-self justify-content gap row-gap column-gap grid-template-columns grid-template-rows grid-column grid-row').split(' ');
+    const original = [paper, ...paper.querySelectorAll('*')], cloned = [copy, ...copy.querySelectorAll('*')];
+    original.forEach((node, index) => {
+      if (node.namespaceURI === 'http://www.w3.org/2000/svg') return;
+      const style = getComputedStyle(node), target = cloned[index];
+      target.removeAttribute('id');
+      target.style.cssText = properties.map(property => property + ':' + style.getPropertyValue(property)).join(';');
+    });
+    const style = getComputedStyle(paper), width = parseFloat(style.width), height = parseFloat(style.height);
+    copy.style.transform = 'none'; copy.style.boxShadow = 'none'; copy.style.margin = '0';
+    const targets = [...copy.querySelectorAll('svg')];
+    const sources = [...paper.querySelectorAll('svg')];
+    const sizes = sources.map(svg => { const style = getComputedStyle(svg); return {width:style.width, height:style.height}; });
+    const plans = sources.map(svg => serializeSvg(svg));
+    const markup = await Promise.all(plans);
+    markup.forEach((text, index) => {
+      const svg = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement;
+      Object.assign(svg.style, sizes[index], {display:'block', maxWidth:'none', maxHeight:'none'});
+      targets[index].replaceWith(svg);
+    });
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '"><foreignObject width="100%" height="100%">' + new XMLSerializer().serializeToString(copy) + '</foreignObject></svg>';
+  }
+  return { render, fit, pageSvg };
 })();
 /* build-inline:end stageplot-print-v1.js */
 
@@ -6343,6 +6376,7 @@ function createStageplotExportV42() {
   const SETUP_KIND='stageplot-setup';
   const SETUP_VERSION=1;
   const PNG_SCALES=[2,4];
+  const PNG_RESOLUTIONS={hd:1280,'2k':2048,'4k':3840};
   const PNG_BACKGROUNDS=['white','transparent'];
   const unsafeKeys=new Set(['__proto__','prototype','constructor']);
   const reservedFilename=/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i;
@@ -6485,6 +6519,11 @@ function createStageplotExportV42() {
     if(!plainObject(value))throw new TypeError('PNG-Optionen müssen ein Objekt sein.');
     const scale=value.scale===undefined?2:Number(value.scale);
     const background=value.background===undefined?'white':String(value.background);
+    if(value.resolution!==undefined){
+      if(!Object.hasOwn(PNG_RESOLUTIONS,value.resolution))throw new Error('Bitte HD, 2K oder 4K wählen.');
+      if(!PNG_BACKGROUNDS.includes(background))throw new Error('Der PNG-Hintergrund muss weiß oder transparent sein.');
+      return {resolution:value.resolution,background};
+    }
     if(!PNG_SCALES.includes(scale))throw new Error('PNG-Exporte sind nur in 2× oder 4× möglich.');
     if(!PNG_BACKGROUNDS.includes(background))throw new Error('Der PNG-Hintergrund muss weiß oder transparent sein.');
     return {scale,background};
@@ -6494,9 +6533,10 @@ function createStageplotExportV42() {
     if(!plainObject(dimensions))throw new TypeError('SVG-Maße müssen ein Objekt sein.');
     const width=Number(dimensions.width),height=Number(dimensions.height),png=normalizePngOptions(options);
     if(!Number.isFinite(width)||width<=0||!Number.isFinite(height)||height<=0)throw new Error('Das SVG hat keine gültigen Exportmaße.');
-    const pixelWidth=Math.ceil(width*png.scale),pixelHeight=Math.ceil(height*png.scale),pixels=pixelWidth*pixelHeight;
+    const scale=png.resolution?PNG_RESOLUTIONS[png.resolution]/Math.max(width,height):png.scale;
+    const pixelWidth=png.resolution?Math.round(width*scale):Math.ceil(width*scale),pixelHeight=png.resolution?Math.round(height*scale):Math.ceil(height*scale),pixels=pixelWidth*pixelHeight;
     if(pixelWidth>16384||pixelHeight>16384||pixels>100000000)throw new RangeError('Der PNG-Export wäre zu groß. Bitte 2× wählen oder die Ausgabe verkleinern.');
-    return {mimeType:'image/png',sourceWidth:width,sourceHeight:height,scale:png.scale,pixelWidth,pixelHeight,background:png.background,backgroundColor:png.background==='white'?'#ffffff':null,fillBackground:png.background==='white',imageSmoothingEnabled:true,imageSmoothingQuality:'high'};
+    return {mimeType:'image/png',sourceWidth:width,sourceHeight:height,scale,pixelWidth,pixelHeight,background:png.background,backgroundColor:png.background==='white'?'#ffffff':null,fillBackground:png.background==='white',imageSmoothingEnabled:true,imageSmoothingQuality:'high'};
   }
 
   function svgDimensions(svgText) {
@@ -6522,7 +6562,7 @@ function createStageplotExportV42() {
     return createPngPlan(svgDimensions(svgText),options);
   }
 
-  return {SETUP_KIND,SETUP_VERSION,PNG_SCALES:[...PNG_SCALES],PNG_BACKGROUNDS:[...PNG_BACKGROUNDS],safeFilename,filenameFor,basicNormalizeSetupDocument,createSetupExport,normalizeSetupExport,parseSetupJson,stringifySetupJson,normalizePngOptions,svgDimensions,createPngPlan,createPngPlanFromSvg};
+  return {SETUP_KIND,SETUP_VERSION,PNG_SCALES:[...PNG_SCALES],PNG_RESOLUTIONS:{...PNG_RESOLUTIONS},PNG_BACKGROUNDS:[...PNG_BACKGROUNDS],safeFilename,filenameFor,basicNormalizeSetupDocument,createSetupExport,normalizeSetupExport,parseSetupJson,stringifySetupJson,normalizePngOptions,svgDimensions,createPngPlan,createPngPlanFromSvg};
 }
 /* build-inline:end stageplot-export-v42.js */
 
@@ -10748,8 +10788,8 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     if(objects.some(o=>iemOverlap(o,stage)))warnings.push('IEM-Stellfläche prüfen');
     $('sp-print-status').textContent=warnings.join(' · ');
     drawFloor($('sp-print-floor'),stage,objects,'print');
-    if(!pdf)layoutPrintSummary($('sp-print-floor').querySelector('svg'),productionLines(stage));
-    if(exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);const background=svg.querySelector('[data-canvas-background]');if(background)for(const [key,value] of Object.entries(crop))background.setAttribute(key,value);}}
+    if(!pdf&&exportIntent==='share')layoutPrintSummary($('sp-print-floor').querySelector('svg'),productionLines(stage));
+    if(pdf||exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);const background=svg.querySelector('[data-canvas-background]');if(background)for(const [key,value] of Object.entries(crop))background.setAttribute(key,value);}}
 
     const legendOn=$('sp-print-legend-toggle').checked,notesOn=$('sp-print-notes').checked,inputsOn=$('sp-print-inputs').checked,outputsOn=$('sp-print-routing').checked;
     $('sp-print-legend-section').hidden=!legendOn;$('sp-print-notes-section').hidden=!notesOn;$('sp-print-inputs-section').hidden=!inputsOn;$('sp-print-routing-section').hidden=!outputsOn;
@@ -10758,8 +10798,8 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     $('sp-print-legend').innerHTML=objects.length?objects.map(o=>'<div class="sp-legend-row"><strong>'+esc(o.label||byId[o.type].name)+'</strong>'+(objectDetail(o)?'<small>'+esc(objectDetail(o))+'</small>':'')+(outsText(o)&&$('sp-print-outs').checked?'<small>'+esc(outsText(o))+'</small>':'')+objectProductionLines(o).map(line=>'<small>'+esc(line)+'</small>').join('')+(o.note?'<small>'+esc(o.note)+'</small>':'')+'</div>').join(''):'<span class="sp-muted">Noch keine Bausteine.</span>';
     const notes=[normalizeProjectInfo(stage.project,stage.title).notes.trim(),stage.geometry?.notes,...(stage.geometry?.parts||[]).filter(p=>p.note).map(p=>p.name+': '+p.note)].filter(Boolean).join('\n\n');$('sp-print-notes-copy').textContent=notes||'Keine Projektnotizen hinterlegt.';
     $('sp-print-input-list').innerHTML=printRoutingPreview('inputs');$('sp-print-output-list').innerHTML=printRoutingPreview('outputs');
-    $('sp-report-pages').hidden=!pdf;
-    if(pdf)renderPrintPages(notes);
+    $('sp-report-pages').hidden=!pdf&&exportIntent==='share';
+    if(pdf||exportIntent!=='share')renderPrintPages(notes);
   }
   function sizePrintWorkspace(){
     const documentTop=root.getBoundingClientRect().top+window.scrollY;
@@ -10767,32 +10807,37 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     root.style.setProperty('--sp-preview-height',Math.max(220,Math.floor(window.innerHeight-documentTop-chrome-18))+'px');
   }
   function setExportFormat(format){
-    if(!['png-normal','png-4k','pdf'].includes(format))format='png-normal';$('sp-export-format').value=format;$('sp-export-scale').value=format==='png-4k'?'4':'2';
+    if(!['png-normal','png-2k','png-4k','pdf'].includes(format))format='png-2k';$('sp-export-format').value=format;
+    if(format!=='pdf'&&exportIntent!=='share')imageExportFormat=format;
     root.querySelectorAll('[data-export-format]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.exportFormat===format)));
     $('sp-export-background-group').hidden=format==='pdf';refreshExportAction();renderPrint();
   }
-  let exportIntent='technical';
+  let exportIntent='technical',imageExportFormat='png-2k';
+  function imageExportPlan(){
+    const resolution={'png-normal':'hd','png-2k':'2k','png-4k':'4k'}[$('sp-export-format').value]||'2k';
+    return exportModel.createPngPlan({width:297,height:210},{resolution,background:$('sp-export-background').value});
+  }
   function technicalExportNeedsPro(){
     return ['sp-print-production','sp-print-legend-toggle','sp-print-notes'].some(id=>$(id).checked);
   }
   function refreshExportAction(){
     const format=$('sp-export-format').value,pdf=format==='pdf',share=exportIntent==='share';
     root.dataset.previewKind=share?'share':pdf?'pdf':'image';
-    $('sp-export-paper-options').hidden=!pdf;$('sp-export-presets').hidden=!pdf||share;
+    $('sp-export-paper-options').hidden=share;$('sp-export-presets').hidden=share;
     $('sp-export-image-options').hidden=pdf||share;$('sp-export-background-group').hidden=pdf||share;
-    $('sp-export-details').hidden=share;$('sp-export-print-help').hidden=!pdf||share;$('sp-preview-zoom').hidden=!pdf||share;
-    root.querySelector('.sp-preview-caption').textContent=share?'Schreibgeschützte Momentaufnahme · inklusive Projektdaten':pdf?'A4 quer · Seiten entsprechen der Druckausgabe bei 100 %':'PNG · passend zugeschnitten · lokal und offline';
+    $('sp-export-details').hidden=share;$('sp-export-print-help').hidden=!pdf||share;$('sp-preview-zoom').hidden=share;
+    root.querySelector('.sp-preview-caption').textContent=share?'Schreibgeschützte Momentaufnahme · inklusive Projektdaten':'Gleiches Layout für PDF und Bild · lokal und offline';
     $('sp-export-preview-title').textContent=share?'Geteilter Bühnenplan':pdf?'Druckvorschau':'Bildvorschau';
-    $('sp-export-png').textContent=share?'Ansichtslink erstellen':pdf?'PDF erstellen / drucken':format==='png-4k'?'4K-Bild herunterladen':'Bild herunterladen';
-    $('sp-export-beta-hint').hidden=!pdf||!technicalExportNeedsPro()||accountPlan==='pro';
+    $('sp-export-png').textContent=share?'Ansichtslink erstellen':pdf?'PDF erstellen / drucken':'Bild herunterladen';
+    $('sp-export-beta-hint').hidden=share||!technicalExportNeedsPro()||accountPlan==='pro';
     const selections=['sp-print-legend-toggle','sp-print-notes','sp-print-inputs','sp-print-routing','sp-print-production'].map(id=>$(id).checked);
     root.querySelectorAll('[data-pdf-preset]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pdfPreset==='plan'?selections.every(on=>!on):selections.every(Boolean))));
   }
   function setExportIntent(intent){
     exportIntent=['image','technical','share'].includes(intent)?intent:'technical';root.dataset.exportIntent=exportIntent;
     root.querySelectorAll('[data-export-intent]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.exportIntent===exportIntent)));
-    $('sp-export-purpose').textContent=exportIntent==='technical'?'Druckfertiges PDF im A4-Querformat.':exportIntent==='share'?'Ein Link zum Ansehen, inklusive Kontaktdaten. Für spätere Änderungen erstellst du einen neuen Link.':'Ein zugeschnittenes Bild für Nachrichten oder Präsentationen.';
-    setExportFormat(exportIntent==='technical'?'pdf':'png-normal');
+    $('sp-export-purpose').textContent=exportIntent==='technical'?'Druckfertiges PDF im A4-Querformat.':exportIntent==='share'?'Ein Link zum Ansehen, inklusive Kontaktdaten. Für spätere Änderungen erstellst du einen neuen Link.':'Dieselben Seiten wie im PDF, als PNG. Mehrere Seiten erhältst du gemeinsam als ZIP.';
+    setExportFormat(exportIntent==='technical'?'pdf':exportIntent==='image'?imageExportFormat:'png-normal');
   }
   function setPdfPreset(preset){
     for(const id of ['sp-print-legend-toggle','sp-print-notes','sp-print-inputs','sp-print-routing','sp-print-production'])$(id).checked=preset==='full';
@@ -10811,7 +10856,9 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     const svg=$('sp-print-floor').querySelector('svg');if(!svg)return;
     const date=p.date?p.date.split('-').reverse().join('.'):'',subtitle=[[p.artist,p.venue].filter(Boolean).join(' · '),[date,$('sp-print-measures').checked?$('sp-print-dimensions').textContent:''].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
     const pages=StageplotPrint.render($('sp-report-pages'),{title:stage.title,subtitle,id:projectIdentity(stage.projectId),svg,summary:productionLines(stage),sections});
-    $('sp-export-preview-title').textContent=pages+' '+(pages===1?'Seite':'Seiten')+' · A4 quer';
+    const pdf=$('sp-export-format').value==='pdf',plan=imageExportPlan(),quality={'png-normal':'HD','png-2k':'2K','png-4k':'4K'}[$('sp-export-format').value];
+    $('sp-export-preview-title').textContent=pages+' '+(pages===1?'Seite':'Seiten')+' · '+(pdf?'A4 quer':quality+' · '+plan.pixelWidth+' × '+plan.pixelHeight+' px');
+    if(!pdf)$('sp-export-png').textContent=pages===1?quality+'-Bild herunterladen':pages+' Bilder als ZIP herunterladen';
   }
   function projectPrintMarkup(options={}){
     const p=normalizeProjectInfo(stage.project,stage.title),m=projectMeasurements(stage,objects),fields=[['Projekt-ID',projectIdentity(stage.projectId)],['Datum',p.date.split('-').reverse().join('.')],['Band / Act',p.artist],['Location',p.venue],['Autor',p.author],['Tour',p.tour],['Produktionsfirma',p.company],['Bühnenfläche',num(m.width)+' × '+metres(m.depth)]];
@@ -10822,7 +10869,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
   function runExportIntent(){
     if(!flushProjectForm(true))return;
     if(exportIntent==='share'){openShareDialog();return;}
-    if($('sp-export-format').value==='pdf'&&technicalExportNeedsPro()&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}
+    if(technicalExportNeedsPro()&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}
     if(exportIntent==='technical'||$('sp-export-format').value==='pdf')printReport('stage');else exportPng();
   }
   root.querySelector('.sp-export-intents').addEventListener('click',event=>{const button=event.target.closest('[data-export-intent]');if(button)setExportIntent(button.dataset.exportIntent);});
@@ -10836,12 +10883,11 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
   root.querySelector('.sp-export-choice-grid').addEventListener('click',event=>{const button=event.target.closest('[data-export-format]');if(button)setExportFormat(button.dataset.exportFormat);});
   root.querySelector('.sp-export-background-pills').addEventListener('click',event=>{const button=event.target.closest('[data-export-background]');if(!button)return;$('sp-export-background').value=button.dataset.exportBackground;root.querySelectorAll('[data-export-background]').forEach(choice=>choice.setAttribute('aria-pressed',String(choice===button)));renderPrint();});
   ['sp-print-patch','sp-print-outs','sp-print-measures','sp-print-legend-toggle','sp-print-inputs','sp-print-routing'].forEach(id=>$(id).addEventListener('change',renderPrint));
-  const blobDataUrl=blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Bilddaten konnten nicht gelesen werden.'));reader.readAsDataURL(blob);});
   const exportImageCache=new Map();
-  function localImageDataUrl(url){
-    const key=String(url);if(exportImageCache.has(key))return exportImageCache.get(key);
+  function localImageDataUrl(url,monochrome=false){
+    const source=String(url),key=source+(monochrome?'#monochrome':'');if(exportImageCache.has(key))return exportImageCache.get(key);
     const webp=/\.webp(?:[?#]|$)/i.test(key);
-    const promise=new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);resolve(canvas.toDataURL(webp?'image/webp':'image/png',.92));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Instrumentenbild konnte nicht geladen werden.'));image.src=key;});
+    const promise=new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);if(monochrome){const pixels=context.getImageData(0,0,canvas.width,canvas.height),data=pixels.data;for(let i=0;i<data.length;i+=4){const grey=Math.round(.2126*data[i]+.7152*data[i+1]+.0722*data[i+2]);data[i]=data[i+1]=data[i+2]=grey;}context.putImageData(pixels,0,0);}resolve(canvas.toDataURL(webp&&!monochrome?'image/webp':'image/png',.92));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Instrumentenbild konnte nicht geladen werden.'));image.src=source;});
     exportImageCache.set(key,promise);promise.catch(()=>exportImageCache.delete(key));return promise;
   }
   function exportArtworkBounds(svg,padding=4){
@@ -10864,7 +10910,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
       const href=image.getAttribute('href')||image.getAttributeNS('http://www.w3.org/1999/xlink','href');if(!href||href.startsWith('data:')||href.startsWith('#'))continue;
       const url=new URL(href,window.location.href);if(url.protocol!=='file:'&&url.origin!==window.location.origin)throw new Error('Ein externes Symbol kann offline nicht exportiert werden.');
       if((url.pathname.includes('/stageplot-assets/percussion/')||url.pathname.includes('/stageplot-assets/orchestra/'))&&image.getAttribute('preserveAspectRatio')==='none'){
-        let id=rasterSymbols.get(url.href);if(!id){id='sp-export-raster-'+rasterSymbols.size;const symbol=sEl('symbol',{id,viewBox:'0 0 1 1',preserveAspectRatio:'none'},copyDefs);sEl('image',{href:await localImageDataUrl(url),width:1,height:1,preserveAspectRatio:'none'},symbol);rasterSymbols.set(url.href,id);}
+        let id=rasterSymbols.get(url.href);if(!id){id='sp-export-raster-'+rasterSymbols.size;const symbol=sEl('symbol',{id,viewBox:'0 0 1 1',preserveAspectRatio:'none'},copyDefs);sEl('image',{href:await localImageDataUrl(url,true),width:1,height:1,preserveAspectRatio:'none'},symbol);rasterSymbols.set(url.href,id);}
         const use=sEl('use',{});for(const attribute of image.attributes)use.setAttribute(attribute.name,attribute.value);use.setAttribute('href','#'+id);image.replaceWith(use);
       }else image.setAttribute('href',await localImageDataUrl(url));
     }
@@ -10875,17 +10921,23 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
   async function exportPng(){
     const button=$('sp-export-png'),status=$('sp-preview-live');
     try{
-      renderPrint();const svg=$('sp-print-floor').querySelector('svg');if(!svg)throw new Error('Der Bühnenplan ist noch nicht bereit.');
-      button.disabled=true;button.setAttribute('aria-busy','true');status.hidden=false;status.textContent='PNG wird vorbereitet …';
-      const markup=await exportSvgMarkup(svg,exportArtworkBounds(svg)),options={scale:Number($('sp-export-scale').value),background:$('sp-export-background').value},plan=exportModel.createPngPlanFromSvg(markup,options);
-      const sourceUrl=await blobDataUrl(new Blob([markup],{type:'image/svg+xml'}));
-      {
-        const image=await new Promise((resolve,reject)=>{const element=new Image();element.onload=()=>resolve(element);element.onerror=()=>reject(new Error('Der Bühnenplan konnte nicht gerastert werden.'));element.src=sourceUrl;});
+      renderPrint();const pages=[...$('sp-report-pages').querySelectorAll('.sp-report-page')];if(!pages.length)throw new Error('Der Bühnenplan ist noch nicht bereit.');
+      button.disabled=true;button.setAttribute('aria-busy','true');status.hidden=false;status.textContent='Bilder werden vorbereitet …';
+      const plan=imageExportPlan(),title=stage.title,files={};
+      const markups=await Promise.all(pages.map(page=>StageplotPrint.pageSvg(page,exportSvgMarkup)));
+      for(const [index,markup] of markups.entries()){
+        status.textContent='Bild '+(index+1)+' von '+pages.length+' wird erstellt …';
+        const sourceUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(markup);
+        const image=await new Promise((resolve,reject)=>{const element=new Image();element.onload=()=>resolve(element);element.onerror=()=>reject(new Error('Die Exportseite konnte nicht gerastert werden.'));element.src=sourceUrl;});
         const canvas=document.createElement('canvas');canvas.width=plan.pixelWidth;canvas.height=plan.pixelHeight;const context=canvas.getContext('2d',{alpha:!plan.fillBackground});if(!context)throw new Error('PNG-Ausgabe wird von diesem Browser nicht unterstützt.');
         context.imageSmoothingEnabled=plan.imageSmoothingEnabled;context.imageSmoothingQuality=plan.imageSmoothingQuality;if(plan.fillBackground){context.fillStyle=plan.backgroundColor;context.fillRect(0,0,canvas.width,canvas.height);}context.drawImage(image,0,0,canvas.width,canvas.height);
         const blob=await new Promise((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(new Error('PNG-Datei konnte nicht erstellt werden.')),'image/png'));
-        downloadBlob(blob,exportModel.filenameFor(stage.title,'png'));status.textContent='PNG exportiert · '+plan.pixelWidth+' × '+plan.pixelHeight+' px';say('PNG für den Rider exportiert');
+        if(pages.length===1)downloadBlob(blob,exportModel.filenameFor(title,'png'));
+        else files[exportModel.filenameFor(title+'-Seite-'+String(index+1).padStart(2,'0'),'png')]=new Uint8Array(await blob.arrayBuffer());
+        canvas.width=canvas.height=0;
       }
+      if(pages.length>1)downloadBlob(new Blob([zipStore(files)],{type:'application/zip'}),exportModel.safeFilename(title+'-Bilder',{extension:'zip'}));
+      status.textContent=pages.length+' '+(pages.length===1?'Bild':'Bilder')+' exportiert · '+plan.pixelWidth+' × '+plan.pixelHeight+' px';say(status.textContent);
     }catch(error){status.hidden=false;status.textContent='PNG nicht exportiert: '+(error.message||'Unbekannter Fehler');say(status.textContent);}
     finally{button.disabled=false;button.removeAttribute('aria-busy');}
   }
@@ -10919,7 +10971,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
   function bytesJoin(parts){const length=parts.reduce((sum,part)=>sum+part.length,0),result=new Uint8Array(length);let offset=0;for(const part of parts){result.set(part,offset);offset+=part.length;}return result;}
   function zipStore(files){
     const encoder=new TextEncoder(),locals=[],centrals=[];let offset=0;
-    for(const [name,text] of Object.entries(files)){const filename=encoder.encode(name),data=encoder.encode(text),crc=crc32(data),local=bytesJoin([le32(0x04034b50),le16(20),le16(0x800),le16(0),le16(0),le16(0),le32(crc),le32(data.length),le32(data.length),le16(filename.length),le16(0),filename,data]);locals.push(local);centrals.push(bytesJoin([le32(0x02014b50),le16(20),le16(20),le16(0x800),le16(0),le16(0),le16(0),le32(crc),le32(data.length),le32(data.length),le16(filename.length),le16(0),le16(0),le16(0),le16(0),le32(0),le32(offset),filename]));offset+=local.length;}
+    for(const [name,text] of Object.entries(files)){const filename=encoder.encode(name),data=text instanceof Uint8Array?text:encoder.encode(text),crc=crc32(data),local=bytesJoin([le32(0x04034b50),le16(20),le16(0x800),le16(0),le16(0),le16(0),le32(crc),le32(data.length),le32(data.length),le16(filename.length),le16(0),filename,data]);locals.push(local);centrals.push(bytesJoin([le32(0x02014b50),le16(20),le16(20),le16(0x800),le16(0),le16(0),le16(0),le32(crc),le32(data.length),le32(data.length),le16(filename.length),le16(0),le16(0),le16(0),le16(0),le32(0),le32(offset),filename]));offset+=local.length;}
     const central=bytesJoin(centrals),end=bytesJoin([le32(0x06054b50),le16(0),le16(0),le16(centrals.length),le16(centrals.length),le32(central.length),le32(offset),le16(0)]);return bytesJoin([...locals,central,end]);
   }
   function exportRoutingXlsx(){

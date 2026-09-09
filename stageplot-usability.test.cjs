@@ -44,7 +44,7 @@ assert.equal(ctx.projectFormDimension(6.56,'ft',8,30),2);assert.equal(ctx.projec
 const failed=environment();failed.activateSetupDocument(catalog.createDocument('at-wien-b72'),null,{copy:true,persist:true});
 failed.$('sp-project-name').value='Speichertest';failed.$('sp-project-unit').value='m';failed.$('sp-project-width').value=8;failed.$('sp-project-depth').value=5;
 const originalId=failed.stage.projectId;failed.localStorage.setItem=()=>{throw new Error('Speicher voll');};failed.queueProjectFormSave();assert.equal(failed.flushProjectForm(),false);assert.equal(failed.draftState,'error');assert.equal(failed.stage.projectId,originalId);assert.equal(failed.duplicateCurrentProject(),false);
-const exp=environment();exp.exportIntent='image';exp.root={dataset:{},querySelector:()=>exp.$('caption'),querySelectorAll:()=>[]};exp.renderPrint=()=>exp.rendered=true;
+const exp=environment();exp.exportIntent='image';exp.imageExportFormat='png-2k';exp.root={dataset:{},querySelector:()=>exp.$('caption'),querySelectorAll:()=>[]};exp.renderPrint=()=>exp.rendered=true;
 exp.printReport=mode=>exp.printed=mode;exp.exportPng=()=>exp.png=true;exp.openShareDialog=()=>exp.shared=true;
 vm.runInContext(['technicalExportNeedsPro','refreshExportAction','setExportFormat','setExportIntent','setPdfPreset','runExportIntent'].map(extract).join('\n'),exp);
 exp.setExportIntent('technical');assert.equal(exp.$('sp-export-format').value,'pdf');
@@ -52,7 +52,8 @@ exp.setPdfPreset('full');
 for(const id of ['sp-print-production','sp-print-notes','sp-print-inputs','sp-print-routing'])assert(exp.$(id).checked,id);
 assert.equal(exp.$('sp-export-paper-options').hidden,false);exp.accountPlan='free';exp.runExportIntent();assert(exp.$('sp-upgrade-dialog').open);assert.equal(exp.printed,undefined);
 exp.accountPlan='pro';exp.runExportIntent();assert.equal(exp.printed,'stage','Veranstalter-PDF druckt die angezeigte Vorschau.');
-exp.setExportIntent('image');assert.equal(exp.$('sp-print-production').checked,true,'PDF-Inhalte bleiben beim Wechsel zu Bild erhalten.');assert.equal(exp.$('sp-export-paper-options').hidden,true);exp.runExportIntent();assert(exp.png);
+exp.setExportIntent('image');assert.equal(exp.$('sp-print-production').checked,true,'PDF-Inhalte bleiben beim Wechsel zu Bild erhalten.');assert.equal(exp.$('sp-export-paper-options').hidden,false,'Bild und PDF zeigen dieselben Inhaltsoptionen.');exp.runExportIntent();assert(exp.png);
+exp.setExportFormat('png-4k');exp.setExportIntent('technical');exp.setExportIntent('image');assert.equal(exp.$('sp-export-format').value,'png-4k','Bildqualität bleibt beim Formatwechsel erhalten.');
 exp.setPdfPreset('plan');exp.setExportFormat('pdf');assert.equal(exp.$('sp-export-paper-options').hidden,false);assert.equal(exp.root.dataset.previewKind,'pdf');
 exp.setExportIntent('share');assert(exp.$('sp-export-details').hidden);exp.runExportIntent();assert(exp.shared);
 exp.flushProjectForm=()=>false;exp.shared=false;exp.runExportIntent();assert.equal(exp.shared,false);

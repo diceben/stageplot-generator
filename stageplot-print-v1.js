@@ -1,4 +1,4 @@
-/* Physical A4 pages shared by the preview and browser print output. */
+/* Physical A4 pages shared by the preview, PNG and browser print output. */
 const StageplotPrint = (() => {
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -205,5 +205,32 @@ const StageplotPrint = (() => {
       paper.style.transform = 'scale(' + scale + ')';
     }
   }
-  return { render, fit };
+
+  async function pageSvg(paper, serializeSvg) {
+    // Freeze the actual page layout before awaiting local image assets. No
+    // second layout engine: text, tables and the plan retain their PDF positions.
+    const copy = paper.cloneNode(true);
+    const properties = ('display box-sizing position width height min-width min-height max-width max-height margin padding border border-top border-right border-bottom border-left border-radius background-color color opacity font-family font-size font-style font-weight font-variant line-height letter-spacing word-spacing white-space overflow-wrap word-break text-align text-indent text-decoration text-transform vertical-align table-layout border-collapse border-spacing flex flex-direction flex-wrap align-items align-self justify-content gap row-gap column-gap grid-template-columns grid-template-rows grid-column grid-row').split(' ');
+    const original = [paper, ...paper.querySelectorAll('*')], cloned = [copy, ...copy.querySelectorAll('*')];
+    original.forEach((node, index) => {
+      if (node.namespaceURI === 'http://www.w3.org/2000/svg') return;
+      const style = getComputedStyle(node), target = cloned[index];
+      target.removeAttribute('id');
+      target.style.cssText = properties.map(property => property + ':' + style.getPropertyValue(property)).join(';');
+    });
+    const style = getComputedStyle(paper), width = parseFloat(style.width), height = parseFloat(style.height);
+    copy.style.transform = 'none'; copy.style.boxShadow = 'none'; copy.style.margin = '0';
+    const targets = [...copy.querySelectorAll('svg')];
+    const sources = [...paper.querySelectorAll('svg')];
+    const sizes = sources.map(svg => { const style = getComputedStyle(svg); return {width:style.width, height:style.height}; });
+    const plans = sources.map(svg => serializeSvg(svg));
+    const markup = await Promise.all(plans);
+    markup.forEach((text, index) => {
+      const svg = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement;
+      Object.assign(svg.style, sizes[index], {display:'block', maxWidth:'none', maxHeight:'none'});
+      targets[index].replaceWith(svg);
+    });
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '"><foreignObject width="100%" height="100%">' + new XMLSerializer().serializeToString(copy) + '</foreignObject></svg>';
+  }
+  return { render, fit, pageSvg };
 })();
