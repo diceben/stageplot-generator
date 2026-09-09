@@ -6,8 +6,8 @@ const html=fs.readFileSync('stageplot-studio.html','utf8');
 const symbolSource=fs.readFileSync('stageplot-symbols-v3.js','utf8');
 const context={};vm.createContext(context);vm.runInContext(symbolSource+'\nthis.render=createStageplotSymbolV3;',context);
 
-for(const category of ['all','instruments','stage','lights','tech'])assert.ok(html.includes('data-category="'+category+'"'),category+' fehlt in den kompakten Bibliothekskategorien.');
-assert.match(html,/\.sp-category-tabs\s*\{[^}]*grid-template-columns:\s*repeat\(5,/s,'Die fünf Kategorie-Icons passen nicht in eine kompakte Reihe.');
+for(const category of ['all','instruments','classical','stage','lights','tech'])assert.ok(html.includes('data-category="'+category+'"'),category+' fehlt in den kompakten Bibliothekskategorien.');
+assert.match(html,/\.sp-category-tabs\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s,'Die sechs Kategorie-Icons stehen nicht in zwei gleichmäßigen Reihen.');
 
 for(const marker of [
   "id:'mic-wireless-ewd'.*w:.268,d:.05",

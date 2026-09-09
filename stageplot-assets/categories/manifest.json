@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "generatedOn": "2026-09-10",
+  "generator": "OpenAI built-in image_gen",
+  "style": "Neutral graphite and satin silver realistic 3D miniatures; transparent backgrounds.",
+  "processing": "Original alpha preserved; transparent bounds cropped, proportionally resized to fit 240 × 240 px, centered on transparent 256 × 256 px WebP. No redrawing or creative edits.",
+  "prompts": "prompts.json",
+  "assets": [
+    {
+      "id": "orchestra",
+      "file": "orchestra-v1.webp",
+      "sourceFile": "exec-f833bfaa-1fff-4284-a129-330410832954.png",
+      "sourceSha256": "93818021f14b3c572b723859386c5e235ad9570cbf74aed8dc13dbeb9e13ac5e",
+      "sha256": "24d13aab67aa02e597d0529b44683c2dae0b7657f4fa230f911353f136dae2ca",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "id": "instruments",
+      "file": "instruments-v1.webp",
+      "sourceFile": "exec-db85d24b-0ec8-4922-8fb0-7d99e36ec899.png",
+      "sourceSha256": "0f15326252d8026ebaf8fbef2d82fdf7424a1eedd1fa67787d850ef0fdf09b60",
+      "sha256": "c8d2df82ff20c18ae61b10192940a0bc8cc80253fcb435fefc66ba959addc25e",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "id": "stage",
+      "file": "stage-v1.webp",
+      "sourceFile": "exec-d83456a8-9880-4cb0-b591-61bb7d3462b5.png",
+      "sourceSha256": "3925ce6854b8bfbb9484e95d6908ff4ebe6661c4048323f23ad81fe1dadfbc03",
+      "sha256": "bed4af6fb4925ac32ec2b235c052b217206667045e9570fae711f5137e7078d9",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "id": "lights",
+      "file": "lights-v1.webp",
+      "sourceFile": "exec-01b26697-1535-4e88-aad2-a610b58bbede.png",
+      "sourceSha256": "a295886e14ab787af981c5e944d9896e717eb2659c7b1839d02f06040a9fe62e",
+      "sha256": "d7ad1fe373e332f3f779c97892b4054f254a41210843085eb06688f2611a95ac",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "id": "tech",
+      "file": "tech-v1.webp",
+      "sourceFile": "exec-a5d70d29-a5b5-4754-88ab-32a9be56b3b1.png",
+      "sourceSha256": "9434edb9d07b3a16b8580b77f9f0f835325468f970302d7ba700e17e9c19a72a",
+      "sha256": "3d9978f45db794186e125a4df814c60ef52f2aa32de9966e836b300a4b66dd3b",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "id": "all",
+      "file": "all-v1.webp",
+      "sourceFile": "exec-a317052d-7e50-4c68-922b-593ae25eeba9.png",
+      "sourceSha256": "10f8d5d2a03a7b20055b8fd684c2749db1de3b03bd80789b5ea392e0cf388e6c",
+      "sha256": "6d552ad2ef194b68cfddb52e1f41dd236880cc3c11b0faacb55c3191ebe8a067",
+      "size": [
+        256,
+        256
+      ]
+    }
+  ]
+}
