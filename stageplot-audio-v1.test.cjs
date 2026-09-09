@@ -82,3 +82,38 @@ console.log('PASS AUDIO REPATCH: current stereo choice stays unchanged; explicit
 const inspectorNodes=new Map(),inspectorCtx={objects:[],selected:null,inspectorTab:'audio',setInspectorTab(){},$:id=>{if(!inspectorNodes.has(id))inspectorNodes.set(id,{setAttribute(){}});return inspectorNodes.get(id);}};
 vm.createContext(inspectorCtx);vm.runInContext(extract('inspector'),inspectorCtx);inspectorCtx.inspector();assert.equal(inspectorCtx.$('sp-no-selection').hidden,false);inspectorCtx.selected='stage-zone';inspectorCtx.inspector();assert.equal(inspectorCtx.$('sp-no-selection').hidden,true);
 console.log('PASS AUDIO EDITOR: empty and stage selection do not depend on removed cable state.');
+
+// The compact editor must describe the actual patch, including split stereo.
+const summaryDraft={name:'Keys',direction:'inputs',stereo:true,boxId:'a',rightBoxId:'a',port:'7',rightPort:'8',number:'14',rightNumber:'15'},summaryBoxes=[{id:'a',name:'Stagebox A',capacity:16},{id:'b',name:'Stagebox B',capacity:8}];
+assert.deepEqual(clone(ctx.audioEditorSummary(summaryDraft,summaryBoxes).connections),['Stagebox A · IN 7 / 8 → CH 14 / 15']);
+assert.deepEqual(clone(ctx.audioEditorSummary({...summaryDraft,rightBoxId:'b',rightPort:'3'},summaryBoxes).connections),['L: Stagebox A · IN 7 → CH 14','R: Stagebox B · IN 3 → CH 15']);
+assert.deepEqual(clone(ctx.audioEditorSummary({...summaryDraft,direction:'outputs'},summaryBoxes).connections),['Mix / Output 14 / 15 → Stagebox A · OUT 7 / 8']);
+assert.deepEqual(clone(ctx.audioEditorSummary({...summaryDraft,stereo:false,boxId:'',number:'#'},summaryBoxes).connections),['Keine Stagebox → CH automatisch']);
+const candidates=ctx.audioPortCandidates(patchBox,[...pair,...busy],new Set(['l','r']),true,{port:5,rightPort:6,rightBoxId:'box'});
+assert.equal(candidates.length,7,'An 8-port box has seven valid adjacent stereo starts, never OUT 8 / 9.');assert(candidates[0].occupants.length);assert(!candidates[4].occupants.length,'Both halves of the current signal remain selectable.');assert(candidates[4].selected);
+assert(!ctx.audioPortCandidates(patchBox,pair,new Set(['l','r']),true,{port:5,rightPort:7,rightBoxId:'box'}).some(item=>item.selected),'Nonadjacent stereo is not shown as a selected adjacent pair.');
+assert(!ctx.audioPortCandidates(patchBox,pair,new Set(['l','r']),true,{port:5,rightPort:6,rightBoxId:'other'}).some(item=>item.selected),'A split-box patch is not shown as an adjacent pair on the left box.');
+assert.equal(ctx.audioPortCandidates({...patchBox,capacity:1},[],new Set(),true,{}).length,0);
+
+// Run the real tab handlers and save function with persistent form controls.
+const dialogNodes=new Map(),dialogCtx={clone,editingRoute:{id:'l'},esc:ctx.esc,stage:{routing:{inputs:[],outputs:[],disabledSources:[]}},saved:0,routeSourceObject:()=>null,routeNeedsDi:()=>false,normalizeRouteChannel:row=>({...row,linkedSources:row.linkedSources||[]}),routingStageboxes:()=>summaryBoxes,reconcileCablesWithRouting(){},say(){},snapshot:()=>JSON.stringify(dialogCtx.stage),keepHistory:()=>dialogCtx.saved++};
+dialogCtx.$=id=>{if(!dialogNodes.has(id))dialogNodes.set(id,{id,value:'',attributes:{},handlers:{},validity:{valid:true},hidden:false,querySelectorAll:()=>[],setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,handler){this.handlers[type]=handler;},focus(){dialogCtx.focused=id;},close(){this.open=false;},closest:()=>null});return dialogNodes.get(id);};
+const tabs=['signal','patch','more'].map(key=>Object.assign(dialogCtx.$('sp-audio-tab-'+key),{dataset:{audioTab:key}}));
+dialogCtx.$('sp-audio-editor-tabs').querySelectorAll=()=>tabs;
+for(const key of ['signal','patch','more'])dialogCtx.$('sp-audio-panel-'+key).dataset={audioPanel:key};
+vm.createContext(dialogCtx);vm.runInContext(audio,dialogCtx);vm.runInContext('refreshAudioSurface=()=>{}',dialogCtx);
+const tabClick=key=>dialogCtx.$('sp-audio-editor-tabs').handlers.click({target:{closest:()=>tabs.find(tab=>tab.dataset.audioTab===key)}});
+const field=(id,value,panel='patch',manual=false)=>Object.assign(dialogCtx.$(id),{value,willValidate:true,closest:selector=>selector==='[data-audio-panel]'?dialogCtx.$('sp-audio-panel-'+panel):manual?dialogCtx.$('sp-audio-manual-ports'):null,reportValidity(){dialogCtx.reported=id;}});
+const nameField=field('sp-channel-instrument','Keys','signal'),numberField=field('sp-channel-number','14'),rightField=field('sp-audio-right-number','15'),portField=field('sp-audio-port','7','patch',true);
+dialogCtx.$('sp-channel-form').elements=[nameField,numberField,rightField,portField];
+tabClick('more');assert.equal(dialogCtx.$('sp-audio-panel-more').hidden,false);assert.equal(dialogCtx.$('sp-audio-panel-signal').hidden,true);assert.equal(numberField.value,'14');assert.equal(dialogCtx.saved,0,'Changing tabs cannot commit edits.');
+dialogCtx.$('sp-audio-editor-tabs').handlers.keydown({target:tabs[2],key:'ArrowRight',preventDefault(){}});assert.equal(tabs[0].attributes['aria-selected'],'true');assert.equal(dialogCtx.focused,'sp-audio-tab-signal');
+nameField.validity.valid=false;numberField.validity.valid=false;dialogCtx.saveAudioChannel();assert.equal(dialogCtx.reported,'sp-channel-instrument');assert.equal(dialogCtx.$('sp-audio-panel-signal').hidden,false,'The first invalid field stays visible even when another tab also has an error.');
+nameField.validity.valid=true;numberField.validity.valid=true;portField.validity.valid=false;tabClick('signal');dialogCtx.saveAudioChannel();assert.equal(dialogCtx.reported,'sp-audio-port');assert.equal(dialogCtx.$('sp-audio-panel-patch').hidden,false);assert.equal(dialogCtx.$('sp-audio-manual-ports').open,true);assert.equal(dialogCtx.saved,0);
+portField.validity.valid=true;
+const dialogPair=[{id:'l',sourceKey:'keys:l',instrument:'Keys · L',number:14,mode:'Stereo L',stereoGroup:'keys',stagebox:'a',stageboxPort:7,pickup:'DI',microphone:'J48',notes:'Links'}, {id:'r',sourceKey:'keys:r',instrument:'Keys · R',number:15,mode:'Stereo R',stereoGroup:'keys',stagebox:'b',stageboxPort:3,pickup:'DI',microphone:'JDI',notes:'Rechts separat'}];
+dialogCtx.stage.routing.inputs=clone(dialogPair);dialogCtx.editingRoute={...clone(dialogPair[0]),direction:'inputs',index:0,partner:clone(dialogPair[1])};
+for(const [id,value] of Object.entries({'sp-channel-direction':'inputs','sp-audio-format':'stereo','sp-channel-stagebox':'a','sp-audio-right-port':'3','sp-audio-pickup':'DI','sp-channel-microphone':'J48','sp-channel-notes':'Neue Notiz'}))dialogCtx.$(id).value=value;
+tabClick('more');dialogCtx.saveAudioChannel();assert.equal(dialogCtx.saved,1);assert.deepEqual(clone(dialogCtx.stage.routing.inputs).map(row=>[row.number,row.stagebox,row.stageboxPort,row.microphone,row.notes]),[[14,'a',7,'J48','Neue Notiz'],[15,'b',3,'JDI','Rechts separat']],'Saving from another tab preserves split stereo, channel numbers and independent right-channel metadata.');
+const savedPatch=clone(dialogCtx.stage.routing);dialogCtx.$('sp-channel-number').value='15';tabClick('signal');dialogCtx.saveAudioChannel();assert.equal(dialogCtx.saved,1);assert.deepEqual(clone(dialogCtx.stage.routing),savedPatch,'Invalid allocation does not partially commit changes.');assert.equal(dialogCtx.$('sp-audio-panel-patch').hidden,false);assert.match(dialogCtx.$('sp-audio-error').textContent,/bereits vergeben/);
+console.log('PASS SIGNAL DIALOG: stereo summaries, valid port choices, keyboard tabs, draft retention, hidden-field validation and atomic saves with split stereo metadata.');
