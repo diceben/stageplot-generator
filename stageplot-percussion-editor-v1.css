@@ -1,0 +1,61 @@
+#sp-prototype .sp-percussion-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
+#sp-prototype .sp-percussion-dialog[open] { display:flex; flex-direction:column; }
+#sp-prototype .sp-percussion-dialog::backdrop { background:#10161099; backdrop-filter:blur(5px); }
+#sp-prototype .sp-percussion-dialog header,#sp-prototype .sp-percussion-dialog footer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 22px; flex-shrink:0; }
+#sp-prototype .sp-percussion-dialog header { border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-percussion-dialog h2 { margin:2px 0 0; font-size:23px; }
+#sp-prototype .sp-percussion-dialog h3 { font-size:15px; margin:16px 0 10px; }
+#sp-prototype .sp-percussion-dialog h4 { margin:18px 0 8px; }
+#sp-prototype .sp-perc-eyebrow { font-size:10px; letter-spacing:.13em; color:var(--sp-muted); font-weight:700; }
+#sp-prototype .sp-percussion-dialog button { min-height:36px; padding:8px 11px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; font-size:12px; cursor:pointer; }
+#sp-prototype .sp-percussion-dialog button:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-percussion-dialog button:disabled { opacity:.4; cursor:default; }
+#sp-prototype .sp-percussion-dialog button[aria-pressed=true] { background:var(--sp-lime,#d8f47a); color:#24300c; border-color:#95ad4a; }
+#sp-prototype .sp-percussion-dialog button:focus-visible,#sp-prototype .sp-percussion-dialog input:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
+#sp-prototype .sp-perc-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-perc-toolbar>div,#sp-prototype .sp-percussion-dialog footer>div { display:flex; gap:5px; }
+#sp-prototype .sp-perc-workspace { display:grid; grid-template-columns:215px minmax(0,1fr) 255px; min-height:0; flex:1; }
+#sp-prototype .sp-perc-palette,#sp-prototype .sp-perc-properties { overflow:auto; padding:14px; }
+#sp-prototype .sp-perc-palette { border-right:1px solid var(--sp-line); }
+#sp-prototype .sp-perc-properties { border-left:1px solid var(--sp-line); }
+#sp-prototype .sp-percussion-dialog label { display:flex; flex-direction:column; gap:6px; margin:8px 0; font-size:12px; font-weight:650; }
+#sp-prototype .sp-percussion-dialog input { width:100%; box-sizing:border-box; min-width:0; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; }
+#sp-prototype .sp-perc-catalog>div { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+#sp-prototype .sp-perc-catalog button { display:flex; flex-direction:column; align-items:center; gap:5px; padding:7px 3px; font-size:11px; line-height:1.2; }
+#sp-prototype .sp-perc-catalog img { width:64px; height:55px; object-fit:contain; }
+#sp-prototype .sp-perc-canvas-pane { display:flex; flex-direction:column; min-width:0; min-height:0; }
+#sp-prototype .sp-perc-canvas { flex:1; min-height:0; background:#eef0e9; touch-action:none; overflow:hidden; }
+#sp-prototype .sp-perc-canvas svg { width:100%; height:100%; display:block; }
+#sp-prototype .sp-perc-canvas [data-part] { cursor:grab; }
+#sp-prototype .sp-perc-canvas [data-part] image { pointer-events:none; }
+#sp-prototype .sp-perc-canvas [data-part]:focus { outline:none; }
+#sp-prototype .sp-perc-canvas [data-part]:focus rect { stroke:#617d16; stroke-width:1; }
+#sp-prototype .sp-perc-hint,#sp-prototype .sp-perc-status { font-size:11px; margin:0; padding:6px 12px; color:var(--sp-muted); }
+#sp-prototype .sp-perc-status:empty { display:none; }
+#sp-prototype .sp-perc-properties p { font-size:12px; color:var(--sp-muted); line-height:1.5; }
+#sp-prototype .sp-perc-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+#sp-prototype .sp-perc-actions,#sp-prototype .sp-perc-pickup { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+#sp-prototype .sp-perc-list-item { display:block; width:100%; margin:4px 0; text-align:left; }
+#sp-prototype .sp-percussion-dialog footer { border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-perc-summary { font-size:12px; color:var(--sp-muted); }
+#sp-prototype .sp-percussion-dialog .sp-perc-save { background:#d8f47a; color:#24300c; font-weight:750; border-color:#95ad4a; }
+#sp-prototype .sp-perc-presets:not([hidden]) { display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; align-items:center; border-bottom:1px solid var(--sp-line); font-size:12px; }
+#sp-prototype .sp-perc-mobile-nav { display:none; }
+@media(max-width:900px) {
+ #sp-prototype .sp-perc-workspace { grid-template-columns:175px minmax(0,1fr) 215px; }
+}
+@media(max-width:720px) {
+ #sp-prototype .sp-percussion-dialog { width:100vw; max-width:100vw; height:100dvh; max-height:100dvh; border:0; border-radius:0; margin:0; }
+ #sp-prototype .sp-percussion-dialog header,#sp-prototype .sp-percussion-dialog footer { padding:12px; }
+ #sp-prototype .sp-percussion-dialog h2 { font-size:19px; }
+ #sp-prototype .sp-perc-mobile-nav { display:flex; gap:6px; padding:8px 12px; }
+ #sp-prototype .sp-perc-mobile-nav button { flex:1; }
+ #sp-prototype .sp-perc-toolbar { padding:8px 12px; }
+ #sp-prototype .sp-perc-workspace { display:flex; }
+ #sp-prototype .sp-perc-workspace>* { display:none; width:100%; border:0; }
+ #sp-prototype .sp-perc-workspace[data-pane=palette]>.sp-perc-palette,#sp-prototype .sp-perc-workspace[data-pane=properties]>.sp-perc-properties { display:block; }
+ #sp-prototype .sp-perc-workspace[data-pane=canvas]>.sp-perc-canvas-pane { display:flex; }
+ #sp-prototype .sp-perc-catalog>div { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ #sp-prototype .sp-percussion-dialog footer { flex-direction:column; align-items:stretch; gap:8px; }
+ #sp-prototype .sp-percussion-dialog footer>div { justify-content:flex-end; }
+}

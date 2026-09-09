@@ -5077,6 +5077,69 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-channel-dialog .sp-actions .sp-button { flex:1; }
 }
 /* build-inline:end stageplot-audio-v1.css */
+/* build-inline:start stageplot-percussion-editor-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+#sp-prototype .sp-percussion-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
+#sp-prototype .sp-percussion-dialog[open] { display:flex; flex-direction:column; }
+#sp-prototype .sp-percussion-dialog::backdrop { background:#10161099; backdrop-filter:blur(5px); }
+#sp-prototype .sp-percussion-dialog header,#sp-prototype .sp-percussion-dialog footer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 22px; flex-shrink:0; }
+#sp-prototype .sp-percussion-dialog header { border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-percussion-dialog h2 { margin:2px 0 0; font-size:23px; }
+#sp-prototype .sp-percussion-dialog h3 { font-size:15px; margin:16px 0 10px; }
+#sp-prototype .sp-percussion-dialog h4 { margin:18px 0 8px; }
+#sp-prototype .sp-perc-eyebrow { font-size:10px; letter-spacing:.13em; color:var(--sp-muted); font-weight:700; }
+#sp-prototype .sp-percussion-dialog button { min-height:36px; padding:8px 11px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; font-size:12px; cursor:pointer; }
+#sp-prototype .sp-percussion-dialog button:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-percussion-dialog button:disabled { opacity:.4; cursor:default; }
+#sp-prototype .sp-percussion-dialog button[aria-pressed=true] { background:var(--sp-lime,#d8f47a); color:#24300c; border-color:#95ad4a; }
+#sp-prototype .sp-percussion-dialog button:focus-visible,#sp-prototype .sp-percussion-dialog input:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
+#sp-prototype .sp-perc-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-perc-toolbar>div,#sp-prototype .sp-percussion-dialog footer>div { display:flex; gap:5px; }
+#sp-prototype .sp-perc-workspace { display:grid; grid-template-columns:215px minmax(0,1fr) 255px; min-height:0; flex:1; }
+#sp-prototype .sp-perc-palette,#sp-prototype .sp-perc-properties { overflow:auto; padding:14px; }
+#sp-prototype .sp-perc-palette { border-right:1px solid var(--sp-line); }
+#sp-prototype .sp-perc-properties { border-left:1px solid var(--sp-line); }
+#sp-prototype .sp-percussion-dialog label { display:flex; flex-direction:column; gap:6px; margin:8px 0; font-size:12px; font-weight:650; }
+#sp-prototype .sp-percussion-dialog input { width:100%; box-sizing:border-box; min-width:0; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; }
+#sp-prototype .sp-perc-catalog>div { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+#sp-prototype .sp-perc-catalog button { display:flex; flex-direction:column; align-items:center; gap:5px; padding:7px 3px; font-size:11px; line-height:1.2; }
+#sp-prototype .sp-perc-catalog img { width:64px; height:55px; object-fit:contain; }
+#sp-prototype .sp-perc-canvas-pane { display:flex; flex-direction:column; min-width:0; min-height:0; }
+#sp-prototype .sp-perc-canvas { flex:1; min-height:0; background:#eef0e9; touch-action:none; overflow:hidden; }
+#sp-prototype .sp-perc-canvas svg { width:100%; height:100%; display:block; }
+#sp-prototype .sp-perc-canvas [data-part] { cursor:grab; }
+#sp-prototype .sp-perc-canvas [data-part] image { pointer-events:none; }
+#sp-prototype .sp-perc-canvas [data-part]:focus { outline:none; }
+#sp-prototype .sp-perc-canvas [data-part]:focus rect { stroke:#617d16; stroke-width:1; }
+#sp-prototype .sp-perc-hint,#sp-prototype .sp-perc-status { font-size:11px; margin:0; padding:6px 12px; color:var(--sp-muted); }
+#sp-prototype .sp-perc-status:empty { display:none; }
+#sp-prototype .sp-perc-properties p { font-size:12px; color:var(--sp-muted); line-height:1.5; }
+#sp-prototype .sp-perc-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+#sp-prototype .sp-perc-actions,#sp-prototype .sp-perc-pickup { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+#sp-prototype .sp-perc-list-item { display:block; width:100%; margin:4px 0; text-align:left; }
+#sp-prototype .sp-percussion-dialog footer { border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-perc-summary { font-size:12px; color:var(--sp-muted); }
+#sp-prototype .sp-percussion-dialog .sp-perc-save { background:#d8f47a; color:#24300c; font-weight:750; border-color:#95ad4a; }
+#sp-prototype .sp-perc-presets:not([hidden]) { display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; align-items:center; border-bottom:1px solid var(--sp-line); font-size:12px; }
+#sp-prototype .sp-perc-mobile-nav { display:none; }
+@media(max-width:900px) {
+ #sp-prototype .sp-perc-workspace { grid-template-columns:175px minmax(0,1fr) 215px; }
+}
+@media(max-width:720px) {
+ #sp-prototype .sp-percussion-dialog { width:100vw; max-width:100vw; height:100dvh; max-height:100dvh; border:0; border-radius:0; margin:0; }
+ #sp-prototype .sp-percussion-dialog header,#sp-prototype .sp-percussion-dialog footer { padding:12px; }
+ #sp-prototype .sp-percussion-dialog h2 { font-size:19px; }
+ #sp-prototype .sp-perc-mobile-nav { display:flex; gap:6px; padding:8px 12px; }
+ #sp-prototype .sp-perc-mobile-nav button { flex:1; }
+ #sp-prototype .sp-perc-toolbar { padding:8px 12px; }
+ #sp-prototype .sp-perc-workspace { display:flex; }
+ #sp-prototype .sp-perc-workspace>* { display:none; width:100%; border:0; }
+ #sp-prototype .sp-perc-workspace[data-pane=palette]>.sp-perc-palette,#sp-prototype .sp-perc-workspace[data-pane=properties]>.sp-perc-properties { display:block; }
+ #sp-prototype .sp-perc-workspace[data-pane=canvas]>.sp-perc-canvas-pane { display:flex; }
+ #sp-prototype .sp-perc-catalog>div { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ #sp-prototype .sp-percussion-dialog footer { flex-direction:column; align-items:stretch; gap:8px; }
+ #sp-prototype .sp-percussion-dialog footer>div { justify-content:flex-end; }
+}
+/* build-inline:end stageplot-percussion-editor-v1.css */
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
@@ -6172,7 +6235,86 @@ function createStageplotExportV42() {
     if(brandClickTimes.length>=5){brandClickTimes=[];runOtterMode();}
   });
   const ns = 'http://www.w3.org/2000/svg';
+/* build-inline:start stageplot-percussion-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Percussion geometry and signal identities. Coordinates are metres, from above. */
+function createStageplotPercussionModel() {
+  'use strict';
+  const catalog=[
+    {id:'quinto',asset:'conga',name:'Quinto',group:'Trommeln',w:.34,d:.34,head:'11″',channels:['Mic']},
+    {id:'conga',asset:'conga',name:'Conga',group:'Trommeln',w:.37,d:.37,head:'11¾″',channels:['Mic']},
+    {id:'tumba',asset:'conga',name:'Tumba',group:'Trommeln',w:.4,d:.4,head:'12½″',channels:['Mic']},
+    {id:'bongos',name:'Bongos',group:'Trommeln',w:.49,d:.26,head:'7¼″ + 8⅝″',channels:['Mic']},
+    {id:'timbales',name:'Timbales',group:'Trommeln',w:.86,d:.44,head:'14″ + 15″',channels:['Hoch','Tief']},
+    {id:'frame-drum',name:'Pandeiro / Rahmentrommel',group:'Trommeln',w:.28,d:.28,head:'10″',channels:['Mic']},
+    {id:'cowbell',name:'Cowbell',group:'Kleinpercussion',w:.12,d:.23,channels:['Mic'],silent:true},
+    {id:'jam-block',name:'Jam Block',group:'Kleinpercussion',w:.2,d:.12,channels:['Mic'],silent:true},
+    {id:'tambourine',name:'Tamburin',group:'Kleinpercussion',w:.27,d:.23,channels:['Mic'],silent:true},
+    {id:'chimes',name:'Bar Chimes',group:'Kleinpercussion',w:.62,d:.12,channels:['Mic'],silent:true},
+    {id:'maracas',name:'Maracas',group:'Kleinpercussion',w:.16,d:.28,channels:['Mic'],silent:true},
+    {id:'cymbal',name:'Becken',group:'Ergänzungen',w:.4064,d:.4064,head:'16″',channels:['Mic'],silent:true},
+    {id:'multipad',name:'Elektronisches Multipad',group:'Ergänzungen',w:.37,d:.33,channels:['L','R'],electronic:true},
+    {id:'percussion-table',name:'Percussion-Tisch',group:'Ergänzungen',w:.6,d:.3,channels:[],silent:true,underlay:true}
+  ].map(c=>({...c,asset:c.asset||c.id}));
+  const byId=Object.fromEntries(catalog.map(c=>[c.id,c]));
+  const finite=(v,def,min,max)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Number(v))):def;
+  const round=v=>Math.round(v*10000)/10000;
+  const text=(v,max)=>String(v??'').replace(/[\x00-\x1f]/g,' ').slice(0,max);
+  const escape=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function part(type,id,x=0,y=0) {const c=byId[type]||byId.conga;return {id,type:c.id,x,y,angle:0,scale:1,label:c.name,pickup:c.silent?'none':c.electronic?'stereo':'mic'};}
+  function preset(name='compact') {
+    const parts=name==='empty'?[]:name==='latin'?[
+      part('quinto','p1',-.43,-.08),part('conga','p2',0,-.18),part('tumba','p3',.44,-.08),part('bongos','p4',-.66,-.56),
+      part('timbales','p5',.87,.38),part('cowbell','p6',1,.06),part('jam-block','p7',.72,.09),part('tambourine','p8',.58,-.32),
+      part('chimes','p9',-.92,-.82),part('multipad','p10',-.98,-.19),part('cymbal','p11',1.02,-.54),
+      part('percussion-table','p12',-.92,.42),part('maracas','p13',-1.05,.42),part('frame-drum','p14',-.75,.43)
+    ]:[part('conga','p1',-.21,0),part('tumba','p2',.22,0),part('bongos','p3',0,-.42)];
+    return normalize({parts});
+  }
+  function normalize(value) {
+    if(!value||!Array.isArray(value.parts))return preset();
+    const used=new Set(),parts=[];
+    for(const [i,p] of value.parts.slice(0,48).entries()){
+      if(!p||!Object.hasOwn(byId,p.type))continue;
+      let id=/^[a-zA-Z0-9-]{1,60}$/.test(p.id||'')?p.id:'p'+(i+1);let suffix=1;const baseId=id;while(used.has(id))id=baseId.slice(0,50)+'-copy'+suffix++;used.add(id);
+      const c=byId[p.type],base=part(c.id,id),pickup=c.channels.length===0?'none':c.electronic?(p.pickup==='none'?'none':p.pickup==='mono'?'mono':'stereo'):(p.pickup==='none'?'none':'mic');
+      parts.push({...base,x:round(finite(p.x,0,-4,4)),y:round(finite(p.y,0,-4,4)),angle:round((finite(p.angle,0,-36000,36000)%360+360)%360),scale:round(finite(p.scale,1,.6,1.6)),label:text(p.label??c.name,48),pickup});
+    }
+    const nextId=Math.max(Math.floor(finite(value.nextId,1,1,1000000000)),...parts.map(p=>{
+      const n=/^p[0-9]+$/.test(p.id)?Number(p.id.slice(1)):0;
+      return Number.isSafeInteger(n)&&n<1000000000?n+1:1;
+    }));
+    return {version:1,nextId,parts};
+  }
+  function layout(value) {
+    const config=normalize(value),parts=config.parts.map(p=>({...p,...{w:byId[p.type].w*p.scale,d:byId[p.type].d*p.scale}}));
+    let minX=-.3,minY=-.3,maxX=.3,maxY=.3;
+    if(parts.length){minX=minY=Infinity;maxX=maxY=-Infinity;for(const p of parts){const r=p.angle*Math.PI/180,hw=(Math.abs(Math.cos(r))*p.w+Math.abs(Math.sin(r))*p.d)/2,hd=(Math.abs(Math.sin(r))*p.w+Math.abs(Math.cos(r))*p.d)/2;minX=Math.min(minX,p.x-hw);maxX=Math.max(maxX,p.x+hw);minY=Math.min(minY,p.y-hd);maxY=Math.max(maxY,p.y+hd);}}
+    minX-=.025;minY-=.025;maxX+=.025;maxY+=.025;
+    const w=round(maxX-minX),d=round(maxY-minY);
+    return {parts:parts.sort((a,b)=>Number(!!byId[b.type].underlay)-Number(!!byId[a.type].underlay)),minX,minY,w,d,vb:[round(w*100),round(d*100)]};
+  }
+  function imageMarkup(p,unit=100) {
+    const c=byId[p.type],w=c.w*p.scale*unit,d=c.d*p.scale*unit;
+    return '<image href="./stageplot-assets/percussion/'+c.asset+'.webp" x="'+(-w/2)+'" y="'+(-d/2)+'" width="'+w+'" height="'+d+'" preserveAspectRatio="none"/>';
+  }
+  function artwork(value) {const l=layout(value);return '<g data-equipment="percussion">'+l.parts.map(p=>'<g transform="translate('+round((p.x-l.minX)*100)+' '+round((p.y-l.minY)*100)+') rotate('+p.angle+')">'+imageMarkup(p)+'</g>').join('')+'</g>';}
+  function channels(value) {
+    return normalize(value).parts.flatMap(p=>{const c=byId[p.type];if(p.pickup==='none')return [];
+      const names=c.electronic?(p.pickup==='stereo'?['L','R']:['Mono']):c.channels;
+      return names.map((name,i)=>({id:p.id+'-'+(c.electronic?name.toLowerCase():i+1),partId:p.id,name:(p.label||c.name)+(names.length>1?' · '+name:''),electronic:!!c.electronic,stereoGroup:c.electronic&&names.length===2?p.id:'',side:c.electronic&&names.length===2?name:'',connector:c.electronic?'Klinke':'XLR'}));
+    });
+  }
+  return {catalog,byId,part,preset,normalize,layout,artwork,imageMarkup,channels,escape};
+}
+if(typeof module==='object'&&module.exports)module.exports=createStageplotPercussionModel;
+/* build-inline:end stageplot-percussion-v1.js */
+  const percussionModel=createStageplotPercussionModel();
   const catalog = [
+    {id:'percussion',name:'Percussion-Setup',short:'Percussion',category:'drums',w:1,d:.8,vb:[100,80],keywords:'percussion conga bongos timbales cowbell tamburin chimes editor',detail:'Instrumente frei zusammenstellen · Percussion-Editor'},
+    {id:'percussion-conga',percussionPart:'conga',art:'percussion',name:'Conga',short:'Conga',category:'drums',w:0.37,d:0.37,vb:[37.0,37.0],keywords:'percussion editor'},
+    {id:'percussion-bongos',percussionPart:'bongos',art:'percussion',name:'Bongos',short:'Bongos',category:'drums',w:0.49,d:0.26,vb:[49.0,26.0],keywords:'percussion editor'},
+    {id:'percussion-timbales',percussionPart:'timbales',art:'percussion',name:'Timbales',short:'Timbales',category:'drums',w:0.86,d:0.44,vb:[86.0,44.0],keywords:'percussion editor'},
+
     {id:'drums',name:'Schlagzeug',short:'Schlagzeug',category:'drums',w:2.88,d:2.04,vb:[144,102],keywords:'drumset drums kit schlagzeug'},
     {id:'cajon',name:'Cajon-Setup',short:'Cajon',category:'drums',w:1.1,d:1.2},
     {id:'keys-wave2',name:'Nord Wave 2',short:'Wave 2',family:'keys',category:'keys',w:.99,d:.295,vb:[300,90]},
@@ -7567,6 +7709,13 @@ function createStageplotSymbolV3(type, options = {}) {
     labelMeasureCache.set(value,width);return width;
   }
   function artId(c,o={}){
+    if(c.id==='percussion'||c.percussionPart){
+      const config=percussionModel.normalize(o.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined)),key='percussion-'+JSON.stringify(config);
+      if(artCache.has(key))return artCache.get(key);
+      // Project previews may share object IDs. Keep each configuration's drawing immutable.
+      const layout=percussionModel.layout(config),id='sp-art-percussion-'+artCache.size,definition=sEl('g',{id,class:'sp-symbol'},artDefs);
+      definition.innerHTML=percussionModel.artwork(config);artBoundsCache.set(id,{x:0,y:0,width:layout.vb[0],height:layout.vb[1]});artCache.set(key,id);return id;
+    }
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(c.id)){
       const layout=drumModel.drumLayout(c.id,o.drums),owner=o.id||c.id,key='drum-'+c.id+'-'+owner,id='sp-art-'+key,signature=JSON.stringify(layout);
       let definition=artCache.has(key)?root.querySelector('#'+id):null;
@@ -7587,13 +7736,14 @@ function createStageplotSymbolV3(type, options = {}) {
     artCache.set(key,id);return id;
   }
   function icon(c,o={}) {
+    if(c.id==='percussion'||c.percussionPart)c={...c,...percussionModel.layout(o.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined))};
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(c.id))c={...c,...drumModel.drumLayout(c.id,o.drums)};
     const [w,h]=c.vb,angle=o.angle??c.defaultAngle??0,r=angle*Math.PI/180;
     const rw=Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h,rh=Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h;
     return '<svg viewBox="'+[w/2-rw/2-3,h/2-rh/2-3,rw+6,rh+6].join(' ')+'" aria-hidden="true"><use href="#'+artId(c,o)+'" transform="rotate('+angle+' '+w/2+' '+h/2+')"/></svg>';
   }
-  const objectSize = o => ['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
-  function objectCatalog(o){return typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?{...byId[o.type],...drumModel.drumLayout(o.type,o.drums)}:byId[o.type];}
+  const objectSize = o => o.type==='percussion'&&typeof percussionModel!=='undefined'?percussionModel.layout(o.percussion):['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
+  function objectCatalog(o){return o.type==='percussion'&&typeof percussionModel!=='undefined'?{...byId[o.type],...percussionModel.layout(o.percussion)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?{...byId[o.type],...drumModel.drumLayout(o.type,o.drums)}:byId[o.type];}
   function drumRenderGeometry(o,c,w,h){
     if(!drumModel.isDrums(o.type)||!Array.isArray(c.parts))return null;
     const unit=Math.min(w/c.vb[0],h/c.vb[1]),geometry=drumModel.drumInteraction(c),point=p=>({x:(p.x-c.vb[0]/2)*unit,y:(p.y-c.vb[1]/2)*unit});
@@ -7606,7 +7756,10 @@ function createStageplotSymbolV3(type, options = {}) {
   const micPurpose = {vocals:'Gesang',talkback:'Talkback',instrument:'Instrument'};
   const labelText=o=>String(o.label??'').trim();
   const labelVisible=o=>o.showLabel!==false&&labelText(o)!=='';
-  const outsText=o=>byId[o.type].instrument?ioValueText(objectIo(o).outputs,'outputs').replace(/^Keine Outs$/,''):'';
+  function outsText(o){
+    if(o.type==='percussion'){const count=percussionModel.channels(o.percussion).length;return count?count+' '+(count===1?'Signal':'Signale'):'';}
+    return byId[o.type].instrument?ioValueText(objectIo(o).outputs,'outputs').replace(/^Keine Outs$/,''):'';
+  }
   // Legacy drawings remain in project files so existing local drafts round-trip.
   // Audio planning uses routing only; drawings are neither rendered nor created.
   function reconcileCablesWithRouting(){
@@ -8452,7 +8605,7 @@ function createStageplotSymbolV3(type, options = {}) {
     stagePopover.hidden=selected!=='stage-zone'||!!placement||view!=='editor'||!svg;
     if(!stagePopover.hidden){const scale=Number(svg.dataset.scale),hostRect=$('sp-editor-floor').getBoundingClientRect(),box=stagePopover.getBoundingClientRect(),cx=Number(svg.dataset.originX)+stage.w*scale/2,top=Number(svg.dataset.originY);$('sp-stage-popover-size').textContent=num(stage.w)+' × '+metres(stage.d);stagePopover.style.left=Math.max(5,Math.min(hostRect.width-box.width-5,cx-box.width/2))+'px';stagePopover.style.top=Math.max(5,Math.min(hostRect.height-box.height-5,top+10))+'px';}
     const hidden=!o||!!placement||view!=='editor'||!svg;
-    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||!drumModel.isDrums(o.type);stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
+    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&o.type!=='percussion');if(o){drumButton.setAttribute('aria-label',o.type==='percussion'?'Percussion-Editor öffnen':'Drumdesigner öffnen');drumButton.querySelector('strong').textContent=o.type==='percussion'?'Percussion-Editor':'Drumdesigner';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
     drumButton.disabled=!!o.locked;stageboxButton.disabled=!!o.locked;if(!stageboxButton.hidden)stageboxButton.setAttribute('aria-label',(o.label||byId[o.type].short)+' Routing und I/O öffnen');
     const below=overlappingObjectBelow(o),sendBehind=$('sp-send-behind');
     if(sendBehind){sendBehind.hidden=!below;sendBehind.disabled=!!o.locked;sendBehind.dataset.overlapTarget=below?.id||'';
@@ -8654,6 +8807,7 @@ function createStageplotSymbolV3(type, options = {}) {
   const normalizeIoAliasList=(value,count)=>Array.from({length:count},(_,index)=>ioAliasText(Array.isArray(value)?value[index]:''));
   function defaultObjectIo(o){
     const c=byId[o?.type]||{},stereoPairs=[],inputs={count:0,connector:'XLR'},outputs={count:0,connector:'XLR'},aliases={inputs:[],outputs:[]};
+    if(o?.type==='percussion'&&typeof percussionModel!=='undefined'){outputs.count=percussionModel.channels(o.percussion).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(c.ioDefaults){inputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.inputs)||0));outputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.outputs)||0));inputs.connector=normalizeIoConnector(c.ioDefaults.inputConnector,'XLR');outputs.connector=normalizeIoConnector(c.ioDefaults.outputConnector,'XLR');return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(drumModel.isDrums(o?.type)){outputs.count=drumModel.drumChannels(o.type,o.drums).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(o?.type==='cajon')outputs.count=2;
@@ -8671,6 +8825,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const source=value&&typeof value==='object'?value:{},defaults=defaultObjectIo(o),legacy=parseOutsValue(o?.outs),port=(entry,fallback)=>{entry=entry&&typeof entry==='object'?entry:{};const hasCount=Object.hasOwn(entry,'count'),count=Math.max(0,Math.min(64,Math.round(Number(hasCount?entry.count:fallback.count)||0))),connector=normalizeIoConnector(entry.connector,fallback.connector);return {count,connector};};
     const legacyOutput=legacy.count||legacy.connector?{count:legacy.count,connector:legacy.connector||defaults.outputs.connector}:defaults.outputs,inputs=port(source.inputs,defaults.inputs),outputs=port(source.outputs,legacyOutput),fallbackPairs=legacy.count===2?[1]:defaults.stereoPairs,pairs=Array.isArray(source.stereoPairs)?source.stereoPairs:fallbackPairs,stereoPairs=[...new Set(pairs.map(Number).filter(start=>Number.isInteger(start)&&start>0&&start%2===1&&start<outputs.count))].sort((a,b)=>a-b),outputKeyStyle=source.outputKeyStyle==='configured'||(!source.outputs&&legacy.count)?'configured':'native';
     const sourceAliases=source.aliases&&typeof source.aliases==='object'?source.aliases:{},aliases={inputs:normalizeIoAliasList(sourceAliases.inputs,inputs.count),outputs:normalizeIoAliasList(sourceAliases.outputs,outputs.count)};
+    if(o?.type==='percussion'){inputs.count=0;outputs.count=defaults.outputs.count;outputs.connector='XLR';stereoPairs.length=0;}
     if(drumModel.isDrums(o?.type)){outputs.count=defaults.outputs.count;outputs.connector='XLR';stereoPairs.length=0;}
     aliases.inputs=normalizeIoAliasList(aliases.inputs,inputs.count);aliases.outputs=normalizeIoAliasList(aliases.outputs,outputs.count);
     return {inputs,outputs,stereoPairs,aliases,outputKeyStyle};
@@ -8684,14 +8839,14 @@ function createStageplotSymbolV3(type, options = {}) {
     return result;
   }
   function syncObjectIoControls(o,locked=false){
-    const io=objectIo(o),drums=drumModel.isDrums(o.type),disabled=locked||drums;
-    const ioHeading=$('sp-outs-fields').querySelector('.sp-io-heading');ioHeading.querySelector('strong').textContent=drums?'Drum-Abnahmen':'Gerätebuchsen';ioHeading.querySelector('span').textContent=drums?'Aktive Abnahmen und Direktausgänge.':'Vorhandene Buchsen. Verwendete Signale oben unter Audio planen.';
+    const io=objectIo(o),drums=drumModel.isDrums(o.type)||o.type==='percussion',disabled=locked||drums;
+    const ioHeading=$('sp-outs-fields').querySelector('.sp-io-heading');ioHeading.querySelector('strong').textContent=o.type==='percussion'?'Percussion-Abnahmen':drums?'Drum-Abnahmen':'Gerätebuchsen';ioHeading.querySelector('span').textContent=drums?'Aktive Abnahmen und Direktausgänge.':'Vorhandene Buchsen. Verwendete Signale oben unter Audio planen.';
     $('sp-ins-direct').hidden=drums;$('sp-outs-direct').hidden=drums;
     $('sp-ins-count').value=io.inputs.count;$('sp-outs-count').value=io.outputs.count;$('sp-ins-count').disabled=disabled;$('sp-outs-count').disabled=disabled;
     syncChoiceButtons($('sp-ins-connector-options'),io.inputs.connector,disabled);syncChoiceButtons($('sp-outs-connector-options'),io.outputs.connector,disabled);
     root.querySelectorAll('[data-ins-step],[data-outs-step]').forEach(button=>button.disabled=disabled);
-    $('sp-ins-preview').textContent=ioValueText(io.inputs,'inputs');$('sp-outs-preview').textContent=drums?io.outputs.count+' Drum-Mikrofonkanäle · im Drum Designer definiert':ioValueText(io.outputs,'outputs');
-    const drumSummary=$('sp-drum-output-summary');drumSummary.hidden=!drums;if(drums){const channels=drumModel.drumChannels(o.type,o.drums);$('sp-drum-output-count').textContent=channels.length+' '+(channels.length===1?'Output':'Outputs');$('sp-drum-output-list').innerHTML=channels.length?channels.map(row=>'<div class="sp-drum-output-row"><span>'+esc(row.name)+'</span><small title="'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'">'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'</small></div>').join(''):'<div class="sp-drum-output-row"><span>Keine</span><small>Keine aktive Abnahme</small></div>';}
+    $('sp-ins-preview').textContent=ioValueText(io.inputs,'inputs');$('sp-outs-preview').textContent=o.type==='percussion'?io.outputs.count+' Signale · im Percussion-Editor definiert':drums?io.outputs.count+' Drum-Mikrofonkanäle · im Drum Designer definiert':ioValueText(io.outputs,'outputs');
+    const drumSummary=$('sp-drum-output-summary');drumSummary.hidden=!drums;if(drums){const channels=o.type==='percussion'?percussionModel.channels(o.percussion).map(row=>({...row,method:row.electronic?'di':'xlr',model:''})):drumModel.drumChannels(o.type,o.drums);$('sp-drum-output-count').textContent=channels.length+' '+(channels.length===1?'Output':'Outputs');$('sp-drum-output-list').innerHTML=channels.length?channels.map(row=>'<div class="sp-drum-output-row"><span>'+esc(row.name)+'</span><small title="'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'">'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'</small></div>').join(''):'<div class="sp-drum-output-row"><span>Keine</span><small>Keine aktive Abnahme</small></div>';}
     const host=$('sp-stereo-link-options');host.innerHTML='';for(let start=1;start<io.outputs.count;start+=2){const button=document.createElement('button');button.type='button';button.dataset.stereoStart=String(start);button.setAttribute('aria-pressed',String(io.stereoPairs.includes(start)));button.disabled=disabled;button.textContent='Out '+start+' + '+(start+1);host.appendChild(button);}
     $('sp-stereo-links').dataset.empty=String(io.outputs.count<2||drums);$('sp-stereo-links').hidden=drums;
     const aliasSection=$('sp-io-aliases'),aliasHost=$('sp-io-alias-list');aliasSection.hidden=drums;aliasHost.replaceChildren();let priorDirection='';
@@ -8724,7 +8879,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-selected-name').textContent=o.type==='riser'?'Riser-Gruppe · '+(groupCount?groupCount+'×':'frei'):c.name;$('sp-selected-icon').innerHTML=icon(preview,{...o,angle:preview.defaultAngle});
     $('sp-label').value=o.label;$('sp-label-visible').checked=o.showLabel!==false;$('sp-note').value=o.note;$('sp-pos-x').value=o.x;$('sp-pos-y').value=o.y;
     renderObjectAudio(o);$('sp-audio-device').hidden=!c.instrument;$('sp-outs-fields').hidden=!c.instrument;$('sp-outs-visible').checked=o.showOuts!==false;if(c.instrument)syncObjectIoControls(o,locked);
-    $('sp-drums-open').hidden=!drumModel.isDrums(o.type);$('sp-drums-open').disabled=locked;
+    $('sp-drums-open').hidden=!drumModel.isDrums(o.type)&&o.type!=='percussion';$('sp-drums-open').disabled=locked;$('sp-drums-open').textContent=o.type==='percussion'?'Percussion-Editor …':'Drum Designer …';
     // Position fields deliberately allow overhang and off-stage centres.
     $('sp-angle').value=o.angle;$('sp-angle-number').value=o.angle;$('sp-angle-label').textContent=o.angle+'°';
     const size=objectSize(o);
@@ -8822,6 +8977,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const item={id:'station-'+(i+1),type,x:o.x,y:o.y,angle:((o.angle%360)+360)%360,label:String(o.label??'').slice(0,42),showLabel:o.showLabel!==false,note:String(o.note??'').slice(0,160),power:cleanText(o.power,100),wireless:cleanText(o.wireless,100),inventoryId:cleanText(o.inventoryId,100),outs:String(o.outs??'').slice(0,48),showOuts:o.showOuts!==false,locked:o.locked===true};
       if(o.house===true)item.house=true;
       if(typeof o.id==='string')idMap.set(o.id,item.id);
+      if(type==='percussion'&&typeof percussionModel!=='undefined')item.percussion=percussionModel.normalize(o.percussion);
       const drumsAvailable=typeof drumModel!=='undefined'&&drumModel.isDrums(type);
       if(o.drums&&drumsAvailable)item.drums=drumModel.normalizeDrums(type,o.drums);
       if(drumsAvailable){
@@ -9373,6 +9529,9 @@ function createStageplotSymbolV3(type, options = {}) {
   function generatedInputSpecs(){
     const specs=[];
     for(const o of objects){const c=byId[o.type];
+      if(o.type==='percussion'&&typeof percussionModel!=='undefined'){
+        percussionModel.channels(o.percussion).forEach((row,index)=>specs.push(routeSpec(o,'perc-'+row.id,(o.label||'Percussion')+' · '+row.name,row.side?'Stereo '+row.side:row.electronic?'Direct':'Mic',row.electronic?'Line':'Mic',{connector:row.connector,portIndex:index+1,stereoGroup:row.stereoGroup?o.id+':perc-'+row.stereoGroup:''})));continue;
+      }
       if(drumModel.isDrums(o.type)){
         const channels=drumModel.drumChannels(o.type,o.drums).map(row=>({id:row.id,name:row.name,method:row.method,microphone:row.model,phantom:row.phantom}));
         channels.forEach((row,index)=>{const direct=row.method==='di';specs.push(routeSpec(o,'drum-'+(row.id||index+1),'Drums · '+row.name,direct?'DI':'Mic',direct?'Line':'Mic',{connector:'XLR',portIndex:index+1,microphone:row.microphone||'',phantom:row.phantom===true}));});continue;
@@ -10026,8 +10185,9 @@ $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textConte
   const exportImageCache=new Map();
   function localImageDataUrl(url){
     const key=String(url);if(exportImageCache.has(key))return exportImageCache.get(key);
-    const promise=new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);resolve(canvas.toDataURL('image/png'));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Schlagzeugbild konnte nicht geladen werden.'));image.src=key;});
-    exportImageCache.set(key,promise);return promise;
+    const webp=/\.webp(?:[?#]|$)/i.test(key);
+    const promise=new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);resolve(canvas.toDataURL(webp?'image/webp':'image/png',.92));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Instrumentenbild konnte nicht geladen werden.'));image.src=key;});
+    exportImageCache.set(key,promise);promise.catch(()=>exportImageCache.delete(key));return promise;
   }
   function exportArtworkBounds(svg,padding=4){
     const view=svg.viewBox.baseVal,boxes=[];
@@ -10044,10 +10204,14 @@ $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textConte
       const id=pending.shift();if(!id||included.has(id))continue;const source=artDefs.querySelector('[id="'+id+'"]');if(!source)continue;
       included.add(id);const definition=source.cloneNode(true);copyDefs.append(definition);for(const use of definition.querySelectorAll('use'))pending.push((use.getAttribute('href')||'').replace(/^#/,''));
     }
+    const rasterSymbols=new Map();
     for(const image of copy.querySelectorAll('image')){
       const href=image.getAttribute('href')||image.getAttributeNS('http://www.w3.org/1999/xlink','href');if(!href||href.startsWith('data:')||href.startsWith('#'))continue;
       const url=new URL(href,window.location.href);if(url.protocol!=='file:'&&url.origin!==window.location.origin)throw new Error('Ein externes Symbol kann offline nicht exportiert werden.');
-      image.setAttribute('href',await localImageDataUrl(url));
+      if(url.pathname.includes('/stageplot-assets/percussion/')&&image.getAttribute('preserveAspectRatio')==='none'){
+        let id=rasterSymbols.get(url.href);if(!id){id='sp-export-raster-'+rasterSymbols.size;const symbol=sEl('symbol',{id,viewBox:'0 0 1 1',preserveAspectRatio:'none'},copyDefs);sEl('image',{href:await localImageDataUrl(url),width:1,height:1,preserveAspectRatio:'none'},symbol);rasterSymbols.set(url.href,id);}
+        const use=sEl('use',{});for(const attribute of image.attributes)use.setAttribute(attribute.name,attribute.value);use.setAttribute('href','#'+id);image.replaceWith(use);
+      }else image.setAttribute('href',await localImageDataUrl(url));
     }
     if(crop){copy.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));copy.setAttribute('width',crop.width);copy.setAttribute('height',crop.height);const background=copy.querySelector('[data-canvas-background]');if(background){background.setAttribute('x',crop.x);background.setAttribute('y',crop.y);background.setAttribute('width',crop.width);background.setAttribute('height',crop.height);}}
     copy.setAttribute('xmlns',ns);copy.removeAttribute('role');copy.removeAttribute('aria-label');
@@ -10731,6 +10895,7 @@ $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textConte
     if((e.key==='Delete'||e.key==='Backspace')&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)&&removableDrumPart(drumSelectedPart)){e.preventDefault();removeSelectedDrumPart();}
   });
   function openSelectedDrumDesigner(e){
+    const percussionObject=objects.find(o=>o.id===selected&&o.type==='percussion');if(percussionObject){if(!percussionObject.locked){cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();percussionEditor.open(percussionObject,e?.currentTarget);}return;}
     const o=objects.find(v=>v.id===selected);if(!o||o.locked||!drumModel.isDrums(o.type))return;
     drumDialogReturnFocus=e?.currentTarget||$('sp-drums-open');
     cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();drumObjectId=o.id;drumDraftType='drums';drumDraft=drumModel.normalizeDrums(o.drums);drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;
@@ -10790,13 +10955,92 @@ $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textConte
     const nextType='drums',config=drumModel.normalizeDrums(drumDraft);writeLastDrumConfig(config);$('sp-drum-dialog').close();
     change(()=>{const prior=byId[o.type]||byId.drums;o.type=nextType;if(o.label===prior.short)o.label=byId[nextType].short;o.drums=config;delete o.drumPresetId;delete o.drumInputs;constrain(o,false);syncRoutingFromStage(false);},'Drumset übernommen');
   });
+/* build-inline:start stageplot-percussion-editor-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Isolated modal draft: stage objects change only on Übernehmen. */
+function createStageplotPercussionEditor(root,model,onCommit) {
+  const dialog=document.createElement('dialog');dialog.className='sp-percussion-dialog';dialog.setAttribute('aria-labelledby','sp-percussion-title');
+  dialog.innerHTML=`<header><div><span class="sp-perc-eyebrow">INSTRUMENTE · DRAUFSICHT</span><h2 id="sp-percussion-title">Percussion-Editor</h2></div><button type="button" data-action="cancel" aria-label="Percussion-Editor schließen">✕</button></header>
+    <div class="sp-perc-toolbar"><div><button type="button" data-action="undo" aria-label="Percussion rückgängig">↶</button><button type="button" data-action="redo" aria-label="Percussion wiederholen">↷</button></div><div><button type="button" data-action="zoom-out" aria-label="Percussion verkleinern">−</button><button type="button" data-action="fit">Alles zeigen</button><button type="button" data-action="zoom-in" aria-label="Percussion vergrößern">+</button></div><button type="button" data-action="preset">Vorlagen</button></div>
+    <div class="sp-perc-presets" hidden><span>Aufbau ersetzen:</span><button type="button" data-perc-preset="compact">Kompakt · 2 Congas + Bongos</button><button type="button" data-perc-preset="latin">Großes Latin-Setup</button><button type="button" data-perc-preset="empty">Leer beginnen</button><span>Jeder Wechsel lässt sich rückgängig machen.</span></div>
+    <div class="sp-perc-mobile-nav"><button type="button" data-pane="palette">Instrumente</button><button type="button" data-pane="canvas" aria-pressed="true">Aufbau</button><button type="button" data-pane="properties">Auswahl</button></div>
+    <div class="sp-perc-workspace" data-pane="canvas"><aside class="sp-perc-palette" aria-label="Percussion-Instrumente"><label>Suchen<input type="search" placeholder="Conga, Cowbell …" aria-label="Percussion-Instrument suchen"></label><div class="sp-perc-catalog"></div></aside>
+    <section class="sp-perc-canvas-pane"><div class="sp-perc-canvas" tabindex="0" aria-label="Percussion-Aufbau: Instrument auswählen und ziehen"></div><p class="sp-perc-hint">Ziehen zum Verschieben · R zum Drehen · Pfeiltasten: 5 cm · Zwei Finger: Zoom & Verschieben</p><div class="sp-perc-status" role="status" aria-live="polite"></div></section>
+    <aside class="sp-perc-properties" aria-label="Percussion-Auswahl"></aside></div>
+    <footer><span class="sp-perc-summary"></span><div><button type="button" data-action="cancel">Abbrechen</button><button type="button" data-action="save" class="sp-perc-save">Auf Bühne übernehmen</button></div></footer>`;
+  root.append(dialog);
+  const $=s=>dialog.querySelector(s),canvas=$('.sp-perc-canvas'),properties=$('.sp-perc-properties'),workspace=$('.sp-perc-workspace'),esc=model.escape;
+  let draft=null,objectId=null,selected=null,returnFocus=null,history=[],future=[],view={x:-1,y:-1,w:2,h:2},drag=null,gesture=null,fieldBefore=null;
+  const pointers=new Map(),clone=v=>JSON.parse(JSON.stringify(v)),state=()=>JSON.stringify(draft);
+  function remember(before){if(before===state())return;history.push(before);if(history.length>80)history.shift();future=[];}
+  function finishField(){if(fieldBefore){remember(fieldBefore);fieldBefore=null;}}
+  function mutate(fn){finishField();const before=state();fn();draft=model.normalize(draft);remember(before);render();}
+  function part(){return draft?.parts.find(p=>p.id===selected);}
+  function setPane(pane){workspace.dataset.pane=pane;dialog.querySelectorAll('[data-pane]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',String(b.dataset.pane===pane));});}
+  function fit(){const l=model.layout(draft),w=Math.max(1.6,l.w+.6),h=Math.max(1.6,l.d+.6);view={x:l.minX+l.w/2-w/2,y:l.minY+l.d/2-h/2,w,h};}
+  function renderPalette(){const query=$('input[type="search"]').value.trim().toLocaleLowerCase();$('.sp-perc-catalog').innerHTML=[...new Set(model.catalog.map(c=>c.group))].map(group=>{const items=model.catalog.filter(c=>c.group===group&&(c.name+' '+c.id).toLocaleLowerCase().includes(query));return items.length?'<h3>'+group+'</h3><div>'+items.map(c=>'<button type="button" data-add="'+c.id+'"><img src="./stageplot-assets/percussion/'+c.asset+'.webp" alt=""/><span>'+esc(c.name)+'</span></button>').join('')+'</div>':'';}).join('');}
+  function renderCanvas(){
+    const l=model.layout(draft);
+    canvas.innerHTML='<svg viewBox="'+[view.x*100,view.y*100,view.w*100,view.h*100].join(' ')+'" role="img" aria-label="Percussion-Aufbau von oben"><defs><pattern id="sp-perc-grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#c9cec7" stroke-width=".2"/></pattern></defs><rect x="-600" y="-600" width="1200" height="1200" fill="#eef0e9"/><rect x="-600" y="-600" width="1200" height="1200" fill="url(#sp-perc-grid)"/>'+l.parts.map(item=>'<g data-part="'+esc(item.id)+'" role="button" tabindex="0" aria-label="'+esc(item.label||model.byId[item.type].name)+'" transform="translate('+item.x*100+' '+item.y*100+') rotate('+item.angle+')"><rect x="'+(-item.w*50-1)+'" y="'+(-item.d*50-1)+'" width="'+(item.w*100+2)+'" height="'+(item.d*100+2)+'" rx="1" fill="transparent" stroke="'+(item.id===selected?'#617d16':'none')+'" stroke-width=".7"/>'+model.imageMarkup(item)+'</g>').join('')+'</svg>';
+    $('.sp-perc-summary').textContent=draft.parts.length+' Instrumente · '+l.w.toFixed(2).replace('.',',')+' × '+l.d.toFixed(2).replace('.',',')+' m · '+model.channels(draft).length+' Inputs';
+    $('[data-action="undo"]').disabled=!history.length&&!fieldBefore;$('[data-action="redo"]').disabled=!future.length;$('[data-action="save"]').disabled=!draft.parts.length;
+  }
+  function renderProperties(){const p=part();
+    if(!p){properties.innerHTML='<h3>Dein Percussion-Setup</h3><p>Instrument links hinzufügen, danach im Aufbau verschieben.</p><p>Wähle ein Instrument für Drehung, Größe und Abnahme.</p><h4>Im Aufbau</h4>'+draft.parts.map(item=>'<button type="button" class="sp-perc-list-item" data-select="'+esc(item.id)+'">'+esc(item.label)+'</button>').join('');return;}
+    const c=model.byId[p.type];
+    properties.innerHTML='<span class="sp-perc-eyebrow">AUSGEWÄHLT</span><h3>'+esc(c.name)+'</h3><label>Bezeichnung<input data-field="label" maxlength="48" value="'+esc(p.label)+'"></label><div class="sp-perc-actions"><button type="button" data-action="rotate-left" aria-label="Percussion-Instrument 15 Grad nach links drehen">↶ 15°</button><button type="button" data-action="rotate-right" aria-label="Percussion-Instrument 15 Grad nach rechts drehen">15° ↷</button><button type="button" data-action="rotate-reset">0°</button></div><label>Drehung (°)<input type="number" data-field="angle" value="'+p.angle+'" step="15"></label><div class="sp-perc-fields"><label>Position X (m)<input type="number" data-field="x" value="'+p.x+'" min="-4" max="4" step=".05"></label><label>Position Y (m)<input type="number" data-field="y" value="'+p.y+'" min="-4" max="4" step=".05"></label></div><label>Größe<input type="range" data-field="scale" min=".6" max="1.6" step=".05" value="'+p.scale+'"></label><p class="sp-perc-size">'+Math.round(c.w*p.scale*100)+' × '+Math.round(c.d*p.scale*100)+' cm'+(c.head&&p.scale===1?' · Fell / Becken '+c.head:'')+'</p><p>Planmaß inkl. Rand / Beschlägen · über Größe an dein Instrument anpassen.</p>'+(c.channels.length?'<h4>Abnahme</h4><div class="sp-perc-pickup"><button type="button" data-pickup="none" aria-pressed="'+(p.pickup==='none')+'">Ohne eigenes Signal</button>'+(c.electronic?'<button type="button" data-pickup="mono" aria-pressed="'+(p.pickup==='mono')+'">Mono</button><button type="button" data-pickup="stereo" aria-pressed="'+(p.pickup==='stereo')+'">Stereo L/R</button>':'<button type="button" data-pickup="mic" aria-pressed="'+(p.pickup==='mic')+'">'+(c.channels.length===2?'2 Mikrofone':'1 Mikrofon')+'</button>')+'</div><p>Mikrofonmodell, Kanalnummer und Stagebox stellst du anschließend im gemeinsamen Audio-Plan ein.</p>':'')+'<div class="sp-perc-actions"><button type="button" data-action="duplicate">Duplizieren</button><button type="button" data-action="remove">Entfernen</button></div><h4>Im Aufbau</h4>'+draft.parts.map(item=>'<button type="button" class="sp-perc-list-item" data-select="'+esc(item.id)+'" aria-pressed="'+(item.id===selected)+'">'+esc(item.label)+'</button>').join('');
+  }
+  function render(){renderCanvas();renderProperties();}
+  function freshId(){const used=new Set(draft.parts.map(p=>p.id));let n=draft.nextId;while(used.has('p'+n))n++;draft.nextId=n+1;return 'p'+n;}
+  function add(type){if(draft.parts.length>=48){$('.sp-perc-status').textContent='Maximal 48 Instrumente je Setup.';return;}
+    mutate(()=>{const p=model.part(type,freshId(),Math.round((view.x+view.w/2)*20)/20,Math.round((view.y+view.h/2)*20)/20);while(draft.parts.some(o=>Math.hypot(o.x-p.x,o.y-p.y)<.12)&&p.x<3.8)p.x+=.15;draft.parts.push(p);selected=p.id;});setPane('canvas');canvas.focus();}
+  function action(name){finishField();const p=part();
+    if(name==='cancel'){dialog.close();return;}
+    if(name==='save'){if(draft.parts.length){const result=model.normalize(draft),id=objectId;dialog.close();onCommit(id,result);}return;}
+    if(name==='preset'){$('.sp-perc-presets').hidden=!$('.sp-perc-presets').hidden;return;}
+    if(name==='fit'){fit();renderCanvas();return;}
+    if(name==='zoom-in'||name==='zoom-out'){const factor=name==='zoom-in'?.8:1.25,w=Math.max(.5,Math.min(12,view.w*factor)),h=view.h*w/view.w;view={x:view.x+(view.w-w)/2,y:view.y+(view.h-h)/2,w,h};renderCanvas();return;}
+    if(name==='undo'||name==='redo'){const from=name==='undo'?history:future,to=name==='undo'?future:history;if(from.length){to.push(state());draft=JSON.parse(from.pop());if(!part())selected=null;render();}return;}
+    if(!p)return;
+    mutate(()=>{if(name==='remove'){draft.parts=draft.parts.filter(i=>i.id!==p.id);selected=null;}if(name==='duplicate'&&draft.parts.length<48){const copy={...p,id:freshId(),x:Math.min(4,p.x+.15),y:Math.min(4,p.y+.15)};draft.parts.push(copy);selected=copy.id;}if(name==='rotate-left')p.angle-=15;if(name==='rotate-right')p.angle+=15;if(name==='rotate-reset')p.angle=0;});
+  }
+  dialog.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.add)add(b.dataset.add);else if(b.dataset.select){selected=b.dataset.select;render();}else if(b.dataset.pane)setPane(b.dataset.pane);else if(b.dataset.pickup&&part())mutate(()=>part().pickup=b.dataset.pickup);else if(b.dataset.percPreset){mutate(()=>{const replacement=model.preset(b.dataset.percPreset);replacement.parts.forEach(p=>p.id=freshId());replacement.nextId=draft.nextId;draft=replacement;selected=null;});fit();render();$('.sp-perc-presets').hidden=true;}else if(b.dataset.action)action(b.dataset.action);});
+  $('input[type="search"]').addEventListener('input',renderPalette);
+  function updateField(e){const field=e.target.dataset.field,p=part();if(!p||!['label','angle','x','y','scale'].includes(field))return;
+    if(field!=='label'&&!Number.isFinite(e.target.valueAsNumber))return;
+    fieldBefore??=state();p[field]=field==='label'?e.target.value:e.target.valueAsNumber;draft=model.normalize(draft);renderCanvas();
+    const current=part(),c=model.byId[current.type],size=properties.querySelector('.sp-perc-size');if(size)size.textContent=Math.round(c.w*current.scale*100)+' × '+Math.round(c.d*current.scale*100)+' cm';
+    for(const button of properties.querySelectorAll('[data-select]'))if(button.dataset.select===selected)button.textContent=current.label||c.name;
+  }
+  properties.addEventListener('input',updateField);
+  properties.addEventListener('focusout',()=>{finishField();if(draft)renderCanvas();});
+  properties.addEventListener('change',e=>{updateField(e);finishField();const p=part(),field=e.target.dataset.field;if(p&&Object.hasOwn(p,field))e.target.value=p[field];renderCanvas();});
+  function point(e){const svg=canvas.querySelector('svg'),matrix=svg.getScreenCTM();if(!matrix)return {x:0,y:0};const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse());return {x:p.x/100,y:p.y/100};}
+  function pair(){const [a,b]=[...pointers.values()];return {x:(a.x+b.x)/2,y:(a.y+b.y)/2,d:Math.hypot(a.x-b.x,a.y-b.y)};}
+  canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;finishField();e.preventDefault();canvas.focus({preventScroll:true});pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);
+    if(pointers.size===2){if(drag){draft=JSON.parse(drag.before);drag=null;}gesture={...pair(),view:{...view}};renderCanvas();return;}
+    if(pointers.size!==1)return;const node=e.target.closest('[data-part]');selected=node?.dataset.part||null;const p=part();drag=p?{id:p.id,start:point(e),x:p.x,y:p.y,before:state(),pointer:e.pointerId}:null;render();
+  });
+  canvas.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(gesture&&pointers.size===2){const now=pair(),factor=gesture.d/Math.max(10,now.d),w=Math.max(.5,Math.min(12,gesture.view.w*factor)),h=gesture.view.h*w/gesture.view.w,rect=canvas.getBoundingClientRect(),scale=Math.min(rect.width/(w*100),rect.height/(h*100));view={x:gesture.view.x+(gesture.view.w-w)/2-(now.x-gesture.x)/scale/100,y:gesture.view.y+(gesture.view.h-h)/2-(now.y-gesture.y)/scale/100,w,h};renderCanvas();return;}
+    if(!drag||e.pointerId!==drag.pointer)return;const p=draft.parts.find(p=>p.id===drag.id),at=point(e),snap=v=>Math.max(-4,Math.min(4,Math.round(v*20)/20));p.x=snap(drag.x+at.x-drag.start.x);p.y=snap(drag.y+at.y-drag.start.y);renderCanvas();
+  });
+  function end(e){pointers.delete(e.pointerId);if(drag&&e.pointerId===drag.pointer){if(e.type==='pointercancel')draft=JSON.parse(drag.before);else remember(drag.before);drag=null;render();}if(pointers.size<2)gesture=null;}
+  canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
+  canvas.addEventListener('contextmenu',e=>{e.preventDefault();const node=e.target.closest('[data-part]');if(node){selected=node.dataset.part;action('rotate-right');}});
+  dialog.addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;const mod=e.metaKey||e.ctrlKey;if(mod&&e.key.toLowerCase()==='z'){e.preventDefault();action(e.shiftKey?'redo':'undo');return;}if(e.key==='r'||e.key==='R'){e.preventDefault();action(e.shiftKey?'rotate-left':'rotate-right');}if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();action('remove');}if((e.key==='Enter'||e.key===' ')&&e.target.dataset.part){e.preventDefault();selected=e.target.dataset.part;render();}if(e.key.startsWith('Arrow')&&e.target.closest('.sp-perc-canvas')&&part()){e.preventDefault();mutate(()=>{const p=part(),step=e.shiftKey?.1:.05;if(e.key==='ArrowLeft')p.x-=step;if(e.key==='ArrowRight')p.x+=step;if(e.key==='ArrowUp')p.y-=step;if(e.key==='ArrowDown')p.y+=step;});}});
+  dialog.addEventListener('close',()=>{draft=null;drag=null;gesture=null;fieldBefore=null;pointers.clear();canvas.replaceChildren();returnFocus?.focus({preventScroll:true});});
+  return {open(object,focus){if(object.locked)return;objectId=object.id;returnFocus=focus;draft=model.normalize(object.percussion);selected=null;history=[];future=[];pointers.clear();$('input[type="search"]').value='';$('.sp-perc-presets').hidden=true;setPane('canvas');fit();renderPalette();render();dialog.showModal();}};
+}
+/* build-inline:end stageplot-percussion-editor-v1.js */
+  const percussionEditor=createStageplotPercussionEditor(root,percussionModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.percussion=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Percussion-Setup übernommen');});
   function queueDraw(){
     if(frameQueued)return;frameQueued=true;
     requestAnimationFrame(()=>{frameQueued=false;if(view==='setup')updateSetup();else if(view==='editor')editorCanvas();else renderPrint();});
   }
   function makeObject(type,point,id,seed=null){
     const c=byId[type];
-    const o={id,type:c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
+    const o={id,type:c.percussionPart?'percussion':c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
+    if(o.type==='percussion')o.percussion=percussionModel.normalize(seed?.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined));
     if(c.riserCount)Object.assign(o,{width:c.w,depth:c.d,height:40});
     if(c.stageAccess)Object.assign(o,{width:c.w,depth:c.d});
     if(type==='foh')Object.assign(o,{width:3,depth:2,foh:{table:false,barrier:false,sun:false,rain:false}});
@@ -10860,7 +11104,7 @@ $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textConte
       const group=sEl('g',{transform:'translate('+gw/2+' '+gh/2+') rotate('+o.angle+')'},preview);
       sEl('rect',{x:-w/2-3,y:-h/2-3,width:w+6,height:h+6,fill:'#edf8d955',stroke:'#668921','stroke-width':1,'stroke-dasharray':'4 3'},group);
       if(c.art==='text')sEl('text',{x:0,y:4,'text-anchor':'middle',fill:'#333','font-size':12},group,'Beschriftung');
-      else {const unit=Math.min(w/c.vb[0],h/c.vb[1]);sEl('use',{href:'#'+artId(c,o),transform:'translate('+(-c.vb[0]*unit/2)+' '+(-c.vb[1]*unit/2)+') scale('+unit+')'},group);}
+      else {const drawing=objectCatalog(o),unit=Math.min(w/drawing.vb[0],h/drawing.vb[1]);sEl('use',{href:'#'+artId(drawing,o),transform:'translate('+(-drawing.vb[0]*unit/2)+' '+(-drawing.vb[1]*unit/2)+') scale('+unit+')'},group);}
       ghost.replaceChildren(preview);placement.previewKey=key;
     }
     const x=inside?rect.left+Number(svg.dataset.originX)+o.x*scale-gw/2:cursor.x+14,y=inside?rect.top+Number(svg.dataset.originY)+o.y*scale-gh/2:cursor.y+14;

@@ -1,6 +1,6 @@
 # Stageplot Generator
 
-Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-Designer, Routing, Druckansicht und Projekt-Export.
+Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum- und Percussion-Editor, Routing, Druckansicht und Projekt-Export.
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
@@ -31,6 +31,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 - **Lesbare Kategorien** mit animiert eingeblendeten Namen; auf schmalen Bildschirmen und bei Touch bleiben die Namen sichtbar.
 - **Mein Inventar** mit Modellen, Stückzahlen, Frequenzen, Strombedarf und Plansymbolen. Equipment direkt platzieren und den verwendeten Bestand im aktuellen Plan sehen.
 - **Drum-Designer** direkt über den schwebenden „Open Drumdesigner“-Button am ausgewählten Drumset öffnen; das breitere Eigenschaften-Panel ändert Trommel- und Beckengrößen übersichtlich per −/+, mehr als 80 praxisübliche Mikrofonmodelle werden über einen durchsuchbaren, positionsbezogenen „Typisch“-/„Alle“-Picker gewählt, Becken wechseln exklusiv zwischen eigenem Mic und OH L/R, und die Hi-Hat startet mit einem SM57.
+- **Percussion-Editor** mit 14 Instrumentvarianten: Quinto/Conga/Tumba, Bongos, Timbales, Pandeiro, Cowbell, Jam Block, Tamburin, Bar Chimes, Maracas, Becken, Multipad und Tisch. Zwölf eigens generierte, freigestellte Draufsicht-Bildassets erscheinen im Editor, Bühnenplan, in Projektvorschauen und Exporten. Instrumente verschieben, drehen, skalieren, duplizieren und ihre Abnahme wählen; Vorlagen, Undo/Redo und mobile Bedienung sind enthalten. Kanäle landen im gemeinsamen Audio-Plan. [Bedienung, Datenmodell und Asset-Herkunft](PERCUSSION.md).
 - **Stageplotter-Branding** mit normaler Wortmarke im Free-Plan, PRO-Wortmarke bei aktivem Pro-Plan und großem Otter-Logo neben „Projekte“; das bisherige Headerlogo bleibt als Ladefehler-Fallback erhalten.
 - **Metallisches Menüband** mit stets mittiger Navigation, limefarbener aktiver Ansicht, einem der Maus folgenden rosa Hover-Unterstrich und Projektangaben direkt vor dem Speicherstatus.
 - **Versteckter Otter mode** für neugierige Mehrfachklicker auf das Headerlogo.
@@ -106,6 +107,8 @@ Nicht gleichzeitig auf zwei Laptops uncommittete Änderungen an denselben Dateie
 - `stageplot-cloud-config.js`: öffentliche Account-Konfiguration, standardmäßig leer
 - `ACCOUNT_SETUP.md`: Anleitung für den optionalen Account-Dienst
 - `stageplot-drums-v12.js`: Drummodell — einzige Quelle, wird in die HTML eingebettet
+- `stageplot-percussion-v1.js` / `stageplot-percussion-editor-v1.js` / `.css`: Percussion-Modell und Editor, generiert in die HTML eingebettet
+- `stageplot-assets/percussion/manifest.json`: Bildgenerierung, vollständige Prompts, Prüfsummen und Verpackung der lokalen Assets
 - `stageplot-symbols-v3.js`: Symbolrenderer — einzige Quelle, wird in die HTML eingebettet
 - `stageplot-audio-v1.js` / `.css`: gemeinsamer Signal-Editor, Stereo-Gruppen, Signalwege, mobile Audio-Ansicht und Drucklisten (im Editor-Kontext eingebettet)
 - `stageplot-export-v42.js`: Export-Helfer — einzige Quelle, wird in die HTML eingebettet
