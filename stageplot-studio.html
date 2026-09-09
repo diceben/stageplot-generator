@@ -7620,7 +7620,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const svg=sEl('svg',{viewBox:'0 0 320 120','aria-hidden':'true'});
     sEl('rect',{width:W,height:H,fill:'var(--sp-paper)'},svg);sEl('path',{d:StageplotGeometry.path(c.floor,scale,x,y),fill:s.surface==='black'?'#252725':'#f6f8f3',stroke:'var(--sp-art)','stroke-width':1,'fill-rule':'evenodd'},svg);
     StageplotVenue.drawDetails(svg,s.geometry,{scale,x,y,measures:false,labels:false});
-    list.slice(0,80).forEach(o=>sEl('path',{d:StageplotGeometry.path([StageplotGeometry.polygon(venueObjectPart(o))],scale,x,y),fill:'#a4b9a0',stroke:'#52634e','stroke-width':.5},svg));
+    sEl('g',{},svg).innerHTML=projectPreviewObjectsMarkup(list,scale,x,y,s.surface==='black');
     return '<div class="sp-project-card-preview">'+svg.outerHTML+'<span>'+esc(badge)+'</span></div>';
   }
   function geometryForVenue(s,list){
@@ -8939,12 +8939,20 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     return entries.sort((a,b)=>b.savedAt-a.savedAt);
   }
+  function projectPreviewObjectsMarkup(list,scale,left,top,black){
+    return stageObjectOrder(list).slice(0,80).map(o=>{
+      const c=objectCatalog(o),size=objectSize(o),x=left+o.x*scale,y=top+o.y*scale,w=Math.max(3,size.w*scale),h=Math.max(3,size.d*scale);
+      if(c.art==='text')return '<text x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" text-anchor="middle" font-size="4.5" fill="'+(black?'#f3f3ee':'#353a35')+'">T</text>';
+      const unit=Math.min(w/c.vb[0],h/c.vb[1]),id=artId(c,o);
+      return '<g transform="translate('+x.toFixed(2)+' '+y.toFixed(2)+') rotate('+(Number(o.angle)||0)+') translate('+(-c.vb[0]*unit/2).toFixed(3)+' '+(-c.vb[1]*unit/2).toFixed(3)+') scale('+unit.toFixed(4)+')"><use href="#'+id+'"/></g>';
+    }).join('');
+  }
   function dashboardPreviewMarkup(document,badge='VORSCHAU'){
     if(document.stage.geometry)return venuePreviewMarkup(document,badge);
     const s=document.stage,list=document.objects||[],W=320,H=120,padX=14,padY=14,scale=Math.min((W-padX*2)/s.w,(H-padY*2)/s.d),stageW=s.w*scale,stageH=s.d*scale,left=(W-stageW)/2,top=(H-stageH)/2,black=s.surface==='black',moduleLines=[];
     for(let x=2;x<s.w;x+=2)moduleLines.push('<line x1="'+(left+x*scale).toFixed(2)+'" y1="'+top.toFixed(2)+'" x2="'+(left+x*scale).toFixed(2)+'" y2="'+(top+stageH).toFixed(2)+'"/>');
     for(let y=1;y<s.d;y+=1)moduleLines.push('<line x1="'+left.toFixed(2)+'" y1="'+(top+y*scale).toFixed(2)+'" x2="'+(left+stageW).toFixed(2)+'" y2="'+(top+y*scale).toFixed(2)+'"/>');
-    const ordered=stageObjectOrder(list),items=ordered.slice(0,80).map(o=>{const c=objectCatalog(o),size=objectSize(o),x=left+o.x*scale,y=top+o.y*scale,w=Math.max(3,size.w*scale),h=Math.max(3,size.d*scale);if(c.art==='text')return '<text x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" text-anchor="middle" font-size="4.5" fill="'+(black?'#f3f3ee':'#353a35')+'">T</text>';const unit=Math.min(w/c.vb[0],h/c.vb[1]),id=artId(c,o);return '<g transform="translate('+x.toFixed(2)+' '+y.toFixed(2)+') rotate('+(Number(o.angle)||0)+') translate('+(-c.vb[0]*unit/2).toFixed(3)+' '+(-c.vb[1]*unit/2).toFixed(3)+') scale('+unit.toFixed(4)+')"><use href="#'+id+'"/></g>';}).join('');
+    const items=projectPreviewObjectsMarkup(list,scale,left,top,black);
     return '<div class="sp-project-card-preview"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><rect width="'+W+'" height="'+H+'" fill="'+(black?'#171917':'#eef0eb')+'"/><rect x="'+left.toFixed(2)+'" y="'+top.toFixed(2)+'" width="'+stageW.toFixed(2)+'" height="'+stageH.toFixed(2)+'" rx="2" fill="'+(black?'#242624':'#fff')+'" stroke="'+(black?'#0c0d0c':'#545b54')+'" stroke-width="1.2"/><g stroke="'+(black?'#3f433e':'#dfe2dc')+'" stroke-width=".45">'+moduleLines.join('')+'</g>'+items+'</svg><span>'+esc(badge)+'</span></div>';
   }
   function projectStorageStatus(entry,current=false){

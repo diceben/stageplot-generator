@@ -88,6 +88,23 @@ const stepped=G.legacy({w:4,d:3});Object.assign(stepped.parts[0],{shape:'polygon
 assert.equal(measurements(renderDetails(stepped,{editing:true,selected:'main-stage'})).filter(n=>n.textContent==='1 m').length,2,'Versetzte gleich lange Absätze behalten beide Maßangaben.');
 const holePlan=G.legacy({w:8,d:5});holePlan.parts.push(G.part({kind:'opening',x:1,y:1,w:2,d:1}));
 dims=measurements(renderDetails(holePlan,{overallBounds:{minX:0,minY:0,maxX:8,maxY:5}}));assert.deepEqual(dims.map(n=>n.textContent).sort(),['1 m','2 m'],'Auch Innenkonturen werden ohne gegenüberliegende Doppelmaße beschriftet.');
+// Project cards keep actual equipment symbols on both legacy and custom stage shapes.
+class PreviewNode extends SvgNode{
+  get outerHTML(){return '<'+this.tag+Object.entries(this.attrs).map(([k,v])=>' '+k+'="'+v+'"').join('')+'>'+(this.innerHTML||this.textContent)+this.children.map(n=>n.outerHTML).join('')+'</'+this.tag+'>';}
+}
+const previewCatalog={guitar:{art:'guitar',vb:[100,50]},riser:{art:'riser',vb:[100,50],underlay:true},mic:{art:'mic',vb:[50,50]}};
+const previewContext={StageplotGeometry:G,StageplotVenue:rc.StageplotVenue,venueCompileCache:new WeakMap(),byId:previewCatalog,objectSize:o=>({w:o.width,d:o.depth}),objectCatalog:o=>previewCatalog[o.type],artId:(c,o)=>'sp-art-'+c.art+(o.stand?'-'+o.stand:''),esc:s=>s,sEl:(tag,attrs,parent)=>{const n=new PreviewNode(tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);parent?.append(n);return n;}};
+vm.createContext(previewContext);vm.runInContext(['stageObjectOrder','venueObjectPart','compiledVenue','projectPreviewObjectsMarkup','venuePreviewMarkup','dashboardPreviewMarkup'].map(extract).join('\n'),previewContext);
+const previewObjects=[{id:'instrument',type:'guitar',x:2,y:2,width:1.5,depth:.75,angle:45},{id:'platform',type:'riser',x:2,y:2,width:3,depth:2,angle:0},{id:'vocal',type:'mic',x:4,y:3,width:.5,depth:.5,angle:90,stand:'round'}];
+for(const geometry of [undefined,withStairs,G.preset('round',8,5)]){
+  const previewDocument={stage:{w:8,d:5,geometry},objects:previewObjects},before=JSON.stringify(previewDocument),markup=previewContext.dashboardPreviewMarkup(previewDocument);
+  assert.equal((markup.match(/<use href=/g)||[]).length,3,'Jede Projektvorschau rendert die Objektsymbole statt ihrer rechteckigen Grundflächen.');
+  assert.match(markup,/<use href="#sp-art-guitar"/);assert.match(markup,/<use href="#sp-art-mic-round"/);
+  assert.ok(markup.indexOf('#sp-art-riser')<markup.indexOf('#sp-art-guitar'),'Instrumente bleiben auch in der Vorschau über dem Riser sichtbar.');
+  assert.match(markup,/rotate\(45\)/);assert.match(markup,/rotate\(90\)/);assert.doesNotMatch(markup,/#a4b9a0/);
+  if(geometry)assert.match(markup,/fill-rule="evenodd"/,'Freie Bühnenkonturen bleiben in der Vorschau erhalten.');
+  assert.equal(JSON.stringify(previewDocument),before,'Vorschaurendering verändert keine gespeicherten Objekte.');
+}
 // The same commands power the toolbar, context menu, sidebar and keyboard.
 const ac={G};vm.createContext(ac);vm.runInContext(ui.slice(ui.indexOf('  function rotatePart('),ui.indexOf('  function dimension(')),ac);
 const center=p=>{const b=rc.StageplotVenue.bounds(p);return [(b.minX+b.maxX)/2,(b.minY+b.maxY)/2];};
