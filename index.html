@@ -2880,10 +2880,10 @@
 #sp-prototype .sp-project-delete-dialog input { width:100%; }
 #sp-prototype .sp-empty-projects { grid-column:1/-1; display:grid; place-items:center; min-height:260px; padding:30px; border:1px dashed #cdd1c8; border-radius:14px; background:#fff8; text-align:center; }
 #sp-prototype .sp-routing { overflow:auto; }
-#sp-prototype .sp-routing-toolbar { position:sticky; top:0; z-index:3; display:flex; align-items:center; justify-content:space-between; gap:14px; max-width:1320px; margin:0 auto; padding:8px 0; background:#f5f6f2; }
+#sp-prototype .sp-routing-toolbar { position:sticky; top:0; z-index:3; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; max-width:1320px; margin:0 auto; padding:8px 0; background:#f5f6f2; }
 #sp-prototype .sp-routing-tabs { display:flex; gap:3px; padding:3px; border:1px solid #d9ddd5; border-radius:9px; background:#e9ece5; }
-#sp-prototype .sp-routing-tabs button { min-height:34px; padding:6px 11px; border:0; border-radius:6px; background:transparent; color:#626962; font:inherit; cursor:pointer; }
-#sp-prototype .sp-routing-tabs button[aria-selected="true"] { background:#fff; color:#202420; box-shadow:0 1px 5px #0001; font-weight:700; }
+#sp-prototype .sp-routing-tabs button { min-height:34px; padding:6px 11px; border:0; border-radius:6px; background:transparent; color:#626962; font:inherit; font-weight:650; cursor:pointer; }
+#sp-prototype .sp-routing-tabs button[aria-selected="true"],#sp-prototype .sp-routing-tabs button[aria-pressed="true"] { background:#fff; color:#202420; box-shadow:0 1px 5px #0001; }
 #sp-prototype .sp-routing-tabs span { display:inline-grid; place-items:center; min-width:19px; height:19px; margin-left:5px; padding:0 5px; border-radius:999px; background:#dde1d8; font-size:9px; }
 #sp-prototype .sp-routing-table-wrap { position:relative; max-width:1320px; min-height:220px; margin:10px auto 0; overflow:auto; border:1px solid #dcded8; border-radius:12px; background:#fff; box-shadow:0 8px 28px #1e29190d; }
 #sp-prototype .sp-routing-table { width:100%; min-width:1000px; border-collapse:collapse; font-size:11px; }
@@ -4088,20 +4088,12 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-view { width:100%; max-width:1320px; min-height:0; flex:1 1 auto; margin:10px auto 0; padding:0; overflow:auto; overscroll-behavior:contain; border:1px solid #202b38; border-radius:12px; background:#07111b; color:#e9edf4; box-shadow:0 12px 38px rgb(8 16 25 / 18%); scrollbar-gutter:stable; }
 #sp-prototype .sp-stagebox-view[hidden] { display:none; }
 #sp-prototype .sp-stagebox-workbench { min-width:0; min-height:100%; color:#e9edf4; background-color:#08121d; background-image:radial-gradient(circle,rgb(130 154 182 / 16%) .7px,transparent .9px); background-size:14px 14px; }
-#sp-prototype .sp-stagebox-workbench-toolbar { min-height:58px; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:0 18px; border-bottom:1px solid #202a37; background:linear-gradient(180deg,#0c1723,#09131e); }
-#sp-prototype .sp-stagebox-workbench-tabs,#sp-prototype .sp-stagebox-workbench-actions,#sp-prototype .sp-stagebox-view-buttons { display:flex; align-items:center; gap:7px; }
-#sp-prototype .sp-stagebox-workbench-tabs button,#sp-prototype .sp-stagebox-workbench-actions button { min-height:37px; padding:0 14px; border:1px solid transparent; border-radius:7px; background:transparent; color:#8792a0; font:750 10px/1 inherit; letter-spacing:.035em; cursor:pointer; }
-#sp-prototype .sp-stagebox-workbench-tabs button[aria-selected="true"] { color:#c586ff; border-bottom-color:#aa62f0; border-radius:0; box-shadow:0 2px 0 #a95ced; }
-#sp-prototype .sp-stagebox-workbench-tabs button[aria-disabled="true"] { cursor:default; }
-#sp-prototype .sp-stagebox-workbench-actions > span { color:#7f8997; font-size:9px; }
-#sp-prototype .sp-stagebox-view-buttons { gap:0; overflow:hidden; border:1px solid #24303e; border-radius:7px; }
-#sp-prototype .sp-stagebox-view-buttons button { width:36px; min-height:32px; padding:0; border:0; border-radius:0; color:#7e8998; }
-#sp-prototype .sp-stagebox-view-buttons button[aria-pressed="true"] { background:#1c2837; color:#bc76ff; }
-#sp-prototype .sp-stagebox-auto { display:flex; align-items:center; gap:7px; border-color:#273342 !important; color:#dce2ea !important; }
-#sp-prototype .sp-stagebox-auto svg,#sp-prototype .sp-stagebox-workbench-tabs svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+#sp-prototype .sp-stagebox-workbench-toolbar { min-height:54px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 14px; border-bottom:1px solid var(--sp-line); background:var(--sp-panel); }
+#sp-prototype .sp-stagebox-view-buttons button { display:flex; align-items:center; justify-content:center; gap:7px; }
+#sp-prototype .sp-stagebox-view-buttons svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; }
 #sp-prototype .sp-stagebox-workbench-body { min-width:0; display:grid; grid-template-columns:minmax(0,1fr); }
 #sp-prototype .sp-stagebox-workbench-body[data-has-details="true"] { grid-template-columns:minmax(0,1fr) 330px; }
-#sp-prototype .sp-stagebox-patch-canvas { position:relative; min-width:0; display:grid; align-content:start; gap:14px; padding:16px; }
+#sp-prototype .sp-stagebox-patch-canvas { position:relative; min-width:0; display:grid; align-content:start; gap:14px; grid-auto-rows:max-content; padding:16px; }
 #sp-prototype .sp-stagebox-card-list { min-width:0; display:grid; grid-template-columns:1fr; gap:14px; }
 #sp-prototype .sp-stagebox-card-list[data-view-mode="list"] { gap:8px; }
 #sp-prototype .sp-stagebox-card { min-width:0; padding:14px; border:1px solid #253343; border-radius:10px; background:linear-gradient(155deg,rgb(13 26 39 / 98%),rgb(8 18 29 / 98%)); box-shadow:inset 0 1px 0 rgb(255 255 255 / 3%),0 10px 30px rgb(0 0 0 / 14%); }
@@ -4231,16 +4223,8 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-io-body { min-height:0; height:calc(100% - 68px); overflow:auto; }
 #sp-prototype .sp-stagebox-io-body .sp-stagebox-workbench { min-height:100%; }
 
-/* Stagebox-Belegung nutzt im Routing die komplette verbleibende App-Fläche. */
-#sp-prototype #sp-routing[data-stagebox-mode="true"] { padding:0; background:#07111b; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-heading,#sp-prototype #sp-routing[data-stagebox-mode="true"] #sp-routing-status { display:none; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-toolbar { position:relative; top:auto; max-width:none; min-height:46px; margin:0; padding:6px 12px; border-bottom:1px solid #202b38; background:#09131e; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-actions { display:none; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs { border-color:#293746; background:#0d1925; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs button { color:#84909e; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs button[aria-selected="true"] { background:#202d3b; color:#c98cff; box-shadow:inset 0 -2px #ad68ee; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs span { background:#263442; color:#b8c1cb; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-view { width:100%; max-width:none; min-height:0; flex:1 1 auto; margin:0; overflow:hidden; border:0; border-radius:0; box-shadow:none; }
+/* Nur der Inhalt wechselt: Kopfbereich und Navigation bleiben in allen Audio-Tabs gleich. */
+#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-view { overflow:hidden; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench { height:100%; min-height:0; display:flex; flex-direction:column; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-toolbar { flex:0 0 auto; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-body { min-height:0; flex:1 1 auto; overflow:hidden; }
@@ -4248,8 +4232,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-patch-canvas { min-height:0; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-channel-details { min-height:0; overflow:hidden; }
 /* Stagebox-Typografie ist bewusst groß genug für schnelles Lesen auf Distanz. */
-#sp-prototype .sp-stagebox-workbench-tabs button,#sp-prototype .sp-stagebox-workbench-actions button { font-size:14px; }
-#sp-prototype .sp-stagebox-workbench-actions > span,#sp-prototype .sp-stagebox-card p { font-size:12px; }
+#sp-prototype .sp-stagebox-card p { font-size:12px; }
 #sp-prototype .sp-stagebox-card h2 { font-size:19px; }
 #sp-prototype .sp-stagebox-card section > header,#sp-prototype .sp-stagebox-card section > header strong { font-size:12px; }
 #sp-prototype .sp-stagebox-ports button { min-height:92px; }
@@ -4276,21 +4259,16 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-clear-assignment { font-size:12px; }
 #sp-prototype .sp-stagebox-io-dialog .sp-eyebrow,#sp-prototype .sp-stagebox-io-summary { font-size:12px; }
 #sp-prototype .sp-stagebox-io-dialog h2 { font-size:20px; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs button { font-size:13px; }
 /* Die Workbench folgt dem App-Theme; nur Hardwarekarten und Buchsen bleiben dunkel. */
 #sp-prototype :is(.sp-stagebox-view,.sp-stagebox-io-dialog) { --sp-sb-bg:light-dark(#f4f5f2,#07111b); --sp-sb-panel:light-dark(#fff,#0d1824); --sp-sb-soft:light-dark(#eef0ec,#101c29); --sp-sb-line:light-dark(#d7dcd5,#24313e); --sp-sb-ink:light-dark(#202520,#e9edf4); --sp-sb-muted:light-dark(#69716a,#84909f); }
 #sp-prototype .sp-stagebox-view { border-color:var(--sp-sb-line); background:var(--sp-sb-bg); color:var(--sp-sb-ink); }
+#sp-prototype .sp-stagebox-empty { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); color:var(--sp-sb-muted); }
+#sp-prototype .sp-stagebox-empty strong { color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-io-dialog { border-color:var(--sp-sb-line); background:var(--sp-sb-bg); color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-io-dialog > .sp-dialog-heading { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); }
 #sp-prototype .sp-stagebox-io-dialog h2,#sp-prototype .sp-stagebox-io-dialog h3 { color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-workbench { color:var(--sp-sb-ink); background-color:var(--sp-sb-bg); background-image:radial-gradient(circle,light-dark(rgb(75 83 74 / 16%),rgb(130 154 182 / 16%)) .7px,transparent .9px); }
 #sp-prototype .sp-stagebox-workbench-toolbar { border-color:var(--sp-sb-line); background:light-dark(#fff,#0b1621); }
-#sp-prototype .sp-stagebox-workbench-tabs button { color:var(--sp-sb-muted); }
-#sp-prototype .sp-stagebox-workbench-actions > span { color:var(--sp-sb-muted); }
-#sp-prototype .sp-stagebox-view-buttons { border-color:var(--sp-sb-line); }
-#sp-prototype .sp-stagebox-view-buttons button { color:var(--sp-sb-muted); }
-#sp-prototype .sp-stagebox-view-buttons button[aria-pressed="true"] { background:light-dark(#ece7f4,#1c2837); color:light-dark(#7c3caf,#bc76ff); }
-#sp-prototype .sp-stagebox-auto { border-color:var(--sp-sb-line) !important; color:var(--sp-sb-ink) !important; }
 #sp-prototype .sp-stagebox-unpatched { border-color:light-dark(#dcc58d,#5a4929); background:light-dark(#fff7e5,#201b13); color:light-dark(#765817,#e1bd70); }
 #sp-prototype .sp-stagebox-unpatched[data-complete="true"] { border-color:light-dark(#8ecab5,#245947); background:light-dark(#eaf8f2,#0d211e); color:light-dark(#17684f,#72ddb9); }
 #sp-prototype .sp-stagebox-source-panel { border-color:var(--sp-sb-line); background:light-dark(rgb(255 255 255 / 99%),rgb(16 27 40 / 98%)); color:var(--sp-sb-ink); }
@@ -4328,11 +4306,6 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-combo-switch { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-combo-switch small { color:var(--sp-sb-muted); }
 #sp-prototype .sp-stagebox-clear-assignment { background:light-dark(#fff1f4,#1e141b); }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] { background:var(--sp-sb-bg); }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-toolbar { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs { border-color:var(--sp-sb-line); background:var(--sp-sb-soft); }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs button { color:var(--sp-sb-muted); }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-routing-tabs button[aria-selected="true"] { background:light-dark(#ece7f4,#202d3b); color:light-dark(#7836aa,#c98cff); }
 #sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas,.sp-stagebox-detail-content,.sp-stagebox-source-list) { scrollbar-width:thin; scrollbar-color:light-dark(#9ba39a,#425166) light-dark(#edf0eb,#0a1520); }
 #sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas,.sp-stagebox-detail-content,.sp-stagebox-source-list)::-webkit-scrollbar { width:8px; height:8px; }
 #sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas,.sp-stagebox-detail-content,.sp-stagebox-source-list)::-webkit-scrollbar-track { background:light-dark(#edf0eb,#0a1520); }
@@ -4344,9 +4317,9 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-drum-design-load-preview { width:62px; height:52px; }
   #sp-prototype .sp-drum-design-load-card > .sp-danger-quiet { grid-column:3; }
   #sp-prototype .sp-stagebox-workbench-toolbar { align-items:stretch; flex-direction:column; gap:5px; padding:8px; }
-  #sp-prototype .sp-stagebox-workbench-tabs,#sp-prototype .sp-stagebox-workbench-actions { justify-content:space-between; overflow:auto; }
   #sp-prototype .sp-stagebox-workbench-body[data-has-details="true"] { grid-template-columns:1fr; }
-  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-body[data-has-details="true"] { grid-template-columns:1fr; overflow:auto; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-body { display:block; overflow:auto; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] :is(.sp-stagebox-patch-canvas,.sp-stagebox-channel-details,.sp-stagebox-detail-content) { overflow:visible; }
   #sp-prototype .sp-stagebox-channel-details { border-top:1px solid #24313e; border-left:0; }
   #sp-prototype .sp-stagebox-ports { grid-template-columns:repeat(4,minmax(52px,1fr)); }
   #sp-prototype .sp-stagebox-source-panel { top:74px; max-height:calc(100% - 88px); }
@@ -4493,7 +4466,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-routing-toolbar { background:var(--sp-bg); }
 #sp-prototype .sp-routing-tabs { border-color:var(--sp-line); background:var(--sp-soft); }
 #sp-prototype .sp-routing-tabs button { color:var(--sp-muted); }
-#sp-prototype .sp-routing-tabs button[aria-selected="true"] { background:var(--sp-panel); color:var(--sp-ink); }
+#sp-prototype .sp-routing-tabs button[aria-selected="true"],#sp-prototype .sp-routing-tabs button[aria-pressed="true"] { background:var(--sp-panel); color:var(--sp-ink); }
 #sp-prototype .sp-routing-tabs span { background:var(--sp-line); }
 #sp-prototype .sp-routing-table th { background:var(--sp-soft); color:var(--sp-muted); }
 #sp-prototype .sp-routing-table td { border-color:var(--sp-line); }
@@ -9451,7 +9424,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const state=stageboxPatchState(context),groups=new Map();for(const row of context.rows){const group=stageboxSourceGroup(row,context.patch.direction);if(!groups.has(group.key))groups.set(group.key,{label:group.label,rows:[]});groups.get(group.key).rows.push(row);}const free='<button class="sp-stagebox-source-option sp-stagebox-source-free" type="button" data-stagebox-source="" data-stagebox-source-clear aria-pressed="'+String(!context.candidate)+'"><span class="sp-stagebox-source-icon">−</span><span class="sp-stagebox-source-copy"><strong>Port frei lassen</strong><small>Vorhandene Belegung direkt lösen</small></span>'+(context.candidate?'':'<span class="sp-stagebox-source-check">✓</span>')+'</button>',groupMarkup=[...groups.values()].map(group=>'<section class="sp-stagebox-source-group" data-stagebox-source-group><header><strong>'+esc(group.label)+'</strong><span>'+group.rows.length+' Channel'+(group.rows.length===1?'':'s')+'</span></header><div class="sp-stagebox-source-group-options">'+group.rows.map(row=>{const current=row.id===context.occupant?.id,used=!current&&row.stagebox&&row.stageboxPort,status=current?'Aktuell':routeNeedsDi(row,context.patch.direction,context.box)?'DI-Box nötig':used?'Belegt · '+stageboxRouteLocation(row,context.patch.direction):'Frei',pressed=context.candidate?.id===row.id,search=group.label+' '+stageboxPortName(row)+' '+row.instrument+' '+row.signalType+' '+row.mode+' '+row.connector;return '<button class="sp-stagebox-source-option" type="button" data-stagebox-source="'+row.id+'" aria-pressed="'+String(pressed)+'" data-source-search="'+esc(search)+'"><span class="sp-stagebox-source-icon">'+stageboxSourceIcon(row)+'</span><span class="sp-stagebox-source-copy"><strong>'+esc(stageboxPortName(row))+'</strong><small>'+esc(row.signalType+' · '+row.mode+(row.connector?' · '+row.connector:''))+'</small></span>'+(pressed?'<span class="sp-stagebox-source-check">✓</span>':'<span class="sp-stagebox-source-status" data-status="'+(used?'used':'free')+'">'+esc(status)+'</span>')+'</button>';}).join('')+'</div></section>').join('');return '<section class="sp-stagebox-source-panel" role="dialog" aria-label="Quelle zuweisen"><div class="sp-stagebox-source-head"><div><span>Quelle zuweisen an</span><h3>'+esc(context.box.name+' – '+context.label+' '+context.patch.port)+'</h3></div><button class="sp-stagebox-source-close" type="button" data-stagebox-patch-close aria-label="Quellenauswahl schließen">×</button></div><label class="sp-stagebox-source-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.3"/><path d="m12.5 12.5 4.2 4.2"/></svg><span class="sp-visually-hidden">Quellen durchsuchen</span><input type="search" data-stagebox-source-search placeholder="Instrument oder Channel durchsuchen …" autocomplete="off"></label><div class="sp-stagebox-source-list">'+free+'<div class="sp-stagebox-source-groups">'+groupMarkup+'</div><div class="sp-stagebox-source-empty" data-stagebox-source-empty hidden>Keine passende Quelle gefunden.</div></div><p class="sp-stagebox-patch-warning" data-warning="'+String(state.messages.length>0)+'" role="status" aria-live="polite">'+esc(state.messages.join(' '))+'</p><div class="sp-stagebox-source-actions"><span>Auswahl verbindet sofort und springt zum nächsten freien Port.</span><button type="button" data-stagebox-patch-close>Fertig</button></div></section>';
   }
   function stageboxHardwareMarkup(box,dialog=false){
-    const renameId=dialog?' id="sp-stagebox-rename-form"':'',inputId=dialog?' id="sp-stagebox-rename-input"':'',comboId=dialog?' id="sp-stagebox-combo-jacks"':'';return '<div class="sp-stagebox-detail-card sp-stagebox-hardware"><h4>Stagebox Settings</h4><form class="sp-stagebox-rename-form" data-stagebox-rename-form'+renameId+'><label class="sp-field">Stagebox-Name<input'+inputId+' data-stagebox-rename-input maxlength="42" autocomplete="off" required value="'+esc(box.name)+'"></label><button type="submit">Umbenennen</button></form><label class="sp-stagebox-combo-switch"><input'+comboId+' data-stagebox-combo-jacks type="checkbox" role="switch"'+(box.comboJacks?' checked':'')+'><span class="sp-stagebox-combo-control" aria-hidden="true"></span><span><strong>Kombibuchsen (XLR + Klinke)</strong><small>Aus: Klinkensignale brauchen vor der XLR-Buchse eine DI-Box.</small></span></label></div>';
+    const renameId=dialog?' id="sp-stagebox-rename-form"':'',inputId=dialog?' id="sp-stagebox-rename-input"':'',comboId=dialog?' id="sp-stagebox-combo-jacks"':'';return '<div class="sp-stagebox-detail-card sp-stagebox-hardware"><h4>Stagebox-Einstellungen</h4><form class="sp-stagebox-rename-form" data-stagebox-rename-form'+renameId+'><label class="sp-field">Stagebox-Name<input'+inputId+' data-stagebox-rename-input maxlength="42" autocomplete="off" required value="'+esc(box.name)+'"></label><button type="submit">Umbenennen</button></form><label class="sp-stagebox-combo-switch"><input'+comboId+' data-stagebox-combo-jacks type="checkbox" role="switch"'+(box.comboJacks?' checked':'')+'><span class="sp-stagebox-combo-control" aria-hidden="true"></span><span><strong>Kombibuchsen (XLR + Klinke)</strong><small>Aus: Klinkensignale brauchen vor der XLR-Buchse eine DI-Box.</small></span></label></div>';
   }
   function stageboxDetailContentMarkup(context){
     const row=context.occupant;if(stageboxInfoTab==='details')return '<div class="sp-stagebox-detail-card"><h4>Port Details</h4><div class="sp-stagebox-signal-list"><div><span>Stagebox</span><b>'+esc(context.box.name)+'</b></div><div><span>Port</span><b>'+context.label+' '+context.patch.port+'</b></div><div><span>Buchse</span><b>'+(context.box.comboJacks?'XLR + Klinke':'XLR')+'</b></div><div><span>Position</span><b>'+num(context.box.x)+' / '+metres(context.box.y)+'</b></div><div><span>Belegung</span><b>'+(row?'Aktiv':'Frei')+'</b></div></div></div>';if(stageboxInfoTab==='notes')return '<div class="sp-stagebox-detail-card"><h4>Notes</h4><p class="sp-muted">'+(row?.notes?esc(row.notes):'Für diesen Channel sind keine Notizen hinterlegt.')+'</p></div>';return '<div class="sp-stagebox-detail-card"><h4>Signal</h4>'+(row?'<button class="sp-button" type="button" data-audio-edit="'+row.id+'" data-audio-direction="'+context.patch.direction+'">Signal bearbeiten · CH '+(row.number||'—')+'</button>':'')+'<div class="sp-stagebox-detail-current"><span class="sp-stagebox-source-icon">'+stageboxSourceIcon(row)+'</span><span class="sp-stagebox-source-copy"><strong>'+(row?esc(stageboxPortName(row)):'Port frei')+'</strong><small>'+(row?esc(row.signalType+' · '+row.mode):'Keine Quelle verbunden')+'</small></span><button type="button" data-stagebox-change-source>Umbelegen</button></div></div><div class="sp-stagebox-detail-card"><h4>Signal Info</h4><div class="sp-stagebox-signal-list"><div><span>Type</span><b>'+(row?esc(row.signalType):'—')+'</b></div><div><span>Connector</span><b>'+(row?esc(row.connector):'—')+'</b></div><div><span>Phantom Power</span><b>'+(row?.phantom?'48V':'Off')+'</b></div><div><span>Polarity</span><b>Normal</b></div><div><span>Status</span><b>'+(row?'OK':'Open')+'</b></div></div></div>';
@@ -9459,10 +9432,12 @@ function createStageplotSymbolV3(type, options = {}) {
   function stageboxDetailMarkup(context,dialog=false){
     const row=context.occupant;return '<aside class="sp-stagebox-channel-details"><div class="sp-stagebox-detail-head"><div><h3>'+esc(context.box.name+' – '+context.label+' '+context.patch.port)+'</h3><small>'+esc(byId[context.box.type]?.detail||'Stagebox')+'</small></div><button class="sp-stagebox-source-close" type="button" data-stagebox-patch-close aria-label="Portdetails schließen">×</button></div><div class="sp-stagebox-detail-summary"><span class="sp-stagebox-source-icon">'+stageboxSourceIcon(row)+'</span><span><strong>'+(row?esc(stageboxPortName(row)):'Port frei')+'</strong><small>'+(row?esc(row.generatedInstrument||row.instrument):'Keine Quelle')+'</small></span><span class="sp-stagebox-detail-active">'+(row?'Active':'Open')+'</span></div><div class="sp-stagebox-detail-tabs" role="tablist"><button type="button" data-stagebox-info-tab="source" aria-selected="'+String(stageboxInfoTab==='source')+'">SOURCE</button><button type="button" data-stagebox-info-tab="details" aria-selected="'+String(stageboxInfoTab==='details')+'">DETAILS</button><button type="button" data-stagebox-info-tab="notes" aria-selected="'+String(stageboxInfoTab==='notes')+'">NOTES</button></div><div class="sp-stagebox-detail-content">'+stageboxDetailContentMarkup(context)+stageboxHardwareMarkup(context.box,dialog)+'</div><button class="sp-stagebox-clear-assignment" type="button" data-stagebox-clear-assignment'+(row?'':' disabled')+'>⌫ Clear Assignment</button></aside>';
   }
-  function stageboxGeneralDetailMarkup(box,dialog=false){return '<aside class="sp-stagebox-channel-details"><div class="sp-stagebox-detail-head"><div><h3>'+esc(box.name)+'</h3><small>'+esc(byId[box.type]?.detail||'Stagebox')+'</small></div></div><div class="sp-stagebox-detail-content"><div class="sp-stagebox-detail-card"><h4>Patch Overview</h4><div class="sp-stagebox-signal-list"><div><span>Inputs</span><b>'+box.inputs+'</b></div><div><span>Outputs</span><b>'+box.outputs+'</b></div><div><span>Buchsen</span><b>'+(box.comboJacks?'XLR + Klinke':'XLR')+'</b></div></div></div>'+stageboxHardwareMarkup(box,dialog)+'</div></aside>';}
-  function stageboxWorkbenchToolbarMarkup(){return '<header class="sp-stagebox-workbench-toolbar"><nav class="sp-stagebox-workbench-tabs" aria-label="Stagebox Ansichten"><button type="button" aria-selected="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="5"/><rect x="12" y="3" width="5" height="5"/><rect x="3" y="12" width="5" height="5"/><rect x="12" y="12" width="5" height="5"/></svg> PATCH OVERVIEW</button><button type="button" aria-disabled="true">SIGNAL FLOW</button><button type="button" aria-disabled="true">LIST VIEW</button></nav><div class="sp-stagebox-workbench-actions"><span>View</span><span class="sp-stagebox-view-buttons"><button type="button" data-stagebox-view-mode="grid" aria-pressed="'+String(stageboxViewMode==='grid')+'" aria-label="Rasteransicht">▦</button><button type="button" data-stagebox-view-mode="list" aria-pressed="'+String(stageboxViewMode==='list')+'" aria-label="Listenansicht">☷</button></span><button class="sp-stagebox-auto" type="button" data-stagebox-sync><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 7A6 6 0 0 0 5 5.4L3.5 7M4.5 13A6 6 0 0 0 15 14.6l1.5-1.6"/><path d="M3.5 3.5V7H7M16.5 16.5V13H13"/></svg> Bühne synchronisieren</button><button class="sp-stagebox-auto" type="button" data-stagebox-auto><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 4 3 3m9-3-3 3M4 16l3-3m9 3-3-3M7 10h6"/></svg> Auto Arrange</button></div></header>';}
+  function stageboxGeneralDetailMarkup(box,dialog=false){return '<aside class="sp-stagebox-channel-details"><div class="sp-stagebox-detail-head"><div><h3>'+esc(box.name)+'</h3><small>'+esc(byId[box.type]?.detail||'Stagebox')+'</small></div></div><div class="sp-stagebox-detail-content"><div class="sp-stagebox-detail-card"><h4>Anschlüsse</h4><div class="sp-stagebox-signal-list"><div><span>Inputs</span><b>'+box.inputs+'</b></div><div><span>Outputs</span><b>'+box.outputs+'</b></div><div><span>Buchsen</span><b>'+(box.comboJacks?'XLR + Klinke':'XLR')+'</b></div></div></div>'+stageboxHardwareMarkup(box,dialog)+'</div></aside>';}
+  function stageboxWorkbenchToolbarMarkup(dialog=false){
+    return '<div class="sp-stagebox-workbench-toolbar"><div class="sp-routing-tabs sp-stagebox-view-buttons" role="group" aria-label="Stagebox-Darstellung"><button type="button" data-stagebox-view-mode="grid" aria-pressed="'+String(stageboxViewMode==='grid')+'" aria-label="Rasteransicht"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="5"/><rect x="12" y="3" width="5" height="5"/><rect x="3" y="12" width="5" height="5"/><rect x="12" y="12" width="5" height="5"/></svg>Raster</button><button type="button" data-stagebox-view-mode="list" aria-pressed="'+String(stageboxViewMode==='list')+'" aria-label="Listenansicht"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4h10M7 10h10M7 16h10M3 4h1M3 10h1M3 16h1"/></svg>Liste</button></div>'+(dialog?'<button class="sp-button" type="button" data-stagebox-auto>Freie Stagebox-Ports zuordnen</button>':'')+'</div>';
+  }
   function stageboxWorkbenchMarkup(boxes,{dialog=false}={}){
-    const context=stageboxPatchContext(),shownContext=context&&boxes.some(box=>box.id===context.box.id)?context:null,infoBox=boxes.find(box=>box.id===activeStageboxId)||boxes[0],detail=shownContext?stageboxDetailMarkup(shownContext,dialog):infoBox?stageboxGeneralDetailMarkup(infoBox,dialog):'',cards=boxes.length?boxes.map(stageboxCardMarkup).join(''):'<div class="sp-routing-empty sp-stagebox-empty"><strong>Noch keine Stagebox</strong><span>Platziere eine Stagebox auf der Bühne, um ihre Ports hier zu sehen.</span></div>';return '<div class="sp-stagebox-workbench">'+stageboxWorkbenchToolbarMarkup()+'<div class="sp-stagebox-workbench-body" data-has-details="'+String(!!detail)+'"><main class="sp-stagebox-patch-canvas">'+stageInputCableStatusMarkup()+'<div class="sp-stagebox-card-list" data-view-mode="'+stageboxViewMode+'">'+cards+'</div>'+(shownContext?stageboxSourcePanelMarkup(shownContext):'')+'</main>'+detail+'</div></div>';
+    const context=stageboxPatchContext(),shownContext=context&&boxes.some(box=>box.id===context.box.id)?context:null,infoBox=boxes.find(box=>box.id===activeStageboxId)||boxes[0],detail=shownContext?stageboxDetailMarkup(shownContext,dialog):infoBox?stageboxGeneralDetailMarkup(infoBox,dialog):'',cards=boxes.length?boxes.map(stageboxCardMarkup).join(''):'<div class="sp-routing-empty sp-stagebox-empty"><strong>Noch keine Stagebox</strong><span>Platziere eine Stagebox auf der Bühne, um ihre Ports hier zu sehen.</span></div>';return '<div class="sp-stagebox-workbench">'+stageboxWorkbenchToolbarMarkup(dialog)+'<div class="sp-stagebox-workbench-body" data-has-details="'+String(!!detail)+'"><main class="sp-stagebox-patch-canvas">'+stageInputCableStatusMarkup()+'<div class="sp-stagebox-card-list" data-view-mode="'+stageboxViewMode+'">'+cards+'</div>'+(shownContext?stageboxSourcePanelMarkup(shownContext):'')+'</main>'+detail+'</div></div>';
   }
   function renderStageboxView(){const boxes=allRoutingStageboxes();if(boxes.length&&!boxes.some(box=>box.id===activeStageboxId))activeStageboxId=boxes[0].id;$('sp-stagebox-view').innerHTML=stageboxWorkbenchMarkup(boxes);}
   function renderStageboxIoDialog(){
@@ -9489,12 +9464,13 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage)return;syncRoutingFromStage(false,false);
     for(const direction of ['inputs','outputs']){$('sp-'+(direction==='inputs'?'input':'output')+'-count').textContent=stage.routing[direction].length;$('sp-'+(direction==='inputs'?'input':'output')+'-tab').setAttribute('aria-selected',String(routingTab===direction));}
     const stageboxMode=routingTab==='stageboxes';$('sp-routing').dataset.stageboxMode=String(stageboxMode);$('sp-stagebox-tab').setAttribute('aria-selected',String(stageboxMode));$('sp-stagebox-count').textContent=allRoutingStageboxes().length;root.querySelector('.sp-routing-table-wrap').hidden=stageboxMode;$('sp-stagebox-view').hidden=!stageboxMode;
-    for(const id of ['sp-routing-add','sp-routing-csv-import','sp-routing-pdf','sp-routing-csv','sp-routing-xlsx'])$(id).hidden=stageboxMode;
-    if(stageboxMode){renderStageboxView();$('sp-routing-summary').textContent=allRoutingStageboxes().length+' Stagebox'+(allRoutingStageboxes().length===1?'':'en')+' · '+stage.routing.inputs.filter(row=>row.stagebox).length+' Inputs verbunden · '+stage.routing.outputs.filter(row=>row.stagebox).length+' Outputs verbunden';$('sp-routing-status').textContent='Portbelegung aus Routing und Bühnenverkabelung';return;}
+    for(const id of ['sp-routing-csv-import','sp-routing-csv'])$(id).hidden=stageboxMode;
+    $('sp-routing-summary').textContent=stage.routing.inputs.length+' Inputs · '+stage.routing.outputs.length+' Outputs';$('sp-routing-status').textContent='Automatisch mit der Bühne verbunden. CH = Mischpultkanal · Patch = Stagebox-Buchse. Sortieren behält Kanalnummern bei.';
+    if(stageboxMode){renderStageboxView();return;}
     const rows=stage.routing[routingTab],boxes=new Map(routingStageboxes(routingTab).map(box=>[box.id,box]));
     $('sp-routing').dataset.audioDirection=routingTab;const headers=root.querySelector('.sp-routing-table thead tr').children;headers[1].textContent=routingTab==='inputs'?'CH':'OUT';headers[2].textContent=routingTab==='inputs'?'Signal / Quelle':'Ziel / Signal';
     $('sp-routing-rows').innerHTML=audioRoutingRows(rows,routingTab);
-    $('sp-routing-empty').hidden=rows.length>0;$('sp-routing-summary').textContent=stage.routing.inputs.length+' Inputs · '+stage.routing.outputs.length+' Outputs';$('sp-routing-status').textContent='Automatisch mit der Bühne verbunden. CH = Mischpultkanal · Patch = Stagebox-Buchse. Sortieren behält Kanalnummern bei.';
+    $('sp-routing-empty').hidden=rows.length>0;
 
   }
   function setChannelPillValue(id,value){
