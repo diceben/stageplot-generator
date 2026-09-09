@@ -7,6 +7,55 @@ const StageplotPrint = (() => {
     return node;
   };
 
+  function arrangePlan(layout, figure, sources) {
+    const box = figure.firstElementChild.viewBox.baseVal;
+    const eligible = sources.filter(source => {
+      const probe = element('div'); probe.innerHTML = source.html;
+      return !probe.querySelector('table') || probe.querySelectorAll('thead th').length <= 2;
+    });
+    if (!eligible.length) { layout.dataset.layout = 'none'; return new Set(); }
+    const height = layout.clientHeight, gap = 12;
+    const used = rail => [...rail.children].reduce((sum, node) => sum + node.offsetHeight + gap, -gap);
+    function compose(mode) {
+      layout.replaceChildren(); layout.dataset.layout = mode;
+      layout.style.setProperty('--sp-plan-band', Math.round(height * .35) + 'px');
+      const rails = Array.from({length:mode === 'both' ? 2 : mode === 'bottom' ? 3 : 1}, () => element('aside', 'sp-report-aside'));
+      if (mode === 'both') layout.append(rails[0], figure, rails[1]);
+      else if (mode === 'bottom') {
+        const band = element('div', 'sp-report-bottom'); band.append(...rails); layout.append(figure, band);
+      } else layout.append(figure, rails[0]);
+      const placed = new Set();
+      const blocks = eligible.map((source,index) => {
+        const block = element('section', 'sp-report-section sp-report-plan-info');
+        block.dataset.infoOrder = index;
+        block.append(element('h3', '', source.title));
+        const body = element('div'); body.innerHTML = source.html; block.append(body);
+        rails[0].append(block); const height = block.offsetHeight; block.remove();
+        return {source,block,height};
+      });
+      // Tall blocks first avoids leaving a useful second column half empty.
+      if (rails.length > 1) blocks.sort((a,b) => b.height - a.height);
+      for (const {source,block} of blocks) {
+        for (const rail of [...rails].sort((a,b) => used(a) - used(b))) {
+          rail.append(block);
+          if (rail.scrollHeight <= rail.clientHeight + 1) { placed.add(source); break; }
+          block.remove();
+        }
+      }
+      for (const rail of rails) rail.append(...[...rail.children].sort((a,b) => Number(a.dataset.infoOrder) - Number(b.dataset.infoOrder)));
+      if (mode === 'bottom') layout.style.setProperty('--sp-plan-band', Math.max(0, ...rails.map(used)) + 'px');
+      figure.firstElementChild.setAttribute('preserveAspectRatio', mode === 'right' ? 'xMinYMid meet' : 'xMidYMid meet');
+      return {mode, placed, scale:Math.min(figure.clientWidth / box.width, figure.clientHeight / box.height)};
+    }
+    // Use spare space without making the actual stage noticeably smaller.
+    const candidates = ['right', 'bottom', 'both'].map(compose).filter(candidate => candidate.placed.size);
+    if (!candidates.length) { layout.replaceChildren(figure); layout.dataset.layout = 'none'; return new Set(); }
+    const bestScale = Math.max(...candidates.map(candidate => candidate.scale));
+    const best = candidates.filter(candidate => candidate.scale >= bestScale * .94)
+      .sort((a,b) => b.placed.size - a.placed.size || ['right','bottom','both'].indexOf(a.mode) - ['right','bottom','both'].indexOf(b.mode))[0];
+    return compose(best.mode).placed;
+  }
+
   function render(host, report) {
     host.replaceChildren();
     const pages = [];
@@ -43,12 +92,14 @@ const StageplotPrint = (() => {
     }
     figure.append(svg);
     layout.append(figure);
-    if (report.summary.length) {
-      const summary = element('div', 'sp-report-summary');
-      report.summary.forEach(line => summary.append(element('p', '', line)));
-      layout.append(summary);
-    }
     plan.append(layout);
+    const sources = [...report.sections];
+    if (report.summary.length) {
+      const summary = element('div');
+      report.summary.forEach(line => summary.append(element('p', '', line)));
+      sources.unshift({title:'Technische Anforderungen', html:summary.innerHTML});
+    }
+    const onPlan = arrangePlan(layout, figure, sources);
 
     let content = null;
     const fits = () => content.scrollHeight <= content.clientHeight + 1;
@@ -59,7 +110,8 @@ const StageplotPrint = (() => {
       content.append(node);
       return node;
     }
-    for (const source of report.sections) {
+    for (const source of sources) {
+      if (onPlan.has(source)) continue;
       const template = element('div');
       template.innerHTML = source.html;
       if (!template.textContent.trim()) continue;

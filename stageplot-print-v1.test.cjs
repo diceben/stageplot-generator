@@ -21,9 +21,37 @@ const rotated={tagName:'g',matches:()=>false,getBBox:()=>({x:10,y:10,width:20,he
 const crop=ctx.exportArtworkBounds({viewBox,children:[rotated]});
 assert.deepEqual(JSON.parse(JSON.stringify(crop)),{x:-24,y:6,width:18,height:28},'Gedrehte Elemente werden in den SVG-Zuschnitt eingerechnet.');
 assert.equal(ctx.exportArtworkBounds({viewBox,children:[]}),null);
+const outsideFrame={tagName:'text',matches:()=>false,getBBox:()=>({x:-120,y:95,width:30,height:22}),transform:{baseVal:{consolidate:()=>null}}};
+assert.deepEqual(JSON.parse(JSON.stringify(ctx.exportArtworkBounds({viewBox,children:[outsideFrame]}))),{x:-124,y:91,width:38,height:30},'Beschriftungen außerhalb des alten Viewports dürfen im Export nicht abgeschnitten werden.');
 assert.match(html,/sp-print-black-stage'\)\.addEventListener\('change',renderPrint\)/,'Schwarzer Exporthintergrund darf das Projekt nicht ändern.');
 const depth={attributes:{},setAttribute(name,value){this.attributes[name]=value;}};
 ctx.metres=value=>value+' m';vm.runInContext(extract('positionVenueDimensions'),ctx);
 ctx.positionVenueDimensions({parentElement:{id:'sp-print-floor'},querySelector:selector=>selector==='[data-dim-depth]'?depth:null,querySelectorAll:()=>[],setAttribute(){}},{floorBounds:{minX:0,minY:0,maxX:4,maxY:5},bounds:{minX:0,maxX:4}},50,300,50);
 assert.equal(depth.attributes.x,242);assert.equal(depth.attributes.transform,'rotate(-90 242 175)','Seitliche Venue-Maße drehen sich um ihre tatsächliche Textposition.');
+// The final export positions both dimension lines on the physical stage edges,
+// regardless of the surrounding canvas, IEM space or diagram translation.
+const node=()=>({attributes:{},children:[],setAttribute(k,v){this.attributes[k]=v;},append(child){this.children.push(child);}});
+const width=node(),widthLine=node(),depthLabel=node(),ticks=[node(),node()],orientations=[node(),node()];
+const svg={...node(),querySelector:selector=>({'[data-dim-width]':width,'[data-dim-depth]':depthLabel,'[data-stage-measure="width"]':widthLine}[selector]),querySelectorAll:selector=>selector==='[data-stage-measure-tick="width"]'?ticks:selector==='.sp-orientation'?orientations:[]};
+ctx.sEl=(tag,attrs,parent)=>{const n=node();n.tag=tag;Object.assign(n.attributes,attrs);parent.append(n);return n;};
+vm.runInContext(extract('positionPrintDimensions'),ctx);
+ctx.positionPrintDimensions(svg,{minX:-1.13,minY:.27,maxX:4.18,maxY:5.27},50,300,80);
+assert.equal(widthLine.attributes.y1,79.5);assert.equal(widthLine.attributes.y2,79.5);
+assert.equal(widthLine.attributes.x1,243.5);assert.equal(widthLine.attributes.x2,509);
+assert.equal(width.attributes.y,79.5,'Der Text sitzt direkt auf der nahen Maßlinie.');
+assert.equal(depthLabel.attributes.x,229.5);assert.equal(depthLabel.attributes.y,218.5);
+const depthGroup=svg.children.find(n=>n.attributes['data-stage-depth-dimension']);
+assert.equal(depthGroup.children[0].attributes.y1,93.5);assert.equal(depthGroup.children[0].attributes.y2,343.5);
+assert.equal(orientations[0].attributes.y,57.5);assert.equal(orientations[1].attributes.y,371.5);
+const access=(x,y,width,height)=>({getBBox:()=>({x,y,width,height}),transform:{baseVal:{consolidate:()=>null}}});
+const query=svg.querySelectorAll;svg.querySelectorAll=selector=>selector.startsWith('[data-stairs-zone]')?[access(250,75,40,25),access(210,130,30,70)]:query(selector);
+ctx.positionPrintDimensions(svg,{minX:-1.13,minY:.27,maxX:4.18,maxY:5.27},50,300,80);
+assert.equal(widthLine.attributes['data-measure-side'],'bottom','Bei einer Treppe hinten wird die freie Vorderkante bemaßt.');
+assert.equal(widthLine.attributes.y1,357.5);
+assert.equal(depthLabel.attributes.x,523,'Ein seitlicher Anbau darf die Maßlinie auf die freie Gegenseite verschieben.');
+svg.querySelectorAll=selector=>selector.startsWith('[data-stairs-zone]')?[access(370,30,60,50),access(240,180,60,50)]:query(selector);
+ctx.positionPrintDimensions(svg,{minX:0,minY:0,maxX:8,maxY:5},50,300,80,{floor:[[[[0,0],[8,0],[8,2.5],[4,2.5],[4,5],[0,5],[0,0]]]]});
+assert.equal(widthLine.attributes.y1,66,'Am L-Grundriss gehört das Gesamtmaß zur durchgehenden oberen Kante, nicht auf den kurzen unteren Absatz.');
+assert.equal(depthLabel.attributes.x,286,'Das Tiefenmaß gehört zur durchgehenden linken Kante.');
+assert.notEqual(depthLabel.attributes.y,205,'Der Maßtext weicht dem IEM-Bereich entlang derselben Kante aus.');
 console.log('PASS PRINT: optionale Inhalte ohne Leerseiten, escaped Notizen, Projektkennung, Datum, Maße und rotierter SVG-Zuschnitt.');
