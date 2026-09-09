@@ -384,45 +384,51 @@
   </section>
   <section id="sp-document-print" class="sp-document-print" hidden><header><div><span>STAGEPLOT · TECHNICAL DOCUMENT</span><h1 id="sp-document-title"></h1></div><div id="sp-document-meta"></div></header><section id="sp-document-project"></section><div id="sp-document-floor" class="sp-document-floor"></div><section id="sp-document-routing"></section><section id="sp-document-contacts"></section><section id="sp-document-notes"></section></section>
   <dialog id="sp-channel-dialog" class="sp-clear-dialog sp-channel-dialog" aria-labelledby="sp-channel-title">
-    <div class="sp-dialog-heading"><div><span class="sp-eyebrow">AUDIO &amp; VERKABELUNG</span><h2 id="sp-channel-title">Signal bearbeiten</h2></div><button class="sp-button" type="button" id="sp-channel-close" aria-label="Signal schließen">×</button></div>
-    <div id="sp-audio-context" class="sp-audio-context" aria-label="Aktuelle Signalzuordnung"></div>
+    <div class="sp-dialog-heading"><div><span class="sp-eyebrow">SIGNAL BEARBEITEN</span><h2 id="sp-channel-title">Signal bearbeiten</h2></div><button class="sp-button" type="button" id="sp-channel-close" aria-label="Signal schließen">×</button></div>
+    <div id="sp-audio-context" class="sp-audio-context" aria-label="Aktuelles Instrument und Kanal"></div>
     <form id="sp-channel-form" novalidate>
       <div id="sp-audio-editor-tabs" class="sp-audio-editor-tabs" role="tablist" aria-label="Signal bearbeiten – Bereiche">
-        <button type="button" id="sp-audio-tab-signal" role="tab" aria-controls="sp-audio-panel-signal" aria-selected="true" tabindex="0" data-audio-tab="signal">Signal</button>
-        <button type="button" id="sp-audio-tab-patch" role="tab" aria-controls="sp-audio-panel-patch" aria-selected="false" tabindex="-1" data-audio-tab="patch">Stagebox &amp; Kanäle</button>
-        <button type="button" id="sp-audio-tab-more" role="tab" aria-controls="sp-audio-panel-more" aria-selected="false" tabindex="-1" data-audio-tab="more">Weitere Angaben</button>
+        <button type="button" id="sp-audio-tab-signal" role="tab" aria-controls="sp-audio-panel-signal" aria-selected="true" tabindex="0" data-audio-tab="signal">Abnahme</button>
+        <button type="button" id="sp-audio-tab-chain" role="tab" aria-controls="sp-audio-panel-chain" aria-selected="false" tabindex="-1" data-audio-tab="chain">Signalweg</button>
+        <button type="button" id="sp-audio-tab-patch" role="tab" aria-controls="sp-audio-panel-patch" aria-selected="false" tabindex="-1" data-audio-tab="patch">Kanäle</button>
+        <button type="button" id="sp-audio-tab-more" role="tab" aria-controls="sp-audio-panel-more" aria-selected="false" tabindex="-1" data-audio-tab="more">Notizen &amp; Funk</button>
       </div>
       <div id="sp-audio-editor-body" class="sp-audio-editor-body">
         <section id="sp-audio-panel-signal" data-audio-panel="signal" role="tabpanel" aria-labelledby="sp-audio-tab-signal">
-          <label class="sp-field">Signalname<input id="sp-channel-instrument" maxlength="100" required></label>
-          <div class="sp-audio-signal-options"><fieldset class="sp-channel-pill-field"><legend>Richtung</legend><input id="sp-channel-direction" type="hidden" value="inputs"><div id="sp-channel-direction-pills" class="sp-channel-pills" data-channel-pill-group="sp-channel-direction"><button type="button" data-channel-value="inputs">Input</button><button type="button" data-channel-value="outputs">Output</button></div></fieldset><fieldset class="sp-channel-pill-field"><legend>Format</legend><input id="sp-audio-format" type="hidden" value="mono"><div class="sp-channel-pills" data-channel-pill-group="sp-audio-format"><button type="button" data-channel-value="mono">Mono</button><button type="button" data-channel-value="stereo">Stereo L/R · 2 Kanäle</button></div></fieldset></div>
-          <fieldset class="sp-channel-pill-field" id="sp-audio-pickup-field"><legend>Abnahme</legend><input id="sp-audio-pickup" type="hidden" value="Mic"><div class="sp-channel-pills" data-channel-pill-group="sp-audio-pickup"><button type="button" data-channel-value="Mic">Mikrofon</button><button type="button" data-channel-value="DI">DI-Box</button><button type="button" data-channel-value="Direct">Direkt / Line</button><button type="button" data-channel-value="Digital">Digital</button></div></fieldset>
+          <div class="sp-audio-pickup-config">
+          <fieldset class="sp-channel-pill-field" id="sp-audio-pickup-field"><legend>Wie kommt das Signal an?</legend><input id="sp-audio-pickup" type="hidden" value="Mic"><div class="sp-channel-pills sp-audio-methods" data-channel-pill-group="sp-audio-pickup"><button type="button" data-channel-value="Mic"><strong>Mikrofon</strong><small>Akustisch abnehmen</small></button><button type="button" data-channel-value="DI"><strong>DI-Box</strong><small>Instrument → XLR</small></button><button type="button" data-channel-value="Direct"><strong>Direkt / Line</strong><small>Geräteausgang nutzen</small></button><button type="button" data-channel-value="Digital"><strong>Digital</strong><small>Digital übertragen</small></button></div></fieldset>
           <fieldset class="sp-channel-pill-field" id="sp-audio-kind-field" hidden><legend>Verwendung</legend><input id="sp-audio-kind" type="hidden" value="line"><div class="sp-channel-pills" data-channel-pill-group="sp-audio-kind"><button type="button" data-channel-value="monitor">Monitor</button><button type="button" data-channel-value="iem">IEM</button><button type="button" data-channel-value="line">Line / sonstiger Output</button></div></fieldset>
           <div hidden><input id="sp-channel-mode" value="Mono"><input id="sp-channel-signal" value="Mic"></div>
-          <div class="sp-channel-detail-row"><fieldset class="sp-channel-pill-field sp-channel-microphone-field"><legend>Mikrofon / DI-Modell</legend><input id="sp-channel-microphone" type="text" value="" maxlength="80" placeholder="z. B. SM57 oder Radial J48" aria-label="Mikrofon oder DI-Modell"><details id="sp-audio-mic-choices"><summary>Häufige Mikrofone auswählen</summary><div class="sp-microphone-pills" data-channel-pill-group="sp-channel-microphone"><button type="button" class="sp-mic-none" data-channel-value="" aria-label="Kein Mikrofon">Keines</button><button type="button" data-channel-value="Shure SM57" aria-label="Shure SM57" title="Shure SM57"><span class="sp-mic-sprite sp-mic-sm57" aria-hidden="true"></span><small>SM57</small></button><button type="button" data-channel-value="Telefunken M80" aria-label="Telefunken M80" title="Telefunken M80"><span class="sp-mic-sprite sp-mic-m80" aria-hidden="true"></span><small>M80</small></button><button type="button" data-channel-value="Beyerdynamic M201TG" aria-label="Beyerdynamic M201TG" title="Beyerdynamic M201TG"><span class="sp-mic-sprite sp-mic-m201" aria-hidden="true"></span><small>M201TG</small></button><button type="button" data-channel-value="Neumann KM 184" aria-label="Neumann KM 184" title="Neumann KM 184"><span class="sp-mic-sprite sp-mic-km184" aria-hidden="true"></span><small>KM 184</small></button><button type="button" data-channel-value="sE Electronics V7" aria-label="sE Electronics V7" title="sE Electronics V7"><span class="sp-mic-sprite sp-mic-v7" aria-hidden="true"></span><small>V7</small></button><button type="button" data-channel-value="Audix i5" aria-label="Audix i5" title="Audix i5"><span class="sp-mic-sprite sp-mic-i5" aria-hidden="true"></span><small>i5</small></button><button type="button" data-channel-value="Sennheiser 421" aria-label="Sennheiser 421" title="Sennheiser 421"><span class="sp-mic-sprite sp-mic-421" aria-hidden="true"></span><small>421</small></button></div></details></fieldset><label class="sp-channel-toggle"><input id="sp-channel-phantom" type="checkbox"><span>48V</span></label></div>
+          <div class="sp-audio-signal-options"><fieldset class="sp-channel-pill-field"><legend>Richtung</legend><input id="sp-channel-direction" type="hidden" value="inputs"><div id="sp-channel-direction-pills" class="sp-channel-pills" data-channel-pill-group="sp-channel-direction"><button type="button" data-channel-value="inputs"><strong>Input</strong><small>Zum Mischpult</small></button><button type="button" data-channel-value="outputs"><strong>Output</strong><small>Vom Mischpult</small></button></div></fieldset><fieldset class="sp-channel-pill-field"><legend>Format</legend><input id="sp-audio-format" type="hidden" value="mono"><div class="sp-channel-pills" data-channel-pill-group="sp-audio-format"><button type="button" data-channel-value="mono"><strong>Mono</strong><small>Ein Kanal</small></button><button type="button" data-channel-value="stereo"><strong>Stereo L/R</strong><small>Zwei Kanäle</small></button></div></fieldset></div></div>
+          <div class="sp-channel-detail-row"><fieldset class="sp-channel-pill-field sp-channel-microphone-field"><legend id="sp-audio-model-heading">Mikrofon auswählen</legend><input id="sp-channel-microphone" type="hidden" value=""><div id="sp-audio-mic-selected" class="sp-audio-mic-selected"></div><div id="sp-audio-mic-choices"><div class="sp-audio-manufacturer-nav"><button type="button" data-audio-brand-scroll="-1" aria-label="Vorherige Hersteller">‹</button><div id="sp-audio-mic-brands" class="sp-audio-mic-brands" role="group" aria-label="Mikrofon-Hersteller"></div><button type="button" data-audio-brand-scroll="1" aria-label="Weitere Hersteller">›</button></div><p id="sp-audio-mic-hint" class="sp-muted"></p><div id="sp-audio-mic-models" class="sp-audio-mic-models" role="group" aria-label="Mikrofonmodelle"></div></div><label class="sp-field" id="sp-audio-custom-model-field" hidden>Eigenes Modell<input id="sp-audio-custom-model" maxlength="80" placeholder="Hersteller und Modell"></label></fieldset><label class="sp-audio-switch"><input id="sp-channel-phantom" type="checkbox"><span><strong>48 V Phantomspeisung</strong><small>Für dieses Signal verwenden</small></span></label></div>
+        </section>
+        <section id="sp-audio-panel-chain" data-audio-panel="chain" role="tabpanel" aria-labelledby="sp-audio-tab-chain" hidden>
+          <div class="sp-audio-section-heading"><h3 id="sp-audio-chain-title">Ein Weg zum Mischpult</h3><p id="sp-audio-chain-description">Instrument, Verstärker und Mikrofon können zu einem gemeinsamen Kanal gehören.</p></div>
+          <div id="sp-audio-chain-preview" class="sp-audio-chain-preview" aria-label="Signalweg-Vorschau"></div>
+          <section id="sp-audio-chain"><h3>Welche Bühnenobjekte gehören dazu?</h3><p class="sp-muted">Karte auswählen, um ein weiteres Signal hier einzubinden. Es erscheint anschließend gemeinsam in der Inputliste. Die ursprünglichen Angaben bleiben wiederherstellbar.</p><div id="sp-audio-chain-current"></div><div id="sp-audio-chain-options"></div></section>
         </section>
         <section id="sp-audio-panel-patch" data-audio-panel="patch" role="tabpanel" aria-labelledby="sp-audio-tab-patch" hidden>
-          <section id="sp-audio-patch-panel" class="sp-audio-patch-panel" aria-label="Stagebox-Zuordnung"><fieldset class="sp-channel-pill-field sp-channel-stagebox-field"><legend>Stagebox wählen</legend><input id="sp-channel-stagebox" type="hidden" value=""><div id="sp-channel-stagebox-pills" class="sp-channel-pills sp-channel-stagebox-pills" data-channel-pill-group="sp-channel-stagebox"></div><small id="sp-channel-stagebox-hint">IN / OUT bezeichnet die Buchse an der Stagebox. CH ist der Kanal am Mischpult.</small></fieldset>
-            <button class="sp-button sp-audio-di-help" id="sp-audio-di-help" type="button" hidden>Für XLR-Buchsen: Abnahme auf DI-Box ändern</button>
-            <small id="sp-audio-right-patch" class="sp-muted"></small>
-            <div id="sp-audio-port-choices" class="sp-audio-port-choices" hidden></div>
-            <details id="sp-audio-manual-ports"><summary>Buchsen einzeln festlegen</summary><div class="sp-audio-patch-fields"><label class="sp-field">Buchse · links / mono<input id="sp-audio-port" type="number" min="1" max="128" placeholder="Automatisch"></label><label class="sp-field" id="sp-audio-right-port-field" hidden>Buchse · rechts<input id="sp-audio-right-port" type="number" min="1" max="128" placeholder="Automatisch"></label></div><small>Leer lassen = nächste freie Buchse beim Übernehmen.</small></details>
+          <div class="sp-audio-console-fields"><h3>Kanäle am Mischpult</h3><div class="sp-channel-top-fields"><label class="sp-field sp-channel-number-field"><span id="sp-audio-number-label">Mischpult · CH</span><span class="sp-channel-number-wrap"><input id="sp-channel-number" type="text" inputmode="numeric" autocomplete="off" maxlength="3" pattern="#|[1-9][0-9]{0,2}" placeholder="#" aria-describedby="sp-channel-number-help"><small id="sp-channel-number-help"># = nächste freie</small></span></label><label class="sp-field" id="sp-audio-right-number-field" hidden><span id="sp-audio-right-number-label">Rechts · CH</span><input id="sp-audio-right-number" type="text" inputmode="numeric" maxlength="3" pattern="#|[1-9][0-9]{0,2}" placeholder="#"></label></div><p class="sp-muted">CH ist der Kanal am Mischpult. Die Buchse an der Stagebox wird unabhängig davon gewählt.</p></div>
+          <section id="sp-audio-patch-panel" class="sp-audio-patch-panel" aria-label="Stagebox-Zuordnung"><input id="sp-channel-stagebox" type="hidden" value=""><div id="sp-channel-stagebox-pills" data-channel-pill-group="sp-channel-stagebox" hidden></div><div id="sp-audio-port-choices" class="sp-audio-port-choices"></div><small id="sp-channel-stagebox-hint" hidden></small><button class="sp-button sp-audio-di-help" id="sp-audio-di-help" type="button" hidden>Für XLR-Buchsen: Abnahme auf DI-Box ändern</button><small id="sp-audio-right-patch" class="sp-muted"></small>
+            <section id="sp-audio-manual-ports"><div class="sp-audio-patch-fields"><label class="sp-field">Stagebox-Buchse · links / mono<input id="sp-audio-port" type="number" min="1" max="128" placeholder="Automatisch"></label><label class="sp-field" id="sp-audio-right-port-field" hidden>Stagebox-Buchse · rechts<input id="sp-audio-right-port" type="number" min="1" max="128" placeholder="Automatisch"></label></div><small>Leer lassen = nächste freie Buchse beim Übernehmen.</small></section>
           </section>
-          <div class="sp-audio-console-fields"><strong>Kanäle am Mischpult</strong><div class="sp-channel-top-fields"><label class="sp-field sp-channel-number-field"><span id="sp-audio-number-label">Mischpult · CH</span><span class="sp-channel-number-wrap"><input id="sp-channel-number" type="text" inputmode="numeric" autocomplete="off" maxlength="3" pattern="#|[1-9][0-9]{0,2}" placeholder="#" aria-describedby="sp-channel-number-help"><small id="sp-channel-number-help"># = nächste freie</small></span></label><label class="sp-field" id="sp-audio-right-number-field" hidden><span id="sp-audio-right-number-label">Rechts · CH</span><input id="sp-audio-right-number" type="text" inputmode="numeric" maxlength="3" pattern="#|[1-9][0-9]{0,2}" placeholder="#"></label></div><small>Die Kanalnummer am Mischpult ist unabhängig von der Stagebox-Buchse. Leer = noch offen, # = nächste freie Nummer.</small></div>
         </section>
         <section id="sp-audio-panel-more" data-audio-panel="more" role="tabpanel" aria-labelledby="sp-audio-tab-more" hidden>
+          <label class="sp-field">Signalname<input id="sp-channel-instrument" maxlength="100" required></label>
           <div id="sp-audio-iem-fields" hidden><fieldset class="sp-channel-pill-field"><legend>IEM-Übertragung</legend><input id="sp-audio-transport" type="hidden" value="wireless"><div class="sp-channel-pills" data-channel-pill-group="sp-audio-transport"><button type="button" data-channel-value="wireless">Funk</button><button type="button" data-channel-value="cable">Kabel</button></div></fieldset></div>
-<label class="sp-check" id="sp-audio-wireless-field"><input type="checkbox" id="sp-audio-wireless"> Funk verwenden</label>
-<label class="sp-field" id="sp-audio-frequency-field">Funk · Frequenzbereich / Kanal<input id="sp-audio-frequency" maxlength="100" placeholder="Nur bei Funk, z. B. 470–516 MHz"></label>
-<label class="sp-field">Notizen<textarea id="sp-channel-notes" rows="2" maxlength="240"></textarea></label>
-<details id="sp-audio-chain"><summary>Signalweg · Bühnenobjekte zusammenführen</summary><p class="sp-muted">Ein Signal kann z. B. Gitarre, Amp und Mikrofon verbinden. Ausgewählte Kanäle werden zusammengeführt. Ihre ursprünglichen Angaben bleiben zum Wiederherstellen gespeichert.</p><div id="sp-audio-chain-current"></div><div id="sp-audio-chain-options"></div></details>
-<div id="sp-audio-order" class="sp-audio-order"><span>Reihenfolge</span><button class="sp-button" type="button" data-audio-move="up" aria-label="Signal nach oben verschieben">↑ Nach oben</button><button class="sp-button" type="button" data-audio-move="down" aria-label="Signal nach unten verschieben">↓ Nach unten</button></div>
-          <div class="sp-audio-remove"><button class="sp-button sp-danger-quiet" type="button" id="sp-channel-delete">Signal entfernen</button></div>
+          <label class="sp-audio-switch" id="sp-audio-wireless-field"><input type="checkbox" id="sp-audio-wireless"><span><strong>Funk verwenden</strong><small>Frequenzbereich zum Signal angeben</small></span></label>
+          <label class="sp-field" id="sp-audio-frequency-field">Funk · Frequenzbereich / Kanal<input id="sp-audio-frequency" maxlength="100" placeholder="z. B. 470–516 MHz"></label><label class="sp-field">Notizen<textarea id="sp-channel-notes" rows="3" maxlength="240"></textarea></label>
+          <div id="sp-audio-order" class="sp-audio-order"><span>Reihenfolge</span><button class="sp-button" type="button" data-audio-move="up" aria-label="Signal nach oben verschieben">↑ Nach oben</button><button class="sp-button" type="button" data-audio-move="down" aria-label="Signal nach unten verschieben">↓ Nach unten</button></div><div class="sp-audio-remove"><button class="sp-button sp-danger-quiet" type="button" id="sp-channel-delete">Signal entfernen</button></div>
         </section>
       </div>
-      <p id="sp-audio-error" role="alert"></p>
-      <div class="sp-actions"><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-channel-cancel">Abbrechen</button><button class="sp-button sp-primary" type="submit">Übernehmen</button></div>
+      <p id="sp-audio-error" role="alert"></p><div class="sp-actions"><span class="sp-spacer"></span><button class="sp-button" type="button" id="sp-channel-cancel">Abbrechen</button><button class="sp-button sp-primary" type="submit">Übernehmen</button></div>
     </form>
+  </dialog>
+  <dialog id="sp-audio-connect-dialog" class="sp-clear-dialog sp-audio-connect-dialog" aria-labelledby="sp-audio-connect-title">
+    <div class="sp-dialog-heading"><div><span class="sp-eyebrow">STAGEBOX VERBINDEN</span><h2 id="sp-audio-connect-title">Stagebox wählen</h2></div><button class="sp-button" type="button" id="sp-audio-connect-close" aria-label="Stagebox-Auswahl schließen">×</button></div>
+    <p id="sp-audio-connect-source"></p><div id="sp-audio-connect-boxes" class="sp-audio-connect-boxes" role="group" aria-label="Verfügbare Stageboxen"></div>
+    <div id="sp-audio-connect-port-field" class="sp-audio-connect-port"><label class="sp-field"><span id="sp-audio-connect-port-label">Vorgeschlagene Buchse</span><input id="sp-audio-connect-port" type="number" min="1" max="128"></label><span id="sp-audio-connect-port-hint"></span></div>
+    <p id="sp-audio-connect-error" role="alert"></p><div class="sp-actions"><button class="sp-button" type="button" id="sp-audio-connect-disconnect">Verbindung lösen</button><span class="sp-spacer"></span><button class="sp-button sp-primary" type="button" id="sp-audio-connect-save">Verbinden</button></div>
   </dialog>
   <dialog id="sp-stagebox-io-dialog" class="sp-clear-dialog sp-stagebox-io-dialog" aria-labelledby="sp-stagebox-io-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">STAGEBOX ROUTING</span><h2 id="sp-stagebox-io-title">Routing / I/O</h2><p id="sp-stagebox-io-summary" class="sp-muted"></p></div><button class="sp-stagebox-close-button" type="button" id="sp-stagebox-io-close" aria-label="Stagebox Routing schließen">×</button></div>
@@ -3130,21 +3136,6 @@
 #sp-prototype .sp-stairs-zone:active { cursor:grabbing; }
 
 #sp-prototype .sp-channel-microphone-field { min-width:0; }
-#sp-prototype .sp-microphone-pills { display:grid; grid-template-columns:repeat(4,minmax(74px,1fr)); gap:6px; }
-#sp-prototype .sp-microphone-pills button { display:grid; min-width:0; min-height:54px; place-items:center; gap:2px; padding:5px 4px; border:1px solid #d5d9d1; border-radius:9px; background:#fafbf8; color:#596059; cursor:pointer; }
-#sp-prototype .sp-microphone-pills button:hover { border-color:#92998f; background:#fff; }
-#sp-prototype .sp-microphone-pills button[aria-pressed="true"] { border-color:#252a25; background:#252a25; color:#d6fb55; box-shadow:0 0 0 1px #252a25; }
-#sp-prototype .sp-microphone-pills button:focus-visible { outline:2px solid #a6ca2a; outline-offset:2px; }
-#sp-prototype .sp-microphone-pills small { overflow:hidden; max-width:100%; font-size:8px; font-weight:760; line-height:1; text-overflow:ellipsis; white-space:nowrap; }
-#sp-prototype .sp-microphone-pills .sp-mic-none { min-height:54px; font-size:9px; font-weight:750; }
-#sp-prototype .sp-mic-sprite { display:block; width:64px; max-width:100%; height:27px; background-repeat:no-repeat; background-position:center; background-size:contain; filter:grayscale(1) contrast(1.05); }
-#sp-prototype .sp-mic-sm57 { background-image:url("stageplot-assets/mics/sm57.png?v=mic1"); }
-#sp-prototype .sp-mic-m80 { background-image:url("stageplot-assets/mics/m80.png?v=mic1"); }
-#sp-prototype .sp-mic-m201 { background-image:url("stageplot-assets/mics/m201.png?v=mic1"); }
-#sp-prototype .sp-mic-km184 { background-image:url("stageplot-assets/mics/km184.png?v=mic1"); }
-#sp-prototype .sp-mic-v7 { background-image:url("stageplot-assets/mics/v7.png?v=mic1"); }
-#sp-prototype .sp-mic-i5 { background-image:url("stageplot-assets/mics/i5.png?v=mic1"); }
-#sp-prototype .sp-mic-421 { background-image:url("stageplot-assets/mics/421.png?v=mic1"); }
 
 #sp-prototype .sp-drum-studio { --sp-drum-palette-width:205px; --sp-drum-inspector-width:330px; position:relative; grid-template-columns:var(--sp-drum-palette-width) minmax(560px,1fr) var(--sp-drum-inspector-width); transition:grid-template-columns .18s ease; }
 #sp-prototype .sp-drum-dialog[data-palette-collapsed="true"] .sp-drum-studio { --sp-drum-palette-width:0px; }
@@ -5028,54 +5019,166 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-source-option[hidden],#sp-prototype .sp-stagebox-source-group[hidden] { display:none; }
 @container sp-frame (max-width:620px) { #sp-prototype .sp-stagebox-source-panel { top:12px;height:min(580px,calc(100dvh - 210px));max-height:calc(100dvh - 210px); } }
 
-/* A stable signal editor: connection summary and tabs stay in view. */
-#sp-prototype #sp-channel-dialog { width:min(760px,calc(100vw - 32px));max-width:760px;height:min(740px,calc(100dvh - 32px));max-height:calc(100dvh - 32px);overflow:hidden;box-sizing:border-box; }
+/* Signal workspace: persistent identity, direct choices and one compact patch picker. */
+#sp-prototype #sp-channel-dialog { width:min(960px,calc(100vw - 32px));max-width:960px;height:min(860px,calc(100dvh - 32px));max-height:calc(100dvh - 32px);padding:24px;overflow:hidden;box-sizing:border-box;border-radius:20px; }
 #sp-prototype #sp-channel-dialog[open] { display:flex;flex-direction:column;gap:14px; }
-#sp-prototype #sp-channel-dialog .sp-dialog-heading { flex:none;margin:0; }
+#sp-channel-dialog .sp-dialog-heading { flex:none;margin:0; }
+#sp-prototype #sp-channel-title { font-size:24px;line-height:1.2;letter-spacing:-.6px;margin:4px 0 0;overflow-wrap:anywhere; }
+#sp-channel-dialog .sp-eyebrow,#sp-audio-connect-dialog .sp-eyebrow { font-size:10px;letter-spacing:1.5px;color:var(--sp-muted); }
 #sp-prototype #sp-channel-form { display:flex;flex:1;flex-direction:column;gap:0;min-height:0;margin:0; }
-.sp-audio-context { flex:none;display:grid;gap:5px;padding:12px 14px;border:1px solid var(--sp-line);border-radius:10px;background:var(--sp-soft);font-size:12px;line-height:1.5;overflow-wrap:anywhere; }
-.sp-audio-context > div { display:flex;align-items:baseline;gap:6px 16px;justify-content:space-between; }
-.sp-audio-context strong { font-size:14px; }
-.sp-audio-context small { flex:none;color:var(--sp-muted); }
-.sp-audio-context > span { font-variant-numeric:tabular-nums; }
-.sp-audio-editor-tabs { display:grid;grid-template-columns:.75fr 1.25fr 1fr;flex:none;border-bottom:1px solid var(--sp-line);gap:6px; }
-#sp-prototype .sp-audio-editor-tabs button { min-height:44px;padding:10px 8px;border:0;border-bottom:3px solid transparent;border-radius:6px 6px 0 0;background:transparent;color:var(--sp-muted);font:inherit;font-size:13px;font-weight:650;cursor:pointer; }
-#sp-prototype .sp-audio-editor-tabs button:hover { background:var(--sp-soft);color:var(--sp-ink); }
-#sp-prototype .sp-audio-editor-tabs [aria-selected="true"] { border-bottom-color:var(--sp-teal);background:var(--sp-accent-bg);color:var(--sp-ink); }
-.sp-audio-editor-body { flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:18px 4px 18px 0;scrollbar-gutter:stable; }
-#sp-channel-form [data-audio-panel] { display:grid;gap:18px; }
-#sp-channel-form [data-audio-panel][hidden],#sp-channel-form .sp-channel-detail-row[hidden] { display:none; }
-.sp-audio-signal-options { display:grid;grid-template-columns:1fr 1.3fr;gap:16px; }
-#sp-prototype #sp-channel-dialog .sp-audio-patch-panel { padding:0 0 18px;border:0;border-bottom:1px solid var(--sp-line);border-radius:0;background:transparent; }
-#sp-prototype #sp-channel-dialog .sp-channel-stagebox-pills { max-height:none;overflow:visible; }
+.sp-audio-context { display:flex;flex:none;gap:18px;align-items:center;background:#202923;color:#f7faf4;padding:14px 18px;border-radius:14px; }
+.sp-audio-channel-badge { display:grid;gap:2px;flex:none;min-width:64px;color:#daf891; }
+.sp-audio-channel-badge small { font-size:10px;letter-spacing:1px; }
+.sp-audio-channel-badge strong { font-size:28px;line-height:1.1; }
+.sp-audio-context-copy { display:grid;gap:4px;min-width:0;border-left:1px solid #51604e;padding-left:18px;font-size:12px;line-height:1.4;overflow-wrap:anywhere; }
+.sp-audio-context-copy strong { font-size:13px;color:#fff; }
+.sp-audio-editor-tabs { flex:none;display:flex;gap:4px;border-bottom:1px solid var(--sp-line);padding-bottom:8px; }
+#sp-prototype .sp-audio-editor-tabs button { flex:1;min-height:44px;padding:10px 12px;border:0;border-radius:9px;background:transparent;color:var(--sp-muted);font:inherit;font-size:13px;font-weight:650;cursor:pointer; }
+#sp-prototype .sp-audio-editor-tabs [aria-selected="true"] { color:var(--sp-ink);background:var(--sp-accent-bg);box-shadow:inset 0 -3px var(--sp-teal); }
+.sp-audio-editor-body { flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:18px 4px 4px 0; }
+#sp-channel-form [data-audio-panel] { display:grid;gap:20px;min-width:0; }
+#sp-channel-form [hidden],#sp-audio-connect-dialog [hidden] { display:none!important; }
+#sp-prototype #sp-channel-dialog h3 { margin:0 0 7px;font-size:16px;letter-spacing:-.2px; }
+#sp-channel-dialog .sp-muted { margin:0;font-size:12px;line-height:1.5; }
+.sp-audio-signal-options { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+#sp-prototype #sp-channel-dialog .sp-channel-pill-field legend { font-size:12px;font-weight:650;margin-bottom:8px; }
+#sp-prototype #sp-channel-dialog .sp-channel-pills { display:flex;gap:8px; }
+#sp-prototype #sp-channel-dialog .sp-channel-pills button { display:grid;gap:4px;flex:1;text-align:left;min-height:58px;padding:10px 12px;border:1px solid var(--sp-line);border-radius:10px;background:var(--sp-panel);font:inherit;font-size:13px; }
+#sp-channel-dialog .sp-channel-pills button small { font-size:11px;font-weight:400;color:var(--sp-muted); }
+#sp-prototype #sp-channel-dialog .sp-channel-pills button[aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-accent-bg);box-shadow:inset 0 -2px var(--sp-teal); }
+#sp-prototype #sp-channel-dialog .sp-channel-detail-row { display:grid;grid-template-columns:1fr;gap:16px; }
+.sp-audio-mic-selected { display:flex;align-items:center;gap:12px;padding:10px 14px;margin-bottom:14px;background:var(--sp-soft);border-radius:12px; }
+.sp-audio-mic-selected > div { flex:1;min-width:0;display:grid;gap:4px; }
+.sp-audio-mic-selected small { font-size:11px;color:var(--sp-muted); }
+.sp-audio-mic-selected strong { font-size:15px;overflow-wrap:anywhere; }
+#sp-prototype .sp-audio-mic-photo { display:block;object-fit:contain;object-position:center;width:100%;height:118px;max-width:100%;background:#fff;border-radius:8px; }
+#sp-prototype .sp-audio-mic-selected .sp-audio-mic-photo { width:44px;height:44px;flex:none; }
+.sp-audio-model-text { display:grid;place-items:center;min-height:118px;padding:12px;border-radius:8px;background:var(--sp-soft);font-size:18px;font-weight:650;overflow-wrap:anywhere; }
+.sp-audio-mic-selected .sp-audio-model-text { display:none; }
+.sp-audio-mic-brands { display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding:2px 0 8px;margin-bottom:6px; }
+#sp-prototype .sp-audio-mic-brands button { flex:none;min-height:40px;padding:8px 12px;border:1px solid var(--sp-line);border-radius:20px;background:var(--sp-panel);color:var(--sp-ink);font:inherit;font-size:12px;cursor:pointer; }
+#sp-prototype .sp-audio-mic-brands [aria-pressed="true"] { background:#202923;color:#e5fdbb;border-color:#202923; }
+.sp-audio-mic-models { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:10px; }
+#sp-prototype .sp-audio-mic-card { display:grid;grid-template-columns:minmax(0,1fr) 20px;gap:10px;align-items:start;padding:10px;text-align:left;border:1px solid var(--sp-line);border-radius:12px;background:var(--sp-panel);color:var(--sp-ink);font:inherit;cursor:pointer; }
+.sp-audio-mic-card > :first-child { grid-column:1 / -1; }
+.sp-audio-mic-card > span:not(:first-child) { display:grid;gap:4px;min-width:0; }
+.sp-audio-mic-card strong { font-size:14px;overflow-wrap:anywhere; }
+.sp-audio-mic-card small { font-size:11px;color:var(--sp-muted); }
+.sp-audio-mic-card b { font-size:19px;color:var(--sp-teal); }
+#sp-prototype .sp-audio-mic-card[aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-accent-bg);box-shadow:inset 0 0 0 1px var(--sp-teal); }
+#sp-prototype .sp-audio-switch { display:flex;align-items:center;gap:12px;min-height:58px;padding:12px 14px;border:1px solid var(--sp-line);border-radius:12px;cursor:pointer; }
+.sp-audio-switch span { display:grid;gap:4px;font-size:13px; }
+.sp-audio-switch small { color:var(--sp-muted);font-size:11px; }
+#sp-prototype .sp-audio-switch input { appearance:none;width:40px;height:24px;flex:none;position:relative;border-radius:14px;background:#a0a79d;border:0;margin:0;cursor:pointer; }
+.sp-audio-switch input::after { content:'';position:absolute;inset:3px auto 3px 3px;width:18px;border-radius:50%;background:#fff;transition:transform .15s; }
+#sp-prototype .sp-audio-switch input:checked { background:var(--sp-teal); }
+.sp-audio-switch input:checked::after { transform:translateX(16px); }
+.sp-audio-chain-preview { display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:16px;background:var(--sp-soft);border-radius:14px; }
+.sp-audio-chain-preview > div { display:grid;gap:6px;flex:1;min-width:110px;padding:12px;background:var(--sp-panel);border:1px solid var(--sp-line);border-radius:10px; }
+.sp-audio-chain-preview small { font-size:10px;color:var(--sp-muted); }
+.sp-audio-chain-preview strong { font-size:12px;overflow-wrap:anywhere; }
+#sp-audio-chain { border:0; }
+#sp-audio-chain-options { display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:none;overflow:visible;margin-top:14px; }
+#sp-prototype .sp-audio-merge-option { display:flex;align-items:center;width:100%;min-height:86px;padding:12px;gap:12px;border:1px solid var(--sp-line);border-radius:12px;color:var(--sp-ink);background:var(--sp-panel);text-align:left;font:inherit;cursor:pointer; }
+.sp-audio-merge-option > span:not(.sp-audio-object-picture) { flex:1;min-width:0; }
+.sp-audio-merge-option strong { font-size:13px; }
+.sp-audio-merge-option small { font-size:11px;color:var(--sp-muted); }
+.sp-audio-merge-option b { font-size:20px;color:var(--sp-teal); }
+#sp-prototype .sp-audio-merge-option[aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-accent-bg); }
+.sp-audio-object-picture { display:block;flex:none;width:48px;height:48px; }
+#sp-prototype .sp-audio-object-picture svg { width:100%;height:100%; }
+#sp-audio-panel-patch .sp-audio-patch-panel { padding:18px;background:var(--sp-soft);border-radius:14px; }
 .sp-audio-console-fields { display:grid;gap:12px; }
-#sp-channel-form .sp-audio-console-fields .sp-channel-top-fields { gap:24px; }
-#sp-channel-form .sp-audio-console-fields .sp-field { flex:0 1 180px; }
-#sp-channel-dialog .sp-audio-console-fields small,#sp-audio-manual-ports small,.sp-audio-port-choices > small { font-size:12px;color:var(--sp-muted);line-height:1.5; }
-#sp-audio-manual-ports summary { padding:8px 0;font-size:12px;font-weight:650;cursor:pointer; }
-#sp-audio-manual-ports .sp-audio-patch-fields { margin:8px 0; }
-#sp-channel-dialog .sp-audio-port-grid { max-height:none;overflow:visible;grid-template-columns:repeat(auto-fill,minmax(76px,1fr)); }
-#sp-prototype #sp-channel-dialog .sp-audio-port-grid .sp-button { min-height:40px; }
-#sp-prototype #sp-channel-dialog .sp-audio-auto-port { justify-self:start;min-height:40px;white-space:normal;text-align:left; }
-#sp-prototype #sp-channel-dialog [data-audio-port-choice][aria-pressed="true"] { background:var(--sp-accent-bg);border-color:var(--sp-teal);box-shadow:inset 0 -2px var(--sp-teal); }
+#sp-channel-form .sp-audio-console-fields .sp-field { flex:1; }
+#sp-channel-form .sp-audio-console-fields input { width:100%;font-size:22px;font-weight:650;min-height:48px; }
+.sp-audio-port-choices { display:flex;align-items:center;justify-content:space-between;gap:14px; }
+#sp-channel-dialog .sp-audio-patch-fields input { min-height:46px;font-size:18px; }
+#sp-audio-manual-ports small { font-size:11px;color:var(--sp-muted); }
 .sp-audio-remove { border-top:1px solid var(--sp-line);padding-top:16px; }
-#sp-prototype #sp-channel-dialog .sp-actions { position:static;flex:none;padding:14px 0 0;gap:10px; }
-#sp-prototype #sp-channel-dialog .sp-actions .sp-button { min-height:42px; }
+#sp-prototype #sp-channel-dialog .sp-actions { position:static;flex:none;padding:14px 0 0;gap:10px;background:var(--sp-panel);border-top:1px solid var(--sp-line); }
+#sp-prototype #sp-channel-dialog .sp-actions .sp-button { min-height:44px;padding-inline:20px; }
 #sp-channel-dialog #sp-audio-error:not(:empty) { padding:10px 0;font-size:12px; }
+#sp-prototype #sp-audio-connect-dialog { width:min(480px,calc(100vw - 24px));max-width:480px;max-height:calc(100dvh - 24px);padding:22px;border-radius:18px;box-sizing:border-box;overflow:auto; }
+#sp-audio-connect-title { font-size:20px;margin:6px 0;overflow-wrap:anywhere; }
+#sp-audio-connect-source { font-size:13px;font-weight:650;padding:12px;border-radius:10px;background:#202923;color:#e5fdbb; }
+.sp-audio-connect-boxes { display:grid;gap:10px;max-height:300px;overflow:auto; }
+#sp-prototype .sp-audio-connect-boxes button { display:flex;align-items:center;gap:14px;width:100%;min-height:96px;padding:12px;border:1px solid var(--sp-line);border-radius:12px;background:var(--sp-panel);color:var(--sp-ink);font:inherit;text-align:left;cursor:pointer; }
+.sp-audio-connect-boxes button > span:last-child { display:grid;gap:5px;min-width:0; }
+.sp-audio-connect-boxes strong { font-size:14px; }
+.sp-audio-connect-boxes small { font-size:11px;line-height:1.5; }
+.sp-audio-connect-boxes em { font-size:10px;font-weight:650;font-style:normal;color:var(--sp-teal); }
+#sp-prototype .sp-audio-connect-boxes [aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-accent-bg);box-shadow:inset 0 0 0 1px var(--sp-teal); }
+.sp-audio-connect-boxes button:disabled { opacity:.55;cursor:default; }
+.sp-audio-box-picture { display:block;width:80px;height:60px;flex:none; }
+#sp-prototype .sp-audio-box-picture svg { width:100%;height:100%; }
+.sp-audio-connect-port { display:flex;gap:16px;align-items:center;margin:16px 0; }
+.sp-audio-connect-port .sp-field { flex:0 0 130px; }
+#sp-prototype .sp-audio-connect-port input { min-height:46px;font-size:20px; }
+.sp-audio-connect-port > span { font-size:12px;line-height:1.5; }
+#sp-audio-connect-error { font-size:12px;line-height:1.5;color:#bd2443; }
+#sp-audio-connect-error:empty { display:none; }
+#sp-audio-connect-dialog .sp-actions { margin:16px 0 0;gap:8px; }
+#sp-prototype #sp-audio-connect-dialog .sp-actions .sp-button { min-height:44px;font-size:12px; }
+#sp-prototype .sp-drum-mic-original { width:64px;height:48px;object-fit:contain;background:#fff;border-radius:5px; }
+.sp-drum-mic-model-only { display:inline-block;padding:4px 6px;font-size:10px;letter-spacing:1px;color:var(--sp-muted); }
 @media(max-width:620px) {
-  #sp-prototype #sp-channel-dialog { width:calc(100vw - 16px);height:calc(100dvh - 16px);max-height:calc(100dvh - 16px);padding:16px; }
+  #sp-prototype #sp-channel-dialog { width:calc(100vw - 12px);height:calc(100dvh - 12px);max-height:calc(100dvh - 12px);padding:14px;border-radius:14px; }
   #sp-prototype #sp-channel-dialog[open] { gap:10px; }
-  .sp-audio-editor-tabs { gap:2px; }
-  #sp-prototype .sp-audio-editor-tabs button { font-size:12px;padding:9px 4px; }
-  .sp-audio-context { padding:10px 12px; }
-  .sp-audio-context > div { flex-wrap:wrap;gap:2px 10px; }
-  .sp-audio-signal-options { grid-template-columns:1fr;gap:14px; }
-  #sp-channel-form .sp-audio-console-fields .sp-field { flex:1 1 90px; }
-  #sp-channel-dialog .sp-audio-port-grid { grid-template-columns:repeat(auto-fill,minmax(82px,1fr)); }
-  #sp-prototype #sp-channel-dialog .sp-audio-port-grid .sp-button { min-height:44px; }
-  #sp-prototype #sp-channel-dialog .sp-actions { flex-wrap:nowrap; }
-  #sp-prototype #sp-channel-dialog .sp-actions .sp-button { flex:1; }
+  #sp-prototype #sp-channel-title { font-size:20px; }
+  .sp-audio-context { padding:12px;gap:12px; }
+  .sp-audio-context-copy { padding-left:12px;font-size:10px; }
+  .sp-audio-channel-badge strong { font-size:23px; }
+  #sp-prototype .sp-audio-editor-tabs button { padding:9px 3px;font-size:11px; }
+  .sp-audio-signal-options { gap:10px; }
+  #sp-prototype #sp-channel-dialog .sp-channel-pills { gap:6px; }
+  #sp-prototype #sp-channel-dialog .sp-channel-pills button { padding:8px;font-size:12px; }
+  #sp-prototype #sp-channel-dialog .sp-audio-methods { display:grid;grid-template-columns:1fr 1fr; }
+  .sp-audio-mic-brands { flex-wrap:nowrap;overflow-x:auto;padding:2px 0 8px; }
+  .sp-audio-mic-brands button { flex:none; }
+  .sp-audio-mic-models { grid-template-columns:1fr 1fr; }
+  .sp-audio-mic-selected { flex-wrap:wrap;padding:10px;gap:8px; }
+  .sp-audio-mic-selected .sp-button { min-height:40px; }
+  #sp-audio-chain-options { grid-template-columns:1fr; }
+  .sp-audio-port-choices { display:grid; }
+  .sp-audio-patch-fields { grid-template-columns:1fr 1fr; }
+  #sp-channel-dialog .sp-actions .sp-button { flex:1; }
 }
+@media(prefers-reduced-motion:reduce) { .sp-audio-switch input::after { transition:none; } }
+
+#sp-channel-dialog #sp-audio-pickup-field,#sp-channel-dialog #sp-audio-kind-field { order:0; }
+#sp-channel-dialog .sp-channel-detail-row { order:1; }
+#sp-channel-dialog .sp-audio-signal-options { order:2;border-top:1px solid var(--sp-line);padding-top:16px; }
+
+#sp-channel-form #sp-audio-panel-signal { grid-template-columns:190px minmax(0,1fr);gap:22px;align-items:start; }
+.sp-audio-pickup-config { display:grid;gap:18px;order:0;min-width:0; }
+#sp-channel-dialog .sp-audio-pickup-config .sp-audio-methods { display:grid;grid-template-columns:1fr; }
+#sp-channel-dialog .sp-audio-pickup-config .sp-audio-signal-options { grid-template-columns:1fr;gap:14px;padding-top:14px; }
+#sp-channel-dialog .sp-audio-mic-selected { margin-bottom:8px;padding:8px 10px; }
+#sp-prototype #sp-channel-dialog .sp-audio-mic-selected .sp-button { padding:8px;font-size:11px;min-height:36px; }
+#sp-prototype #sp-channel-dialog .sp-audio-mic-selected strong { font-size:13px; }
+#sp-prototype #sp-channel-dialog .sp-audio-mic-photo { height:100px; }
+#sp-prototype #sp-channel-dialog .sp-audio-mic-selected .sp-audio-mic-photo { height:40px;width:40px; }
+#sp-channel-dialog .sp-audio-mic-card { gap:8px; }
+#sp-channel-dialog .sp-audio-mic-card strong { font-size:13px; }
+#sp-channel-dialog .sp-audio-model-text { min-height:100px; }
+@media(max-width:740px) {
+  #sp-channel-form #sp-audio-panel-signal { grid-template-columns:1fr; }
+  #sp-channel-dialog .sp-audio-pickup-config { order:2; }
+  #sp-channel-dialog .sp-audio-pickup-config .sp-audio-methods { grid-template-columns:1fr 1fr; }
+  #sp-channel-dialog .sp-audio-pickup-config .sp-audio-signal-options { grid-template-columns:1fr 1fr; }
+}
+
+#sp-prototype #sp-channel-dialog .sp-audio-pickup-config .sp-audio-methods { display:grid;grid-template-columns:1fr; }
+#sp-channel-dialog .sp-audio-context { padding-block:12px; }
+#sp-channel-dialog .sp-audio-editor-body { padding-top:14px; }
+.sp-audio-manufacturer-nav { display:flex;gap:5px;align-items:start;min-width:0; }
+.sp-audio-manufacturer-nav .sp-audio-mic-brands { flex:1;min-width:0; }
+#sp-prototype .sp-audio-manufacturer-nav > button { flex:none;min-width:32px;height:44px;border:1px solid var(--sp-line);border-radius:8px;background:var(--sp-panel);color:var(--sp-ink);font-size:20px;cursor:pointer; }
+@media(max-width:740px) { #sp-prototype #sp-channel-dialog .sp-audio-pickup-config .sp-audio-methods { grid-template-columns:1fr 1fr; } }
+
+.sp-audio-mic-brands { position:relative; }
+#sp-channel-form #sp-audio-panel-signal:has(.sp-channel-detail-row[hidden]) { grid-template-columns:1fr; }
+#sp-channel-dialog[data-audio-direction="outputs"] .sp-audio-pickup-config .sp-audio-signal-options { grid-template-columns:1fr 1fr; }
 /* build-inline:end stageplot-audio-v1.css */
 /* build-inline:start stageplot-percussion-editor-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
 #sp-prototype .sp-percussion-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
@@ -9702,9 +9805,8 @@ function createStageplotSymbolV3(type, options = {}) {
     group.querySelectorAll('[data-channel-value]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.channelValue===String(value))));
   }
   function renderChannelStageboxPills(direction,selected=''){
-    const boxes=routingStageboxes(direction),rows=stage.routing?.[direction]||[],host=$('sp-channel-stagebox-pills'),valid=boxes.some(box=>box.id===selected)?selected:'';
-    host.innerHTML='<button type="button" data-channel-value="">Keine Stagebox</button>'+boxes.map(box=>{const used=new Set(rows.filter(row=>row.stagebox===box.id&&Number.isFinite(row.stageboxPort)).map(row=>row.stageboxPort)).size,full=new Set(rows.filter(row=>row.stagebox===box.id&&row.id!==editingRoute?.id&&row.id!==editingRoute?.partner?.id&&Number.isFinite(row.stageboxPort)).map(row=>row.stageboxPort)).size>=box.capacity&&box.id!==valid,incompatible=routeNeedsDi(editingRoute,direction,box),disabled=full||incompatible,label=direction==='inputs'?'In':'Out',reason=incompatible?' · DI-Box nötig':full?' · voll':'';return '<button type="button" data-channel-value="'+box.id+'"'+(disabled?' disabled aria-label="'+esc(box.name+reason)+'"':'')+'>'+esc(box.name)+' · '+used+'/'+box.capacity+' '+label+' belegt'+reason+'</button>';}).join('');
-    setChannelPillValue('sp-channel-stagebox',valid);$('sp-channel-stagebox-hint').textContent=boxes.length?'IN / OUT bezeichnet die Buchse an der Stagebox. CH ist der Kanal am Mischpult.':'Noch keine passende Stagebox auf der Bühne.';
+    const valid=routingStageboxes(direction).some(box=>box.id===selected)?selected:'';
+    setChannelPillValue('sp-channel-stagebox',valid);
   }
   function openChannelDialog(direction,id=null){openAudioChannel(direction,id);
   }
@@ -9779,14 +9881,14 @@ function audioSignalDescription(row,direction){
 }
 function audioInputConnector(row,pickup){
   if(['DI','Mic'].includes(pickup))return 'XLR';if(pickup==='Digital')return 'Digital';
-  const source=routeSourceObject(row);return source?objectIo(source).outputs.connector:row.connector||'XLR';
+  const source=routeSourceObject(row);if(source?.type==='percussion')return generatedInputSpecs().find(spec=>spec.sourceKey===row.sourceKey)?.connector||row.connector||'XLR';return source?objectIo(source).outputs.connector:row.connector||'XLR';
 }
 function audioPatchButton(row,direction){
-  const status=audioPatchStatus(row,direction),label=status==='unpatched'?'Stagebox zuordnen':stageboxRouteLocation(row,direction)+(status==='review'?' · prüfen':'');
+  const status=audioPatchStatus(row,direction),label=status==='unpatched'?'Stagebox verbinden':stageboxRouteLocation(row,direction)+(status==='review'?' · prüfen':'');
   return '<button class="sp-audio-patch-button" type="button" data-audio-patch="'+row.id+'" data-patch-status="'+status+'" aria-label="'+esc(row.instrument+' · '+label)+'">'+esc(label)+'</button>';
 }
 function showAudioEditorPanel(name,{focus=false}={}){
-  if(!['signal','patch','more'].includes(name))name='signal';
+  if(!['signal','chain','patch','more'].includes(name))name='signal';
   for(const button of $('sp-audio-editor-tabs').querySelectorAll('[data-audio-tab]')){
     const active=button.dataset.audioTab===name;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;
     $('sp-audio-panel-'+button.dataset.audioTab).hidden=!active;if(active&&focus)button.focus();
@@ -9799,6 +9901,7 @@ function revealAudioEditorField(field){
 }
 function audioEditorRightBox(){
   const box=$('sp-channel-stagebox').value;
+  if(editingRoute?.patchRightBox!==undefined)return editingRoute.patchRightBox;
   return editingRoute?.partner&&box===editingRoute.stagebox&&$('sp-channel-direction').value===editingRoute.direction?editingRoute.partner.stagebox:box;
 }
 function audioEditorSummary(draft,boxes){
@@ -9813,12 +9916,11 @@ function audioEditorSummary(draft,boxes){
 }
 function renderAudioEditorContext(){
   if(!editingRoute)return;
-  const direction=$('sp-channel-direction').value,summary=audioEditorSummary({name:$('sp-channel-instrument').value,direction,stereo:$('sp-audio-format').value==='stereo',boxId:$('sp-channel-stagebox').value,rightBoxId:audioEditorRightBox(),port:$('sp-audio-port').value,rightPort:$('sp-audio-right-port').value,number:$('sp-channel-number').value,rightNumber:$('sp-audio-right-number').value},routingStageboxes(direction));
-  $('sp-audio-context').innerHTML='<div><strong>'+esc(summary.name)+'</strong><small>'+esc(summary.kind)+'</small></div>'+summary.connections.map(text=>'<span>'+esc(text)+'</span>').join('');
-}
-function openAudioPatch(direction,id){
-  openAudioChannel(direction,id);showAudioEditorPanel('patch');
-  requestAnimationFrame(()=>$('sp-audio-tab-patch').focus({preventScroll:true}));
+  const direction=$('sp-channel-direction').value,stereo=$('sp-audio-format').value==='stereo',summary=audioEditorSummary({name:$('sp-channel-instrument').value,direction,stereo,boxId:$('sp-channel-stagebox').value,rightBoxId:audioEditorRightBox(),port:$('sp-audio-port').value,rightPort:$('sp-audio-right-port').value,number:$('sp-channel-number').value,rightNumber:$('sp-audio-right-number').value},routingStageboxes(direction));
+  const numbers=[$('sp-channel-number').value,...(stereo?[$('sp-audio-right-number').value]:[])].map(number=>number==='#'?'Auto':number||'—');
+  $('sp-channel-title').textContent=summary.name;
+  $('sp-audio-context').innerHTML='<div class="sp-audio-channel-badge"><small>'+(direction==='inputs'?'INPUT · CH':'OUTPUT · MIX')+'</small><strong>'+esc(numbers.join(' / '))+'</strong></div><div class="sp-audio-context-copy"><strong>'+esc(summary.kind)+'</strong>'+summary.connections.map(text=>'<span>'+esc(text)+'</span>').join('')+'</div>';
+  renderAudioChainPreview();
 }
 function audioPortCandidates(box,rows,excluded,stereo,selection){
   return Array.from({length:Math.max(0,box.capacity-(stereo?1:0))},(_,i)=>{
@@ -9829,12 +9931,8 @@ function audioPortCandidates(box,rows,excluded,stereo,selection){
 function renderAudioPortChoices(){
   const host=$('sp-audio-port-choices'),boxId=$('sp-channel-stagebox').value,direction=$('sp-channel-direction').value,box=routingStageboxes(direction).find(item=>item.id===boxId);
   $('sp-audio-di-help').hidden=direction!=='inputs'||audioInputConnector(editingRoute,$('sp-audio-pickup').value)!=='Klinke'||!routingStageboxes(direction).some(item=>!item.comboJacks);
-  host.hidden=!box;$('sp-audio-manual-ports').hidden=!box&&!audioEditorRightBox();if(!box){host.innerHTML='';return;}
-  const stereo=$('sp-audio-format').value==='stereo',selection={port:$('sp-audio-port').value,rightPort:$('sp-audio-right-port').value,rightBoxId:audioEditorRightBox()},label=direction==='inputs'?'IN':'OUT',candidates=audioPortCandidates(box,stage.routing[direction],new Set([editingRoute?.id,editingRoute?.partner?.id]),stereo,selection),autoSelected=!selection.port&&(!stereo||!selection.rightPort&&selection.rightBoxId===box.id);
-  host.innerHTML='<strong>'+(stereo?'Buchsenpaar wählen · L / R':'Buchse wählen')+'</strong><button class="sp-button sp-audio-auto-port" type="button" data-audio-port-choice="auto" aria-pressed="'+autoSelected+'"'+(candidates.some(item=>!item.occupants.length)?'':' disabled')+'>Automatisch · '+(stereo?'nächstes freies Paar':'nächste freie Buchse')+'</button><div class="sp-audio-port-grid">'+candidates.map(({port,occupants,selected})=>{
-    const text=label+' '+port+(stereo?' / '+(port+1):''),hint=occupants.length?'Belegt: '+occupants.map(row=>row.instrument).join(', '):selected?'ausgewählt':'frei';
-    return '<button class="sp-button" type="button" data-audio-port-choice="'+port+'" aria-pressed="'+selected+'" aria-label="'+esc(text+' · '+hint)+'" title="'+esc(hint)+'"'+(occupants.length?' disabled':'')+'>'+text+'</button>';
-  }).join('')+'</div><small>'+(candidates.some(item=>!item.occupants.length)?'Grau = belegt. Die Auswahl wird erst mit „Übernehmen“ gespeichert.':stereo?'Kein freies benachbartes Paar. Andere Stagebox wählen oder Buchsen einzeln festlegen.':'Alle Buchsen sind belegt. Bitte eine andere Stagebox wählen.')+'</small>';
+  host.hidden=false;$('sp-audio-manual-ports').hidden=!box&&!audioEditorRightBox();
+  host.innerHTML='<div><h3>'+esc(box?.name||'Mit einer Stagebox verbinden')+'</h3><p class="sp-muted">'+(box?'Die Buchsen unten gehören zu diesem Signal.':'Stagebox auswählen und eine freie Buchse vorschlagen lassen.')+'</p></div><button class="sp-button" type="button" data-audio-open-connect>'+(box?'Verbindung ändern':'Stagebox verbinden')+'</button>';
 }
 
 function audioMembers(row){return [row,...(row.linkedSources||[])];}
@@ -9880,22 +9978,26 @@ function openAudioChannel(direction,id=null){
   if(sharedReadOnly)return;direction=direction==='outputs'?'outputs':'inputs';syncRoutingFromStage(false,false);
   const rows=stage.routing[direction],clicked=rows.find(row=>row.id===id),group=audioGroup(rows,clicked),row=group.find(item=>item.mode==='Stereo L')||clicked||normalizeRouteChannel({id:'route-'+routeToken(),manual:true,instrument:'Neues Signal',signalType:direction==='inputs'?'Mic':'Line',pickup:direction==='inputs'?'Mic':'Direct'},rows.length,direction),partner=group.find(item=>item.id!==row.id);
   editingRoute={...clone(row),direction,index:rows.indexOf(row),isNew:!id,partner:partner?clone(partner):null};
+  audioPickupModels={[row.pickup]:{model:row.microphone,phantom:row.phantom}};audioLastPickup=row.pickup;
   $('sp-audio-order').hidden=!id;const orderGroup=new Set(group.map(item=>item.id)),first=rows.findIndex(item=>orderGroup.has(item.id)),last=rows.reduce((index,item,i)=>orderGroup.has(item.id)?i:index,-1);$('sp-audio-order').querySelector('[data-audio-move="up"]').disabled=first<=0;$('sp-audio-order').querySelector('[data-audio-move="down"]').disabled=last<0||last>=rows.length-1;
   $('sp-channel-title').textContent=id?'Signal bearbeiten':'Signal hinzufügen';$('sp-channel-number').setCustomValidity('');$('sp-audio-error').textContent='';
   $('sp-channel-number').value=id?(row.number||''):'#';$('sp-audio-right-number').value=partner?(partner.number||''):'#';
   setChannelPillValue('sp-channel-direction',direction);$('sp-channel-instrument').value=partner?audioBaseName(row):row.instrument;
   setChannelPillValue('sp-audio-format',partner?'stereo':'mono');setChannelPillValue('sp-audio-pickup',row.pickup);setChannelPillValue('sp-audio-kind',audioKind(row));setChannelPillValue('sp-audio-transport',row.iemTransport||'wireless');
-  $('sp-channel-microphone').value=row.microphone;$('sp-channel-phantom').checked=row.phantom;$('sp-audio-wireless').checked=Boolean(routeFrequency(row));$('sp-audio-mic-choices').open=false;$('sp-channel-notes').value=row.notes;$('sp-audio-frequency').value=routeFrequency(row);
+  $('sp-channel-microphone').value=row.microphone;$('sp-channel-phantom').checked=row.phantom;$('sp-audio-wireless').checked=Boolean(routeFrequency(row));audioMicManufacturer='Vorschläge';audioCustomModel=false;$('sp-audio-custom-model').value=row.microphone;$('sp-channel-notes').value=row.notes;$('sp-audio-frequency').value=routeFrequency(row);
   renderChannelStageboxPills(direction,row.stagebox);$('sp-audio-port').value=row.stageboxPort||'';$('sp-audio-right-port').value=partner?.stageboxPort||'';
   $('sp-audio-right-patch').textContent=partner?.stagebox&&partner.stagebox!==row.stagebox?'Rechts: '+stageboxRouteLocation(partner,direction)+'. Bleibt erhalten, solange die Stagebox nicht geändert wird.':'';
   const canMerge=direction==='inputs'&&!partner,options=canMerge?rows.filter(item=>item.id!==row.id&&!item.stereoGroup&&(!item.sourceKey||!row.sourceKey.startsWith(item.sourceKey.split(':')[0]+':'))):[];
-  $('sp-audio-chain').hidden=!canMerge&&!(row.linkedSources||[]).length;$('sp-audio-chain').open=false;
+  $('sp-audio-chain').hidden=!canMerge&&!(row.linkedSources||[]).length;
   $('sp-audio-chain-current').innerHTML=(row.linkedSources||[]).map(member=>'<p>'+esc(member.instrument)+' · ursprünglicher CH '+(member.number||'—')+' · '+esc(stageboxRouteLocation(member,direction))+'</p>').join('')+((row.linkedSources||[]).length?'<button class="sp-button" type="button" id="sp-audio-unmerge">Ursprüngliche Kanäle wiederherstellen</button>':'');
-  $('sp-audio-chain-options').innerHTML=options.length?'<label class="sp-field">Signal suchen<input id="sp-audio-merge-search" type="search" placeholder="Gitarre, Amp, Mikrofon …"></label>'+options.map(item=>'<label class="sp-audio-merge-option"><input type="checkbox" data-audio-merge="'+item.id+'"><span><strong>'+esc(item.instrument)+'</strong><small>CH '+(item.number||'—')+' · '+esc(stageboxRouteLocation(item,direction))+'</small></span></label>').join(''):'<p class="sp-muted">Weitere Mono-Signale auf der Bühne können hier demselben Signalweg zugeordnet werden.</p>';
-  $('sp-channel-delete').hidden=!id;$('sp-audio-manual-ports').open=Boolean(partner&&(partner.stagebox||row.stagebox)&&(partner.stagebox!==row.stagebox||partner.stageboxPort&&row.stageboxPort&&partner.stageboxPort!==row.stageboxPort+1));audioFormChanged();showAudioEditorPanel('signal');$('sp-channel-dialog').showModal();
+  $('sp-audio-chain-options').innerHTML=options.length?options.map(item=>'<button type="button" class="sp-audio-merge-option" data-audio-merge="'+item.id+'" aria-pressed="false">'+audioObjectPicture(item)+'<span><strong>'+esc(item.instrument)+'</strong><small>CH '+(item.number||'—')+' · '+esc(stageboxRouteLocation(item,direction))+'</small><small data-merge-hint>Zum gemeinsamen Kanal hinzufügen</small></span><b aria-hidden="true">+</b></button>').join(''):'<p class="sp-muted">Weitere Mono-Signale auf der Bühne können hier demselben Signalweg zugeordnet werden.</p>';
+  $('sp-channel-delete').hidden=!id;audioFormChanged();showAudioEditorPanel('signal');$('sp-channel-dialog').showModal();
 }
 function audioFormChanged(changed=''){
-  if(!editingRoute)return;const direction=$('sp-channel-direction').value,stereo=$('sp-audio-format').value==='stereo',iem=direction==='outputs'&&$('sp-audio-kind').value==='iem';
+  if(!editingRoute)return;
+  if(changed==='sp-audio-pickup'){const pickup=$('sp-audio-pickup').value;audioPickupModels[audioLastPickup]={model:$('sp-channel-microphone').value,phantom:$('sp-channel-phantom').checked};const cached=audioPickupModels[pickup]||{model:'',phantom:false};$('sp-channel-microphone').value=cached.model;$('sp-audio-custom-model').value=cached.model;$('sp-channel-phantom').checked=cached.phantom;audioLastPickup=pickup;audioCustomModel=pickup==='DI';}
+  const direction=$('sp-channel-direction').value,stereo=$('sp-audio-format').value==='stereo',iem=direction==='outputs'&&$('sp-audio-kind').value==='iem';
+  $('sp-channel-dialog').dataset.audioDirection=direction;
   $('sp-audio-number-label').textContent=direction==='inputs'?(stereo?'Links · CH':'Mischpult · CH'):(stereo?'Links · Mix / Output':'Mix / Output');$('sp-audio-right-number-label').textContent=direction==='inputs'?'Rechts · CH':'Rechts · Mix / Output';$('sp-audio-pickup-field').hidden=direction!=='inputs';$('sp-audio-kind-field').hidden=direction!=='outputs';$('sp-audio-iem-fields').hidden=!iem;
   $('sp-audio-wireless-field').hidden=direction!=='inputs';$('sp-audio-frequency-field').hidden=direction==='inputs'?!$('sp-audio-wireless').checked:!iem||$('sp-audio-transport').value==='cable';$('sp-audio-mic-choices').hidden=$('sp-audio-pickup').value!=='Mic';
   $('sp-audio-right-number-field').hidden=!stereo;$('sp-audio-right-number').disabled=!stereo;$('sp-audio-right-port-field').hidden=!stereo;
@@ -9906,9 +10008,9 @@ function audioFormChanged(changed=''){
     editingRoute.connector=direction==='inputs'?audioInputConnector(editingRoute,pickup):priorConnector;
     renderChannelStageboxPills(direction,changed==='sp-channel-direction'?'':current);editingRoute.connector=priorConnector;
   }
-  if(changed==='sp-channel-stagebox'||changed==='sp-channel-direction'){$('sp-audio-port').value='';$('sp-audio-right-port').value='';$('sp-audio-right-patch').textContent='';}
+  if(changed==='sp-channel-stagebox'||changed==='sp-channel-direction'){delete editingRoute.patchRightBox;$('sp-audio-port').value='';$('sp-audio-right-port').value='';$('sp-audio-right-patch').textContent='';}
   $('sp-audio-port').disabled=!$('sp-channel-stagebox').value;$('sp-audio-right-port').disabled=!stereo||!audioEditorRightBox();
-  $('sp-audio-error').textContent='';renderAudioPortChoices();renderAudioEditorContext();
+  $('sp-audio-error').textContent='';renderAudioMicPicker();renderAudioPortChoices();renderAudioEditorContext();
 }
 function planAudioNumbers(rows,excluded,tokens){
   const used=new Set(rows.filter(row=>!excluded.has(row.id)).map(row=>row.number).filter(Boolean)),result=tokens.map(token=>token==='#'?null:token?Number(token):null);
@@ -9932,11 +10034,11 @@ function saveAudioChannel(){
   if(!editingRoute)return;
   const invalid=[...$('sp-channel-form').elements].find(field=>field.willValidate&&!field.validity.valid);
   if(invalid){revealAudioEditorField(invalid);invalid.reportValidity();return;}
-  const direction=$('sp-channel-direction').value==='outputs'?'outputs':'inputs',stereo=$('sp-audio-format').value==='stereo',before=snapshot(),original=editingRoute,rows=stage.routing[direction],oldPartner=original.partner,excluded=new Set([original.id,oldPartner?.id]),name=$('sp-channel-instrument').value.trim(),pickup=$('sp-audio-pickup').value,kind=$('sp-audio-kind').value,error=(message,panel='signal',fieldId='sp-channel-instrument')=>{showAudioEditorPanel(panel);const field=$(fieldId);revealAudioEditorField(field);field.focus();$('sp-audio-error').textContent=message;},nameChanged=name!==(oldPartner?audioBaseName(original):original.instrument),box=$('sp-channel-stagebox').value,boxChanged=box!==original.stagebox||direction!==original.direction;
+  const direction=$('sp-channel-direction').value==='outputs'?'outputs':'inputs',stereo=$('sp-audio-format').value==='stereo',before=snapshot(),original=editingRoute,rows=stage.routing[direction],oldPartner=original.partner,excluded=new Set([original.id,oldPartner?.id]),name=$('sp-channel-instrument').value.trim(),pickup=$('sp-audio-pickup').value,kind=$('sp-audio-kind').value,error=(message,panel='signal',fieldId='sp-channel-instrument')=>{showAudioEditorPanel(panel);const field=$(fieldId);revealAudioEditorField(field);field.focus();$('sp-audio-error').textContent=message;},nameChanged=name!==(oldPartner?audioBaseName(original):original.instrument),box=$('sp-channel-stagebox').value;
   if(!name)return error('Bitte einen Signalnamen eingeben.');
   let next,partner,errorPanel='patch',errorField='sp-channel-number';
   try{
-    const rightBox=oldPartner&&!boxChanged?oldPartner.stagebox:box,numbers=planAudioNumbers(rows,excluded,[$('sp-channel-number').value.trim(),...(stereo?[$('sp-audio-right-number').value.trim()]:[])]);
+    const rightBox=audioEditorRightBox(),numbers=planAudioNumbers(rows,excluded,[$('sp-channel-number').value.trim(),...(stereo?[$('sp-audio-right-number').value.trim()]:[])]);
     errorField='sp-audio-port';const ports=planAudioPorts(routingStageboxes(direction),rows,excluded,[{boxId:box,port:$('sp-audio-port').value},...(stereo?[{boxId:rightBox,port:$('sp-audio-right-port').value}]:[])]);
     const connector=direction==='inputs'?audioInputConnector(original,pickup):original.connector||'XLR',signalType=direction==='outputs'?'Line':pickup==='Mic'?'Mic':pickup==='DI'?'Line':pickup==='Digital'?'Digital':'Line',iem=direction==='outputs'&&kind==='iem';
     const shared={edited:true,pickup,outputKind:direction==='outputs'?kind:'',connector,signalType,microphone:direction==='inputs'?$('sp-channel-microphone').value:'',phantom:direction==='inputs'&&$('sp-channel-phantom').checked,frequencyBand:direction==='inputs'?($('sp-audio-wireless').checked?$('sp-audio-frequency').value:''):iem&&$('sp-audio-transport').value==='wireless'?$('sp-audio-frequency').value:'',iemName:iem?name:'',iemMode:iem?(stereo?'stereo':'mono'):'',iemTransport:iem?$('sp-audio-transport').value:'',iemGroup:iem?(original.iemGroup||original.id):''};
@@ -9947,10 +10049,10 @@ function saveAudioChannel(){
       const partnerChanges=oldPartner?Object.fromEntries(Object.entries(shared).filter(([key,value])=>key==='edited'||value!==original[key])):shared;
       partner=normalizeRouteChannel({...seed,...partnerChanges,id:seed.id,number:numbers[1],instrument:!nameChanged&&oldPartner?oldPartner.instrument:name+' · R',mode:'Stereo R',stereoGroup:next.stereoGroup,stagebox:rightBox,stageboxPort:ports[1],notes:!oldPartner||oldPartner.notes===original.notes?next.notes:oldPartner.notes},1,direction);
     }
-    errorPanel='signal';errorField='sp-channel-microphone';
+    errorPanel='signal';errorField='sp-audio-tab-signal';
     for(const row of [next,partner].filter(Boolean)){const target=routingStageboxes(direction).find(box=>box.id===row.stagebox);if(target&&routeNeedsDi(row,direction,target))throw Error('Dieses Klinkensignal braucht eine DI-Box vor der XLR-Stagebox. Unter Abnahme „DI-Box“ wählen.');}
   }catch(e){return error(e.message,errorPanel,errorField);}
-  const merges=direction==='inputs'&&!stereo?[...$('sp-audio-chain-options').querySelectorAll('[data-audio-merge]:checked')].map(input=>stage.routing.inputs.find(row=>row.id===input.dataset.audioMerge)).filter(Boolean):[];
+  const merges=direction==='inputs'&&!stereo?[...$('sp-audio-chain-options').querySelectorAll('[data-audio-merge][aria-pressed="true"]')].map(input=>stage.routing.inputs.find(row=>row.id===input.dataset.audioMerge)).filter(Boolean):[];
   for(const merged of merges){next.linkedSources.push(...audioMembers(clone(merged)).map(row=>({...row,linkedSources:[]})));excluded.add(merged.id);}
   if(!next.sourceKey){const source=next.linkedSources.find(member=>member.sourceKey);if(source){next.sourceKey=source.sourceKey;next.portIndex=source.portIndex;next.adoptedSource=true;}}
   const commit=()=>{
@@ -9981,6 +10083,122 @@ function audioPatchSections(){
     return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table sp-audio-patch-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th></tr></thead><tbody>'+rows.map(({row,direction})=>'<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+'</td><td>'+esc(row.connector)+'</td></tr>').join('')+'</tbody></table>'}];
   });
 }
+// Manufacturer originals only. The provenance and byte hashes live beside the assets.
+function audioMicPhoto(name){
+  const key=String(name||'').toLocaleLowerCase('de').replace(/[\s-]+/g,'');
+  const files={shuresm57:'sm57-original-v2.png',shuresm58:'sm58-original-v2.webp',telefunkenm80:'m80-original-v2.jpg',beyerdynamicm201:'m201-original-v2.png',neumannkm184:'km184-original-v2.webp',seelectronicsv7:'v7-original-v2.png',audixi5:'i5-original-v2.png',sennheisermd421ii:'421-original-v2.webp'};
+  return files[key]?'stageplot-assets/mics/'+files[key]:'';
+}
+function audioMicBrand(name){if(/^beyerdynamic /i.test(name))return 'beyerdynamic';return ['Audio-Technica','Austrian Audio','Electro-Voice','sE Electronics'].find(brand=>name.startsWith(brand))||(/^Generisch|^Grenzflächen/.test(name)?'Allgemein':name.split(' ')[0]);}
+function audioMicCatalog(){
+  const extras=[{name:'Shure SM58',type:'Dyn',phantom:false},{name:'sE Electronics V7',type:'Dyn',phantom:false},{name:'Sennheiser MD 421 II',type:'Dyn',phantom:false}];
+  return [...drumMicCatalog,...extras].filter((mic,i,all)=>all.findIndex(item=>item.name===mic.name)===i).map(mic=>({...mic,brand:audioMicBrand(mic.name)}));
+}
+function audioMicSuggestions(name){
+  const text=String(name).toLocaleLowerCase('de');
+  if(/kick|bassdrum/.test(text))return ['Shure Beta 52A','Audix D6','AKG D112 MkII','Shure Beta 91A'];
+  if(/snare|timbal/.test(text))return ['Shure SM57','Audix i5','beyerdynamic M 201','Telefunken M80'];
+  if(/overhead|\boh\b|hi.?hat|ride|chimes|cymbal/.test(text))return ['Neumann KM 184','Shure SM81','AKG C451 B','RØDE NT5'];
+  if(/tom|conga|bongo/.test(text))return ['Sennheiser MD 421 II','Shure SM57','Audix i5','beyerdynamic M 201'];
+  if(/guitar|gitarre|amp|cabinet|brass|sax|tromp/.test(text))return ['Shure SM57','Sennheiser MD 421 II','beyerdynamic M 201','Audix i5'];
+  if(/piano|flügel|akust|acoustic|string|violin/.test(text))return ['Neumann KM 184','AKG C414 XLS/XLII','Shure SM81'];
+  if(/percussion|pandeiro|tamburin|cowbell|maracas/.test(text))return ['Shure SM57','Neumann KM 184','Audix i5','beyerdynamic M 201'];
+  return ['Shure SM58','sE Electronics V7','Telefunken M80','Shure SM57'];
+}
+let audioMicManufacturer='Vorschläge',audioCustomModel=false,audioQuickPatch=null,audioPickupModels={},audioLastPickup='Mic';
+function audioMicImage(name){const src=audioMicPhoto(name);return src?'<img class="sp-audio-mic-photo" src="'+src+'" alt="'+esc(name)+' · Original-Produktfoto" loading="lazy">':'<span class="sp-audio-model-text" aria-hidden="true">'+esc(name.replace(audioMicBrand(name),'').trim()||'Modell offen')+'</span>';}
+function renderAudioMicPicker(){
+  const pickup=$('sp-audio-pickup').value,selected=$('sp-channel-microphone').value,models=audioMicCatalog(),mic=pickup==='Mic';
+  $('sp-audio-model-heading').textContent=mic?'Mikrofon auswählen':pickup==='DI'?'DI-Box angeben':'Abnahme';
+  $('sp-audio-mic-choices').hidden=!mic;$('sp-audio-mic-selected').hidden=!['Mic','DI'].includes(pickup);
+  $('sp-audio-custom-model-field').hidden=!['Mic','DI'].includes(pickup)||!audioCustomModel;
+  $('sp-audio-mic-selected').innerHTML=(selected?audioMicImage(selected):'')+'<div><small>'+(selected?'Aktuell gewählt':'Modell noch offen')+'</small><strong>'+esc(selected|| (mic?'Mikrofon wählen':'DI-Box wählen'))+'</strong></div><button class="sp-button" type="button" data-audio-custom-model>Eigenes Modell</button>'+(selected?'<button class="sp-button" type="button" data-audio-clear-model aria-label="Modell entfernen">×</button>':'');
+  if(!mic)return;
+  const brands=['Vorschläge',...new Set(models.map(item=>item.brand).sort((a,b)=>a.localeCompare(b,'de')))];
+  $('sp-audio-mic-brands').innerHTML=brands.map(brand=>'<button type="button" data-audio-mic-brand="'+esc(brand)+'" aria-pressed="'+(brand===audioMicManufacturer)+'">'+esc(brand)+'</button>').join('');
+  const suggestions=audioMicSuggestions($('sp-channel-instrument').value),shown=audioMicManufacturer==='Vorschläge'?suggestions.map(name=>models.find(mic=>mic.name===name)).filter(Boolean):models.filter(mic=>mic.brand===audioMicManufacturer).sort((a,b)=>Number(Boolean(audioMicPhoto(b.name)))-Number(Boolean(audioMicPhoto(a.name)))||a.name.localeCompare(b.name,'de',{numeric:true}));
+  centerAudioMicBrand();
+  $('sp-audio-mic-hint').textContent=audioMicManufacturer==='Vorschläge'?'Vorschläge für '+$('sp-channel-instrument').value+' · ein Klick wählt das Modell.':audioMicManufacturer+' · Modell auswählen';
+  $('sp-audio-mic-models').innerHTML=shown.map(mic=>'<button type="button" class="sp-audio-mic-card" data-audio-mic-model="'+esc(mic.name)+'" aria-pressed="'+(selected===mic.name)+'" aria-label="'+esc(mic.name)+' verwenden">'+audioMicImage(mic.name)+'<span><small>'+esc(mic.brand)+'</small><strong>'+esc(mic.name.slice(mic.brand.length).trim()||mic.name)+'</strong><small>'+esc(mic.type||'Mikrofon')+(mic.phantom?' · 48 V':'')+'</small></span><b aria-hidden="true">'+(selected===mic.name?'✓':'+')+'</b></button>').join('');
+}
+function centerAudioMicBrand(){const host=$('sp-audio-mic-brands'),active=host.querySelector('[aria-pressed="true"]');if(active)host.scrollLeft=active.offsetLeft-(host.clientWidth-active.offsetWidth)/2;}
+function audioObjectPicture(row){const source=routeSourceObject(row);return source&&byId[source.type]?'<span class="sp-audio-object-picture">'+icon(byId[source.type],source)+'</span>':'';}
+function renderAudioChainPreview(){
+  if(!editingRoute)return;
+  const input=$('sp-channel-direction').value==='inputs',stereo=$('sp-audio-format').value==='stereo',selected=[...$('sp-audio-chain-options').querySelectorAll('[data-audio-merge][aria-pressed="true"]')].map(button=>stage.routing.inputs.find(row=>row.id===button.dataset.audioMerge)).filter(Boolean);
+  $('sp-audio-chain').hidden=!input||stereo;
+  $('sp-audio-chain-title').textContent=input?'Ein Weg zum Mischpult':'Vom Mischpult zur Bühne';
+  $('sp-audio-chain-description').textContent=input?'Instrument, Verstärker und Mikrofon können zu einem gemeinsamen Kanal gehören.':'Der Output versorgt einen Monitor, ein IEM-System oder ein anderes Gerät.';
+  const sources=[editingRoute,...(editingRoute.linkedSources||[]),...selected],steps=[{name:sources.map((row,i)=>i?row.instrument:$('sp-channel-instrument').value).join(' + '),detail:sources.length>1?'Bühnenobjekte · gemeinsamer Kanal':'Bühnenobjekt',picture:audioObjectPicture(editingRoute)}];
+  if(input)steps.push({name:$('sp-channel-microphone').value||({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[$('sp-audio-pickup').value]),detail:'Abnahme'});
+  const box=routingStageboxes($('sp-channel-direction').value).find(box=>box.id===$('sp-channel-stagebox').value);
+  steps.push({name:box?.name||'Stagebox offen',detail:box?(input?'IN ':'OUT ')+($('sp-audio-port').value||'automatisch'):'Verbindung unter Kanäle'});
+  steps.push({name:(input?'CH ':'Mix / Output ')+($('sp-channel-number').value||'offen')+(stereo?' / '+($('sp-audio-right-number').value||'offen'):''),detail:'Mischpult'});
+  if(!input)steps.reverse();
+  $('sp-audio-chain-preview').innerHTML=steps.map(step=>'<div>'+ (step.picture||'')+'<small>'+esc(step.detail)+'</small><strong>'+esc(step.name)+'</strong></div>').join('<span aria-hidden="true">→</span>');
+  for(const button of $('sp-audio-chain-options').querySelectorAll('[data-audio-merge]')){const hint=button.querySelector('[data-merge-hint]');if(hint)hint.textContent=button.getAttribute('aria-pressed')==='true'?'Wird in CH '+($('sp-channel-number').value||'offen')+' integriert':'Zum gemeinsamen Kanal hinzufügen';}
+}
+// Selection is a pure plan: opening, choosing and cancelling never change routing.
+function audioStageboxChoices(rows,members,boxes,direction,source){
+  const distance=box=>source?Math.hypot((box.x||0)-(source.x||0),(box.y||0)-(source.y||0)):0;
+  const choices=boxes.map(box=>{try{return {box,plan:planAudioPatch(rows,members,box,direction,{preserve:true}),error:''};}catch(error){return {box,plan:null,error:error.message};}});
+  choices.sort((a,b)=>Boolean(a.error)-Boolean(b.error)||Number(members.every(row=>row.stagebox===b.box.id))-Number(members.every(row=>row.stagebox===a.box.id))||distance(a.box)-distance(b.box));
+  return choices;
+}
+function audioQuickMembers(){
+  if(!audioQuickPatch)return [];
+  if(!audioQuickPatch.draft){const rows=stage.routing[audioQuickPatch.direction],row=rows.find(item=>item.id===audioQuickPatch.id);return audioOrderedGroup(rows,row);}
+  const base={...editingRoute,instrument:$('sp-channel-instrument').value,stagebox:$('sp-channel-stagebox').value,stageboxPort:Number($('sp-audio-port').value)||null,connector:audioQuickPatch.direction==='inputs'?audioInputConnector(editingRoute,$('sp-audio-pickup').value):editingRoute.connector};
+  return [base,...($('sp-audio-format').value==='stereo'?[{...base,...(editingRoute.partner||{}),id:editingRoute.partner?.id||editingRoute.id+'-draft-right',connector:base.connector,stagebox:audioEditorRightBox(),stageboxPort:Number($('sp-audio-right-port').value)||null}]:[])];
+}
+function openAudioPatch(direction,id,{draft=false}={}){
+  if(sharedReadOnly)return;
+  audioQuickPatch={direction,id,draft,boxId:'',plan:null};const members=audioQuickMembers();if(!members.length){audioQuickPatch=null;return;}
+  const choices=audioStageboxChoices(stage.routing[direction],members,routingStageboxes(direction),direction,routeSourceObject(members[0]));
+  audioQuickPatch.choices=choices;audioQuickPatch.boxId=choices.find(choice=>choice.plan)?.box.id||'';
+  $('sp-audio-connect-title').textContent=members.length>1?audioBaseName(members[0]):members[0].instrument;
+  const numbers=draft?[$('sp-channel-number').value,...(members.length>1?[$('sp-audio-right-number').value]:[])]:members.map(row=>row.number);
+  $('sp-audio-connect-source').textContent=(direction==='inputs'?'CH ':'Mix / Output ')+numbers.map(number=>number||'offen').join(' / ')+' · '+(members.length>1?'Stereo L/R':'Mono');
+  $('sp-audio-connect-disconnect').hidden=!members.some(row=>row.stagebox);
+  renderAudioQuickBoxes();selectAudioQuickBox(audioQuickPatch.boxId);$('sp-audio-connect-dialog').showModal();
+}
+function renderAudioQuickBoxes(){
+  const {choices,boxId,direction}=audioQuickPatch,first=choices.find(choice=>choice.plan),members=audioQuickMembers();
+  $('sp-audio-connect-boxes').innerHTML=choices.length?choices.map(choice=>{
+    const box=choice.box,source=objects.find(o=>o.id===box.id),picture=source&&byId[source.type]?icon(byId[source.type],source):'',ports=choice.plan?.assignments.map(row=>row.stageboxPort).join(' / '),current=choice.plan?.assignments.every(patch=>members.some(row=>row.id===patch.id&&row.stagebox===patch.stagebox&&row.stageboxPort===patch.stageboxPort));
+    return '<button type="button" data-audio-connect-box="'+esc(box.id)+'" aria-pressed="'+(box.id===boxId)+'"'+(choice.error?' disabled':'')+'><span class="sp-audio-box-picture">'+picture+'</span><span><strong>'+esc(box.name)+'</strong><small>'+esc(choice.error|| (direction==='inputs'?'IN ':'OUT ')+ports+(current?' · bereits verbunden':' · frei für dieses Signal'))+'</small>'+(current?'<em>Aktuelle Verbindung</em>':choice===first?'<em>Vorschlag</em>':'')+'</span></button>';
+  }).join(''):'<p class="sp-muted">Noch keine passende Stagebox auf der Bühne. Füge zuerst unter „Audio“ eine Stagebox hinzu.</p>';
+}
+function selectAudioQuickBox(id){
+  const choice=audioQuickPatch.choices.find(choice=>choice.box.id===id&&choice.plan);audioQuickPatch.boxId=choice?.box.id||'';audioQuickPatch.preserve=true;
+  $('sp-audio-connect-port').value=choice?.plan.assignments[0].stageboxPort||'';$('sp-audio-connect-port').max=choice?.box.capacity||128;
+  $('sp-audio-connect-port-field').hidden=!choice;renderAudioQuickBoxes();validateAudioQuickPatch();
+}
+function validateAudioQuickPatch(){
+  const state=audioQuickPatch;if(!state)return;
+  const members=audioQuickMembers(),box=routingStageboxes(state.direction).find(box=>box.id===state.boxId);state.plan=null;
+  $('sp-audio-connect-error').textContent='';$('sp-audio-connect-save').disabled=true;
+  if(!box)return;
+  try{
+    state.plan=planAudioPatch(stage.routing[state.direction],members,box,state.direction,state.preserve?{preserve:true}:{startPort:Number($('sp-audio-connect-port').value)});
+    const ports=state.plan.assignments.map(row=>row.stageboxPort).join(' / '),socket=state.direction==='inputs'?'IN':'OUT';
+    $('sp-audio-connect-port-label').textContent=members.length>1?'Erste Buchse · links':'Buchse';
+    $('sp-audio-connect-port-hint').textContent=socket+' '+ports+' · '+box.name;
+    $('sp-audio-connect-save').textContent=socket+' '+ports+' verbinden';$('sp-audio-connect-save').disabled=false;
+  }catch(error){$('sp-audio-connect-error').textContent=error.message;}
+}
+function commitAudioQuickPatch(disconnect=false){
+  if(sharedReadOnly||!audioQuickPatch)return;
+  const state=audioQuickPatch,members=audioQuickMembers();if(!members.length)return;
+  if(!disconnect){validateAudioQuickPatch();if(!state.plan)return;}
+  const assignments=disconnect?members.map(row=>({id:row.id,stagebox:'',stageboxPort:null})):state.plan.assignments;
+  if(state.draft){
+    $('sp-channel-stagebox').value=assignments[0].stagebox;$('sp-audio-port').value=assignments[0].stageboxPort||'';
+    editingRoute.patchRightBox=assignments[1]?.stagebox||'';$('sp-audio-right-port').value=assignments[1]?.stageboxPort||'';$('sp-audio-right-patch').textContent='';audioFormChanged();
+  }else{const before=snapshot();applyAudioPatchPlan(stage.routing[state.direction],{assignments,displaced:[]});keepHistory(before);refreshAudioSurface();say(disconnect?'Stagebox-Verbindung gelöst':'Stagebox verbunden · Kanalnummern beibehalten');}
+  $('sp-audio-connect-dialog').close();audioQuickPatch=null;
+}
+
 $('sp-audio-object').addEventListener('click',e=>{
   const edit=e.target.closest('[data-audio-edit]');if(edit){openChannelDialog(edit.dataset.audioDirection,edit.dataset.audioEdit);return;}
   if(e.target.closest('[data-audio-overview]')){show('routing');return;}
@@ -9992,8 +10210,7 @@ $('sp-audio-number').addEventListener('click',()=>{
   catch(error){say(error.message);return;}
   for(const plan of plans)stage.routing[plan.direction]=plan.rows;keepHistory(before);refreshAudioSurface();say('Kanalnummern ergänzt · vorhandene Nummern beibehalten');
 });
-$('sp-audio-chain').addEventListener('input',e=>{if(e.target.id==='sp-audio-merge-search'){const query=e.target.value.toLocaleLowerCase('de');$('sp-audio-chain-options').querySelectorAll('.sp-audio-merge-option').forEach(option=>option.hidden=!option.textContent.toLocaleLowerCase('de').includes(query));}});
-$('sp-audio-chain').addEventListener('click',e=>{if(e.target.id!=='sp-audio-unmerge'||!editingRoute)return;const direction=editingRoute.direction,row=stage.routing[direction].find(item=>item.id===editingRoute.id);if(!row)return;const before=snapshot(),restored=(row.linkedSources||[]).map(member=>({...member,manual:true})),usedNumbers=new Set(stage.routing[direction].map(item=>item.number).filter(Boolean));for(const member of restored){if(usedNumbers.has(member.number))member.number=null;if(member.number)usedNumbers.add(member.number);if(stage.routing[direction].some(item=>member.stagebox&&item.stagebox===member.stagebox&&item.stageboxPort===member.stageboxPort)){member.stagebox='';member.stageboxPort=null;}}row.linkedSources=[];if(row.adoptedSource){row.sourceKey='';row.portIndex=null;row.adoptedSource=false;}stage.routing[direction].splice(stage.routing[direction].indexOf(row)+1,0,...restored);reconcileCablesWithRouting();keepHistory(before);$('sp-channel-dialog').close();renderRouting();say('Ursprüngliche Kanäle wiederhergestellt · zwischenzeitlich belegte Nummern und Ports bleiben frei');});
+$('sp-audio-chain').addEventListener('click',e=>{const choice=e.target.closest('[data-audio-merge]');if(choice){const selected=choice.getAttribute('aria-pressed')!=='true';choice.setAttribute('aria-pressed',String(selected));choice.querySelector('b').textContent=selected?'✓':'+';renderAudioChainPreview();return;}if(e.target.id!=='sp-audio-unmerge'||!editingRoute)return;const direction=editingRoute.direction,row=stage.routing[direction].find(item=>item.id===editingRoute.id);if(!row)return;const before=snapshot(),restored=(row.linkedSources||[]).map(member=>({...member,manual:true})),usedNumbers=new Set(stage.routing[direction].map(item=>item.number).filter(Boolean));for(const member of restored){if(usedNumbers.has(member.number))member.number=null;if(member.number)usedNumbers.add(member.number);if(stage.routing[direction].some(item=>member.stagebox&&item.stagebox===member.stagebox&&item.stageboxPort===member.stageboxPort)){member.stagebox='';member.stageboxPort=null;}}row.linkedSources=[];if(row.adoptedSource){row.sourceKey='';row.portIndex=null;row.adoptedSource=false;}stage.routing[direction].splice(stage.routing[direction].indexOf(row)+1,0,...restored);reconcileCablesWithRouting();keepHistory(before);$('sp-channel-dialog').close();renderRouting();say('Ursprüngliche Kanäle wiederhergestellt · zwischenzeitlich belegte Nummern und Ports bleiben frei');});
 
 $('sp-audio-wireless').addEventListener('change',()=>audioFormChanged());
 
@@ -10004,10 +10221,10 @@ $('sp-audio-more').addEventListener('click',()=>{const panel=$('sp-audio-more-ac
 $('sp-audio-search').addEventListener('input',e=>{audioQuery=e.target.value;renderAudioFind();});
 $('sp-audio-find').addEventListener('click',e=>{const button=e.target.closest('[data-audio-filter]');if(button){audioFilter=button.dataset.audioFilter;renderAudioFind();}if(e.target.closest('#sp-audio-search-clear')){audioQuery='';audioFilter='all';$('sp-audio-search').value='';renderAudioFind();$('sp-audio-search').focus();}});
 $('sp-audio-undo').addEventListener('click',()=>undo());$('sp-audio-redo').addEventListener('click',()=>undo(true));
-$('sp-audio-port-choices').addEventListener('click',e=>{const button=e.target.closest('[data-audio-port-choice]');if(!button)return;const port=button.dataset.audioPortChoice==='auto'?'':Number(button.dataset.audioPortChoice);$('sp-audio-port').value=port;if($('sp-audio-format').value==='stereo'){$('sp-audio-right-port').value=port?port+1:'';if(editingRoute.partner)editingRoute.partner={...editingRoute.partner,stagebox:$('sp-channel-stagebox').value};$('sp-audio-right-patch').textContent='';}renderAudioPortChoices();renderAudioEditorContext();});
+$('sp-audio-port-choices').addEventListener('click',e=>{if(e.target.closest('[data-audio-open-connect]'))openAudioPatch($('sp-channel-direction').value,editingRoute.id,{draft:true});});
 $('sp-audio-port').addEventListener('input',renderAudioPortChoices);
 $('sp-audio-right-port').addEventListener('input',renderAudioPortChoices);
-$('sp-audio-di-help').addEventListener('click',()=>{setChannelPillValue('sp-audio-pickup','DI');audioFormChanged('sp-audio-pickup');});
+$('sp-audio-di-help').addEventListener('click',()=>{setChannelPillValue('sp-audio-pickup','DI');audioFormChanged('sp-audio-pickup');showAudioEditorPanel('signal');});
 
 $('sp-audio-editor-tabs').addEventListener('click',e=>{const button=e.target.closest('[data-audio-tab]');if(button)showAudioEditorPanel(button.dataset.audioTab);});
 $('sp-audio-editor-tabs').addEventListener('keydown',e=>{
@@ -10015,6 +10232,20 @@ $('sp-audio-editor-tabs').addEventListener('keydown',e=>{
   e.preventDefault();const next=e.key==='Home'?0:e.key==='End'?tabs.length-1:(index+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;showAudioEditorPanel(tabs[next].dataset.audioTab,{focus:true});
 });
 $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textContent='';renderAudioEditorContext();});
+
+$('sp-audio-mic-brands').addEventListener('click',e=>{const button=e.target.closest('[data-audio-mic-brand]');if(!button)return;audioMicManufacturer=button.dataset.audioMicBrand;renderAudioMicPicker();$('sp-audio-mic-brands').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});});
+$('sp-audio-mic-models').addEventListener('click',e=>{const button=e.target.closest('[data-audio-mic-model]');if(!button)return;const model=audioMicCatalog().find(mic=>mic.name===button.dataset.audioMicModel);if(!model)return;$('sp-channel-microphone').value=model.name;$('sp-audio-custom-model').value=model.name;$('sp-channel-phantom').checked=model.phantom===true;audioCustomModel=false;renderAudioMicPicker();renderAudioEditorContext();$('sp-audio-mic-models').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});});
+$('sp-audio-mic-selected').addEventListener('click',e=>{if(e.target.closest('[data-audio-custom-model]')){audioCustomModel=true;renderAudioMicPicker();$('sp-audio-custom-model').focus();}if(e.target.closest('[data-audio-clear-model]')){$('sp-channel-microphone').value='';$('sp-audio-custom-model').value='';renderAudioMicPicker();renderAudioEditorContext();}});
+$('sp-audio-custom-model').addEventListener('input',e=>{$('sp-channel-microphone').value=e.target.value;renderAudioEditorContext();});
+$('sp-audio-custom-model').addEventListener('change',renderAudioMicPicker);
+$('sp-audio-connect-boxes').addEventListener('click',e=>{const button=e.target.closest('[data-audio-connect-box]');if(button)selectAudioQuickBox(button.dataset.audioConnectBox);});
+$('sp-audio-connect-port').addEventListener('input',()=>{if(audioQuickPatch){audioQuickPatch.preserve=false;validateAudioQuickPatch();}});
+$('sp-audio-connect-save').addEventListener('click',()=>commitAudioQuickPatch());
+$('sp-audio-connect-disconnect').addEventListener('click',()=>commitAudioQuickPatch(true));
+$('sp-audio-connect-close').addEventListener('click',()=>$('sp-audio-connect-dialog').close());
+$('sp-audio-connect-dialog').addEventListener('close',()=>{audioQuickPatch=null;});
+
+$('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.closest('[data-audio-brand-scroll]');if(button)$('sp-audio-mic-brands').scrollBy({left:Number(button.dataset.audioBrandScroll)*260,behavior:'auto'});});
 /* build-inline:end stageplot-audio-v1.js */
   $('sp-routing-tabs').addEventListener('click',e=>{const button=e.target.closest('[data-routing-tab]');if(button){routingTab=button.dataset.routingTab;renderRouting();}});
   function handleStageboxWorkspaceClick(e,surface){
@@ -10054,7 +10285,7 @@ $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textConte
   $('sp-routing-sync').addEventListener('click',()=>{const before=snapshot();syncRoutingFromStage();keepHistory(before);renderRouting();});
   $('sp-routing-auto').addEventListener('click',autoAssignRouting);
   $('sp-routing-add').addEventListener('click',()=>openChannelDialog(routingTab));
-  $('sp-routing-rows').addEventListener('click',e=>{if(suppressRoutingClick||e.target.closest('[data-route-drag]'))return;const phantom=e.target.closest('[data-route-phantom]');if(phantom){const row=stage.routing.inputs.find(item=>item.id===phantom.dataset.routePhantom);if(row){const before=snapshot(),enabled=!row.phantom;for(const member of audioGroup(stage.routing.inputs,row))member.phantom=enabled;keepHistory(before);renderRouting();say(row.phantom?'48V aktiviert':'48V deaktiviert');}return;}const patch=e.target.closest('[data-audio-patch]');if(patch){openAudioPatch(routingTab,patch.dataset.audioPatch);return;}const number=e.target.closest('[data-route-number]');if(number){openAudioPatch(routingTab,number.dataset.routeNumber);requestAnimationFrame(()=>{$('sp-channel-number').focus({preventScroll:true});$('sp-channel-number').select();});return;}const row=e.target.closest('[data-route-row]');if(row)openChannelDialog(routingTab,row.dataset.routeRow);});
+  $('sp-routing-rows').addEventListener('click',e=>{if(suppressRoutingClick||e.target.closest('[data-route-drag]'))return;const phantom=e.target.closest('[data-route-phantom]');if(phantom){const row=stage.routing.inputs.find(item=>item.id===phantom.dataset.routePhantom);if(row){const before=snapshot(),enabled=!row.phantom;for(const member of audioGroup(stage.routing.inputs,row))member.phantom=enabled;keepHistory(before);renderRouting();say(row.phantom?'48V aktiviert':'48V deaktiviert');}return;}const patch=e.target.closest('[data-audio-patch]');if(patch){openAudioPatch(routingTab,patch.dataset.audioPatch);return;}const number=e.target.closest('[data-route-number]');if(number){openAudioChannel(routingTab,number.dataset.routeNumber);showAudioEditorPanel('patch');requestAnimationFrame(()=>{$('sp-channel-number').focus({preventScroll:true});$('sp-channel-number').select();});return;}const row=e.target.closest('[data-route-row]');if(row)openChannelDialog(routingTab,row.dataset.routeRow);});
   $('sp-routing-rows').addEventListener('keydown',e=>{if(!['Enter',' '].includes(e.key)||e.target.closest('button'))return;const row=e.target.closest('[data-route-row]');if(row){e.preventDefault();openChannelDialog(routingTab,row.dataset.routeRow);}});
   $('sp-routing-rows').addEventListener('dragstart',e=>{const handle=e.target.closest('[data-route-drag]'),row=handle?.closest('[data-route-row]');if(!handle||!row){e.preventDefault();return;}routingDrag={id:row.dataset.routeRow,moved:false};row.dataset.dragging='true';e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',routingDrag.id);});
   $('sp-routing-rows').addEventListener('dragover',e=>{if(!routingDrag)return;const row=e.target.closest('[data-route-row]');if(!row||row.dataset.routeRow===routingDrag.id)return;e.preventDefault();routingDrag.moved=true;const rect=row.getBoundingClientRect(),placement=e.clientY<rect.top+rect.height/2?'before':'after';$('sp-routing-rows').querySelectorAll('[data-drop-position]').forEach(node=>delete node.dataset.dropPosition);row.dataset.dropPosition=placement;e.dataTransfer.dropEffect='move';});
@@ -10629,7 +10860,7 @@ $('sp-channel-form').addEventListener('input',()=>{$('sp-audio-error').textConte
   };
   let drumMicPopupChannel=null,drumMicPopupFilter='typical',drumMicPopupQuery='',drumMicPopupReturnFocus=null;
   const drumMicByName=name=>drumMicCatalog.find(mic=>mic.name===name)||{name:name||'Mikrofon',short:name||'Mic'};
-  const drumMicIcon=mic=>mic.asset?'<span class="sp-mic-sprite sp-mic-'+mic.asset+'" aria-hidden="true"></span>':'<svg class="sp-drum-mic-generic-icon" viewBox="0 0 54 26" aria-hidden="true"><g transform="rotate(-16 27 13)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="18" height="10" rx="5" fill="currentColor" opacity=".16"/><path d="M24 8h16l6 5-6 5H24M12 10v6M16 9v8M20 9v8" stroke-width="1.3"/><path d="M40 18v4M35 22h10" stroke-width="1.5"/></g></svg>';
+  const drumMicIcon=mic=>audioMicPhoto(mic.name)?'<img class="sp-drum-mic-original" src="'+audioMicPhoto(mic.name)+'" alt="" loading="lazy">':'<span class="sp-drum-mic-model-only" aria-hidden="true">MIC</span>';
   function drumMicPickerRow(row){
     const mic=drumDraft.mics?.[row.id]||{enabled:row.enabled!==false,model:row.model||''},cymbalPart=row.part==='hihat'||row.part==='ride'||row.part==='clapstack'||/^(crash|splash|china)\d+$/.test(row.part),overheadLocked=cymbalPart&&drumDraft.overheadPickup?.[row.part]!==false,enabled=!overheadLocked&&mic.enabled!==false,current=mic.model||row.model||'',direct=row.method==='di',choice=drumMicByName(current);
     if(direct)return '<div class="sp-drum-pickup-row" data-disabled="'+String(!enabled)+'"><span>'+esc(row.name)+'</span><div class="sp-drum-pickup-actions"><button class="sp-drum-direct-enable" type="button" data-drum-direct-enable="'+row.id+'" aria-label="'+esc(row.name)+' Direktausgang aktivieren">'+(enabled?drumMicIcon({name:'Direktausgang',short:'DI'}):'')+'<small>'+(enabled?'DI / Line':'Ausgang aktivieren')+'</small></button><button class="sp-drum-mic-clear" type="button" data-drum-mic-clear="'+row.id+'" aria-label="'+esc(row.name)+' deaktivieren" '+(!enabled?'disabled':'')+'>×</button></div></div>';

@@ -1,0 +1,90 @@
+[
+  {
+    "model": "Shure SM57",
+    "id": "sm57",
+    "file": "sm57-original-v2.png",
+    "productPage": "https://www.shure.com/en-US/products/microphones/sm57",
+    "imageUrl": "https://products.shureweb.eu/shure_product_db/product_images/files/179/4ce/9a-/original/8c80cb144e8a6494c5e10517dc121683.png",
+    "retrieved": "2026-09-09",
+    "sha256": "76c1c0f290857af4ebb0d878b953bc1c466141c76ca1795991ae4dcc1286e30f",
+    "bytes": 815943,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Shure SM58",
+    "id": "sm58",
+    "file": "sm58-original-v2.webp",
+    "productPage": "https://www.shure.com/en-US/products/microphones/sm58",
+    "imageUrl": "https://products.shureweb.eu/shure_product_db/product_images/files/48b/91a/7a-/original/b1982c056eb29e6a4f1cb26819c96334.webp",
+    "retrieved": "2026-09-09",
+    "sha256": "db914ff2cd7fd9adb1156fe8f8a3256459ff07caf0f3501443f1ddfc31b18cf6",
+    "bytes": 102770,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Telefunken M80",
+    "id": "m80",
+    "file": "m80-original-v2.jpg",
+    "productPage": "https://www.telefunken-elektroakustik.com/product/m80-standard/",
+    "imageUrl": "https://www.telefunken-elektroakustik.com/wp-content/uploads/2023/01/StandardM80Front-768x768.jpg",
+    "retrieved": "2026-09-09",
+    "sha256": "2f09f7527aaff61c83775626002683a95d09f7d9a4b5370f705639c79b96b45d",
+    "bytes": 10571,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "beyerdynamic M 201",
+    "id": "m201",
+    "file": "m201-original-v2.png",
+    "productPage": "https://global.beyerdynamic.com/p/m-201",
+    "imageUrl": "https://api.beyerdynamic.de/media/catalog/product/b/e/beyerdynamic-m-201-perspective_transparent_1.png?store=www_en&image-type=image",
+    "retrieved": "2026-09-09",
+    "sha256": "bdbae68574674254afabb7c30922a499e9eb1f5715100caf0e034ba877cef013",
+    "bytes": 178919,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Neumann KM 184",
+    "id": "km184",
+    "file": "km184-original-v2.webp",
+    "productPage": "https://www.neumann.com/en-de/products/microphones/km-184-series-180/",
+    "imageUrl": "https://assets.sennheiser.com/assets/KM-184-with-SG21_Neumann-Miniature-Microphone_M.png/Zz1mNjRiNDUwOGU3YWExMWYwYjViMzc2OGVlOGU5N2FlYQ==?width=730&format=webp&quality=80",
+    "retrieved": "2026-09-09",
+    "sha256": "96840706def981929f75d1827b306a43f06b6218d7c885d6bbc0ba772de62fe6",
+    "bytes": 30694,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "sE Electronics V7",
+    "id": "v7",
+    "file": "v7-original-v2.png",
+    "productPage": "https://seelectronics.com/products/v7/",
+    "imageUrl": "https://imgcdn.seelectronics.com/cdn-cgi/imagedelivery/g65XQ1NFDxpPR_G3NFTuoA/b22d6ac9-2854-4911-39e1-c4087310c900/w=1080,h=1080,fit=crop",
+    "retrieved": "2026-09-09",
+    "sha256": "76fc4b51a7db8fe97613d994c9aa89e0ae570024f0002ae2eccaa7ee8daa4d4a",
+    "bytes": 353908,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Audix i5",
+    "id": "i5",
+    "file": "i5-original-v2.png",
+    "productPage": "https://audixusa.com/products/i5/",
+    "imageUrl": "https://audixusa.com/cdn/shop/files/i5-Front_1200x1200.png?v=1778642083",
+    "retrieved": "2026-09-09",
+    "sha256": "9fc08a8aec9edaf11f1f0755ee0a7b1a8529358eb32dc3e4f90cce1bfc9fbc82",
+    "bytes": 185249,
+    "originalManufacturerPhoto": true
+  },
+  {
+    "model": "Sennheiser MD 421 II",
+    "id": "421",
+    "file": "421-original-v2.webp",
+    "productPage": "https://www.sennheiser.com/en-us/catalog/products/microphones/md-421-ii/md-421-ii-000984",
+    "imageUrl": "https://assets.sennheiser.com/assets/MD_421_II_Product_shot_cutout_Sennheiser.png/Zz1jNWFhMGE2MGU3Y2QxMWYwODA0ZmJlYjQzYzY2MTIyYQ==?width=1920&format=webp&quality=80",
+    "retrieved": "2026-09-09",
+    "sha256": "ba9ddb84d02be080d5ea32a247558c1b8eea174565e52f0b044638f4c296303e",
+    "bytes": 137542,
+    "originalManufacturerPhoto": true
+  }
+]
