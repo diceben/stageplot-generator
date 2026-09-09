@@ -1,5 +1,45 @@
 <div id="sp-frame">
-<div id="sp-prototype" lang="de" data-library-collapsed="false" data-inspector-collapsed="false" data-canvas-focus="false" data-inspector-tab="properties">
+<style id="sp-startup-style">
+#sp-prototype[data-booting],#sp-prototype[data-booting] * { visibility:hidden !important; }
+#sp-startup { position:fixed; inset:0; z-index:100000; display:grid; place-content:center; justify-items:center; gap:12px; padding:24px; background:light-dark(#f5f6f2,#202525); color:light-dark(#252a27,#f2f4ef); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; text-align:center; }
+#sp-startup[data-theme="light"] { color-scheme:light; }
+#sp-startup[data-theme="dark"] { color-scheme:dark; }
+#sp-startup strong { font-size:22px; }
+#sp-startup p { margin:0; }
+#sp-startup button { min-height:44px; padding:10px 18px; border:1px solid currentColor; border-radius:10px; background:transparent; color:inherit; font:inherit; cursor:pointer; }
+#sp-startup[hidden],#sp-startup [hidden] { display:none !important; }
+</style>
+<div id="sp-startup" role="status" aria-live="polite"><strong>Stageplotter</strong><p id="sp-startup-message">Wird geladen …</p><button id="sp-startup-retry" type="button" hidden>Erneut laden</button><noscript>Bitte aktiviere JavaScript, um Stageplotter zu verwenden.</noscript></div>
+<script>
+/* build-inline:start stageplot-startup-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+// Runs before the application markup and optional external runtime scripts.
+// A failed startup leaves a usable retry action and never changes saved projects.
+(function(){
+  const panel=document.getElementById('sp-startup');
+  let complete=false;
+  try{
+    const theme=JSON.parse(window.localStorage.getItem('stageplot-studio:theme:v1')||'null')?.theme;
+    if(theme==='light'||theme==='dark')panel.dataset.theme=theme;
+  }catch(error){}
+  function failed(event){
+    if(complete||!(event.target?.tagName==='SCRIPT'||typeof event.message==='string'))return;
+    document.getElementById('sp-startup-message').textContent='Die App konnte nicht vollständig geladen werden.';
+    document.getElementById('sp-startup-retry').hidden=false;
+    panel.setAttribute('role','alert');
+  }
+  window.addEventListener('error',failed,true);
+  document.getElementById('sp-startup-retry').addEventListener('click',()=>window.location.reload());
+  window.StageplotStartup={ready(){
+    complete=true;
+    window.removeEventListener('error',failed,true);
+    const root=document.getElementById('sp-prototype');
+    root.removeAttribute('data-booting');root.removeAttribute('aria-busy');root.inert=false;
+    panel.hidden=true;
+  }};
+})();
+/* build-inline:end stageplot-startup-v1.js */
+</script>
+<div id="sp-prototype" data-booting aria-busy="true" inert lang="de" data-library-collapsed="false" data-inspector-collapsed="false" data-canvas-focus="false" data-inspector-tab="properties">
   <header class="sp-header">
     <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><img class="sp-brand-logo" id="sp-brand-logo" src="./stageplot-assets/branding/stageplotter-header-standard-v4.png" data-logo-free="./stageplot-assets/branding/stageplotter-header-standard-v4.png" data-logo-pro="./stageplot-assets/branding/stageplotter-header-pro-v3.png" alt="Stageplotter"><span class="sp-brand-fallback" id="sp-brand-fallback" hidden><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></span></button>
     <details id="sp-file-menu" class="sp-file-menu" hidden>
@@ -31,7 +71,7 @@
       <li data-step="project"><button type="button" data-view="project"><span aria-hidden="true"><svg data-nav-icon="settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44A1.78 1.78 0 0 0 10 3.78v.04a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.04-.02a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.04.02a2 2 0 0 1 1 1.74v.5a2 2 0 0 1-1 1.74l-.04.02a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.04-.02a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.04c0 .98.8 1.78 1.78 1.78h.44c.98 0 1.78-.8 1.78-1.78v-.04a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.04.02a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.04-.02a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.04-.02a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.04.02a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73v-.04C14 2.8 13.2 2 12.22 2Z"/><circle cx="12" cy="12" r="3"/></svg></span> Projektdaten</button></li>
       <li data-step="print"><button type="button" data-view="print" id="sp-show-print"><span aria-hidden="true">↗</span> Export &amp; Teilen</button></li>
     </ol></nav>
-    <div class="sp-otter-mode" id="sp-otter-mode" aria-hidden="true"><span class="sp-otter-trail">🐾　✦　🐾　✧　🐾</span><img class="sp-otter-surfer" src="./stageplot-assets/branding/stageplotter-icon.png" alt=""><span class="sp-otter-mode-label" role="status" aria-live="polite"></span></div>
+    <div class="sp-otter-mode" id="sp-otter-mode" aria-hidden="true"><span class="sp-otter-trail">🐾　✦　🐾　✧　🐾</span><img loading="lazy" decoding="async" class="sp-otter-surfer" src="./stageplot-assets/branding/stageplotter-icon.png" alt=""><span class="sp-otter-mode-label" role="status" aria-live="polite"></span></div>
     <div class="sp-project-summary"><h2 id="sp-project-heading" role="button" tabindex="0" aria-label="Projekt umbenennen" title="Projektname anklicken zum Umbenennen">Mein Live-Setup</h2><div id="sp-editor-meta"></div><form id="sp-project-rename-form" hidden><label class="sp-visually-hidden" for="sp-project-rename-input">Projektname</label><input id="sp-project-rename-input" type="text" maxlength="60" required autocomplete="off" spellcheck="false" aria-label="Projektname bearbeiten"></form></div>
     <div class="sp-header-status" aria-label="Speicherstatus"><span class="sp-save-dot" aria-hidden="true"></span><span id="sp-header-draft-status">Entwurf lokal</span></div>
     <button class="sp-header-help sp-header-gear" type="button" id="sp-settings-gear" aria-label="App-Einstellungen" title="App-Einstellungen"><svg data-header-icon="settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44A1.78 1.78 0 0 0 10 3.78v.04a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.04-.02a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.04.02a2 2 0 0 1 1 1.74v.5a2 2 0 0 1-1 1.74l-.04.02a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.04-.02a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.04c0 .98.8 1.78 1.78 1.78h.44c.98 0 1.78-.8 1.78-1.78v-.04a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.04.02a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.04-.02a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.04-.02a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.04.02a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73v-.04C14 2.8 13.2 2 12.22 2Z"/><circle cx="12" cy="12" r="3"/></svg></button>
@@ -40,7 +80,7 @@
 
   <section id="sp-dashboard" class="sp-dashboard" hidden>
     <div class="sp-dashboard-hero">
-      <div class="sp-dashboard-intro"><img class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
+      <div class="sp-dashboard-intro"><img loading="lazy" decoding="async" class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
       <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
     <div class="sp-plan-card" id="sp-plan-card">
@@ -51,7 +91,7 @@
     <div id="sp-project-grid" class="sp-project-grid"></div>
   </section>
 
-  <section id="sp-setup" class="sp-setup">
+  <section id="sp-setup" class="sp-setup" hidden>
     <div class="sp-intro"><span class="sp-eyebrow">DER ANFANG IST DEINE BÜHNE</span><h2>Wie viel Platz habt ihr?</h2></div>
     <div class="sp-setup-grid">
       <form id="sp-stage-form" class="sp-stage-form">
@@ -112,12 +152,12 @@
         <label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-library-search" type="search" aria-label="Baustein suchen" placeholder="Baustein suchen …" maxlength="80" autocomplete="off"></label>
         <button type="button" class="sp-button" id="sp-inventory-open">Mein Inventar</button>
         <div id="sp-category-tabs" class="sp-category-tabs" role="group" aria-label="Baustein-Kategorien">
-          <button type="button" data-category="all" aria-pressed="true" aria-label="Alle" data-tooltip="Alle"><img class="sp-category-icon" data-category-icon="all" src="./stageplot-assets/categories/all-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Alle</span></button>
-          <button type="button" data-category="instruments" aria-pressed="false" aria-label="Instrumente" data-tooltip="Instrumente"><img class="sp-category-icon" data-category-icon="instruments" src="./stageplot-assets/categories/instruments-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Instrumente</span></button>
-          <button type="button" data-category="classical" aria-pressed="false" aria-label="Klassik & Orchester" data-tooltip="Klassik & Orchester"><img class="sp-category-icon" data-category-icon="orchestra" src="./stageplot-assets/categories/orchestra-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Orchester</span></button>
-          <button type="button" data-category="stage" aria-pressed="false" aria-label="Bühnenelemente" data-tooltip="Bühnenelemente"><img class="sp-category-icon" data-category-icon="stage" src="./stageplot-assets/categories/stage-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Bühne</span></button>
-          <button type="button" data-category="lights" aria-pressed="false" aria-label="Licht" data-tooltip="Licht"><img class="sp-category-icon" data-category-icon="lights" src="./stageplot-assets/categories/lights-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Licht</span></button>
-          <button type="button" data-category="tech" aria-pressed="false" aria-label="Technik" data-tooltip="Technik"><img class="sp-category-icon" data-category-icon="tech" src="./stageplot-assets/categories/tech-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Technik</span></button>
+          <button type="button" data-category="all" aria-pressed="true" aria-label="Alle" data-tooltip="Alle"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="all" src="./stageplot-assets/categories/all-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Alle</span></button>
+          <button type="button" data-category="instruments" aria-pressed="false" aria-label="Instrumente" data-tooltip="Instrumente"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="instruments" src="./stageplot-assets/categories/instruments-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Instrumente</span></button>
+          <button type="button" data-category="classical" aria-pressed="false" aria-label="Klassik & Orchester" data-tooltip="Klassik & Orchester"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="orchestra" src="./stageplot-assets/categories/orchestra-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Orchester</span></button>
+          <button type="button" data-category="stage" aria-pressed="false" aria-label="Bühnenelemente" data-tooltip="Bühnenelemente"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="stage" src="./stageplot-assets/categories/stage-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Bühne</span></button>
+          <button type="button" data-category="lights" aria-pressed="false" aria-label="Licht" data-tooltip="Licht"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="lights" src="./stageplot-assets/categories/lights-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Licht</span></button>
+          <button type="button" data-category="tech" aria-pressed="false" aria-label="Technik" data-tooltip="Technik"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="tech" src="./stageplot-assets/categories/tech-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Technik</span></button>
         </div>
         <div id="sp-search-count" class="sp-search-count" role="status" aria-live="polite"></div>
         <div id="sp-library-items" class="sp-library-items"></div>
@@ -137,15 +177,15 @@
             </div>
             <div class="sp-canvas-dock">
               <div class="sp-toolbar-group sp-canvas-cluster sp-view-controls" data-canvas-cluster="view">
-                <button class="sp-button sp-iconbutton sp-pan-button" id="sp-pan" type="button" data-tooltip="Ansicht verschieben · Leertaste" aria-label="Ansicht bewegen" aria-pressed="false"><img class="sp-tool-image" src="./stageplot-assets/toolbar/pan-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Bewegen</span></button>
-                <label class="sp-button sp-iconbutton sp-snap-toggle" data-tooltip="An Raster und Bühnenkanten einrasten"><input id="sp-snap" class="sp-visually-hidden" type="checkbox" aria-label="Am Raster einrasten" checked><img class="sp-tool-image" src="./stageplot-assets/toolbar/snap-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Einrasten</span></label>
-                <button class="sp-button sp-iconbutton sp-toggle" id="sp-grid-visible" type="button" aria-label="Raster ein- oder ausblenden" data-tooltip="Raster ein-/ausblenden" aria-pressed="true"><img class="sp-tool-image" src="./stageplot-assets/toolbar/grid-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Raster</span></button>
-                <button class="sp-button sp-iconbutton sp-toggle" id="sp-labels-visible" type="button" aria-label="Beschriftungen ausblenden" data-tooltip="Beschriftungen ausblenden" aria-pressed="true"><img class="sp-tool-image" src="./stageplot-assets/toolbar/labels-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Namen</span></button>
-                <button class="sp-button sp-iconbutton sp-toggle" id="sp-stage-surface-toggle" type="button" aria-label="Bühne schwarz darstellen" data-tooltip="Bühne schwarz" aria-pressed="false"><img class="sp-tool-image" src="./stageplot-assets/toolbar/surface-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Schwarz</span></button>
-                <button class="sp-button sp-iconbutton sp-toggle" id="sp-outs-global-toggle" type="button" aria-label="Ausgänge am Instrument ausblenden" data-tooltip="Ausgänge am Instrument ausblenden" aria-pressed="true"><img class="sp-tool-image" src="./stageplot-assets/toolbar/outputs-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Ausgänge</span></button>
-                <button class="sp-button sp-iconbutton sp-stage-action sp-stage-divide" id="sp-stage-edit" type="button" aria-label="Bühne bearbeiten" data-tooltip="Bühne bearbeiten"><img class="sp-tool-image" src="./stageplot-assets/toolbar/stage-edit-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Bühne</span></button>
-                <button class="sp-button sp-iconbutton sp-stage-action" id="sp-stage-iem" type="button" aria-label="IEM / Rack bearbeiten" data-tooltip="IEM- / Rack-Bereich bearbeiten"><img class="sp-tool-image" src="./stageplot-assets/toolbar/iem-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">IEM / Rack</span></button>
-                <button class="sp-button sp-iconbutton sp-stage-action" id="sp-stage-clear" type="button" aria-label="Bühne leeren" data-tooltip="Bühne leeren"><img class="sp-tool-image" src="./stageplot-assets/toolbar/clear-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Leeren</span></button>
+                <button class="sp-button sp-iconbutton sp-pan-button" id="sp-pan" type="button" data-tooltip="Ansicht verschieben · Leertaste" aria-label="Ansicht bewegen" aria-pressed="false"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/pan-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Bewegen</span></button>
+                <label class="sp-button sp-iconbutton sp-snap-toggle" data-tooltip="An Raster und Bühnenkanten einrasten"><input id="sp-snap" class="sp-visually-hidden" type="checkbox" aria-label="Am Raster einrasten" checked><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/snap-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Einrasten</span></label>
+                <button class="sp-button sp-iconbutton sp-toggle" id="sp-grid-visible" type="button" aria-label="Raster ein- oder ausblenden" data-tooltip="Raster ein-/ausblenden" aria-pressed="true"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/grid-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Raster</span></button>
+                <button class="sp-button sp-iconbutton sp-toggle" id="sp-labels-visible" type="button" aria-label="Beschriftungen ausblenden" data-tooltip="Beschriftungen ausblenden" aria-pressed="true"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/labels-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Namen</span></button>
+                <button class="sp-button sp-iconbutton sp-toggle" id="sp-stage-surface-toggle" type="button" aria-label="Bühne schwarz darstellen" data-tooltip="Bühne schwarz" aria-pressed="false"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/surface-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Schwarz</span></button>
+                <button class="sp-button sp-iconbutton sp-toggle" id="sp-outs-global-toggle" type="button" aria-label="Ausgänge am Instrument ausblenden" data-tooltip="Ausgänge am Instrument ausblenden" aria-pressed="true"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/outputs-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Ausgänge</span></button>
+                <button class="sp-button sp-iconbutton sp-stage-action sp-stage-divide" id="sp-stage-edit" type="button" aria-label="Bühne bearbeiten" data-tooltip="Bühne bearbeiten"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/stage-edit-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Bühne</span></button>
+                <button class="sp-button sp-iconbutton sp-stage-action" id="sp-stage-iem" type="button" aria-label="IEM / Rack bearbeiten" data-tooltip="IEM- / Rack-Bereich bearbeiten"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/iem-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">IEM / Rack</span></button>
+                <button class="sp-button sp-iconbutton sp-stage-action" id="sp-stage-clear" type="button" aria-label="Bühne leeren" data-tooltip="Bühne leeren"><img loading="lazy" decoding="async" class="sp-tool-image" src="./stageplot-assets/toolbar/clear-v1.webp" width="36" height="36" alt="" aria-hidden="true" draggable="false"><span class="sp-tool-name">Leeren</span></button>
                 <button id="sp-grid-size" type="button" value="0.125" aria-label="Feines Raster, 12,5 Zentimeter" aria-pressed="true" hidden>12,5 cm</button>
               </div>
               <div class="sp-toolbar-group sp-canvas-cluster sp-zoom-controls" data-canvas-cluster="zoom">
@@ -503,24 +543,24 @@
         <button class="sp-drum-edge-toggle sp-drum-palette-toggle" type="button" id="sp-drum-palette-toggle" aria-label="Bauteile einklappen" aria-expanded="true" aria-controls="sp-drum-palette"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 5-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <aside id="sp-drum-palette" class="sp-drum-library" aria-label="Schlagzeug-Bauteile">
           <div class="sp-drum-library-label">Kessel</div>
-          <button class="sp-drum-library-item" type="button" data-drum-add="throne" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/throne.webp" alt=""></span><span><strong>Hocker</strong><small>Position des Drummers</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="kick" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/kick-overhead-v3.png" alt=""></span><span><strong>Kick</strong><small>16″ · 18″ · 20″ · 22″ · 24″</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="snare" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/snare.webp" alt=""></span><span><strong>Snare</strong><small>Hauptsnare</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="side" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/snare.webp" alt=""></span><span><strong>Microsnare</strong><small>Zusatzsnare · 6″ oder 8″</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="rack" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/rack-tom.webp" alt=""></span><span><strong>Rack-Tom</strong><small>High · Mid</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="floor" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/floor-tom.webp" alt=""></span><span><strong>Floor-Tom</strong><small>14″ · 16″ · 18″</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="throne" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/throne.webp" alt=""></span><span><strong>Hocker</strong><small>Position des Drummers</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="kick" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/kick-overhead-v3.png" alt=""></span><span><strong>Kick</strong><small>16″ · 18″ · 20″ · 22″ · 24″</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="snare" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/snare.webp" alt=""></span><span><strong>Snare</strong><small>Hauptsnare</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="side" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/snare.webp" alt=""></span><span><strong>Microsnare</strong><small>Zusatzsnare · 6″ oder 8″</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="rack" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/rack-tom.webp" alt=""></span><span><strong>Rack-Tom</strong><small>High · Mid</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="floor" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/floor-tom.webp" alt=""></span><span><strong>Floor-Tom</strong><small>14″ · 16″ · 18″</small></span></button>
           <div class="sp-drum-library-label">Becken</div>
-          <button class="sp-drum-library-item" type="button" data-drum-add="hihat" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/hihat-overhead-v2.png" alt=""></span><span><strong>Hi-Hat</strong><small>Mit Ständer</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="ride" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/ride.webp" alt=""></span><span><strong>Ride</strong><small>Mit Dreibeinständer</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="crash" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/crash.webp" alt=""></span><span><strong>Crash</strong><small>Mit Dreibeinständer</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="hihat" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/hihat-overhead-v2.png" alt=""></span><span><strong>Hi-Hat</strong><small>Mit Ständer</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="ride" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/ride.webp" alt=""></span><span><strong>Ride</strong><small>Mit Dreibeinständer</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="crash" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/crash.webp" alt=""></span><span><strong>Crash</strong><small>Mit Dreibeinständer</small></span></button>
           <button class="sp-drum-library-item" type="button" data-drum-add="splash" aria-pressed="false"><span class="sp-drum-library-thumb sp-drum-cymbal-thumb" data-cymbal-thumb="splash"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="17"/><circle cx="26" cy="26" r="4"/><path d="M13 26h26M26 13v26"/></svg></span><span><strong>Splash</strong><small>Kleines Effektbecken · ohne eigenes Stativ</small></span></button>
           <button class="sp-drum-library-item" type="button" data-drum-add="china" aria-pressed="false"><span class="sp-drum-library-thumb sp-drum-cymbal-thumb" data-cymbal-thumb="china"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="20"/><circle cx="26" cy="26" r="15"/><path d="M7 26q19-8 38 0M12 20q14-7 28 0"/><circle cx="26" cy="26" r="3"/></svg></span><span><strong>China</strong><small>Umgebogener Rand</small></span></button>
           <button class="sp-drum-library-item" type="button" data-drum-add="clapstack" aria-pressed="false"><span class="sp-drum-library-thumb sp-drum-cymbal-thumb" data-cymbal-thumb="clapstack"><svg viewBox="0 0 52 52" aria-hidden="true"><ellipse cx="25" cy="27" rx="21" ry="20" fill="#656a68"/><ellipse cx="27" cy="27" rx="18" ry="17" fill="#aeb2b0"/><ellipse cx="26" cy="25.5" rx="15" ry="14.5" fill="#e7e9e7"/><path d="M13 22q13-9 26 0M16 29q10 7 20 0" fill="none" stroke="#f7f8f6"/><circle cx="26" cy="26" r="3.1" fill="#242725"/><path d="m24.3 25.5.8-1.5.9.6.9-.6.8 1.5-.7 1.2h-2z" fill="#101210"/><circle cx="26" cy="26" r=".8" fill="#ddd"/></svg></span><span><strong>Clapstack</strong><small>11″ · 13″ · 15″ · Metall</small></span></button>
           <div class="sp-drum-library-label">Elektronik &amp; Zusatz</div>
-          <button class="sp-drum-library-item" type="button" data-drum-add="pad" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/spdsx-overhead-preview-v1.png" alt=""></span><span><strong>SPD-SX</strong><small>9-Pad Sample-Pad</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="pad" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/spdsx-overhead-preview-v1.png" alt=""></span><span><strong>SPD-SX</strong><small>9-Pad Sample-Pad</small></span></button>
           <button class="sp-drum-library-item" type="button" data-drum-add="bongos" aria-pressed="false"><span class="sp-drum-library-thumb sp-drum-thumb-bongos" aria-hidden="true"><i></i><i></i></span><span><strong>Bongos</strong><small>Zusatzpercussion</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="mixer" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/racktable-mixer-overhead-preview-v1.png" alt=""></span><span><strong>Racktisch · Mixer</strong><small>GEMS-Stand · Analogmixer</small></span></button>
-          <button class="sp-drum-library-item" type="button" data-drum-add="laptop" aria-pressed="false"><span class="sp-drum-library-thumb"><img src="stageplot-assets/drums/racktable-laptop-overhead-preview-v1.png" alt=""></span><span><strong>Racktisch · Laptop</strong><small>GEMS-Stand · Laptop</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="mixer" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/racktable-mixer-overhead-preview-v1.png" alt=""></span><span><strong>Racktisch · Mixer</strong><small>GEMS-Stand · Analogmixer</small></span></button>
+          <button class="sp-drum-library-item" type="button" data-drum-add="laptop" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/racktable-laptop-overhead-preview-v1.png" alt=""></span><span><strong>Racktisch · Laptop</strong><small>GEMS-Stand · Laptop</small></span></button>
         </aside>
         <section class="sp-drum-canvas" aria-label="Drumset-Aufbau">
           <div id="sp-drum-preview" class="sp-drum-preview" role="group" aria-label="Schlagzeug in Draufsicht, aus Sicht des Drummers"></div>
@@ -566,6 +606,7 @@
               <li><strong>Klarer Audioplan:</strong> Der Arbeitsbereich heißt einheitlich „Routing“, auch im Menü und beim Öffnen am Objekt. Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Audio-Plan und Drum-Editor teilen dieselbe Mikrofon-Auswahl: Sofortsuche, Herstellerfilter, passende Vorschläge, Favoriten und zuletzt verwendete Modelle. 19 Original-Herstellerfotos sind lokal enthalten. Mikrofon und 48 V werden in beide Richtungen abgeglichen; Kanalnummern, Patch und Notizen bleiben erhalten. Overheads lassen sich direkt im Drum-Editor auswählen. Gemeinsame Signalwege vermeiden doppelte Inputs. Playback-Laptops bieten Stereo L/R, PLAYAUDIO1U mit zwölf benennbaren XLR-Ausgängen und Dante Virtual Soundcard über ein Netzwerkkabel. Stereo-Paare lassen sich in Mono-Signale teilen; Namen und Ausgangsnummern erscheinen im Audioplan und Export.</li>
               <li><strong>Stageboxen schnell verbinden:</strong> Ein kompaktes Fenster zeigt verfügbare Stageboxen mit Bild und direkt anklickbaren XLR-/Kombibuchsen. Der vorgeschlagene oder ausgewählte Input/Output glitzert rosa; bei Stereo sind beide Buchsen samt L/R markiert. Belegte Buchsen zeigen das Signal, Zahlenfelder zur Buchsenauswahl entfallen. Die vollständige Belegung bleibt als eigene Übersicht erreichbar; die Navigation ist in allen Audio-Ansichten einheitlich.</li>
               <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. PDF und Bild nutzen dieselben Seiten mit Maßlinien direkt an den Bühnenkanten und Zusatzinfos neben oder unter dem Plan. Bilder gibt es in HD, 2K und 4K; mehrseitige Ausgaben als ZIP. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
+              <li><strong>Schnellerer Start:</strong> Beim Neuladen erscheint direkt die wiederhergestellte Ansicht nach einer kurzen Ladeanzeige. Der alte Demo-Aufbau wird nicht mehr angelegt. Bibliothek und Pack-Vorschauen entstehen erst beim Öffnen; versteckte Druckseiten werden nicht im Hintergrund neu gezeichnet. Bilder geschlossener Editoren laden erst bei Bedarf; 13 ungenutzte Helfer früherer Projekt-, Routing-, Druck- und Drum-Ansichten sind entfernt.</li>
               <li><strong>Projekte &amp; Locations:</strong> „Neues Projekt“ bündelt eigene Bühnen und Location-Vorlagen. Projekt hinzufügen steht zuerst; dauerhafte Projekt-IDs und echte Instrumente in den Vorschauen erleichtern die Übersicht. Der Location-Katalog ist in der Beta frei zugänglich.</li>
               <li><strong>Ruhigere Bedienung:</strong> Neu gerenderte Werkzeug-Icons mit sichtbaren Namen und eindeutiger Aktiv-Markierung; die Zoomleiste überdeckt auch am Handy keine Werkzeuge. Verständlichere Kategorien, mehr Platz in den Seitenleisten und eine rechte Seitenleiste, die beim Objektwechsel geöffnet oder geschlossen bleibt. Lokale Inventarlisten, Strombedarf, Signalübergabe, FOH-Bedarf und Funkangaben ergänzen die Planung.</li>
             </ul>
@@ -9184,12 +9225,12 @@ function createStageplotSymbolV3(type, options = {}) {
     root.querySelectorAll('[data-editor-actions]').forEach(el=>{el.hidden=which!=='editor';});
     root.querySelectorAll('[data-step]').forEach(el=>{if(el.dataset.step===which)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');const unavailable=!stage&&!['setup','dashboard'].includes(el.dataset.step),button=el.querySelector('button');button.disabled=false;button.setAttribute('aria-disabled',String(unavailable));});
     const projStep=root.querySelector('[data-step="project"]');if(projStep)projStep.hidden=isSampleProject();
-    syncNavigationPill(true);
+    syncNavigationPill(true);updateProjectHeading();
     $('sp-show-print').disabled=!stage;
     $('sp-file-save').disabled=!stage&&which!=='setup';$('sp-file-save-as').disabled=!stage&&which!=='setup';
     if(which==='dashboard')renderDashboard();
     if(which==='setup') updateSetup();
-    if(which==='editor') renderEditor();
+    if(which==='editor'){setLibraryMode(libraryMode);renderEditor();}
     if(which==='routing')renderRouting();
     if(which==='print'){$('sp-preview-live').hidden=true;renderPrint();}
     if(which==='project'){if(previousView!=='project')projectReturnView=previousView==='dashboard'?'dashboard':'editor';fillProjectForm();setProjectTab('general');$('sp-project-form').scrollTop=0;}
@@ -9678,6 +9719,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function packArtwork(pack,limit=4){return packObjects(pack).slice(0,limit).map(c=>'<span>'+icon(c)+'</span>').join('');}
   function renderPackCards(){
     const locked=objectPacks.filter(pack=>!pack.free&&!pack.bundle&&!isPackUnlocked(pack.id)).length,count=$('sp-library-pack-count');count.textContent=locked?String(locked):'';count.setAttribute('aria-label',locked?locked+' nicht vollständig freigeschaltete Packs':'Alle Packs freigeschaltet');
+    if(view!=='editor'||libraryMode!=='packs')return;
     $('sp-library-packs').innerHTML=objectPacks.map(pack=>{const unlocked=isPackUnlocked(pack.id),objects=packObjects(pack);return '<button class="sp-pack-card" type="button" data-pack-open="'+pack.id+'" data-unlocked="'+unlocked+'" aria-label="'+esc(pack.name+' ansehen · '+packStateLabel(pack))+'"><div class="sp-pack-card-head"><div><h3>'+esc(pack.name)+'</h3><p>'+esc(pack.kicker)+'</p></div><span class="sp-pack-card-badge">'+esc(packStateLabel(pack))+'</span></div><div class="sp-pack-card-art">'+packArtwork(pack)+'</div><div class="sp-pack-card-foot"><span>'+objects.length+' Objekte</span><strong>'+esc(unlocked&&!pack.free?'Aktiv':pack.price)+'</strong></div></button>';}).join('');
   }
   function setLibraryMode(mode,focus=false){
@@ -9747,6 +9789,7 @@ function createStageplotSymbolV3(type, options = {}) {
     return normalize(query).trim().split(/\s+/).filter(Boolean).every(word=>text.includes(word));
   }
   function library() {
+    if(view!=='editor'||libraryMode!=='objects')return;
     const matched=catalog.filter(c=>libraryMatches(c,libraryCategory,$('sp-library-search').value)),seenFamilies=new Set(),visible=[];
     for(const c of matched){const familyCard=libraryModelFamilyCards[c.family];if(!familyCard)visible.push({c});else if(!seenFamilies.has(c.family)){seenFamilies.add(c.family);const variants=catalog.filter(item=>item.family===c.family),representative=byId[familyCard.representative];visible.push({c:{...representative,name:familyCard.label,short:familyCard.label},family:c.family,variants});}}
     root.querySelectorAll('[data-category]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===libraryCategory)));
@@ -9754,7 +9797,6 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-library-items').innerHTML=visible.map(entry=>{const c=entry.c;if(entry.family){const active=objects.some(o=>byId[o.type]?.family===entry.family),count=entry.variants.length;return '<button class="sp-library-item sp-library-model-family" type="button" data-library-model-family="'+entry.family+'" data-active="'+active+'" aria-haspopup="dialog" aria-controls="sp-model-dialog" aria-label="'+esc(c.name+' auswählen · '+count+' Modelle')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span><span class="sp-library-model-count">'+count+' Modelle</span></button>';}
       const unlocked=isObjectUnlocked(c.id),pack=objectPackById[objectPackForType.get(c.id)];return '<button class="sp-library-item" type="button" '+(unlocked?'data-add="'+c.id+'" data-pending="'+(placement?.type===c.id)+'"':'data-pack-open="'+pack.id+'" data-pack-locked="true"')+' aria-label="'+esc(unlocked?c.name+' zum Platzieren auswählen':c.name+' ist im '+pack.name+' Pack · Pack ansehen')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span>'+(unlocked?'':'<span class="sp-library-lock-label">'+esc(pack.name)+'</span>')+'</button>';}).join('')||'<p class="sp-library-empty">Keine passenden Bausteine. Suche oder Kategorie ändern.</p>';
     $('sp-library-items').scrollTop=0;
-    renderPackCards();
   }
   function updateList(){
     const cableCount=stage?.cables?.length||0;
@@ -10141,21 +10183,6 @@ function createStageplotSymbolV3(type, options = {}) {
       activateSetupDocument(entry.document,entry.id,{message:'Setup geöffnet: '+entry.name});
     }catch(error){setupError(error);}
   }
-  function openSetupLibrary(mode='load'){
-    closeFileMenu();cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();setupDialogMode=mode;
-    $('sp-setup-name').value=stage?.title||'Mein Live-Setup';$('sp-setup-feedback').textContent='';$('sp-setup-error').hidden=true;
-    $('sp-setups-title').textContent=mode==='load'?'Setup laden':'Speichern unter';
-    $('sp-setup-save-form').hidden=mode==='load';$('sp-setup-save-hint').hidden=mode==='load';
-    $('sp-saved-heading').hidden=mode!=='load';$('sp-saved-setups').hidden=mode!=='load';$('sp-draft-section').hidden=mode!=='load';
-    refreshSetupLibrary();if(mode==='load')refreshDraftLibrary();
-    if(mode!=='load'){
-      const base=(stage?.title||'Mein Live-Setup').slice(0,48);let name=base,i=1;
-      while(savedSetups.some(entry=>entry.name.toLocaleLowerCase('de')===name.toLocaleLowerCase('de')))name=base+' · Kopie'+(i++>1?' '+(i-1):'');
-      $('sp-setup-name').value=name;syncSetupSave();
-    }
-    if(!$('sp-setups-dialog').open)$('sp-setups-dialog').showModal();
-    if(mode!=='load'){$('sp-setup-name').focus();$('sp-setup-name').select();}
-  }
   function saveCurrentSetup(asCopy=false){
     if(!flushProjectForm(true))return false;
     closeFileMenu();cancelPlacement(false);finishEdit();
@@ -10208,7 +10235,7 @@ function createStageplotSymbolV3(type, options = {}) {
 
   let projectRenameActive=false;
   function updateProjectHeading(){
-    if(!stage)return;
+    if(!stage){const heading=$('sp-project-heading');heading.textContent='Kein Projekt geöffnet';heading.tabIndex=-1;heading.setAttribute('aria-disabled','true');heading.setAttribute('aria-label','Kein Projekt geöffnet');$('sp-editor-meta').textContent='';return;}
     const sample=isSampleProject(),heading=$('sp-project-heading'),editable=!sample&&!sharedReadOnly;
     heading.textContent=sample?'':stage.title;heading.tabIndex=editable?0:-1;heading.setAttribute('aria-disabled',String(!editable));heading.setAttribute('aria-label',editable?'Projekt „'+stage.title+'“ umbenennen':'Projektname');
     $('sp-editor-meta').textContent=sample?'':stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d);
@@ -10338,12 +10365,6 @@ function createStageplotSymbolV3(type, options = {}) {
       if(draftId){finishEdit();if(stage&&!isSampleProject()&&activeDraftId!==draftId)persistDraft(true);const data=readDraftLibrary(window.localStorage),entry=data.entries.find(item=>item.id===draftId);if(!entry)throw new Error('Dieser Entwurf wurde inzwischen entfernt.');writeDraftLibrary(window.localStorage,{entries:data.entries,lastId:draftId});restoreDraftEntry(entry);if(target==='project')openProjectSettings();else show(target);say('Entwurf geöffnet: '+entry.name);return;}
       const entry=readSetupLibrary(window.localStorage).find(item=>item.id===id);if(!entry)throw new Error('Projekt nicht gefunden.');activateSetupDocument(entry.document,entry.id,{show:target!=='project'});if(target==='project'){renderDashboard();openProjectSettings();}else if(target!=='editor')show(target);
     }catch(error){setupError(error);}
-  }
-  function createNewProject(){
-    const count=dashboardProjects().length;if(accountPlan!=='pro'&&count>=1){$('sp-upgrade-dialog').showModal();return;}
-    finishEdit();if(stage&&!isSampleProject())persistDraft(true);activeSetupId=null;activeDraftId=null;objects=[];selected=null;nextId=1;history=[];future=[];editBefore=null;resetEditorView();
-    setupStageSurface=stageSurfaceDefault;$('sp-title').value='Neues Projekt';$('sp-width').value=8;$('sp-depth').value=5;$('sp-stairs').value='left';$('sp-stairs-offset').value=.5;$('sp-iem').value='right';$('sp-iem-length').value=2;$('sp-iem-depth').value=.8;$('sp-iem-x').value=7.2;$('sp-iem-y').value=0;
-    stage=draft();delete stage.projectId;stage.complex=false;stage.project=defaultProjectInfo('Neues Projekt');stage.routing=defaultRouting();resetDraftTracking();persistDraft(true);show('dashboard');openProjectSettings();say('Neues Projekt angelegt');
   }
   $('sp-project-search').addEventListener('input',renderDashboard);
   const npSize={width:8,depth:5};
@@ -10590,18 +10611,10 @@ function createStageplotSymbolV3(type, options = {}) {
   const routeNeedsDi=(row,direction,box)=>direction==='inputs'&&row?.connector==='Klinke'&&!box?.comboJacks;
   const routeStageboxCompatible=(row,direction,box)=>row?.connector!=='Dante'&&!routeNeedsDi(row,direction,box);
   function routeSourceObject(row){const id=String(row?.sourceKey||'').split(':')[0];return objects.find(o=>o.id===id)||null;}
-  function nextFreeChannelNumber(direction,excludeId=''){
-    const used=new Set((stage?.routing?.[direction]||[]).filter(row=>row.id!==excludeId).map(row=>row.number).filter(Boolean));let next=1;while(used.has(next)&&next<999)next++;return next;
-  }
   function nextStageboxPort(direction,boxId,excludeId=''){
     const box=routingStageboxes(direction).find(item=>item.id===boxId);if(!box)return null;
     const used=new Set((stage?.routing?.[direction]||[]).filter(row=>row.id!==excludeId&&row.stagebox===boxId).map(row=>row.stageboxPort).filter(port=>Number.isFinite(port)&&port>0));
     for(let port=1;port<=box.capacity;port++)if(!used.has(port))return port;return null;
-  }
-  function nearestAvailableStagebox(direction,row,excludeId=''){
-    const source=routeSourceObject(row),boxes=routingStageboxes(direction).filter(box=>routeStageboxCompatible(row,direction,box)&&nextStageboxPort(direction,box.id,excludeId)!==null);
-    if(source)boxes.sort((a,b)=>Math.hypot(a.x-source.x,a.y-source.y)-Math.hypot(b.x-source.x,b.y-source.y));
-    return boxes[0]||null;
   }
   function autoAssignRouting(){
     if(!stage||sharedReadOnly)return;const before=snapshot();syncRoutingFromStage(false,false);let assigned=0;
@@ -10622,10 +10635,6 @@ function createStageplotSymbolV3(type, options = {}) {
     say(assigned+' Signale zugeordnet'+(open?' · '+open+' noch ohne passende Buchse':' · alle Signale zugeordnet')+' · vorhandene Zuordnungen beibehalten');
   }
   const routingDirectionLabel=direction=>direction==='outputs'?'Output':'Input';
-  function moveRoutingRow(rows,sourceId,targetId,placement='before'){
-    const moved=rows.slice(),sourceIndex=moved.findIndex(row=>row.id===sourceId);if(sourceIndex<0||sourceId===targetId)return moved;const [source]=moved.splice(sourceIndex,1),targetIndex=moved.findIndex(row=>row.id===targetId);if(targetIndex<0)return rows.slice();moved.splice(targetIndex+(placement==='after'?1:0),0,source);return moved;
-  }
-  function renumberRoutingRows(rows){rows.forEach((row,index)=>{row.number=index+1;});return rows;}
   function allRoutingStageboxes(){return objects.filter(o=>stageboxCapacity[o.type]).map(o=>({id:o.id,name:o.label||byId[o.type].short,type:o.type,inputs:stageboxCapacity[o.type].inputs,outputs:stageboxCapacity[o.type].outputs,x:o.x,y:o.y,comboJacks:o.comboJacks===true}));}
   function stageboxPortName(row){return String(row?.instrument||'Unbenannt').replace(/^Drums\s*·\s*/,'');}
   function stageboxRouteLocation(row,direction){
@@ -11609,15 +11618,6 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
       'xl/worksheets/sheet1.xml':xlsxSheet(inputRows),'xl/worksheets/sheet2.xml':xlsxSheet(outputRows)
     };downloadBlob(new Blob([zipStore(files)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),exportModel.safeFilename(stage.title+'-routing',{extension:'xlsx'}));say('Routing als XLSX exportiert');
   }
-  function routingTableMarkup(direction){
-    const rows=routingExportRows(direction);return '<h2>'+routingDirectionLabel(direction)+' Channels · '+rows.length+'</h2><table><thead><tr>'+routingHeaders.map(value=>'<th>'+esc(value)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(value=>'<td>'+esc(value||'—')+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
-  }
-  function renderTechnicalDocument(mode){
-    renderPrint();syncRoutingFromStage(false);const p=normalizeProjectInfo(stage.project,stage.title),fields=[['Datum',p.date],['Artist / Band',p.artist],['Venue',p.venue],['Autor / Engineer',p.author],['Tour',p.tour],['Produktionsfirma',p.company],['Bühne',stage.geometry?venueSizeText(stage,objects):num(stage.w)+' × '+metres(stage.d)]];
-    $('sp-document-title').textContent=stage.title;$('sp-document-meta').textContent=mode==='routing'?'Routing / Channel List':'Complete Production Document';$('sp-document-project').innerHTML='<div class="sp-document-grid">'+fields.filter(([,value])=>value).map(([label,value])=>'<div class="sp-document-field"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('')+'</div>';
-    $('sp-document-floor').innerHTML=$('sp-print-floor').innerHTML;$('sp-document-routing').innerHTML=routingTableMarkup('inputs')+routingTableMarkup('outputs');
-    const contacts=[['Stage Manager',p.contacts.stageManager],['FOH Engineer',p.contacts.foh],['Monitor Engineer',p.contacts.monitor],['Technical / Advance',p.contacts.advance]].filter(([,entry])=>entry.name||entry.contact);$('sp-document-contacts').innerHTML=contacts.length?'<h2>Technische Kontakte</h2><div class="sp-document-grid">'+contacts.map(([label,entry])=>'<div class="sp-document-field"><span>'+label+'</span><strong>'+esc(entry.name||'—')+'</strong><div>'+esc(entry.contact||'')+'</div></div>').join('')+'</div>':'';$('sp-document-notes').innerHTML=(productionLines(stage).length?'<h2>Technische Anforderungen</h2><p>'+productionLines(stage).map(esc).join('<br>')+'</p>':'')+(p.notes?'<h2>Notes</h2><p>'+esc(p.notes).replaceAll('\n','<br>')+'</p>':'');$('sp-document-print').hidden=false;
-  }
   function printReport(mode){
     if(mode==='complete'&&accountPlan!=='pro'){$('sp-upgrade-dialog').showModal();return;}
     if(mode!=='stage'){show('print');setExportIntent('technical');setPdfPreset(mode==='complete'?'full':'plan');if(mode==='routing'){$('sp-print-inputs').checked=true;$('sp-print-routing').checked=true;}}
@@ -11833,16 +11833,6 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     for(const [prefix,label] of [['kick','Kick'],['rack','Rack-Tom'],['floor','Floor-Tom'],['crash','Crash'],['splash','Splash'],['china','China']])if(id.startsWith(prefix))return label+(number>1?' '+number:'');
     return id;
   }
-  function drumDesignerLabels(layout){
-    const labels={snare:'SNARE',side:'SIDE',ride:'RIDE',clapstack:'CLAP',pad:'SPD-SX',bongos:'BONGOS'};
-    return layout.parts.map(part=>{
-      const number=Number(part.id.match(/\d+/)?.[0]||1),label=labels[part.id]||(part.id.startsWith('rack')?(number===1?'HIGH':number===2?'MID':'TOM '+number):part.id.startsWith('floor')?'FT '+number:part.id.startsWith('crash')?'CRASH'+(number>1?' '+number:''):part.id.startsWith('china')?'CHINA'+(number>1?' '+number:''):part.id.startsWith('splash')?'SPLASH'+(number>1?' '+number:''):'');
-      if(!label)return '';const point=drumModel.designerPoint(layout,part),radius=part.r||Math.max(part.w||0,part.h||0)/2;
-      let x=point.x,y=point.y-radius-2.4,anchor='middle';
-      if(part.id==='ride'||part.id==='side'||part.id.startsWith('floor')){x=point.x+radius+2.5;y=point.y+1;anchor='start';}
-      return '<text x="'+x+'" y="'+y+'" text-anchor="'+anchor+'" font-size="3.8" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-weight="700" letter-spacing=".18" fill="#303030" stroke="none">'+label+'</text>';
-    }).join('');
-  }
   const removableDrumPart=id=>Boolean(id&&id!=='kick1');
   // Compact hover toolbar geometry mirrors the main canvas: continuous rotation,
   // 0°, layer order, duplicate and delete in fixed slots after the part label.
@@ -11915,16 +11905,6 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     artDefs.querySelectorAll('[data-drum-owner]').forEach(node=>{if(!ids.has(node.dataset.drumOwner)){artCache.delete(node.id.replace(/^sp-art-/,''));artBoundsCache.delete(node.id);node.remove();}});
   }
   const drumValue=path=>path.split('.').reduce((v,k)=>v?.[k],drumDraft);
-  function drumInput(label,path,min,max,step=1){
-    return '<label class="sp-field">'+esc(label)+'<input class="sp-drum-value-input" type="number" data-drum-field="'+path+'" value="'+drumValue(path)+'" min="'+min+'" max="'+max+'" step="'+step+'" required></label>';
-  }
-  function drumText(label,path,placeholder=''){
-    return '<label class="sp-field">'+esc(label)+'<input type="text" data-drum-field="'+path+'" value="'+esc(drumValue(path))+'" maxlength="60" placeholder="'+esc(placeholder)+'"></label>';
-  }
-  function drumCheck(label,path){return '<label class="sp-check"><input type="checkbox" data-drum-field="'+path+'" '+(drumValue(path)?'checked':'')+'> '+esc(label)+'</label>';}
-  function drumSelect(label,path,options,value=drumValue(path)){
-    return '<label class="sp-field">'+esc(label)+'<select data-drum-field="'+path+'">'+options.map(option=>{const [v,t]=Array.isArray(option)?option:[option,option];return '<option value="'+esc(v)+'" '+(String(v)===String(value)?'selected':'')+'>'+esc(t)+'</option>';}).join('')+'</select></label>';
-  }
   const drumDiameterOptions={kick:[16,18,20,22,24],snare:[10,12,13,14],rack:[8,10,12,13,14],floor:[14,16,18],otherSnare:[6,8],hihat:[13,14,15,16],ride:[18,20,21,22,24],crash:[14,16,17,18,19,20],clap:[8,10,12,14,16]};
   function drumPills(label,path,values,{pad=false,labels={}}={}){
     const current=Number(drumValue(path)),options=values.includes(current)?values:values.concat(current).filter(Number.isFinite).sort((a,b)=>a-b);
@@ -12448,8 +12428,8 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   const orchestraEditor=createStageplotOrchestraEditor(root,orchestraModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.orchestra=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Orchester-Aufbau übernommen');});
   const percussionEditor=createStageplotPercussionEditor(root,percussionModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.percussion=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Percussion-Setup übernommen');});
   function queueDraw(){
-    if(frameQueued)return;frameQueued=true;
-    requestAnimationFrame(()=>{frameQueued=false;if(view==='setup')updateSetup();else if(view==='editor')editorCanvas();else renderPrint();});
+    if(frameQueued||!['setup','editor','print'].includes(view))return;frameQueued=true;
+    requestAnimationFrame(()=>{frameQueued=false;if(view==='setup')updateSetup();else if(view==='editor')editorCanvas();else if(view==='print')renderPrint();});
   }
   function makeObject(type,point,id,seed=null){
     const c=byId[type];
@@ -13501,31 +13481,17 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   const observer=new ResizeObserver(entries=>{if(!drag&&entries.some(floorSizeChanged))queueDraw();});
   ['sp-setup-floor','sp-editor-floor','sp-print-floor'].forEach(id=>observer.observe($(id)));
   window.addEventListener('resize',()=>{syncResponsiveWorkspace();syncNavigationPill(false);queueDraw();});
-  // This visual revision opens on a sample arrangement so its artwork is visible immediately.
-  // Stage dimensions and access remain editable through the existing setup step.
-  $('sp-title').value='Beispiel-Aufbau';
-  stage=draft();
-  // The bundled sample and fresh projects share the model's product default.
-  const defaultDrumConfig=drumModel.drumDefaults();
-  objects=[
-    {id:'station-1',type:'drums',x:4,y:1.5,angle:0,label:'Drums',note:'SPD-SX · Splash',drums:defaultDrumConfig},
-    {id:'station-2',type:'keys-stage4',x:1.5,y:1.5,angle:180,label:'Nord Stage 4',note:'Stereo · Strom am Platz'},
-    {id:'station-3',type:'guitar',x:6.25,y:3.5,angle:65,label:'Gitarre',note:''},
-    {id:'station-4',type:'bass',x:1.5,y:3.5,angle:65,label:'Bass',note:''},
-    {id:'station-5',type:'mic',stand:'round',purpose:'vocals',x:4,y:3.5,angle:0,label:'Vocals',note:''},
-    {id:'station-6',type:'rack',x:7.5,y:1,angle:0,label:'IEM-Rack',note:''},
-    {id:'station-7',type:'laptop',x:6.25,y:1.5,angle:0,label:'Playback-Laptop',note:''},
-    {id:'station-8',type:'wedge',x:4,y:4.55,angle:0,label:'Wedge',note:''}
-  ];
-  nextId=9;selected='station-1';loadThemePreference();loadAccountPlan();loadPackState();renderStageTemplates();
+  // Restore actual local work before building any project-dependent views.
+  loadThemePreference();loadAccountPlan();loadPackState();renderStageTemplates();
+  setLibraryMode('objects');refreshPackUi();
   let sharedDocument=null;try{sharedDocument=decodeShareDocument();}catch(error){say('Freigabelink konnte nicht geöffnet werden: '+error.message);}
-  if(sharedDocument){stage=sharedDocument.stage;objects=sharedDocument.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';$('sp-title').value=stage.title;setLibraryMode('objects');show('print');}
+  if(sharedDocument){stage=sharedDocument.stage;objects=sharedDocument.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';$('sp-title').value=stage.title;show('print');}
   else {
-    restoreLatestDraft();setLibraryMode('objects');const restoredView=restoredAppView();
+    restoreLatestDraft();const restoredView=restoredAppView();
     if(restoredView==='setup'&&stage)openStageSettings();else show(!stage&&!['dashboard','setup'].includes(restoredView)?'dashboard':restoredView);
   }
-  refreshPackUi();
   syncResponsiveWorkspace(true);
+  window.StageplotStartup.ready();
   initializeAccount();
 })();
 </script>
