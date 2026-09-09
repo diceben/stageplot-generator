@@ -1,6 +1,6 @@
-#sp-prototype .sp-percussion-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
+#sp-prototype .sp-percussion-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; --sp-bg:light-dark(#f6f6f6,#171717); --sp-panel:light-dark(#fff,#242424); --sp-ink:light-dark(#222,#eee); --sp-muted:light-dark(#666,#aaa); --sp-line:light-dark(#ccc,#444); --sp-teal:light-dark(#333,#ddd); border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
 #sp-prototype .sp-percussion-dialog[open] { display:flex; flex-direction:column; }
-#sp-prototype .sp-percussion-dialog::backdrop { background:#10161099; backdrop-filter:blur(5px); }
+#sp-prototype .sp-percussion-dialog::backdrop { background:#1119; backdrop-filter:blur(5px); }
 #sp-prototype .sp-percussion-dialog header,#sp-prototype .sp-percussion-dialog footer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 22px; flex-shrink:0; }
 #sp-prototype .sp-percussion-dialog header { border-bottom:1px solid var(--sp-line); }
 #sp-prototype .sp-percussion-dialog h2 { margin:2px 0 0; font-size:23px; }
@@ -10,7 +10,7 @@
 #sp-prototype .sp-percussion-dialog button { min-height:36px; padding:8px 11px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; font-size:12px; cursor:pointer; }
 #sp-prototype .sp-percussion-dialog button:hover { border-color:var(--sp-teal); }
 #sp-prototype .sp-percussion-dialog button:disabled { opacity:.4; cursor:default; }
-#sp-prototype .sp-percussion-dialog button[aria-pressed=true] { background:var(--sp-lime,#d8f47a); color:#24300c; border-color:#95ad4a; }
+#sp-prototype .sp-percussion-dialog button[aria-pressed=true] { background:light-dark(#e2e2e2,#444); color:var(--sp-ink); border-color:var(--sp-teal); }
 #sp-prototype .sp-percussion-dialog button:focus-visible,#sp-prototype .sp-percussion-dialog input:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
 #sp-prototype .sp-perc-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 20px; border-bottom:1px solid var(--sp-line); }
 #sp-prototype .sp-perc-toolbar>div,#sp-prototype .sp-percussion-dialog footer>div { display:flex; gap:5px; }
@@ -22,14 +22,14 @@
 #sp-prototype .sp-percussion-dialog input { width:100%; box-sizing:border-box; min-width:0; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; }
 #sp-prototype .sp-perc-catalog>div { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
 #sp-prototype .sp-perc-catalog button { display:flex; flex-direction:column; align-items:center; gap:5px; padding:7px 3px; font-size:11px; line-height:1.2; }
-#sp-prototype .sp-perc-catalog img { width:64px; height:55px; object-fit:contain; }
+#sp-prototype .sp-perc-catalog img { width:64px; height:55px; object-fit:contain; filter:grayscale(1); }
 #sp-prototype .sp-perc-canvas-pane { display:flex; flex-direction:column; min-width:0; min-height:0; }
-#sp-prototype .sp-perc-canvas { flex:1; min-height:0; background:#eef0e9; touch-action:none; overflow:hidden; }
-#sp-prototype .sp-perc-canvas svg { width:100%; height:100%; display:block; }
+#sp-prototype .sp-perc-canvas { flex:1; min-height:0; background:#f1f1f1; touch-action:none; overflow:hidden; }
+#sp-prototype .sp-perc-canvas>svg { width:100%; height:100%; display:block; }
 #sp-prototype .sp-perc-canvas [data-part] { cursor:grab; }
 #sp-prototype .sp-perc-canvas [data-part] image { pointer-events:none; }
 #sp-prototype .sp-perc-canvas [data-part]:focus { outline:none; }
-#sp-prototype .sp-perc-canvas [data-part]:focus rect { stroke:#617d16; stroke-width:1; }
+#sp-prototype .sp-perc-canvas [data-part]:focus rect { stroke:#333; stroke-width:1; }
 #sp-prototype .sp-perc-hint,#sp-prototype .sp-perc-status { font-size:11px; margin:0; padding:6px 12px; color:var(--sp-muted); }
 #sp-prototype .sp-perc-status:empty { display:none; }
 #sp-prototype .sp-perc-properties p { font-size:12px; color:var(--sp-muted); line-height:1.5; }
@@ -38,7 +38,7 @@
 #sp-prototype .sp-perc-list-item { display:block; width:100%; margin:4px 0; text-align:left; }
 #sp-prototype .sp-percussion-dialog footer { border-top:1px solid var(--sp-line); }
 #sp-prototype .sp-perc-summary { font-size:12px; color:var(--sp-muted); }
-#sp-prototype .sp-percussion-dialog .sp-perc-save { background:#d8f47a; color:#24300c; font-weight:750; border-color:#95ad4a; }
+#sp-prototype .sp-percussion-dialog .sp-perc-save { background:#292929; color:#fff; font-weight:750; border-color:#292929; }
 #sp-prototype .sp-perc-presets:not([hidden]) { display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; align-items:center; border-bottom:1px solid var(--sp-line); font-size:12px; }
 #sp-prototype .sp-perc-mobile-nav { display:none; }
 @media(max-width:900px) {

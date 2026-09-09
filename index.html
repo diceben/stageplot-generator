@@ -5181,9 +5181,9 @@ html,body { height:100%; overflow:hidden; }
 #sp-channel-dialog[data-audio-direction="outputs"] .sp-audio-pickup-config .sp-audio-signal-options { grid-template-columns:1fr 1fr; }
 /* build-inline:end stageplot-audio-v1.css */
 /* build-inline:start stageplot-percussion-editor-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
-#sp-prototype .sp-percussion-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
+#sp-prototype .sp-percussion-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; --sp-bg:light-dark(#f6f6f6,#171717); --sp-panel:light-dark(#fff,#242424); --sp-ink:light-dark(#222,#eee); --sp-muted:light-dark(#666,#aaa); --sp-line:light-dark(#ccc,#444); --sp-teal:light-dark(#333,#ddd); border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
 #sp-prototype .sp-percussion-dialog[open] { display:flex; flex-direction:column; }
-#sp-prototype .sp-percussion-dialog::backdrop { background:#10161099; backdrop-filter:blur(5px); }
+#sp-prototype .sp-percussion-dialog::backdrop { background:#1119; backdrop-filter:blur(5px); }
 #sp-prototype .sp-percussion-dialog header,#sp-prototype .sp-percussion-dialog footer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 22px; flex-shrink:0; }
 #sp-prototype .sp-percussion-dialog header { border-bottom:1px solid var(--sp-line); }
 #sp-prototype .sp-percussion-dialog h2 { margin:2px 0 0; font-size:23px; }
@@ -5193,7 +5193,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-percussion-dialog button { min-height:36px; padding:8px 11px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; font-size:12px; cursor:pointer; }
 #sp-prototype .sp-percussion-dialog button:hover { border-color:var(--sp-teal); }
 #sp-prototype .sp-percussion-dialog button:disabled { opacity:.4; cursor:default; }
-#sp-prototype .sp-percussion-dialog button[aria-pressed=true] { background:var(--sp-lime,#d8f47a); color:#24300c; border-color:#95ad4a; }
+#sp-prototype .sp-percussion-dialog button[aria-pressed=true] { background:light-dark(#e2e2e2,#444); color:var(--sp-ink); border-color:var(--sp-teal); }
 #sp-prototype .sp-percussion-dialog button:focus-visible,#sp-prototype .sp-percussion-dialog input:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
 #sp-prototype .sp-perc-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 20px; border-bottom:1px solid var(--sp-line); }
 #sp-prototype .sp-perc-toolbar>div,#sp-prototype .sp-percussion-dialog footer>div { display:flex; gap:5px; }
@@ -5205,14 +5205,14 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-percussion-dialog input { width:100%; box-sizing:border-box; min-width:0; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; }
 #sp-prototype .sp-perc-catalog>div { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
 #sp-prototype .sp-perc-catalog button { display:flex; flex-direction:column; align-items:center; gap:5px; padding:7px 3px; font-size:11px; line-height:1.2; }
-#sp-prototype .sp-perc-catalog img { width:64px; height:55px; object-fit:contain; }
+#sp-prototype .sp-perc-catalog img { width:64px; height:55px; object-fit:contain; filter:grayscale(1); }
 #sp-prototype .sp-perc-canvas-pane { display:flex; flex-direction:column; min-width:0; min-height:0; }
-#sp-prototype .sp-perc-canvas { flex:1; min-height:0; background:#eef0e9; touch-action:none; overflow:hidden; }
-#sp-prototype .sp-perc-canvas svg { width:100%; height:100%; display:block; }
+#sp-prototype .sp-perc-canvas { flex:1; min-height:0; background:#f1f1f1; touch-action:none; overflow:hidden; }
+#sp-prototype .sp-perc-canvas>svg { width:100%; height:100%; display:block; }
 #sp-prototype .sp-perc-canvas [data-part] { cursor:grab; }
 #sp-prototype .sp-perc-canvas [data-part] image { pointer-events:none; }
 #sp-prototype .sp-perc-canvas [data-part]:focus { outline:none; }
-#sp-prototype .sp-perc-canvas [data-part]:focus rect { stroke:#617d16; stroke-width:1; }
+#sp-prototype .sp-perc-canvas [data-part]:focus rect { stroke:#333; stroke-width:1; }
 #sp-prototype .sp-perc-hint,#sp-prototype .sp-perc-status { font-size:11px; margin:0; padding:6px 12px; color:var(--sp-muted); }
 #sp-prototype .sp-perc-status:empty { display:none; }
 #sp-prototype .sp-perc-properties p { font-size:12px; color:var(--sp-muted); line-height:1.5; }
@@ -5221,7 +5221,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-perc-list-item { display:block; width:100%; margin:4px 0; text-align:left; }
 #sp-prototype .sp-percussion-dialog footer { border-top:1px solid var(--sp-line); }
 #sp-prototype .sp-perc-summary { font-size:12px; color:var(--sp-muted); }
-#sp-prototype .sp-percussion-dialog .sp-perc-save { background:#d8f47a; color:#24300c; font-weight:750; border-color:#95ad4a; }
+#sp-prototype .sp-percussion-dialog .sp-perc-save { background:#292929; color:#fff; font-weight:750; border-color:#292929; }
 #sp-prototype .sp-perc-presets:not([hidden]) { display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; align-items:center; border-bottom:1px solid var(--sp-line); font-size:12px; }
 #sp-prototype .sp-perc-mobile-nav { display:none; }
 @media(max-width:900px) {
@@ -6343,9 +6343,9 @@ function createStageplotExportV42() {
 function createStageplotPercussionModel() {
   'use strict';
   const catalog=[
-    {id:'quinto',asset:'conga',name:'Quinto',group:'Trommeln',w:.34,d:.34,head:'11″',channels:['Mic']},
-    {id:'conga',asset:'conga',name:'Conga',group:'Trommeln',w:.37,d:.37,head:'11¾″',channels:['Mic']},
-    {id:'tumba',asset:'conga',name:'Tumba',group:'Trommeln',w:.4,d:.4,head:'12½″',channels:['Mic']},
+    {id:'quinto',asset:'conga',name:'Quinto',group:'Trommeln',w:11*.0254*642/570,d:11*.0254*698/570,head:'11″',channels:['Mic']},
+    {id:'conga',asset:'conga',name:'Conga',group:'Trommeln',w:11.75*.0254*642/570,d:11.75*.0254*698/570,head:'11¾″',channels:['Mic']},
+    {id:'tumba',asset:'conga',name:'Tumba',group:'Trommeln',w:12.5*.0254*642/570,d:12.5*.0254*698/570,head:'12½″',channels:['Mic']},
     {id:'bongos',name:'Bongos',group:'Trommeln',w:.49,d:.26,head:'7¼″ + 8⅝″',channels:['Mic']},
     {id:'timbales',name:'Timbales',group:'Trommeln',w:.86,d:.44,head:'14″ + 15″',channels:['Hoch','Tief']},
     {id:'frame-drum',name:'Pandeiro / Rahmentrommel',group:'Trommeln',w:.28,d:.28,head:'10″',channels:['Mic']},
@@ -6355,14 +6355,17 @@ function createStageplotPercussionModel() {
     {id:'chimes',name:'Bar Chimes',group:'Kleinpercussion',w:.62,d:.12,channels:['Mic'],silent:true},
     {id:'maracas',name:'Maracas',group:'Kleinpercussion',w:.16,d:.28,channels:['Mic'],silent:true},
     {id:'cymbal',name:'Becken',group:'Ergänzungen',w:.4064,d:.4064,head:'16″',channels:['Mic'],silent:true},
-    {id:'multipad',name:'Elektronisches Multipad',group:'Ergänzungen',w:.37,d:.33,channels:['L','R'],electronic:true},
+    {id:'multipad',name:'Elektronisches Multipad',group:'Ergänzungen',w:.364,d:.331,channels:['L','R'],electronic:true},
     {id:'percussion-table',name:'Percussion-Tisch',group:'Ergänzungen',w:.6,d:.3,channels:[],silent:true,underlay:true}
   ].map(c=>({...c,asset:c.asset||c.id}));
+  // Opaque bounds exclude the packaging margin; these are source pixels, not metres.
+  const assetSizes={conga:[644,700],bongos:[700,355],timbales:[700,340],'frame-drum':[661,700],cowbell:[397,700],'jam-block':[700,524],tambourine:[700,606],chimes:[700,146],maracas:[540,700],cymbal:[697,700],multipad:[700,638],'percussion-table':[700,228]};
   const byId=Object.fromEntries(catalog.map(c=>[c.id,c]));
   const finite=(v,def,min,max)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Number(v))):def;
   const round=v=>Math.round(v*10000)/10000;
   const text=(v,max)=>String(v??'').replace(/[\x00-\x1f]/g,' ').slice(0,max);
   const escape=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function dimensions(p){const c=byId[p.type],scale=p.scale??1;return {w:p.width??c.w*scale,d:p.depth??c.d*scale};}
   function part(type,id,x=0,y=0) {const c=byId[type]||byId.conga;return {id,type:c.id,x,y,angle:0,scale:1,label:c.name,pickup:c.silent?'none':c.electronic?'stereo':'mic'};}
   function preset(name='compact') {
     const parts=name==='empty'?[]:name==='latin'?[
@@ -6380,7 +6383,7 @@ function createStageplotPercussionModel() {
       if(!p||!Object.hasOwn(byId,p.type))continue;
       let id=/^[a-zA-Z0-9-]{1,60}$/.test(p.id||'')?p.id:'p'+(i+1);let suffix=1;const baseId=id;while(used.has(id))id=baseId.slice(0,50)+'-copy'+suffix++;used.add(id);
       const c=byId[p.type],base=part(c.id,id),pickup=c.channels.length===0?'none':c.electronic?(p.pickup==='none'?'none':p.pickup==='mono'?'mono':'stereo'):(p.pickup==='none'?'none':'mic');
-      parts.push({...base,x:round(finite(p.x,0,-4,4)),y:round(finite(p.y,0,-4,4)),angle:round((finite(p.angle,0,-36000,36000)%360+360)%360),scale:round(finite(p.scale,1,.6,1.6)),label:text(p.label??c.name,48),pickup});
+      parts.push({...base,x:round(finite(p.x,0,-4,4)),y:round(finite(p.y,0,-4,4)),angle:round((finite(p.angle,0,-36000,36000)%360+360)%360),scale:round(finite(p.scale,1,.6,1.6)),label:text(p.label??c.name,48),pickup,...(Number.isFinite(p.width)?{width:round(finite(p.width,c.w,.02,3))}:{}),...(Number.isFinite(p.depth)?{depth:round(finite(p.depth,c.d,.02,3))}:{})});
     }
     const nextId=Math.max(Math.floor(finite(value.nextId,1,1,1000000000)),...parts.map(p=>{
       const n=/^p[0-9]+$/.test(p.id)?Number(p.id.slice(1)):0;
@@ -6389,7 +6392,7 @@ function createStageplotPercussionModel() {
     return {version:1,nextId,parts};
   }
   function layout(value) {
-    const config=normalize(value),parts=config.parts.map(p=>({...p,...{w:byId[p.type].w*p.scale,d:byId[p.type].d*p.scale}}));
+    const config=normalize(value),parts=config.parts.map(p=>({...p,...dimensions(p)}));
     let minX=-.3,minY=-.3,maxX=.3,maxY=.3;
     if(parts.length){minX=minY=Infinity;maxX=maxY=-Infinity;for(const p of parts){const r=p.angle*Math.PI/180,hw=(Math.abs(Math.cos(r))*p.w+Math.abs(Math.sin(r))*p.d)/2,hd=(Math.abs(Math.sin(r))*p.w+Math.abs(Math.cos(r))*p.d)/2;minX=Math.min(minX,p.x-hw);maxX=Math.max(maxX,p.x+hw);minY=Math.min(minY,p.y-hd);maxY=Math.max(maxY,p.y+hd);}}
     minX-=.025;minY-=.025;maxX+=.025;maxY+=.025;
@@ -6397,8 +6400,8 @@ function createStageplotPercussionModel() {
     return {parts:parts.sort((a,b)=>Number(!!byId[b.type].underlay)-Number(!!byId[a.type].underlay)),minX,minY,w,d,vb:[round(w*100),round(d*100)]};
   }
   function imageMarkup(p,unit=100) {
-    const c=byId[p.type],w=c.w*p.scale*unit,d=c.d*p.scale*unit;
-    return '<image href="./stageplot-assets/percussion/'+c.asset+'.webp" x="'+(-w/2)+'" y="'+(-d/2)+'" width="'+w+'" height="'+d+'" preserveAspectRatio="none"/>';
+    const c=byId[p.type],size=dimensions(p),w=size.w*unit,d=size.d*unit,[sw,sh]=assetSizes[c.asset];
+    return '<svg x="'+(-w/2)+'" y="'+(-d/2)+'" width="'+w+'" height="'+d+'" viewBox="1 1 '+(sw-2)+' '+(sh-2)+'" preserveAspectRatio="none" overflow="hidden" data-percussion-image="'+c.id+'"><image href="./stageplot-assets/percussion/'+c.asset+'.webp" width="'+sw+'" height="'+sh+'" preserveAspectRatio="none" style="filter:grayscale(1)"/></svg>';
   }
   function artwork(value) {const l=layout(value);return '<g data-equipment="percussion">'+l.parts.map(p=>'<g transform="translate('+round((p.x-l.minX)*100)+' '+round((p.y-l.minY)*100)+') rotate('+p.angle+')">'+imageMarkup(p)+'</g>').join('')+'</g>';}
   function channels(value) {
@@ -6407,18 +6410,18 @@ function createStageplotPercussionModel() {
       return names.map((name,i)=>({id:p.id+'-'+(c.electronic?name.toLowerCase():i+1),partId:p.id,name:(p.label||c.name)+(names.length>1?' · '+name:''),electronic:!!c.electronic,stereoGroup:c.electronic&&names.length===2?p.id:'',side:c.electronic&&names.length===2?name:'',connector:c.electronic?'Klinke':'XLR'}));
     });
   }
-  return {catalog,byId,part,preset,normalize,layout,artwork,imageMarkup,channels,escape};
+  return {catalog,byId,part,preset,normalize,dimensions,layout,artwork,imageMarkup,channels,escape};
 }
 if(typeof module==='object'&&module.exports)module.exports=createStageplotPercussionModel;
 /* build-inline:end stageplot-percussion-v1.js */
   const percussionModel=createStageplotPercussionModel();
   const catalog = [
-    {id:'percussion',name:'Percussion-Setup',short:'Percussion',category:'drums',w:1,d:.8,vb:[100,80],keywords:'percussion conga bongos timbales cowbell tamburin chimes editor',detail:'Instrumente frei zusammenstellen · Percussion-Editor'},
+    {id:'drums',name:'Schlagzeug',short:'Schlagzeug',category:'drums',w:2.88,d:2.04,vb:[144,102],keywords:'drumset drums kit schlagzeug'},
+    {id:'percussion',name:'Percussion-Set',short:'Percussion-Set',category:'drums',w:1,d:.8,vb:[100,80],keywords:'percussion conga bongos timbales cowbell tamburin chimes editor',detail:'Instrumente frei zusammenstellen · Percussion-Editor'},
     {id:'percussion-conga',percussionPart:'conga',art:'percussion',name:'Conga',short:'Conga',category:'drums',w:0.37,d:0.37,vb:[37.0,37.0],keywords:'percussion editor'},
     {id:'percussion-bongos',percussionPart:'bongos',art:'percussion',name:'Bongos',short:'Bongos',category:'drums',w:0.49,d:0.26,vb:[49.0,26.0],keywords:'percussion editor'},
     {id:'percussion-timbales',percussionPart:'timbales',art:'percussion',name:'Timbales',short:'Timbales',category:'drums',w:0.86,d:0.44,vb:[86.0,44.0],keywords:'percussion editor'},
 
-    {id:'drums',name:'Schlagzeug',short:'Schlagzeug',category:'drums',w:2.88,d:2.04,vb:[144,102],keywords:'drumset drums kit schlagzeug'},
     {id:'cajon',name:'Cajon-Setup',short:'Cajon',category:'drums',w:1.1,d:1.2},
     {id:'keys-wave2',name:'Nord Wave 2',short:'Wave 2',family:'keys',category:'keys',w:.99,d:.295,vb:[300,90]},
     {id:'keys-stage4',name:'Nord Stage 4 88',short:'Stage 4 88',family:'keys',category:'keys',w:1.282,d:.349,vb:[300,82]},
@@ -6719,6 +6722,14 @@ function createStageplotDrumModel() {
     if(value.version===1&&!['small','medium','large'].includes(value.size))throw new Error('Die Datei ist kein gültiges Stageplot-Drumdesign.');
     return createDrumDesign(value.name,value.config);
   }
+  // 50 drawing units = 1 metre; a diameter in inches becomes radius * .635.
+  // Calibrate the visible head/disc, not the transparent image rectangle.
+  function drumImageGeometry(p){
+    const spec=p.kind==='snare'?[221,225,111,114,85,85]:p.kind==='tom'?(p.id.startsWith('floor')?[252,262,126,129,99,99]:[238,239,119,122,93,91]):p.kind==='hihat'?[313,512,156.5,148,149,148]:p.variant==='ride'?[461,512,230.5,263.5,209,196]:p.variant==='crash'?[508,512,254,276,171,170]:null;
+    if(!spec)return null;
+    const [sw,sh,cx,cy,rx,ry]=spec,sx=p.r/rx,sy=p.r/ry;
+    return {w:sw*sx,h:sh*sy,dx:(sw/2-cx)*sx,dy:(sh/2-cy)*sy};
+  }
   function drumLayout(type,value) {
     const c=normalizeDrums(type,value),parts=[],add=(id,kind,x,y,r,extra={})=>parts.push({id,kind,x,y,r,...extra,angle:c.rotations[id]||0});
     const baseVb=[144,102],riserModules=c.riserPreset==='3x'?3:c.riserPreset==='2x'?2:0;
@@ -6726,17 +6737,18 @@ function createStageplotDrumModel() {
     // adjacent modules form a 2 x 2 m or 3 x 2 m drum platform.
     const riserWidth=riserModules*50,riserDepth=riserModules?100:0,vb=[Math.max(baseVb[0],riserWidth),Math.max(baseVb[1],riserDepth)],cx=vb[0]/2;
     if(c.throne)add('throne','throne',cx,10,9);
-    for(let i=0;i<c.kickCount;i++){const r=c.kickDiameter*.635,w=r*2*1.6;add('kick'+(i+1),'kick',c.kickCount===1?cx:cx-15.5+i*31,51,r,{w,h:w*543/512});}
+    for(let i=0;i<c.kickCount;i++){const r=c.kickDiameter*.635,w=r*2*1.6;add('kick'+(i+1),'kick',c.kickCount===1?cx:cx-15.5+i*31,51,r,{w,h:c.kickDepth*1.27*320/225,depth:c.kickDepth});}
     const rackPositions=({1:[[cx,74]],2:[[cx+11,74],[cx-11,74]],3:[[cx+18,72],[cx,76],[cx-18,72]],4:[[cx+27,68],[cx+9,75],[cx-9,75],[cx-27,68]]})[c.rackToms.length]||[];
-    c.rackToms.forEach((t,i)=>add('rack'+(i+1),'tom',...rackPositions[i],t.diameter*.665,{diameter:t.diameter,depth:t.depth,mount:t.mount}));
-    c.floorToms.forEach((t,i)=>add('floor'+(i+1),'tom',...[[cx-19,48],[cx-31,31],[cx-41,49]][i],t.diameter*.665,{diameter:t.diameter,depth:t.depth}));
-    if(c.snare)add('snare','snare',cx+21,48,c.snareDiameter*.665);if(c.side)add('side','snare',cx+27,30,c.sideDiameter*.665);
-    if(c.hihat)add('hihat','hihat',cx+39,48,c.hatSize*.645,{variant:'hihat'});if(c.ride)add('ride','cymbal',cx-40,60,c.rideSize*.65,{variant:'ride'});
-    c.crashes.forEach((size,i)=>add('crash'+(i+1),'cymbal',...[[cx+35,76],[cx-40,70],[cx+52,60],[cx-8,87]][i],size*.65,{variant:'crash'}));
-    for(let i=0;i<c.splash;i++)add('splash'+(i+1),'cymbal',...[[cx+4,88],[cx-10,87],[cx+19,86],[cx-25,86]][i],6.5,{variant:'splash'});
-    for(let i=0;i<c.china;i++)add('china'+(i+1),'cymbal',...[[cx-24,84],[cx+53,80]][i],11.7,{variant:'china'});
-    if(c.clapstack)add('clapstack','cymbal',cx-23,62,c.clapSize*.58,{variant:'clapstack'});
-    if(c.pad)add('pad','pad',cx+37,15,13.5,{w:27,h:23.7});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
+    c.rackToms.forEach((t,i)=>add('rack'+(i+1),'tom',...rackPositions[i],t.diameter*.635,{diameter:t.diameter,depth:t.depth,mount:t.mount}));
+    c.floorToms.forEach((t,i)=>add('floor'+(i+1),'tom',...[[cx-19,48],[cx-31,31],[cx-41,49]][i],t.diameter*.635,{diameter:t.diameter,depth:t.depth}));
+    if(c.snare)add('snare','snare',cx+21,48,c.snareDiameter*.635);if(c.side)add('side','snare',cx+27,30,c.sideDiameter*.635);
+    if(c.hihat)add('hihat','hihat',cx+39,48,c.hatSize*.635,{variant:'hihat'});if(c.ride)add('ride','cymbal',cx-40,60,c.rideSize*.635,{variant:'ride'});
+    c.crashes.forEach((size,i)=>add('crash'+(i+1),'cymbal',...[[cx+35,76],[cx-40,70],[cx+52,60],[cx-8,87]][i],size*.635,{variant:'crash'}));
+    for(let i=0;i<c.splash;i++)add('splash'+(i+1),'cymbal',...[[cx+4,88],[cx-10,87],[cx+19,86],[cx-25,86]][i],10*.635,{variant:'splash'});
+    for(let i=0;i<c.china;i++)add('china'+(i+1),'cymbal',...[[cx-24,84],[cx+53,80]][i],18*.635,{variant:'china'});
+    if(c.clapstack)add('clapstack','cymbal',cx-23,62,c.clapSize*.635,{variant:'clapstack'});
+    if(c.pad)add('pad','pad',cx+37,15,9.1,{w:18.2,h:16.55});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
+    for(const p of parts){const art=drumImageGeometry(p);if(art)p.art=art;}
     const placed=parts.map(p=>{const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5;return {...p,x:clamp(p.x,halfW,vb[0]-halfW,p.x),y:clamp(p.y,halfH,vb[1]-halfH,p.y)};});
     for(const p of placed)if(c.positions[p.id]){
       const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5,position=c.positions[p.id];
@@ -6763,28 +6775,25 @@ function createStageplotDrumModel() {
       if(p.kind==='kick'){
         // Match the shell and pedal crops used by the overhead renderer without
         // turning their empty shared bounding rectangle into selectable space.
-        const shellWidth=p.w,baseHeight=shellWidth*.9375*543/512,shellHeight=shellWidth*320/512,rawShellY=p.y-baseHeight*.33+baseHeight*160/543;
+        const shellWidth=p.w,shellHeight=p.h,rawShellY=p.y+shellHeight*2.5/320;
         selectionRect(p,'shell',p.x,2*p.y-rawShellY,shellWidth+1,shellHeight+1,2);
-        const pedalWidth=12.55,pedalHeight=19.1,rawPedalY=p.y+19.45;
+        const pedalWidth=12.55,pedalHeight=19.1,rawPedalY=p.y+p.depth*1.27/2+pedalHeight/2-1.5;
         selectionRect(p,'pedal',p.x,2*p.y-rawPedalY,pedalWidth+1,pedalHeight+1,1.5);
         if(layout.pedal==='double'&&layout.parts.filter(part=>part.kind==='kick').length===1){
           const rawPedalX=p.x+(layout.leftHanded?-pedalWidth*.68:pedalWidth*.68),pedalAngle=layout.leftHanded?14:-14;
           selectionRect(p,'pedal-double',2*p.x-rawPedalX,2*p.y-(rawPedalY+.4),pedalWidth+1,pedalHeight+1,1.5,(Number(p.angle)||0)+pedalAngle);
         }
       }else if(p.kind==='hihat'){
-        const cymbalWidth=p.r*2.15,cymbalHeight=cymbalWidth*512/313,cymbalY=p.y+cymbalHeight/2-cymbalHeight*148/512;
-        selectionEllipse(p,'cymbal',p.x,cymbalY,cymbalWidth*149/313,cymbalHeight*148/512);
+        selectionEllipse(p,'cymbal',p.x,p.y,p.r,p.r);
         const standWidth=19.4,standHeight=standWidth*512/313,pedalWidth=10.7,pedalHeight=17.7,rawPedalY=p.y-standHeight/2+standHeight*315/512+pedalHeight/2;
         selectionRect(p,'pedal',p.x,2*p.y-rawPedalY,pedalWidth,pedalHeight,1.5);
       }else if(['pad','table','bongos'].includes(p.kind))selectionRect(p,'body',p.x,p.y,p.w||18,p.h||22,1.5);
       else if(p.kind==='throne')selectionEllipse(p,'seat',p.x,p.y,p.r*1.375,p.r*1.42);
-      else if(p.kind==='snare')selectionEllipse(p,'shell',p.x,p.y,p.r*1.175,p.r*1.175*225/221);
+      else if(p.kind==='snare')selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
       else if(p.kind==='tom'){
-        const floor=p.id.startsWith('floor'),scale=floor?1.325:1.09,ratio=floor?262/252:239/238;
-        selectionEllipse(p,'shell',p.x,p.y,p.r*scale,p.r*scale*ratio);
+        selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
       }else if(p.kind==='cymbal'&&['ride','crash'].includes(p.variant)){
-        const width=p.r*2.85,spec=p.variant==='ride'?[461,512,209,196]:[508,512,171,170];
-        selectionEllipse(p,'cymbal',p.x,p.y,width*spec[2]/spec[0],width*spec[3]/spec[0]);
+        selectionEllipse(p,'cymbal',p.x,p.y,p.r,p.r);
       }else selectionEllipse(p,p.kind==='cymbal'?'cymbal':'body',p.x,p.y,p.r,p.r);
     }
     const points=[];
@@ -6845,9 +6854,9 @@ function createStageplotSymbolV3(type, options = {}) {
   const ellipse = (cx,cy,rx,ry,fill='#fafafa',sw=.6,stroke='#333') => node('ellipse',{cx,cy,rx,ry,fill,stroke,'stroke-width':sw});
   const group = (transform='',part='') => { out += '<g'+(transform?' transform="'+transform+'"':'')+(part?' data-part="'+part+'"':'')+'>'; };
   const end = () => { out += '</g>'; };
-  const drumAsset = (name,x,y,width,height,angle=0,extension='webp') => {
+  const drumAsset = (name,x,y,width,height,angle=0,extension='webp',aspect='xMidYMid meet') => {
     group(angle?'rotate('+angle+' '+f(x)+' '+f(y)+')':'');
-    node('image',{href:'stageplot-assets/drums/'+name+'.'+extension,x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:'xMidYMid meet','data-rendered-drum-asset':name});
+    node('image',{href:'stageplot-assets/drums/'+name+'.'+extension,x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:aspect,'data-rendered-drum-asset':name});
     end();
   };
   const drumAssetCrop = (name,sourceWidth,sourceHeight,cropX,cropY,cropWidth,cropHeight,x,y,width,height,angle=0,extension='png',part='') => {
@@ -6873,7 +6882,7 @@ function createStageplotSymbolV3(type, options = {}) {
       rod(x1,y1,x2,y2,.68);ellipse(x2,y2,.62,.78,'#444',.28);
     }
     end();
-    group();node('image',{href:'stageplot-assets/drums/floor-tom.webp',x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:'xMidYMid meet','clip-path':'url(#'+clipId+')','data-rendered-drum-asset':'floor-tom'});end();
+    group();node('image',{href:'stageplot-assets/drums/floor-tom.webp',x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:'none','clip-path':'url(#'+clipId+')','data-rendered-drum-asset':'floor-tom'});end();
   };
   const bolt = (x,y,r=.65) => {circle(x,y,r,'#ddd',.3);line(x-r*.5,y,x+r*.5,y,.25);};
   const rod = (x1,y1,x2,y2,w=1.4) => {line(x1,y1,x2,y2,w,'#3a3a3a');line(x1,y1,x2,y2,w*.32,'#c5c5c5');};
@@ -6995,7 +7004,7 @@ function createStageplotSymbolV3(type, options = {}) {
   };
   const pad = (x,y,width=27,height=23.7) => {
     group('','sample-pad');
-    drumAsset('spdsx-overhead-preview-v1',x,y,width,height,0,'png');
+    drumAssetCrop('spdsx-overhead-preview-v1',768,768,31,68,706,614,x,y,width,height,0,'png','sample-pad-body');
     end();
   };
   const keybed = (x,y,w,h,whiteCount,startNote=0,inverse=false) => {
@@ -7097,23 +7106,23 @@ function createStageplotSymbolV3(type, options = {}) {
       group(p.angle?'rotate('+f(p.angle)+' '+f(p.x)+' '+f(p.y)+')':'',p.id);
       if(p.kind==='throne')drumAsset('throne',p.x,p.y,p.r*2.75,p.r*2.84);
       else if(p.kind==='kick'){
-        const shellWidth=p.w,baseWidth=shellWidth*1.5/1.6,baseHeight=baseWidth*543/512,shellCropHeight=320,shellHeight=shellWidth*shellCropHeight/512;
-        const imageTop=p.y-baseHeight*.33,shellY=imageTop+baseHeight*(shellCropHeight/2)/543,pedalCrop={x:166,y:290,w:180,h:253};
-        const pedalWidth=12.55,pedalHeight=19.1,pedalY=p.y+19.45,doublePedal=layout.pedal==='double'&&layout.parts.filter(v=>v.kind==='kick').length===1;
+        const shellWidth=p.w,shellCropHeight=320,shellHeight=p.h;
+        const shellY=p.y+shellHeight*2.5/320,pedalCrop={x:166,y:290,w:180,h:253};
+        const pedalWidth=12.55,pedalHeight=19.1,pedalY=p.y+p.depth*1.27/2+pedalHeight/2-1.5,doublePedal=layout.pedal==='double'&&layout.parts.filter(v=>v.kind==='kick').length===1;
         group('rotate(180 '+f(p.x)+' '+f(p.y)+')');group('','kick-overhead');group('','kick-shell-top');drumAssetCrop('kick-overhead-v3',512,543,0,0,512,shellCropHeight,p.x,shellY,shellWidth,shellHeight,0,'png','kick-shell-image');end();
         drumAssetCrop('kick-overhead-v3',512,543,pedalCrop.x,pedalCrop.y,pedalCrop.w,pedalCrop.h,p.x,pedalY,pedalWidth,pedalHeight,0,'png','kick-pedal-primary');
         if(doublePedal)drumAssetCrop('kick-overhead-v3',512,543,pedalCrop.x,pedalCrop.y,pedalCrop.w,pedalCrop.h,p.x+(layout.leftHanded?-pedalWidth*.68:pedalWidth*.68),pedalY+.4,pedalWidth,pedalHeight,layout.leftHanded?14:-14,'png','kick-pedal-double');end();end();
       }
       else if(p.kind==='tom'||p.kind==='snare'){
-        const floor=p.id.startsWith('floor'),name=p.kind==='snare'?'snare':floor?'floor-tom':'rack-tom',width=p.r*(p.kind==='snare'?2.35:floor?2.65:2.18),ratio=p.kind==='snare'?225/221:floor?262/252:239/238;
-        if(floor)floorTomAsset(p.x,p.y,width,width*ratio,p.id);else drumAsset(name,p.x,p.y,width,width*ratio);
+        const floor=p.id.startsWith('floor'),name=p.kind==='snare'?'snare':floor?'floor-tom':'rack-tom',a=p.art;
+        if(floor)floorTomAsset(p.x+a.dx,p.y+a.dy,a.w,a.h,p.id);else drumAsset(name,p.x+a.dx,p.y+a.dy,a.w,a.h,0,'webp','none');
       }
       else if(p.kind==='hihat'){
-        const width=p.r*2.15,height=width*512/313;group('rotate(180 '+f(p.x)+' '+f(p.y)+')','hihat-foreground');
-        drumAssetEllipseLayer('hihat-overhead-v2',313,512,p.x,p.y,width,height,156.5,148,149,148,'over',512,'png','hihat-cymbal-foreground');end();
+        const {w:width,h:height,dx,dy}=p.art;group('rotate(180 '+f(p.x)+' '+f(p.y)+')','hihat-foreground');
+        drumAssetEllipseLayer('hihat-overhead-v2',313,512,p.x+dx,p.y+dy,width,height,156.5,148,149,148,'over',512,'png','hihat-cymbal-foreground');end();
       }
       else if(p.kind==='cymbal'){
-        if(['ride','crash'].includes(p.variant)){const name=p.variant,width=p.r*2.85,height=width*(name==='ride'?512/461:512/508),spec=name==='ride'?[461,512,230.5,263.5,209,196]:[508,512,254,276,171,170];drumAssetEllipseLayer(name,spec[0],spec[1],p.x,p.y,width,height,spec[2],spec[3],spec[4],spec[5],'over',spec[1],'webp',name+'-cymbal-foreground');}
+        if(['ride','crash'].includes(p.variant)){const name=p.variant,{w:width,h:height,dx,dy}=p.art,spec=name==='ride'?[461,512,230.5,263.5,209,196]:[508,512,254,276,171,170];drumAssetEllipseLayer(name,spec[0],spec[1],p.x+dx,p.y+dy,width,height,spec[2],spec[3],spec[4],spec[5],'over',spec[1],'webp',name+'-cymbal-foreground');}
         else cymbal(p.x,p.y,p.r,false,p.variant||'crash');
       }
       else if(p.kind==='pad')pad(p.x,p.y,p.w,p.h);
@@ -9343,7 +9352,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function projectPreviewObjectsMarkup(list,scale,left,top,black){
     return stageObjectOrder(list).slice(0,80).map(o=>{
-      const c=objectCatalog(o),size=objectSize(o),x=left+o.x*scale,y=top+o.y*scale,w=Math.max(3,size.w*scale),h=Math.max(3,size.d*scale);
+      const c=objectCatalog(o),size=objectSize(o),x=left+o.x*scale,y=top+o.y*scale,w=size.w*scale,h=size.d*scale;
       if(c.art==='text')return '<text x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" text-anchor="middle" font-size="4.5" fill="'+(black?'#f3f3ee':'#353a35')+'">T</text>';
       const unit=Math.min(w/c.vb[0],h/c.vb[1]),id=artId(c,o);
       if(c.stageAccess)return '<g transform="translate('+x.toFixed(2)+' '+y.toFixed(2)+') rotate('+(Number(o.angle)||0)+') translate('+(-w/2).toFixed(3)+' '+(-h/2).toFixed(3)+') scale('+(w/c.vb[0]).toFixed(4)+' '+(h/c.vb[1]).toFixed(4)+')"><use href="#'+id+'"/></g>';
@@ -11195,7 +11204,7 @@ function createStageplotPercussionEditor(root,model,onCommit) {
     <div class="sp-perc-presets" hidden><span>Aufbau ersetzen:</span><button type="button" data-perc-preset="compact">Kompakt · 2 Congas + Bongos</button><button type="button" data-perc-preset="latin">Großes Latin-Setup</button><button type="button" data-perc-preset="empty">Leer beginnen</button><span>Jeder Wechsel lässt sich rückgängig machen.</span></div>
     <div class="sp-perc-mobile-nav"><button type="button" data-pane="palette">Instrumente</button><button type="button" data-pane="canvas" aria-pressed="true">Aufbau</button><button type="button" data-pane="properties">Auswahl</button></div>
     <div class="sp-perc-workspace" data-pane="canvas"><aside class="sp-perc-palette" aria-label="Percussion-Instrumente"><label>Suchen<input type="search" placeholder="Conga, Cowbell …" aria-label="Percussion-Instrument suchen"></label><div class="sp-perc-catalog"></div></aside>
-    <section class="sp-perc-canvas-pane"><div class="sp-perc-canvas" tabindex="0" aria-label="Percussion-Aufbau: Instrument auswählen und ziehen"></div><p class="sp-perc-hint">Ziehen zum Verschieben · R zum Drehen · Pfeiltasten: 5 cm · Zwei Finger: Zoom & Verschieben</p><div class="sp-perc-status" role="status" aria-live="polite"></div></section>
+    <section class="sp-perc-canvas-pane"><div class="sp-perc-canvas" tabindex="0" aria-label="Percussion-Aufbau: Instrument auswählen und ziehen"></div><p class="sp-perc-hint">Raster: 10 cm · Ziehen: 5 cm · R zum Drehen · Pfeiltasten: 5 cm · Zwei Finger: Zoom & Verschieben</p><div class="sp-perc-status" role="status" aria-live="polite"></div></section>
     <aside class="sp-perc-properties" aria-label="Percussion-Auswahl"></aside></div>
     <footer><span class="sp-perc-summary"></span><div><button type="button" data-action="cancel">Abbrechen</button><button type="button" data-action="save" class="sp-perc-save">Auf Bühne übernehmen</button></div></footer>`;
   root.append(dialog);
@@ -11211,14 +11220,14 @@ function createStageplotPercussionEditor(root,model,onCommit) {
   function renderPalette(){const query=$('input[type="search"]').value.trim().toLocaleLowerCase();$('.sp-perc-catalog').innerHTML=[...new Set(model.catalog.map(c=>c.group))].map(group=>{const items=model.catalog.filter(c=>c.group===group&&(c.name+' '+c.id).toLocaleLowerCase().includes(query));return items.length?'<h3>'+group+'</h3><div>'+items.map(c=>'<button type="button" data-add="'+c.id+'"><img src="./stageplot-assets/percussion/'+c.asset+'.webp" alt=""/><span>'+esc(c.name)+'</span></button>').join('')+'</div>':'';}).join('');}
   function renderCanvas(){
     const l=model.layout(draft);
-    canvas.innerHTML='<svg viewBox="'+[view.x*100,view.y*100,view.w*100,view.h*100].join(' ')+'" role="img" aria-label="Percussion-Aufbau von oben"><defs><pattern id="sp-perc-grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#c9cec7" stroke-width=".2"/></pattern></defs><rect x="-600" y="-600" width="1200" height="1200" fill="#eef0e9"/><rect x="-600" y="-600" width="1200" height="1200" fill="url(#sp-perc-grid)"/>'+l.parts.map(item=>'<g data-part="'+esc(item.id)+'" role="button" tabindex="0" aria-label="'+esc(item.label||model.byId[item.type].name)+'" transform="translate('+item.x*100+' '+item.y*100+') rotate('+item.angle+')"><rect x="'+(-item.w*50-1)+'" y="'+(-item.d*50-1)+'" width="'+(item.w*100+2)+'" height="'+(item.d*100+2)+'" rx="1" fill="transparent" stroke="'+(item.id===selected?'#617d16':'none')+'" stroke-width=".7"/>'+model.imageMarkup(item)+'</g>').join('')+'</svg>';
+    canvas.innerHTML='<svg viewBox="'+[view.x*100,view.y*100,view.w*100,view.h*100].join(' ')+'" role="img" aria-label="Percussion-Aufbau von oben"><defs><pattern id="sp-perc-grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#ccc" stroke-width=".2"/></pattern></defs><rect x="-600" y="-600" width="1200" height="1200" fill="#f1f1f1"/><rect x="-600" y="-600" width="1200" height="1200" fill="url(#sp-perc-grid)"/>'+l.parts.map(item=>'<g data-part="'+esc(item.id)+'" role="button" tabindex="0" aria-label="'+esc(item.label||model.byId[item.type].name)+'" transform="translate('+item.x*100+' '+item.y*100+') rotate('+item.angle+')"><rect x="'+(-item.w*50-1)+'" y="'+(-item.d*50-1)+'" width="'+(item.w*100+2)+'" height="'+(item.d*100+2)+'" rx="1" fill="transparent" stroke="'+(item.id===selected?'#333':'none')+'" stroke-width=".7"/>'+model.imageMarkup(item)+'</g>').join('')+'</svg>';
     $('.sp-perc-summary').textContent=draft.parts.length+' Instrumente · '+l.w.toFixed(2).replace('.',',')+' × '+l.d.toFixed(2).replace('.',',')+' m · '+model.channels(draft).length+' Inputs';
     $('[data-action="undo"]').disabled=!history.length&&!fieldBefore;$('[data-action="redo"]').disabled=!future.length;$('[data-action="save"]').disabled=!draft.parts.length;
   }
   function renderProperties(){const p=part();
-    if(!p){properties.innerHTML='<h3>Dein Percussion-Setup</h3><p>Instrument links hinzufügen, danach im Aufbau verschieben.</p><p>Wähle ein Instrument für Drehung, Größe und Abnahme.</p><h4>Im Aufbau</h4>'+draft.parts.map(item=>'<button type="button" class="sp-perc-list-item" data-select="'+esc(item.id)+'">'+esc(item.label)+'</button>').join('');return;}
-    const c=model.byId[p.type];
-    properties.innerHTML='<span class="sp-perc-eyebrow">AUSGEWÄHLT</span><h3>'+esc(c.name)+'</h3><label>Bezeichnung<input data-field="label" maxlength="48" value="'+esc(p.label)+'"></label><div class="sp-perc-actions"><button type="button" data-action="rotate-left" aria-label="Percussion-Instrument 15 Grad nach links drehen">↶ 15°</button><button type="button" data-action="rotate-right" aria-label="Percussion-Instrument 15 Grad nach rechts drehen">15° ↷</button><button type="button" data-action="rotate-reset">0°</button></div><label>Drehung (°)<input type="number" data-field="angle" value="'+p.angle+'" step="15"></label><div class="sp-perc-fields"><label>Position X (m)<input type="number" data-field="x" value="'+p.x+'" min="-4" max="4" step=".05"></label><label>Position Y (m)<input type="number" data-field="y" value="'+p.y+'" min="-4" max="4" step=".05"></label></div><label>Größe<input type="range" data-field="scale" min=".6" max="1.6" step=".05" value="'+p.scale+'"></label><p class="sp-perc-size">'+Math.round(c.w*p.scale*100)+' × '+Math.round(c.d*p.scale*100)+' cm'+(c.head&&p.scale===1?' · Fell / Becken '+c.head:'')+'</p><p>Planmaß inkl. Rand / Beschlägen · über Größe an dein Instrument anpassen.</p>'+(c.channels.length?'<h4>Abnahme</h4><div class="sp-perc-pickup"><button type="button" data-pickup="none" aria-pressed="'+(p.pickup==='none')+'">Ohne eigenes Signal</button>'+(c.electronic?'<button type="button" data-pickup="mono" aria-pressed="'+(p.pickup==='mono')+'">Mono</button><button type="button" data-pickup="stereo" aria-pressed="'+(p.pickup==='stereo')+'">Stereo L/R</button>':'<button type="button" data-pickup="mic" aria-pressed="'+(p.pickup==='mic')+'">'+(c.channels.length===2?'2 Mikrofone':'1 Mikrofon')+'</button>')+'</div><p>Mikrofonmodell, Kanalnummer und Stagebox stellst du anschließend im gemeinsamen Audio-Plan ein.</p>':'')+'<div class="sp-perc-actions"><button type="button" data-action="duplicate">Duplizieren</button><button type="button" data-action="remove">Entfernen</button></div><h4>Im Aufbau</h4>'+draft.parts.map(item=>'<button type="button" class="sp-perc-list-item" data-select="'+esc(item.id)+'" aria-pressed="'+(item.id===selected)+'">'+esc(item.label)+'</button>').join('');
+    if(!p){properties.innerHTML='<h3>Dein Percussion-Set</h3><p>Instrument links hinzufügen, danach im Aufbau verschieben.</p><p>Wähle ein Instrument für Drehung, Größe und Abnahme.</p><h4>Im Aufbau</h4>'+draft.parts.map(item=>'<button type="button" class="sp-perc-list-item" data-select="'+esc(item.id)+'">'+esc(item.label)+'</button>').join('');return;}
+    const c=model.byId[p.type],size=model.dimensions(p);
+    properties.innerHTML='<span class="sp-perc-eyebrow">AUSGEWÄHLT</span><h3>'+esc(c.name)+'</h3><label>Bezeichnung<input data-field="label" maxlength="48" value="'+esc(p.label)+'"></label><div class="sp-perc-actions"><button type="button" data-action="rotate-left" aria-label="Percussion-Instrument 15 Grad nach links drehen">↶ 15°</button><button type="button" data-action="rotate-right" aria-label="Percussion-Instrument 15 Grad nach rechts drehen">15° ↷</button><button type="button" data-action="rotate-reset">0°</button></div><label>Drehung (°)<input type="number" data-field="angle" value="'+p.angle+'" step="15"></label><div class="sp-perc-fields"><label>Position X (m)<input type="number" data-field="x" value="'+p.x+'" min="-4" max="4" step=".05"></label><label>Position Y (m)<input type="number" data-field="y" value="'+p.y+'" min="-4" max="4" step=".05"></label></div><div class="sp-perc-fields"><label>Breite (cm)<input type="number" data-field="width" min="2" max="300" step=".1" value="'+Number((size.w*100).toFixed(2))+'"></label><label>Tiefe (cm)<input type="number" data-field="depth" min="2" max="300" step=".1" value="'+Number((size.d*100).toFixed(2))+'"></label></div><p class="sp-perc-size">'+Number((size.w*100).toFixed(2))+' × '+Number((size.d*100).toFixed(2))+' cm</p><p>Außenmaße von oben, inkl. Rand und Beschlägen. Trage hier die Maße deines Instruments ein.</p>'+(c.channels.length?'<h4>Abnahme</h4><div class="sp-perc-pickup"><button type="button" data-pickup="none" aria-pressed="'+(p.pickup==='none')+'">Ohne eigenes Signal</button>'+(c.electronic?'<button type="button" data-pickup="mono" aria-pressed="'+(p.pickup==='mono')+'">Mono</button><button type="button" data-pickup="stereo" aria-pressed="'+(p.pickup==='stereo')+'">Stereo L/R</button>':'<button type="button" data-pickup="mic" aria-pressed="'+(p.pickup==='mic')+'">'+(c.channels.length===2?'2 Mikrofone':'1 Mikrofon')+'</button>')+'</div><p>Mikrofonmodell, Kanalnummer und Stagebox stellst du anschließend im gemeinsamen Audio-Plan ein.</p>':'')+'<div class="sp-perc-actions"><button type="button" data-action="duplicate">Duplizieren</button><button type="button" data-action="remove">Entfernen</button></div><h4>Im Aufbau</h4>'+draft.parts.map(item=>'<button type="button" class="sp-perc-list-item" data-select="'+esc(item.id)+'" aria-pressed="'+(item.id===selected)+'">'+esc(item.label)+'</button>').join('');
   }
   function render(){renderCanvas();renderProperties();}
   function freshId(){const used=new Set(draft.parts.map(p=>p.id));let n=draft.nextId;while(used.has('p'+n))n++;draft.nextId=n+1;return 'p'+n;}
@@ -11236,15 +11245,15 @@ function createStageplotPercussionEditor(root,model,onCommit) {
   }
   dialog.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.add)add(b.dataset.add);else if(b.dataset.select){selected=b.dataset.select;render();}else if(b.dataset.pane)setPane(b.dataset.pane);else if(b.dataset.pickup&&part())mutate(()=>part().pickup=b.dataset.pickup);else if(b.dataset.percPreset){mutate(()=>{const replacement=model.preset(b.dataset.percPreset);replacement.parts.forEach(p=>p.id=freshId());replacement.nextId=draft.nextId;draft=replacement;selected=null;});fit();render();$('.sp-perc-presets').hidden=true;}else if(b.dataset.action)action(b.dataset.action);});
   $('input[type="search"]').addEventListener('input',renderPalette);
-  function updateField(e){const field=e.target.dataset.field,p=part();if(!p||!['label','angle','x','y','scale'].includes(field))return;
+  function updateField(e){const field=e.target.dataset.field,p=part();if(!p||!['label','angle','x','y','width','depth'].includes(field))return;
     if(field!=='label'&&!Number.isFinite(e.target.valueAsNumber))return;
-    fieldBefore??=state();p[field]=field==='label'?e.target.value:e.target.valueAsNumber;draft=model.normalize(draft);renderCanvas();
-    const current=part(),c=model.byId[current.type],size=properties.querySelector('.sp-perc-size');if(size)size.textContent=Math.round(c.w*current.scale*100)+' × '+Math.round(c.d*current.scale*100)+' cm';
+    fieldBefore??=state();p[field]=field==='label'?e.target.value:e.target.valueAsNumber/(['width','depth'].includes(field)?100:1);draft=model.normalize(draft);renderCanvas();
+    const current=part(),c=model.byId[current.type],size=properties.querySelector('.sp-perc-size');if(size)size.textContent=Number((model.dimensions(current).w*100).toFixed(2))+' × '+Number((model.dimensions(current).d*100).toFixed(2))+' cm';
     for(const button of properties.querySelectorAll('[data-select]'))if(button.dataset.select===selected)button.textContent=current.label||c.name;
   }
   properties.addEventListener('input',updateField);
   properties.addEventListener('focusout',()=>{finishField();if(draft)renderCanvas();});
-  properties.addEventListener('change',e=>{updateField(e);finishField();const p=part(),field=e.target.dataset.field;if(p&&Object.hasOwn(p,field))e.target.value=p[field];renderCanvas();});
+  properties.addEventListener('change',e=>{updateField(e);finishField();const p=part(),field=e.target.dataset.field;if(p&&Object.hasOwn(p,field))e.target.value=['width','depth'].includes(field)?Number((p[field]*100).toFixed(2)):p[field];renderCanvas();});
   function point(e){const svg=canvas.querySelector('svg'),matrix=svg.getScreenCTM();if(!matrix)return {x:0,y:0};const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse());return {x:p.x/100,y:p.y/100};}
   function pair(){const [a,b]=[...pointers.values()];return {x:(a.x+b.x)/2,y:(a.y+b.y)/2,d:Math.hypot(a.x-b.x,a.y-b.y)};}
   canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;finishField();e.preventDefault();canvas.focus({preventScroll:true});pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);
