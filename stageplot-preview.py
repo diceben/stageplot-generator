@@ -53,12 +53,12 @@ class Handler(BaseHTTPRequestHandler):
         if route.path.startswith("/stageplot-assets/mics/"):
             asset_root = (root / "stageplot-assets" / "mics").resolve()
             asset = (root / route.path.lstrip("/")).resolve()
-            if asset.parent != asset_root or asset.suffix != ".png" or not asset.is_file():
+            if asset.parent != asset_root or asset.suffix not in (".png", ".webp", ".jpg") or not asset.is_file():
                 self.send_error(404)
                 return
             body = asset.read_bytes()
             self.send_response(200)
-            self.send_header("Content-Type", "image/png")
+            self.send_header("Content-Type", {".png": "image/png", ".webp": "image/webp", ".jpg": "image/jpeg"}[asset.suffix])
             self.send_header("Content-Length", str(len(body)))
             self.send_header("Cache-Control", "public, max-age=31536000, immutable")
             self.end_headers()

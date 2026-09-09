@@ -98,18 +98,18 @@ assert.equal(ctx.audioPortCandidates({...patchBox,capacity:1},[],new Set(),true,
 // Run the real tab handlers and save function with persistent form controls.
 const dialogNodes=new Map(),dialogCtx={clone,editingRoute:{id:'l'},esc:ctx.esc,stage:{routing:{inputs:[],outputs:[],disabledSources:[]}},saved:0,routeSourceObject:()=>null,routeNeedsDi:()=>false,normalizeRouteChannel:row=>({...row,linkedSources:row.linkedSources||[]}),routingStageboxes:()=>summaryBoxes,reconcileCablesWithRouting(){},say(){},snapshot:()=>JSON.stringify(dialogCtx.stage),keepHistory:()=>dialogCtx.saved++};
 dialogCtx.$=id=>{if(!dialogNodes.has(id))dialogNodes.set(id,{id,value:'',attributes:{},handlers:{},validity:{valid:true},hidden:false,querySelectorAll:()=>[],setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,handler){this.handlers[type]=handler;},focus(){dialogCtx.focused=id;},close(){this.open=false;},closest:()=>null});return dialogNodes.get(id);};
-const tabs=['signal','patch','more'].map(key=>Object.assign(dialogCtx.$('sp-audio-tab-'+key),{dataset:{audioTab:key}}));
+const tabs=['signal','chain','patch','more'].map(key=>Object.assign(dialogCtx.$('sp-audio-tab-'+key),{dataset:{audioTab:key}}));
 dialogCtx.$('sp-audio-editor-tabs').querySelectorAll=()=>tabs;
-for(const key of ['signal','patch','more'])dialogCtx.$('sp-audio-panel-'+key).dataset={audioPanel:key};
+for(const key of ['signal','chain','patch','more'])dialogCtx.$('sp-audio-panel-'+key).dataset={audioPanel:key};
 vm.createContext(dialogCtx);vm.runInContext(audio,dialogCtx);vm.runInContext('refreshAudioSurface=()=>{}',dialogCtx);
 const tabClick=key=>dialogCtx.$('sp-audio-editor-tabs').handlers.click({target:{closest:()=>tabs.find(tab=>tab.dataset.audioTab===key)}});
 const field=(id,value,panel='patch',manual=false)=>Object.assign(dialogCtx.$(id),{value,willValidate:true,closest:selector=>selector==='[data-audio-panel]'?dialogCtx.$('sp-audio-panel-'+panel):manual?dialogCtx.$('sp-audio-manual-ports'):null,reportValidity(){dialogCtx.reported=id;}});
-const nameField=field('sp-channel-instrument','Keys','signal'),numberField=field('sp-channel-number','14'),rightField=field('sp-audio-right-number','15'),portField=field('sp-audio-port','7','patch',true);
+const nameField=field('sp-channel-instrument','Keys','more'),numberField=field('sp-channel-number','14'),rightField=field('sp-audio-right-number','15'),portField=field('sp-audio-port','7','patch',false);
 dialogCtx.$('sp-channel-form').elements=[nameField,numberField,rightField,portField];
 tabClick('more');assert.equal(dialogCtx.$('sp-audio-panel-more').hidden,false);assert.equal(dialogCtx.$('sp-audio-panel-signal').hidden,true);assert.equal(numberField.value,'14');assert.equal(dialogCtx.saved,0,'Changing tabs cannot commit edits.');
-dialogCtx.$('sp-audio-editor-tabs').handlers.keydown({target:tabs[2],key:'ArrowRight',preventDefault(){}});assert.equal(tabs[0].attributes['aria-selected'],'true');assert.equal(dialogCtx.focused,'sp-audio-tab-signal');
-nameField.validity.valid=false;numberField.validity.valid=false;dialogCtx.saveAudioChannel();assert.equal(dialogCtx.reported,'sp-channel-instrument');assert.equal(dialogCtx.$('sp-audio-panel-signal').hidden,false,'The first invalid field stays visible even when another tab also has an error.');
-nameField.validity.valid=true;numberField.validity.valid=true;portField.validity.valid=false;tabClick('signal');dialogCtx.saveAudioChannel();assert.equal(dialogCtx.reported,'sp-audio-port');assert.equal(dialogCtx.$('sp-audio-panel-patch').hidden,false);assert.equal(dialogCtx.$('sp-audio-manual-ports').open,true);assert.equal(dialogCtx.saved,0);
+dialogCtx.$('sp-audio-editor-tabs').handlers.keydown({target:tabs[3],key:'ArrowRight',preventDefault(){}});assert.equal(tabs[0].attributes['aria-selected'],'true');assert.equal(dialogCtx.focused,'sp-audio-tab-signal');
+nameField.validity.valid=false;numberField.validity.valid=false;dialogCtx.saveAudioChannel();assert.equal(dialogCtx.reported,'sp-channel-instrument');assert.equal(dialogCtx.$('sp-audio-panel-more').hidden,false,'The first invalid field stays visible even when another tab also has an error.');
+nameField.validity.valid=true;numberField.validity.valid=true;portField.validity.valid=false;tabClick('signal');dialogCtx.saveAudioChannel();assert.equal(dialogCtx.reported,'sp-audio-port');assert.equal(dialogCtx.$('sp-audio-panel-patch').hidden,false);assert.equal(dialogCtx.saved,0);
 portField.validity.valid=true;
 const dialogPair=[{id:'l',sourceKey:'keys:l',instrument:'Keys · L',number:14,mode:'Stereo L',stereoGroup:'keys',stagebox:'a',stageboxPort:7,pickup:'DI',microphone:'J48',notes:'Links'}, {id:'r',sourceKey:'keys:r',instrument:'Keys · R',number:15,mode:'Stereo R',stereoGroup:'keys',stagebox:'b',stageboxPort:3,pickup:'DI',microphone:'JDI',notes:'Rechts separat'}];
 dialogCtx.stage.routing.inputs=clone(dialogPair);dialogCtx.editingRoute={...clone(dialogPair[0]),direction:'inputs',index:0,partner:clone(dialogPair[1])};
@@ -117,3 +117,54 @@ for(const [id,value] of Object.entries({'sp-channel-direction':'inputs','sp-audi
 tabClick('more');dialogCtx.saveAudioChannel();assert.equal(dialogCtx.saved,1);assert.deepEqual(clone(dialogCtx.stage.routing.inputs).map(row=>[row.number,row.stagebox,row.stageboxPort,row.microphone,row.notes]),[[14,'a',7,'J48','Neue Notiz'],[15,'b',3,'JDI','Rechts separat']],'Saving from another tab preserves split stereo, channel numbers and independent right-channel metadata.');
 const savedPatch=clone(dialogCtx.stage.routing);dialogCtx.$('sp-channel-number').value='15';tabClick('signal');dialogCtx.saveAudioChannel();assert.equal(dialogCtx.saved,1);assert.deepEqual(clone(dialogCtx.stage.routing),savedPatch,'Invalid allocation does not partially commit changes.');assert.equal(dialogCtx.$('sp-audio-panel-patch').hidden,false);assert.match(dialogCtx.$('sp-audio-error').textContent,/bereits vergeben/);
 console.log('PASS SIGNAL DIALOG: stereo summaries, valid port choices, keyboard tabs, draft retention, hidden-field validation and atomic saves with split stereo metadata.');
+
+// Manufacturer photos have exact model mappings, offline files and auditable provenance.
+const crypto=require('node:crypto'),photoSources=JSON.parse(fs.readFileSync('stageplot-assets/mics/original-sources.json','utf8'));
+for(const photo of photoSources){
+  const bytes=fs.readFileSync('stageplot-assets/mics/'+photo.file);
+  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),photo.sha256,photo.model+' must keep the downloaded original bytes.');
+  assert.equal(photo.originalManufacturerPhoto,true);assert.equal(bytes.length,photo.bytes);
+  assert.equal(ctx.audioMicPhoto(photo.model),'stageplot-assets/mics/'+photo.file);
+  assert.match(new URL(photo.productPage).hostname,/shure\.com|telefunken-elektroakustik\.com|beyerdynamic\.com|neumann\.com|seelectronics\.com|audixusa\.com|sennheiser\.com/);
+}
+assert.equal(photoSources.length,8);assert.equal(ctx.audioMicPhoto('Telefunken M80-SH'),'','Never use a full-size M80 photo for the short model.');
+assert.equal(ctx.audioMicPhoto('Sennheiser MD 421'),'','A legacy model must not silently receive a different revision’s product photo.');
+const catalogStart=html.indexOf('const drumMic='),catalogEnd=html.indexOf('let drumMicPopupChannel=',catalogStart);
+vm.runInContext(html.slice(catalogStart,catalogEnd),ctx);
+const micCatalog=ctx.audioMicCatalog();assert(micCatalog.some(mic=>mic.name==='Shure SM58'));assert.equal(ctx.audioMicBrand('sE Electronics V7'),'sE Electronics');assert.equal(ctx.audioMicBrand('Audio-Technica ATM230'),'Audio-Technica');
+for(const name of ['Snare Top','Kick In','Hi-Hat','Drums · OH L','Congas','Gitarre','Lead Vocals'])for(const model of ctx.audioMicSuggestions(name))assert(micCatalog.some(mic=>mic.name===model),model+' is selectable for '+name);
+assert(ctx.audioMicSuggestions('Snare Top').includes('Shure SM57'));assert(ctx.audioMicSuggestions('Lead Vocals').includes('sE Electronics V7'));
+const dialogMarkup=html.slice(html.indexOf('<dialog id="sp-channel-dialog"'),html.indexOf('<dialog id="sp-audio-connect-dialog"'));
+assert(!/<details\b|<select\b|type="search"/.test(dialogMarkup),'The signal workspace has direct choices without dropdowns, search or folded headers.');
+assert.match(dialogMarkup,/id="sp-channel-microphone" type="hidden"/);
+
+// Exercise the actual compact picker, including draft cancellation and full stereo saves.
+Object.assign(dialogCtx,{sharedReadOnly:false,objects:[{id:'keys',x:0,y:0},{id:'a',x:1,y:0,type:'stagebox'},{id:'b',x:8,y:0,type:'stagebox'}],byId:{stagebox:{}},icon:()=>'<svg></svg>',routeSourceObject:row=>dialogCtx.objects.find(o=>o.id===row.sourceKey?.split(':')[0]),routeNeedsDi:ctx.routeNeedsDi,objectIo:()=>({outputs:{connector:'XLR'}}),routeFrequency:row=>row.frequencyBand||'',setChannelPillValue:(id,value)=>dialogCtx.$(id).value=value});
+// Keep the real form change handler for a separate renderer pass below.
+vm.runInContext('this.realAudioFormChanged=audioFormChanged;audioFormChanged=()=>{};',dialogCtx);
+for(const id of ['sp-audio-connect-dialog','sp-channel-dialog'])dialogCtx.$(id).showModal=function(){this.open=true;};
+const quickRows=()=>[{id:'l',sourceKey:'keys:l',instrument:'Keys · L',number:14,mode:'Stereo L',stereoGroup:'pair',connector:'XLR',stagebox:'',stageboxPort:null,microphone:'J48',notes:'Links'},{id:'r',sourceKey:'keys:r',instrument:'Keys · R',number:15,mode:'Stereo R',stereoGroup:'pair',connector:'XLR',stagebox:'',stageboxPort:null,microphone:'JDI',notes:'Rechts'}];
+const quickBoxes=[{id:'a',name:'Nah',x:1,y:0,capacity:2},{id:'b',name:'Fern',x:8,y:0,capacity:8}];dialogCtx.routingStageboxes=()=>quickBoxes;
+dialogCtx.stage.routing.inputs=[...quickRows(),{id:'busy',stagebox:'a',stageboxPort:1}];dialogCtx.saved=0;
+const quickBefore=clone(dialogCtx.stage);dialogCtx.openAudioPatch('inputs','l');assert.deepEqual(clone(dialogCtx.stage),quickBefore);assert.equal(dialogCtx.saved,0);
+assert.equal(vm.runInContext('audioQuickPatch.boxId',dialogCtx),'b','The complete stereo pair skips a closer stagebox with one occupied socket.');
+assert.match(dialogCtx.$('sp-audio-connect-boxes').innerHTML,/<svg>/);assert.match(dialogCtx.$('sp-audio-connect-save').textContent,/IN 1 \/ 2/);
+dialogCtx.$('sp-audio-connect-dialog').handlers.close();assert.deepEqual(clone(dialogCtx.stage),quickBefore,'Closing without connecting never changes routing.');
+dialogCtx.openAudioPatch('inputs','l');dialogCtx.$('sp-audio-connect-port').value='8';dialogCtx.$('sp-audio-connect-port').handlers.input();dialogCtx.commitAudioQuickPatch();assert.deepEqual(clone(dialogCtx.stage),quickBefore,'A stereo pair cannot partially occupy the last socket.');assert.equal(dialogCtx.saved,0);
+dialogCtx.$('sp-audio-connect-port').value='5';dialogCtx.$('sp-audio-connect-port').handlers.input();dialogCtx.commitAudioQuickPatch();assert.equal(dialogCtx.saved,1);assert.deepEqual(clone(dialogCtx.stage.routing.inputs.slice(0,2)).map(row=>[row.stagebox,row.stageboxPort,row.number,row.microphone,row.notes]),[['b',5,14,'J48','Links'],['b',6,15,'JDI','Rechts']]);
+// The current patch is recommended, even when a different stagebox is closer and available.
+dialogCtx.stage.routing.inputs.pop();dialogCtx.openAudioPatch('inputs','r');assert.equal(vm.runInContext('audioQuickPatch.boxId',dialogCtx),'b');assert.equal(dialogCtx.$('sp-audio-connect-port').value,5);
+dialogCtx.commitAudioQuickPatch(true);assert(dialogCtx.stage.routing.inputs.every(row=>!row.stagebox));assert.deepEqual(clone(dialogCtx.stage.routing.inputs).map(row=>row.number),[14,15]);
+// A draft connection only changes form fields, and the full save moves both halves together.
+dialogCtx.stage.routing.inputs=clone(dialogPair);dialogCtx.editingRoute={...clone(dialogPair[0]),direction:'inputs',index:0,partner:clone(dialogPair[1])};
+for(const [id,value] of Object.entries({'sp-channel-direction':'inputs','sp-audio-format':'stereo','sp-channel-stagebox':'a','sp-audio-port':'1','sp-audio-right-port':'3','sp-channel-number':'14','sp-audio-right-number':'15','sp-audio-pickup':'DI','sp-channel-microphone':'J48','sp-channel-notes':'Links'}))dialogCtx.$(id).value=value;
+const beforeDraft=clone(dialogCtx.stage),savesBefore=dialogCtx.saved;dialogCtx.openAudioPatch('inputs','l',{draft:true});dialogCtx.selectAudioQuickBox('b');dialogCtx.commitAudioQuickPatch();assert.deepEqual(clone(dialogCtx.stage),beforeDraft);assert.equal(dialogCtx.saved,savesBefore);assert.equal(dialogCtx.audioEditorRightBox(),'b');
+dialogCtx.saveAudioChannel();assert.equal(dialogCtx.saved,savesBefore+1);assert(dialogCtx.stage.routing.inputs.every(row=>row.stagebox==='b'));assert.equal(dialogCtx.stage.routing.inputs[1].microphone,'JDI');
+// Compatibility checks never fabricate a DI box; no stageboxes remains a clear empty state.
+dialogCtx.stage.routing.inputs=[{id:'line',instrument:'Synth',sourceKey:'keys:line',connector:'Klinke'}];dialogCtx.openAudioPatch('inputs','line');assert.equal(dialogCtx.$('sp-audio-connect-save').disabled,true);assert.match(dialogCtx.$('sp-audio-connect-boxes').innerHTML,/DI-Box nötig/);
+dialogCtx.routingStageboxes=()=>[];dialogCtx.openAudioPatch('inputs','line');assert.match(dialogCtx.$('sp-audio-connect-boxes').innerHTML,/Noch keine passende Stagebox/);assert.equal(dialogCtx.$('sp-audio-connect-save').disabled,true);
+console.log('PASS AUDIO V2: original manufacturer photos, model recommendations, compact patch picker, cancellation, occupied ports, atomic stereo, draft isolation and unchanged mixer metadata.');
+
+const savedSpecs=ctx.generatedInputSpecs;ctx.generatedInputSpecs=()=>[{sourceKey:'perc:perc-pad-l',connector:'Klinke'}];ctx.objects=[{id:'perc',type:'percussion'}];
+assert.equal(ctx.audioInputConnector({sourceKey:'perc:perc-pad-l',connector:'XLR'},'Direct'),'Klinke','Switching a percussion pad from DI back to Direct restores its real jack output.');
+assert.equal(ctx.audioInputConnector({sourceKey:'perc:perc-pad-l',connector:'Klinke'},'DI'),'XLR');ctx.generatedInputSpecs=savedSpecs;
