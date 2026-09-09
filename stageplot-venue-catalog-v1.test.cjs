@@ -15,7 +15,7 @@ const nodes=new Map(),ctx={StageplotGeometry:G,StageplotVenueCatalog:catalog,Wea
   draftStorageKey:'drafts',workspaceStorageKey:'workspace',finishEdit:()=>{},flushDraft:()=>{},resetEditorView:()=>{},show:()=>{},say:()=>{},draftStatus:()=>{},persistViewport:()=>{},draftFailure:()=>{},
   $:id=>{if(!nodes.has(id))nodes.set(id,{open:false,close(){this.open=false;}});return nodes.get(id);},isSampleProject:()=>false};
 ctx.snapshot=()=>JSON.stringify({stage:ctx.stage,objects:ctx.objects});vm.createContext(ctx);
-vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument','encodeShareDocument','decodeShareDocument','readDraftLibrary','writeDraftLibrary','writeWorkspace','resetDraftTracking','persistDraft','activateSetupDocument','createCatalogProject'].map(extract).join('\n'),ctx);
+vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizedObjectDimensions','editableObjectSize','normalizeSetupDocument','encodeShareDocument','decodeShareDocument','readDraftLibrary','writeDraftLibrary','writeWorkspace','resetDraftTracking','persistDraft','activateSetupDocument','createCatalogProject'].map(extract).join('\n'),ctx);
 for(const entry of catalog.search()){
   assert.match(entry.source.url,/^https:\/\//);assert.match(entry.source.checkedAt,/^\d{4}-\d{2}-\d{2}$/);assert.ok(entry.source.date);assert.ok(entry.scope);
   const document=json(ctx.normalizeSetupDocument(catalog.createDocument(entry.id))),g=G.compile(document.stage.geometry);

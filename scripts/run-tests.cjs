@@ -10,6 +10,7 @@ const tests=[
   'stageplot-mics-v1.test.cjs',
   'stageplot-orchestra-v1.test.cjs',
   'stageplot-scale.test.cjs',
+  'stageplot-object-scale.test.cjs',
   'stageplot-percussion-v1.test.cjs',
   'stageplot-audio-v1.test.cjs',
   'stageplot-playback-v1.test.cjs',

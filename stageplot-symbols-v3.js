@@ -600,8 +600,8 @@ function createStageplotSymbolV3(type, options = {}) {
     ellipse(294,23.5,1.8,5.2,'#777',.45);rect(3,19,4,9,'#aaa',.5,1);end();
   }else if(type==='mic'){
     if(options.stand==='round'){
-      circle(50,65,25,'#c2c2c2',.9);circle(50,65,22,'#dedede',.45);circle(50,65,4,'#777',.6);
-      rod(50,65,50,36,2.2);capsule(50,24,0);
+      // A vertical microphone and mast project onto the 25 cm round base.
+      circle(50,50,12.5,'#c2c2c2',.45);circle(50,50,11,'#dedede',.25);circle(50,50,3,'#777',.3);circle(50,50,2.5,'#aaa',.3);circle(50,50,1.6,'#555',.2);
     }else{
       feet(50,65,27,30);circle(50,65,4.5,'#aaa',.7);
       const direction=options.boomDirection||'up';
@@ -791,8 +791,8 @@ function createStageplotSymbolV3(type, options = {}) {
     circle(60,60,6,'#d4d4d4',.85);circle(60,60,3,'#666',.5);
     rect(66,58,4,4,'#555',.4,.8);end();
   }else if(type==='cajon'){
-    rect(30,23,36,45,'#dedede',.85,1.5);rect(33,26,30,39,'#f5f5f5',.4,.5);
-    for(const x of [34,62])for(const y of [27,64])bolt(x,y,.6);
+    rect(30,23,36,36,'#dedede',.85,1.5);rect(33,26,30,30,'#f5f5f5',.4,.5);
+    for(const x of [34,62])for(const y of [27,55])bolt(x,y,.6);
     cymbal(81,42,12);feet(18,78,10,30);rod(18,78,27,61,1.4);group('translate(26 57) scale(.45)');capsule(0,0,35);end();
   }else if(type==='riser'){
     const count=options.riserCount||1,w=count===3?150:200,h=count===1?100:count===2?200:100;
@@ -827,17 +827,6 @@ function createStageplotSymbolV3(type, options = {}) {
   }else if(type==='laptop'){
     // Orthographic plan view. Every chassis edge stays parallel so the symbol
     // reads like a technical overhead drawing, not a three-quarter product view.
-    group('','playback-rack');
-    rect(2,6,116,98,'#6f6f6f',.85,2);rect(5,9,110,92,'#bdbdbd',.45,1.2);
-    for(const x of [7,109])rect(x,12,4,86,'#777',.35,.6);
-    for(const x of [7.5,112.5])for(const y of [11.5,98.5])bolt(x,y,.55);
-    // The rack unit is also drawn from above and remains visible below the laptop.
-    group('','playaudio-1u');
-    rect(10,82,100,17,'#d3d3d3',.65,1);rect(14,85,92,11,'#ededed',.35,.6);
-    for(let x=18;x<=96;x+=9){line(x,87,x+5,87,.35,'#777');line(x,89,x+5,89,.35,'#999');}
-    out+='<text x="60" y="94" text-anchor="middle" font-size="4.2" font-family="sans-serif" fill="#3d3d3d" stroke="none">PlayAUDIO 1U</text>';
-    for(const x of [11.5,108.5])for(const y of [83.5,97.5])bolt(x,y,.48);
-    end();end();
     group('','laptop-top-view');
     group('','laptop-screen');
     // From directly above the upright display is visible only as a slim edge.
@@ -878,9 +867,8 @@ function createStageplotSymbolV3(type, options = {}) {
       path('M-7 3Q0-4 10-4','none',.55,'#aaa');circle(5,2,2.1,'#777',.4);circle(5,2,.8,'#ddd',.2);end();
       group('','sound-nozzle');path('M8 10L14 17L10 21L4 13Z','#aaa',.55);ellipse(13,19,5,3.6,'#ddd',.55);ellipse(14,19,2.3,1.6,'#666',.35);end();
       end();
-      out+='<text x="'+x+'" y="68" text-anchor="middle" font-size="8" font-family="sans-serif" font-weight="600" fill="#555" stroke="none">'+side+'</text>';
     }
-    path('M41 61Q50 65 59 61','none',.65,'#999');end();
+    end();
   }else if(type==='rug'){
     rect(5,5,90,90,'#e4e4e4',.85,1.6);rect(8,8,84,84,'none',.6,.4);
     let weave='';for(let i=13;i<90;i+=3.5)weave+='M10 '+f(i)+'h80M'+f(i)+' 10v80';

@@ -253,6 +253,15 @@
             </div>
             <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern. Der Pfeil zeigt die Aufstiegsrichtung.</span>
           </div>
+          <div id="sp-object-size-fields" class="sp-special-fields" hidden>
+            <strong>Maße im Plan</strong>
+            <div class="sp-fields">
+              <label class="sp-field">Breite (cm)<input id="sp-object-width" type="number" min="1" max="3000" step="any" inputmode="decimal"></label>
+              <label class="sp-field">Länge / Tiefe (cm)<input id="sp-object-depth" type="number" min="1" max="2000" step="any" inputmode="decimal"></label>
+            </div>
+            <span id="sp-object-size-hint" class="sp-muted"></span>
+            <button id="sp-object-size-reset" class="sp-button" type="button">Standardmaße verwenden</button>
+          </div>
           <div id="sp-production-object" class="sp-special-fields">
             <label class="sp-field">Strombedarf<input id="sp-object-power" maxlength="100" placeholder="z. B. 2 × Schuko 230 V / 16 A"></label>
             <label class="sp-field" id="sp-object-wireless-field">Funk / IEM · Frequenzbereich<input id="sp-object-wireless" maxlength="100" placeholder="z. B. 470–516 MHz · Kanal 490,250 MHz"></label>
@@ -564,6 +573,7 @@
               <li><strong>Percussion-Set:</strong> Direkt neben dem Schlagzeug verfügbar, mit eigenem Editor für Congas, Bongos, Timbales und weiteres Zubehör. Crash, Splash, Ride, China und Hi-Hat bieten direkt anklickbare Zollgrößen, maßstabsgetreue Durchmesser und eigene realistische Beckenbilder. Alle Percussion-Objekte lassen sich direkt mit den Drehpfeilen und dem 0°-Reset wie im Drumdesigner bearbeiten, auch per Touch; Halten dreht stufenlos und bleibt mit einem Schritt rückgängig. Monochrome Draufsichten und korrigierte Größenverhältnisse für Percussion und Schlagzeug gelten auch in Vorschau und Export.</li>
               <li><strong>Freie Bühnenformen:</strong> Flächen, Rundungen, Stege, Seitenbühnen und Ausschnitte kombinieren. Der größere Bühnenbauer bietet Formkarten, direkte Kantenmaße und dieselben Aktionen zum Drehen, Duplizieren und Löschen wie Bühnenobjekte.</li>
               <li><strong>Bündiger Aufbau:</strong> Treppen und Rampen sind eigene Bausteine. Bühnenkanten haben beim Einrasten Vorrang vor dem Raster, auch bei ungeraden Maßen. Riserbeschriftungen stehen kompakter an freien Kanten.</li>
+              <li><strong>Maßstäbliche Gegenstände:</strong> Zeichnungen füllen ihre hinterlegten Gerätemaße ohne unsichtbare Außenabstände. Mikrofone und DI-Boxen sind in Originalgröße, der Playback-Laptop zeigt nur den Rechner. Stagebox-Maße sind korrigiert; eigene Maße lassen sich direkt in Zentimetern eingeben und bleiben gespeichert. Bühne, Projektvorschau und Export verwenden denselben Maßstab.</li>
               <li><strong>Klarer Audioplan:</strong> Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Audio-Plan und Drum-Editor teilen dieselbe Mikrofon-Auswahl: Sofortsuche, Herstellerfilter, passende Vorschläge, Favoriten und zuletzt verwendete Modelle. 19 Original-Herstellerfotos sind lokal enthalten. Mikrofon und 48 V werden in beide Richtungen abgeglichen; Kanalnummern, Patch und Notizen bleiben erhalten. Overheads lassen sich direkt im Drum-Editor auswählen. Gemeinsame Signalwege vermeiden doppelte Inputs. Playback-Laptops bieten Stereo L/R, PLAYAUDIO1U mit zwölf benennbaren XLR-Ausgängen und Dante Virtual Soundcard über ein Netzwerkkabel. Stereo-Paare lassen sich in Mono-Signale teilen; Namen und Ausgangsnummern erscheinen im Audioplan und Export.</li>
               <li><strong>Stageboxen schnell verbinden:</strong> Ein kompaktes Fenster zeigt verfügbare Stageboxen mit Bild und direkt anklickbaren XLR-/Kombibuchsen. Der vorgeschlagene oder ausgewählte Input/Output glitzert rosa; bei Stereo sind beide Buchsen samt L/R markiert. Belegte Buchsen zeigen das Signal, Zahlenfelder zur Buchsenauswahl entfallen. Die vollständige Belegung bleibt als eigene Übersicht erreichbar; die Navigation ist in allen Audio-Ansichten einheitlich.</li>
               <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. PDF und Bild nutzen dieselben Seiten mit Maßlinien direkt an den Bühnenkanten und Zusatzinfos neben oder unter dem Plan. Bilder gibt es in HD, 2K und 4K; mehrseitige Ausgaben als ZIP. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
@@ -875,6 +885,7 @@
   #sp-prototype .sp-object-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
   #sp-prototype .sp-object-list button { font-size: 11px; padding: 5px 8px; border-radius: 5px; background: var(--sp-panel); border: 1px solid var(--sp-line); text-align: left; max-width: 100%; overflow-wrap: anywhere; }
   #sp-prototype .sp-object-list button[aria-pressed="true"] { color: var(--sp-teal); background: var(--sp-accent-bg); border-color: var(--sp-teal); }
+  #sp-prototype #sp-object-size-fields .sp-fields { align-items:end; }
   #sp-prototype .sp-inspector { grid-column: 1 / -1; padding: 16px; background: var(--sp-panel); border-top: 1px solid var(--sp-line); }
   #sp-prototype #sp-selected { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: start; }
   #sp-prototype #sp-selected > .sp-field, #sp-prototype #sp-selected .sp-fields .sp-field { margin-bottom: 0; }
@@ -7239,7 +7250,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'percussion-bongos',percussionPart:'bongos',art:'percussion',name:'Bongos',short:'Bongos',category:'drums',w:0.49,d:0.26,vb:[49.0,26.0],keywords:'percussion editor'},
     {id:'percussion-timbales',percussionPart:'timbales',art:'percussion',name:'Timbales',short:'Timbales',category:'drums',w:0.86,d:0.44,vb:[86.0,44.0],keywords:'percussion editor'},
 
-    {id:'cajon',name:'Cajon-Setup',short:'Cajon',category:'drums',w:1.1,d:1.2},
+    {id:'cajon',name:'Cajon-Setup',short:'Cajon',category:'drums',w:.712912,d:.50375,detail:'Cajon 30 × 30 cm · kleines Becken · kompaktes Mikrofonstativ'},
     {id:'keys-wave2',name:'Nord Wave 2',short:'Wave 2',family:'keys',category:'keys',w:.99,d:.295,vb:[300,90]},
     {id:'keys-stage4',name:'Nord Stage 4 88',short:'Stage 4 88',family:'keys',category:'keys',w:1.282,d:.349,vb:[300,82]},
     {id:'keys-hammond',name:'Hammond Organ · XK-5',short:'Hammond XK-5',family:'keys',category:'keys',w:1.189,d:.401,vb:[300,101]},
@@ -7272,21 +7283,21 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'guitar-tree-empty',name:'Gitarrenbaum · 3-fach · leer',short:'Gitarrenbaum · leer',family:'guitar-trees',category:'strings',w:.7,d:.7,vb:[120,120],instrument:false,clearGroup:'tech',detail:'Kompaktes Dreibein mit drei radialen Halsaufnahmen · nach Hercules GS432B Plus'},
     {id:'guitar-tree-full',name:'Gitarrenbaum · 3-fach · befüllt',short:'Gitarrenbaum · voll',family:'guitar-trees',category:'strings',w:.7,d:.7,vb:[120,120],instrument:true,clearGroup:'tech',detail:'Kompaktes Dreibein · E-Gitarre, Akustik und Bass · nach Hercules GS432B Plus'},
     {id:'mic',name:'Mikrofon',short:'Mikrofon',category:'mics',w:.65,d:.65},
-    {id:'mic-wireless-ewd',name:'Sennheiser EW-D · Funkmikrofon',short:'Funkmikrofon · EW-D',category:'mics',w:.536,d:.1,physicalW:.268,physicalD:.05,planScale:2,vb:[268,50],keywords:'sennheiser ewd ew-d skm wireless funk handheld mikrofon',detail:'Handsender mit MMD 835 · Originalmaß 268 × 50 mm · gut lesbares 2×-Plansymbol'},
-    {id:'mic-sm57',name:'Shure SM57',short:'Shure SM57',category:'mics',w:.314,d:.064,physicalW:.157,physicalD:.032,planScale:2,vb:[157,32],keywords:'shure sm57 instrument microphone dynamisch',detail:'Dynamisches Instrumentenmikrofon · Originalmaß 157 × 32 mm · gut lesbares 2×-Plansymbol'},
-    {id:'laptop',name:'Playback-Laptop',short:'Playback-Laptop',category:'tech',w:.65,d:.6,vb:[120,108],detail:'Stereo L/R · PLAYAUDIO1U mit 12 XLR · Dante Virtual Soundcard'},
+    {id:'mic-wireless-ewd',name:'Sennheiser EW-D · Funkmikrofon',short:'Funkmikrofon · EW-D',category:'mics',w:.268,d:.05,vb:[268,50],keywords:'sennheiser ewd ew-d skm wireless funk handheld mikrofon',detail:'Handsender mit MMD 835 · Originalmaß 268 × 50 mm'},
+    {id:'mic-sm57',name:'Shure SM57',short:'Shure SM57',category:'mics',w:.157,d:.032,vb:[157,32],keywords:'shure sm57 instrument microphone dynamisch',detail:'Dynamisches Instrumentenmikrofon · Originalmaß 157 × 32 mm'},
+    {id:'laptop',name:'Playback-Laptop',short:'Playback-Laptop',category:'tech',w:.3557,d:.2481,vb:[120,90],detail:'Stereo L/R · PLAYAUDIO1U mit 12 XLR · Dante Virtual Soundcard'},
     {id:'rack',name:'IEM-Rack',short:'IEM-Rack',category:'tech',w:.6,d:.7},
     {id:'mixer-xr18',name:'Behringer X AIR XR18',short:'X AIR XR18',family:'mixers',category:'tech',w:.333,d:.149,vb:[200,89.5],instrument:true,ioDefaults:{inputs:18,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer xr18 xair rackmixer',detail:'18 In / 8 Out · 333 × 149 mm Grundfläche'},
     {id:'mixer-wing-compact',name:'Behringer WING COMPACT',short:'WING Compact',family:'mixers',category:'tech',w:.5743,d:.45337,vb:[160,126],instrument:true,ioDefaults:{inputs:24,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer wing compact console pult',detail:'24 Preamps / 8 Outs · 574,3 × 453,4 mm Grundfläche'},
     {id:'mixer-wing-rack',name:'Behringer WING RACK',short:'WING Rack',family:'mixers',category:'tech',w:.486,d:.326,vb:[160,107],instrument:true,ioDefaults:{inputs:24,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer wing rack 4u',detail:'4 HE · 24 Preamps / 8 Outs · 486 × 326 mm Grundfläche'},
     {id:'piano-bench',name:'Klavierhocker',short:'Klavierhocker',category:'tech',w:.55,d:.35,vb:[110,70],instrument:false,keywords:'keyboard bank klavier hocker piano bench sitz'},
     {id:'drum-throne',name:'Schlagzeughocker',short:'Schlagzeughocker',category:'tech',w:.55,d:.55,vb:[100,100],instrument:false,keywords:'drum throne schlagzeug hocker sitz'},
-    {id:'iem-earphones',name:'IEM-Hörer · Paar',short:'IEM-Hörer',category:'tech',w:.35,d:.25,vb:[100,75],instrument:false,clearGroup:'tech',keywords:'in ear in-ear monitor ohrhorer kopfhorer kopfhörer earbuds musiker musician paar',detail:'Linker und rechter Custom-Hörer · vergrößertes schematisches Platzsymbol'},
-    {id:'stagebox-8',name:'Stagebox · 8 In / 4 Out',short:'Stagebox 8',family:'stageboxes',category:'tech',w:.48,d:.22,vb:[180,90],detail:'A&H AR84 · 8 Eingänge / 4 Ausgänge'},
-    {id:'stagebox-16',name:'Stagebox · 16 In / 8 Out',short:'Stagebox 16',family:'stageboxes',category:'tech',w:.37,d:.18,vb:[180,90],detail:'A&H DX168 · 16 Eingänge / 8 Ausgänge'},
-    {id:'stagebox-32',name:'Stagebox · 32 In / 16 Out',short:'Stagebox 32',family:'stageboxes',category:'tech',w:.76,d:.18,vb:[364,90],detail:'2 × A&H DX168 · 32 Eingänge / 16 Ausgänge'},
+    {id:'iem-earphones',name:'IEM-Hörer · Paar',short:'IEM-Hörer',category:'tech',w:.07,d:.04,vb:[100,75],instrument:false,clearGroup:'tech',keywords:'in ear in-ear monitor ohrhorer kopfhorer kopfhörer earbuds musiker musician paar',detail:'Linker und rechter Hörer · Richtmaß für ein Paar, ohne Kabel'},
+    {id:'stagebox-8',name:'Stagebox · 8 In / 4 Out',short:'Stagebox 8',family:'stageboxes',category:'tech',w:.483,d:.22,vb:[180,90],detail:'A&H AR84 · 8 Eingänge / 4 Ausgänge'},
+    {id:'stagebox-16',name:'Stagebox · 16 In / 8 Out',short:'Stagebox 16',family:'stageboxes',category:'tech',w:.41,d:.19,vb:[180,90],detail:'A&H DX168 · 16 Eingänge / 8 Ausgänge'},
+    {id:'stagebox-32',name:'Stagebox · 32 In / 16 Out',short:'Stagebox 32',family:'stageboxes',category:'tech',w:.82,d:.19,vb:[364,90],detail:'2 × A&H DX168 · 32 Eingänge / 16 Ausgänge'},
     {id:'stagebox-46',name:'Custom Stagebox · 46 In',short:'Custom 46',family:'stageboxes',category:'tech',w:.48,d:.25,vb:[180,90],detail:'46 Eingänge · freie Konfiguration · kein A&H-Modell'},
-    {id:'stagebox-48',name:'Stagebox · 48 In / 16 Out',short:'GX4816 · 48',family:'stageboxes',category:'tech',w:.48,d:.25,vb:[180,90],detail:'A&H GX4816 · 48 Eingänge / 16 Ausgänge'},
+    {id:'stagebox-48',name:'Stagebox · 48 In / 16 Out',short:'GX4816 · 48',family:'stageboxes',category:'tech',w:.4816,d:.255,vb:[180,90],detail:'A&H GX4816 · 48 Eingänge / 16 Ausgänge'},
     {id:'foh',name:'FOH-Platz',short:'FOH',category:'tech',w:3,d:2,vb:[180,120],underlay:true,instrument:false,keywords:'front of house mischplatz tisch absperrung sonnenschutz regenschutz'},
     {id:'power',name:'Stromverteiler',short:'Strom',category:'tech',w:.4,d:.12,vb:[100,31]},
     {id:'wedge',name:'Monitor-Wedge · CM14',short:'Wedge · CM14',category:'tech',w:.559,d:.546,vb:[116,113],detail:'Koaxialer 14″ Bühnenmonitor · Planmaß 55,9 × 54,6 cm'},
@@ -7314,7 +7325,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'light-fog',name:'Nebelmaschine',short:'Nebelmaschine',family:'lights',category:'tech',w:.59,d:.33,vb:[177,99],keywords:'licht nebel fog smoke machine cameo instant fog'},
     {id:'light-wave-bar',name:'Moving Head Wave Bar · Beam & Wash',short:'Wave Bar · Beam/Wash',family:'lights',category:'tech',w:1.12,d:.24,vb:[336,72],keywords:'licht moving head wave bar beam wash matrix galaxyjet shehds'},
     {id:'light-bar',name:'LED Bar',short:'LED Bar',family:'lights',category:'tech',w:1,d:.12,vb:[300,36],keywords:'licht led bar strip leiste rampe'},
-    {id:'di',name:'DI-Box',short:'DI-Box',category:'tech',w:.24,d:.16,detail:'Vergrößertes Planmaß · 24 × 16 cm'},
+    {id:'di',name:'DI-Box',short:'DI-Box',category:'tech',w:.127,d:.084,detail:'Referenz: Radial J48 · 12,7 × 8,4 cm'},
     {id:'text',name:'Freie Beschriftung',short:'Text',category:'tech',w:.8,d:.35}
   ].map(c=>({...c,defaultAngle:c.defaultAngle??(c.category==='keys'?180:['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic','double-bass'].includes(c.id)?65:0),art:c.art||c.id,vb:c.vb||[100,100],instrument:c.instrument??(['drums','keys','strings','winds','mics','amps'].includes(c.category)||c.id==='laptop')}));
   const byId = Object.fromEntries(catalog.map(c => [c.id, c]));
@@ -8254,8 +8265,8 @@ function createStageplotSymbolV3(type, options = {}) {
     ellipse(294,23.5,1.8,5.2,'#777',.45);rect(3,19,4,9,'#aaa',.5,1);end();
   }else if(type==='mic'){
     if(options.stand==='round'){
-      circle(50,65,25,'#c2c2c2',.9);circle(50,65,22,'#dedede',.45);circle(50,65,4,'#777',.6);
-      rod(50,65,50,36,2.2);capsule(50,24,0);
+      // A vertical microphone and mast project onto the 25 cm round base.
+      circle(50,50,12.5,'#c2c2c2',.45);circle(50,50,11,'#dedede',.25);circle(50,50,3,'#777',.3);circle(50,50,2.5,'#aaa',.3);circle(50,50,1.6,'#555',.2);
     }else{
       feet(50,65,27,30);circle(50,65,4.5,'#aaa',.7);
       const direction=options.boomDirection||'up';
@@ -8445,8 +8456,8 @@ function createStageplotSymbolV3(type, options = {}) {
     circle(60,60,6,'#d4d4d4',.85);circle(60,60,3,'#666',.5);
     rect(66,58,4,4,'#555',.4,.8);end();
   }else if(type==='cajon'){
-    rect(30,23,36,45,'#dedede',.85,1.5);rect(33,26,30,39,'#f5f5f5',.4,.5);
-    for(const x of [34,62])for(const y of [27,64])bolt(x,y,.6);
+    rect(30,23,36,36,'#dedede',.85,1.5);rect(33,26,30,30,'#f5f5f5',.4,.5);
+    for(const x of [34,62])for(const y of [27,55])bolt(x,y,.6);
     cymbal(81,42,12);feet(18,78,10,30);rod(18,78,27,61,1.4);group('translate(26 57) scale(.45)');capsule(0,0,35);end();
   }else if(type==='riser'){
     const count=options.riserCount||1,w=count===3?150:200,h=count===1?100:count===2?200:100;
@@ -8481,17 +8492,6 @@ function createStageplotSymbolV3(type, options = {}) {
   }else if(type==='laptop'){
     // Orthographic plan view. Every chassis edge stays parallel so the symbol
     // reads like a technical overhead drawing, not a three-quarter product view.
-    group('','playback-rack');
-    rect(2,6,116,98,'#6f6f6f',.85,2);rect(5,9,110,92,'#bdbdbd',.45,1.2);
-    for(const x of [7,109])rect(x,12,4,86,'#777',.35,.6);
-    for(const x of [7.5,112.5])for(const y of [11.5,98.5])bolt(x,y,.55);
-    // The rack unit is also drawn from above and remains visible below the laptop.
-    group('','playaudio-1u');
-    rect(10,82,100,17,'#d3d3d3',.65,1);rect(14,85,92,11,'#ededed',.35,.6);
-    for(let x=18;x<=96;x+=9){line(x,87,x+5,87,.35,'#777');line(x,89,x+5,89,.35,'#999');}
-    out+='<text x="60" y="94" text-anchor="middle" font-size="4.2" font-family="sans-serif" fill="#3d3d3d" stroke="none">PlayAUDIO 1U</text>';
-    for(const x of [11.5,108.5])for(const y of [83.5,97.5])bolt(x,y,.48);
-    end();end();
     group('','laptop-top-view');
     group('','laptop-screen');
     // From directly above the upright display is visible only as a slim edge.
@@ -8532,9 +8532,8 @@ function createStageplotSymbolV3(type, options = {}) {
       path('M-7 3Q0-4 10-4','none',.55,'#aaa');circle(5,2,2.1,'#777',.4);circle(5,2,.8,'#ddd',.2);end();
       group('','sound-nozzle');path('M8 10L14 17L10 21L4 13Z','#aaa',.55);ellipse(13,19,5,3.6,'#ddd',.55);ellipse(14,19,2.3,1.6,'#666',.35);end();
       end();
-      out+='<text x="'+x+'" y="68" text-anchor="middle" font-size="8" font-family="sans-serif" font-weight="600" fill="#555" stroke="none">'+side+'</text>';
     }
-    path('M41 61Q50 65 59 61','none',.65,'#999');end();
+    end();
   }else if(type==='rug'){
     rect(5,5,90,90,'#e4e4e4',.85,1.6);rect(8,8,84,84,'none',.6,.4);
     let weave='';for(let i=13;i<90;i+=3.5)weave+='M10 '+f(i)+'h80M'+f(i)+' 10v80';
@@ -8674,11 +8673,30 @@ function createStageplotSymbolV3(type, options = {}) {
     if(c.id==='orchestra'||c.orchestraPart)c={...c,...orchestraModel.layout(o.orchestra||(c.orchestraPart?orchestraModel.single(c.orchestraPart):undefined))};
     if(c.id==='percussion'||c.percussionPart)c={...c,...percussionModel.layout(o.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined))};
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(c.id))c={...c,...drumModel.drumLayout(c.id,o.drums)};
-    const [w,h]=c.vb,angle=o.angle??c.defaultAngle??0,r=angle*Math.PI/180;
-    const rw=Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h,rh=Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h;
-    return '<svg viewBox="'+[w/2-rw/2-3,h/2-rh/2-3,rw+6,rh+6].join(' ')+'" aria-hidden="true"><use href="#'+artId(c,o)+'" transform="rotate('+angle+' '+w/2+' '+h/2+')"/></svg>';
+    const size=normalizedObjectDimensions(o.dimensions)||(c.id==='mic'&&o.stand==='round'?{w:.25,d:.25}:c),w=size.w*100,h=size.d*100,angle=o.angle??c.defaultAngle??0,r=angle*Math.PI/180;
+    const rw=Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h,rh=Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h,pad=Math.max(rw,rh)*.04;
+    const art=objectArtGeometry(c,o,w,h);
+    return '<svg viewBox="'+[-rw/2-pad,-rh/2-pad,rw+2*pad,rh+2*pad].join(' ')+'" aria-hidden="true"><use href="#'+art.id+'" transform="rotate('+angle+') '+art.transform+'"/></svg>';
   }
-  const objectSize = o => (o.type==='orchestra'||byId[o.type]?.orchestraPart)&&typeof orchestraModel!=='undefined'?orchestraModel.layout(o.orchestra||(byId[o.type]?.orchestraPart?orchestraModel.single(byId[o.type].orchestraPart):undefined)):o.type==='percussion'&&typeof percussionModel!=='undefined'?percussionModel.layout(o.percussion):['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
+  function editableObjectSize(o){
+    const c=byId[o.type];return !!c&&!c.orchestraPart&&!c.percussionPart&&!c.stageAccess&&!c.stageExtension&&!['orchestra','percussion','riser','foh','text'].includes(o.type)&&!drumModel.isDrums(o.type);
+  }
+  function normalizedObjectDimensions(value){
+    return value&&Number.isFinite(value.w)&&value.w>=.01&&value.w<=30&&Number.isFinite(value.d)&&value.d>=.01&&value.d<=20?{w:value.w,d:value.d}:null;
+  }
+  function defaultObjectSize(o){
+    if(o.type==='mic'&&o.stand==='round')return {w:.25,d:.25};
+    return byId[o.type];
+  }
+  function objectArtGeometry(c,o,w,h){
+    const id=artId(c,o),metric=c.id==='orchestra'||c.orchestraPart||c.id==='percussion'||c.percussionPart||drumModel.isDrums(c.id);
+    // Composite coordinates already encode metres (including hardware and layout padding).
+    // Static art must fill its declared dimensions; unused viewBox margins are not equipment.
+    const b=metric?{x:0,y:0,width:c.vb[0],height:c.vb[1]}:artBoundsCache.get(id)||{x:0,y:0,width:c.vb[0],height:c.vb[1]};
+    const sx=w/b.width,sy=h/b.height,tx=-w/2-b.x*sx,ty=-h/2-b.y*sy;
+    return {id,sx,sy,tx,ty,transform:'matrix('+[sx,0,0,sy,tx,ty].join(' ')+')'};
+  }
+  const objectSize = o => (o.type==='orchestra'||byId[o.type]?.orchestraPart)&&typeof orchestraModel!=='undefined'?orchestraModel.layout(o.orchestra||(byId[o.type]?.orchestraPart?orchestraModel.single(byId[o.type].orchestraPart):undefined)):o.type==='percussion'&&typeof percussionModel!=='undefined'?percussionModel.layout(o.percussion):['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):normalizedObjectDimensions(o.dimensions)||defaultObjectSize(o);
   function objectCatalog(o){return (o.type==='orchestra'||byId[o.type]?.orchestraPart)&&typeof orchestraModel!=='undefined'?{...byId[o.type],...orchestraModel.layout(o.orchestra||(byId[o.type]?.orchestraPart?orchestraModel.single(byId[o.type].orchestraPart):undefined))}:o.type==='percussion'&&typeof percussionModel!=='undefined'?{...byId[o.type],...percussionModel.layout(o.percussion)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?{...byId[o.type],...drumModel.drumLayout(o.type,o.drums)}:byId[o.type];}
   function drumRenderGeometry(o,c,w,h){
     if(!drumModel.isDrums(o.type)||!Array.isArray(c.parts))return null;
@@ -9231,10 +9249,10 @@ function createStageplotSymbolV3(type, options = {}) {
     root.style.setProperty('--sp-editor-height',height+'px');
   }
   function labelOwnerBox(o,x,y,scale,artBox){
-    const c=objectCatalog(o),size=objectSize(o),unit=Math.min(size.w/c.vb[0],size.d/c.vb[1])*scale;
+    const c=objectCatalog(o),size=objectSize(o),geometry=artBox?objectArtGeometry(c,o,size.w*scale,size.d*scale):null;
     const local=o.type==='riser'||o.type==='foh'||c.stageExtension||c.stageAccess||c.art==='text'||!artBox
       ?{left:-size.w*scale/2,right:size.w*scale/2,top:-size.d*scale/2,bottom:size.d*scale/2}
-      :{left:(artBox.x-c.vb[0]/2)*unit,right:(artBox.x+artBox.width-c.vb[0]/2)*unit,top:(artBox.y-c.vb[1]/2)*unit,bottom:(artBox.y+artBox.height-c.vb[1]/2)*unit};
+      :{left:artBox.x*geometry.sx+geometry.tx,right:(artBox.x+artBox.width)*geometry.sx+geometry.tx,top:artBox.y*geometry.sy+geometry.ty,bottom:(artBox.y+artBox.height)*geometry.sy+geometry.ty};
     const angle=o.angle*Math.PI/180,cos=Math.cos(angle),sin=Math.sin(angle);
     const corners=[[local.left,local.top],[local.right,local.top],[local.right,local.bottom],[local.left,local.bottom]].map(([dx,dy])=>({x:x+dx*cos-dy*sin,y:y+dx*sin+dy*cos}));
     return {id:o.id,left:Math.min(...corners.map(p=>p.x)),right:Math.max(...corners.map(p=>p.x)),top:Math.min(...corners.map(p=>p.y)),bottom:Math.max(...corners.map(p=>p.y))};
@@ -9500,7 +9518,7 @@ function createStageplotSymbolV3(type, options = {}) {
           if(p.shape==='rect')sEl('rect',{x:p.x-p.w/2,y:p.y-p.h/2,width:p.w,height:p.h,rx:p.rx,fill:'transparent',stroke:'none','pointer-events':'all','data-drum-hit-part':p.id,...(p.angle?{transform:'rotate('+p.angle+' '+p.x+' '+p.y+')'}:{})},hitArea);
           else sEl('ellipse',{...attrs,rx:p.rx,ry:p.ry,...(p.angle?{transform:'rotate('+p.angle+' '+p.x+' '+p.y+')'}:{})},hitArea);
         }
-      }else sEl('rect',{x:-Math.max(w,24)/2,y:-Math.max(h,24)/2,width:Math.max(w,24),height:Math.max(h,24),fill:'transparent'},rotation);
+      }else {const hit=mode==='editor'&&coarse?44:24;sEl('rect',{x:-Math.max(w,hit)/2,y:-Math.max(h,hit)/2,width:Math.max(w,hit),height:Math.max(h,hit),fill:'transparent','data-object-hit':o.id},rotation);}
       const visualAttrs={'data-object-visual':o.id,'data-overlap-shadow':String(shadowed.has(o.id))};
       if(shadowed.has(o.id))visualAttrs.filter='url(#'+overlapFilterId+')';
       const visual=sEl('g',visualAttrs,rotation);
@@ -9528,7 +9546,7 @@ function createStageplotSymbolV3(type, options = {}) {
         sEl('line',{x1:0,y1:-h/2,x2:0,y2:h/2,stroke,'stroke-width':blackStage ? .85 : .65,'pointer-events':'none'},deck);
         if(mode==='editor'&&o.id===selected)for(const [cx,cy] of [[-w/2,0],[w/2,0],[0,-h/2],[0,h/2]])sEl('circle',{cx,cy,r:2.1,fill:stageFill,stroke:'var(--sp-teal)','stroke-width':1,'data-module-magnet':'true'},deck);
       }else if(c.stageAccess){
-        const art=sEl('g',{transform:'translate('+(-w/2)+' '+(-h/2)+') scale('+(w/c.vb[0])+' '+(h/c.vb[1])+')',class:'sp-symbol','data-stage-access':c.stageAccess},visual);
+        const art=sEl('g',{transform:objectArtGeometry(c,o,w,h).transform,class:'sp-symbol','data-stage-access':c.stageAccess},visual);
         sEl('use',{href:'#'+artId(c,o)},art);
         if(showPrintMeasures){
           const style={'text-anchor':'middle',fill:'#454b45','font-size':8,'font-weight':700,'paint-order':'stroke',stroke:'#fff','stroke-width':2,'stroke-linejoin':'round','pointer-events':'none'};
@@ -9537,8 +9555,7 @@ function createStageplotSymbolV3(type, options = {}) {
           if(h>=24){const tx=w/2-7;sEl('text',{...style,x:tx,y:0,transform:'rotate('+upright(90)+' '+tx+' 0)','data-access-measure':'depth'},visual,metres(size.d));}
         }
       }else if(c.art!=='text'){
-        const unit=Math.min(w/c.vb[0],h/c.vb[1]);
-        const art=sEl('g',{transform:'translate('+(-c.vb[0]*unit/2)+' '+(-c.vb[1]*unit/2)+') scale('+unit+')',class:'sp-symbol'},visual);
+        const art=sEl('g',{transform:objectArtGeometry(c,o,w,h).transform,class:'sp-symbol'},visual);
         sEl('use',{href:'#'+artId(c,o)},art);
       }
       if(mode==='editor'&&o.id===selected){
@@ -9894,7 +9911,14 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-drums-open').hidden=!drumModel.isDrums(o.type)&&!['percussion','orchestra'].includes(o.type);$('sp-drums-open').disabled=locked;$('sp-drums-open').textContent=o.type==='orchestra'?'Orchester-Editor …':o.type==='percussion'?'Percussion-Editor …':'Drum Designer …';
     // Position fields deliberately allow overhang and off-stage centres.
     $('sp-angle').value=o.angle;$('sp-angle-number').value=o.angle;$('sp-angle-label').textContent=o.angle+'°';
-    const size=objectSize(o);
+    const size=objectSize(o),canSize=editableObjectSize(o);
+    $('sp-object-size-fields').hidden=!canSize;
+    if(canSize){
+      $('sp-object-width').value=Number((size.w*100).toFixed(3));$('sp-object-depth').value=Number((size.d*100).toFixed(3));
+      for(const id of ['sp-object-width','sp-object-depth','sp-object-size-reset'])$(id).disabled=locked;
+      $('sp-object-size-reset').hidden=!normalizedObjectDimensions(o.dimensions);
+      $('sp-object-size-hint').textContent=o.dimensions?'Eigene Gerätemaße · maßstäblich auf der Bühne.':o.type==='laptop'?'Referenz: 16″ MacBook Pro · nur der Rechner, ohne Tisch oder Rack.':o.type==='di'?'Referenz: Radial J48 · ohne Stecker und Kabel.':o.type.startsWith('stagebox-')&&!['stagebox-46'].includes(o.type)?'Gerätemaße nach Allen & Heath · ohne Stecker und Kabel.':['mic-sm57','mic-wireless-ewd'].includes(o.type)?'Herstellermaß · ohne Stativ.': 'Standardmaß der abgebildeten Ansicht. Für dein Modell anpassen; Spielraum zusätzlich einplanen.';
+    }
     $('sp-footprint').textContent=o.type==='riser'?'Planmaß: '+riserDescription(o):'Planmaß: '+num(size.w)+' × '+metres(size.d)+(objectDetail(o)?' · '+objectDetail(o):'');
     $('sp-mic-fields').hidden=o.type!=='mic';
     if(o.type==='mic'){
@@ -9987,6 +10011,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const type=drumModel.isDrums(o?.type)?'drums':o?.type;
       if(!o||!Object.hasOwn(byId,type)||!finite(o.x,-10000,10000)||!finite(o.y,-10000,10000)||!finite(o.angle,-36000,36000))throw new Error('Ungültiger Baustein.');
       const item={id:'station-'+(i+1),type,x:o.x,y:o.y,angle:((o.angle%360)+360)%360,label:String(o.label??'').slice(0,42),showLabel:o.showLabel!==false,note:String(o.note??'').slice(0,160),power:cleanText(o.power,100),wireless:cleanText(o.wireless,100),inventoryId:cleanText(o.inventoryId,100),outs:String(o.outs??'').slice(0,48),showOuts:o.showOuts!==false,locked:o.locked===true};
+      const dimensions=normalizedObjectDimensions(o.dimensions);if(dimensions&&editableObjectSize({type}))item.dimensions=dimensions;
       if(o.house===true)item.house=true;
       if(typeof o.id==='string')idMap.set(o.id,item.id);
       if(type==='orchestra'&&typeof orchestraModel!=='undefined')item.orchestra=orchestraModel.normalize(o.orchestra);
@@ -10256,9 +10281,8 @@ function createStageplotSymbolV3(type, options = {}) {
     return stageObjectOrder(list).slice(0,80).map(o=>{
       const c=objectCatalog(o),size=objectSize(o),x=left+o.x*scale,y=top+o.y*scale,w=size.w*scale,h=size.d*scale;
       if(c.art==='text')return '<text x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" text-anchor="middle" font-size="4.5" fill="'+(black?'#f3f3ee':'#353a35')+'">T</text>';
-      const unit=Math.min(w/c.vb[0],h/c.vb[1]),id=artId(c,o);
-      if(c.stageAccess)return '<g transform="translate('+x.toFixed(2)+' '+y.toFixed(2)+') rotate('+(Number(o.angle)||0)+') translate('+(-w/2).toFixed(3)+' '+(-h/2).toFixed(3)+') scale('+(w/c.vb[0]).toFixed(4)+' '+(h/c.vb[1]).toFixed(4)+')"><use href="#'+id+'"/></g>';
-      return '<g transform="translate('+x.toFixed(2)+' '+y.toFixed(2)+') rotate('+(Number(o.angle)||0)+') translate('+(-c.vb[0]*unit/2).toFixed(3)+' '+(-c.vb[1]*unit/2).toFixed(3)+') scale('+unit.toFixed(4)+')"><use href="#'+id+'"/></g>';
+      const art=objectArtGeometry(c,o,w,h);
+      return '<g transform="translate('+x+' '+y+') rotate('+(Number(o.angle)||0)+') '+art.transform+'"><use href="#'+art.id+'"/></g>';
     }).join('');
   }
   function dashboardPreviewMarkup(document,badge='VORSCHAU'){
@@ -12510,7 +12534,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       const group=sEl('g',{transform:'translate('+gw/2+' '+gh/2+') rotate('+o.angle+')'},preview);
       sEl('rect',{x:-w/2-3,y:-h/2-3,width:w+6,height:h+6,fill:'#edf8d955',stroke:'#668921','stroke-width':1,'stroke-dasharray':'4 3'},group);
       if(c.art==='text')sEl('text',{x:0,y:4,'text-anchor':'middle',fill:'#333','font-size':12},group,'Beschriftung');
-      else {const drawing=objectCatalog(o),unit=Math.min(w/drawing.vb[0],h/drawing.vb[1]);sEl('use',{href:'#'+artId(drawing,o),transform:'translate('+(-drawing.vb[0]*unit/2)+' '+(-drawing.vb[1]*unit/2)+') scale('+unit+')'},group);}
+      else {const art=objectArtGeometry(objectCatalog(o),o,w,h);sEl('use',{href:'#'+art.id,transform:art.transform},group);}
       ghost.replaceChildren(preview);placement.previewKey=key;
     }
     const x=inside?rect.left+Number(svg.dataset.originX)+o.x*scale-gw/2:cursor.x+14,y=inside?rect.top+Number(svg.dataset.originY)+o.y*scale-gh/2:cursor.y+14;
@@ -12902,7 +12926,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   });
   function changeSelectedVariant(nextType){
     const o=objects.find(o=>o.id===selected),next=byId[nextType],prior=o&&byId[o.type];if(!o||o.locked||!next||nextType===o.type||!prior?.family||prior.family!==next.family)return;
-    change(()=>{o.type=nextType;o.angle=(o.angle-(prior.defaultAngle||0)+(next.defaultAngle||0)+360)%360;if(o.label===prior.short)o.label=next.short;constrain(o,false);},'Variante geändert');
+    change(()=>{delete o.dimensions;o.type=nextType;o.angle=(o.angle-(prior.defaultAngle||0)+(next.defaultAngle||0)+360)%360;if(o.label===prior.short)o.label=next.short;constrain(o,false);},'Variante geändert');
   }
   function showCompactModelDialog(family,currentType='',action='change'){
     if(!compactModelFamilies.has(family))return;
@@ -12939,7 +12963,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   ['sp-mic-stand','sp-boom-direction','sp-mic-purpose'].forEach(id=>$(id).addEventListener('change',()=>{
     const o=objects.find(o=>o.id===selected);if(!o||o.type!=='mic'||(o.locked&&id!=='sp-mic-purpose'))return;
     change(()=>{
-      if(id==='sp-mic-stand')o.stand=$(id).value;
+      if(id==='sp-mic-stand'){o.stand=$(id).value;delete o.dimensions;}
       else if(id==='sp-boom-direction')o.boomDirection=$(id).value;
       else {const wasDefault=['Mikrofon','Gesang','Vocals','Talkback','Instrument'].includes(o.label);o.purpose=$(id).value;if(wasDefault)o.label=micPurpose[o.purpose];}
     },'Mikrofon angepasst');
@@ -12985,6 +13009,17 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     $(id).addEventListener('change',finishEdit);
     $(id).addEventListener('blur',()=>{finishEdit();inspector();});
   }
+  for(const [id,key] of [['sp-object-width','w'],['sp-object-depth','d']]){
+    $(id).addEventListener('input',()=>{
+      const o=objects.find(item=>item.id===selected),input=$(id),value=Number(input.value);
+      if(!o||o.locked||!editableObjectSize(o)||!input.value||!input.validity.valid||!Number.isFinite(value))return;
+      const size=objectSize(o);if(!editBefore)editBefore=snapshot();o.dimensions={w:size.w,d:size.d,[key]:value/100};
+      $('sp-object-size-reset').hidden=false;$('sp-object-size-hint').textContent='Eigene Gerätemaße · maßstäblich auf der Bühne.';
+      $('sp-footprint').textContent='Planmaß: '+num(o.dimensions.w)+' × '+metres(o.dimensions.d);queueDraw();
+    });
+    $(id).addEventListener('change',finishEdit);$(id).addEventListener('blur',()=>{finishEdit();inspector();});
+  }
+  $('sp-object-size-reset').addEventListener('click',()=>{const o=objects.find(item=>item.id===selected);if(o&&!o.locked&&editableObjectSize(o)){finishEdit();change(()=>{delete o.dimensions;},'Standardmaße wiederhergestellt');}});
   function writeIoFromDirectControls(kind){
     const o=objects.find(item=>item.id===selected);if(!o||o.locked||drumModel.isDrums(o.type)||!byId[o.type].instrument)return;const input=$(kind==='inputs'?'sp-ins-count':'sp-outs-count'),options=$(kind==='inputs'?'sp-ins-connector-options':'sp-outs-connector-options'),count=Math.max(0,Math.min(64,Math.round(Number(input.value)||0))),pressed=options.querySelector('[aria-pressed="true"]'),connector=normalizeIoConnector(kind==='inputs'?pressed?.dataset.insConnector:pressed?.dataset.outsConnector,'XLR');
     change(()=>{const io=objectIo(o);io[kind]={count,connector};io.aliases[kind]=normalizeIoAliasList(io.aliases[kind],count);io.stereoPairs=io.stereoPairs.filter(start=>start<io.outputs.count);o.io=io;o.outs=ioValueText(io.outputs,'outputs').replace(/^Keine Outs$/,'');syncRoutingFromStage(false);},(kind==='inputs'?'Inputs':'Outs')+' definiert · '+count+' × '+connector);

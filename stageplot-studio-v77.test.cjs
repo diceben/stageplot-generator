@@ -10,8 +10,8 @@ for(const category of ['all','instruments','stage','lights','tech'])assert.ok(ht
 assert.match(html,/\.sp-category-tabs\s*\{[^}]*grid-template-columns:\s*repeat\(5,/s,'Die fünf Kategorie-Icons passen nicht in eine kompakte Reihe.');
 
 for(const marker of [
-  "id:'mic-wireless-ewd'.*w:.536,d:.1,physicalW:.268,physicalD:.05,planScale:2",
-  "id:'mic-sm57'.*w:.314,d:.064,physicalW:.157,physicalD:.032,planScale:2",
+  "id:'mic-wireless-ewd'.*w:.268,d:.05",
+  "id:'mic-sm57'.*w:.157,d:.032",
   "id:'mixer-xr18'.*w:.333,d:.149",
   "id:'mixer-wing-compact'.*w:.5743,d:.45337",
   "id:'mixer-wing-rack'.*w:.486,d:.326",

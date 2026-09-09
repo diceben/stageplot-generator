@@ -48,7 +48,7 @@ assert.match(cards,/id:'drums'[^]*?id:'percussion',name:'Percussion-Set',short:'
 // The real dashboard renderer must not enlarge tiny instruments to a minimum pixel size.
 const preview=html.match(/  function projectPreviewObjectsMarkup\([^]*?\n  }/)[0];
 const c={vb:[10,10]},tiny={w:.1,d:.1};
-const previewContext={stageObjectOrder:x=>x,objectCatalog:()=>c,objectSize:()=>tiny,artId:()=> 'tiny'};vm.createContext(previewContext);
-vm.runInContext(preview+'\nthis.markup=projectPreviewObjectsMarkup([{id:"tiny",x:0,y:0}],5,0,0,false);',previewContext);
-assert.match(previewContext.markup,/scale\(0\.0500\)/,'10 cm remains 0.5 px at 5 px/m, not a 3 px inflated object.');
+const previewContext={stageObjectOrder:x=>x,objectCatalog:()=>c,objectSize:()=>tiny,artId:()=> 'tiny',artBoundsCache:new Map([['tiny',{x:2,y:3,width:6,height:4}]]),drumModel:context.drums};vm.createContext(previewContext);
+vm.runInContext(html.match(/  function objectArtGeometry\([^]*?\n  }/)[0]+'\n'+preview+'\nthis.markup=projectPreviewObjectsMarkup([{id:"tiny",x:0,y:0}],5,0,0,false);',previewContext);
+assert.match(previewContext.markup,/matrix\(0\.08333333333333333 0 0 0\.125 /,'10 cm silhouette remains 0.5 px at 5 px/m, with viewBox margins removed.');
 console.log('PASS SCALE: rendered drum diameters, independent kick depth, matching percussion dimensions, original SPD-SX size, risers and tiny preview objects.');
