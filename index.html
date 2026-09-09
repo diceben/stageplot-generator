@@ -126,6 +126,7 @@
         <div id="sp-category-tabs" class="sp-category-tabs" role="group" aria-label="Baustein-Kategorien">
           <button type="button" data-category="all" aria-pressed="true" aria-label="Alle" data-tooltip="Alle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="sp-category-name">Alle</span></button>
           <button type="button" data-category="instruments" aria-pressed="false" aria-label="Instrumente" data-tooltip="Instrumente"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(35 12 12)"><path d="M10.5 9.5C8 8.5 6.8 10.5 8.1 12.4c.7 1.1-.2 1.8-1 2.7C3.7 18.7 6.8 22 12 22s8.3-3.3 4.9-6.9c-.8-.9-1.7-1.6-1-2.7 1.3-1.9.1-3.9-2.4-2.9M10.5 11V2h3v9M9 3h1.5m3 0H15M9 6h1.5m3 0H15M10 19h4"/><circle cx="12" cy="15.5" r="1.7"/></g></svg><span class="sp-category-name">Instrumente</span></button>
+          <button type="button" data-category="classical" aria-pressed="false" aria-label="Klassik & Orchester" data-tooltip="Klassik & Orchester"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 18V6l11-3v12M8 9l11-3"/><ellipse cx="5" cy="18" rx="3" ry="2"/><ellipse cx="16" cy="15" rx="3" ry="2"/></svg><span class="sp-category-name">Klassik & Orchester</span></button>
           <button type="button" data-category="stage" aria-pressed="false" aria-label="Bühnenelemente" data-tooltip="Bühnenelemente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v15H3zM2 19h20M8 22h8M10 19v3m4-3v3"/><path d="M3 4h5c0 5-1 7-5 9m18-9h-5c0 5 1 7 5 9M8 4c0 4 8 4 8 0M6 12v5m12-5v5"/></svg><span class="sp-category-name">Bühnenelemente</span></button>
           <button type="button" data-category="lights" aria-pressed="false" aria-label="Licht" data-tooltip="Licht"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(30 10 9)"><rect x="2" y="5" width="10" height="8" rx="2"/><path d="M12 4v10m4-10 3-2m-3 7h5m-5 5 3 2"/></g><path d="M4 12v3a2 2 0 0 0 2 2h5m-3 0v4m-4 0h8"/></svg><span class="sp-category-name">Licht</span></button>
           <button type="button" data-category="tech" aria-pressed="false" aria-label="Technik" data-tooltip="Technik"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="8" r="2"/><circle cx="12" cy="16" r="3.5"/></svg><span class="sp-category-name">Technik</span></button>
@@ -5243,6 +5244,106 @@ html,body { height:100%; overflow:hidden; }
  #sp-prototype .sp-percussion-dialog footer>div { justify-content:flex-end; }
 }
 /* build-inline:end stageplot-percussion-editor-v1.css */
+/* build-inline:start stageplot-orchestra-editor-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+#sp-prototype .sp-orchestra-dialog { width:min(1440px,96vw); max-width:96vw; height:min(900px,94dvh); max-height:94dvh; padding:0; --sp-bg:light-dark(#f6f6f6,#171717); --sp-panel:light-dark(#fff,#242424); --sp-ink:light-dark(#222,#eee); --sp-muted:light-dark(#666,#aaa); --sp-line:light-dark(#ccc,#444); --sp-teal:light-dark(#333,#ddd); border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-bg); color:var(--sp-ink); box-shadow:0 24px 90px #0006; overflow:hidden; }
+#sp-prototype .sp-orchestra-dialog[open] { display:flex; flex-direction:column; }
+#sp-prototype .sp-orchestra-dialog::backdrop { background:#1119; backdrop-filter:blur(5px); }
+#sp-prototype .sp-orchestra-dialog header,#sp-prototype .sp-orchestra-dialog footer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 22px; flex-shrink:0; }
+#sp-prototype .sp-orchestra-dialog header { border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-orchestra-dialog h2 { margin:2px 0 0; font-size:23px; }
+#sp-prototype .sp-orchestra-dialog h3 { font-size:15px; margin:16px 0 10px; }
+#sp-prototype .sp-orchestra-dialog h4 { margin:18px 0 8px; }
+#sp-prototype .sp-orch-eyebrow { font-size:10px; letter-spacing:.13em; color:var(--sp-muted); font-weight:700; }
+#sp-prototype .sp-orchestra-dialog button { min-height:36px; padding:8px 11px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; font-size:12px; cursor:pointer; }
+#sp-prototype .sp-orchestra-dialog button:hover { border-color:var(--sp-teal); }
+#sp-prototype .sp-orchestra-dialog button:disabled { opacity:.4; cursor:default; }
+#sp-prototype .sp-orchestra-dialog button[aria-pressed=true] { background:light-dark(#e2e2e2,#444); color:var(--sp-ink); border-color:var(--sp-teal); }
+#sp-prototype .sp-orchestra-dialog button:focus-visible,#sp-prototype .sp-orchestra-dialog input:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
+#sp-prototype .sp-orch-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 20px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-orch-toolbar>div,#sp-prototype .sp-orchestra-dialog footer>div { display:flex; gap:5px; }
+#sp-prototype .sp-orch-workspace { display:grid; grid-template-columns:215px minmax(0,1fr) 255px; min-height:0; flex:1; }
+#sp-prototype .sp-orch-palette,#sp-prototype .sp-orch-properties { overflow:auto; padding:14px; }
+#sp-prototype .sp-orch-palette { border-right:1px solid var(--sp-line); }
+#sp-prototype .sp-orch-properties { border-left:1px solid var(--sp-line); }
+#sp-prototype .sp-orchestra-dialog label { display:flex; flex-direction:column; gap:6px; margin:8px 0; font-size:12px; font-weight:650; }
+#sp-prototype .sp-orchestra-dialog input { width:100%; box-sizing:border-box; min-width:0; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; }
+#sp-prototype .sp-orch-catalog>div { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+#sp-prototype .sp-orch-catalog button { display:flex; flex-direction:column; align-items:center; gap:5px; padding:7px 3px; font-size:11px; line-height:1.2; }
+#sp-prototype .sp-orch-catalog img { width:64px; height:55px; object-fit:contain; filter:grayscale(1); }
+#sp-prototype .sp-orch-canvas-pane { display:flex; flex-direction:column; min-width:0; min-height:0; }
+#sp-prototype .sp-orch-canvas { flex:1; min-height:0; background:#f1f1f1; touch-action:none; overflow:hidden; }
+#sp-prototype .sp-orch-canvas>svg { width:100%; height:100%; display:block; }
+#sp-prototype .sp-orch-canvas [data-part] { cursor:grab; }
+#sp-prototype .sp-orch-canvas [data-part] image { pointer-events:none; }
+#sp-prototype .sp-orch-canvas [data-part]:focus { outline:none; }
+#sp-prototype .sp-orch-canvas [data-part]:focus rect { stroke:#333; stroke-width:1; }
+#sp-prototype .sp-orch-hint,#sp-prototype .sp-orch-status { font-size:11px; margin:0; padding:6px 12px; color:var(--sp-muted); }
+#sp-prototype .sp-orch-status:empty { display:none; }
+#sp-prototype .sp-orch-properties p { font-size:12px; color:var(--sp-muted); line-height:1.5; }
+#sp-prototype .sp-orch-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+#sp-prototype .sp-orch-actions,#sp-prototype .sp-orch-pickup { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+#sp-prototype .sp-orch-list-item { display:block; width:100%; margin:4px 0; text-align:left; }
+#sp-prototype .sp-orchestra-dialog footer { border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-orch-summary { font-size:12px; color:var(--sp-muted); }
+#sp-prototype .sp-orchestra-dialog .sp-orch-save { background:#292929; color:#fff; font-weight:750; border-color:#292929; }
+#sp-prototype .sp-orch-presets:not([hidden]) { display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; align-items:center; border-bottom:1px solid var(--sp-line); font-size:12px; }
+#sp-prototype .sp-orch-mobile-nav { display:none; }
+@media(max-width:900px) {
+ #sp-prototype .sp-orch-workspace { grid-template-columns:175px minmax(0,1fr) 215px; }
+}
+@media(max-width:720px) {
+ #sp-prototype .sp-orchestra-dialog { width:100vw; max-width:100vw; height:100dvh; max-height:100dvh; border:0; border-radius:0; margin:0; }
+ #sp-prototype .sp-orchestra-dialog header,#sp-prototype .sp-orchestra-dialog footer { padding:12px; }
+ #sp-prototype .sp-orchestra-dialog h2 { font-size:19px; }
+ #sp-prototype .sp-orch-mobile-nav { display:flex; gap:6px; padding:8px 12px; }
+ #sp-prototype .sp-orch-mobile-nav button { flex:1; }
+ #sp-prototype .sp-orch-toolbar { padding:8px 12px; }
+ #sp-prototype .sp-orch-workspace { display:flex; }
+ #sp-prototype .sp-orch-workspace>* { display:none; width:100%; border:0; }
+ #sp-prototype .sp-orch-workspace[data-pane=palette]>.sp-orch-palette,#sp-prototype .sp-orch-workspace[data-pane=properties]>.sp-orch-properties { display:block; }
+ #sp-prototype .sp-orch-workspace[data-pane=canvas]>.sp-orch-canvas-pane { display:flex; }
+ #sp-prototype .sp-orch-catalog>div { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ #sp-prototype .sp-orchestra-dialog footer { flex-direction:column; align-items:stretch; gap:8px; }
+ #sp-prototype .sp-orchestra-dialog footer>div { justify-content:flex-end; }
+}
+
+#sp-prototype .sp-orch-families { display:flex; gap:8px; padding:12px 20px; border-bottom:1px solid var(--sp-line); flex-shrink:0; overflow:auto; }
+#sp-prototype .sp-orch-families button { flex:1; min-width:110px; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:48px; }
+#sp-prototype .sp-orch-families small { font-size:11px; color:var(--sp-muted); white-space:nowrap; }
+#sp-prototype .sp-orch-workspace { grid-template-columns:260px minmax(0,1fr) 250px; }
+#sp-prototype .sp-orch-tabs { display:flex; gap:6px; position:sticky; top:-14px; background:var(--sp-bg); padding:4px 0 12px; z-index:1; }
+#sp-prototype .sp-orch-tabs button { flex:1; }
+#sp-prototype .sp-orch-catalog .sp-orch-section { display:flex; flex-direction:column; margin:8px 0; padding:0 0 8px; border:1px solid var(--sp-line); border-radius:9px; overflow:hidden; gap:7px; }
+#sp-prototype .sp-orch-section>button { display:flex; flex-direction:row; text-align:left; width:100%; min-height:57px; border-radius:0; border:0; gap:10px; padding:7px 10px; }
+#sp-prototype .sp-orch-section>button img { width:47px; height:44px; }
+#sp-prototype .sp-orch-section span { font-size:12px; }
+#sp-prototype .sp-orch-section small { display:block; margin-top:5px; font-size:10px; color:var(--sp-muted); }
+#sp-prototype .sp-orch-section>div { display:flex; justify-content:center; align-items:center; gap:10px; }
+#sp-prototype .sp-orch-section>div button { width:40px; min-height:36px; font-size:17px; }
+#sp-prototype .sp-orch-section output { min-width:24px; text-align:center; font-size:14px; font-weight:700; }
+#sp-prototype .sp-orch-selected-image { height:120px; padding:10px; border-radius:8px; background:#f1f1f1; }
+#sp-prototype .sp-orch-selected-image img { width:100%; height:100%; object-fit:contain; filter:grayscale(1); }
+#sp-prototype .sp-orch-source-note { border-top:1px solid var(--sp-line); padding-top:14px; }
+#sp-prototype .sp-orch-size-warning { font-size:11px; margin:5px 0 0; max-width:520px; }
+#sp-prototype .sp-orch-size-warning:empty { display:none; }
+#sp-prototype .sp-orchestra-dialog footer>div:first-child { display:block; }
+#sp-prototype .sp-orch-canvas text,#sp-prototype .sp-orch-canvas [data-orchestra-furniture] { pointer-events:none; }
+@media(max-width:1100px) { #sp-prototype .sp-orch-workspace {grid-template-columns:220px minmax(0,1fr) 215px;} }
+@media(max-width:850px) {
+ #sp-prototype .sp-orchestra-dialog { width:100vw; max-width:100vw; height:100dvh; max-height:100dvh; margin:0; border:0; border-radius:0; }
+ #sp-prototype .sp-orch-mobile-nav { display:flex; gap:5px; padding:8px 12px; }
+ #sp-prototype .sp-orch-mobile-nav button { flex:1; }
+ #sp-prototype .sp-orch-workspace { display:flex; }
+ #sp-prototype .sp-orch-workspace>* { display:none; width:100%; border:0; box-sizing:border-box; }
+ #sp-prototype .sp-orch-workspace[data-pane=palette]>.sp-orch-palette,#sp-prototype .sp-orch-workspace[data-pane=properties]>.sp-orch-properties { display:block; }
+ #sp-prototype .sp-orch-workspace[data-pane=canvas]>.sp-orch-canvas-pane { display:flex; }
+ #sp-prototype .sp-orch-families { padding:8px 12px; gap:6px; }
+ #sp-prototype .sp-orch-families button { min-width:102px; flex-direction:column; gap:3px; align-items:flex-start; }
+ #sp-prototype .sp-orch-toolbar { flex-wrap:wrap; padding:8px 12px; }
+ #sp-prototype .sp-orch-toolbar>div:last-child { margin-left:auto; }
+ #sp-prototype .sp-orch-catalog .sp-orch-section { display:inline-flex; width:calc(50% - 8px); margin:4px; }
+}
+/* build-inline:end stageplot-orchestra-editor-v1.css */
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
@@ -6414,10 +6515,122 @@ function createStageplotPercussionModel() {
 }
 if(typeof module==='object'&&module.exports)module.exports=createStageplotPercussionModel;
 /* build-inline:end stageplot-percussion-v1.js */
+/* build-inline:start stageplot-orchestra-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Orchestra model. All geometry is in metres; hidden sections retain their places. */
+function createStageplotOrchestraModel() {
+  'use strict';
+  const families=[{id:'strings',name:'Streicher'},{id:'woodwinds',name:'Holzbläser'},{id:'brass',name:'Blechbläser'},{id:'harps',name:'Harfen'},{id:'percussion',name:'Schlagwerk'}];
+  const catalog=[
+    ['violin','Violine','strings',.207,.59],['viola','Viola','strings',.25,.68],['cello','Cello','strings',.44,1.25],['double-bass','Kontrabass','strings',.66,1.9],
+    ['harp','Konzertharfe','harps',.55,1],['flute','Querflöte','woodwinds',.67,.06],['oboe','Oboe','woodwinds',.07,.65],['clarinet','Klarinette','woodwinds',.08,.67],['bassoon','Fagott','woodwinds',.24,1.35],
+    ['piccolo','Piccolo','woodwinds',.32,.035],['english-horn','Englischhorn','woodwinds',.09,.9],['bass-clarinet','Bassklarinette','woodwinds',.23,1.35],['contrabassoon','Kontrafagott','woodwinds',.42,1.55],
+    ['horn','Wiener Horn','brass',.62,.48],['trumpet','Trompete','brass',.54,.16],['trombone','Posaune','brass',.26,1.15],['tuba','Tuba','brass',.52,.98],
+    ['timpani','Pauke','percussion',.88,1.02],['concert-bass-drum','Große Trommel','percussion',.65,1],['orchestral-snare','Kleine Trommel','percussion',.4064,.4064],['crash-cymbals','Paarbecken','percussion',.84,.4064],['tam-tam','Tam-tam','percussion',1.1,.65],['xylophone','Xylophon','percussion',1.4,.75],['glockenspiel','Glockenspiel','percussion',.9,.4],['triangle','Triangel','percussion',.22,.25]
+  ].map(([id,name,family,w,d])=>({id,name,family,w,d,asset:id,group:families.find(f=>f.id===family).name}));
+  const byId=Object.fromEntries(catalog.map(c=>[c.id,c]));
+  const sections=[
+    ['violin1','1. Violinen','violin',16],['violin2','2. Violinen','violin',14],['violas','Violen','viola',12],['cellos','Celli','cello',10],['basses','Kontrabässe','double-bass',8],
+    ['flutes','Flöten','flute',3],['oboes','Oboen','oboe',3],['clarinets','Klarinetten','clarinet',3],['bassoons','Fagotte','bassoon',3],
+    ['horns','Hörner','horn',6],['trumpets','Trompeten','trumpet',4],['trombones','Posaunen','trombone',3],['tubas','Tuba','tuba',1],['harps','Harfen','harp',2],['timpani','Pauken','timpani',4],['percussion','Weiteres Schlagwerk','concert-bass-drum',7]
+  ].map(([id,name,type,count])=>({id,name,type,count,family:byId[type].family}));
+  const sectionById=Object.fromEntries(sections.map(s=>[s.id,s]));
+  const finite=(v,def,min,max)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Number(v))):def;
+  const round=v=>Math.round(v*10000)/10000;
+  const escape=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const clean=v=>String(v??'').replace(/[\x00-\x1f]/g,' ').slice(0,60);
+  function dimensions(p){const c=byId[p.type];return {w:p.width??c.w,d:p.depth??c.d};}
+  function part(type,id,x=0,y=0,section){const c=byId[type]||byId.violin;return {id,type:c.id,section:section||({piccolo:'flutes','english-horn':'oboes','bass-clarinet':'clarinets',contrabassoon:'bassoons'})[c.id]||sections.find(s=>s.type===c.id)?.id||'percussion',x,y,angle:0,label:c.name,enabled:true,pickup:'none'};}
+  function seat(section,i){
+    let x=0,y=0,angle=180;
+    if(['violin1','violin2','violas','cellos'].includes(section)){
+      const span={violin1:[-78,-47,4],violin2:[47,78,4],cellos:[-38,-8,3],violas:[8,38,3]}[section],row=Math.floor(i/span[2]),col=i%span[2],a=span[0]+(span[1]-span[0])*col/(span[2]-1),r=3.1+row*1.45;
+      x=Math.sin(a*Math.PI/180)*r;y=.3-Math.cos(a*Math.PI/180)*r;angle=180-a;
+    }else if(section==='basses'){x=-7.7-(i%2)*1.3;y=-3.8-Math.floor(i/2)*1.6;angle=110;}
+    else if(section==='flutes'){x=-2.6+i*1.25;y=-7.25;angle=0;}
+    else if(section==='oboes'){x=1.2+i*1.25;y=-7.25;}
+    else if(section==='clarinets'){x=-2.6+i*1.25;y=-8.65;}
+    else if(section==='bassoons'){x=1.2+i*1.25;y=-8.65;}
+    else if(section==='horns'){x=-5.5+(i%3)*1.3;y=-8.6-Math.floor(i/3)*1.4;}
+    else if(section==='trumpets'){x=-.5+i*1.3;y=-10.05;angle=0;}
+    else if(section==='trombones'){x=5.25+i*1.25;y=-8.65;}
+    else if(section==='tubas'){x=8.9+i*1.5;y=-8.7;}
+    else if(section==='harps'){x=8.4;y=-4.9-i*1.7;angle=-25;}
+    else if(section==='timpani'){x=-8.8+i*1.2;y=-11.35;angle=0;}
+    else{x=-2.8+i*1.95;y=-11.8;angle=0;}
+    return {x:round(x),y:round(y),angle};
+  }
+  function preset(){
+    const parts=[];for(const s of sections)for(let i=0;i<s.count;i++){
+      const type=s.id==='percussion'?['concert-bass-drum','orchestral-snare','crash-cymbals','tam-tam','xylophone','glockenspiel','triangle'][i]:i===2?({flutes:'piccolo',oboes:'english-horn',clarinets:'bass-clarinet',bassoons:'contrabassoon'})[s.id]||s.type:s.type;
+      const p={...part(type,'o'+(parts.length+1),0,0,s.id),...seat(s.id,i)};p.label=s.id==='percussion'||type!==s.type?byId[type].name:s.name+' '+(i+1);if(s.id==='timpani'){p.width=[.98,.92,.86,.79][i];p.depth=p.width+.14;}
+      parts.push(p);
+    }return normalize({mode:'ensemble',parts,seating:true,labels:true});
+  }
+  function single(type){return normalize({mode:'single',parts:[part(type,'o1')],seating:false,labels:false});}
+  function normalize(value){
+    if(!value||!Array.isArray(value.parts))return preset();
+    const used=new Set(),parts=[];
+    for(const [i,p]of value.parts.slice(0,180).entries()){
+      if(!p||!Object.hasOwn(byId,p.type))continue;
+      let id=/^[a-zA-Z0-9-]{1,60}$/.test(p.id||'')?p.id:'o'+(i+1),n=1,base=id;while(used.has(id))id=base.slice(0,48)+'-copy'+n++;used.add(id);
+      const c=byId[p.type],section=Object.hasOwn(sectionById,p.section)?p.section:({piccolo:'flutes','english-horn':'oboes','bass-clarinet':'clarinets',contrabassoon:'bassoons'})[c.id]||sections.find(s=>s.type===c.id)?.id||'percussion';
+      parts.push({...part(c.id,id,0,0,section),x:round(finite(p.x,0,-25,25)),y:round(finite(p.y,0,-25,25)),angle:round((finite(p.angle,0,-36000,36000)%360+360)%360),label:clean(p.label??c.name),enabled:p.enabled!==false,pickup:p.pickup==='mic'?'mic':'none',...(Number.isFinite(p.width)?{width:round(finite(p.width,c.w,.02,5))}:{}),...(Number.isFinite(p.depth)?{depth:round(finite(p.depth,c.d,.02,5))}:{})});
+    }
+    return {version:1,mode:value.mode==='single'?'single':'ensemble',seating:value.seating!==false,labels:value.labels!==false,groups:Object.fromEntries(sections.map(s=>[s.id,value.groups?.[s.id]!==false])),nextId:Math.max(Math.floor(finite(value.nextId,1,1,1e9)),...parts.map(p=>/^o\d+$/.test(p.id)?Number(p.id.slice(1))+1:1)),parts};
+  }
+  function active(config,p){return p.enabled&&config.groups[p.section]!==false;}
+  function layout(value){
+    const config=normalize(value);let minX=config.mode==='ensemble'?-10:Infinity,maxX=config.mode==='ensemble'?10:-Infinity,minY=config.mode==='ensemble'?-12.7:Infinity,maxY=config.mode==='ensemble'?1.1:-Infinity;
+    const all=config.parts.map(p=>({...p,...dimensions(p)}));
+    // Include hidden instruments in the bounds: toggling a group cannot move its neighbours.
+    for(const p of all){const a=p.angle*Math.PI/180,w=config.seating?Math.max(p.w,1):p.w,d=config.seating?Math.max(p.d,1.6):p.d,hw=(Math.abs(Math.cos(a))*w+Math.abs(Math.sin(a))*d)/2,hd=(Math.abs(Math.sin(a))*w+Math.abs(Math.cos(a))*d)/2;minX=Math.min(minX,p.x-hw);maxX=Math.max(maxX,p.x+hw);minY=Math.min(minY,p.y-hd);maxY=Math.max(maxY,p.y+hd);}
+    if(!all.length&&config.mode==='single'){minX=minY=-.3;maxX=maxY=.3;}
+    minX-=.025;minY-=.025;maxX+=.025;maxY+=.025;
+    const w=round(maxX-minX),d=round(maxY-minY);return {config,all,parts:all.filter(p=>active(config,p)),minX,minY,w,d,vb:[round(w*100),round(d*100)]};
+  }
+  function imageMarkup(p,unit=100){
+    const {w,d}=dimensions(p),c=byId[p.type];
+    return '<image data-orchestra-image="'+c.id+'" href="./stageplot-assets/orchestra/'+c.asset+'.webp" x="'+(-w*unit/2)+'" y="'+(-d*unit/2)+'" width="'+w*unit+'" height="'+d*unit+'" preserveAspectRatio="none" style="filter:grayscale(1)"/>';
+  }
+  function furnitureMarkup(p){
+    if(!['strings','woodwinds','brass'].includes(byId[p.type].family))return '';
+    // Technical furniture only; instrument artwork always comes from generated raster files.
+    return '<g fill="#e7e7e7" stroke="#868686" stroke-width=".8" data-orchestra-furniture="true"><rect x="-23" y="-25" width="46" height="43" rx="5"/><path d="M-23-23Q0-36 23-23" fill="none" stroke-width="3"/><path d="M-21 54H21V68H-21Z"/><path d="M0 68V74M-12 78L0 72 12 78" fill="none"/></g>';
+  }
+  function groupLabels(value){const l=layout(value);if(!l.config.labels||l.config.mode!=='ensemble')return '';return sections.map(s=>{const parts=l.parts.filter(p=>p.section===s.id);if(!parts.length)return '';const x=parts.reduce((a,p)=>a+p.x,0)/parts.length,y=Math.max(...parts.map(p=>p.y+Math.max(p.d,.7)/2))+.3;return '<text x="'+round(x*100)+'" y="'+round(y*100)+'" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="600" fill="#333" paint-order="stroke" stroke="#fff" stroke-width="5">'+escape(s.name)+' · '+parts.length+'</text>';}).join('');}
+  function artwork(value){const l=layout(value);return '<g data-equipment="orchestra" transform="translate('+round(-l.minX*100)+' '+round(-l.minY*100)+')">'+l.parts.map(p=>'<g transform="translate('+round(p.x*100)+' '+round(p.y*100)+') rotate('+p.angle+')">'+(l.config.seating?furnitureMarkup(p):'')+imageMarkup(p)+'</g>').join('')+(l.config.mode==='ensemble'?'<g data-conductor="true"><rect x="-50" y="-40" width="100" height="80" rx="3" fill="#e5e5e5" stroke="#888"/><text x="0" y="65" text-anchor="middle" font-size="15" font-family="Arial,sans-serif" fill="#333">Dirigat · Publikum ↓</text></g>':'')+groupLabels(value)+'</g>';}
+  function channels(value){const l=layout(value);return l.parts.filter(p=>p.pickup==='mic').map(p=>({id:p.id,partId:p.id,name:p.label||byId[p.type].name,connector:'XLR'}));}
+  function familyEnabled(value,family){const c=normalize(value);return sections.filter(s=>s.family===family).some(s=>c.groups[s.id]&&c.parts.some(p=>p.section===s.id&&p.enabled));}
+  return {families,catalog,byId,sections,sectionById,part,seat,preset,single,normalize,dimensions,layout,active,imageMarkup,furnitureMarkup,groupLabels,artwork,channels,familyEnabled,escape};
+}
+if(typeof module==='object'&&module.exports)module.exports=createStageplotOrchestraModel;
+/* build-inline:end stageplot-orchestra-v1.js */
+  const orchestraModel=createStageplotOrchestraModel();
   const percussionModel=createStageplotPercussionModel();
   const catalog = [
     {id:'drums',name:'Schlagzeug',short:'Schlagzeug',category:'drums',w:2.88,d:2.04,vb:[144,102],keywords:'drumset drums kit schlagzeug'},
     {id:'percussion',name:'Percussion-Set',short:'Percussion-Set',category:'drums',w:1,d:.8,vb:[100,80],keywords:'percussion conga bongos timbales cowbell tamburin chimes editor',detail:'Instrumente frei zusammenstellen · Percussion-Editor'},
+    {id:'orchestra',name:'Symphonie-Orchester',short:'Symphonie-Orchester',category:'classical',w:20.1137,d:13.85,vb:[2011.37,1385],instrument:true,keywords:'klassik symphonie sinfonie orchester streicher bläser schlagwerk ensemble editor',detail:'Komplettes Orchester · Instrumentengruppen ein- und ausschalten'},
+    {id:'violin',orchestraPart:'violin',name:"Violine",short:"Violine",category:'classical',w:0.207,d:0.59,vb:[20.7,59.0],instrument:true,keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'viola',orchestraPart:'viola',name:"Viola",short:"Viola",category:'classical',w:0.25,d:0.68,vb:[25.0,68.0],instrument:true,keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'cello',orchestraPart:'cello',name:"Cello",short:"Cello",category:'classical',w:0.44,d:1.25,vb:[44.0,125.0],instrument:true,keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'harp',orchestraPart:'harp',name:"Konzertharfe",short:"Konzertharfe",category:'classical',w:0.55,d:1,vb:[55.00000000000001,100],instrument:true,keywords:'klassik orchester harps',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'oboe',orchestraPart:'oboe',name:"Oboe",short:"Oboe",category:'classical',w:0.07,d:0.65,vb:[7.000000000000001,65.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'clarinet',orchestraPart:'clarinet',name:"Klarinette",short:"Klarinette",category:'classical',w:0.08,d:0.67,vb:[8.0,67.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'bassoon',orchestraPart:'bassoon',name:"Fagott",short:"Fagott",category:'classical',w:0.24,d:1.35,vb:[24.0,135.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'piccolo',orchestraPart:'piccolo',name:"Piccolo",short:"Piccolo",category:'classical',w:0.32,d:0.035,vb:[32.0,3.5000000000000004],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'english-horn',orchestraPart:'english-horn',name:"Englischhorn",short:"Englischhorn",category:'classical',w:0.09,d:0.9,vb:[9.0,90.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'bass-clarinet',orchestraPart:'bass-clarinet',name:"Bassklarinette",short:"Bassklarinette",category:'classical',w:0.23,d:1.35,vb:[23.0,135.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'contrabassoon',orchestraPart:'contrabassoon',name:"Kontrafagott",short:"Kontrafagott",category:'classical',w:0.42,d:1.55,vb:[42.0,155.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'horn',orchestraPart:'horn',name:"Wiener Horn",short:"Wiener Horn",category:'classical',w:0.62,d:0.48,vb:[62.0,48.0],instrument:true,keywords:'klassik orchester brass',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'timpani',orchestraPart:'timpani',name:"Pauke",short:"Pauke",category:'classical',w:0.88,d:1.02,vb:[88.0,102.0],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'concert-bass-drum',orchestraPart:'concert-bass-drum',name:"Große Trommel",short:"Große Trommel",category:'classical',w:0.65,d:1,vb:[65.0,100],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'orchestral-snare',orchestraPart:'orchestral-snare',name:"Kleine Trommel",short:"Kleine Trommel",category:'classical',w:0.4064,d:0.4064,vb:[40.64,40.64],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'crash-cymbals',orchestraPart:'crash-cymbals',name:"Paarbecken",short:"Paarbecken",category:'classical',w:0.84,d:0.4064,vb:[84.0,40.64],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'tam-tam',orchestraPart:'tam-tam',name:"Tam-tam",short:"Tam-tam",category:'classical',w:1.1,d:0.65,vb:[110.00000000000001,65.0],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'xylophone',orchestraPart:'xylophone',name:"Xylophon",short:"Xylophon",category:'classical',w:1.4,d:0.75,vb:[140.0,75.0],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'glockenspiel',orchestraPart:'glockenspiel',name:"Glockenspiel",short:"Glockenspiel",category:'classical',w:0.9,d:0.4,vb:[90.0,40.0],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'triangle',orchestraPart:'triangle',name:"Triangel",short:"Triangel",category:'classical',w:0.22,d:0.25,vb:[22.0,25.0],instrument:true,keywords:'klassik orchester percussion',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
     {id:'percussion-conga',percussionPart:'conga',art:'percussion',name:'Conga',short:'Conga',category:'drums',w:0.37,d:0.37,vb:[37.0,37.0],keywords:'percussion editor'},
     {id:'percussion-bongos',percussionPart:'bongos',art:'percussion',name:'Bongos',short:'Bongos',category:'drums',w:0.49,d:0.26,vb:[49.0,26.0],keywords:'percussion editor'},
     {id:'percussion-timbales',percussionPart:'timbales',art:'percussion',name:'Timbales',short:'Timbales',category:'drums',w:0.86,d:0.44,vb:[86.0,44.0],keywords:'percussion editor'},
@@ -6442,13 +6655,13 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotPercus
     {id:'bass',name:'Bass · Fender Precision Bass',short:'P Bass',family:'electric-basses',category:'strings',w:.36,d:1.16,vb:[100,300],keywords:'fender precision p bass split coil'},
     {id:'bass-j',name:'Bass · Fender Jazz Bass',short:'J Bass',family:'electric-basses',category:'strings',w:.36,d:1.18,vb:[100,300],keywords:'fender jazz j bass single coil'},
     {id:'acoustic',name:'Akustik-Gitarre · Dreadnought',short:'Dreadnought',category:'strings',w:.41,d:1.04,vb:[100,280]},
-    {id:'double-bass',name:'Kontrabass',short:'Kontrabass',category:'strings',w:.66,d:1.82,vb:[120,330],keywords:'double bass upright bass streichbass akustikbass',detail:'Akustischer Kontrabass · vergrößertes schematisches Planmaß'},
+    {id:'double-bass',orchestraPart:'double-bass',defaultAngle:0,name:'Kontrabass',short:'Kontrabass',category:'strings',w:0.66,d:1.9,vb:[66.0,190.0],keywords:'double bass upright bass streichbass akustikbass',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
     {id:'saxophone',name:'Saxophon',short:'Saxophon',family:'winds',category:'winds',w:.36,d:.66,vb:[115,210],keywords:'sax saxofon saxophone altosax',detail:'Gebogener Korpus · Klappenmechanik und Schallbecher · schematisches Planmaß'},
-    {id:'trumpet',name:'Trompete',short:'Trompete',family:'winds',category:'winds',w:.6,d:.26,vb:[240,105],keywords:'trumpet',detail:'Technische Draufsicht · drei Kolbenventile und schlanker Schallbecher'},
-    {id:'trombone',name:'Posaune',short:'Posaune',family:'winds',category:'winds',w:1.2,d:.35,vb:[340,100],keywords:'trombone zugposaune',detail:'Technische Draufsicht · zwei parallele Zugrohre · ohne zusätzlichen Spielraum für den Zug'},
-    {id:'tuba',name:'Tuba',short:'Tuba',family:'winds',category:'winds',w:.58,d:.92,vb:[145,230],keywords:'basstuba bass tuba',detail:'Technische Draufsicht · konisches Rohr, großer Schallbecher und vier Ventile'},
+    {id:'trumpet',orchestraPart:'trumpet',defaultAngle:0,name:'Trompete',short:'Trompete',family:'winds',category:'winds',w:0.54,d:0.16,vb:[54.0,16.0],keywords:'trumpet',detail:'Technische Draufsicht · drei Kolbenventile und schlanker Schallbecher'},
+    {id:'trombone',orchestraPart:'trombone',defaultAngle:0,name:'Posaune',short:'Posaune',family:'winds',category:'winds',w:0.26,d:1.15,vb:[26.0,114.99999999999999],keywords:'trombone zugposaune',detail:'Technische Draufsicht · zwei parallele Zugrohre · ohne zusätzlichen Spielraum für den Zug'},
+    {id:'tuba',orchestraPart:'tuba',defaultAngle:0,name:'Tuba',short:'Tuba',family:'winds',category:'winds',w:0.52,d:0.98,vb:[52.0,98.0],keywords:'basstuba bass tuba',detail:'Technische Draufsicht · konisches Rohr, großer Schallbecher und vier Ventile'},
     {id:'flugelhorn',name:'Flügelhorn',short:'Flügelhorn',family:'winds',category:'winds',w:.56,d:.31,vb:[225,124],keywords:'fluegelhorn flugelhorn flugel horn',detail:'Technische Draufsicht · weiter Korpus-Bogen und drei Kolbenventile'},
-    {id:'flute',name:'Querflöte',short:'Querflöte',family:'winds',category:'winds',w:.72,d:.1,vb:[300,42],keywords:'querfloete floete flute transverse',detail:'Mundlochplatte · Klappen und Fußstück · schematisches Planmaß'},
+    {id:'flute',orchestraPart:'flute',defaultAngle:0,name:'Querflöte',short:'Querflöte',family:'winds',category:'winds',w:0.67,d:0.06,vb:[67.0,6.0],keywords:'querfloete floete flute transverse',detail:'Mundlochplatte · Klappen und Fußstück · schematisches Planmaß'},
     {id:'guitar-stand-single',name:'Gitarrenständer · einzeln',short:'Einzelständer',family:'guitar-stands',category:'strings',w:.5,d:.6,vb:[100,120],instrument:false,clearGroup:'tech',detail:'Ein Platz · Dreibein mit Hals- und Korpusauflage · schematisches Planmaß'},
     {id:'guitar-stand-empty',name:'Gitarrenständer · 3-fach · leer',short:'3er-Ständer · leer',family:'guitar-stands',category:'strings',w:.9,d:.65,vb:[120,90],instrument:false,clearGroup:'tech'},
     {id:'guitar-stand-full',name:'Gitarrenständer · 3-fach · befüllt',short:'3er-Ständer · voll',family:'guitar-stands',category:'strings',w:.9,d:.65,vb:[120,90],instrument:true,clearGroup:'tech',detail:'E-Gitarre · Akustik · Bass'},
@@ -6522,7 +6735,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotPercus
   const packLicensePublicKey={key_ops:['verify'],ext:true,kty:'EC',x:'f9PxV8hP83InwZHNOEkV1aDwhjR_xqmHNhbvy8UHktE',y:'OQKzbhsR4eQKB_WQTjOjtzKhV9joOmVZqOPjHgGEL7Y',crv:'P-256'};
   const packStorageKey='stageplot-studio:object-packs:v1';
   const stationIds = ['drums','keys-stage4','keys-bassstation2','keys-moog-sub37','mic','guitar','bass','acoustic','double-bass','laptop','rack','iem-earphones','wedge','teleprompter','amp','quad-cortex','bass-stack','riser','riser-2','riser-3'];
-  const instrumentLibraryCategories = new Set(['drums','keys','strings','winds']);
+  const instrumentLibraryCategories = new Set(['drums','keys','strings','winds','classical']);
   const stageLibraryIds = new Set(['riser','riser-2','riser-3','stage-module','stage-stairs','stage-ramp','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier','rug']);
   function libraryGroupFor(c){
     if(c.family==='lights')return 'lights';
@@ -6581,7 +6794,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotPercus
     if(idMap&&rawKey.includes(':')){const split=rawKey.indexOf(':'),mapped=idMap.get(rawKey.slice(0,split));if(mapped)sourceKey=mapped+rawKey.slice(split);}
     if(idMap?.has(stagebox))stagebox=idMap.get(stagebox);
     const mapKey=key=>{const text=projectText(key,140),split=text.indexOf(':');return split>0&&idMap?.has(text.slice(0,split))?idMap.get(text.slice(0,split))+text.slice(split):text;};
-    return {adoptedSource:source.adoptedSource===true,edited:source.edited===true,pickup:['Mic','DI','Direct','Digital'].includes(source.pickup)?source.pickup:source.mode==='DI'?'DI':source.signalType==='Mic'?'Mic':source.signalType==='Digital'?'Digital':'Direct',outputKind:['monitor','iem','line'].includes(source.outputKind)?source.outputKind:'',linkedSources:allowLinks&&Array.isArray(source.linkedSources)?source.linkedSources.slice(0,512).map((row,i)=>normalizeRouteChannel(row,i,direction,idMap,false)):[],id:/^route-[a-z0-9-]+$/.test(source.id||'')?source.id:'route-'+direction+'-'+(index+1),sourceKey,number:Number.isFinite(Number(source.number))&&Number(source.number)>0?Math.min(999,Math.round(Number(source.number))):null,instrument:projectText(source.instrument,100),generatedInstrument:projectText(source.generatedInstrument,100),mode:routeModes.has(source.mode)?source.mode:'Mono',signalType:routeSignals.has(source.signalType)?source.signalType:'Mic',connector:source.pickup==='DI'||source.mode==='DI'?'XLR':normalizeIoConnector(source.connector,source.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(source.portIndex))&&Number(source.portIndex)>0?Math.min(64,Math.round(Number(source.portIndex))):null,stereoGroup:mapKey(source.stereoGroup),iemName:projectText(source.iemName,80),iemMode:source.iemMode==='stereo'?'stereo':source.iemMode==='mono'?'mono':'',iemTransport:source.iemTransport==='wireless'?'wireless':source.iemTransport==='cable'?'cable':'',iemGroup:mapKey(source.iemGroup),frequencyBand:projectText(source.frequencyBand,100),microphone:projectText(source.microphone,80),phantom:source.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(source.stageboxPort))&&Number(source.stageboxPort)>0?Math.min(128,Math.round(Number(source.stageboxPort))):null,notes:projectText(source.notes,240),manual:source.manual===true||!sourceKey};
+    return {adoptedSource:source.adoptedSource===true,edited:source.edited===true,pickup:['Mic','DI','Direct','Digital'].includes(source.pickup)?source.pickup:source.mode==='DI'?'DI':source.signalType==='Mic'?'Mic':source.signalType==='Digital'?'Digital':'Direct',outputKind:['monitor','iem','line'].includes(source.outputKind)?source.outputKind:'',linkedSources:allowLinks&&Array.isArray(source.linkedSources)?source.linkedSources.slice(0,512).map((row,i)=>normalizeRouteChannel(row,i,direction,idMap,false)):[],id:/^route-[a-z0-9-]+$/.test(source.id||'')?source.id:'route-'+direction+'-'+(index+1),sourceKey,number:Number.isFinite(Number(source.number))&&Number(source.number)>0?Math.min(999,Math.round(Number(source.number))):null,instrument:projectText(source.instrument,100),generatedInstrument:projectText(source.generatedInstrument,100),mode:routeModes.has(source.mode)?source.mode:'Mono',signalType:routeSignals.has(source.signalType)?source.signalType:'Mic',connector:source.pickup==='DI'||source.mode==='DI'?'XLR':normalizeIoConnector(source.connector,source.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(source.portIndex))&&Number(source.portIndex)>0?Math.min(512,Math.round(Number(source.portIndex))):null,stereoGroup:mapKey(source.stereoGroup),iemName:projectText(source.iemName,80),iemMode:source.iemMode==='stereo'?'stereo':source.iemMode==='mono'?'mono':'',iemTransport:source.iemTransport==='wireless'?'wireless':source.iemTransport==='cable'?'cable':'',iemGroup:mapKey(source.iemGroup),frequencyBand:projectText(source.frequencyBand,100),microphone:projectText(source.microphone,80),phantom:source.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(source.stageboxPort))&&Number(source.stageboxPort)>0?Math.min(128,Math.round(Number(source.stageboxPort))):null,notes:projectText(source.notes,240),manual:source.manual===true||!sourceKey};
   }
   function normalizeRouting(value,idMap=null){
     const source=value&&typeof value==='object'?value:{},ids=new Set(),list=(key)=>Array.isArray(source[key])?source[key].slice(0,512).map((row,i)=>{
@@ -7821,6 +8034,12 @@ function createStageplotSymbolV3(type, options = {}) {
     labelMeasureCache.set(value,width);return width;
   }
   function artId(c,o={}){
+    if(c.id==='orchestra'||c.orchestraPart){
+      const config=orchestraModel.normalize(o.orchestra||(c.orchestraPart?orchestraModel.single(c.orchestraPart):undefined)),key='orchestra-'+JSON.stringify(config);
+      if(artCache.has(key))return artCache.get(key);
+      const layout=orchestraModel.layout(config),id='sp-art-orchestra-'+artCache.size,definition=sEl('g',{id,class:'sp-symbol'},artDefs);
+      definition.innerHTML=orchestraModel.artwork(config);artBoundsCache.set(id,{x:0,y:0,width:layout.vb[0],height:layout.vb[1]});artCache.set(key,id);return id;
+    }
     if(c.id==='percussion'||c.percussionPart){
       const config=percussionModel.normalize(o.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined)),key='percussion-'+JSON.stringify(config);
       if(artCache.has(key))return artCache.get(key);
@@ -7848,14 +8067,15 @@ function createStageplotSymbolV3(type, options = {}) {
     artCache.set(key,id);return id;
   }
   function icon(c,o={}) {
+    if(c.id==='orchestra'||c.orchestraPart)c={...c,...orchestraModel.layout(o.orchestra||(c.orchestraPart?orchestraModel.single(c.orchestraPart):undefined))};
     if(c.id==='percussion'||c.percussionPart)c={...c,...percussionModel.layout(o.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined))};
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(c.id))c={...c,...drumModel.drumLayout(c.id,o.drums)};
     const [w,h]=c.vb,angle=o.angle??c.defaultAngle??0,r=angle*Math.PI/180;
     const rw=Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h,rh=Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h;
     return '<svg viewBox="'+[w/2-rw/2-3,h/2-rh/2-3,rw+6,rh+6].join(' ')+'" aria-hidden="true"><use href="#'+artId(c,o)+'" transform="rotate('+angle+' '+w/2+' '+h/2+')"/></svg>';
   }
-  const objectSize = o => o.type==='percussion'&&typeof percussionModel!=='undefined'?percussionModel.layout(o.percussion):['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
-  function objectCatalog(o){return o.type==='percussion'&&typeof percussionModel!=='undefined'?{...byId[o.type],...percussionModel.layout(o.percussion)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?{...byId[o.type],...drumModel.drumLayout(o.type,o.drums)}:byId[o.type];}
+  const objectSize = o => (o.type==='orchestra'||byId[o.type]?.orchestraPart)&&typeof orchestraModel!=='undefined'?orchestraModel.layout(o.orchestra||(byId[o.type]?.orchestraPart?orchestraModel.single(byId[o.type].orchestraPart):undefined)):o.type==='percussion'&&typeof percussionModel!=='undefined'?percussionModel.layout(o.percussion):['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):byId[o.type];
+  function objectCatalog(o){return (o.type==='orchestra'||byId[o.type]?.orchestraPart)&&typeof orchestraModel!=='undefined'?{...byId[o.type],...orchestraModel.layout(o.orchestra||(byId[o.type]?.orchestraPart?orchestraModel.single(byId[o.type].orchestraPart):undefined))}:o.type==='percussion'&&typeof percussionModel!=='undefined'?{...byId[o.type],...percussionModel.layout(o.percussion)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?{...byId[o.type],...drumModel.drumLayout(o.type,o.drums)}:byId[o.type];}
   function drumRenderGeometry(o,c,w,h){
     if(!drumModel.isDrums(o.type)||!Array.isArray(c.parts))return null;
     const unit=Math.min(w/c.vb[0],h/c.vb[1]),geometry=drumModel.drumInteraction(c),point=p=>({x:(p.x-c.vb[0]/2)*unit,y:(p.y-c.vb[1]/2)*unit});
@@ -7869,6 +8089,7 @@ function createStageplotSymbolV3(type, options = {}) {
   const labelText=o=>String(o.label??'').trim();
   const labelVisible=o=>o.showLabel!==false&&labelText(o)!=='';
   function outsText(o){
+    if(o.type==='orchestra'){const count=orchestraModel.channels(o.orchestra).length;return count?count+' '+(count===1?'Signal':'Signale'):'';}
     if(o.type==='percussion'){const count=percussionModel.channels(o.percussion).length;return count?count+' '+(count===1?'Signal':'Signale'):'';}
     return byId[o.type].instrument?ioValueText(objectIo(o).outputs,'outputs').replace(/^Keine Outs$/,''):'';
   }
@@ -8717,7 +8938,7 @@ function createStageplotSymbolV3(type, options = {}) {
     stagePopover.hidden=selected!=='stage-zone'||!!placement||view!=='editor'||!svg;
     if(!stagePopover.hidden){const scale=Number(svg.dataset.scale),hostRect=$('sp-editor-floor').getBoundingClientRect(),box=stagePopover.getBoundingClientRect(),cx=Number(svg.dataset.originX)+stage.w*scale/2,top=Number(svg.dataset.originY);$('sp-stage-popover-size').textContent=num(stage.w)+' × '+metres(stage.d);stagePopover.style.left=Math.max(5,Math.min(hostRect.width-box.width-5,cx-box.width/2))+'px';stagePopover.style.top=Math.max(5,Math.min(hostRect.height-box.height-5,top+10))+'px';}
     const hidden=!o||!!placement||view!=='editor'||!svg;
-    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&o.type!=='percussion');if(o){drumButton.setAttribute('aria-label',o.type==='percussion'?'Percussion-Editor öffnen':'Drumdesigner öffnen');drumButton.querySelector('strong').textContent=o.type==='percussion'?'Percussion-Editor':'Drumdesigner';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
+    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&!['percussion','orchestra'].includes(o.type));if(o){drumButton.setAttribute('aria-label',o.type==='orchestra'?'Orchester-Editor öffnen':o.type==='percussion'?'Percussion-Editor öffnen':'Drumdesigner öffnen');drumButton.querySelector('strong').textContent=o.type==='orchestra'?'Orchester-Editor':o.type==='percussion'?'Percussion-Editor':'Drumdesigner';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
     drumButton.disabled=!!o.locked;stageboxButton.disabled=!!o.locked;if(!stageboxButton.hidden)stageboxButton.setAttribute('aria-label',(o.label||byId[o.type].short)+' Routing und I/O öffnen');
     const below=overlappingObjectBelow(o),sendBehind=$('sp-send-behind');
     if(sendBehind){sendBehind.hidden=!below;sendBehind.disabled=!!o.locked;sendBehind.dataset.overlapTarget=below?.id||'';
@@ -8838,10 +9059,11 @@ function createStageplotSymbolV3(type, options = {}) {
     if(c.libraryHidden)return false;
     if(category!=='all'){
       if(['instruments','stage','lights','tech'].includes(category)){if(libraryGroupFor(c)!==category)return false;}
+      else if(category==='classical'){if(c.id!=='orchestra'&&!c.orchestraPart)return false;}
       else if(!(category==='stations'?stationIds.includes(c.id):c.category===category))return false;
     }
     const normalize=value=>String(value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss');
-    const terms={drums:'schlagzeug drums percussion',keys:'keyboard keys klavier piano orgel',strings:'gitarre guitar bass saiten',winds:'blaser blaeser blasinstrument wind brass woodwind',mics:'mikrofon mic boom gesang vocals talkback teller',amps:'amp verstarker modeler',tech:'buhne technik'};
+    const terms={classical:'klassik orchester streicher violin viola cello harfe symphonie',drums:'schlagzeug drums percussion',keys:'keyboard keys klavier piano orgel',strings:'gitarre guitar bass saiten',winds:'blaser blaeser blasinstrument wind brass woodwind',mics:'mikrofon mic boom gesang vocals talkback teller',amps:'amp verstarker modeler',tech:'buhne technik'};
     const groupTerms={instruments:'instrument instrumente',stage:'bühne bühnenelemente podest rigging',lights:'licht scheinwerfer effekt',tech:'technik backline equipment sonstige'};
     const text=normalize([c.name,c.short,c.keywords||'',c.detail||'',terms[c.category]||'',groupTerms[libraryGroupFor(c)]||'',c.id.startsWith('guitar-tree-')?'tanne baum dreier stander triple':c.id==='guitar-stand-single'?'einzeln einzel einfacher ein gitarren bass stander single stand':c.id.startsWith('guitar-stand-')?'dreier stander rack':''].join(' '));
     return normalize(query).trim().split(/\s+/).filter(Boolean).every(word=>text.includes(word));
@@ -8919,6 +9141,7 @@ function createStageplotSymbolV3(type, options = {}) {
   const normalizeIoAliasList=(value,count)=>Array.from({length:count},(_,index)=>ioAliasText(Array.isArray(value)?value[index]:''));
   function defaultObjectIo(o){
     const c=byId[o?.type]||{},stereoPairs=[],inputs={count:0,connector:'XLR'},outputs={count:0,connector:'XLR'},aliases={inputs:[],outputs:[]};
+    if(o?.type==='orchestra'&&typeof orchestraModel!=='undefined'){outputs.count=orchestraModel.channels(o.orchestra).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(o?.type==='percussion'&&typeof percussionModel!=='undefined'){outputs.count=percussionModel.channels(o.percussion).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(c.ioDefaults){inputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.inputs)||0));outputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.outputs)||0));inputs.connector=normalizeIoConnector(c.ioDefaults.inputConnector,'XLR');outputs.connector=normalizeIoConnector(c.ioDefaults.outputConnector,'XLR');return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(drumModel.isDrums(o?.type)){outputs.count=drumModel.drumChannels(o.type,o.drums).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
@@ -8937,7 +9160,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const source=value&&typeof value==='object'?value:{},defaults=defaultObjectIo(o),legacy=parseOutsValue(o?.outs),port=(entry,fallback)=>{entry=entry&&typeof entry==='object'?entry:{};const hasCount=Object.hasOwn(entry,'count'),count=Math.max(0,Math.min(64,Math.round(Number(hasCount?entry.count:fallback.count)||0))),connector=normalizeIoConnector(entry.connector,fallback.connector);return {count,connector};};
     const legacyOutput=legacy.count||legacy.connector?{count:legacy.count,connector:legacy.connector||defaults.outputs.connector}:defaults.outputs,inputs=port(source.inputs,defaults.inputs),outputs=port(source.outputs,legacyOutput),fallbackPairs=legacy.count===2?[1]:defaults.stereoPairs,pairs=Array.isArray(source.stereoPairs)?source.stereoPairs:fallbackPairs,stereoPairs=[...new Set(pairs.map(Number).filter(start=>Number.isInteger(start)&&start>0&&start%2===1&&start<outputs.count))].sort((a,b)=>a-b),outputKeyStyle=source.outputKeyStyle==='configured'||(!source.outputs&&legacy.count)?'configured':'native';
     const sourceAliases=source.aliases&&typeof source.aliases==='object'?source.aliases:{},aliases={inputs:normalizeIoAliasList(sourceAliases.inputs,inputs.count),outputs:normalizeIoAliasList(sourceAliases.outputs,outputs.count)};
-    if(o?.type==='percussion'){inputs.count=0;outputs.count=defaults.outputs.count;outputs.connector='XLR';stereoPairs.length=0;}
+    if(['percussion','orchestra'].includes(o?.type)){inputs.count=0;outputs.count=defaults.outputs.count;outputs.connector='XLR';stereoPairs.length=0;}
     if(drumModel.isDrums(o?.type)){outputs.count=defaults.outputs.count;outputs.connector='XLR';stereoPairs.length=0;}
     aliases.inputs=normalizeIoAliasList(aliases.inputs,inputs.count);aliases.outputs=normalizeIoAliasList(aliases.outputs,outputs.count);
     return {inputs,outputs,stereoPairs,aliases,outputKeyStyle};
@@ -8951,14 +9174,14 @@ function createStageplotSymbolV3(type, options = {}) {
     return result;
   }
   function syncObjectIoControls(o,locked=false){
-    const io=objectIo(o),drums=drumModel.isDrums(o.type)||o.type==='percussion',disabled=locked||drums;
-    const ioHeading=$('sp-outs-fields').querySelector('.sp-io-heading');ioHeading.querySelector('strong').textContent=o.type==='percussion'?'Percussion-Abnahmen':drums?'Drum-Abnahmen':'Gerätebuchsen';ioHeading.querySelector('span').textContent=drums?'Aktive Abnahmen und Direktausgänge.':'Vorhandene Buchsen. Verwendete Signale oben unter Audio planen.';
+    const io=objectIo(o),drums=drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type),disabled=locked||drums;
+    const ioHeading=$('sp-outs-fields').querySelector('.sp-io-heading');ioHeading.querySelector('strong').textContent=o.type==='orchestra'?'Orchester-Abnahmen':o.type==='percussion'?'Percussion-Abnahmen':drums?'Drum-Abnahmen':'Gerätebuchsen';ioHeading.querySelector('span').textContent=drums?'Aktive Abnahmen und Direktausgänge.':'Vorhandene Buchsen. Verwendete Signale oben unter Audio planen.';
     $('sp-ins-direct').hidden=drums;$('sp-outs-direct').hidden=drums;
     $('sp-ins-count').value=io.inputs.count;$('sp-outs-count').value=io.outputs.count;$('sp-ins-count').disabled=disabled;$('sp-outs-count').disabled=disabled;
     syncChoiceButtons($('sp-ins-connector-options'),io.inputs.connector,disabled);syncChoiceButtons($('sp-outs-connector-options'),io.outputs.connector,disabled);
     root.querySelectorAll('[data-ins-step],[data-outs-step]').forEach(button=>button.disabled=disabled);
-    $('sp-ins-preview').textContent=ioValueText(io.inputs,'inputs');$('sp-outs-preview').textContent=o.type==='percussion'?io.outputs.count+' Signale · im Percussion-Editor definiert':drums?io.outputs.count+' Drum-Mikrofonkanäle · im Drum Designer definiert':ioValueText(io.outputs,'outputs');
-    const drumSummary=$('sp-drum-output-summary');drumSummary.hidden=!drums;if(drums){const channels=o.type==='percussion'?percussionModel.channels(o.percussion).map(row=>({...row,method:row.electronic?'di':'xlr',model:''})):drumModel.drumChannels(o.type,o.drums);$('sp-drum-output-count').textContent=channels.length+' '+(channels.length===1?'Output':'Outputs');$('sp-drum-output-list').innerHTML=channels.length?channels.map(row=>'<div class="sp-drum-output-row"><span>'+esc(row.name)+'</span><small title="'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'">'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'</small></div>').join(''):'<div class="sp-drum-output-row"><span>Keine</span><small>Keine aktive Abnahme</small></div>';}
+    $('sp-ins-preview').textContent=ioValueText(io.inputs,'inputs');$('sp-outs-preview').textContent=o.type==='orchestra'?io.outputs.count+' Signale · im Orchester-Editor definiert':o.type==='percussion'?io.outputs.count+' Signale · im Percussion-Editor definiert':drums?io.outputs.count+' Drum-Mikrofonkanäle · im Drum Designer definiert':ioValueText(io.outputs,'outputs');
+    const drumSummary=$('sp-drum-output-summary');drumSummary.hidden=!drums;if(drums){const channels=o.type==='orchestra'?orchestraModel.channels(o.orchestra).map(row=>({...row,method:'xlr',model:''})):o.type==='percussion'?percussionModel.channels(o.percussion).map(row=>({...row,method:row.electronic?'di':'xlr',model:''})):drumModel.drumChannels(o.type,o.drums);$('sp-drum-output-count').textContent=channels.length+' '+(channels.length===1?'Output':'Outputs');$('sp-drum-output-list').innerHTML=channels.length?channels.map(row=>'<div class="sp-drum-output-row"><span>'+esc(row.name)+'</span><small title="'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'">'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'</small></div>').join(''):'<div class="sp-drum-output-row"><span>Keine</span><small>Keine aktive Abnahme</small></div>';}
     const host=$('sp-stereo-link-options');host.innerHTML='';for(let start=1;start<io.outputs.count;start+=2){const button=document.createElement('button');button.type='button';button.dataset.stereoStart=String(start);button.setAttribute('aria-pressed',String(io.stereoPairs.includes(start)));button.disabled=disabled;button.textContent='Out '+start+' + '+(start+1);host.appendChild(button);}
     $('sp-stereo-links').dataset.empty=String(io.outputs.count<2||drums);$('sp-stereo-links').hidden=drums;
     const aliasSection=$('sp-io-aliases'),aliasHost=$('sp-io-alias-list');aliasSection.hidden=drums;aliasHost.replaceChildren();let priorDirection='';
@@ -8991,7 +9214,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-selected-name').textContent=o.type==='riser'?'Riser-Gruppe · '+(groupCount?groupCount+'×':'frei'):c.name;$('sp-selected-icon').innerHTML=icon(preview,{...o,angle:preview.defaultAngle});
     $('sp-label').value=o.label;$('sp-label-visible').checked=o.showLabel!==false;$('sp-note').value=o.note;$('sp-pos-x').value=o.x;$('sp-pos-y').value=o.y;
     renderObjectAudio(o);$('sp-audio-device').hidden=!c.instrument;$('sp-outs-fields').hidden=!c.instrument;$('sp-outs-visible').checked=o.showOuts!==false;if(c.instrument)syncObjectIoControls(o,locked);
-    $('sp-drums-open').hidden=!drumModel.isDrums(o.type)&&o.type!=='percussion';$('sp-drums-open').disabled=locked;$('sp-drums-open').textContent=o.type==='percussion'?'Percussion-Editor …':'Drum Designer …';
+    $('sp-drums-open').hidden=!drumModel.isDrums(o.type)&&!['percussion','orchestra'].includes(o.type);$('sp-drums-open').disabled=locked;$('sp-drums-open').textContent=o.type==='orchestra'?'Orchester-Editor …':o.type==='percussion'?'Percussion-Editor …':'Drum Designer …';
     // Position fields deliberately allow overhang and off-stage centres.
     $('sp-angle').value=o.angle;$('sp-angle-number').value=o.angle;$('sp-angle-label').textContent=o.angle+'°';
     const size=objectSize(o);
@@ -9074,7 +9297,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const source=value.stage,finite=(n,min,max)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
     const cleanText=typeof projectText==='function'?projectText:(input,max)=>String(input??'').slice(0,max);
     const cleanProject=typeof normalizeProjectInfo==='function'?normalizeProjectInfo:(input,title)=>{const p=input&&typeof input==='object'?input:{},contacts=p.contacts&&typeof p.contacts==='object'?p.contacts:{},contact=key=>({name:cleanText(contacts[key]?.name,80),contact:cleanText(contacts[key]?.contact,120)});return {name:cleanText(p.name||title,60)||'Mein Live-Setup',date:/^\d{4}-\d{2}-\d{2}$/.test(p.date||'')?p.date:'',artist:cleanText(p.artist,80),venue:cleanText(p.venue,100),author:cleanText(p.author,80),tour:cleanText(p.tour,80),company:cleanText(p.company,100),unit:p.unit==='ft'?'ft':'m',contacts:{stageManager:contact('stageManager'),foh:contact('foh'),monitor:contact('monitor'),advance:contact('advance')},notes:cleanText(p.notes,2000)};};
-    const cleanRouting=typeof normalizeRouting==='function'?normalizeRouting:(input,idMap)=>{const r=input&&typeof input==='object'?input:{},list=key=>Array.isArray(r[key])?r[key].slice(0,512).map((row,i)=>{row=row&&typeof row==='object'?row:{};let sourceKey=cleanText(row.sourceKey,140),stagebox=cleanText(row.stagebox,100);if(idMap&&sourceKey.includes(':')){const split=sourceKey.indexOf(':'),mapped=idMap.get(sourceKey.slice(0,split));if(mapped)sourceKey=mapped+sourceKey.slice(split);}if(idMap?.has(stagebox))stagebox=idMap.get(stagebox);return {adoptedSource:row.adoptedSource===true,edited:row.edited===true,pickup:cleanText(row.pickup,20),outputKind:cleanText(row.outputKind,20),linkedSources:Array.isArray(row.linkedSources)?cleanRouting({[key]:row.linkedSources.map(member=>({...member,linkedSources:[]}))},idMap)[key]:[],iemName:cleanText(row.iemName,80),iemMode:cleanText(row.iemMode,20),iemTransport:cleanText(row.iemTransport,20),iemGroup:cleanText(row.iemGroup,140),frequencyBand:cleanText(row.frequencyBand,100),id:/^route-[a-z0-9-]+$/.test(row.id||'')?row.id:'route-'+key+'-'+(i+1),sourceKey,number:Number.isFinite(Number(row.number))&&Number(row.number)>0?Math.min(999,Math.round(Number(row.number))):null,instrument:cleanText(row.instrument,100),generatedInstrument:cleanText(row.generatedInstrument,100),mode:['Mono','Stereo L','Stereo R','Mic','DI','Direct'].includes(row.mode)?row.mode:'Mono',signalType:['Mic','Line','Instrument','Digital'].includes(row.signalType)?row.signalType:'Mic',connector:normalizeIoConnector(row.connector,row.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(row.portIndex))&&Number(row.portIndex)>0?Math.min(64,Math.round(Number(row.portIndex))):null,stereoGroup:cleanText(row.stereoGroup,140),microphone:cleanText(row.microphone,80),phantom:row.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(row.stageboxPort))&&Number(row.stageboxPort)>0?Math.min(128,Math.round(Number(row.stageboxPort))):null,notes:cleanText(row.notes,240),manual:row.manual===true||!sourceKey};}):[];return {version:2,disabledSources:(Array.isArray(r.disabledSources)?r.disabledSources:[]).map(key=>{key=cleanText(key,140);const split=key.indexOf(':');return split>0&&idMap?.has(key.slice(0,split))?idMap.get(key.slice(0,split))+key.slice(split):key;}),inputs:list('inputs'),outputs:list('outputs'),generatedAt:Number.isFinite(Number(r.generatedAt))?Math.max(0,Number(r.generatedAt)):0};};
+    const cleanRouting=typeof normalizeRouting==='function'?normalizeRouting:(input,idMap)=>{const r=input&&typeof input==='object'?input:{},list=key=>Array.isArray(r[key])?r[key].slice(0,512).map((row,i)=>{row=row&&typeof row==='object'?row:{};let sourceKey=cleanText(row.sourceKey,140),stagebox=cleanText(row.stagebox,100);if(idMap&&sourceKey.includes(':')){const split=sourceKey.indexOf(':'),mapped=idMap.get(sourceKey.slice(0,split));if(mapped)sourceKey=mapped+sourceKey.slice(split);}if(idMap?.has(stagebox))stagebox=idMap.get(stagebox);return {adoptedSource:row.adoptedSource===true,edited:row.edited===true,pickup:cleanText(row.pickup,20),outputKind:cleanText(row.outputKind,20),linkedSources:Array.isArray(row.linkedSources)?cleanRouting({[key]:row.linkedSources.map(member=>({...member,linkedSources:[]}))},idMap)[key]:[],iemName:cleanText(row.iemName,80),iemMode:cleanText(row.iemMode,20),iemTransport:cleanText(row.iemTransport,20),iemGroup:cleanText(row.iemGroup,140),frequencyBand:cleanText(row.frequencyBand,100),id:/^route-[a-z0-9-]+$/.test(row.id||'')?row.id:'route-'+key+'-'+(i+1),sourceKey,number:Number.isFinite(Number(row.number))&&Number(row.number)>0?Math.min(999,Math.round(Number(row.number))):null,instrument:cleanText(row.instrument,100),generatedInstrument:cleanText(row.generatedInstrument,100),mode:['Mono','Stereo L','Stereo R','Mic','DI','Direct'].includes(row.mode)?row.mode:'Mono',signalType:['Mic','Line','Instrument','Digital'].includes(row.signalType)?row.signalType:'Mic',connector:normalizeIoConnector(row.connector,row.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(row.portIndex))&&Number(row.portIndex)>0?Math.min(512,Math.round(Number(row.portIndex))):null,stereoGroup:cleanText(row.stereoGroup,140),microphone:cleanText(row.microphone,80),phantom:row.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(row.stageboxPort))&&Number(row.stageboxPort)>0?Math.min(128,Math.round(Number(row.stageboxPort))):null,notes:cleanText(row.notes,240),manual:row.manual===true||!sourceKey};}):[];return {version:2,disabledSources:(Array.isArray(r.disabledSources)?r.disabledSources:[]).map(key=>{key=cleanText(key,140);const split=key.indexOf(':');return split>0&&idMap?.has(key.slice(0,split))?idMap.get(key.slice(0,split))+key.slice(split):key;}),inputs:list('inputs'),outputs:list('outputs'),generatedAt:Number.isFinite(Number(r.generatedAt))?Math.max(0,Number(r.generatedAt)):0};};
     if(!finite(source.w,2,30)||!finite(source.d,2,20))throw new Error('Ungültige Bühnenmaße.');
     const s={title:String(source.title||'Mein Live-Setup').slice(0,60),w:source.w,d:source.d,estimated:false,surface:source.surface==='black'?'black':'light',complex:source.complex===true,
       stairs:source.stairs,stairsOffset:finite(source.stairsOffset,0,1)?source.stairsOffset:.5,stairsAlong:finite(source.stairsAlong,0,1)?source.stairsAlong:undefined,stairsWidth:finite(source.stairsWidth,.6,30)?source.stairsWidth:1.2,stairsDepth:finite(source.stairsDepth,.45,3)?source.stairsDepth:.9,
@@ -9089,6 +9312,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const item={id:'station-'+(i+1),type,x:o.x,y:o.y,angle:((o.angle%360)+360)%360,label:String(o.label??'').slice(0,42),showLabel:o.showLabel!==false,note:String(o.note??'').slice(0,160),power:cleanText(o.power,100),wireless:cleanText(o.wireless,100),inventoryId:cleanText(o.inventoryId,100),outs:String(o.outs??'').slice(0,48),showOuts:o.showOuts!==false,locked:o.locked===true};
       if(o.house===true)item.house=true;
       if(typeof o.id==='string')idMap.set(o.id,item.id);
+      if(type==='orchestra'&&typeof orchestraModel!=='undefined')item.orchestra=orchestraModel.normalize(o.orchestra);
       if(type==='percussion'&&typeof percussionModel!=='undefined')item.percussion=percussionModel.normalize(o.percussion);
       const drumsAvailable=typeof drumModel!=='undefined'&&drumModel.isDrums(type);
       if(o.drums&&drumsAvailable)item.drums=drumModel.normalizeDrums(type,o.drums);
@@ -9641,6 +9865,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function generatedInputSpecs(){
     const specs=[];
     for(const o of objects){const c=byId[o.type];
+      if(o.type==='orchestra'&&typeof orchestraModel!=='undefined'){orchestraModel.channels(o.orchestra).forEach((row,index)=>specs.push(routeSpec(o,'orch-'+row.id,(o.label||'Orchester')+' · '+row.name,'Mic','Mic',{connector:'XLR',portIndex:index+1})));continue;}
       if(o.type==='percussion'&&typeof percussionModel!=='undefined'){
         percussionModel.channels(o.percussion).forEach((row,index)=>specs.push(routeSpec(o,'perc-'+row.id,(o.label||'Percussion')+' · '+row.name,row.side?'Stereo '+row.side:row.electronic?'Direct':'Mic',row.electronic?'Line':'Mic',{connector:row.connector,portIndex:index+1,stereoGroup:row.stereoGroup?o.id+':perc-'+row.stereoGroup:''})));continue;
       }
@@ -10448,7 +10673,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     for(const image of copy.querySelectorAll('image')){
       const href=image.getAttribute('href')||image.getAttributeNS('http://www.w3.org/1999/xlink','href');if(!href||href.startsWith('data:')||href.startsWith('#'))continue;
       const url=new URL(href,window.location.href);if(url.protocol!=='file:'&&url.origin!==window.location.origin)throw new Error('Ein externes Symbol kann offline nicht exportiert werden.');
-      if(url.pathname.includes('/stageplot-assets/percussion/')&&image.getAttribute('preserveAspectRatio')==='none'){
+      if((url.pathname.includes('/stageplot-assets/percussion/')||url.pathname.includes('/stageplot-assets/orchestra/'))&&image.getAttribute('preserveAspectRatio')==='none'){
         let id=rasterSymbols.get(url.href);if(!id){id='sp-export-raster-'+rasterSymbols.size;const symbol=sEl('symbol',{id,viewBox:'0 0 1 1',preserveAspectRatio:'none'},copyDefs);sEl('image',{href:await localImageDataUrl(url),width:1,height:1,preserveAspectRatio:'none'},symbol);rasterSymbols.set(url.href,id);}
         const use=sEl('use',{});for(const attribute of image.attributes)use.setAttribute(attribute.name,attribute.value);use.setAttribute('href','#'+id);image.replaceWith(use);
       }else image.setAttribute('href',await localImageDataUrl(url));
@@ -11135,6 +11360,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     if((e.key==='Delete'||e.key==='Backspace')&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)&&removableDrumPart(drumSelectedPart)){e.preventDefault();removeSelectedDrumPart();}
   });
   function openSelectedDrumDesigner(e){
+    const orchestraObject=objects.find(o=>o.id===selected&&o.type==='orchestra');if(orchestraObject){if(!orchestraObject.locked){cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();orchestraEditor.open(orchestraObject,e?.currentTarget,stage);}return;}
     const percussionObject=objects.find(o=>o.id===selected&&o.type==='percussion');if(percussionObject){if(!percussionObject.locked){cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();percussionEditor.open(percussionObject,e?.currentTarget);}return;}
     const o=objects.find(v=>v.id===selected);if(!o||o.locked||!drumModel.isDrums(o.type))return;
     drumDialogReturnFocus=e?.currentTarget||$('sp-drums-open');
@@ -11272,6 +11498,72 @@ function createStageplotPercussionEditor(root,model,onCommit) {
   return {open(object,focus){if(object.locked)return;objectId=object.id;returnFocus=focus;draft=model.normalize(object.percussion);selected=null;history=[];future=[];pointers.clear();$('input[type="search"]').value='';$('.sp-perc-presets').hidden=true;setPane('canvas');fit();renderPalette();render();dialog.showModal();}};
 }
 /* build-inline:end stageplot-percussion-editor-v1.js */
+/* build-inline:start stageplot-orchestra-editor-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Edits an isolated orchestra draft; cancel never changes the stage. */
+function createStageplotOrchestraEditor(root,model,onCommit){
+ const dialog=document.createElement('dialog');dialog.className='sp-orchestra-dialog';dialog.setAttribute('aria-labelledby','sp-orchestra-title');
+ dialog.innerHTML=`<header><div><span class="sp-orch-eyebrow">KLASSIK · AUFBAU & BESETZUNG</span><h2 id="sp-orchestra-title">Orchester-Editor</h2></div><button data-action="cancel" aria-label="Orchester-Editor schließen">✕</button></header>
+ <div class="sp-orch-families" aria-label="Instrumentengruppen ein- oder ausschalten"></div>
+ <div class="sp-orch-toolbar"><div><button data-action="undo" aria-label="Orchester rückgängig">↶</button><button data-action="redo" aria-label="Orchester wiederholen">↷</button></div><div><button data-action="zoom-out" aria-label="Orchester verkleinern">−</button><button data-action="fit">Alles zeigen</button><button data-action="zoom-in" aria-label="Orchester vergrößern">+</button></div><div><button data-action="seating">Stühle & Pulte</button><button data-action="labels">Gruppennamen</button></div></div>
+ <nav class="sp-orch-mobile-nav" aria-label="Orchester-Bereiche"><button data-pane="palette">Instrumente</button><button data-pane="canvas">Aufbau</button><button data-pane="properties">Auswahl</button></nav>
+ <div class="sp-orch-workspace" data-pane="canvas"><aside class="sp-orch-palette"><div class="sp-orch-tabs"><button data-tab="sections" aria-pressed="true">Besetzung</button><button data-tab="instruments">Hinzufügen</button></div><div class="sp-orch-catalog"></div></aside>
+ <section class="sp-orch-canvas-pane"><div class="sp-orch-canvas" tabindex="0" aria-label="Orchester-Aufbau: Instrument auswählen und ziehen"></div><p class="sp-orch-hint">Maßstab in Metern · Ziehen: 10 cm · R: drehen · Zwei Finger: Zoom & Verschieben</p><p class="sp-orch-status" role="status" aria-live="polite"></p></section><aside class="sp-orch-properties" aria-label="Orchester-Auswahl"></aside></div>
+ <footer><div><span class="sp-orch-summary"></span><p class="sp-orch-size-warning"></p></div><div><button data-action="cancel">Abbrechen</button><button data-action="save" class="sp-orch-save">Auf Bühne übernehmen</button></div></footer>`;
+ root.append(dialog);const $=s=>dialog.querySelector(s),canvas=$('.sp-orch-canvas'),properties=$('.sp-orch-properties'),esc=model.escape;
+ let draft=null,objectId=null,selected=null,tab='sections',history=[],future=[],returnFocus=null,view={},drag=null,gesture=null,fieldBefore=null,stageSize=null;
+ const pointers=new Map(),state=()=>JSON.stringify(draft),selectedPart=()=>draft?.parts.find(p=>p.id===selected),num=v=>Number(v.toFixed(2)).toLocaleString('de-AT');
+ function remember(before){if(before!==state()){history.push(before);if(history.length>80)history.shift();future=[];}}
+ function finishField(){if(fieldBefore){remember(fieldBefore);fieldBefore=null;}}
+ function mutate(fn){finishField();const before=state();fn();draft=model.normalize(draft);remember(before);render();}
+ function freshId(){const used=new Set(draft.parts.map(p=>p.id));let n=draft.nextId;while(used.has('o'+n))n++;draft.nextId=n+1;return 'o'+n;}
+ function setPane(pane){$('.sp-orch-workspace').dataset.pane=pane;dialog.querySelectorAll('[data-pane]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',String(b.dataset.pane===pane));});}
+ function fit(){const l=model.layout(draft),w=Math.max(1.4,l.w+.8),h=Math.max(1.4,l.d+.8);view={x:l.minX+l.w/2-w/2,y:l.minY+l.d/2-h/2,w,h};}
+ function renderFamilies(){ $('.sp-orch-families').innerHTML=model.families.map(f=>{const enabled=model.familyEnabled(draft,f.id),count=draft.parts.filter(p=>model.byId[p.type].family===f.id&&model.active(draft,p)).length;return '<button data-family="'+f.id+'" aria-pressed="'+enabled+'"><span>'+f.name+'</span><small>'+count+' · '+(enabled?'An':'Aus')+'</small></button>';}).join(''); }
+ function renderCatalog(){
+  $('.sp-orch-tabs').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===tab)));
+  $('.sp-orch-catalog').innerHTML=tab==='instruments'?model.families.map(f=>'<h3>'+f.name+'</h3><div class="sp-orch-instruments">'+model.catalog.filter(c=>c.family===f.id).map(c=>'<button data-add="'+c.id+'"><img src="./stageplot-assets/orchestra/'+c.asset+'.webp" alt=""><span>'+c.name+'</span></button>').join('')+'</div>').join(''):model.families.map(f=>'<h3>'+f.name+'</h3>'+model.sections.filter(s=>s.family===f.id).map(s=>{const count=draft.parts.filter(p=>p.section===s.id&&p.enabled).length;return '<div class="sp-orch-section"><button data-section="'+s.id+'" aria-pressed="'+draft.groups[s.id]+'" aria-label="'+s.name+' '+(draft.groups[s.id]?'ausschalten':'einschalten')+'"><img src="./stageplot-assets/orchestra/'+model.byId[s.type].asset+'.webp" alt=""><span>'+s.name+'<small>'+(draft.groups[s.id]?'An':'Aus')+'</small></span></button><div><button data-count="'+s.id+'" data-delta="-1" aria-label="'+s.name+' verringern" '+(!count?'disabled':'')+'>−</button><output aria-label="Anzahl '+s.name+'">'+count+'</output><button data-count="'+s.id+'" data-delta="1" aria-label="'+s.name+' ergänzen" '+(count>=24?'disabled':'')+'>+</button></div></div>';}).join('')).join('');
+ }
+ function renderCanvas(){const l=model.layout(draft);
+  canvas.innerHTML='<svg viewBox="'+[view.x*100,view.y*100,view.w*100,view.h*100].join(' ')+'" role="img" aria-label="Symphonie-Orchester von oben"><defs><pattern id="sp-orch-grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="#c6c6c6" stroke-width="1"/></pattern></defs><rect x="-3000" y="-3000" width="6000" height="6000" fill="#f6f6f6"/><rect x="-3000" y="-3000" width="6000" height="6000" fill="url(#sp-orch-grid)"/>'+l.parts.map(p=>'<g data-part="'+esc(p.id)+'" role="button" tabindex="0" aria-label="'+esc(p.label)+'" transform="translate('+p.x*100+' '+p.y*100+') rotate('+p.angle+')">'+(draft.seating?model.furnitureMarkup(p):'')+'<rect x="'+(-Math.max(p.w,.35)*50-3)+'" y="'+(-Math.max(p.d,.35)*50-3)+'" width="'+(Math.max(p.w,.35)*100+6)+'" height="'+(Math.max(p.d,.35)*100+6)+'" fill="transparent" stroke="'+(p.id===selected?'#333':'none')+'" stroke-width="2"/>'+model.imageMarkup(p)+'</g>').join('')+(draft.mode==='ensemble'?'<rect x="-50" y="-40" width="100" height="80" rx="3" fill="#e4e4e4" stroke="#888"/><text x="0" y="65" text-anchor="middle" font-size="15" fill="#333">Dirigat · Publikum ↓</text>':'')+model.groupLabels(draft)+'<path d="M'+(view.x*100+20)+' '+((view.y+view.h)*100-28)+'h100m-100-5v10m100-10v10" fill="none" stroke="#555" stroke-width="1.5"/><text x="'+(view.x*100+70)+'" y="'+((view.y+view.h)*100-38)+'" text-anchor="middle" font-size="13" fill="#444">1 m</text></svg>';
+  $('.sp-orch-summary').textContent=l.parts.length+' Instrumente · '+num(l.w)+' × '+num(l.d)+' m · '+model.channels(draft).length+' '+(model.channels(draft).length===1?'Signal':'Signale');
+  $('.sp-orch-size-warning').textContent=stageSize&&(l.w>stageSize.w||l.d>stageSize.d)?'Aufbau überragt die Bühne ('+num(stageSize.w)+' × '+num(stageSize.d)+' m). Bühnengröße oder Besetzung anpassen.':'';
+  $('[data-action="undo"]').disabled=!history.length&&!fieldBefore;$('[data-action="redo"]').disabled=!future.length;$('[data-action="save"]').disabled=!draft.parts.length;
+  $('[data-action="seating"]').setAttribute('aria-pressed',String(draft.seating));$('[data-action="labels"]').setAttribute('aria-pressed',String(draft.labels));
+ }
+ function renderProperties(){const p=selectedPart();
+  if(!p){properties.innerHTML='<span class="sp-orch-eyebrow">DEIN AUFBAU</span><h3>'+ (draft.mode==='ensemble'?'Symphonie-Orchester':'Klassische Instrumente')+'</h3><p>Gruppen oben ein- und ausschalten. Besetzung links mit −/+ ändern. Jedes Instrument im Plan auswählen und verschieben.</p><p>Positionen bleiben beim Ausschalten erhalten.</p><h4>Aufstellung</h4><p>'+(draft.mode==='ensemble'?'Gegenüberliegende Violinen, Celli innen links, Violen innen rechts. Bläser dahinter, Schlagwerk hinten.':'Instrumente werden mit ihren eingetragenen Maßen dargestellt.')+'</p><p class="sp-orch-source-note">Die Konzertbesetzung variiert je nach Werk. Diese anpassbare Planungsvorlage enthält alle regulären Orchestergruppen.</p>';return;}
+  const c=model.byId[p.type],size=model.dimensions(p);
+  properties.innerHTML='<span class="sp-orch-eyebrow">'+esc(model.sectionById[p.section].name)+'</span><h3>'+esc(p.label)+'</h3><div class="sp-orch-selected-image"><img src="./stageplot-assets/orchestra/'+c.asset+'.webp" alt="'+c.name+'"></div><label>Bezeichnung<input data-field="label" maxlength="60" value="'+esc(p.label)+'"></label><div class="sp-orch-actions"><button data-action="rotate-left">↶ 15°</button><button data-action="rotate-right">15° ↷</button><button data-action="rotate-reset">0°</button></div><div class="sp-orch-fields"><label>X (m)<input type="number" data-field="x" value="'+p.x+'" step=".1" min="-25" max="25"></label><label>Y (m)<input type="number" data-field="y" value="'+p.y+'" step=".1" min="-25" max="25"></label></div><div class="sp-orch-fields"><label>Breite (cm)<input type="number" data-field="width" value="'+num(size.w*100).replace(',','.')+'" step=".1" min="2" max="500"></label><label>Länge / Tiefe (cm)<input type="number" data-field="depth" value="'+num(size.d*100).replace(',','.')+'" step=".1" min="2" max="500"></label></div><p>Maße des abgebildeten Instruments. Bei Streichern ist das die Ansicht auf die Saiten; der Spielraum benötigt zusätzlich Platz. Maße an dein Modell anpassen.</p><h4>Abnahme</h4><div class="sp-orch-pickup"><button data-pickup="none" aria-pressed="'+(p.pickup==='none')+'">Akustisch · kein Signal</button><button data-pickup="mic" aria-pressed="'+(p.pickup==='mic')+'">Eigenes Mikrofon</button></div><p>Mikrofon, Kanal und Stagebox danach im gemeinsamen Audio-Plan wählen.</p><div class="sp-orch-actions"><button data-action="duplicate">Duplizieren</button><button data-action="remove">Entfernen</button></div><h4>Instrumente dieser Gruppe</h4>'+draft.parts.filter(i=>i.section===p.section&&i.enabled).map(i=>'<button class="sp-orch-list-item" data-select="'+esc(i.id)+'" aria-pressed="'+(i.id===selected)+'">'+esc(i.label)+'</button>').join('');
+ }
+ function render(){renderFamilies();renderCatalog();renderCanvas();renderProperties();}
+ function add(type){if(draft.parts.length>=180){$('.sp-orch-status').textContent='Maximal 180 Instrumente je Aufbau.';return;}mutate(()=>{const p=model.part(type,freshId(),Math.round((view.x+view.w/2)*10)/10,Math.round((view.y+view.h/2)*10)/10);while(draft.parts.some(o=>Math.hypot(o.x-p.x,o.y-p.y)<.5)&&p.x<24)p.x+=.5;draft.parts.push(p);draft.groups[p.section]=true;selected=p.id;});setPane('canvas');}
+ function changeCount(id,delta){mutate(()=>{const s=model.sectionById[id],parts=draft.parts.filter(p=>p.section===id),active=parts.filter(p=>p.enabled);if(delta<0&&active.length)active.at(-1).enabled=false;else if(delta>0&&active.length<24){const restore=parts.find(p=>!p.enabled);if(restore)restore.enabled=true;else if(draft.parts.length<180){const p={...model.part(s.type,freshId(),0,0,id),...model.seat(id,parts.length)};p.label=s.name+' '+(parts.length+1);draft.parts.push(p);}draft.groups[id]=true;}if(selectedPart()&&!model.active(draft,selectedPart()))selected=null;});}
+ function action(name){finishField();const p=selectedPart();
+  if(name==='cancel'){dialog.close();return;}if(name==='save'){if(draft.parts.length){const id=objectId,result=model.normalize(draft);dialog.close();onCommit(id,result);}return;}
+  if(name==='fit'){fit();renderCanvas();return;}if(name==='zoom-in'||name==='zoom-out'){const w=Math.max(.8,Math.min(60,view.w*(name==='zoom-in'?.75:1.333))),h=view.h*w/view.w;view={x:view.x+(view.w-w)/2,y:view.y+(view.h-h)/2,w,h};renderCanvas();return;}
+  if(name==='undo'||name==='redo'){const from=name==='undo'?history:future,to=name==='undo'?future:history;if(from.length){to.push(state());draft=JSON.parse(from.pop());if(!selectedPart())selected=null;render();}return;}
+  if(name==='seating'||name==='labels'){mutate(()=>draft[name]=!draft[name]);return;}if(!p)return;
+  mutate(()=>{if(name==='rotate-left')p.angle-=15;if(name==='rotate-right')p.angle+=15;if(name==='rotate-reset')p.angle=0;if(name==='remove'){draft.parts=draft.parts.filter(i=>i.id!==p.id);selected=null;}if(name==='duplicate'&&draft.parts.length<180){const copy={...p,id:freshId(),x:Math.min(25,p.x+.7),y:Math.min(25,p.y+.7)};draft.parts.push(copy);selected=copy.id;}});
+ }
+ dialog.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.family)mutate(()=>{const enabled=model.familyEnabled(draft,d.family);model.sections.filter(s=>s.family===d.family).forEach(s=>draft.groups[s.id]=!enabled);if(selectedPart()&&!model.active(draft,selectedPart()))selected=null;});
+  else if(d.section)mutate(()=>{draft.groups[d.section]=!draft.groups[d.section];if(selectedPart()&&!model.active(draft,selectedPart()))selected=null;});
+  else if(d.count)changeCount(d.count,Number(d.delta));else if(d.tab){tab=d.tab;renderCatalog();}else if(d.add)add(d.add);else if(d.select){selected=d.select;renderCanvas();renderProperties();}else if(d.pane)setPane(d.pane);else if(d.pickup&&selectedPart())mutate(()=>selectedPart().pickup=d.pickup);else if(d.action)action(d.action);
+ });
+ function updateField(e){const p=selectedPart(),f=e.target.dataset.field;if(!p||!['label','x','y','width','depth'].includes(f))return;if(f!=='label'&&!Number.isFinite(e.target.valueAsNumber))return;fieldBefore??=state();p[f]=f==='label'?e.target.value:e.target.valueAsNumber/(['width','depth'].includes(f)?100:1);draft=model.normalize(draft);renderCanvas();}
+ properties.addEventListener('input',updateField);properties.addEventListener('change',e=>{updateField(e);finishField();const p=selectedPart(),f=e.target.dataset.field;if(p&&Object.hasOwn(p,f))e.target.value=['width','depth'].includes(f)?Number((p[f]*100).toFixed(2)):p[f];});properties.addEventListener('focusout',()=>{finishField();if(draft)renderCanvas();});
+ function point(e){const matrix=canvas.querySelector('svg').getScreenCTM();if(!matrix)return{x:0,y:0};const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse());return{x:p.x/100,y:p.y/100};}
+ function pair(){const[a,b]=[...pointers.values()];return{x:(a.x+b.x)/2,y:(a.y+b.y)/2,d:Math.hypot(a.x-b.x,a.y-b.y)};}
+ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;finishField();e.preventDefault();canvas.focus({preventScroll:true});pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);if(pointers.size===2){if(drag){draft=JSON.parse(drag.before);drag=null;}gesture={...pair(),view:{...view}};renderCanvas();return;}if(pointers.size!==1)return;selected=e.target.closest('[data-part]')?.dataset.part||null;const p=selectedPart();drag=p?{id:p.id,start:point(e),x:p.x,y:p.y,before:state(),pointer:e.pointerId}:null;renderCanvas();renderProperties();});
+ canvas.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(gesture&&pointers.size===2){const now=pair(),w=Math.max(.8,Math.min(60,gesture.view.w*gesture.d/Math.max(10,now.d))),h=gesture.view.h*w/gesture.view.w,rect=canvas.getBoundingClientRect(),scale=Math.min(rect.width/(w*100),rect.height/(h*100));view={x:gesture.view.x+(gesture.view.w-w)/2-(now.x-gesture.x)/scale/100,y:gesture.view.y+(gesture.view.h-h)/2-(now.y-gesture.y)/scale/100,w,h};renderCanvas();return;}if(!drag||drag.pointer!==e.pointerId)return;const p=selectedPart(),at=point(e),snap=v=>Math.max(-25,Math.min(25,Math.round(v*10)/10));p.x=snap(drag.x+at.x-drag.start.x);p.y=snap(drag.y+at.y-drag.start.y);renderCanvas();});
+ function end(e){pointers.delete(e.pointerId);if(drag&&e.pointerId===drag.pointer){if(e.type==='pointercancel')draft=JSON.parse(drag.before);else remember(drag.before);drag=null;render();}if(pointers.size<2)gesture=null;}
+ canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);canvas.addEventListener('contextmenu',e=>{e.preventDefault();const id=e.target.closest('[data-part]')?.dataset.part;if(id){selected=id;action('rotate-right');}});
+ dialog.addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();action(e.shiftKey?'redo':'undo');return;}if(e.key.toLowerCase()==='r'){e.preventDefault();action(e.shiftKey?'rotate-left':'rotate-right');}if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();action('remove');}if((e.key==='Enter'||e.key===' ')&&e.target.dataset.part){e.preventDefault();selected=e.target.dataset.part;renderCanvas();renderProperties();}if(e.key.startsWith('Arrow')&&e.target.closest('.sp-orch-canvas')&&selectedPart()){e.preventDefault();mutate(()=>{const p=selectedPart(),step=e.shiftKey?.5:.1;if(e.key==='ArrowLeft')p.x-=step;if(e.key==='ArrowRight')p.x+=step;if(e.key==='ArrowUp')p.y-=step;if(e.key==='ArrowDown')p.y+=step;});}});
+ dialog.addEventListener('close',()=>{draft=null;drag=gesture=fieldBefore=null;pointers.clear();canvas.replaceChildren();returnFocus?.focus({preventScroll:true});});
+ return {open(object,focus,size){if(object.locked)return;objectId=object.id;returnFocus=focus;stageSize=size;draft=model.normalize(object.orchestra);selected=draft.mode==='single'?draft.parts[0]?.id:null;tab=draft.mode==='single'?'instruments':'sections';history=[];future=[];fit();setPane('canvas');render();dialog.showModal();}};
+}
+/* build-inline:end stageplot-orchestra-editor-v1.js */
+  const orchestraEditor=createStageplotOrchestraEditor(root,orchestraModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.orchestra=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Orchester-Aufbau übernommen');});
   const percussionEditor=createStageplotPercussionEditor(root,percussionModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.percussion=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Percussion-Setup übernommen');});
   function queueDraw(){
     if(frameQueued)return;frameQueued=true;
@@ -11279,7 +11571,8 @@ function createStageplotPercussionEditor(root,model,onCommit) {
   }
   function makeObject(type,point,id,seed=null){
     const c=byId[type];
-    const o={id,type:c.percussionPart?'percussion':c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
+    const o={id,type:c.orchestraPart?'orchestra':c.percussionPart?'percussion':c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
+    if(o.type==='orchestra')o.orchestra=orchestraModel.normalize(seed?.orchestra||(c.orchestraPart?orchestraModel.single(c.orchestraPart):undefined));
     if(o.type==='percussion')o.percussion=percussionModel.normalize(seed?.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined));
     if(c.riserCount)Object.assign(o,{width:c.w,depth:c.d,height:40});
     if(c.stageAccess)Object.assign(o,{width:c.w,depth:c.d});

@@ -1,6 +1,6 @@
 # Stageplot Generator
 
-Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum- und Percussion-Editor, Routing, Druckansicht und Projekt-Export.
+Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Percussion- und Orchester-Editor, Routing, Druckansicht und Projekt-Export.
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
@@ -32,6 +32,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 - **Mein Inventar** mit Modellen, Stückzahlen, Frequenzen, Strombedarf und Plansymbolen. Equipment direkt platzieren und den verwendeten Bestand im aktuellen Plan sehen.
 - **Drum-Designer** direkt über den schwebenden „Open Drumdesigner“-Button am ausgewählten Drumset öffnen; das breitere Eigenschaften-Panel ändert Trommel- und Beckengrößen übersichtlich per −/+, mehr als 80 praxisübliche Mikrofonmodelle werden über einen durchsuchbaren, positionsbezogenen „Typisch“-/„Alle“-Picker gewählt, Becken wechseln exklusiv zwischen eigenem Mic und OH L/R, und die Hi-Hat startet mit einem SM57.
 - **Percussion-Set** direkt neben Schlagzeug, mit eigenem **Percussion-Editor** und 14 Instrumentvarianten: Quinto/Conga/Tumba, Bongos, Timbales, Pandeiro, Cowbell, Jam Block, Tamburin, Bar Chimes, Maracas, Becken, Multipad und Tisch. Zwölf eigens generierte, freigestellte Draufsicht-Bildassets erscheinen in Graustufen im Editor, Bühnenplan, in Projektvorschauen und Exporten. Instrumente verschieben, drehen, in Zentimetern bemaßen, duplizieren und ihre Abnahme wählen; Vorlagen, Undo/Redo und mobile Bedienung sind enthalten. Kanäle landen im gemeinsamen Audio-Plan. [Bedienung, Datenmodell und Asset-Herkunft](PERCUSSION.md).
+- **Symphonie-Orchester & Klassik:** komplette, anpassbare Aufstellung mit schaltbaren Registern sowie 25 Einzelinstrumenten als realistische monochrome Bildassets. Orchester-Editor mit Besetzungszählern, Stühlen/Pulten, Einzelpositionen, Drehung, cm-Maßen und optionalen Mikrofonkanälen. Dieselbe metrische Geometrie gilt in Bühne, Vorschau und Export. Die Vorlage folgt der belegten antiphonalen Aufstellungsart; Besetzung und Abstände sind veränderbare Planungswerte. [Bedienung, Recherche, Maßstab und Bildherkunft](ORCHESTER.md).
 - **Stageplotter-Branding** mit normaler Wortmarke im Free-Plan, PRO-Wortmarke bei aktivem Pro-Plan und großem Otter-Logo neben „Projekte“; das bisherige Headerlogo bleibt als Ladefehler-Fallback erhalten.
 - **Metallisches Menüband** mit stets mittiger Navigation, limefarbener aktiver Ansicht, einem der Maus folgenden rosa Hover-Unterstrich und Projektangaben direkt vor dem Speicherstatus.
 - **Versteckter Otter mode** für neugierige Mehrfachklicker auf das Headerlogo.
@@ -151,7 +152,7 @@ Optional kann mit `--expires 2027-09-02` ein Ablaufdatum gesetzt werden. Verkauf
 npm test
 ```
 
-23 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar, Katalogkopien mit Quellenangaben und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
+30 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar, Katalogkopien mit Quellenangaben und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
 
 ## Daten und Geheimnisse
 
