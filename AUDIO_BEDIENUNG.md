@@ -2,7 +2,7 @@
 
 Der Signal-Editor zeigt Instrument und Kanalnummer dauerhaft im Kopf. Vier direkt erreichbare Bereiche ersetzen aufklappbare Abschnitte:
 
-- **Abnahme:** Mikrofon, DI, Direkt / Line oder Digital. Mikrofone per Hersteller-Taste und Modellkarte wählen; „Vorschläge“ berücksichtigt den Signalnamen. „Eigenes Modell“ erhält die Möglichkeit, nicht enthaltenes Equipment anzugeben. Eine Modellwahl übernimmt die 48-V-Voreinstellung aus dem Katalog; sie bleibt ausdrücklich änderbar.
+- **Abnahme:** Mikrofon, DI, Direkt / Line oder Digital. Mikrofone per Hersteller-Taste und Modellkarte wählen; „Vorschläge“ berücksichtigt das Instrument und bei Drum-Kanälen die genaue Abnahmeposition. Die Sofortsuche durchsucht immer den gesamten Katalog, auch wenn zuvor ein Hersteller gewählt war; „SM 57“ findet ebenso wie „sm57“ das richtige Modell. „Eigenes Modell“ erhält die Möglichkeit, nicht enthaltenes Equipment anzugeben. Eine Modellwahl übernimmt die 48-V-Voreinstellung aus dem Katalog; sie bleibt ausdrücklich änderbar.
 - **Signalweg:** Die beteiligten Bühnenobjekte und der Weg über Abnahme, Stagebox und Mischpult. Große Karten binden weitere Mono-Signale in einen gemeinsamen Kanal ein. Die Auswahl zeigt vor dem Speichern, welcher CH dadurch integriert wird. Originaldaten bleiben wiederherstellbar.
 - **Kanäle:** Mischpultnummern und die Stagebox-Buchsen des aktuellen Signals. CH und IN/OUT sind unabhängig voneinander. Stereo kann weiterhin getrennte Notizen, Modelle oder Buchsen an verschiedenen Stageboxen behalten.
 - **Notizen & Funk:** Signalname, Notizen, Frequenzbereich, IEM-Übertragung und Reihenfolge.
@@ -19,14 +19,24 @@ Wird das kleine Fenster aus dem Signal-Editor geöffnet, ist die Wahl zunächst 
 
 Die Mikrofonbilder sind unveränderte Originaldateien aus den Produktseiten von Shure, Telefunken, beyerdynamic, Neumann, sE Electronics, Audix und Sennheiser. Sie liegen lokal unter `stageplot-assets/mics/` und funktionieren offline. Es werden keine KI-generierten Mikrofonbilder eingesetzt.
 
-Die acht konkreten Modellfotos sind in [original-sources.json](stageplot-assets/mics/original-sources.json) mit Produktseite, Bildadresse, Abrufdatum und SHA-256 dokumentiert. Bildrechte und Marken verbleiben bei den jeweiligen Rechteinhabern; der Quellennachweis ist keine zusätzliche Lizenz. CSS zeigt die vollständigen Dateien mit `object-fit: contain`. Auch der Drum-Mikrofonpicker verwendet diese Originale.
+Die 19 konkreten Modellfotos sind in [original-sources.json](stageplot-assets/mics/original-sources.json) mit Produktseite, Bildadresse, Abrufdatum und SHA-256 dokumentiert. Bildrechte und Marken verbleiben bei den jeweiligen Rechteinhabern; der Quellennachweis ist keine zusätzliche Lizenz. CSS zeigt die vollständigen Dateien mit `object-fit: contain`. Auch der Drum-Mikrofonpicker verwendet diese Originale.
 
-Für Modelle ohne passendes Originalfoto erscheint eine beschriftete Modellkarte. Ein Foto einer anderen Bauform oder Modellrevision wird nicht als Ersatz verwendet. Beispielsweise bekommt der kurze M80-SH kein Foto des langen M80.
+Für Modelle ohne passendes Originalfoto erscheint eine beschriftete Modellkarte. Ein Foto einer anderen Bauform oder Modellrevision wird nicht als Ersatz verwendet. Beispielsweise haben der kurze M80-SH und der lange M80 jeweils ihre eigene Originalaufnahme. Für unklare ältere MD-421-Bezeichnungen wird kein Foto einer anderen Revision eingesetzt.
 
-## Technische Grenzen
+## Gemeinsame Mikrofon-Auswahl
 
-`stage.routing` bleibt die gemeinsame Datenquelle für Editor, Bühnenobjekte, Stagebox-Belegung und Ausdrucke. Der Umbau ändert weder das Speicherformat noch die Offline-Speicherung. `planAudioPatch` prüft Kapazität, belegte Buchsen, Stereo und notwendige DI-Boxen vor der Übernahme. Vorhandene Entwürfe und individuelle Mikrofonbezeichnungen bleiben erhalten.
+Audio-Plan und Drum-Editor verwenden `stageplot-mics-v1.js` mit 93 identischen Modelldatensätzen und dieselbe Oberfläche aus `stageplot-mic-picker-v1.js` / `.css`. Auch die Signal-Editoren am Bühnenobjekt und an einem belegten Stagebox-Port öffnen diese Auswahl. Die Recherche- und Originaldateinachweise stehen in der Asset-Liste oben.
 
-## Validierung dieser Fassung
+- Hersteller, passende Vorschläge, Favoriten, zuletzt verwendete Modelle und alle Modelle sind direkt erreichbar.
+- Der Stern merkt ein Mikrofon, ohne es auszuwählen. Favoriten und die zwölf zuletzt verwendeten Katalogmodelle werden lokal für alle Projekte und beide Editoren gespeichert. Sie enthalten keine Projekt- oder Kontaktdaten.
+- Die Suche reagiert sofort, toleriert Leerzeichen und Bindestriche und zeigt Treffer samt Fotos. Enter übernimmt den ersten Treffer, Pfeil nach unten wechselt zu den Ergebnissen. Escape leert zuerst eine aktive Suche; danach schließt es das Auswahlfenster.
+- Eigene Modellnamen bleiben möglich. Ohne passendes Originalfoto zeigt die Auswahl den Namen mit „Ohne Produktfoto“.
+- Der Drum-Editor zeigt bei der Mikrofonwahl die Abnahmeposition und eine vorhandene CH-Nummer. Overhead-Mikrofone sind im Gesamtset und bei den Becken direkt auswählbar.
 
-`npm test`: 28 Testgruppen, darunter gezielte Prüfungen für Originalfoto-Prüfsummen, Hersteller und Empfehlungen, freie bzw. belegte Buchsen, Stereo, unveränderte Mischpultdaten, Abbruch und Formularentwürfe. Browserprüfung mit frischem Beispielprojekt: 1280 × 720, 1280 × 900 und 390 × 844; Mikrofonwahl, 48 V, Wechsel der Abnahme, Speichern/Neuladen, Stagebox-Verbindung, verschachteltes Abbrechen, Signal-Zusammenführung und Wiederherstellen sowie Output-/IEM-Darstellung. Zusätzlich im Codex-App-Browser an einem vorhandenen lokalen Entwurf geprüft. Keine JavaScript-Laufzeitfehler bei diesen Abläufen.
+`stage.routing` bleibt die gemeinsame Datenquelle für Audio-Plan, Stagebox-Belegung und Ausdrucke. Mikrofonänderungen und 48 V werden beim Übernehmen zwischen Drumset und Audio-Kanal abgeglichen. Beim Öffnen des Drum-Editors werden vorhandene Routing-Angaben in den Entwurf übernommen; beim Speichern wechseln nur geänderte Mikrofonfelder. Kanalnummern, eigene Signalnamen, Stagebox-Buchsen und Notizen bleiben erhalten. Abbrechen verändert das gespeicherte Projekt nicht, Rückgängig stellt beide Seiten gemeinsam wieder her. Ein entferntes Modell lässt das Signal aktiv; die separate Deaktivierung im Drum-Editor entfernt die Abnahme.
+
+Die Auswahl benötigt keinen Account und keine Netzabfrage. Originalbilder werden lokal mit der App ausgeliefert. Nicht enthaltene Modelle werden nicht automatisch durch andere Revisionen ersetzt.
+
+## Prüfung
+
+32 automatisierte Testgruppen einschließlich gemeinsamer Modellidentitäten, Originaldatei-Hashes, Suchvarianten, Favoriten, blockiertem Browser-Speicher, bidirektionalem Abgleich, unveränderten CH-/Patch-Angaben und älteren Drum-Entwürfen. Zusätzlich erfolgreiche Browserprüfung in Chrome und WebKit: alle 19 Originalbilder laden, Sofortsuche, Tastaturbedienung, gemeinsame Favoriten, beide Änderungsrichtungen, Abbrechen, Speichern, Rückgängig/Wiederholen, direkte OH-Auswahl, mobile Darstellung, Offline-Bearbeitung und erneutes Laden der gespeicherten Auswahl.
