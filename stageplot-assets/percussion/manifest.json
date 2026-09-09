@@ -168,6 +168,62 @@
       "height": 700,
       "alpha": true,
       "packaging": "Transparent-margin crop (alpha > 20 bounds + 2px); downsample to max 700px; WebP quality 92. No illustrated substitutes."
+    },
+    {
+      "id": "splash",
+      "file": "splash.webp",
+      "generator": "OpenAI built-in image_gen",
+      "generatedAt": "2026-09-09",
+      "prompt": "Use case: product-mockup. Asset: photorealistic isolated percussion instrument sprite for a professional 2D stage planner, NOT an icon or drawing. STRICT orthographic overhead view, camera precisely perpendicular 90 degrees above the cymbal, no isometric or angled perspective. Exceptionally accurate metal textures, restrained studio lighting from upper left. Entire cymbal centered with 8% transparent margin, circular outline fills 84% of square. Genuine transparent alpha background, no ground plane, no rectangular background, no checkerboard baked into image, no cast shadow outside the silhouette, no text, no logos, no people, no stand legs, no cables. Monochrome black and white photography, realistic satin metal texture. 1024 x 1024 PNG. Subject: One realistic professional 10-inch thin splash cymbal. Exact circular outline, delicately lathed concentric grooves, small shallow central bell with black felt washer and small wingnut, fine thin even edge. Slight hand hammering and a clean bright satin surface. The bell diameter is about one fifth of the whole cymbal. Everything visible from straight above.",
+      "sourceFile": "exec-0b91c196-6063-4c7a-b765-f89c6d633679.png",
+      "sourceSha256": "314008861c263b87c360797080f339fbeaa51dac6be42f89c2e4c39dc8338843",
+      "sha256": "d222bdf70a3f302a786a69b1a44a44c915a938c75a212d0ce83d6ced46903b7c",
+      "width": 700,
+      "height": 697,
+      "alpha": true,
+      "packaging": "Transparent-margin crop (alpha > 20 bounds + 2px); downsample to max 700px; WebP quality 92. No illustrated substitutes."
+    },
+    {
+      "id": "ride",
+      "file": "ride.webp",
+      "generator": "OpenAI built-in image_gen",
+      "generatedAt": "2026-09-09",
+      "prompt": "Use case: product-mockup. Asset: photorealistic isolated percussion instrument sprite for a professional 2D stage planner, NOT an icon or drawing. STRICT orthographic overhead view, camera precisely perpendicular 90 degrees above the cymbal, no isometric or angled perspective. Exceptionally accurate metal textures, restrained studio lighting from upper left. Entire cymbal centered with 8% transparent margin, circular outline fills 84% of square. Genuine transparent alpha background, no ground plane, no rectangular background, no checkerboard baked into image, no cast shadow outside the silhouette, no text, no logos, no people, no stand legs, no cables. Monochrome black and white photography, realistic satin metal texture. 1024 x 1024 PNG. Subject: One realistic professional 22-inch medium-heavy ride cymbal. Exact circular outline, broad playing surface with extremely fine dense concentric lathing and irregular hammer marks, substantial raised round central bell about one fifth of the overall diameter with black felt washer and small wingnut. Edge has a fine clean even profile. Everything visible from straight above.",
+      "sourceFile": "exec-491c5103-507f-4e29-918d-11008b907c34.png",
+      "sourceSha256": "56f0a532e8796bd2dd08db14335988bd1492b69514c26aa6702d08273ce5ebb2",
+      "sha256": "9b6c9fd5f58af12d696d03778467ea1d31fca1cc01d9fe7303bd150fe7fd73f1",
+      "width": 700,
+      "height": 698,
+      "alpha": true,
+      "packaging": "Transparent-margin crop (alpha > 20 bounds + 2px); downsample to max 700px; WebP quality 92. No illustrated substitutes."
+    },
+    {
+      "id": "china",
+      "file": "china.webp",
+      "generator": "OpenAI built-in image_gen",
+      "generatedAt": "2026-09-09",
+      "prompt": "Use case: product-mockup. Asset: photorealistic isolated percussion instrument sprite for a professional 2D stage planner, NOT an icon or drawing. STRICT orthographic overhead view, camera precisely perpendicular 90 degrees above the cymbal, no isometric or angled perspective. Exceptionally accurate metal textures, restrained studio lighting from upper left. Entire cymbal centered with 8% transparent margin, circular outline fills 84% of square. Genuine transparent alpha background, no ground plane, no rectangular background, no checkerboard baked into image, no cast shadow outside the silhouette, no text, no logos, no people, no stand legs, no cables. Monochrome black and white photography, realistic satin metal texture. 1024 x 1024 PNG. Subject: One realistic professional 18-inch China effects cymbal in the usual inverted playing orientation: exact circular outer outline, broad distinctly upturned flanged outer rim forming a visible circular annular ridge, reversed shallow bow, distinctive inverted central bell with a small black felt washer and wingnut. Detailed concentric lathing and irregular hammer marks make the turned rim and recessed central portion clear. NOT a conventional crash cymbal and no holes. Everything visible from straight above.",
+      "sourceFile": "exec-e77f2e60-f9e6-4a8d-a59b-080b32717711.png",
+      "sourceSha256": "b8cc58e9311f1b503280189da8b982778feea5bab943de957219c062f0402f16",
+      "sha256": "03a6bafd2df2b54348f6443bc3ff0238302f6a44497ed628fa76e1d4c36aa065",
+      "width": 700,
+      "height": 699,
+      "alpha": true,
+      "packaging": "Transparent-margin crop (alpha > 20 bounds + 2px); downsample to max 700px; WebP quality 92. No illustrated substitutes."
+    },
+    {
+      "id": "hihat",
+      "file": "hihat.webp",
+      "generator": "OpenAI built-in image_gen",
+      "generatedAt": "2026-09-09",
+      "prompt": "Use case: product-mockup. Asset: photorealistic isolated percussion instrument sprite for a professional 2D stage planner, NOT an icon or drawing. STRICT orthographic overhead view, camera precisely perpendicular 90 degrees above the cymbal, no isometric or angled perspective. Exceptionally accurate metal textures, restrained studio lighting from upper left. Entire cymbal centered with 8% transparent margin, circular outline fills 84% of square. Genuine transparent alpha background, no ground plane, no rectangular background, no checkerboard baked into image, no cast shadow outside the silhouette, no text, no logos, no people, no stand legs, no cables. Monochrome black and white photography, realistic satin metal texture. 1024 x 1024 PNG. Subject: One realistic professional closed pair of 14-inch hi-hat cymbals, concentric and viewed precisely from directly above: top cymbal has fine concentric lathe grooves and subtle hammer marks, a raised central bell with a realistically detailed compact chrome hi-hat clutch, black felt washer and short central rod seen directly end-on. Only a very fine outline of the second cymbal beneath is visible, perfectly round, no footpedal or stand legs. Everything visible from straight above.",
+      "sourceFile": "exec-d70d6b7c-e23c-4f24-b2f3-a46a23bec134.png",
+      "sourceSha256": "b684b0648874d0d9f8d8b796e661848b9bb8252fd7d2eea69e3a3828a45859de",
+      "sha256": "7dfeefa1329bc5760f83e4f469fc97d0a3e58b6ba651ead96e8e171e353851ba",
+      "width": 700,
+      "height": 694,
+      "alpha": true,
+      "packaging": "Transparent-margin crop (alpha > 20 bounds + 2px); downsample to max 700px; WebP quality 92. No illustrated substitutes."
     }
   ]
 }

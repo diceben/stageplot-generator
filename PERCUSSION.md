@@ -5,7 +5,7 @@ Im Bausteinkatalog unter **Instrumente** das **Percussion-Set** direkt neben **S
 ## Bedienung
 
 - Links ein Instrument hinzufügen, in der Mitte auswählen und verschieben. Ziehen rastet in 5-cm-Schritten ein; Zahlenfelder erlauben genaue Positionen.
-- Beim Überfahren oder Auswählen erscheint direkt am Objekt eine schwebende Drehleiste mit denselben Pfeil- und Reset-Symbolen wie im Drumdesigner. Links/rechts gedrückt halten dreht stufenlos mit derselben Beschleunigung; 0° setzt die Drehung zurück. Das funktioniert für alle 14 Varianten, einschließlich Becken, Multipad und Tisch. Die Leiste bleibt bei Zoom und auf dem Handy innerhalb der Zeichenfläche; Touch-Buttons sind mindestens 44 px groß. Dieselben Buttons stehen auch rechts bei den Eigenschaften.
+- Beim Überfahren oder Auswählen erscheint direkt am Objekt eine schwebende Drehleiste mit denselben Pfeil- und Reset-Symbolen wie im Drumdesigner. Links/rechts gedrückt halten dreht stufenlos mit derselben Beschleunigung; 0° setzt die Drehung zurück. Das funktioniert für alle 18 Varianten, einschließlich Becken, Multipad und Tisch. Die Leiste bleibt bei Zoom und auf dem Handy innerhalb der Zeichenfläche; Touch-Buttons sind mindestens 44 px groß. Dieselben Buttons stehen auch rechts bei den Eigenschaften.
 - Rechts Bezeichnung, Drehung sowie **Breite und Tiefe in Zentimetern** anpassen. Die Außenmaße lassen sich unabhängig mit 0,1-mm-Auflösung eingeben; der unspezifische Größenregler entfällt. Enter/Leertaste auf einem Drehpfeil dreht um 10°. R / Shift+R drehen weiterhin um 15°, Pfeiltasten verschieben um 5 cm, Shift+Pfeil um 10 cm. Rechtsklick dreht ebenfalls um 15°. Duplizieren und Entfernen stehen direkt daneben.
 - „Vorlagen“ bietet einen kompakten Aufbau, ein großes Latin-Setup und einen leeren Anfang. Ein Vorlagenwechsel ersetzt den Entwurf und lässt sich rückgängig machen.
 - Änderungen werden erst mit **Auf Bühne übernehmen** gespeichert. Abbrechen und Escape lassen das Bühnenobjekt unverändert. Eine gehaltene Drehung erzeugt genau einen Undo-Schritt. Loslassen außerhalb des Buttons stoppt sie ebenfalls; eine abgebrochene Touch-Geste setzt die begonnene Drehung zurück. Undo/Redo ist sowohl im Percussion-Editor als auch nach der Übernahme im Bühneneditor verfügbar.
@@ -21,13 +21,27 @@ Die Auswahl erzeugt Einträge im bestehenden gemeinsamen Audio-Plan. Dort werden
 
 ## Bilder und Herkunft
 
-Zwölf Assets wurden am 9. September 2026 jeweils einzeln mit dem integrierten **OpenAI Imagegen** erzeugt. Die beiden vom Auftraggeber bereitgestellten Konzertfotos dienten als Instrument- und Materialreferenz. Die Laufzeit verwendet generierte Rasterbilder mit transparentem Hintergrund, keine mit CSS oder SVG nachgezeichneten Instrumente. SVG positioniert, dreht und skaliert die Bilder auf die angegebenen Außenmaße. Ein lokaler Graustufenfilter zeigt sie im Katalog, Editor, Bühnenplan, in Projektkarten sowie in PNG und Druck monochrom; die generierten Originaldateien bleiben unverändert. Auch die Percussion-Bedienelemente verwenden neutrale Grautöne.
+16 Assets wurden am 9. September 2026 jeweils einzeln mit dem integrierten **OpenAI Imagegen** erzeugt. Die beiden vom Auftraggeber bereitgestellten Konzertfotos dienten als Instrument- und Materialreferenz. Die Laufzeit verwendet generierte Rasterbilder mit transparentem Hintergrund, keine mit CSS oder SVG nachgezeichneten Instrumente. SVG positioniert, dreht und skaliert die Bilder auf die angegebenen Außenmaße. Ein lokaler Graustufenfilter zeigt sie im Katalog, Editor, Bühnenplan, in Projektkarten sowie in PNG und Druck monochrom; die generierten Originaldateien bleiben unverändert. Auch die Percussion-Bedienelemente verwenden neutrale Grautöne.
 
 Das [Asset-Manifest](stageplot-assets/percussion/manifest.json) enthält für jedes Asset den vollständigen finalen Prompt, den Namen und SHA-256 der ursprünglichen Generierung, die Prüfsumme des ausgelieferten Bildes und die Verarbeitungsschritte. Die Originalgenerierungen bleiben außerhalb des Repositories; die Referenzfotos werden nicht ausgeliefert.
 
+## Beckentypen und Zollgrößen
+
+Die eigene Gruppe **Becken** bietet fünf Typen. Im ausgewählten Instrument stehen große, direkt anklickbare Größen-Buttons; kein Dropdown. Der Durchmesser erscheint daneben auch in Zentimetern. Die Darstellung verwendet für jede Größe exakt `Zoll × 0,0254 m` in beiden Achsen.
+
+| Typ | Verfügbare Durchmesser | Startgröße |
+| --- | --- | --- |
+| Splash | 6, 8, 10, 12″ | 10″ |
+| Crash | 14, 15, 16, 17, 18, 19, 20″ | 16″ |
+| Ride | 18, 20, 21, 22, 24″ | 22″ |
+| China | 12, 14, 16, 18, 20, 22″ | 18″ |
+| Hi-Hat | 10, 12, 13, 14, 15, 16″ | 14″ |
+
+Die Größen sind Planungsoptionen für generische Instrumente. Eigene Zentimetermaße bleiben möglich. Eine Zollauswahl setzt Breite und Tiefe gemeinsam, aktualisiert automatisch erzeugte Namen (zum Beispiel „Splash 8″“) und lässt eigene Bezeichnungen, Position, Drehung und Signal-ID bestehen. Eine Größenwahl entspricht einem Undo-Schritt. Die Maße werden in den vorhandenen Feldern `width` und `depth` gespeichert; es entsteht kein zweiter Größenwert, der damit auseinanderlaufen könnte. Alte `cymbal`-Instrumente bleiben mit Namen, Skalierung und eigenen Außenmaßen unverändert lesbar.
+
 Transparente Verpackungsränder werden bei der Darstellung aus dem Maßbezug herausgerechnet. Die Conga-Varianten sind am Fell in der Draufsicht kalibriert (570 px = 11″ / 11¾″ / 12½″); das 16″-Becken misst 40,64 cm. Das Multipad startet mit 36,4 × 33,1 cm nach Roland SPD-SX. Eigene Außenmaße bleiben in lokalen Entwürfen, Projektdateien und beim Rückgängigmachen erhalten. Bisher gespeicherte proportionale Skalierungen werden weiterhin gelesen.
 
-Für die Auslieferung wurden ausschließlich transparente Außenränder beschnitten, auf maximal 700 Pixel verkleinert und WebP-Dateien mit Alpha erzeugt. Alle zwölf Dateien zusammen benötigen etwa 1,3 MB. Quinto/Conga/Tumba teilen ein Asset, sodass 14 auswählbare Varianten entstehen.
+Für die Auslieferung wurden ausschließlich transparente Außenränder beschnitten, auf maximal 700 Pixel verkleinert und WebP-Dateien mit Alpha erzeugt. Alle 16 Dateien zusammen benötigen etwa 1,9 MB. Quinto/Conga/Tumba teilen ein Asset, sodass 18 auswählbare Varianten entstehen. Vier zusätzliche Graustufen-Draufsichten zeigen Splash, Ride, China mit umgebogenem Rand und eine geschlossene Hi-Hat. Das bisherige Beckenbild wird weiterhin als Crash verwendet.
 
 Die Darstellung ist generisch und ohne Markenlogos. Größenorientierung: [LP Conga 11¾″](https://www.lpmusic.com/products/lp806t-pm-pedrito-11-3-4-conga/), [LP Tumba 12½″](https://www.lpmusic.com/products/lp552x-classic-12-1-2-tumba/) und [Roland SPD-SX mit 364 × 331 mm](https://www.roland.com/CA/products/spd-sx/). Diese Produkte sind keine zugesicherten exakten Nachbildungen der Bildassets.
 
@@ -44,7 +58,9 @@ Die Darstellung ist generisch und ohne Markenlogos. Größenorientierung: [LP Co
 
 `npm test` prüft unter anderem normalisierte Imports, portable Projektdateien, gedrehte Abmessungen, stabile Kanal-IDs, Mono/Stereo, Asset-Prüfsummen, voneinander unabhängige Vorschaubilder sowie die echten Editor-Handler für Hinzufügen, Drehen, Duplizieren, Vorlagen, Eingaben, Undo, Speichern, Abbrechen und Pointer-Gesten.
 
-Die Drehleiste wurde zusätzlich in Chrome und WebKit geprüft: alle 14 Objekttypen, Hover und Auswahl, Tastatur und Reset, Halten mit Loslassen außerhalb, genau ein Undo-Schritt, Speichern und Abbrechen, mobile Touch-Tipps sowie Toolbar-Grenzen. In Chrome zusätzlich eine emulierte gehaltene Touch-Drehung.
+Die fünf Beckentypen wurden in Chrome und WebKit mit kleinen, großen und mittleren Zollgrößen geprüft: tatsächliche Durchmesser im Editor, Bühnenplan und Druck, Originalmaße nach Neuladen, eigene Namen, Größen-Undo und 44-px-Touch-Buttons. Ein PNG-Export wurde zusätzlich in Chrome erzeugt und visuell geprüft. Beim Wechsel des ausgewählten Instruments beginnt die Eigenschaftenansicht oben bei der Größenwahl.
+
+Die Drehleiste wurde zusätzlich in Chrome und WebKit geprüft: die ursprünglichen 14 Objekttypen, Hover und Auswahl, Tastatur und Reset, Halten mit Loslassen außerhalb, genau ein Undo-Schritt, Speichern und Abbrechen, mobile Touch-Tipps sowie Toolbar-Grenzen. In Chrome zusätzlich eine emulierte gehaltene Touch-Drehung. Die automatisierten Pointer-Tests decken alle 18 Typen ab; die mobile Drehung der neuen Ride-Variante wurde ebenfalls in beiden Browsern geprüft.
 
 Im Browser geprüft: kompakter und großer Aufbau, Bilddarstellung, Ziehen, Zahlenfelder, Speichern und erneutes Laden, gemeinsame Inputliste, Druckvorschau, erfolgreicher PNG-Export und eine 390 Pixel breite Ansicht. Mehrfinger-Handler sind automatisiert geprüft; ein zusätzlicher Test auf physischer Touch-Hardware steht aus.
 

@@ -25,7 +25,7 @@ assert.deepEqual(model.channels(moved).map(p=>p.id).sort(),model.channels(latin)
 const pad=model.part('multipad','pad');assert.deepEqual(model.channels({parts:[pad]}).map(r=>r.side),['L','R']);pad.pickup='mono';assert.equal(model.channels({parts:[pad]}).length,1);pad.pickup='none';assert.equal(model.channels({parts:[pad]}).length,0);
 for(const p of latin.parts){assert.ok(!model.artwork({parts:[p]}).includes('<path'),'Instrument artwork must use generated raster assets.');assert.match(model.artwork({parts:[p]}),/<image href="\.\/stageplot-assets\/percussion\/[a-z-]+\.webp"/);}
 const manifest=JSON.parse(fs.readFileSync('stageplot-assets/percussion/manifest.json'));
-assert.equal(manifest.assets.length,12);
+assert.equal(manifest.assets.length,16);
 for(const c of model.catalog){const asset=manifest.assets.find(a=>a.id===c.asset);assert.ok(asset);const bytes=fs.readFileSync('stageplot-assets/percussion/'+asset.file);assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),asset.sha256);assert.equal(asset.alpha,true);assert.ok(asset.prompt.includes('overhead'));}
 const document={stage:{w:8,d:5,title:'Percussion test'},objects:[{id:'station-1',type:'percussion',x:2,y:2,angle:45,percussion:latin}]};
 const exported=exporter.createSetupExport('Percussion test',document,{exportedAt:100});
@@ -123,8 +123,43 @@ open();click({select:'p1'});rotationPointer('pointerdown');rotationPointer('poin
 open();click({select:'p1'});rotationPointer('pointerdown');advance(600);rotationPointer('pointercancel');click({action:'save'});assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),compact,'An interrupted touch restores the rotation draft.');
 open();click({select:'p1'});rotationPointer('pointerdown');advance(600);rotationPointer('lostpointercapture');assert.equal(frames.size,0);click({action:'undo'});click({action:'save'});assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),compact,'Lost capture stops rotation and retains one undo step.');
 const count=results.length;open();click({select:'p1'});rotationPointer('pointerdown');advance(600);click({action:'cancel'});assert.equal(frames.size,0);advance(1000);assert.equal(results.length,count,'Closing during a hold cancels animation and does not commit.');
-console.log('PASS PERCUSSION ROTATION: all 14 object types, both directions, unchanged scale and signal identities, single-step undo, quick tap, pointer cancellation, lost capture and closing during a hold.');
+console.log('PASS PERCUSSION ROTATION: all catalog object types, both directions, unchanged scale and signal identities, single-step undo, quick tap, pointer cancellation, lost capture and closing during a hold.');
 
 open();click({select:'p1'});rotationPointer('pointerdown');rotationPointer('pointerup');
 modal.emit('click',{detail:1,target:{closest:()=>({dataset:{percRotation:'',action:'rotate-reset'},closest:()=>null})}});
 click({action:'save'});assert.equal(results.at(-1).config.parts[0].angle,0,'Reset stays immediately usable after releasing a rotation button.');
+
+// Cymbal sizes share the metre geometry used on stage and preserve source identities.
+const cymbals=model.catalog.filter(c=>c.sizes);
+assert.deepEqual(cymbals.map(c=>c.name),['Crash','Splash','Ride','China','Hi-Hat']);
+for(const c of cymbals)for(const inches of c.sizes){
+ const p={...model.part(c.id,'cymbal-1',.4,-.7),angle:123,pickup:'mic'};
+ assert.equal(model.resizeCymbal(p,inches),true);
+ const loaded=model.normalize({parts:[p]}).parts[0],diameter=Number((inches*.0254).toFixed(4));
+ assert.deepEqual(model.dimensions(loaded),{w:diameter,d:diameter});
+ assert.equal(model.cymbalInches(loaded),inches);assert.equal(loaded.label,c.name+' '+inches+'″');
+ assert.equal(loaded.id,'cymbal-1');assert.equal(loaded.x,.4);assert.equal(loaded.y,-.7);assert.equal(loaded.angle,123);
+ assert.equal(model.channels({parts:[loaded]})[0].id,'cymbal-1-1');
+ const markup=model.imageMarkup(loaded),width=Number(markup.match(/ width="([^"]+)"/)[1]),depth=Number(markup.match(/ height="([^"]+)"/)[1]);
+ assert.ok(Math.abs(width/100-diameter)<1e-9);assert.ok(Math.abs(depth/100-diameter)<1e-9);
+}
+const legacy=model.normalize({parts:[{id:'old-cymbal',type:'cymbal',x:.2,y:.3,angle:31,scale:1.4,label:'Becken',pickup:'mic',width:.43,depth:.41}]}),legacyBefore=structuredClone(legacy);
+assert.deepEqual(model.normalize(legacy),legacyBefore,'Old custom sizes and labels remain untouched when loading.');
+const legacyPart=legacy.parts[0];assert.equal(model.cymbalInches(legacyPart),null);
+for(const invalid of [0,-1,100,NaN,Infinity,'18'])assert.equal(model.resizeCymbal(legacyPart,invalid),false);
+assert.deepEqual(legacy,legacyBefore,'Unsupported sizes do not mutate an instrument.');
+model.resizeCymbal(legacyPart,18);assert.equal(legacyPart.label,'Crash 18″');assert.equal(legacyPart.scale,1);assert.equal(model.channels(legacy)[0].id,'old-cymbal-1');
+legacyPart.label='Crash links';model.resizeCymbal(legacyPart,20);assert.equal(legacyPart.label,'Crash links','Keep a personal instrument name.');
+editor.open({id:'station-1',percussion:legacyBefore});click({select:'old-cymbal'});click({cymbalSize:'18'});click({action:'undo'});click({action:'save'});
+assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),legacyBefore,'One undo restores a custom/legacy size and label together.');
+editor.open({id:'station-1',percussion:legacyBefore});click({select:'old-cymbal'});click({cymbalSize:'18'});click({action:'duplicate'});click({action:'save'});
+let sized=results.at(-1).config;assert.equal(sized.parts.length,2);assert.equal(sized.parts[0].width,.4572);assert.equal(sized.parts[1].depth,.4572);assert.notEqual(sized.parts[0].id,sized.parts[1].id);
+editor.open({id:'station-1',percussion:{parts:[]}});click({add:'splash'});click({cymbalSize:'8'});click({pickup:'mic'});click({action:'save'});
+sized=results.at(-1).config;assert.equal(sized.parts[0].label,'Splash 8″');assert.equal(sized.parts[0].width,.2032);assert.equal(model.channels(sized)[0].name,'Splash 8″');
+editor.open({id:'station-1',percussion:sized});click({select:sized.parts[0].id});
+properties.emit('change',{target:{dataset:{field:'width'},valueAsNumber:25.4,value:'25.4'}});
+properties.emit('change',{target:{dataset:{field:'depth'},valueAsNumber:25.4,value:'25.4'}});click({action:'save'});
+assert.equal(results.at(-1).config.parts[0].label,'Splash 10″','Manual measurements refresh an automatic size label.');
+const sizedExport=exporter.createSetupExport('Cymbal sizes',{stage:{w:8,d:5,title:'Cymbal sizes'},objects:[{id:'station-1',type:'percussion',x:2,y:2,angle:0,percussion:results.at(-1).config}]},{exportedAt:100});
+assert.deepEqual(exporter.parseSetupJson(exporter.stringifySetupJson(sizedExport)).document.objects[0].percussion,JSON.parse(JSON.stringify(results.at(-1).config)));
+console.log('PASS CYMBALS: all types and inch sizes, circular metric artwork, legacy/manual measurements, stable audio IDs, custom names, modal selection, single-step undo, duplication and portable export.');
