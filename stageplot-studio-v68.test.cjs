@@ -33,7 +33,7 @@ assert.match(html,/group\.rows\.map\(row=>row\.sourceKey\)\.join\('\|'\)/,'Ein S
 assert.match(html,/cableHandleRowGap=22,cableHandleColumnGap=24/,'Die Kabel-Startpunkte stehen noch zu eng zusammen.');
 assert.match(html,/\*cableHandleRowGap,x=side\*\(w\/2\+12\+column\*cableHandleColumnGap\)/,'Das Buchsenlayout verwendet die größeren Abstände nicht.');
 assert.match(html,/rows=cableSourceSpecs\(sourceId\)\.filter\(row=>!keys\.size\|\|keys\.has\(row\.sourceKey\)\)/,'Die Kanalbuchse filtert den Kabelzug nicht auf Mono- beziehungsweise Stereo-Kanäle.');
-assert.match(html,/current\.rows\.some\(row=>routeNeedsDi\(row,row\.direction,target\)\)/,'Direkt gezogene Klinkenkabel umgehen die DI-Prüfung.');
+assert.match(html,/planAudioPatch\(rows,members,box,direction,\{preserve:true\}\)/,'Direkt gezogene Klinkenkabel umgehen die DI-Prüfung.');
 assert.match(html,/if\(context\?\.candidate&&routeNeedsDi\(context\.candidate,context\.patch\.direction,context\.box\)\)\{renderStageboxSurface\(surface\);return;\}applyStageboxPatch\(\)/,'Die Stagebox-Quellenauswahl lässt inkompatible Klinke-zu-XLR-Patches zu.');
 assert.match(html,/item\.io=normalizeObjectIo\(o\.io,\{\.\.\.o,type,drums:item\.drums\|\|o\.drums\}\)/,'Bestehende lokale Instrumente erhalten beim Import keine migrationssichere I/O-Struktur.');
 assert.match(html,/if\(stageboxCapacity\[type\]\)item\.comboJacks=o\.comboJacks===true/,'Die Stagebox-Kombibuchsen werden beim Import nicht erhalten.');

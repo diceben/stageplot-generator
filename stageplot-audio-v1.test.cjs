@@ -24,3 +24,60 @@ ctx.stage={routing:{inputs:[{number:7,instrument:'<Gitarre>',pickup:'DI',microph
 const table=ctx.audioPrintTable('inputs');assert(table.includes('&lt;Gitarre>'));assert(table.includes('<td>48V</td>'));assert(table.includes('Stagebox A IN 3'));assert(!ctx.audioPrintTable('outputs').includes('IEM ·'));
 assert(!html.includes('id="sp-iem-output-dialog"'),'Only one editor remains.');
 console.log('PASS AUDIO: active signals, legacy migration, stable metadata, linked sources, stereo moves, explicit channel/port allocation and canonical print tables.');
+
+// Patch allocation must be atomic and preserve a deliberate patch when drawing again.
+ctx.routeNeedsDi=(row,direction,box)=>direction==='inputs'&&row.connector==='Klinke'&&!box.comboJacks;
+const patchBox={id:'box',name:'Stagebox A',capacity:8},pair=[{id:'l',mode:'Stereo L',stereoGroup:'s',connector:'XLR',stagebox:'box',stageboxPort:5},{id:'r',mode:'Stereo R',stereoGroup:'s',connector:'XLR',stagebox:'box',stageboxPort:6}],busy=[{id:'other',stagebox:'box',stageboxPort:1}];
+assert.deepEqual(clone(ctx.planAudioPatch([...pair,...busy],pair,patchBox,'inputs',{preserve:true})).assignments.map(row=>row.stageboxPort),[5,6]);
+const emptyPair=pair.map(row=>({...row,stagebox:'',stageboxPort:null}));assert.deepEqual(clone(ctx.planAudioPatch([...emptyPair,...busy],emptyPair,patchBox,'inputs')).assignments.map(row=>row.stageboxPort),[2,3]);
+const full=[...pair,{id:'u',stagebox:'small',stageboxPort:1}],unchanged=clone(full);assert.throws(()=>ctx.planAudioPatch(full,pair,{id:'small',name:'Kleine Stagebox',capacity:2},'inputs'),/Stereo|Buchsen/);assert.deepEqual(full,unchanged,'Planning failure must not erase the old stereo patch.');
+assert.throws(()=>ctx.planAudioPatch(emptyPair,emptyPair,patchBox,'inputs',{startPort:8}),/Stereo/);
+const otherPair=[{id:'x',stereoGroup:'other',stagebox:'box',stageboxPort:3},{id:'y',stereoGroup:'other',stagebox:'box',stageboxPort:4}];const replacement=ctx.planAudioPatch([...emptyPair,...otherPair],emptyPair,patchBox,'inputs',{startPort:2,replace:true});assert.deepEqual(clone(replacement).displaced,['x','y'],'Replacing half of another pair must identify the whole displaced signal.');
+assert.throws(()=>ctx.planAudioPatch([{id:'k',connector:'Klinke'}],[{id:'k',connector:'Klinke'}],patchBox,'inputs'),/DI-Box/);
+const applied=clone([...emptyPair,...otherPair]);ctx.applyAudioPatchPlan(applied,replacement);assert.deepEqual(applied.slice(0,2).map(row=>row.stageboxPort),[2,3]);assert(applied.slice(2).every(row=>!row.stagebox));
+console.log('PASS AUDIO PATCH: atomic stereo allocation, preservation, capacity failures, compatibility and explicit replacement plans.');
+
+ctx.routingStageboxes=()=>[patchBox];ctx.stageboxRouteLocation=row=>row.stagebox?'Stagebox A IN '+row.stageboxPort:'Kein Stagebox-Patch';ctx.routeFrequency=()=>'';
+const searchable=[{id:'a',instrument:'Keyboard L',number:4,stereoGroup:'pair',notes:'Bühne links'},{id:'b',instrument:'Keyboard R',number:5,stereoGroup:'pair',notes:''},{id:'c',instrument:'Gesang',microphone:'SM58',number:null,stagebox:'box',stageboxPort:2}];
+assert.deepEqual(clone(ctx.audioVisibleRows(searchable,'inputs','buhne links')).map(row=>row.id),['a','b'],'Search keeps stereo partners together.');
+assert.deepEqual(clone(ctx.audioVisibleRows(searchable,'inputs','sm58','unnumbered')).map(row=>row.id),['c']);
+assert.deepEqual(clone(ctx.audioVisibleRows(searchable,'inputs','','unpatched')).map(row=>row.id),['a','b']);
+assert.deepEqual(clone(ctx.planAudioPorts([patchBox],[{id:'x',stagebox:'box',stageboxPort:2}],new Set(),[{boxId:'box',port:''},{boxId:'box',port:''}])),[3,4],'Automatic signal-editor patch uses adjacent stereo ports.');
+// Use the actual cable reconciler: patch edits retain drawings and custom lengths.
+ctx.normalizeCables=value=>value;ctx.defaultCableRoute=(source,target)=>[{x:source.x,y:source.y},{x:target.x,y:target.y}];ctx.cableRouteLength=()=>6;
+ctx.objects=[{id:'src',x:0,y:0},{id:'box',x:3,y:0},{id:'second',x:6,y:0}];ctx.stage={routing:{inputs:[{sourceKey:'src:1',stagebox:'box',stageboxPort:7}]},cables:[{id:'cable-test',direction:'inputs',sourceKey:'src:1',sourceId:'src',targetId:'box',targetPort:1,length:10,route:[{x:0,y:0},{x:1,y:2},{x:3,y:0}]}]};
+vm.runInContext(extract('reconcileCablesWithRouting'),ctx);ctx.reconcileCablesWithRouting();assert.equal(ctx.stage.cables[0].targetPort,7);assert.equal(ctx.stage.cables[0].route.length,3);assert.equal(ctx.stage.cables[0].length,10);
+ctx.stage.routing.inputs[0].stagebox='second';ctx.reconcileCablesWithRouting();assert.equal(ctx.stage.cables[0].targetId,'second');assert.equal(ctx.stage.cables[0].length,10);
+ctx.stage.routing.inputs[0].stagebox='';ctx.reconcileCablesWithRouting();assert.equal(ctx.stage.cables.length,0);
+console.log('PASS AUDIO USABILITY: relevant search, stereo-aware filters, predictable port allocation and retained cable drawings.');
+
+// Exercise the real bulk assignment and cable-drop handlers, beyond the planner.
+const flow={stage:null,objects:[],sharedReadOnly:false,selected:null,cableDrag:null,token:0,messages:[],saves:[],
+ routeToken:()=>String(++flow.token),routeNeedsDi:ctx.routeNeedsDi,routeSourceObject:row=>flow.objects.find(o=>o.id===row.sourceKey?.split(':')[0]),
+ routingStageboxes:direction=>flow.boxes.filter(box=>box[direction]>0).map(box=>({...box,capacity:box[direction]})),
+ snapshot:()=>JSON.stringify(flow.stage),syncRoutingFromStage(){},reconcileCablesWithRouting(){},refreshAudioSurface(){},renderEditor(){},moveCableDrag(){},
+ say:message=>flow.messages.push(message),keepHistory:before=>flow.saves.push(before),prepareCableRoute:value=>value,cableRouteLength:()=>5,normalizeCables:value=>value};
+vm.createContext(flow);vm.runInContext(audio.slice(0,audio.indexOf("$('sp-audio-object').addEventListener")),flow);
+// Rendering is tested in-browser; no DOM is needed for the data transitions here.
+vm.runInContext('refreshAudioSurface=()=>{}',flow);
+vm.runInContext(['autoAssignRouting','finishCableDrag'].map(extract).join('\n'),flow);
+const flowRows=()=>[{id:'l',sourceKey:'keys:l',mode:'Stereo L',stereoGroup:'pair',connector:'XLR',stagebox:'',stageboxPort:null},{id:'r',sourceKey:'keys:r',mode:'Stereo R',stereoGroup:'pair',connector:'XLR',stagebox:'',stageboxPort:null}];
+flow.objects=[{id:'keys',x:0,y:0},{id:'near',x:1,y:0},{id:'far',x:8,y:0}];flow.boxes=[{...flow.objects[1],name:'Nah',inputs:2,outputs:0},{...flow.objects[2],name:'Fern',inputs:8,outputs:0}];
+flow.stage={routing:{inputs:[...flowRows(),{id:'used',stagebox:'near',stageboxPort:1}],outputs:[]},cables:[]};
+flow.autoAssignRouting();assert.deepEqual(clone(flow.stage.routing.inputs.slice(0,2)).map(row=>[row.stagebox,row.stageboxPort]),[['far',1],['far',2]],'Auto assignment skips a near box without room for the complete pair.');assert.equal(flow.stage.routing.inputs[2].stageboxPort,1);
+flow.stage.routing.inputs[0].stageboxPort=5;flow.stage.routing.inputs[1].stagebox='';flow.stage.routing.inputs[1].stageboxPort=null;flow.autoAssignRouting();assert.equal(flow.stage.routing.inputs[0].stageboxPort,5);assert.equal(flow.stage.routing.inputs[1].stageboxPort,6,'A missing stereo partner prefers the adjacent free port, without moving the first channel.');
+flow.stage.routing.inputs.push({id:'line',sourceKey:'keys:line',connector:'Klinke',stagebox:'',stageboxPort:null});flow.autoAssignRouting();assert.equal(flow.stage.routing.inputs.at(-1).stagebox,'','Auto assignment does not invent a DI box.');
+const beginDrop=targetId=>{flow.cableDrag={pointer:1,sourceId:'keys',targetId,rows:flow.stage.routing.inputs.slice(0,2).map(row=>({...row,direction:'inputs'})),origin:{x:0,y:0},trail:[{x:1,y:2}],before:flow.snapshot(),capture:{hasPointerCapture:()=>false}};};
+flow.stage.cables=[{id:'custom',sourceId:'keys',sourceKey:'keys:l',direction:'inputs',targetId:'far',targetPort:5,length:20,route:[{x:0,y:0},{x:8,y:0}]}];
+beginDrop('near');const beforeFailure=clone(flow.stage),savesBefore=flow.saves.length;flow.finishCableDrag({pointerId:1});assert.deepEqual(clone(flow.stage),beforeFailure,'A failed drop leaves both the old patch and drawing intact.');assert.equal(flow.saves.length,savesBefore);
+beginDrop('far');flow.finishCableDrag({pointerId:1});assert.deepEqual(clone(flow.stage.routing.inputs.slice(0,2)).map(row=>row.stageboxPort),[5,6]);assert.equal(flow.stage.cables.length,2);assert.equal(flow.stage.cables[0].id,'custom');assert.equal(flow.stage.cables[0].length,20,'Redrawing keeps a deliberately longer cable.');assert.equal(flow.saves.length,savesBefore+1);
+const beforeCancel=clone(flow.stage);beginDrop('near');flow.finishCableDrag({pointerId:1},true);assert.deepEqual(clone(flow.stage),beforeCancel);
+ctx.objects=[{id:'keys',io:{outputs:{connector:'Klinke'}}}];assert.equal(ctx.audioInputConnector({sourceKey:'keys:1',connector:'XLR'},'Direct'),'Klinke');assert.equal(ctx.audioInputConnector({sourceKey:'keys:1',connector:'Klinke'},'DI'),'XLR');
+console.log('PASS AUDIO FLOW: auto assignment preserves occupied ports, keeps stereo together and validates DI; cable drop preserves previous state on failure and commits a complete bundle once.');
+
+flow.stageboxPatchContext=()=>flow.patchContext;flow.$=()=>({open:false});flow.stageboxPatchCandidateId='l';flow.view='routing';flow.confirmSetupAction=(title,message,label,commit)=>{flow.confirmation={title,message,commit};};
+vm.runInContext(extract('applyStageboxPatch'),flow);
+const selectedPair=flowRows().map((row,i)=>({...row,stagebox:'near',stageboxPort:i+1}));flow.stage={routing:{inputs:selectedPair,outputs:[]},cables:[]};flow.patchContext={rows:selectedPair,box:flow.boxes[0],patch:{boxId:'near',direction:'inputs',port:2},occupant:selectedPair[1],candidate:selectedPair[0]};
+flow.applyStageboxPatch();assert.deepEqual(clone(flow.stage.routing.inputs).map(row=>row.stageboxPort),[1,2]);assert(!flow.confirmation,'Selecting the current stereo signal on its right port is a no-op, including the last port.');
+const replacementRows=[...selectedPair,{id:'voice',instrument:'Gesang',connector:'XLR',stagebox:'far',stageboxPort:7}];flow.stage.routing.inputs=replacementRows;flow.stageboxPatchCandidateId='voice';flow.patchContext={...flow.patchContext,rows:replacementRows,candidate:replacementRows[2]};const beforeReplace=clone(replacementRows);flow.applyStageboxPatch();assert(flow.confirmation?.message.includes('Gesang'));assert.deepEqual(clone(replacementRows),beforeReplace,'Choosing an already used port does not change records until the user selects Umstecken.');flow.confirmation.commit();assert.deepEqual(clone(replacementRows).map(row=>[row.stagebox,row.stageboxPort]),[['',null],['',null],['near',2]],'An explicit replacement frees the full displaced pair.');
+console.log('PASS AUDIO REPATCH: current stereo choice stays unchanged; explicit reassignment names the affected signal and updates the complete pair only after confirmation.');
