@@ -6,9 +6,9 @@ const html=fs.readFileSync('stageplot-studio.html','utf8');
 for(const marker of [
   'sp-stagebox-workbench',
   'sp-stagebox-workbench-toolbar',
-  'PATCH OVERVIEW',
-  'SIGNAL FLOW',
-  'LIST VIEW',
+  'Stagebox-Darstellung',
+  'aria-label="Rasteransicht"',
+  'aria-label="Listenansicht"',
   'sp-stagebox-socket',
   'sp-stagebox-source-panel',
   'sp-stagebox-source-group',
@@ -28,7 +28,8 @@ assert.match(html,/button\[data-active-port="true"\][^}]*border-color:#f04c9a/,'
 assert.match(html,/button\[data-stagebox-direction="inputs"\] \.sp-stagebox-socket \{[^}]*#020304 0 2\.1px/,'XLR-Inputs zeigen keine drei dunklen Kontaktlöcher.');
 assert.match(html,/\.sp-stagebox-card\[data-combo-jacks="true"\][^}]*button\[data-stagebox-direction="inputs"\] \.sp-stagebox-socket::before \{[^}]*width:13px[^}]*border:2px solid #858e96/,'Aktivierte Kombibuchsen zeigen keine zentrale 6,35-mm-Klinkenöffnung.');
 assert.match(html,/button\[data-stagebox-direction="outputs"\] \.sp-stagebox-socket \{[^}]*#929aa4 0 1\.2px/,'XLR-Outputs zeigen keine drei metallischen Kontaktstifte.');
-assert.match(html,/#sp-routing\[data-stagebox-mode="true"\] \{ padding:0; background:#07111b; \}/,'Die Stagebox-View füllt den Routing-Arbeitsbereich nicht aus.');
+assert.doesNotMatch(html,/#sp-routing\[data-stagebox-mode="true"\][^\n]*\.sp-routing-(?:heading|toolbar|tabs)/,'Stagebox-Modus darf den gemeinsamen Audio-Kopfbereich nicht überschreiben.');
+assert.ok(!html.includes('SIGNAL FLOW')&&!html.includes('LIST VIEW'),'Funktionslose zweite Navigation ist noch vorhanden.');
 assert.match(html,/\$\('sp-routing'\)\.dataset\.stageboxMode=String\(stageboxMode\)/,'Der Routing-Bereich aktiviert den Fullscreen-Stagebox-Modus nicht zustandsabhängig.');
 assert.match(html,/function renderStageboxView\(\)\{const boxes=allRoutingStageboxes\(\);[^}]*\$\('sp-stagebox-view'\)\.innerHTML=stageboxWorkbenchMarkup\(boxes\);\}/,'Der Routing-Tab verwendet nicht das gemeinsame Stagebox-Workbench-Markup.');
 assert.match(html,/\$\('sp-stagebox-io-body'\)\.innerHTML=stageboxWorkbenchMarkup\(\[box\],\{dialog:true\}\)/,'Das Bühnen-Popup verwendet nicht dieselbe Stagebox-Workbench.');
