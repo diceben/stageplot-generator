@@ -553,7 +553,7 @@
               <li><strong>Bündiger Aufbau:</strong> Treppen und Rampen sind eigene Bausteine. Bühnenkanten haben beim Einrasten Vorrang vor dem Raster, auch bei ungeraden Maßen. Riserbeschriftungen stehen kompakter an freien Kanten.</li>
               <li><strong>Klarer Audioplan:</strong> Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Mikrofone lassen sich nach Hersteller mit Vorschlägen auswählen; für ausgewählte Modelle sind Original-Herstellerfotos enthalten. Gemeinsame Signalwege vermeiden doppelte Inputs.</li>
               <li><strong>Stageboxen schnell verbinden:</strong> Ein kleines Fenster zeigt verfügbare Stageboxen mit Bild und schlägt freie Buchsen vor. Die vollständige Belegung bleibt als eigene Übersicht erreichbar; die Navigation ist in allen Audio-Ansichten einheitlich.</li>
-              <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
+              <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. Maßlinien stehen direkt an den Bühnenkanten; kompakte Zusatzinfos nutzen automatisch freien Platz neben oder unter dem Plan. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
               <li><strong>Projekte &amp; Locations:</strong> „Neues Projekt“ bündelt eigene Bühnen und Location-Vorlagen. Projekt hinzufügen steht zuerst; dauerhafte Projekt-IDs und echte Instrumente in den Vorschauen erleichtern die Übersicht. Der Location-Katalog ist in der Beta frei zugänglich.</li>
               <li><strong>Ruhigere Bedienung:</strong> Verständlichere Kategorien, mehr Platz in den Seitenleisten und eine rechte Seitenleiste, die beim Objektwechsel geöffnet oder geschlossen bleibt. Lokale Inventarlisten, Strombedarf, Signalübergabe, FOH-Bedarf und Funkangaben ergänzen die Planung.</li>
             </ul>
@@ -4846,11 +4846,22 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-report-subtitle { max-width:110mm; margin:0; font-size:9pt; text-align:right; white-space:pre-line; overflow-wrap:anywhere; }
 #sp-prototype .sp-report-content { flex:1 1 auto; min-height:0; }
 #sp-prototype .sp-report-footer { display:flex; flex:0 0 auto; justify-content:space-between; gap:6mm; border-top:.2mm solid #bfc6bc; padding-top:2mm; font-size:8pt; color:#626b62; }
-#sp-prototype .sp-report-plan { height:100%; display:flex; flex-direction:column; gap:3mm; }
-#sp-prototype .sp-report-figure { flex:1 1 auto; min-height:0; }
+#sp-prototype .sp-report-plan { height:100%; display:grid; gap:6mm; grid-template-columns:minmax(0,1fr); }
+#sp-prototype .sp-report-plan[data-layout="right"] { grid-template-columns:minmax(0,1fr) 72mm; }
+#sp-prototype .sp-report-plan[data-layout="both"] { grid-template-columns:62mm minmax(0,1fr) 62mm; }
+#sp-prototype .sp-report-plan[data-layout="bottom"] { grid-template-rows:minmax(0,1fr) var(--sp-plan-band); }
+#sp-prototype .sp-report-figure { min-width:0; min-height:0; }
 #sp-prototype .sp-report-figure svg { display:block; width:100%; height:100%; max-width:none; max-height:none; }
-#sp-prototype .sp-report-summary { flex:0 0 auto; padding:2mm 3mm; border-left:1mm solid #75816c; background:#f4f6f2; }
-#sp-prototype .sp-report-summary p { margin:0; font-size:9pt; }
+#sp-prototype .sp-report-aside { display:flex; flex-direction:column; gap:12px; min-width:0; min-height:0; }
+#sp-prototype .sp-report-bottom { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6mm; min-height:0; }
+#sp-prototype .sp-report-aside .sp-report-plan-info { flex:0 0 auto; min-width:0; margin:0; padding-top:2mm; border-top:.3mm solid #75816c; }
+#sp-prototype .sp-report-aside .sp-report-plan-info h3 { margin:0 0 2mm; padding:0; border:0; font-size:10pt; }
+#sp-prototype .sp-report-aside .sp-report-plan-info :is(p,table,dl) { font-size:8.5pt; }
+#sp-prototype .sp-report-aside .sp-report-plan-info p:last-child { margin-bottom:0; }
+#sp-prototype .sp-report-aside .sp-report-project { display:block; }
+#sp-prototype .sp-report-aside .sp-report-section dl { grid-template-columns:24mm minmax(0,1fr); gap:1mm 2mm; }
+#sp-prototype .sp-report-aside .sp-report-section :is(th,td) { padding:1mm; }
+#sp-prototype .sp-report-aside .sp-report-legend th:first-child { width:34%; }
 #sp-prototype .sp-report-section { margin:0 0 4mm; }
 #sp-prototype .sp-report-section h3 { margin:0 0 2mm; padding:0 0 1.5mm; border-bottom:.2mm solid #bfc6bc; font-size:12pt; line-height:1.25; }
 #sp-prototype .sp-report-section p { margin:0 0 2mm; white-space:pre-wrap; overflow-wrap:anywhere; }
@@ -5364,6 +5375,55 @@ const StageplotPrint = (() => {
     return node;
   };
 
+  function arrangePlan(layout, figure, sources) {
+    const box = figure.firstElementChild.viewBox.baseVal;
+    const eligible = sources.filter(source => {
+      const probe = element('div'); probe.innerHTML = source.html;
+      return !probe.querySelector('table') || probe.querySelectorAll('thead th').length <= 2;
+    });
+    if (!eligible.length) { layout.dataset.layout = 'none'; return new Set(); }
+    const height = layout.clientHeight, gap = 12;
+    const used = rail => [...rail.children].reduce((sum, node) => sum + node.offsetHeight + gap, -gap);
+    function compose(mode) {
+      layout.replaceChildren(); layout.dataset.layout = mode;
+      layout.style.setProperty('--sp-plan-band', Math.round(height * .35) + 'px');
+      const rails = Array.from({length:mode === 'both' ? 2 : mode === 'bottom' ? 3 : 1}, () => element('aside', 'sp-report-aside'));
+      if (mode === 'both') layout.append(rails[0], figure, rails[1]);
+      else if (mode === 'bottom') {
+        const band = element('div', 'sp-report-bottom'); band.append(...rails); layout.append(figure, band);
+      } else layout.append(figure, rails[0]);
+      const placed = new Set();
+      const blocks = eligible.map((source,index) => {
+        const block = element('section', 'sp-report-section sp-report-plan-info');
+        block.dataset.infoOrder = index;
+        block.append(element('h3', '', source.title));
+        const body = element('div'); body.innerHTML = source.html; block.append(body);
+        rails[0].append(block); const height = block.offsetHeight; block.remove();
+        return {source,block,height};
+      });
+      // Tall blocks first avoids leaving a useful second column half empty.
+      if (rails.length > 1) blocks.sort((a,b) => b.height - a.height);
+      for (const {source,block} of blocks) {
+        for (const rail of [...rails].sort((a,b) => used(a) - used(b))) {
+          rail.append(block);
+          if (rail.scrollHeight <= rail.clientHeight + 1) { placed.add(source); break; }
+          block.remove();
+        }
+      }
+      for (const rail of rails) rail.append(...[...rail.children].sort((a,b) => Number(a.dataset.infoOrder) - Number(b.dataset.infoOrder)));
+      if (mode === 'bottom') layout.style.setProperty('--sp-plan-band', Math.max(0, ...rails.map(used)) + 'px');
+      figure.firstElementChild.setAttribute('preserveAspectRatio', mode === 'right' ? 'xMinYMid meet' : 'xMidYMid meet');
+      return {mode, placed, scale:Math.min(figure.clientWidth / box.width, figure.clientHeight / box.height)};
+    }
+    // Use spare space without making the actual stage noticeably smaller.
+    const candidates = ['right', 'bottom', 'both'].map(compose).filter(candidate => candidate.placed.size);
+    if (!candidates.length) { layout.replaceChildren(figure); layout.dataset.layout = 'none'; return new Set(); }
+    const bestScale = Math.max(...candidates.map(candidate => candidate.scale));
+    const best = candidates.filter(candidate => candidate.scale >= bestScale * .94)
+      .sort((a,b) => b.placed.size - a.placed.size || ['right','bottom','both'].indexOf(a.mode) - ['right','bottom','both'].indexOf(b.mode))[0];
+    return compose(best.mode).placed;
+  }
+
   function render(host, report) {
     host.replaceChildren();
     const pages = [];
@@ -5400,12 +5460,14 @@ const StageplotPrint = (() => {
     }
     figure.append(svg);
     layout.append(figure);
-    if (report.summary.length) {
-      const summary = element('div', 'sp-report-summary');
-      report.summary.forEach(line => summary.append(element('p', '', line)));
-      layout.append(summary);
-    }
     plan.append(layout);
+    const sources = [...report.sections];
+    if (report.summary.length) {
+      const summary = element('div');
+      report.summary.forEach(line => summary.append(element('p', '', line)));
+      sources.unshift({title:'Technische Anforderungen', html:summary.innerHTML});
+    }
+    const onPlan = arrangePlan(layout, figure, sources);
 
     let content = null;
     const fits = () => content.scrollHeight <= content.clientHeight + 1;
@@ -5416,7 +5478,8 @@ const StageplotPrint = (() => {
       content.append(node);
       return node;
     }
-    for (const source of report.sections) {
+    for (const source of sources) {
+      if (onPlan.has(source)) continue;
       const template = element('div');
       template.innerHTML = source.html;
       if (!template.textContent.trim()) continue;
@@ -8280,6 +8343,66 @@ function createStageplotSymbolV3(type, options = {}) {
     svg.querySelectorAll('[data-stage-side]').forEach(n=>{const left=n.dataset.stageSide==='left',tx=left?mx+c.bounds.maxX*scale+sideOffset:mx+c.bounds.minX*scale-sideOffset,ty=y+d/2;n.setAttribute('x',tx);n.setAttribute('y',ty);n.setAttribute('fill','var(--sp-muted)');n.setAttribute('transform','rotate('+(left?90:-90)+' '+tx+' '+ty+')');});
     svg.setAttribute('aria-label','Bühnenplan: '+metres(b.maxX-b.minX)+' mal '+metres(b.maxY-b.minY)+', freier Grundriss, Publikum unten');
   }
+  function positionPrintDimensions(svg,b,scale,mx,top,venue=null){
+    const x=mx+b.minX*scale,y=top+b.minY*scale,w=(b.maxX-b.minX)*scale,d=(b.maxY-b.minY)*scale,offset=14;
+    const width=svg.querySelector('[data-dim-width]'),depth=svg.querySelector('[data-dim-depth]');
+    const attrs=(node,values)=>{if(node)for(const [key,value] of Object.entries(values))node.setAttribute(key,value);};
+    const occupied=[...svg.querySelectorAll('[data-stairs-zone],[data-object],[data-label-for],[data-iem-zone],[data-venue-part]')].flatMap(node=>{
+      try{const box=node.getBBox(),m=node.transform.baseVal.consolidate()?.matrix,points=[[box.x,box.y],[box.x+box.width,box.y],[box.x,box.y+box.height],[box.x+box.width,box.y+box.height]].map(([px,py])=>m?new DOMPoint(px,py).matrixTransform(m):{x:px,y:py});return [{left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))}];}catch(error){return [];}
+    });
+    const horizontal=cy=>occupied.filter(box=>box.top-5<cy&&box.bottom+5>cy).reduce((sum,box)=>sum+Math.max(0,Math.min(x+w,box.right)-Math.max(x,box.left)),0);
+    const vertical=cx=>occupied.filter(box=>box.left-5<cx&&box.right+5>cx).reduce((sum,box)=>sum+Math.max(0,Math.min(y+d,box.bottom)-Math.max(y,box.top)),0);
+    const sides={top:!venue,bottom:!venue,left:!venue,right:!venue};let partialWidth=false,partialDepth=false;
+    if(venue)for(const polygon of venue.floor)for(const ring of polygon)ring.slice(0,-1).forEach((a,i)=>{
+      const c=ring[i+1],near=(a,b)=>Math.abs(a-b)<.000001;
+      if(near(a[1],c[1])){partialWidth=true;if(near(Math.min(a[0],c[0]),b.minX)&&near(Math.max(a[0],c[0]),b.maxX)){if(near(a[1],b.minY))sides.top=true;if(near(a[1],b.maxY))sides.bottom=true;}}
+      if(near(a[0],c[0])){partialDepth=true;if(near(Math.min(a[1],c[1]),b.minY)&&near(Math.max(a[1],c[1]),b.maxY)){if(near(a[0],b.minX))sides.left=true;if(near(a[0],b.maxX))sides.right=true;}}
+    });
+    // Prefer a full physical edge. Overall extents of stepped outlines get a
+    // separate outer lane so they cannot sit on a shorter perimeter dimension.
+    const below=sides.top!==sides.bottom?sides.bottom:horizontal(y+d+offset)<horizontal(y-offset),right=sides.left!==sides.right?sides.right:vertical(x+w+offset)<vertical(x-offset);
+    const widthOffset=!sides.top&&!sides.bottom&&partialWidth?38:offset,depthOffset=!sides.left&&!sides.right&&partialDepth?38:offset,widthY=below?y+d+widthOffset:y-widthOffset,depthX=right?x+w+depthOffset:x-depthOffset;
+    const segments=(start,end,blocks)=>blocks.reduce((parts,[lo,hi])=>parts.flatMap(([a,b])=>hi<=a||lo>=b?[[a,b]]:[[a,Math.max(a,lo)],[Math.min(b,hi),b]].filter(([a,b])=>b-a>5)),[[start,end]]);
+    const widthSegments=segments(x,x+w,occupied.filter(box=>box.top-5<widthY&&box.bottom+5>widthY).map(box=>[box.left-5,box.right+5]));
+    const depthSegments=segments(y,y+d,occupied.filter(box=>box.left-5<depthX&&box.right+5>depthX).map(box=>[box.top-5,box.bottom+5]));
+    const labelAt=(parts,center)=>{if(parts.some(([a,b])=>center-a>24&&b-center>24))return center;const best=[...parts].sort((a,b)=>(b[1]-b[0])-(a[1]-a[0]))[0];return best?(best[0]+best[1])/2:center;};
+    attrs(svg.querySelector('[data-stage-measure="width"]'),{x1:x,x2:x+w,y1:widthY,y2:widthY,stroke:'none','data-measure-side':below?'bottom':'top'});
+    svg.querySelectorAll('[data-stage-measure-tick="width"]').forEach((node,i)=>attrs(node,{x1:x+i*w,x2:x+i*w,y1:widthY-4,y2:widthY+4}));
+    const textStyle={'dominant-baseline':'central','paint-order':'stroke',stroke:'var(--sp-paper)','stroke-width':5,'stroke-linejoin':'round'};
+    if(width){const group=sEl('g',{'data-measure-segments':'width'},svg);for(const [a,b] of widthSegments)sEl('line',{x1:a,x2:b,y1:widthY,y2:widthY,stroke:'var(--sp-muted)','stroke-width':.7},group);svg.append(width);}
+    attrs(width,{x:labelAt(widthSegments,x+w/2),y:widthY,...textStyle});
+    if(depth){
+      const group=sEl('g',{'data-stage-depth-dimension':'true'},svg);
+      sEl('line',{x1:depthX,x2:depthX,y1:y,y2:y+d,stroke:'none','data-stage-measure':'depth','data-measure-side':right?'right':'left'},group);
+      for(const [a,b] of depthSegments)sEl('line',{x1:depthX,x2:depthX,y1:a,y2:b,stroke:'var(--sp-muted)','stroke-width':.7},group);
+      for(const cy of [y,y+d])sEl('line',{x1:depthX-4,x2:depthX+4,y1:cy,y2:cy,stroke:'var(--sp-muted)','data-stage-measure-tick':'depth'},group);
+      const depthY=labelAt(depthSegments,y+d/2);group.append(depth);attrs(depth,{x:depthX,y:depthY,transform:'rotate('+(right?90:-90)+' '+depthX+' '+depthY+')',...textStyle});
+    }
+    const orientations=svg.querySelectorAll('.sp-orientation');
+    attrs(orientations[0],{y:Math.min(y,...occupied.map(box=>box.top))-(venue?48:width&&!below?36:16)});
+    if(venue)svg.querySelectorAll('[data-stage-side]').forEach(node=>{const right=node.dataset.stageSide==='left',cx=right?Math.max(x+w,...occupied.map(box=>box.right))+30:Math.min(x,...occupied.map(box=>box.left))-30;attrs(node,{x:cx,transform:'rotate('+(right?90:-90)+' '+cx+' '+(y+d/2)+')'});});
+    attrs(orientations[1],{y:Math.max(y+d,...occupied.map(box=>box.bottom))+(width&&below?36:28)});
+  }
+  function layoutPrintSummary(svg,lines){
+    if(!lines.length)return;
+    const bounds=exportArtworkBounds(svg);if(!bounds)return;
+    const W=1047,H=610,gap=24,pad=12,lineHeight=15;
+    const wrap=(value,width)=>{const output=[],max=Math.max(20,Math.floor((width-2*pad)/6));while(value.length>max){const space=value.lastIndexOf(' ',max),cut=space>8?space:max;output.push(value.slice(0,cut));value=value.slice(cut).trimStart();}if(value)output.push(value);return output;};
+    const options=['right','bottom'].map(side=>{
+      const width=side==='right'?280:Math.max(bounds.width,350),text=lines.flatMap(line=>wrap(line,width)),height=36+text.length*lineHeight;
+      const area={x:bounds.x,y:bounds.y,width:side==='right'?bounds.width+gap+width:Math.max(bounds.width,width),height:side==='right'?Math.max(bounds.height,height):bounds.height+gap+height};
+      return {side,width,height,text,area,scale:Math.min(W/area.width,H/area.height)};
+    });
+    const choice=options.sort((a,b)=>b.scale-a.scale)[0],{area,width,height,text,side}=choice,x=side==='right'?bounds.x+bounds.width+gap:bounds.x,y=side==='right'?bounds.y:bounds.y+bounds.height+gap;
+    const group=sEl('g',{'data-production-summary':'true','data-summary-position':side},svg);
+    sEl('line',{x1:x,y1:y,x2:x+width,y2:y,stroke:'#75816c','stroke-width':1},group);
+    sEl('text',{x:x+pad,y:y+19,fill:'#30392c','font-size':12,'font-weight':700},group,'Technische Anforderungen');
+    text.forEach((line,i)=>sEl('text',{x:x+pad,y:y+38+i*lineHeight,fill:'#30392c','font-size':11},group,line));
+    // The export crop must include the new information column, even outside the old viewport.
+    svg.setAttribute('viewBox',[area.x-4,area.y-4,area.width+8,area.height+8].join(' '));
+    svg.setAttribute('width',area.width+8);svg.setAttribute('height',area.height+8);
+    const background=svg.querySelector('[data-canvas-background]');if(background)for(const [key,value] of Object.entries({x:area.x-4,y:area.y-4,width:area.width+8,height:area.height+8}))background.setAttribute(key,value);
+  }
   function projectPreviewBounds(s,list){
     const b=s.geometry?{...compiledVenue(s,list).bounds}:{minX:0,minY:0,maxX:s.w,maxY:s.d};
     for(const o of list.filter(o=>byId[o.type]?.stageAccess)){
@@ -8750,7 +8873,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(W<80||!s) return;
     renderedWidths.set(host.id,W);
     const left=W<340?31:40,right=23,coarse=window.matchMedia('(pointer: coarse)').matches;
-    const technicalLines=(mode==='print'&&$('sp-export-format').value==='pdf'?[]:productionLines(s)).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
+    const technicalLines=(mode==='print'?[]:productionLines(s)).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
     const editorFooter=mode==='editor'?56:0;
     const header=43,bottom=(mode==='editor'?36:47)+technicalHeight+editorFooter;
     const area=mode==='editor'?editorWorkspaceBounds(s,list):workspaceBounds(s,list);
@@ -8967,6 +9090,7 @@ function createStageplotSymbolV3(type, options = {}) {
       for(const [dir,hx,hy,cursor] of grips)sEl('rect',{x:hx-6,y:hy-6,width:12,height:12,rx:2.5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':1.8,'data-stage-resize':dir,style:'cursor:'+cursor},hg);
     }
     if(venue)positionVenueDimensions(svg,venue,scale,mx,top);
+    if(mode==='print')positionPrintDimensions(svg,venue?venue.floorBounds:{minX:0,minY:0,maxX:s.w,maxY:s.d},scale,mx,top,venue);
     if(mode==='editor'){
       svg.dataset.interactive='true';svg.dataset.originX=mx;svg.dataset.originY=top;svg.dataset.scale=scale;
       svg.addEventListener('pointerdown',startObjectDrag);
@@ -10612,7 +10736,8 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     if(objects.some(o=>iemOverlap(o,stage)))warnings.push('IEM-Stellfläche prüfen');
     $('sp-print-status').textContent=warnings.join(' · ');
     drawFloor($('sp-print-floor'),stage,objects,'print');
-    if(exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);}}
+    if(!pdf)layoutPrintSummary($('sp-print-floor').querySelector('svg'),productionLines(stage));
+    if(exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);const background=svg.querySelector('[data-canvas-background]');if(background)for(const [key,value] of Object.entries(crop))background.setAttribute(key,value);}}
 
     const legendOn=$('sp-print-legend-toggle').checked,notesOn=$('sp-print-notes').checked,inputsOn=$('sp-print-inputs').checked,outputsOn=$('sp-print-routing').checked;
     $('sp-print-legend-section').hidden=!legendOn;$('sp-print-notes-section').hidden=!notesOn;$('sp-print-inputs-section').hidden=!inputsOn;$('sp-print-routing-section').hidden=!outputsOn;
@@ -10663,7 +10788,7 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
   }
   function renderPrintPages(notes){
     const p=normalizeProjectInfo(stage.project,stage.title),sections=[];
-    if($('sp-print-production').checked&&([p.artist,p.venue,p.date,p.author,p.tour,p.company].some(Boolean)||Object.values(p.contacts||{}).some(c=>c.name||c.contact)))sections.push({title:'Projektdaten & Kontakte',html:'<div class="sp-report-project">'+projectPrintMarkup()+'</div>'});
+    if($('sp-print-production').checked&&([p.author,p.tour,p.company].some(Boolean)||Object.values(p.contacts||{}).some(c=>c.name||c.contact)))sections.push({title:'Projektdaten & Kontakte',html:'<div class="sp-report-project">'+projectPrintMarkup({compact:true,requirements:false})+'</div>'});
     if($('sp-print-legend-toggle').checked&&objects.length){
       const rows=objects.map(o=>'<tr><td><strong>'+esc(o.label||byId[o.type].name)+'</strong></td><td>'+[objectDetail(o),$('sp-print-outs').checked?audioObjectChannels(o):'',...objectProductionLines(o),o.note].filter(Boolean).map(esc).join(' · ')+'</td></tr>').join('');
       sections.push({title:'Equipment & Anforderungen',html:'<table class="sp-report-legend"><thead><tr><th>Element</th><th>Details</th></tr></thead><tbody>'+rows+'</tbody></table>'});
@@ -10676,11 +10801,11 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     const pages=StageplotPrint.render($('sp-report-pages'),{title:stage.title,subtitle,id:projectIdentity(stage.projectId),svg,summary:productionLines(stage),sections});
     $('sp-export-preview-title').textContent=pages+' '+(pages===1?'Seite':'Seiten')+' · A4 quer';
   }
-  function projectPrintMarkup(){
+  function projectPrintMarkup(options={}){
     const p=normalizeProjectInfo(stage.project,stage.title),m=projectMeasurements(stage,objects),fields=[['Projekt-ID',projectIdentity(stage.projectId)],['Datum',p.date.split('-').reverse().join('.')],['Band / Act',p.artist],['Location',p.venue],['Autor',p.author],['Tour',p.tour],['Produktionsfirma',p.company],['Bühnenfläche',num(m.width)+' × '+metres(m.depth)]];
     if(Math.abs(m.totalWidth-m.width)>.005||Math.abs(m.totalDepth-m.depth)>.005)fields.push(['Gesamt inkl. Anbauten',num(m.totalWidth)+' × '+metres(m.totalDepth)]);
-    const contacts=Object.entries(p.contacts).filter(([,c])=>c.name||c.contact),labels={stageManager:'Stage Manager',foh:'FOH',monitor:'Monitor',advance:'Advance'},requirements=productionLines(stage);
-    return '<dl class="sp-print-project-fields">'+fields.filter(([,value])=>value).map(([label,value])=>'<dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd>').join('')+'</dl><div>'+(contacts.length?'<strong>Technische Kontakte</strong>'+contacts.map(([key,c])=>'<p>'+esc(labels[key]+': '+[c.name,c.contact].filter(Boolean).join(' · '))+'</p>').join(''):'')+(requirements.length?'<strong>Technische Anforderungen</strong><p>'+esc(requirements.join('\n'))+'</p>':'')+'</div>';
+    const contacts=Object.entries(p.contacts).filter(([,c])=>c.name||c.contact),labels={stageManager:'Stage Manager',foh:'FOH',monitor:'Monitor',advance:'Advance'},requirements=options.requirements===false?[]:productionLines(stage);
+    return '<dl class="sp-print-project-fields">'+fields.filter(([label,value])=>value&&(!options.compact||['Autor','Tour','Produktionsfirma'].includes(label))).map(([label,value])=>'<dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd>').join('')+'</dl><div>'+(contacts.length?'<strong>Technische Kontakte</strong>'+contacts.map(([key,c])=>'<p>'+esc(labels[key]+': '+[c.name,c.contact].filter(Boolean).join(' · '))+'</p>').join(''):'')+(requirements.length?'<strong>Technische Anforderungen</strong><p>'+esc(requirements.join('\n'))+'</p>':'')+'</div>';
   }
   function runExportIntent(){
     if(!flushProjectForm(true))return;
@@ -10708,9 +10833,9 @@ $('sp-audio-mic-choices').addEventListener('click',e=>{const button=e.target.clo
     exportImageCache.set(key,promise);promise.catch(()=>exportImageCache.delete(key));return promise;
   }
   function exportArtworkBounds(svg,padding=4){
-    const view=svg.viewBox.baseVal,boxes=[];
+    const boxes=[];
     for(const node of svg.children){if(['defs','title'].includes(node.tagName.toLowerCase())||node.matches('[data-canvas-background]'))continue;try{const box=node.getBBox(),matrix=node.transform.baseVal.consolidate()?.matrix;if(box.width||box.height){if(matrix){const points=[[box.x,box.y],[box.x+box.width,box.y],[box.x,box.y+box.height],[box.x+box.width,box.y+box.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix)),xs=points.map(p=>p.x),ys=points.map(p=>p.y);boxes.push({x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)});}else boxes.push(box);}}catch(error){}}
-    if(!boxes.length)return null;const left=Math.max(view.x,Math.min(...boxes.map(box=>box.x))-padding),top=Math.max(view.y,Math.min(...boxes.map(box=>box.y))-padding),right=Math.min(view.x+view.width,Math.max(...boxes.map(box=>box.x+box.width))+padding),bottom=Math.min(view.y+view.height,Math.max(...boxes.map(box=>box.y+box.height))+padding);
+    if(!boxes.length)return null;const left=Math.min(...boxes.map(box=>box.x))-padding,top=Math.min(...boxes.map(box=>box.y))-padding,right=Math.max(...boxes.map(box=>box.x+box.width))+padding,bottom=Math.max(...boxes.map(box=>box.y+box.height))+padding;
     return {x:left,y:top,width:Math.max(1,right-left),height:Math.max(1,bottom-top)};
   }
   async function exportSvgMarkup(svg,crop=null){
