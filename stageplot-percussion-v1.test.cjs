@@ -76,4 +76,26 @@ const pointer=(type,x,y,partId='p1',pointerId=1)=>canvas.emit(type,{button:0,poi
 open();pointer('pointerdown',0,0);pointer('pointermove',27,18);pointer('pointerup',27,18);click({action:'save'});assert.equal(results.at(-1).config.parts[0].x,.05);assert.equal(results.at(-1).config.parts[0].y,.2);
 open();pointer('pointerdown',0,0);pointer('pointermove',80,20);pointer('pointercancel',80,20);click({action:'save'});assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),compact);
 open();pointer('pointerdown',0,0);pointer('pointermove',80,20);pointer('pointerdown',120,20,null,2);pointer('pointermove',200,20,null,2);pointer('pointerup',200,20,null,2);pointer('pointerup',80,20);click({action:'save'});assert.deepEqual(JSON.parse(JSON.stringify(results.at(-1).config)),compact,'Two-finger view gestures must not move instruments.');
+// Exact outside measurements must survive editing, undo, saved drafts and export.
+const measured={...model.part('multipad','measured'),width:.4123,depth:.3056,scale:1.4};
+assert.deepEqual(model.dimensions(model.normalize({parts:[measured]}).parts[0]),{w:.4123,d:.3056});
+assert.deepEqual(model.dimensions(model.normalize({parts:[{...measured,width:undefined,depth:undefined}]}).parts[0]),{w:model.byId.multipad.w*1.4,d:model.byId.multipad.d*1.4},'Legacy scaling must remain valid.');
+const rotatedMeasured=model.layout({parts:[{...measured,angle:90}]});
+assert.equal(rotatedMeasured.w,.3556);assert.equal(rotatedMeasured.d,.4623);
+open();click({select:'p1'});
+const dimensionInput={dataset:{field:'width'},valueAsNumber:41.23,value:'41.23'};
+properties.emit('input',{target:dimensionInput});properties.emit('change',{target:dimensionInput});
+assert.equal(dimensionInput.value,41.23);click({action:'save'});
+assert.equal(results.at(-1).config.parts[0].width,.4123);
+assert.equal(model.dimensions(results.at(-1).config.parts[0]).d,model.dimensions(compact.parts[0]).d,'Changing width must not silently change the depth.');
+editor.open({id:'station-1',percussion:results.at(-1).config});click({select:'p1'});
+properties.emit('change',{target:{dataset:{field:'width'},valueAsNumber:60,value:'60'}});click({action:'undo'});click({action:'save'});
+assert.equal(results.at(-1).config.parts[0].width,.4123);
+const measuredExport=exporter.createSetupExport('Measured percussion',{stage:{w:8,d:5,title:'Measured percussion'},objects:[{id:'measured',type:'percussion',x:2,y:2,angle:0,percussion:results.at(-1).config}]},{exportedAt:100});
+assert.equal(exporter.parseSetupJson(exporter.stringifySetupJson(measuredExport)).document.objects[0].percussion.parts[0].width,.4123);
+for(const c of model.catalog){
+ const markup=model.imageMarkup(model.part(c.id,'p1'));
+ assert.match(markup,/style="filter:grayscale\(1\)"/,'Grayscale travels with the image into symbols and exports.');
+ assert.match(markup,/viewBox="1 1 /,'Packaging margins must not count as instrument size.');
+}
 console.log('PASS PERCUSSION: generated local assets, geometry, portable project data, stable mono/stereo IDs, real editor add/rotate/duplicate/preset/undo/save/cancel and pointer/pinch handlers.');

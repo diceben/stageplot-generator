@@ -69,6 +69,14 @@ function createStageplotDrumModel() {
     if(value.version===1&&!['small','medium','large'].includes(value.size))throw new Error('Die Datei ist kein gültiges Stageplot-Drumdesign.');
     return createDrumDesign(value.name,value.config);
   }
+  // 50 drawing units = 1 metre; a diameter in inches becomes radius * .635.
+  // Calibrate the visible head/disc, not the transparent image rectangle.
+  function drumImageGeometry(p){
+    const spec=p.kind==='snare'?[221,225,111,114,85,85]:p.kind==='tom'?(p.id.startsWith('floor')?[252,262,126,129,99,99]:[238,239,119,122,93,91]):p.kind==='hihat'?[313,512,156.5,148,149,148]:p.variant==='ride'?[461,512,230.5,263.5,209,196]:p.variant==='crash'?[508,512,254,276,171,170]:null;
+    if(!spec)return null;
+    const [sw,sh,cx,cy,rx,ry]=spec,sx=p.r/rx,sy=p.r/ry;
+    return {w:sw*sx,h:sh*sy,dx:(sw/2-cx)*sx,dy:(sh/2-cy)*sy};
+  }
   function drumLayout(type,value) {
     const c=normalizeDrums(type,value),parts=[],add=(id,kind,x,y,r,extra={})=>parts.push({id,kind,x,y,r,...extra,angle:c.rotations[id]||0});
     const baseVb=[144,102],riserModules=c.riserPreset==='3x'?3:c.riserPreset==='2x'?2:0;
@@ -76,17 +84,18 @@ function createStageplotDrumModel() {
     // adjacent modules form a 2 x 2 m or 3 x 2 m drum platform.
     const riserWidth=riserModules*50,riserDepth=riserModules?100:0,vb=[Math.max(baseVb[0],riserWidth),Math.max(baseVb[1],riserDepth)],cx=vb[0]/2;
     if(c.throne)add('throne','throne',cx,10,9);
-    for(let i=0;i<c.kickCount;i++){const r=c.kickDiameter*.635,w=r*2*1.6;add('kick'+(i+1),'kick',c.kickCount===1?cx:cx-15.5+i*31,51,r,{w,h:w*543/512});}
+    for(let i=0;i<c.kickCount;i++){const r=c.kickDiameter*.635,w=r*2*1.6;add('kick'+(i+1),'kick',c.kickCount===1?cx:cx-15.5+i*31,51,r,{w,h:c.kickDepth*1.27*320/225,depth:c.kickDepth});}
     const rackPositions=({1:[[cx,74]],2:[[cx+11,74],[cx-11,74]],3:[[cx+18,72],[cx,76],[cx-18,72]],4:[[cx+27,68],[cx+9,75],[cx-9,75],[cx-27,68]]})[c.rackToms.length]||[];
-    c.rackToms.forEach((t,i)=>add('rack'+(i+1),'tom',...rackPositions[i],t.diameter*.665,{diameter:t.diameter,depth:t.depth,mount:t.mount}));
-    c.floorToms.forEach((t,i)=>add('floor'+(i+1),'tom',...[[cx-19,48],[cx-31,31],[cx-41,49]][i],t.diameter*.665,{diameter:t.diameter,depth:t.depth}));
-    if(c.snare)add('snare','snare',cx+21,48,c.snareDiameter*.665);if(c.side)add('side','snare',cx+27,30,c.sideDiameter*.665);
-    if(c.hihat)add('hihat','hihat',cx+39,48,c.hatSize*.645,{variant:'hihat'});if(c.ride)add('ride','cymbal',cx-40,60,c.rideSize*.65,{variant:'ride'});
-    c.crashes.forEach((size,i)=>add('crash'+(i+1),'cymbal',...[[cx+35,76],[cx-40,70],[cx+52,60],[cx-8,87]][i],size*.65,{variant:'crash'}));
-    for(let i=0;i<c.splash;i++)add('splash'+(i+1),'cymbal',...[[cx+4,88],[cx-10,87],[cx+19,86],[cx-25,86]][i],6.5,{variant:'splash'});
-    for(let i=0;i<c.china;i++)add('china'+(i+1),'cymbal',...[[cx-24,84],[cx+53,80]][i],11.7,{variant:'china'});
-    if(c.clapstack)add('clapstack','cymbal',cx-23,62,c.clapSize*.58,{variant:'clapstack'});
-    if(c.pad)add('pad','pad',cx+37,15,13.5,{w:27,h:23.7});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
+    c.rackToms.forEach((t,i)=>add('rack'+(i+1),'tom',...rackPositions[i],t.diameter*.635,{diameter:t.diameter,depth:t.depth,mount:t.mount}));
+    c.floorToms.forEach((t,i)=>add('floor'+(i+1),'tom',...[[cx-19,48],[cx-31,31],[cx-41,49]][i],t.diameter*.635,{diameter:t.diameter,depth:t.depth}));
+    if(c.snare)add('snare','snare',cx+21,48,c.snareDiameter*.635);if(c.side)add('side','snare',cx+27,30,c.sideDiameter*.635);
+    if(c.hihat)add('hihat','hihat',cx+39,48,c.hatSize*.635,{variant:'hihat'});if(c.ride)add('ride','cymbal',cx-40,60,c.rideSize*.635,{variant:'ride'});
+    c.crashes.forEach((size,i)=>add('crash'+(i+1),'cymbal',...[[cx+35,76],[cx-40,70],[cx+52,60],[cx-8,87]][i],size*.635,{variant:'crash'}));
+    for(let i=0;i<c.splash;i++)add('splash'+(i+1),'cymbal',...[[cx+4,88],[cx-10,87],[cx+19,86],[cx-25,86]][i],10*.635,{variant:'splash'});
+    for(let i=0;i<c.china;i++)add('china'+(i+1),'cymbal',...[[cx-24,84],[cx+53,80]][i],18*.635,{variant:'china'});
+    if(c.clapstack)add('clapstack','cymbal',cx-23,62,c.clapSize*.635,{variant:'clapstack'});
+    if(c.pad)add('pad','pad',cx+37,15,9.1,{w:18.2,h:16.55});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
+    for(const p of parts){const art=drumImageGeometry(p);if(art)p.art=art;}
     const placed=parts.map(p=>{const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5;return {...p,x:clamp(p.x,halfW,vb[0]-halfW,p.x),y:clamp(p.y,halfH,vb[1]-halfH,p.y)};});
     for(const p of placed)if(c.positions[p.id]){
       const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5,position=c.positions[p.id];
@@ -113,28 +122,25 @@ function createStageplotDrumModel() {
       if(p.kind==='kick'){
         // Match the shell and pedal crops used by the overhead renderer without
         // turning their empty shared bounding rectangle into selectable space.
-        const shellWidth=p.w,baseHeight=shellWidth*.9375*543/512,shellHeight=shellWidth*320/512,rawShellY=p.y-baseHeight*.33+baseHeight*160/543;
+        const shellWidth=p.w,shellHeight=p.h,rawShellY=p.y+shellHeight*2.5/320;
         selectionRect(p,'shell',p.x,2*p.y-rawShellY,shellWidth+1,shellHeight+1,2);
-        const pedalWidth=12.55,pedalHeight=19.1,rawPedalY=p.y+19.45;
+        const pedalWidth=12.55,pedalHeight=19.1,rawPedalY=p.y+p.depth*1.27/2+pedalHeight/2-1.5;
         selectionRect(p,'pedal',p.x,2*p.y-rawPedalY,pedalWidth+1,pedalHeight+1,1.5);
         if(layout.pedal==='double'&&layout.parts.filter(part=>part.kind==='kick').length===1){
           const rawPedalX=p.x+(layout.leftHanded?-pedalWidth*.68:pedalWidth*.68),pedalAngle=layout.leftHanded?14:-14;
           selectionRect(p,'pedal-double',2*p.x-rawPedalX,2*p.y-(rawPedalY+.4),pedalWidth+1,pedalHeight+1,1.5,(Number(p.angle)||0)+pedalAngle);
         }
       }else if(p.kind==='hihat'){
-        const cymbalWidth=p.r*2.15,cymbalHeight=cymbalWidth*512/313,cymbalY=p.y+cymbalHeight/2-cymbalHeight*148/512;
-        selectionEllipse(p,'cymbal',p.x,cymbalY,cymbalWidth*149/313,cymbalHeight*148/512);
+        selectionEllipse(p,'cymbal',p.x,p.y,p.r,p.r);
         const standWidth=19.4,standHeight=standWidth*512/313,pedalWidth=10.7,pedalHeight=17.7,rawPedalY=p.y-standHeight/2+standHeight*315/512+pedalHeight/2;
         selectionRect(p,'pedal',p.x,2*p.y-rawPedalY,pedalWidth,pedalHeight,1.5);
       }else if(['pad','table','bongos'].includes(p.kind))selectionRect(p,'body',p.x,p.y,p.w||18,p.h||22,1.5);
       else if(p.kind==='throne')selectionEllipse(p,'seat',p.x,p.y,p.r*1.375,p.r*1.42);
-      else if(p.kind==='snare')selectionEllipse(p,'shell',p.x,p.y,p.r*1.175,p.r*1.175*225/221);
+      else if(p.kind==='snare')selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
       else if(p.kind==='tom'){
-        const floor=p.id.startsWith('floor'),scale=floor?1.325:1.09,ratio=floor?262/252:239/238;
-        selectionEllipse(p,'shell',p.x,p.y,p.r*scale,p.r*scale*ratio);
+        selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
       }else if(p.kind==='cymbal'&&['ride','crash'].includes(p.variant)){
-        const width=p.r*2.85,spec=p.variant==='ride'?[461,512,209,196]:[508,512,171,170];
-        selectionEllipse(p,'cymbal',p.x,p.y,width*spec[2]/spec[0],width*spec[3]/spec[0]);
+        selectionEllipse(p,'cymbal',p.x,p.y,p.r,p.r);
       }else selectionEllipse(p,p.kind==='cymbal'?'cymbal':'body',p.x,p.y,p.r,p.r);
     }
     const points=[];

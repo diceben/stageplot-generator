@@ -17,9 +17,9 @@ function createStageplotSymbolV3(type, options = {}) {
   const ellipse = (cx,cy,rx,ry,fill='#fafafa',sw=.6,stroke='#333') => node('ellipse',{cx,cy,rx,ry,fill,stroke,'stroke-width':sw});
   const group = (transform='',part='') => { out += '<g'+(transform?' transform="'+transform+'"':'')+(part?' data-part="'+part+'"':'')+'>'; };
   const end = () => { out += '</g>'; };
-  const drumAsset = (name,x,y,width,height,angle=0,extension='webp') => {
+  const drumAsset = (name,x,y,width,height,angle=0,extension='webp',aspect='xMidYMid meet') => {
     group(angle?'rotate('+angle+' '+f(x)+' '+f(y)+')':'');
-    node('image',{href:'stageplot-assets/drums/'+name+'.'+extension,x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:'xMidYMid meet','data-rendered-drum-asset':name});
+    node('image',{href:'stageplot-assets/drums/'+name+'.'+extension,x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:aspect,'data-rendered-drum-asset':name});
     end();
   };
   const drumAssetCrop = (name,sourceWidth,sourceHeight,cropX,cropY,cropWidth,cropHeight,x,y,width,height,angle=0,extension='png',part='') => {
@@ -45,7 +45,7 @@ function createStageplotSymbolV3(type, options = {}) {
       rod(x1,y1,x2,y2,.68);ellipse(x2,y2,.62,.78,'#444',.28);
     }
     end();
-    group();node('image',{href:'stageplot-assets/drums/floor-tom.webp',x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:'xMidYMid meet','clip-path':'url(#'+clipId+')','data-rendered-drum-asset':'floor-tom'});end();
+    group();node('image',{href:'stageplot-assets/drums/floor-tom.webp',x:f(x-width/2),y:f(y-height/2),width:f(width),height:f(height),preserveAspectRatio:'none','clip-path':'url(#'+clipId+')','data-rendered-drum-asset':'floor-tom'});end();
   };
   const bolt = (x,y,r=.65) => {circle(x,y,r,'#ddd',.3);line(x-r*.5,y,x+r*.5,y,.25);};
   const rod = (x1,y1,x2,y2,w=1.4) => {line(x1,y1,x2,y2,w,'#3a3a3a');line(x1,y1,x2,y2,w*.32,'#c5c5c5');};
@@ -167,7 +167,7 @@ function createStageplotSymbolV3(type, options = {}) {
   };
   const pad = (x,y,width=27,height=23.7) => {
     group('','sample-pad');
-    drumAsset('spdsx-overhead-preview-v1',x,y,width,height,0,'png');
+    drumAssetCrop('spdsx-overhead-preview-v1',768,768,31,68,706,614,x,y,width,height,0,'png','sample-pad-body');
     end();
   };
   const keybed = (x,y,w,h,whiteCount,startNote=0,inverse=false) => {
@@ -269,23 +269,23 @@ function createStageplotSymbolV3(type, options = {}) {
       group(p.angle?'rotate('+f(p.angle)+' '+f(p.x)+' '+f(p.y)+')':'',p.id);
       if(p.kind==='throne')drumAsset('throne',p.x,p.y,p.r*2.75,p.r*2.84);
       else if(p.kind==='kick'){
-        const shellWidth=p.w,baseWidth=shellWidth*1.5/1.6,baseHeight=baseWidth*543/512,shellCropHeight=320,shellHeight=shellWidth*shellCropHeight/512;
-        const imageTop=p.y-baseHeight*.33,shellY=imageTop+baseHeight*(shellCropHeight/2)/543,pedalCrop={x:166,y:290,w:180,h:253};
-        const pedalWidth=12.55,pedalHeight=19.1,pedalY=p.y+19.45,doublePedal=layout.pedal==='double'&&layout.parts.filter(v=>v.kind==='kick').length===1;
+        const shellWidth=p.w,shellCropHeight=320,shellHeight=p.h;
+        const shellY=p.y+shellHeight*2.5/320,pedalCrop={x:166,y:290,w:180,h:253};
+        const pedalWidth=12.55,pedalHeight=19.1,pedalY=p.y+p.depth*1.27/2+pedalHeight/2-1.5,doublePedal=layout.pedal==='double'&&layout.parts.filter(v=>v.kind==='kick').length===1;
         group('rotate(180 '+f(p.x)+' '+f(p.y)+')');group('','kick-overhead');group('','kick-shell-top');drumAssetCrop('kick-overhead-v3',512,543,0,0,512,shellCropHeight,p.x,shellY,shellWidth,shellHeight,0,'png','kick-shell-image');end();
         drumAssetCrop('kick-overhead-v3',512,543,pedalCrop.x,pedalCrop.y,pedalCrop.w,pedalCrop.h,p.x,pedalY,pedalWidth,pedalHeight,0,'png','kick-pedal-primary');
         if(doublePedal)drumAssetCrop('kick-overhead-v3',512,543,pedalCrop.x,pedalCrop.y,pedalCrop.w,pedalCrop.h,p.x+(layout.leftHanded?-pedalWidth*.68:pedalWidth*.68),pedalY+.4,pedalWidth,pedalHeight,layout.leftHanded?14:-14,'png','kick-pedal-double');end();end();
       }
       else if(p.kind==='tom'||p.kind==='snare'){
-        const floor=p.id.startsWith('floor'),name=p.kind==='snare'?'snare':floor?'floor-tom':'rack-tom',width=p.r*(p.kind==='snare'?2.35:floor?2.65:2.18),ratio=p.kind==='snare'?225/221:floor?262/252:239/238;
-        if(floor)floorTomAsset(p.x,p.y,width,width*ratio,p.id);else drumAsset(name,p.x,p.y,width,width*ratio);
+        const floor=p.id.startsWith('floor'),name=p.kind==='snare'?'snare':floor?'floor-tom':'rack-tom',a=p.art;
+        if(floor)floorTomAsset(p.x+a.dx,p.y+a.dy,a.w,a.h,p.id);else drumAsset(name,p.x+a.dx,p.y+a.dy,a.w,a.h,0,'webp','none');
       }
       else if(p.kind==='hihat'){
-        const width=p.r*2.15,height=width*512/313;group('rotate(180 '+f(p.x)+' '+f(p.y)+')','hihat-foreground');
-        drumAssetEllipseLayer('hihat-overhead-v2',313,512,p.x,p.y,width,height,156.5,148,149,148,'over',512,'png','hihat-cymbal-foreground');end();
+        const {w:width,h:height,dx,dy}=p.art;group('rotate(180 '+f(p.x)+' '+f(p.y)+')','hihat-foreground');
+        drumAssetEllipseLayer('hihat-overhead-v2',313,512,p.x+dx,p.y+dy,width,height,156.5,148,149,148,'over',512,'png','hihat-cymbal-foreground');end();
       }
       else if(p.kind==='cymbal'){
-        if(['ride','crash'].includes(p.variant)){const name=p.variant,width=p.r*2.85,height=width*(name==='ride'?512/461:512/508),spec=name==='ride'?[461,512,230.5,263.5,209,196]:[508,512,254,276,171,170];drumAssetEllipseLayer(name,spec[0],spec[1],p.x,p.y,width,height,spec[2],spec[3],spec[4],spec[5],'over',spec[1],'webp',name+'-cymbal-foreground');}
+        if(['ride','crash'].includes(p.variant)){const name=p.variant,{w:width,h:height,dx,dy}=p.art,spec=name==='ride'?[461,512,230.5,263.5,209,196]:[508,512,254,276,171,170];drumAssetEllipseLayer(name,spec[0],spec[1],p.x+dx,p.y+dy,width,height,spec[2],spec[3],spec[4],spec[5],'over',spec[1],'webp',name+'-cymbal-foreground');}
         else cymbal(p.x,p.y,p.r,false,p.variant||'crash');
       }
       else if(p.kind==='pad')pad(p.x,p.y,p.w,p.h);
