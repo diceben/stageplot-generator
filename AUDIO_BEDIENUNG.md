@@ -1,4 +1,4 @@
-# Audio & Verkabelung
+# Routing
 
 Der Signal-Editor zeigt Instrument und Kanalnummer dauerhaft im Kopf. Vier direkt erreichbare Bereiche ersetzen aufklappbare Abschnitte:
 

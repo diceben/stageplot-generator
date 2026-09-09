@@ -1,4 +1,4 @@
-# Audio & Verkabelung
+# Routing
 
 Inputs, Outputs und Stagebox-Belegung verwenden dieselben Signalzeilen in `stage.routing`. Der Ablauf lautet: Signal auswählen, Stagebox wählen, Buchse zuordnen. Die vorhandenen Speicher- und Projektformate werden weiterverwendet.
 
