@@ -8,9 +8,6 @@ const packageJson=JSON.parse(fs.readFileSync('package.json','utf8'));
 
 for(const marker of [
   `data-release-version="${packageJson.version}"`,
-  'id="sp-cable-view-toggle"',
-  'stageplot-studio:cable-view:v1',
-  'data-cable-visible',
   'id="sp-io-aliases"',
   'id="sp-io-alias-list"',
   'data-io-alias-kind',
@@ -29,8 +26,6 @@ for(const marker of [
 ])assert.ok(html.includes(marker),marker+' fehlt in der gebauten App.');
 
 assert.equal(packageJson.version,'0.1.0-beta.6','Paketversion und sichtbare Release-Version laufen auseinander.');
-assert.match(html,/if\(cablesVisible\)cables\.forEach/,'Der Kabel-Tab blendet vorhandene Kabel nicht aus.');
-assert.match(html,/mode==='editor'&&cableViewEnabled&&o\.id===selected&&!o\.locked/,'Ausgeblendete Verkabelung lässt die Instrumentbuchsen aktiv.');
 assert.match(html,/io\.aliases\[kind\]\[port-1\]=value/,'Signal-Aliase werden nicht an den gewählten Port geschrieben.');
 assert.match(html,/io\.aliases\.outputs\[start-1\]=alias;io\.aliases\.outputs\[start\]=alias/,'Stereo-Links teilen ihren Alias nicht.');
 assert.match(html,/syncRoutingFromStage\(false\);\},'Drumset übernommen'/,'Geänderte Drum-Abnahmen werden nicht ins Routing übernommen.');
@@ -66,4 +61,4 @@ const migrated=model.normalizeDrums({rackToms:[{diameter:10,depth:8,mount:'kick'
 assert.equal(migrated.mics.rack1.enabled,true,'Alte Drumsets erhalten keine aktive Standardabnahme.');
 assert.equal(migrated.mics.rack1.model,'Generisches Drum-Mikrofon','Alte Drumsets erhalten kein Standardmikrofon.');
 
-console.log('PASS V69: Kabel-Tab, I/O-Aliase und bauteilbezogene Drum-Abnahmen.');
+console.log('PASS V69: I/O-Aliase und bauteilbezogene Drum-Abnahmen.');

@@ -48,6 +48,9 @@
 #sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(4) { width:20%; }
 #sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(5) { width:17%; }
 #sp-prototype .sp-report-section .sp-audio-print-table[data-audio-direction="outputs"] th:nth-child(6) { width:17%; }
+#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(1),#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(2) { width:15%; }
+#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(3) { width:50%; }
+#sp-prototype .sp-report-section .sp-audio-patch-table th:nth-child(4) { width:20%; }
 
 .sp-audio-order { display:flex;gap:8px;align-items:center;flex-wrap:wrap; }
 .sp-audio-order span { margin-right:auto;font-size:12px; }

@@ -1,5 +1,5 @@
 // Embedded inside the editor closure. These helpers operate on the same routing
-// records used by cables, persistence and printing; physical I/O is only capacity.
+// records used by stagebox assignment, persistence and printing; physical I/O is only capacity.
 // Plan first, then apply: a full stereo pair succeeds or nothing changes.
 function audioOrderedGroup(rows,row){return audioGroup(rows,row).slice().sort((a,b)=>(a.mode==='Stereo R')-(b.mode==='Stereo R'));}
 function planAudioPatch(rows,members,box,direction,{startPort=null,preserve=false,replace=false}={}){
@@ -223,7 +223,7 @@ function audioPrintTable(direction){
 function audioPatchSections(){
   return allRoutingStageboxes().flatMap(box=>{
     const rows=['inputs','outputs'].flatMap(direction=>stage.routing[direction].filter(row=>row.stagebox===box.id&&row.stageboxPort).sort((a,b)=>a.stageboxPort-b.stageboxPort).map(row=>({row,direction})));if(!rows.length)return [];
-    return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th><th>Kabelweg</th></tr></thead><tbody>'+rows.map(({row,direction})=>{const cable=(stage.cables||[]).find(item=>item.sourceKey===row.sourceKey&&item.direction===direction);return '<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+'</td><td>'+esc(row.connector)+'</td><td>'+(cable?num(cable.length)+' m':'Nicht eingezeichnet')+'</td></tr>';}).join('')+'</tbody></table>'}];
+    return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table sp-audio-patch-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th></tr></thead><tbody>'+rows.map(({row,direction})=>'<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+'</td><td>'+esc(row.connector)+'</td></tr>').join('')+'</tbody></table>'}];
   });
 }
 $('sp-audio-object').addEventListener('click',e=>{
