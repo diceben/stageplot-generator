@@ -19,7 +19,14 @@ for(const marker of [
 ])assert.ok(html.includes(marker),marker+' fehlt im globalen Theme.');
 
 assert.match(html,/\.sp-export-preview \.sp-paper \{[^}]*background:#fff;/s,'Die druckbare Papierfläche bleibt im Dunkelmodus nicht weiß.');
-assert.equal(pkg.version,'0.1.0-beta.6','Paketversion wurde für den Live-Stand nicht angehoben.');
-assert.ok(html.includes('data-release-version="0.1.0-beta.6">v0.1.0-beta.6'),'Aktuelle Release-Version fehlt in der App.');
-assert.match(html,/<article class="sp-release-card" data-current="true">\s*<header><div><strong>v0\.1\.0-beta\.6<\/strong>/,'Die aktuellen Release Notes zeigen nicht beta.6.');
-console.log('PASS V81: globaler Hell-/Dunkelmodus, weißes Exportpapier und aktuelle beta.6 Release Notes.');
+const lock=JSON.parse(fs.readFileSync('package-lock.json','utf8'));
+const readme=fs.readFileSync('README.md','utf8');
+assert.ok(html.includes('data-release-version="'+pkg.version+'">v'+pkg.version),'Release-Badge und Paketversion stimmen nicht überein.');
+const current=[...html.matchAll(/<article class="sp-release-card" data-current="true">([^]*?)<\/article>/g)];
+assert.equal(current.length,1,'Genau ein Release muss als aktuell gekennzeichnet sein.');
+assert.ok(current[0][1].includes('<strong>v'+pkg.version+'</strong>'),'Aktueller Eintrag und Paketversion stimmen nicht überein.');
+assert.ok(html.includes('Stageplot Studio v'+pkg.version+' · 2D'),'Hilfefußzeile enthält eine veraltete Version.');
+assert.ok(readme.includes('**Aktuelle Version:** v'+pkg.version+' ·'),'README enthält eine veraltete Version.');
+assert.equal(lock.version,pkg.version,'Lockdatei enthält eine veraltete Version.');
+assert.equal(lock.packages[''].version,pkg.version,'Lockdatei-Paket enthält eine veraltete Version.');
+console.log('PASS V81: globaler Hell-/Dunkelmodus, weißes Exportpapier und konsistente aktuelle Release-Version.');
