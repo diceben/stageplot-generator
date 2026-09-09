@@ -12,6 +12,7 @@ const tests=[
   'stageplot-scale.test.cjs',
   'stageplot-percussion-v1.test.cjs',
   'stageplot-audio-v1.test.cjs',
+  'stageplot-playback-v1.test.cjs',
   'stageplot-geometry-v1.test.cjs',
   'stageplot-edge-snapping.test.cjs',
   'stageplot-venue-v1.test.cjs',
