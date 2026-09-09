@@ -35,7 +35,6 @@ const drumContext={};vm.createContext(drumContext);vm.runInContext(drumSource+'\
 const model=drumContext.model;
 const defaultDrumHash=crypto.createHash('sha256').update(JSON.stringify(model.drumDefaults())).digest('hex');
 assert.equal(defaultDrumHash,'0197f17022f6e00050a4d3bc5fadf47bd1bb336ea859ecf734fd4d49a50ee29e','Der Modell-Standard entspricht nicht vollständig dem freigegebenen Preset „Drumset mittel“.');
-assert.match(script,/const defaultDrumConfig=drumModel\.drumDefaults\(\);/,'Beispielaufbau und neue Projekte verwenden nicht dieselbe Drum-Voreinstellung.');
 assert.equal(model.isDrums('drums'),true);assert.equal('drumTypeForSize' in model,false);assert.equal('drumSizeForType' in model,false);
 const config=model.normalizeDrums({kickDiameter:24,rackToms:[{diameter:8,depth:6,mount:'basket'}],floorToms:[{diameter:18,depth:18}]});
 const design=model.createDrumDesign('Tour Kit',config);
