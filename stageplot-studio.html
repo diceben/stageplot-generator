@@ -5332,7 +5332,8 @@ html,body { height:100%; overflow:hidden; }
 #sp-audio-connect-conflict p { font-size:12px;line-height:1.5;margin:8px 0 14px; }
 #sp-audio-connect-conflict > div { display:flex;gap:8px;flex-wrap:wrap; }
 #sp-audio-connect-conflict .sp-button { min-height:44px;flex:1;white-space:normal; }
-#sp-prototype .sp-stagebox-box-tabs { display:flex;gap:10px;overflow:auto;padding:16px;background:var(--sp-panel); }
+#sp-prototype .sp-stagebox-box-tabs { display:flex;flex:none;gap:10px;overflow:auto;padding:16px;background:var(--sp-panel); }
+#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-patch-canvas { flex:1;min-height:0;overflow:auto; }
 #sp-prototype .sp-stagebox-box-tabs button { display:flex;align-items:center;gap:12px;flex:none;min-width:190px;min-height:76px;padding:12px;border:1px solid var(--sp-line);border-radius:12px;background:var(--sp-panel);color:var(--sp-ink);text-align:left; }
 #sp-stagebox-view .sp-stagebox-box-tabs button > span:last-child { display:grid;gap:4px; }
 #sp-stagebox-view .sp-stagebox-box-tabs small { color:var(--sp-muted); }
@@ -5378,6 +5379,10 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-audio-connect-signals button { min-width:0; }
 #sp-prototype #sp-audio-connect-signals [data-patch-needs-di] { border-style:dashed; }
 @media(max-width:760px) {
+  #sp-prototype > #sp-routing[data-stagebox-mode="true"] { overflow:auto; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-view { flex:none;overflow:visible; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench { height:auto; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-patch-canvas { flex:none;overflow:visible; }
   #sp-prototype #sp-audio-connect-signals { grid-template-columns:1fr; }
   #sp-prototype #sp-audio-connect-source { margin:0 16px; }
   #sp-prototype #sp-audio-connect-dialog { max-height:calc(var(--sp-visible-height,100dvh) - 8px); }
@@ -11367,13 +11372,17 @@ function createStageplotSymbolV3(type, options = {}) {
     const box=boxes.find(box=>box.id===activeStageboxId)||boxes[0];
     if(!box)return '<div class="sp-routing-empty sp-stagebox-empty"><strong>Noch keine Stagebox</strong><span>Platziere eine Stagebox auf der Bühne, um ihre Buchsen hier zu sehen.</span></div>';
     const tabs=boxes.length>1?'<div class="sp-stagebox-box-tabs" role="group" aria-label="Stagebox auswählen">'+boxes.map(item=>{const source=objects.find(o=>o.id===item.id);return '<button type="button" data-stagebox-select="'+item.id+'" aria-pressed="'+(item.id===box.id)+'"><span class="sp-audio-box-picture">'+icon(byId[item.type],source)+'</span><span><strong>'+esc(item.name)+'</strong><small>'+item.inputs+' IN · '+item.outputs+' OUT</small></span></button>';}).join('')+'</div>':'';
-    return '<div class="sp-stagebox-workbench">'+tabs+stageboxWorkbenchToolbarMarkup(dialog)+'<main class="sp-stagebox-patch-canvas"><div class="sp-stagebox-card-list">'+stageboxCardMarkup(box)+'</div></main></div>';
+    return '<div class="sp-stagebox-workbench">'+tabs+stageboxWorkbenchToolbarMarkup(dialog)+'<main'+(dialog?'':' id="sp-stagebox-patch-scroll"')+' class="sp-stagebox-patch-canvas"><div class="sp-stagebox-card-list">'+stageboxCardMarkup(box)+'</div></main></div>';
   }
   function renderStageboxView(){const boxes=allRoutingStageboxes();if(boxes.length&&!boxes.some(box=>box.id===activeStageboxId))activeStageboxId=boxes[0].id;$('sp-stagebox-view').innerHTML=stageboxWorkbenchMarkup(boxes);}
   function renderStageboxIoDialog(){
     const box=allRoutingStageboxes().find(item=>item.id===activeStageboxId);if(!box){if($('sp-stagebox-io-dialog').open)$('sp-stagebox-io-dialog').close();return;}$('sp-stagebox-io-title').textContent=box.name+' · Belegung';$('sp-stagebox-io-summary').textContent=box.inputs+' Inputs'+(box.outputs?' · '+box.outputs+' Outputs':'')+' · Buchse antippen zum Anschließen';$('sp-stagebox-io-body').innerHTML=stageboxWorkbenchMarkup([box],{dialog:true});
   }
-  function renderStageboxSurface(surface){if(surface==='dialog')renderStageboxIoDialog();else if(view==='routing'&&routingTab==='stageboxes')renderStageboxView();}
+  function renderStageboxSurface(surface){
+    const scrolls=['sp-routing',surface==='dialog'?'sp-stagebox-io-body':'sp-stagebox-patch-scroll'].map(id=>({id,top:$(id)?.scrollTop||0}));
+    if(surface==='dialog')renderStageboxIoDialog();else if(view==='routing'&&routingTab==='stageboxes')renderStageboxView();
+    for(const {id,top} of scrolls)if($(id))$(id).scrollTop=top;
+  }
   function selectStageboxPatch(boxId,direction,port,surface='view'){
     activeStageboxId=boxId;activeStageboxPatch={boxId,direction:direction==='outputs'?'outputs':'inputs',port:Number(port)};renderStageboxSurface(surface);openAudioSocket(boxId,activeStageboxPatch.direction,Number(port));
   }
@@ -11453,10 +11462,10 @@ function audioVisibleRows(rows,direction,query='',filter='all'){
   return rows.filter(row=>matches.has(row.id));
 }
 function refreshAudioSurface(){
-  const scrolls=['sp-stagebox-view','sp-stagebox-io-body','sp-routing-table-wrap'].map(id=>({node:$(id),top:$(id)?.scrollTop,left:$(id)?.scrollLeft}));
+  const scrolls=['sp-routing','sp-stagebox-patch-scroll','sp-stagebox-io-body','sp-routing-table-wrap'].map(id=>({id,top:$(id)?.scrollTop,left:$(id)?.scrollLeft}));
   if(view==='editor')renderEditor();else if(view==='routing')renderRouting();
   if($('sp-stagebox-io-dialog').open)renderStageboxIoDialog();
-  for(const {node,top,left} of scrolls)if(node){node.scrollTop=top;node.scrollLeft=left;}
+  for(const {id,top,left} of scrolls){const node=$(id);if(node){node.scrollTop=top;node.scrollLeft=left;}}
 }
 
 let audioQuery='',audioFilter='all';

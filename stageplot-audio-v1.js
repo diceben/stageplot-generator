@@ -43,10 +43,10 @@ function audioVisibleRows(rows,direction,query='',filter='all'){
   return rows.filter(row=>matches.has(row.id));
 }
 function refreshAudioSurface(){
-  const scrolls=['sp-stagebox-view','sp-stagebox-io-body','sp-routing-table-wrap'].map(id=>({node:$(id),top:$(id)?.scrollTop,left:$(id)?.scrollLeft}));
+  const scrolls=['sp-routing','sp-stagebox-patch-scroll','sp-stagebox-io-body','sp-routing-table-wrap'].map(id=>({id,top:$(id)?.scrollTop,left:$(id)?.scrollLeft}));
   if(view==='editor')renderEditor();else if(view==='routing')renderRouting();
   if($('sp-stagebox-io-dialog').open)renderStageboxIoDialog();
-  for(const {node,top,left} of scrolls)if(node){node.scrollTop=top;node.scrollLeft=left;}
+  for(const {id,top,left} of scrolls){const node=$(id);if(node){node.scrollTop=top;node.scrollLeft=left;}}
 }
 
 let audioQuery='',audioFilter='all';
