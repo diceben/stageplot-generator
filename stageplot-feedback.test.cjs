@@ -34,6 +34,33 @@ const start=html.indexOf('  const footprintTouches='),end=html.indexOf("  window
 const event=(id,x,y=0)=>({pointerType:'touch',pointerId:id,clientX:x,clientY:y,preventDefault(){},stopImmediatePropagation(){}});
 hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,150));assert.equal(pc.objects[0].w,3);assert.equal(pc.objects[0].d,1.5);listeners.pointerup(event(2,150));assert.equal(pc.history.length,1);assert.equal(captures.size,0);
 hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,200));listeners.pointercancel(event(2,200));assert.equal(pc.objects[0].w,3,'Abgebrochene Geste stellt den Ausgangszustand wieder her.');
+// A camera gesture must never resize equipment or add an object-history entry.
+const beforeCamera=pc.snapshot(),historyBeforeCamera=pc.history.length;
+pc.selectedFootprint=()=>null;pc.camera={zoom:1,panX:0,panY:0};
+pc.syncViewControls=pc.queueDraw=pc.queueViewportSave=()=>{};
+host.getBoundingClientRect=()=>({left:0,top:0});
+vm.runInContext(extract('floorView')+'\n'+extract('zoomCamera'),pc);
+pc.setZoom=(value,anchor)=>{pc.camera=pc.zoomCamera(pc.camera,{scale:50,mx:0,top:0},500,500,value,anchor);};
+hostListeners.pointerdown(event(1,100,150));hostListeners.pointerdown(event(2,200,150));
+listeners.pointermove(event(2,250,150));assert.equal(pc.camera.zoom,1.5);
+const zoomed=plain(pc.camera);listeners.pointermove(event(1,125,170));listeners.pointermove(event(2,275,170));
+assert.equal(pc.camera.zoom,1.5);assert.ok(Math.abs(pc.camera.panX-zoomed.panX-25)<1e-8);assert.ok(Math.abs(pc.camera.panY-zoomed.panY-20)<1e-8);
+// A third finger cannot start another drag or end the active pair.
+hostListeners.pointerdown(event(3,300,150));listeners.pointerup(event(3,300,150));assert.equal(captures.size,2);
+listeners.pointerup(event(2,275,170));assert.equal(captures.size,0);
+assert.equal(pc.snapshot(),beforeCamera);assert.equal(pc.history.length,historyBeforeCamera);
+const retainedCamera=plain(pc.camera);
+hostListeners.pointerdown(event(4,100));hostListeners.pointerdown(event(5,200));listeners.pointermove(event(5,260));listeners.pointercancel(event(4,100));
+assert.deepEqual(plain(pc.camera),retainedCamera,'Cancelled viewport gesture restores only the camera.');assert.equal(pc.snapshot(),beforeCamera);
+// Fit the real outline on phones, while keeping view extents stable during edits.
+let mobile=true;
+const fitContext={editorFit:null,mobileWorkspace:()=>mobile,iemRect:()=>null,stairStates:()=>[{id:'stairs-zone'}],stairsGeometry:()=>({x:1,y:5,w:1.2,d:.9}),objectSize:o=>({w:o.w,d:o.d}),workspaceBounds:()=>({minX:-1.25,minY:-1.25,maxX:9.25,maxY:6.25}),compiledVenue:()=>({bounds:{minX:-2,minY:-1,maxX:10,maxY:7}})};
+vm.createContext(fitContext);vm.runInContext(extract('mobileEditorBounds')+'\n'+extract('editorWorkspaceBounds'),fitContext);
+const stageFit={w:8,d:5},first=plain(fitContext.editorWorkspaceBounds(stageFit,[]));
+assert.equal(first.minX,-.2);assert.equal(first.maxX,8.2);assert.ok(Math.abs(first.maxY-6.1)<1e-9,'The complete front stair is inside the fit.');
+assert.deepEqual(plain(fitContext.editorWorkspaceBounds(stageFit,[{x:30,y:5,w:2,d:1}])),first,'Moving an object does not refit the camera.');
+fitContext.editorFit=null;const outsideFit=fitContext.editorWorkspaceBounds(stageFit,[{x:-3,y:4,w:2,d:2}]);assert.ok(outsideFit.minX<-4.4,'Explicit fit includes external objects.');
+mobile=false;assert.deepEqual(plain(fitContext.editorWorkspaceBounds(stageFit,[])),fitContext.workspaceBounds(),'Desktop retains its own padding.');
 // Access pieces use the existing object creation, resize, locking and persistence paths.
 const accessCatalog=Object.fromEntries(['stage-stairs','stage-ramp'].map(id=>{const line=html.split('\n').find(line=>line.includes("{id:'"+id+"',name:"));assert(line,id+' fehlt');const entry=vm.runInNewContext('('+line.trim().replace(/,$/,'')+')');return [id,entry];}));
 const accessContext={byId:accessCatalog,drumModel:{isDrums:()=>false},stageboxCapacity:{},constrain:()=>{},objects:[],stage:{w:8,d:5},selected:null};vm.createContext(accessContext);
