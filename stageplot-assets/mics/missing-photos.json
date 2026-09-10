@@ -1,0 +1,62 @@
+[
+  {
+    "model": "Generisches Drum-Mikrofon",
+    "reason": "Allgemeiner Mikrofontyp ohne konkreten Hersteller oder Modell.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Grenzflächenmikrofon",
+    "reason": "Allgemeiner Mikrofontyp ohne konkreten Hersteller oder Modell.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Generisches Kick-Mikrofon",
+    "reason": "Allgemeiner Mikrofontyp ohne konkreten Hersteller oder Modell.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Generisches Kleinmembran-Mikrofon",
+    "reason": "Allgemeiner Mikrofontyp ohne konkreten Hersteller oder Modell.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Generisches Kondensatormikrofon",
+    "reason": "Allgemeiner Mikrofontyp ohne konkreten Hersteller oder Modell.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "AKG D12",
+    "reason": "Historisches Modell; kein eindeutig passendes vollständiges Herstellerfoto gefunden. D12 VR ist eine andere Bauform.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Sennheiser MD 421",
+    "reason": "Ältere Bezeichnung ohne eindeutige Revision. Das vorhandene MD 421 II wird nicht als Ersatzfoto verwendet.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Shure KSM32",
+    "reason": "Aktuelle Produktseite zeigt inzwischen KSM32C. Für das ältere KSM32 kein vollständiges Original-Produktfoto verifiziert.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "DPA 4099 CORE",
+    "reason": "Aktuelle Produktseite zeigt CORE+. Kein eindeutig zur älteren CORE-Revision gehörendes freigestelltes Produktfoto verifiziert.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Audio-Technica AT4051b",
+    "reason": "Originalfoto auf der regionalen Herstellerseite gefunden; der Bildserver war beim Abruf nicht erreichbar.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Schoeps CMC 6 + MK 2",
+    "reason": "Hersteller bietet einzelne Kapselbilder und ein MK-4-Setfoto. Keine eindeutig passende Gesamtaufnahme von CMC 6 mit MK 2 verifiziert.",
+    "checked": "2026-09-10"
+  },
+  {
+    "model": "Sennheiser 421",
+    "reason": "Ältere Bezeichnung ohne eindeutige Revision. Das vorhandene MD 421 II wird nicht als Ersatzfoto verwendet.",
+    "checked": "2026-09-10"
+  }
+]

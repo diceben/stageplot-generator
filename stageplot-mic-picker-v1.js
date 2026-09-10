@@ -4,7 +4,7 @@ const StageplotMicPicker=(()=>{
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let storage;try{storage=globalThis.localStorage;}catch{}
   const prefs=StageplotMics.preferences(storage);let sequence=0;
-  const picture=mic=>mic.photo?'<img src="'+esc(mic.photo)+'" alt="'+esc(mic.name)+' · Original-Produktfoto" loading="lazy">':'<span class="sp-mic-no-photo">'+esc(mic.short||'Modell offen')+'<small>Ohne Produktfoto</small></span>';
+  const picture=mic=>mic.photo?'<img src="'+esc(mic.photo)+'" alt="'+esc(mic.name+(mic.photoLabel?' · '+mic.photoLabel:''))+' · Original-Produktfoto" loading="lazy" decoding="async">':'<span class="sp-mic-no-photo">'+esc(mic.short||'Modell offen')+'<small>Ohne Produktfoto</small></span>';
   function mount(host,options){
     const id='sp-mic-search-'+(++sequence);let opts=options,filter='Vorschläge',query='',custom=false;
     host.classList.add('sp-mic-picker');
@@ -13,7 +13,7 @@ const StageplotMicPicker=(()=>{
     const chips=(list)=>list.map(name=>'<button type="button" data-mic-filter="'+esc(name)+'" aria-pressed="'+(!query&&filter===name)+'">'+esc(name)+'</button>').join('');
     function render(){
       const current=StageplotMics.lookup(opts.selected),state=prefs.get();
-      $('.sp-mic-current').innerHTML=(current.name?picture(current):'')+'<div><small>'+esc(opts.context||'Mikrofon')+'</small><strong>'+esc(current.name||'Mikrofon wählen')+'</strong></div><button type="button" data-mic-custom aria-expanded="'+custom+'">Eigenes Modell</button>'+(current.name?'<button type="button" data-mic-clear aria-label="Mikrofonmodell entfernen">×</button>':'');
+      $('.sp-mic-current').innerHTML=(current.name?picture(current):'')+'<div><small>'+esc(opts.context||'Mikrofon')+'</small><strong>'+esc(current.name||'Mikrofon wählen')+'</strong>'+(current.photoLabel?'<small>'+esc(current.photoLabel)+'</small>':'')+'</div><button type="button" data-mic-custom aria-expanded="'+custom+'">Eigenes Modell</button>'+(current.name?'<button type="button" data-mic-clear aria-label="Mikrofonmodell entfernen">×</button>':'');
       $('.sp-mic-custom').hidden=!custom;
       $('.sp-mic-filters').innerHTML=chips(['Vorschläge','Favoriten','Zuletzt','Alle']);
       const brandScroll=$('.sp-mic-brands').scrollLeft;
@@ -25,7 +25,7 @@ const StageplotMicPicker=(()=>{
       else models=StageplotMics.search('',filter==='Alle'?StageplotMics.catalog:StageplotMics.catalog.filter(m=>m.brand===filter));
       $('.sp-mic-status').textContent=query?models.length+' Treffer im gesamten Katalog':filter==='Vorschläge'?'Passend zu '+(opts.context||'diesem Signal'):filter==='Favoriten'&&!models.length?'Mit dem Stern deine häufigsten Mikrofone merken.':filter==='Zuletzt'&&!models.length?'Deine zuletzt verwendeten Modelle erscheinen hier.':filter+' · '+models.length+' Modelle';
       $('[data-mic-search-clear]').hidden=!query;
-      results.innerHTML=models.map(m=>'<article class="sp-mic-card" data-selected="'+(StageplotMics.find(opts.selected)?.id===m.id)+'"><button type="button" data-mic-choice="'+m.id+'" aria-pressed="'+(StageplotMics.find(opts.selected)?.id===m.id)+'" aria-label="'+esc(m.name)+' verwenden">'+picture(m)+'<span><small>'+esc(m.brand)+'</small><strong>'+esc(m.name.slice(m.brand.length).trim()||m.name)+'</strong><small>'+esc([m.type,m.phantom?'48 V':'',m.legacy?'Vintage / Legacy':'',m.supplement?'Zusatzmikrofon':''].filter(Boolean).join(' · '))+'</small></span></button><button type="button" class="sp-mic-favorite" data-mic-favorite="'+m.id+'" aria-label="'+esc(m.name)+' als Favorit" aria-pressed="'+state.favorites.includes(m.id)+'">'+(state.favorites.includes(m.id)?'★':'☆')+'</button></article>').join('')||'<p class="sp-mic-empty">'+(query?'Kein Treffer. Suche verkürzen oder ein eigenes Modell verwenden.':'')+'</p>';
+      results.innerHTML=models.map(m=>'<article class="sp-mic-card" data-selected="'+(StageplotMics.find(opts.selected)?.id===m.id)+'"><button type="button" data-mic-choice="'+m.id+'" aria-pressed="'+(StageplotMics.find(opts.selected)?.id===m.id)+'" aria-label="'+esc(m.name)+' verwenden">'+picture(m)+'<span><small>'+esc(m.brand)+'</small><strong>'+esc(m.name.slice(m.brand.length).trim()||m.name)+'</strong><small>'+esc([m.type,m.phantom?'48 V':'',m.legacy?'Vintage / Legacy':'',m.supplement?'Zusatzmikrofon':''].filter(Boolean).join(' · '))+'</small>'+(m.photoLabel?'<small class="sp-mic-photo-caption">'+esc(m.photoLabel)+'</small>':'')+'</span></button><button type="button" class="sp-mic-favorite" data-mic-favorite="'+m.id+'" aria-label="'+esc(m.name)+' als Favorit" aria-pressed="'+state.favorites.includes(m.id)+'">'+(state.favorites.includes(m.id)?'★':'☆')+'</button></article>').join('')||'<p class="sp-mic-empty">'+(query?'Kein Treffer. Suche verkürzen oder ein eigenes Modell verwenden.':'')+'</p>';
     }
     function choose(mic){prefs.use(mic.name);opts={...opts,selected:mic.name};render();opts.onSelect(mic);}
     host.addEventListener('input',e=>{if(e.target===search){query=search.value.trim();render();results.scrollTop=0;}});

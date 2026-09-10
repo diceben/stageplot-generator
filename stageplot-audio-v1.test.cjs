@@ -122,12 +122,18 @@ console.log('PASS SIGNAL DIALOG: stereo summaries, valid port choices, keyboard 
 const crypto=require('node:crypto'),photoSources=JSON.parse(fs.readFileSync('stageplot-assets/mics/original-sources.json','utf8'));
 for(const photo of photoSources){
   const bytes=fs.readFileSync('stageplot-assets/mics/'+photo.file);
-  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),photo.sha256,photo.model+' must keep the downloaded original bytes.');
+  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),photo.sha256,photo.model+' must match the shipped photo checksum.');
   assert.equal(photo.originalManufacturerPhoto,true);assert.equal(bytes.length,photo.bytes);
   assert.equal(ctx.audioMicPhoto(photo.model),'stageplot-assets/mics/'+photo.file);
-  assert.match(new URL(photo.productPage).hostname,/shure\.com|telefunken-elektroakustik\.com|beyerdynamic\.com|neumann\.com|seelectronics\.com|audixusa\.com|sennheiser\.com/);
+  assert.match(new URL(photo.productPage).hostname,/(^|\.)(shure\.com|telefunken-elektroakustik\.com|beyerdynamic\.com|neumann\.com|seelectronics\.com|audixusa\.com|sennheiser\.com|akg\.com|audio-technica\.co\.jp|electrovoice\.com|lewitt-audio\.com|dpamicrophones\.com|royerlabs\.com|yamaha\.com|solomonmics\.com|earthworksaudio\.com|josephson\.com|schoeps\.de|rode\.com|coleselectroacoustics\.com|aearibbonmics\.com|austrian\.audio)$/);
+  assert.match(photo.sourceSha256,/^[a-f0-9]{64}$/);assert(photo.sourceBytes>0);assert(photo.width>0&&photo.width<=640);assert(photo.height>0&&photo.height<=640);
+  assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');
+  assert(photo.processing.includes('no crop'));
+  const model=ctx.audioMicCatalog().find(m=>m.name===photo.model);assert.equal(model.photoLabel,photo.photoLabel||'');
 }
-assert.equal(photoSources.length,19);assert.notEqual(ctx.audioMicPhoto('Telefunken M80-SH'),ctx.audioMicPhoto('Telefunken M80'),'Short and full-length versions have their own original photos.');
+assert.equal(photoSources.length,81);assert.equal(ctx.audioMicCatalog().filter(m=>m.photo).length,81);
+const photoFiles=[...new Set(photoSources.map(p=>p.file))];assert.equal(photoFiles.length,78);assert(photoFiles.reduce((sum,file)=>sum+fs.statSync('stageplot-assets/mics/'+file).size,0)<2500000,'All photo downloads together stay below 2.5 MB.');
+assert.notEqual(ctx.audioMicPhoto('Telefunken M80-SH'),ctx.audioMicPhoto('Telefunken M80'),'Short and full-length versions have their own original photos.');
 assert.equal(ctx.audioMicPhoto('Sennheiser MD 421'),'','A legacy model must not silently receive a different revision’s product photo.');
 const micCatalog=ctx.audioMicCatalog();assert(micCatalog.some(mic=>mic.name==='Shure SM58'));assert.equal(ctx.audioMicBrand('sE Electronics V7'),'sE Electronics');assert.equal(ctx.audioMicBrand('Audio-Technica ATM230'),'Audio-Technica');
 for(const name of ['Snare Top','Kick In','Hi-Hat','Drums · OH L','Congas','Gitarre','Lead Vocals'])for(const model of ctx.audioMicSuggestions(name))assert(micCatalog.some(mic=>mic.name===model),model+' is selectable for '+name);
