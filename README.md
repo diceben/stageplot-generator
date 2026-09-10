@@ -10,6 +10,8 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Offene Objekteigenschaften:** 420 px breite rechte Leiste mit Objektbild, Namen und gemeinsamen Aktionen zum Duplizieren, Sperren und Löschen. Maße, Position, 90°-Drehungen, Beschriftung und Routing sind direkt erreichbar; technische Felder passen sich dem Objekt an. Echter lokaler Speicherstatus, Tastaturbedienung und eine angepasste mobile Leiste bleiben enthalten.
+
 - **Gezielter Start:** Die wiederhergestellte Ansicht erscheint ohne Aufblitzen des alten Bühnenformulars. Kein automatischer Demo-Aufbau, keine versteckten Druckvorschauen beim Start; Bausteine und Pack-Bilder werden erst in ihrer Ansicht aufgebaut. Bilder geschlossener Editoren laden bei Bedarf. [Messung und weitere Codepflege](STARTOPTIMIERUNG.md).
 
 - **Maßstäbliche Gegenstände:** Gerätekonturen entsprechen ihren Planmaßen, ohne ungenutzte Bildränder oder vergrößerte Mikrofon-/DI-Symbole. Korrigierte Laptop- und Stagebox-Maße; eigene Breite und Länge/Tiefe direkt in cm eingeben, speichern und rückgängig machen. Dieselbe Geometrie gilt in Bühne, Vorschau und Export. [Maße, Quellen und Prüfung](MASSTAB.md).

@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const html=fs.readFileSync('stageplot-studio.html','utf8');
 
 for(const marker of [
-  '--sp-inspector-width: 320px',
+  '--sp-inspector-width: 420px',
   '--sp-drum-inspector-width:330px',
   'class="sp-drum-diameter-stepper"',
   'data-drum-size-step="-1"',
