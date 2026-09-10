@@ -33,3 +33,14 @@ assert.match(html,/StageplotMics\.applyDrumChanges\(stage.routing/);assert.match
 console.log('PASS MICROPHONES: shared identities, original variants, tolerant instant search, persistent favorites/recents, blocked storage, two-way drum/audio changes, isolated drafts, metadata preservation and explicit clear/re-enable.');
 
 const longName='Eigene Mikrofonkombination '+ 'x'.repeat(53);const legacy=D.normalizeDrums({...drums,mics:{...drums.mics,'snare-up':{enabled:true,model:longName,phantom:false}}});assert.equal(legacy.mics['snare-up'].model,longName,'Existing Audio model names up to 80 characters survive the Drum editor unchanged.');
+
+// Added photos never merge model identities or confuse a newer revision with a legacy name.
+assert(M.photo('Neumann KM 84'));assert.notEqual(M.photo('Neumann KM 84'),M.photo('Neumann KM 184'));
+assert(M.photo('Beyerdynamic M201TG'));assert.notEqual(M.photo('Beyerdynamic M201TG'),M.photo('beyerdynamic M 201'));
+assert(M.find('AKG C414 XLS/XLII').photoLabel.includes('C414 XLS'));
+assert(M.find('Earthworks SR25mp').photoLabel.includes('Stereopaar'));
+const missingPhotos=JSON.parse(fs.readFileSync('stageplot-assets/mics/missing-photos.json','utf8'));
+assert.deepEqual(M.catalog.filter(m=>!m.photo).map(m=>m.name).sort(),missingPhotos.map(m=>m.model).sort());
+assert(missingPhotos.every(m=>m.reason));
+for(const m of M.catalog.filter(m=>m.brand==='Allgemein'))assert.equal(m.photo,'','Generic microphone types have no fictitious model photo.');
+assert.match(fs.readFileSync('stageplot-mic-picker-v1.js','utf8'),/decoding="async"/);

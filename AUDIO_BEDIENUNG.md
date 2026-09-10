@@ -17,11 +17,15 @@ Wird das kleine Fenster aus dem Signal-Editor geöffnet, ist die Wahl zunächst 
 
 ## Originalfotos
 
-Die Mikrofonbilder sind unveränderte Originaldateien aus den Produktseiten von Shure, Telefunken, beyerdynamic, Neumann, sE Electronics, Audix und Sennheiser. Sie liegen lokal unter `stageplot-assets/mics/` und funktionieren offline. Es werden keine KI-generierten Mikrofonbilder eingesetzt.
+Der gemeinsame Katalog enthält Fotos für **81 von 88 konkreten Mikrofoneinträgen**. Hinzu kommen fünf allgemeine Mikrofontypen ohne erfundenes Modellfoto. 78 unterschiedliche Originalaufnahmen stammen direkt von 22 Herstellern, ihren regionalen Produktseiten und Archiven. Sie liegen lokal unter `stageplot-assets/mics/` und funktionieren ohne Abfrage eines Bilddienstes. Es werden keine KI-generierten Mikrofonbilder eingesetzt.
 
-Die 19 konkreten Modellfotos sind in [original-sources.json](stageplot-assets/mics/original-sources.json) mit Produktseite, Bildadresse, Abrufdatum und SHA-256 dokumentiert. Bildrechte und Marken verbleiben bei den jeweiligen Rechteinhabern; der Quellennachweis ist keine zusätzliche Lizenz. CSS zeigt die vollständigen Dateien mit `object-fit: contain`. Auch der Drum-Mikrofonpicker verwendet diese Originale.
+Die Aufnahmen werden für die Modellkarten proportional auf höchstens 640 × 640 Pixel verkleinert und als WebP komprimiert. Der vollständige Bildausschnitt bleibt erhalten; es werden keine Teile ergänzt oder neu gezeichnet. Zusammen benötigen die 78 ausgelieferten Fotos weniger als 2,5 MB. Sie laden erst bei Bedarf, mit asynchroner Bilddekodierung. Die Auswahl lädt auch für die bisherigen 19 Fotos jetzt kompakte Fassungen. Die früheren Bildadressen bleiben für noch geöffnete ältere App-Versionen erreichbar.
 
-Für Modelle ohne passendes Originalfoto erscheint eine beschriftete Modellkarte. Ein Foto einer anderen Bauform oder Modellrevision wird nicht als Ersatz verwendet. Beispielsweise haben der kurze M80-SH und der lange M80 jeweils ihre eigene Originalaufnahme. Für unklare ältere MD-421-Bezeichnungen wird kein Foto einer anderen Revision eingesetzt.
+[original-sources.json](stageplot-assets/mics/original-sources.json) dokumentiert für jedes Foto Produktseite, Bildadresse, Abrufdatum, Original-Prüfsumme, ausgelieferte Prüfsumme, Dateigrößen und Verarbeitung. Bildrechte und Marken verbleiben bei den jeweiligen Rechteinhabern; der Quellennachweis ist keine zusätzliche Lizenz. CSS zeigt die vollständigen Dateien mit `object-fit: contain`. Routing, Drum-Editor, Favoriten und Suchvorschläge verwenden dieselbe Zuordnung.
+
+Bei kombinierten Modellnamen steht die abgebildete Variante direkt auf der Karte und beim gewählten Mikrofon: C414 XLS, SCX1HC und R88. SR25mp zeigt ein einzelnes SR25 aus dem Stereopaar; das Schoeps CMC 6 + MK 4 ist als Set mit Zubehör gekennzeichnet. Diese Hinweise ändern weder Modellnamen noch gespeicherte Kanäle.
+
+KM 84 und KM 184, M201 TG und M 201 sowie M80 und M80-SH haben jeweils eigene Originalaufnahmen. Für unklare ältere MD-421-Bezeichnungen wird kein Bild einer anderen Revision eingesetzt. Die [verbleibenden Einträge](stageplot-assets/mics/missing-photos.json) sind mit Recherchegrund dokumentiert. Sie bleiben mit Namen auswählbar, einschließlich eigener Modelle.
 
 ## Gemeinsame Mikrofon-Auswahl
 
@@ -39,6 +43,9 @@ Die Auswahl benötigt keinen Account und keine Netzabfrage. Originalbilder werde
 
 ## Prüfung
 
-32 automatisierte Testgruppen einschließlich gemeinsamer Modellidentitäten, Originaldatei-Hashes, Suchvarianten, Favoriten, blockiertem Browser-Speicher, bidirektionalem Abgleich, unveränderten CH-/Patch-Angaben und älteren Drum-Entwürfen. Zusätzlich erfolgreiche Browserprüfung in Chrome und WebKit: alle 19 Originalbilder laden, Sofortsuche, Tastaturbedienung, gemeinsame Favoriten, beide Änderungsrichtungen, Abbrechen, Speichern, Rückgängig/Wiederholen, direkte OH-Auswahl, mobile Darstellung, Offline-Bearbeitung und erneutes Laden der gespeicherten Auswahl.
+35 automatisierte Testgruppen einschließlich gemeinsamer Modellidentitäten, Originaldatei-Hashes, Suchvarianten, Favoriten, blockiertem Browser-Speicher, bidirektionalem Abgleich, unveränderten CH-/Patch-Angaben und älteren Drum-Entwürfen. Zusätzlich erfolgreiche Browserprüfung in Chrome und WebKit: alle 19 Originalbilder laden, Sofortsuche, Tastaturbedienung, gemeinsame Favoriten, beide Änderungsrichtungen, Abbrechen, Speichern, Rückgängig/Wiederholen, direkte OH-Auswahl, mobile Darstellung, Offline-Bearbeitung und erneutes Laden der gespeicherten Auswahl.
 
 Die physische Buchsenauswahl wurde am 09.09.2026 in Chrome und WebKit geprüft: Combo-Inputs und XLR-Outputs, rosa Leuchtrand und Glitzeranimation, reduzierte Bewegung, L/R-Auswahl, belegte Buchsen, Tastatur, Speichern/Abbrechen von Signalentwürfen, Undo und Erhalt der CH-Nummern. Die 390-px-Touchansicht wurde mit 16 und 48 Buchsen geprüft, einschließlich Scrollen zum letzten Input, fest erreichbarem Verbinden-Button und Neuladen. Alle 32 Testgruppen bestanden; keine JavaScript-Fehler im Browser.
+
+
+Foto-Erweiterung vom 10.09.2026: Automatische Prüfungen kontrollieren alle ausgelieferten Dateien und Prüfsummen, Herstellerquellen, eindeutige Modellzuordnung, unterschiedliche Revisionen, Variantenbeschriftung, die dokumentierten Lücken und das gemeinsame Datenbudget. Browserprüfung in Chrome und WebKit erfolgreich: alle 81 Fotozuordnungen laden; Routing und Drum-Editor zeigen dieselben Originale und Variantenbeschriftungen. Sofortsuche, Tastaturwahl, gemeinsame Favoriten, Speichern/Abbrechen, bidirektionaler Abgleich, Undo/Redo, mobile Ansicht, Offline-Bearbeitung und Wiederherstellung nach Reload funktionieren ohne JavaScript-Fehler.

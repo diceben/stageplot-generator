@@ -60,3 +60,5 @@
 #sp-prototype .sp-mic-search input::-webkit-search-cancel-button { -webkit-appearance:none; appearance:none; }
 #sp-prototype .sp-drum-overhead-models { margin-top:10px; }
 #sp-prototype .sp-drum-overhead-models>strong { display:block; margin-bottom:6px; font-size:11px; }
+
+#sp-prototype .sp-mic-card .sp-mic-photo-caption { margin-top:5px; font-size:10px; color:#65705c; }

@@ -53,9 +53,260 @@ function suggestions(name){
     return['Generisches Drum-Mikrofon','Shure SM57','Beyerdynamic M201TG','Sennheiser e 604'];
   }
   const normalize=value=>String(value||'').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ø/g,'o').replace(/[^a-z0-9]/g,'');
-  const files={"Shure SM57": "sm57-original-v2.png", "Shure SM58": "sm58-original-v2.webp", "Telefunken M80": "m80-original-v2.jpg", "beyerdynamic M 201": "m201-original-v2.png", "Neumann KM 184": "km184-original-v2.webp", "sE Electronics V7": "v7-original-v2.png", "Audix i5": "i5-original-v2.png", "Sennheiser MD 421 II": "421-original-v2.webp", "Shure Beta 57A": "beta57a-original-v1.png", "Shure SM81": "sm81-original-v1.webp", "Audix D2": "d2-original-v1.png", "Audix D6": "d6-original-v1.png", "Shure Beta 52A": "beta52a-original-v1.webp", "Shure Beta 91A": "beta91a-original-v1.webp", "sE Electronics V BEAT": "vbeat-original-v1.png", "Audix D4": "d4-original-v1.png", "Telefunken M80-SH": "m80sh-original-v1.jpg", "Sennheiser e 604": "e604-original-v1.webp", "sE Electronics V KICK": "vkick-original-v1.png"};
-  const photoFiles=new Map(Object.entries(files).map(([name,file])=>[normalize(name),file]));
-  const catalog=[...drumMicCatalog,drumMic('Shure SM58','SM58','Dyn'),drumMic('sE Electronics V7','V7','Dyn'),drumMic('Sennheiser MD 421 II','MD 421 II','Dyn')].map(mic=>Object.freeze({...mic,id:normalize(mic.name),brand:audioMicBrand(mic.name),photo:photoFiles.has(normalize(mic.name))?'stageplot-assets/mics/'+photoFiles.get(normalize(mic.name)):''}));
+  const photos={
+  "Shure SM57": {
+    "file": "shuresm57-photo-v1.webp"
+  },
+  "Shure SM58": {
+    "file": "shuresm58-photo-v1.webp"
+  },
+  "Telefunken M80": {
+    "file": "telefunkenm80-photo-v1.webp"
+  },
+  "beyerdynamic M 201": {
+    "file": "beyerdynamicm201-photo-v1.webp"
+  },
+  "Neumann KM 184": {
+    "file": "neumannkm184-photo-v1.webp"
+  },
+  "sE Electronics V7": {
+    "file": "seelectronicsv7-photo-v1.webp"
+  },
+  "Audix i5": {
+    "file": "audixi5-photo-v1.webp"
+  },
+  "Sennheiser MD 421 II": {
+    "file": "sennheisermd421ii-photo-v1.webp"
+  },
+  "Shure Beta 57A": {
+    "file": "shurebeta57a-photo-v1.webp"
+  },
+  "Shure SM81": {
+    "file": "shuresm81-photo-v1.webp"
+  },
+  "Audix D2": {
+    "file": "audixd2-photo-v1.webp"
+  },
+  "Audix D6": {
+    "file": "audixd6-photo-v1.webp"
+  },
+  "Shure Beta 52A": {
+    "file": "shurebeta52a-photo-v1.webp"
+  },
+  "Shure Beta 91A": {
+    "file": "shurebeta91a-photo-v1.webp"
+  },
+  "sE Electronics V BEAT": {
+    "file": "seelectronicsvbeat-photo-v1.webp"
+  },
+  "Audix D4": {
+    "file": "audixd4-photo-v1.webp"
+  },
+  "Telefunken M80-SH": {
+    "file": "telefunkenm80sh-photo-v1.webp"
+  },
+  "Sennheiser e 604": {
+    "file": "sennheisere604-photo-v1.webp"
+  },
+  "sE Electronics V KICK": {
+    "file": "seelectronicsvkick-photo-v1.webp"
+  },
+  "beyerdynamic M 88": {
+    "file": "beyerdynamicm88-photo-v1.webp"
+  },
+  "beyerdynamic MC 930": {
+    "file": "beyerdynamicmc930-photo-v1.webp"
+  },
+  "beyerdynamic M 160": {
+    "file": "beyerdynamicm160-photo-v1.webp"
+  },
+  "Audix ADX51": {
+    "file": "audixadx51-photo-v1.webp"
+  },
+  "Audix SCX1HC": {
+    "file": "audixscx1hc-photo-v1.webp"
+  },
+  "Earthworks DM20": {
+    "file": "earthworksdm20-photo-v1.webp"
+  },
+  "Earthworks SR25": {
+    "file": "earthworkssr25-photo-v1.webp"
+  },
+  "Earthworks QTC40": {
+    "file": "earthworksqtc40-photo-v1.webp"
+  },
+  "DPA 4055": {
+    "file": "dpa4055-photo-v1.webp"
+  },
+  "DPA 4011A": {
+    "file": "dpa4011a-photo-v1.webp"
+  },
+  "DPA 4006A": {
+    "file": "dpa4006a-photo-v1.webp"
+  },
+  "RØDE NT5": {
+    "file": "rodent5-photo-v1.webp"
+  },
+  "Yamaha SKRM-100 SubKick": {
+    "file": "yamahaskrm100subkick-photo-v1.webp"
+  },
+  "Royer R-121": {
+    "file": "royerr121-photo-v1.webp"
+  },
+  "Shure KSM137": {
+    "file": "shureksm137-photo-v1.webp"
+  },
+  "Shure KSM141": {
+    "file": "shureksm141-photo-v1.webp"
+  },
+  "Shure KSM44A": {
+    "file": "shureksm44a-photo-v1.webp"
+  },
+  "Shure Beta 56A": {
+    "file": "shurebeta56a-photo-v1.webp"
+  },
+  "Telefunken M82": {
+    "file": "telefunkenm82-photo-v1.webp"
+  },
+  "Telefunken M81-SH": {
+    "file": "telefunkenm81sh-photo-v1.webp"
+  },
+  "Telefunken M60 FET": {
+    "file": "telefunkenm60fet-photo-v1.webp"
+  },
+  "LEWITT DTP 640 REX": {
+    "file": "lewittdtp640rex-photo-v1.webp"
+  },
+  "LEWITT DTP 340 TT": {
+    "file": "lewittdtp340tt-photo-v1.webp"
+  },
+  "LEWITT LCT 140 AIR": {
+    "file": "lewittlct140air-photo-v1.webp"
+  },
+  "Coles 4038": {
+    "file": "coles4038-photo-v1.webp"
+  },
+  "Josephson e22S": {
+    "file": "josephsone22s-photo-v1.webp"
+  },
+  "Austrian Audio OC818": {
+    "file": "austrianaudiooc818-photo-v1.webp"
+  },
+  "AKG D112 MkII": {
+    "file": "akgd112mkii-photo-v1.webp"
+  },
+  "AKG D12 VR": {
+    "file": "akgd12vr-photo-v1.webp"
+  },
+  "AKG C451 B": {
+    "file": "akgc451b-photo-v1.webp"
+  },
+  "AKG D40": {
+    "file": "akgd40-photo-v1.webp"
+  },
+  "Shure Beta 98AMP/C": {
+    "file": "shurebeta98ampc-photo-v1.webp"
+  },
+  "Shure Beta 181/S": {
+    "file": "shurebeta181s-photo-v1.webp"
+  },
+  "Audio-Technica AE2500": {
+    "file": "audiotechnicaae2500-photo-v1.webp"
+  },
+  "Audio-Technica AT4047/SV": {
+    "file": "audiotechnicaat4047sv-photo-v1.webp"
+  },
+  "Audio-Technica ATM230": {
+    "file": "audiotechnicaatm230-photo-v1.webp"
+  },
+  "Audio-Technica AT4041": {
+    "file": "audiotechnicaat4041-photo-v1.webp"
+  },
+  "Audio-Technica AT4050": {
+    "file": "audiotechnicaat4050-photo-v1.webp"
+  },
+  "AEA R84": {
+    "file": "aear84-photo-v1.webp"
+  },
+  "AEA R88/R88A": {
+    "file": "aear88r88a-photo-v1.webp",
+    "label": "Abgebildet: R88"
+  },
+  "AKG C414 XLS/XLII": {
+    "file": "akgc414xlsxlii-photo-v1.webp",
+    "label": "Abgebildet: C414 XLS"
+  },
+  "Electro-Voice RE20": {
+    "file": "electrovoicere20-photo-v1.webp"
+  },
+  "Electro-Voice RE320": {
+    "file": "electrovoicere320-photo-v1.webp"
+  },
+  "Electro-Voice ND44": {
+    "file": "electrovoicend44-photo-v1.webp"
+  },
+  "Royer SF-24": {
+    "file": "royersf24-photo-v1.webp"
+  },
+  "Solomon LoFReQ": {
+    "file": "solomonlofreq-photo-v1.webp"
+  },
+  "Sennheiser e 901": {
+    "file": "sennheisere901-photo-v1.webp"
+  },
+  "Sennheiser e 602 II": {
+    "file": "sennheisere602ii-photo-v1.webp"
+  },
+  "Sennheiser e 902": {
+    "file": "sennheisere902-photo-v1.webp"
+  },
+  "Sennheiser e 614": {
+    "file": "sennheisere614-photo-v1.webp"
+  },
+  "Neumann U 47 fet": {
+    "file": "neumannu47fet-photo-v1.webp"
+  },
+  "Neumann TLM 102": {
+    "file": "neumanntlm102-photo-v1.webp"
+  },
+  "Neumann U 87 Ai": {
+    "file": "neumannu87ai-photo-v1.webp"
+  },
+  "Neumann U 67": {
+    "file": "neumannu67-photo-v1.webp",
+    "label": "Mit Netzteil und Halterung"
+  },
+  "Neumann KM 84": {
+    "file": "neumannkm84-photo-v1.webp"
+  },
+  "Sennheiser MD 441-U": {
+    "file": "sennheisermd441u-photo-v1.webp"
+  },
+  "Sennheiser e 904": {
+    "file": "sennheisere904-photo-v1.webp"
+  },
+  "Beyerdynamic M201TG": {
+    "file": "beyerdynamicm201tg-photo-v1.webp"
+  },
+  "Schoeps CMC 6 + MK 4": {
+    "file": "schoepscmc6mk4-photo-v1.webp",
+    "label": "Abgebildet: CMC 6 + MK 4 mit Zubehör"
+  },
+  "AKG C414": {
+    "file": "akgc414xlsxlii-photo-v1.webp",
+    "label": "Abgebildet: C414 XLS"
+  },
+  "Audix SCX1/SCX1HC": {
+    "file": "audixscx1hc-photo-v1.webp",
+    "label": "Abgebildet: SCX1HC"
+  },
+  "Earthworks SR25mp": {
+    "file": "earthworkssr25-photo-v1.webp",
+    "label": "Ein SR25 aus dem Stereopaar"
+  }
+};
+  const photoFiles=new Map(Object.entries(photos).map(([name,photo])=>[normalize(name),photo]));
+  const catalog=[...drumMicCatalog,drumMic('Shure SM58','SM58','Dyn'),drumMic('sE Electronics V7','V7','Dyn'),drumMic('Sennheiser MD 421 II','MD 421 II','Dyn')].map(mic=>Object.freeze({...mic,id:normalize(mic.name),brand:audioMicBrand(mic.name),photo:photoFiles.has(normalize(mic.name))?'stageplot-assets/mics/'+photoFiles.get(normalize(mic.name)).file:'',photoLabel:photoFiles.get(normalize(mic.name))?.label||''}));
   const byId=new Map(catalog.map(mic=>[mic.id,mic]));
   const find=value=>byId.get(normalize(value))||null;
   const lookup=value=>find(value)||{id:'',name:String(value||''),short:String(value||'Mic'),brand:'Eigenes Modell',type:'',phantom:false,photo:''};
