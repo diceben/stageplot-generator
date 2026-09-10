@@ -12,6 +12,7 @@ const tests=[
   'stageplot-orchestra-v1.test.cjs',
   'stageplot-scale.test.cjs',
   'stageplot-object-scale.test.cjs',
+  'stageplot-tech-assets.test.cjs',
   'stageplot-percussion-v1.test.cjs',
   'stageplot-audio-v1.test.cjs',
   'stageplot-playback-v1.test.cjs',

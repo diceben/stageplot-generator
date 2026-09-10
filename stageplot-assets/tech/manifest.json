@@ -1,0 +1,660 @@
+{
+  "version": 1,
+  "created": "2026-09-10",
+  "method": "OpenAI built-in image_gen; one generation per asset",
+  "style": "Monochrome, realistic with restrained drawn contours; strict overhead views",
+  "normalization": "Crop to the physical alpha silhouette, proportional resize to max 768 px, WebP quality 88. Metric mapping is applied by the shared object geometry.",
+  "assets": [
+    {
+      "id": "laptop",
+      "file": "laptop-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 472,
+      "hasAlpha": true,
+      "bytes": 34298,
+      "sha256": "77e80f17929b76abc96b47a972e91297802939a35b672b26a4beca8ce5afc335",
+      "viewBox": [
+        120,
+        90
+      ],
+      "footprintMeters": {
+        "width": 0.3557,
+        "depth": 0.2481
+      },
+      "source": {
+        "file": "exec-c1db2dfa-d03d-4d43-83a3-e3db275ebc4c.png",
+        "sha256": "3dc50883954fb5df2b5bd618adf049adf8ea192eed2bbe52a25b2c5a70642058",
+        "width": 1500,
+        "height": 1049
+      },
+      "crop": {
+        "left": 132,
+        "top": 165,
+        "width": 1236,
+        "height": 759
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "rack",
+      "file": "rack-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 642,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 83290,
+      "sha256": "04016fd044b62335a3a956abb881c7d4351989aaa20490a9869c968796193c07",
+      "viewBox": [
+        100,
+        100
+      ],
+      "footprintMeters": {
+        "width": 0.6,
+        "depth": 0.7
+      },
+      "source": {
+        "file": "exec-155719e7-332a-4b78-a972-0a2fcf4a5954.png",
+        "sha256": "5482c0971d936aeb25cc6d0110a38163b732c8075a26e6faad62b40a96a6f9e3",
+        "width": 1161,
+        "height": 1355
+      },
+      "crop": {
+        "left": 122,
+        "top": 129,
+        "width": 917,
+        "height": 1097
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "wedge",
+      "file": "wedge-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 726,
+      "hasAlpha": true,
+      "bytes": 142614,
+      "sha256": "44523a8b75eee8df8d8debffbbf199525bfdc1fe36d5e5bc39c8bd8205f82999",
+      "viewBox": [
+        116,
+        113
+      ],
+      "footprintMeters": {
+        "width": 0.559,
+        "depth": 0.546
+      },
+      "source": {
+        "file": "exec-edb71cf3-f88b-4c99-a036-de4134694104.png",
+        "sha256": "4a944b97c27e1cf6ac4d949a4507fc5e6b704ef2d79e3ec1cb0794efe5e9fd93",
+        "width": 1269,
+        "height": 1240
+      },
+      "crop": {
+        "left": 76,
+        "top": 91,
+        "width": 1118,
+        "height": 1057
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "drum-throne",
+      "file": "drum-throne-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 714,
+      "hasAlpha": true,
+      "bytes": 78720,
+      "sha256": "6e9f0bb29ef63a9702285c5346db65d347b8856a5117236cd90fd0ddd7df7dcc",
+      "viewBox": [
+        100,
+        100
+      ],
+      "footprintMeters": {
+        "width": 0.55,
+        "depth": 0.55
+      },
+      "source": {
+        "file": "exec-f9a8a554-41e3-48e2-bef5-028a47d32c55.png",
+        "sha256": "bb892e1da9612d9c3ca921d97687fc5e5454f4288706272092a9dc555b268517",
+        "width": 1283,
+        "height": 1226
+      },
+      "crop": {
+        "left": 127,
+        "top": 42,
+        "width": 1030,
+        "height": 958
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "piano-bench",
+      "file": "piano-bench-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 401,
+      "hasAlpha": true,
+      "bytes": 42340,
+      "sha256": "4daff5ecf45893fc5964e618aaff7706ae029528c90745c763f7b316bfe34cca",
+      "viewBox": [
+        110,
+        70
+      ],
+      "footprintMeters": {
+        "width": 0.55,
+        "depth": 0.35
+      },
+      "source": {
+        "file": "exec-aeeef61b-3130-4d0e-a91e-2b63f6b3face.png",
+        "sha256": "856d4780da976885baaac98fe749ba8b0012965a2a3ec35db58df6cd46d7b91e",
+        "width": 1573,
+        "height": 1000
+      },
+      "crop": {
+        "left": 84,
+        "top": 131,
+        "width": 1407,
+        "height": 734
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "power",
+      "file": "power-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 169,
+      "hasAlpha": true,
+      "bytes": 22118,
+      "sha256": "f2abb8440f75e514296f64dd8cdf9da6b380f10274c52ae077db5f898b5ec925",
+      "viewBox": [
+        100,
+        31
+      ],
+      "footprintMeters": {
+        "width": 0.4,
+        "depth": 0.12
+      },
+      "source": {
+        "file": "exec-6c1e8570-5543-45cb-a0b8-5a26aa919a6e.png",
+        "sha256": "22d1c74a45ff7eb39079ea8d6a6354f94457048d920db9eb146b2ad72f5e32b2",
+        "width": 2172,
+        "height": 724
+      },
+      "crop": {
+        "left": 60,
+        "top": 136,
+        "width": 2053,
+        "height": 451
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "teleprompter",
+      "file": "teleprompter-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 536,
+      "hasAlpha": true,
+      "bytes": 46124,
+      "sha256": "6e60b2dbe166ad802018c93eea26f4af7302779a6cf51ba361ed2217bc7f5316",
+      "viewBox": [
+        140,
+        120
+      ],
+      "footprintMeters": {
+        "width": 0.56,
+        "depth": 0.48
+      },
+      "source": {
+        "file": "exec-6e241316-ae02-437f-a3d2-c85ac044d11b.png",
+        "sha256": "6f11ffa212b877bdc209cd1dc6f663ab926624b17859fa1955eefc18e58eecef",
+        "width": 1355,
+        "height": 1161
+      },
+      "crop": {
+        "left": 81,
+        "top": 166,
+        "width": 1194,
+        "height": 833
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "di",
+      "file": "di-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 427,
+      "hasAlpha": true,
+      "bytes": 51228,
+      "sha256": "70bb0c00d1efa8fa617a9e9ca14655c726ca3c8a960fa02880bfaab97409bb44",
+      "viewBox": [
+        100,
+        100
+      ],
+      "footprintMeters": {
+        "width": 0.127,
+        "depth": 0.084
+      },
+      "source": {
+        "file": "exec-568d2baf-9935-47cc-a3ae-991278d9195c.png",
+        "sha256": "54457612c8bb13483bb1750525bbf35cccdde0b445b5934493d2382f6ca3c5a1",
+        "width": 1536,
+        "height": 1024
+      },
+      "crop": {
+        "left": 98,
+        "top": 132,
+        "width": 1357,
+        "height": 755
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "iem-earphones",
+      "file": "iem-earphones-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 357,
+      "hasAlpha": true,
+      "bytes": 54850,
+      "sha256": "530cfbe33583bd2fbce10cabf1fd692963b0e6d76e91dba9230035cde4da592d",
+      "viewBox": [
+        100,
+        75
+      ],
+      "footprintMeters": {
+        "width": 0.07,
+        "depth": 0.04
+      },
+      "source": {
+        "file": "exec-ee41af3b-e2c0-480a-9a91-9d91974b57e0.png",
+        "sha256": "6f92b5322eb43e438eb135ab859abfc9bc1b3a639439b2f3d69058c458146e5d",
+        "width": 1659,
+        "height": 948
+      },
+      "crop": {
+        "left": 140,
+        "top": 139,
+        "width": 1376,
+        "height": 640
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "mixer-wing-compact",
+      "file": "mixer-wing-compact-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 570,
+      "hasAlpha": true,
+      "bytes": 43868,
+      "sha256": "ce96936439a6499e9d1cf86dd4ffe81c5b17f73094989b080bbff329dd08b1e1",
+      "viewBox": [
+        160,
+        126
+      ],
+      "footprintMeters": {
+        "width": 0.5743,
+        "depth": 0.45337
+      },
+      "source": {
+        "file": "exec-70f0a3bf-a21d-4544-a628-b63a945f8304.png",
+        "sha256": "13ea50bfa8b6d92bf09fb4a9797f834c0c36d13a74f32c0e828c10f48aea4f15",
+        "width": 1412,
+        "height": 1114
+      },
+      "crop": {
+        "left": 54,
+        "top": 65,
+        "width": 1306,
+        "height": 969
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "mixer-wing-rack",
+      "file": "mixer-wing-rack-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 436,
+      "hasAlpha": true,
+      "bytes": 26642,
+      "sha256": "c4dda23ad6eb1831d3a053ddf0ef3c565d6cdd2c68b1be3c2184a3402644544f",
+      "viewBox": [
+        160,
+        107
+      ],
+      "footprintMeters": {
+        "width": 0.486,
+        "depth": 0.326
+      },
+      "source": {
+        "file": "exec-6031abca-a460-480a-aa59-b36f9d8c1b09.png",
+        "sha256": "a36bba273c7672f58a8aa5c801b9007ca21c1808ce3035335b9717070e7cf9ab",
+        "width": 1533,
+        "height": 1026
+      },
+      "crop": {
+        "left": 71,
+        "top": 97,
+        "width": 1391,
+        "height": 790
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "stagebox-8",
+      "file": "stagebox-8-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 256,
+      "hasAlpha": true,
+      "bytes": 27414,
+      "sha256": "2764df5e8e8f42d7819eae56f124f84de964e8666a88b3af6ea585167ed0d1ba",
+      "viewBox": [
+        180,
+        90
+      ],
+      "footprintMeters": {
+        "width": 0.483,
+        "depth": 0.22
+      },
+      "source": {
+        "file": "exec-0767622c-414b-4bc3-a893-59822c87454a.png",
+        "sha256": "dbae5f6962ea0d9e605564cad3d160bf180688f347029ed029ce1fba63d71122",
+        "width": 1860,
+        "height": 845
+      },
+      "crop": {
+        "left": 31,
+        "top": 105,
+        "width": 1799,
+        "height": 599
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "stagebox-16",
+      "file": "stagebox-16-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 259,
+      "hasAlpha": true,
+      "bytes": 36490,
+      "sha256": "a19303837e1203f8708a1f5e14537945c0ad2e466d47041bc73e0d8eac92e704",
+      "viewBox": [
+        180,
+        90
+      ],
+      "footprintMeters": {
+        "width": 0.41,
+        "depth": 0.19
+      },
+      "source": {
+        "file": "exec-c75b725d-4008-45cf-a1d8-dd73debad943.png",
+        "sha256": "f54c067cc3ebce72d0b93d0b2e87c43337a9e4b5a409a1c642f4cf2b3caf7b8f",
+        "width": 1840,
+        "height": 854
+      },
+      "crop": {
+        "left": 27,
+        "top": 113,
+        "width": 1788,
+        "height": 604
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "amp",
+      "file": "amp-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 356,
+      "hasAlpha": true,
+      "bytes": 63416,
+      "sha256": "39191aeff3c9a42de105a1f3253cd59fb267f56e40b6c3dd84e6a6c64c4e4ebb",
+      "viewBox": [
+        100,
+        55
+      ],
+      "footprintMeters": {
+        "width": 0.6,
+        "depth": 0.33
+      },
+      "source": {
+        "file": "exec-57a23573-aad3-4ea8-9e31-c809d507655a.png",
+        "sha256": "a7e8fbf13373795ace8438ab72b8d09a1fead93ed2b3ebfcf17e6f2a45ea426f",
+        "width": 1691,
+        "height": 930
+      },
+      "crop": {
+        "left": 94,
+        "top": 113,
+        "width": 1502,
+        "height": 697
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "bass-stack",
+      "file": "bass-stack-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 470,
+      "hasAlpha": true,
+      "bytes": 85312,
+      "sha256": "8bdf7b965f84483d1c8cfe4da4260a9201f3e726df4f1df25a955d67f9fa0b90",
+      "viewBox": [
+        130,
+        91
+      ],
+      "footprintMeters": {
+        "width": 0.66,
+        "depth": 0.46
+      },
+      "source": {
+        "file": "exec-10407928-a02f-47ea-83d9-28300bb94083.png",
+        "sha256": "90f04fd50581de4e22484ea589a4fb3294ef07e18f65e94d2864110f3b19a591",
+        "width": 1504,
+        "height": 1046
+      },
+      "crop": {
+        "left": 112,
+        "top": 133,
+        "width": 1280,
+        "height": 784
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "quad-cortex",
+      "file": "quad-cortex-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 497,
+      "hasAlpha": true,
+      "bytes": 37428,
+      "sha256": "48c99d0b4aed8ab8e9c1b24149dd2d6ed73a91e38e6f500200bd7ce75d16c04c",
+      "viewBox": [
+        145,
+        97.5
+      ],
+      "footprintMeters": {
+        "width": 0.29,
+        "depth": 0.195
+      },
+      "source": {
+        "file": "exec-ad4bf74a-3ad4-4e9b-b91a-22e812323439.png",
+        "sha256": "12bde1a3fa6e6f121dee895d391352e588b4ee5e593774c16fdd9c314fbb0de2",
+        "width": 1527,
+        "height": 1030
+      },
+      "crop": {
+        "left": 94,
+        "top": 74,
+        "width": 1340,
+        "height": 867
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "foh",
+      "file": "foh-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 512,
+      "hasAlpha": true,
+      "bytes": 45936,
+      "sha256": "885ebfedb1bd74c03c88ef1181cc3aa3be00f1ee8cacbcbd8e10af15e9a0129d",
+      "viewBox": [
+        180,
+        120
+      ],
+      "footprintMeters": {
+        "width": 3,
+        "depth": 2
+      },
+      "source": {
+        "file": "exec-4cf1247d-24a1-491a-a73b-0f04e8747bc6.png",
+        "sha256": "39e5d492b6fc29d627b439fbfcc927b25bfe8ed4bbcc37ea9460489ce1f4e074",
+        "width": 1536,
+        "height": 1024
+      },
+      "crop": {
+        "left": 172,
+        "top": 121,
+        "width": 1192,
+        "height": 795
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "stagebox-32",
+      "file": "stagebox-32-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 182,
+      "hasAlpha": true,
+      "bytes": 33110,
+      "sha256": "16da1db43a60c71ecf305ba879aba22e89eafc5dbaa74384da5882a1afe7fe33",
+      "viewBox": [
+        364,
+        90
+      ],
+      "footprintMeters": {
+        "width": 0.82,
+        "depth": 0.19
+      },
+      "source": {
+        "file": "exec-7d5397b3-a3a5-4a10-ba96-42b9267c7ae2.png",
+        "sha256": "1ed735f8e2d129408066a5e5d997cd992f55c57e7c02715c40c8842aa88ed664",
+        "width": 1998,
+        "height": 787
+      },
+      "crop": {
+        "left": 38,
+        "top": 154,
+        "width": 1923,
+        "height": 455
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "guitar-stand-single",
+      "file": "guitar-stand-single-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 641,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 40090,
+      "sha256": "3738931279507f932736f9b2339ff096a80940f4f513f25319981852f17c8946",
+      "viewBox": [
+        100,
+        120
+      ],
+      "footprintMeters": {
+        "width": 0.5,
+        "depth": 0.6
+      },
+      "source": {
+        "file": "exec-b9e1c69d-4756-4d75-ae3e-7aeee9a2a05d.png",
+        "sha256": "cfc76fc7455fa8bd71a21e372c1362180b4a116889ed25ab927a09f7b83dd555",
+        "width": 1145,
+        "height": 1374
+      },
+      "crop": {
+        "left": 38,
+        "top": 49,
+        "width": 1069,
+        "height": 1280
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "guitar-stand-empty",
+      "file": "guitar-stand-empty-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 524,
+      "hasAlpha": true,
+      "bytes": 43576,
+      "sha256": "14e3eb4debd3f87e5ee300844f32dfce73c0f24cb4cf4ae64dfdcb85f8ce147f",
+      "viewBox": [
+        120,
+        90
+      ],
+      "footprintMeters": {
+        "width": 0.9,
+        "depth": 0.65
+      },
+      "source": {
+        "file": "exec-7ade8407-2ac8-41f0-ab8e-2bd57a860296.png",
+        "sha256": "2e630accb062c73580a2e82c87f362ee7e589c7fcb99848b975ed1dc2a8c5dd4",
+        "width": 1475,
+        "height": 1066
+      },
+      "crop": {
+        "left": 81,
+        "top": 79,
+        "width": 1315,
+        "height": 898
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "guitar-tree-empty",
+      "file": "guitar-tree-empty-top-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 692,
+      "hasAlpha": true,
+      "bytes": 43286,
+      "sha256": "84ac179015907f179a0984616c914cd6012dccad087788ed816aa7d82142e6c8",
+      "viewBox": [
+        120,
+        120
+      ],
+      "footprintMeters": {
+        "width": 0.7,
+        "depth": 0.7
+      },
+      "source": {
+        "file": "exec-2d24e4ad-c92d-4706-94bb-35a87980a512.png",
+        "sha256": "9fa4af798383591f85fca7d952cc0720dd4959c650aefc1ec7777c83c569a6d6",
+        "width": 1254,
+        "height": 1254
+      },
+      "crop": {
+        "left": 42,
+        "top": 45,
+        "width": 1169,
+        "height": 1054
+      },
+      "cropAlphaThreshold": 128
+    }
+  ]
+}
