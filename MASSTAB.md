@@ -2,7 +2,7 @@
 
 Stand: 10. September 2026, v0.1.0-beta.7.
 
-Die Bühne und alle Gegenstände verwenden Meter. Die dargestellte Gerätekontur wird auf die hinterlegte Breite und Länge/Tiefe abgebildet. Leere Außenabstände einer SVG-Zeichnung zählen nicht mehr zur Gerätefläche. Beide Achsen sind kalibriert; beispielsweise bleibt ein 2 × 1,6 m großer Teppich rechteckig. Editor, Platzierungsvorschau, Projektkarte und Druck verwenden dieselbe Transformation. PDF und Bildexport entstehen weiterhin aus derselben Druckansicht.
+Die Bühne und alle Gegenstände verwenden Meter. Flexible Flächen behalten ihre getrennt einstellbare Breite und Tiefe. Gerenderte Technikobjekte verwenden dagegen einen metrischen Referenzrahmen und werden gleichmäßig skaliert: runde Flächen bleiben rund, Mikrofonkörper werden nicht zu dünnen Stäben gestaucht. Generierte Bildkonturen können vom Referenzrahmen abweichen; freie Ränder gleichen das aus, ohne die Bilder zu verzerren. Editor, Projektkarte und Druck verwenden dieselbe Transformation. PDF und Bildexport entstehen aus derselben Druckansicht.
 
 ## Geräte, Instrumente und Stellflächen
 
@@ -15,7 +15,7 @@ Die Bühne und alle Gegenstände verwenden Meter. Die dargestellte Gerätekontur
 
 ## Eigene Maße
 
-Objekt auswählen → **Eigenschaften → Maße im Plan**. Breite und Länge/Tiefe in Zentimetern eingeben. Änderungen erscheinen sofort und bleiben beim Speichern, Laden und Projekt-Export erhalten. **Standardmaße verwenden** setzt das Gerät zurück. Beides lässt sich rückgängig machen; gesperrte Objekte schützen auch ihre Maße. Ein Modellwechsel lädt die Maße des neuen Modells.
+Objekt auswählen → **Eigenschaften → Maße im Plan**. Breite und Länge/Tiefe in Zentimetern eingeben. Bei gerenderten Technikobjekten ist das Seitenverhältnis gekoppelt. Ein bereits gespeicherter abweichender Maßrahmen bleibt beim Laden erhalten; das Bild wird proportional darin eingepasst. Änderungen erscheinen sofort und bleiben beim Speichern, Laden und Projekt-Export erhalten. **Standardmaße verwenden** setzt das Gerät zurück. Beides lässt sich rückgängig machen; gesperrte Objekte schützen auch ihre Maße. Ein Modellwechsel lädt die Maße des neuen Modells.
 
 Drum-, Percussion- und Orchesterteile behalten ihre Maßfelder im jeweiligen Editor. Riser, FOH und Treppen behalten ihre bestehenden Flächenregler. Freier Text hat keine physische Gerätegröße.
 
@@ -27,8 +27,13 @@ Die Quellen wurden am 10. September 2026 abgeglichen. Angaben hier sind Breite �
 | --- | --- | --- |
 | Playback-Laptop | 35,57 × 24,81 cm | [Apple MacBook Pro 16″ (2024)](https://support.apple.com/en-gb/121554), Referenz für den allgemeinen Laptop-Baustein. Ein Rack oder Tisch ist ein eigener Gegenstand. |
 | Violine | 20,7 × 59 cm | 4/4-Referenz; [Metropolitan Museum, Gould-Violine](https://www.metmuseum.org/art/collection/search/503045) belegt 59 cm Gesamtlänge. Breite und individuelle Bauform bleiben anpassbar. |
-| Shure SM57 | 15,7 × 3,2 cm | [Shure-Katalog](https://content-files.shure.com/Pubs2/files/260011.pdf). Die bisherige doppelte Symbolgröße entfällt. |
-| Sennheiser EW-D SKM-S mit MMD 835 | 26,8 × 5 cm | [Sennheiser-Datenblatt](https://docs.cloud.sennheiser.com/en-us/ew-d/ew-d/specifications-ew-d-skm-s.html). Die bisherige doppelte Symbolgröße entfällt. |
+| Shure SM57 | 15,7 × 3,2 cm | [Shure-Katalog](https://content-files.shure.com/Pubs2/files/260011.pdf). Der Mikrofonkörper ist als neues Rasterbild dargestellt. |
+| Sennheiser EW-D SKM-S mit MMD 835 | 26,8 × 5 cm | [Sennheiser-Datenblatt](https://docs.cloud.sennheiser.com/en-us/ew-d/ew-d/specifications-ew-d-skm-s.html). Der Mikrofonkörper ist als neues Rasterbild dargestellt. |
+| Kompakter Schlagzeughocker | Sitz Ø 30 cm; Fußkreis Ø 43 cm | [K&M 14010 Piccolino](https://www.k-m.de/en/kmPdf/datasheet?ordernumber=14010-000-02). Sitz und Gestell sind getrennt kalibriert; gilt auch im Drum-Designer. Kein pauschales Maß für alle Hockermodelle. |
+| Monitor-Wedge CM14 | 55,9 × 54,6 cm | [Cohesion CM14](https://www.cohesionaudio.com/products/cm14): Breite 558,8 mm, Tiefe 546,1 mm. Die Höhe von 349,3 mm wird nicht als Bodentiefe verwendet. |
+| 3er-Gitarrenständer leer | 62,6 × 33,5 cm Referenzrahmen | [K&M Guardian 3](https://www.k-m.de/en/kmPdf/datasheet?ordernumber=17513-016-00) als Größenreferenz. Bild ist eine generische Rack-Illustration. Befüllt 62,6 × 39 cm als anpassbarer Orientierungswert für die überstehenden Instrumente. |
+| Gitarrenbaum | Fußkreis Ø 86 cm | [Hercules AGS Plus](https://www.herculesstands.com/files/file_pool/1/0k312527759205717334/agsplus_reader.pdf): GS432B Plus mit 43 cm Basisradius. Der Fußkreis beschreibt die Stellfläche; die Dreibeinkontur ist keine ausgefüllte 86-cm-Scheibe. |
+| Kompakte 4er-Stromleiste | 30 × 6 cm | Generisches Orientierungsmaß ohne Anschlusskabel; kein bestimmtes Herstellermodell. Runde Schuko-Buchsen werden proportional dargestellt. |
 | DI-Box | 12,7 × 8,4 cm | [Radial J48](https://www.radialeng.com/product/j48/specifications) als Referenz für den allgemeinen Baustein. |
 | A&H AR84 / Stagebox 8 | 48,3 × 22 cm | [Allen & Heath, GLD User Guide, Maßzeichnung](https://www.allen-heath.com/content/uploads/2023/06/GLD-Chrome-User-Guide-AP9989_2.pdf), einschließlich Rackohren. |
 | A&H DX168 / Stagebox 16 | 41 × 19 cm | [Allen & Heath, technische Daten](https://www.allen-heath.com/content/uploads/2023/06/DX168-Datasheet.pdf), Tabelle der Gerätemaße. |
@@ -45,8 +50,14 @@ Die Quellen wurden am 10. September 2026 abgeglichen. Angaben hier sind Breite �
 
 ## Umsetzung und Prüfung
 
-`objectArtGeometry()` ist die gemeinsame Abbildung vom SVG-Zeichenraum zum metrischen Plan. Statische Bilder verwenden ihre einmalig gemessenen Konturen; metrische Drum-, Percussion- und Orchestergruppen behalten ihren eigenen Koordinatenraum. Drehungen erfolgen weiterhin um den Objektmittelpunkt. Bestehende Positionen und Signalzuordnungen werden durch die Kalibrierung nicht verändert. Alte Entwürfe ohne eigene Maße erhalten die korrigierten Standardmaße; neue optionale `dimensions: {w, d}` werden validiert und beim Dokument-Roundtrip erhalten.
+`objectArtGeometry()` ist die gemeinsame Abbildung vom SVG-Zeichenraum zum metrischen Plan. Gerenderte Technik verwendet Millimeterrahmen und einen gemeinsamen Skalierungsfaktor für beide Achsen. Flexible Vektorobjekte verwenden ihre einmalig gemessenen Konturen; metrische Drum-, Percussion- und Orchestergruppen behalten ihren eigenen Koordinatenraum. Drehungen erfolgen weiterhin um den Objektmittelpunkt. Bestehende Positionen und Signalzuordnungen werden durch die Kalibrierung nicht verändert. Alte Entwürfe ohne eigene Maße erhalten die korrigierten Standardmaße; neue optionale `dimensions: {w, d}` werden validiert und beim Dokument-Roundtrip erhalten.
 
 `stageplot-object-scale.test.cjs` prüft den gesamten statischen Katalog, beide Achsen, asymmetrische Bildränder, kleine Zoomstufen, erhaltene Gruppenkoordinaten, ungültige Maße und alte/neue Dokumente. Die bestehende `stageplot-scale.test.cjs` prüft weiterhin die sichtbaren Fell- und Beckendurchmesser sowie das gemeinsame SPD-SX-Maß.
 
 Browserprüfung: 71 statische Katalogzeichnungen in Bühne und Druckansicht gegen ihre Meterwerte vermessen. Violine, Laptop, Mics, DI, Rack, Bass, Keyboard, Teppich, Treppe und Rampe zusätzlich in Chrome und WebKit geprüft. Eigene Maße, Standardwerte, Undo, ungültige Eingaben, lokales Neuladen und Projekt-Download auf Desktop und 390-px-Touch-Ansicht geprüft. Dies bestätigt den Darstellungsmaßstab; es ersetzt keine Messung eines individuellen, nicht spezifizierten Geräts.
+
+## Korrektur der Technik-Assets (10. September 2026)
+
+Die bisherige Prüfung allein gegen die äußere Objektbox erkannte gestreckte Bildinhalte nicht. Die neue Prüfung kontrolliert zusätzlich gleiche Skalierungsfaktoren für beide Achsen, proportionale Bilddarstellung, gekoppelte Maße und den 30-cm-Hockersitz innerhalb des Bildaufbaus. 3er-Ständer und Gitarrenbaum verwenden auch befüllt gerenderte Projektionen aufrecht gelagerter Gitarren. Die Mikrofonkörper orientieren sich am [SM57-Datenblatt (23-mm-Griff)](https://content-files.shure.com/Pubs2/files/260001.pdf) und am [EW-D-Datenblatt (40-mm-Handsender)](https://www.sennheiser.com/globalassets/digizuite/49039-en-ew-d_skm-s_product_specification_v1.4_en.pdf). Die Originalfotos in der Mikrofonwahl werden nicht ersetzt.
+
+Aktuelle Browserprüfung: Chrome und WebKit mit allen 29 Technik-Assets, gleichen Skalierungsfaktoren, metrischen Rahmen einschließlich FOH, gekoppelter Größenänderung mit lokalem Neuladen, Drehen, Mobilansicht (390 px), Dunkelmodus, 4K-PNG und Offline-Bildexport. Die zehn korrigierten Gegenstände wurden zusätzlich auf demselben 10-cm-Raster visuell verglichen.

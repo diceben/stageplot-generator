@@ -641,8 +641,8 @@
               <li><strong>Freie Bühnenformen:</strong> Flächen, Rundungen, Stege, Seitenbühnen und Ausschnitte kombinieren. Der größere Bühnenbauer bietet Formkarten, direkte Kantenmaße und dieselben Aktionen zum Drehen, Duplizieren und Löschen wie Bühnenobjekte.</li>
               <li><strong>Bündiger Aufbau:</strong> Treppen und Rampen sind eigene Bausteine. Bühnenkanten haben beim Einrasten Vorrang vor dem Raster, auch bei ungeraden Maßen. Riserbeschriftungen stehen kompakter an freien Kanten.</li>
               <li><strong>Gerenderte Kategorien:</strong> Sechs neue Bild-Icons zeigen Instrumente, Orchester, Bühne, Licht und Technik als einheitliche Miniaturen. Die Namen bleiben sichtbar, alle Kategorien stehen gleichmäßig in zwei Reihen. Das Orchester ist an Cello, Harfe und Horn erkennbar und erhält auch in der Bibliothek ein eigenes Vorschaubild.</li>
-              <li><strong>Technik von oben:</strong> 21 neue realistische, dezent gezeichnete Draufsichten für Laptop, Racks, Mischpulte, Stageboxen, Monitore, Verstärker, FOH und Zubehör. Freigestellte lokale Bilddateien ersetzen die bisherigen Zeichnungen; Bibliothek, Bühne, Projektvorschau und Export verwenden dieselben Bilder und Gerätemaße.</li>
-              <li><strong>Maßstäbliche Gegenstände:</strong> Zeichnungen füllen ihre hinterlegten Gerätemaße ohne unsichtbare Außenabstände. Mikrofone und DI-Boxen sind in Originalgröße, der Playback-Laptop zeigt nur den Rechner. Stagebox-Maße sind korrigiert; eigene Maße lassen sich direkt in Zentimetern eingeben und bleiben gespeichert. Bühne, Projektvorschau und Export verwenden denselben Maßstab.</li>
+              <li><strong>Technik von oben &amp; korrekte Proportionen:</strong> Neue realistische Bildassets für Technik, Mikrofone, 3er-Gitarrenständer und Gitarrenbäume – leer und befüllt in Draufsicht. Wedge und Stromleiste werden nicht mehr verzerrt; der kompakte Schlagzeughocker hat eine 30-cm-Sitzfläche und einen 43-cm-Fußkreis, auch im Drum-Designer. Bilder bleiben beim Skalieren proportional, Breite und Tiefe der Technikobjekte sind gekoppelt. Bibliothek, Bühne, Projektvorschau und Export verwenden dieselben lokalen Assets.</li>
+              <li><strong>Maßstäbliche Gegenstände:</strong> Geräte und Stellflächen verwenden Referenzmaße in Metern; gerenderte Bilder bleiben proportional in ihrem Maßrahmen. Mikrofone und DI-Boxen werden nicht künstlich vergrößert, der Playback-Laptop zeigt nur den Rechner. Stagebox-Maße sind korrigiert; eigene Maße lassen sich direkt in Zentimetern eingeben und bleiben gespeichert. Bühne, Projektvorschau und Export verwenden denselben Maßstab.</li>
               <li><strong>Klarer Audioplan:</strong> Der Arbeitsbereich heißt einheitlich „Routing“, auch im Menü und beim Öffnen am Objekt. Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Audio-Plan und Drum-Editor teilen dieselbe Mikrofon-Auswahl: Sofortsuche, Herstellerfilter, passende Vorschläge, Favoriten und zuletzt verwendete Modelle. 81 der 88 konkreten Mikrofoneinträge haben jetzt Original-Herstellerfotos, auch viele ältere Modelle. Die 78 komprimierten Fotos laden bei Bedarf und funktionieren lokal; abgebildete Varianten und Sets sind gekennzeichnet. Mikrofon und 48 V werden in beide Richtungen abgeglichen; Kanalnummern, Patch und Notizen bleiben erhalten. Overheads lassen sich direkt im Drum-Editor auswählen. Gemeinsame Signalwege vermeiden doppelte Inputs. Playback-Laptops bieten Stereo L/R, PLAYAUDIO1U mit zwölf benennbaren XLR-Ausgängen und Dante Virtual Soundcard über ein Netzwerkkabel. Stereo-Paare lassen sich in Mono-Signale teilen; Namen und Ausgangsnummern erscheinen im Audioplan und Export.</li>
               <li><strong>Einheitliches Anschließen:</strong> Inputliste und Stagebox-Belegung verwenden dieselbe Auswahl: Signal wählen und Buchse antippen oder umgekehrt. Verbindungen werden sofort gespeichert, auch zusammen mit Änderungen aus dem Signal-Editor, und lassen sich direkt rückgängig machen. Instrument, Buchse und Pultkanal bleiben sichtbar. Belegte Buchsen bieten Tauschen oder Ersetzen; Stereo bleibt zusammen. Freie Kanäle eines Instruments lassen sich mit Buchsenvorschau gemeinsam anschließen. Die Belegung zeigt große beschriftete Buchsen und Gerätebilder, ohne automatisch wechselnde Detailleisten; am Handy öffnet sich die Auswahl von unten ohne erzwungene Tastatur.</li>
               <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. PDF und Bild nutzen dieselben Seiten mit Maßlinien direkt an den Bühnenkanten und Zusatzinfos neben oder unter dem Plan. Bilder gibt es in HD, 2K und 4K; mehrseitige Ausgaben als ZIP. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
@@ -7998,10 +7998,10 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'flugelhorn',name:'Flügelhorn',short:'Flügelhorn',family:'winds',category:'winds',w:.56,d:.31,vb:[225,124],keywords:'fluegelhorn flugelhorn flugel horn',detail:'Technische Draufsicht · weiter Korpus-Bogen und drei Kolbenventile'},
     {id:'flute',orchestraPart:'flute',defaultAngle:0,name:'Querflöte',short:'Querflöte',family:'winds',category:'winds',w:0.67,d:0.06,vb:[67.0,6.0],keywords:'querfloete floete flute transverse',detail:'Mundlochplatte · Klappen und Fußstück · schematisches Planmaß'},
     {id:'guitar-stand-single',name:'Gitarrenständer · einzeln',short:'Einzelständer',family:'guitar-stands',category:'strings',w:.5,d:.6,vb:[100,120],instrument:false,clearGroup:'tech',detail:'Ein Platz · Dreibein mit Hals- und Korpusauflage · schematisches Planmaß'},
-    {id:'guitar-stand-empty',name:'Gitarrenständer · 3-fach · leer',short:'3er-Ständer · leer',family:'guitar-stands',category:'strings',w:.9,d:.65,vb:[120,90],instrument:false,clearGroup:'tech'},
-    {id:'guitar-stand-full',name:'Gitarrenständer · 3-fach · befüllt',short:'3er-Ständer · voll',family:'guitar-stands',category:'strings',w:.9,d:.65,vb:[120,90],instrument:true,clearGroup:'tech',detail:'E-Gitarre · Akustik · Bass'},
-    {id:'guitar-tree-empty',name:'Gitarrenbaum · 3-fach · leer',short:'Gitarrenbaum · leer',family:'guitar-trees',category:'strings',w:.7,d:.7,vb:[120,120],instrument:false,clearGroup:'tech',detail:'Kompaktes Dreibein mit drei radialen Halsaufnahmen · nach Hercules GS432B Plus'},
-    {id:'guitar-tree-full',name:'Gitarrenbaum · 3-fach · befüllt',short:'Gitarrenbaum · voll',family:'guitar-trees',category:'strings',w:.7,d:.7,vb:[120,120],instrument:true,clearGroup:'tech',detail:'Kompaktes Dreibein · E-Gitarre, Akustik und Bass · nach Hercules GS432B Plus'},
+    {id:'guitar-stand-empty',name:'Gitarrenständer · 3-fach · leer',short:'3er-Ständer · leer',family:'guitar-stands',category:'strings',w:0.626,d:0.335,vb:[120,90],instrument:false,clearGroup:'tech'},
+    {id:'guitar-stand-full',name:'Gitarrenständer · 3-fach · befüllt',short:'3er-Ständer · voll',family:'guitar-stands',category:'strings',w:0.626,d:0.39,vb:[120,90],instrument:true,clearGroup:'tech',detail:'E-Gitarre · Akustik · Bass'},
+    {id:'guitar-tree-empty',name:'Gitarrenbaum · 3-fach · leer',short:'Gitarrenbaum · leer',family:'guitar-trees',category:'strings',w:0.86,d:0.86,vb:[120,120],instrument:false,clearGroup:'tech',detail:'Drei radiale Halsaufnahmen · Fußkreis Ø 86 cm · Referenz GS432B Plus'},
+    {id:'guitar-tree-full',name:'Gitarrenbaum · 3-fach · befüllt',short:'Gitarrenbaum · voll',family:'guitar-trees',category:'strings',w:0.86,d:0.86,vb:[120,120],instrument:true,clearGroup:'tech',detail:'Drei aufrecht gelagerte Gitarren · Fußkreis Ø 86 cm · Referenz GS432B Plus'},
     {id:'mic',name:'Mikrofon',short:'Mikrofon',category:'mics',w:.65,d:.65},
     {id:'mic-wireless-ewd',name:'Sennheiser EW-D · Funkmikrofon',short:'Funkmikrofon · EW-D',category:'mics',w:.268,d:.05,vb:[268,50],keywords:'sennheiser ewd ew-d skm wireless funk handheld mikrofon',detail:'Handsender mit MMD 835 · Originalmaß 268 × 50 mm'},
     {id:'mic-sm57',name:'Shure SM57',short:'Shure SM57',category:'mics',w:.157,d:.032,vb:[157,32],keywords:'shure sm57 instrument microphone dynamisch',detail:'Dynamisches Instrumentenmikrofon · Originalmaß 157 × 32 mm'},
@@ -8011,7 +8011,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'mixer-wing-compact',name:'Behringer WING COMPACT',short:'WING Compact',family:'mixers',category:'tech',w:.5743,d:.45337,vb:[160,126],instrument:true,ioDefaults:{inputs:24,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer wing compact console pult',detail:'24 Preamps / 8 Outs · 574,3 × 453,4 mm Grundfläche'},
     {id:'mixer-wing-rack',name:'Behringer WING RACK',short:'WING Rack',family:'mixers',category:'tech',w:.486,d:.326,vb:[160,107],instrument:true,ioDefaults:{inputs:24,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer wing rack 4u',detail:'4 HE · 24 Preamps / 8 Outs · 486 × 326 mm Grundfläche'},
     {id:'piano-bench',name:'Klavierhocker',short:'Klavierhocker',category:'tech',w:.55,d:.35,vb:[110,70],instrument:false,keywords:'keyboard bank klavier hocker piano bench sitz'},
-    {id:'drum-throne',name:'Schlagzeughocker',short:'Schlagzeughocker',category:'tech',w:.55,d:.55,vb:[100,100],instrument:false,keywords:'drum throne schlagzeug hocker sitz'},
+    {id:'drum-throne',name:'Schlagzeughocker',short:'Schlagzeughocker',category:'tech',w:0.43,d:0.43,vb:[100,100],instrument:false,keywords:'drum throne schlagzeug hocker sitz',detail:'Kompakter Hocker · Sitz Ø 30 cm · Fußkreis Ø 43 cm'},
     {id:'iem-earphones',name:'IEM-Hörer · Paar',short:'IEM-Hörer',category:'tech',w:.07,d:.04,vb:[100,75],instrument:false,clearGroup:'tech',keywords:'in ear in-ear monitor ohrhorer kopfhorer kopfhörer earbuds musiker musician paar',detail:'Linker und rechter Hörer · Richtmaß für ein Paar, ohne Kabel'},
     {id:'stagebox-8',name:'Stagebox · 8 In / 4 Out',short:'Stagebox 8',family:'stageboxes',category:'tech',w:.483,d:.22,vb:[180,90],detail:'A&H AR84 · 8 Eingänge / 4 Ausgänge'},
     {id:'stagebox-16',name:'Stagebox · 16 In / 8 Out',short:'Stagebox 16',family:'stageboxes',category:'tech',w:.41,d:.19,vb:[180,90],detail:'A&H DX168 · 16 Eingänge / 8 Ausgänge'},
@@ -8019,7 +8019,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'stagebox-46',name:'Custom Stagebox · 46 In',short:'Custom 46',family:'stageboxes',category:'tech',w:.48,d:.25,vb:[180,90],detail:'46 Eingänge · freie Konfiguration · kein A&H-Modell'},
     {id:'stagebox-48',name:'Stagebox · 48 In / 16 Out',short:'GX4816 · 48',family:'stageboxes',category:'tech',w:.4816,d:.255,vb:[180,90],detail:'A&H GX4816 · 48 Eingänge / 16 Ausgänge'},
     {id:'foh',name:'FOH-Platz',short:'FOH',category:'tech',w:3,d:2,vb:[180,120],underlay:true,instrument:false,keywords:'front of house mischplatz tisch absperrung sonnenschutz regenschutz'},
-    {id:'power',name:'Stromverteiler',short:'Strom',category:'tech',w:.4,d:.12,vb:[100,31]},
+    {id:'power',name:'Stromverteiler',short:'Strom',category:'tech',w:0.3,d:0.06,vb:[100,31]},
     {id:'wedge',name:'Monitor-Wedge · CM14',short:'Wedge · CM14',category:'tech',w:.559,d:.546,vb:[116,113],detail:'Koaxialer 14″ Bühnenmonitor · Planmaß 55,9 × 54,6 cm'},
     {id:'teleprompter',name:'Teleprompter · Wedge · Topview',short:'Teleprompter',category:'tech',w:.56,d:.48,vb:[140,120],keywords:'stageprompter tele prompter monitor display screen lyrics text wedge',detail:'Bühnen-Teleprompter · orthografische Draufsicht'},
     {id:'riser',name:'Riser-Gruppe · 1×',short:'Riser · 1×',category:'tech',w:2,d:1,vb:[200,100],underlay:true,riserCount:1},
@@ -8337,7 +8337,7 @@ function createStageplotDrumModel() {
         const standWidth=19.4,standHeight=standWidth*512/313,pedalWidth=10.7,pedalHeight=17.7,rawPedalY=p.y-standHeight/2+standHeight*315/512+pedalHeight/2;
         selectionRect(p,'pedal',p.x,2*p.y-rawPedalY,pedalWidth,pedalHeight,1.5);
       }else if(['pad','table','bongos'].includes(p.kind))selectionRect(p,'body',p.x,p.y,p.w||18,p.h||22,1.5);
-      else if(p.kind==='throne')selectionEllipse(p,'seat',p.x,p.y,p.r*1.375,p.r*1.42);
+      else if(p.kind==='throne')selectionEllipse(p,'seat',p.x,p.y,10.75,10.75);
       else if(p.kind==='snare')selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
       else if(p.kind==='tom'){
         selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
@@ -8384,37 +8384,70 @@ function createStageplotDrumModel() {
 /* build-inline:end stageplot-drums-v12.js */
   const drumModel=createStageplotDrumModel();
 /* build-inline:start stageplot-symbols-v3.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
-// Generated local raster sprites in strict overhead view. See stageplot-assets/tech/manifest.json.
+// Local generated overhead sprites. Frames and component coordinates use millimetres.
 const STAGEPLOT_TECH_TOP_VIEWS=Object.freeze({
-  'laptop':{width:120,height:90,part:'laptop-top-view'},
-  'rack':{width:100,height:100,part:'rack-top-view'},
-  'wedge':{width:116,height:113,part:'cm14-wedge-top-view'},
-  'drum-throne':{width:100,height:100,part:'drum-throne-top-view'},
-  'piano-bench':{width:110,height:70,part:'piano-bench-top-view'},
-  'power':{width:100,height:31,part:'power-top-view'},
-  'teleprompter':{width:140,height:120,part:'stage-teleprompter-top-view'},
-  'di':{width:100,height:100,part:'di-top-view'},
-  'iem-earphones':{width:100,height:75,part:'iem-earphones-pair'},
-  'mixer-wing-compact':{width:160,height:126,part:'behringer-wing-compact-top-view'},
-  'mixer-wing-rack':{width:160,height:107,part:'behringer-wing-rack-top-view'},
-  'stagebox-8':{width:180,height:90,part:'stagebox-8-top-view'},
-  'stagebox-16':{width:180,height:90,part:'stagebox-16-top-view'},
-  'amp':{width:100,height:55,part:'amp-top-view'},
-  'bass-stack':{width:130,height:91,part:'bass-stack-top-view'},
-  'quad-cortex':{width:145,height:97.5,part:'quad-cortex-top-view'},
-  'foh':{width:180,height:120,part:'foh-mixing-position'},
-  'stagebox-32':{width:364,height:90,part:'stagebox-32-top-view'},
-  'guitar-stand-single':{width:100,height:120,part:'single-guitar-stand'},
-  'guitar-stand-empty':{width:120,height:90,part:'three-slot-stand'},
-  'guitar-tree-empty':{width:120,height:120,part:'three-way-guitar-tree'},
+  "laptop":{"width":355.7,"height":248.1,"file":"laptop-top-v1.webp","rect":[0,0,355.7,248.1],"part":"laptop-top-view"},
+  "rack":{"width":600,"height":700,"file":"rack-top-v1.webp","rect":[0,0,600,700],"part":"rack-top-view"},
+  "wedge":{"width":559,"height":546,"file":"wedge-top-v2.webp","rect":[0,0,559,546],"part":"cm14-wedge-top-view"},
+  "piano-bench":{"width":550,"height":350,"file":"piano-bench-top-v1.webp","rect":[0,0,550,350],"part":"piano-bench-top-view"},
+  "power":{"width":300,"height":60,"file":"power-top-v2.webp","rect":[0,0,300,60],"part":"power-top-view"},
+  "teleprompter":{"width":560,"height":480,"file":"teleprompter-top-v1.webp","rect":[0,0,560,480],"part":"stage-teleprompter-top-view"},
+  "di":{"width":127,"height":84,"file":"di-top-v1.webp","rect":[0,0,127,84],"part":"di-top-view"},
+  "iem-earphones":{"width":70,"height":40,"file":"iem-earphones-top-v1.webp","rect":[0,0,70,40],"part":"iem-earphones-pair"},
+  "mixer-wing-compact":{"width":574.3000000000001,"height":453.37,"file":"mixer-wing-compact-top-v1.webp","rect":[0,0,574.3000000000001,453.37],"part":"behringer-wing-compact-top-view"},
+  "mixer-wing-rack":{"width":486,"height":326,"file":"mixer-wing-rack-top-v1.webp","rect":[0,0,486,326],"part":"behringer-wing-rack-top-view"},
+  "stagebox-8":{"width":483,"height":220,"file":"stagebox-8-top-v1.webp","rect":[0,0,483,220],"part":"stagebox-8-top-view"},
+  "stagebox-16":{"width":410,"height":190,"file":"stagebox-16-top-v1.webp","rect":[0,0,410,190],"part":"stagebox-16-top-view"},
+  "amp":{"width":600,"height":330,"file":"amp-top-v1.webp","rect":[0,0,600,330],"part":"amp-top-view"},
+  "bass-stack":{"width":660,"height":460,"file":"bass-stack-top-v1.webp","rect":[0,0,660,460],"part":"bass-stack-top-view"},
+  "quad-cortex":{"width":290,"height":195,"file":"quad-cortex-top-v1.webp","rect":[0,0,290,195],"part":"quad-cortex-top-view"},
+  "foh":{"width":3000,"height":2000,"file":"foh-top-v1.webp","rect":[0,0,3000,2000],"part":"foh-mixing-position"},
+  "stagebox-32":{"width":820,"height":190,"file":"stagebox-32-top-v1.webp","rect":[0,0,820,190],"part":"stagebox-32-top-view"},
+  "guitar-stand-single":{"width":500,"height":600,"file":"guitar-stand-single-top-v1.webp","rect":[0,0,500,600],"part":"single-guitar-stand"},
+  "guitar-stand-empty":{"width":626,"height":335,"file":"guitar-stand-empty-top-v2.webp","rect":[0,0,626,335],"part":"three-slot-stand"},
+  "guitar-tree-empty":{"width":860,"height":860,"file":"guitar-tree-empty-top-v2.webp","rect":[73.2866,19.561,713.4268,679.0673],"part":"three-way-guitar-tree"},
+  "mic-sm57":{"width":157,"height":32,"file":"mic-sm57-top-v2.webp","rect":[0,0,157,32],"part":"shure-sm57-top-view"},
+  "mic-wireless-ewd":{"width":268,"height":50,"file":"mic-wireless-ewd-top-v2.webp","rect":[0,0,268,50],"part":"sennheiser-ewd-skm-top-view"},
+  "throne-seat":{"width":300,"height":300,"file":"throne-seat-top-v2.webp","rect":[0,0,300,300],"part":"throne-seat"},
+  "throne-base":{"width":430,"height":430,"file":"throne-base-top-v2.webp","rect":[27.2799,6.2423,375.4402,332.0704],"part":"throne-base"},
+  "guitar-stand-full":{"width":626,"height":390,"file":"guitar-stand-full-top-v2.webp","rect":[0,0,626,390],"part":"three-slot-stand"},
+  "guitar-tree-full":{"width":860,"height":860,"file":"guitar-tree-full-top-v2.webp","rect":[110.6055,28.0653,639.3871,708.1706],"part":"three-way-guitar-tree"},
+  "mic-tripod-base":{"width":650,"height":650,"file":"mic-tripod-base-top-v2.webp","rect":[66.7051,29.537,516.1193,470.012],"part":"mic-tripod-base"},
+  "mic-round-base":{"width":250,"height":250,"file":"mic-round-base-top-v2.webp","rect":[0,0,250,250],"part":"mic-round-base"},
+  "mic-boom":{"width":650,"height":650,"file":"mic-boom-top-v2.webp","rect":[299.7508,24.3355,55.814,500],"part":"mic-boom"}
 });
+function stageplotTechFrame(type,options={}) {
+  if(type==='mic')return options.stand==='round'?{width:250,height:250}:{width:650,height:650};
+  if(type==='drum-throne')return {width:430,height:430};
+  return Object.hasOwn(STAGEPLOT_TECH_TOP_VIEWS,type)?STAGEPLOT_TECH_TOP_VIEWS[type]:null;
+}
+function stageplotTechImage(id,rect) {
+  const asset=STAGEPLOT_TECH_TOP_VIEWS[id],[x,y,w,h]=rect||asset.rect;
+  return '<image href="stageplot-assets/tech/'+asset.file+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMid meet" data-rendered-tech-asset="'+id+'"/>';
+}
+function stageplotTechThrone() {
+  return '<g data-part="drum-throne-top-view">'+stageplotTechImage('throne-base')+'<g data-part="throne-seat" data-diameter-mm="300">'+stageplotTechImage('throne-seat',[65,65,300,300])+'</g></g>';
+}
+function stageplotTechArtwork(type,options={}) {
+  const frame=stageplotTechFrame(type,options);if(!frame)return null;
+  let art='';
+  if(type==='drum-throne')art=stageplotTechThrone();
+  else if(type==='mic'){
+    if(options.stand==='round')art=stageplotTechImage('mic-round-base');
+    else{
+      const direction=['left','right'].includes(options.boomDirection)?options.boomDirection:'up',angle=direction==='left'?-90:direction==='right'?90:0;
+      art=stageplotTechImage('mic-tripod-base')+'<g data-part="boom-arm-'+direction+'" transform="rotate('+angle+' 325 325)">'+stageplotTechImage('mic-boom')+'</g>';
+    }
+  }else art='<g data-part="'+frame.part+'">'+stageplotTechImage(type)+'</g>';
+  // The frame includes the real foot circle of tripods, not just their triangular ink bounds.
+  return '<g data-equipment="'+type+'" data-metric-tech="true"><rect x="0" y="0" width="'+frame.width+'" height="'+frame.height+'" fill="none" stroke="none" pointer-events="none" data-metric-frame="true"/>'+art+'</g>';
+}
 // Original scalable monochrome artwork; lighter technical linework matches the approved design rendering.
 // Instrument geometry remains informed by the sources in stageplot-referenzen.md.
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
 // Relative positions checked against real overhead photos (see stageplot-referenzen.md).
 function createStageplotSymbolV3(type, options = {}) {
-  const topView=Object.hasOwn(STAGEPLOT_TECH_TOP_VIEWS,type)?STAGEPLOT_TECH_TOP_VIEWS[type]:null;
-  if(topView)return '<g data-equipment="'+type+'" data-part="'+topView.part+'"><image href="stageplot-assets/tech/'+type+'-top-v1.webp" x="0" y="0" width="'+topView.width+'" height="'+topView.height+'" preserveAspectRatio="none" data-rendered-tech-asset="'+type+'"/></g>';
+  const techArtwork=stageplotTechArtwork(type,options);if(techArtwork)return techArtwork;
   let out = '';
   const f = n => Math.round(n * 100) / 100;
   const drumMicParts=new Set(Array.isArray(options.drumMicParts)?options.drumMicParts:[]);
@@ -8679,7 +8712,7 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     for(const p of layout.parts){
       group(p.angle?'rotate('+f(p.angle)+' '+f(p.x)+' '+f(p.y)+')':'',p.id);
-      if(p.kind==='throne')drumAsset('throne',p.x,p.y,p.r*2.75,p.r*2.84);
+      if(p.kind==='throne')out+='<g transform="translate('+f(p.x-10.75)+' '+f(p.y-10.75)+') scale(.05)">'+stageplotTechThrone()+'</g>';
       else if(p.kind==='kick'){
         const shellWidth=p.w,shellCropHeight=320,shellHeight=p.h;
         const shellY=p.y+shellHeight*2.5/320,pedalCrop={x:166,y:290,w:180,h:253};
@@ -9010,46 +9043,6 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const x of [104,157,191,232,249,284]){circle(x,14,1.5,'#aaa',.35);}
     for(const [x,y] of [[139,9],[156,8],[210,34],[258,34]]){rod(x,y,x+7,20,1);ellipse(x,y,4.1,2.4,'#ddd',.4);}
     ellipse(294,23.5,1.8,5.2,'#777',.45);rect(3,19,4,9,'#aaa',.5,1);end();
-  }else if(type==='mic'){
-    if(options.stand==='round'){
-      // A vertical microphone and mast project onto the 25 cm round base.
-      circle(50,50,12.5,'#c2c2c2',.45);circle(50,50,11,'#dedede',.25);circle(50,50,3,'#777',.3);circle(50,50,2.5,'#aaa',.3);circle(50,50,1.6,'#555',.2);
-    }else{
-      feet(50,65,27,30);circle(50,65,4.5,'#aaa',.7);
-      const direction=options.boomDirection||'up';
-      group('','boom-arm-'+direction);
-      if(direction==='left'||direction==='right'){
-        const tip=direction==='right'?82:18,counter=direction==='right'?34:66;
-        rod(counter,61,tip,61,2);rect(counter-3,58.5,6,5,'#555',.45,1);
-        rod(50,65,50,61,2);rod(tip,61,tip,56,1.6);
-        rect(46,58.5,8,5,'#777',.45,1);
-        capsule(tip,28,0);
-      }else{
-        rod(50,87,50,35,2);rect(46,62,8,5,'#555',.45,1);capsule(50,24,0);
-      }
-      end();
-    }
-  }else if(type==='mic-wireless-ewd'){
-    group('','sennheiser-ewd-skm-top-view');
-    const grilleId=scopedId('pattern','ewd-grille');
-    out+='<defs><pattern id="'+grilleId+'" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 0L4 4M4 0L0 4" stroke="#686d6c" stroke-width=".45"/></pattern></defs>';
-    path('M7 12Q3 25 7 38Q25 47 51 38L58 32V18L51 12Q25 3 7 12Z','url(#'+grilleId+')',.9,'#303432');
-    path('M53 15L73 17L255 18Q264 18 264 25Q264 32 255 32L73 33L53 35Z','#4c5150',.9,'#242725');
-    path('M66 18H245V32H66Z','#6a6f6e',.35,'#999');line(82,19,82,31,.45,'#c9cecc');
-    rect(142,20,37,10,'#1c2221',.45,2,'#9ca2a0');rect(146,22,29,6,'#78827e',.25,1,'#1b1d1c');
-    circle(190,25,4.3,'#292d2c',.45,'#b9bfbd');circle(190,25,1.5,'#d8ddda',.2,'#555');
-    for(const x of [211,221,231])rect(x,21.5,6,7,'#303534',.35,1,'#aaa');
-    path('M248 18V32M256 19V31','none',.7,'#c5cac8');
-    out+='<text x="93" y="27.5" font-family="sans-serif" font-size="7" font-weight="700" fill="#e7ebe8" stroke="none">EW-D</text>';end();
-  }else if(type==='mic-sm57'){
-    group('','shure-sm57-top-view');
-    const grilleId=scopedId('pattern','sm57-grille');
-    out+='<defs><pattern id="'+grilleId+'" width="3" height="3" patternUnits="userSpaceOnUse"><path d="M0 0L3 3M3 0L0 3" stroke="#6f7472" stroke-width=".38"/></pattern></defs>';
-    path('M4 6Q1 16 4 26L13 30H39L48 25V7L39 2H13Z','url(#'+grilleId+')',.8,'#292c2b');
-    path('M44 7H61L68 11H143Q153 11 153 16Q153 21 143 21H68L61 25H44Z','#4e5351',.8,'#262927');
-    rect(68,12.5,70,7,'#656a68',.28,2,'#aaa');line(81,13,81,19,.45,'#d4d8d5');
-    for(const x of [144,148,152])line(x,12,x,20,.45,'#c3c7c5');
-    out+='<text x="92" y="18" font-family="sans-serif" font-size="5.5" font-weight="800" fill="#f1f3f0" stroke="none">SM57</text>';end();
   }else if(type==='mixer-xr18'){
     group('','behringer-xr18-top-view');
     rect(3,4,194,81,'#3d4140',.9,5,'#1e201f');rect(9,9,182,71,'#696e6c',.45,3,'#9ba09e');
@@ -9063,42 +9056,6 @@ function createStageplotSymbolV3(type, options = {}) {
     const count=Number(type.split('-')[1]);
     if(count===32){group('translate(0 0)');stagebox(16,8);end();group('translate(184 0)');stagebox(16,8);end();}
     else stagebox(count,count===8?4:count===16?8:count===48?16:0);
-  }else if(type.startsWith('guitar-stand-')){
-    group('','three-slot-stand');
-    rod(8,14,112,14,3);rod(8,76,112,76,3);rod(8,14,8,76,3);rod(112,14,112,76,3);
-    for(const x of [25,60,95]){
-      path('M'+(x-7)+' 26V15Q'+x+' 9 '+(x+7)+' 15V26','none',2.6,'#555');
-      rod(x-9,63,x-9,76,4);rod(x+9,63,x+9,76,4);
-    }
-    for(const x of [8,112])for(const y of [12,78])rect(x-4,y-2,8,4,'#555',.4,1);
-    if(type==='guitar-stand-full'){
-      node('use',{href:'#sp-art-guitar-',transform:'translate(13 7) scale(.235)','data-part':'stored-guitar'});
-      node('use',{href:'#sp-art-acoustic-',transform:'translate(48 7) scale(.235)','data-part':'stored-guitar'});
-      node('use',{href:'#sp-art-bass-',transform:'translate(84 7) scale(.22)','data-part':'stored-guitar'});
-    }
-    end();
-  }else if(type.startsWith('guitar-tree-')){
-    // Orthographic three-way layout: central mast, folding neck yokes and a tripod.
-    group('','three-way-guitar-tree');
-    for(const angle of [0,120,240]){
-      group('translate(60 60) rotate('+angle+')','tree-leg');
-      rod(0,0,0,49,3.8);rect(-4,44,8,12,'#555',.5,2);
-      rod(0,9,0,36,1.3);rod(-11,36,11,36,3.7);
-      end();
-    }
-    for(const [index,angle] of [0,120,240].entries()){
-      group('translate(60 60) rotate('+angle+')','tree-branch');
-      rod(0,0,0,17,2.8);rect(-4,9,8,5,'#b8b8b8',.5,1);bolt(0,11.5,1);
-      if(type==='guitar-tree-full'){
-        const id=['guitar','acoustic','bass'][index],sy=id==='bass'?.13:.14;
-        node('use',{href:'#sp-art-'+id+'-',transform:'translate(-8 12) scale(.16 '+sy+')','data-part':'stored-guitar'});
-      }
-      path('M-6 25V19Q-6 15 0 15Q6 15 6 19V25','none',2.6,'#444');
-      rect(-7.5,22,4,5,'#555',.4,1);rect(3.5,22,4,5,'#555',.4,1);
-      end();
-    }
-    circle(60,60,6,'#d4d4d4',.85);circle(60,60,3,'#666',.5);
-    rect(66,58,4,4,'#555',.4,.8);end();
   }else if(type==='cajon'){
     rect(30,23,36,36,'#dedede',.85,1.5);rect(33,26,30,30,'#f5f5f5',.4,.5);
     for(const x of [34,62])for(const y of [27,55])bolt(x,y,.6);
@@ -9260,7 +9217,6 @@ function createStageplotSymbolV3(type, options = {}) {
     const variant=c.art==='mic'?((o.stand||'boom')==='round'?'round':'boom-'+(o.boomDirection||'up')):c.art==='riser'?String(c.riserCount||1):'';
     const key=c.art+'-'+variant;
     if(artCache.has(key))return artCache.get(key);
-    if(['guitar-stand-full','guitar-tree-full'].includes(c.art))['guitar','acoustic','bass'].forEach(id=>artId(byId[id]));
     const id='sp-art-'+key,definition=sEl('g',{id,class:'sp-symbol'},artDefs);
     definition.innerHTML=createStageplotSymbolV3(c.art,{...o,riserCount:c.riserCount||1,idPrefix:'art-'+key});
     // Measure each shared drawing only once; captions attach to its visible outline, not empty plan space.
@@ -9289,10 +9245,11 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function objectArtGeometry(c,o,w,h){
     const id=artId(c,o),metric=c.id==='orchestra'||c.orchestraPart||c.id==='percussion'||c.percussionPart||drumModel.isDrums(c.id);
-    // Composite coordinates already encode metres (including hardware and layout padding).
-    // Static art must fill its declared dimensions; unused viewBox margins are not equipment.
-    const b=metric?{x:0,y:0,width:c.vb[0],height:c.vb[1]}:artBoundsCache.get(id)||{x:0,y:0,width:c.vb[0],height:c.vb[1]};
-    const sx=w/b.width,sy=h/b.height,tx=-w/2-b.x*sx,ty=-h/2-b.y*sy;
+    const tech=typeof stageplotTechFrame==='function'?stageplotTechFrame(c.art||c.id,o):null;
+    // Raster equipment uses one scale for both axes, including saved custom frames.
+    // Composite coordinates retain their metre calibration; flexible vector areas may stretch.
+    const b=tech?{x:0,y:0,width:tech.width,height:tech.height}:metric?{x:0,y:0,width:c.vb[0],height:c.vb[1]}:artBoundsCache.get(id)||{x:0,y:0,width:c.vb[0],height:c.vb[1]};
+    const sx=tech?Math.min(w/b.width,h/b.height):w/b.width,sy=tech?sx:h/b.height,tx=-(b.x+b.width/2)*sx,ty=-(b.y+b.height/2)*sy;
     return {id,sx,sy,tx,ty,transform:'matrix('+[sx,0,0,sy,tx,ty].join(' ')+')'};
   }
   const objectSize = o => (o.type==='orchestra'||byId[o.type]?.orchestraPart)&&typeof orchestraModel!=='undefined'?orchestraModel.layout(o.orchestra||(byId[o.type]?.orchestraPart?orchestraModel.single(byId[o.type].orchestraPart):undefined)):o.type==='percussion'&&typeof percussionModel!=='undefined'?percussionModel.layout(o.percussion):['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):normalizedObjectDimensions(o.dimensions)||defaultObjectSize(o);
@@ -10136,7 +10093,7 @@ function createStageplotSymbolV3(type, options = {}) {
         sEl('g',{'data-riser-annotations':o.id,'data-riser-measures':String(showPrintMeasures),'data-riser-labels':String($('sp-print-labels').checked),'pointer-events':'none'},deck);
       }else if(o.type==='foh'){
         sEl('rect',{x:-w/2,y:-h/2,width:w,height:h,fill:'#f4f6f1',stroke:'#596153','stroke-width':1.4,'stroke-dasharray':o.foh?.barrier?'none':'5 3','data-foh-area':o.id},visual);
-        const unit=Math.min(w/180,h/120);const art=sEl('g',{transform:'translate('+(-90*unit)+' '+(-60*unit)+') scale('+unit+')'},visual);sEl('use',{href:'#'+artId(c,o)},art);
+        const geometry=objectArtGeometry(c,o,w,h);sEl('use',{href:'#'+geometry.id,transform:geometry.transform},visual);
         if(o.foh?.sun||o.foh?.rain)sEl('path',{d:'M'+(-w/2+4)+' '+(-h/2+4)+'L0 '+(-h/2-8)+'L'+(w/2-4)+' '+(-h/2+4),fill:'none',stroke:'#596153','stroke-width':2,'data-foh-cover':'true'},visual);
       }else if(c.stageExtension){
         const deck=sEl('g',{'data-stage-extension':o.id,'data-module-size':'2x1'},visual),stroke=blackStage?'#666862':'#c8cbc5',gridOn=mode!=='print'&&(mode!=='editor'||$('sp-grid-visible').getAttribute('aria-pressed')==='true');
@@ -10527,7 +10484,7 @@ function createStageplotSymbolV3(type, options = {}) {
       $('sp-object-width').value=Number((size.w*100).toFixed(3));$('sp-object-depth').value=Number((size.d*100).toFixed(3));
       for(const id of ['sp-object-width','sp-object-depth','sp-object-size-reset'])$(id).disabled=locked;
       $('sp-object-size-reset').hidden=!normalizedObjectDimensions(o.dimensions);
-      $('sp-object-size-hint').textContent=o.dimensions?'Eigene Gerätemaße · maßstäblich auf der Bühne.':o.type==='laptop'?'Referenz: 16″ MacBook Pro · nur der Rechner, ohne Tisch oder Rack.':o.type==='di'?'Referenz: Radial J48 · ohne Stecker und Kabel.':o.type.startsWith('stagebox-')&&!['stagebox-46'].includes(o.type)?'Gerätemaße nach Allen & Heath · ohne Stecker und Kabel.':['mic-sm57','mic-wireless-ewd'].includes(o.type)?'Herstellermaß · ohne Stativ.': 'Standardmaß der abgebildeten Ansicht. Für dein Modell anpassen; Spielraum zusätzlich einplanen.';
+      $('sp-object-size-hint').textContent=stageplotTechFrame(byId[o.type].art||o.type,o)?(o.type==='drum-throne'?'Referenz: Sitz Ø 30 cm · Fußkreis Ø 43 cm. ':'')+'Breite und Tiefe sind gekoppelt; Proportionen bleiben erhalten.':o.dimensions?'Eigene Gerätemaße · maßstäblich auf der Bühne.':o.type==='laptop'?'Referenz: 16″ MacBook Pro · nur der Rechner, ohne Tisch oder Rack.':o.type==='di'?'Referenz: Radial J48 · ohne Stecker und Kabel.':o.type.startsWith('stagebox-')&&!['stagebox-46'].includes(o.type)?'Gerätemaße nach Allen & Heath · ohne Stecker und Kabel.':['mic-sm57','mic-wireless-ewd'].includes(o.type)?'Herstellermaß · ohne Stativ.': 'Standardmaß der abgebildeten Ansicht. Für dein Modell anpassen; Spielraum zusätzlich einplanen.';
     }
     $('sp-mic-fields').hidden=o.type!=='mic';
     if(o.type==='mic'){
@@ -13653,8 +13610,12 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     $(id).addEventListener('input',()=>{
       const o=objects.find(item=>item.id===selected),input=$(id),value=Number(input.value);
       if(!o||o.locked||!editableObjectSize(o)||!input.value||!input.validity.valid||!Number.isFinite(value))return;
-      const size=objectSize(o);if(!editBefore)editBefore=snapshot();o.dimensions={w:size.w,d:size.d,[key]:value/100};
-      $('sp-object-size-reset').hidden=false;$('sp-object-size-hint').textContent='Eigene Gerätemaße · maßstäblich auf der Bühne.';
+      const size=objectSize(o),frame=stageplotTechFrame(byId[o.type].art||o.type,o),next={w:size.w,d:size.d,[key]:value/100};
+      if(frame){if(key==='w')next.d=next.w*frame.height/frame.width;else next.w=next.d*frame.width/frame.height;}
+      if(!normalizedObjectDimensions(next))return;
+      if(!editBefore)editBefore=snapshot();o.dimensions=next;
+      if(frame)$(key==='w'?'sp-object-depth':'sp-object-width').value=Number(((key==='w'?next.d:next.w)*100).toFixed(2));
+      $('sp-object-size-reset').hidden=false;$('sp-object-size-hint').textContent=frame?'Eigene Gerätegröße · Proportionen bleiben erhalten.':'Eigene Gerätemaße · maßstäblich auf der Bühne.';
       updateInspectorIdentity(o);queueDraw();
     });
     $(id).addEventListener('change',finishEdit);$(id).addEventListener('blur',()=>{finishEdit();inspector();});

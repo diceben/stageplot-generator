@@ -1,19 +1,26 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const html=fs.readFileSync('stageplot-studio.html','utf8');
 const extract=name=>{const result=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert.ok(result,name);return result[0];};
-const ctx={drumModel:{isDrums:type=>type==='drums'},artBoundsCache:new Map(),artId:c=>c.id,stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:v=>String(v||'')};vm.createContext(ctx);
+const ctx={drumModel:{isDrums:type=>type==='drums'},artBoundsCache:new Map(),artId:c=>c.id,stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:v=>String(v||'')};vm.createContext(ctx);vm.runInContext(fs.readFileSync('stageplot-symbols-v3.js','utf8'),ctx);
 vm.runInContext(html.slice(html.indexOf('  const catalog = ['),html.indexOf('  const libraryModelFamilyCards='))+'\nthis.catalog=catalog;'+['editableObjectSize','normalizedObjectDimensions','defaultObjectSize','objectArtGeometry','projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument'].map(extract).join('\n')+html.match(/  const objectSize = [^\n]+/)[0]+'\nthis.size=objectSize;',ctx);
 const near=(a,b,label)=>assert.ok(Math.abs(a-b)<1e-9,`${label}: ${a} != ${b}`);
-for(const [id,w,d] of [['laptop',.3557,.2481],['mic-sm57',.157,.032],['mic-wireless-ewd',.268,.05],['di',.127,.084],['stagebox-8',.483,.22],['stagebox-16',.41,.19],['stagebox-32',.82,.19],['stagebox-48',.4816,.255]]){
+for(const [id,w,d] of [['laptop',.3557,.2481],['mic-sm57',.157,.032],['mic-wireless-ewd',.268,.05],['drum-throne',.43,.43],['power',.3,.06],['guitar-stand-empty',.626,.335],['guitar-tree-empty',.86,.86],['di',.127,.084],['stagebox-8',.483,.22],['stagebox-16',.41,.19],['stagebox-32',.82,.19],['stagebox-48',.4816,.255]]){
  const size=ctx.size({type:id});near(size.w,w,id+' width');near(size.d,d,id+' depth');
 }
-// Every static catalogue item obeys both physical axes at every scale, even with
-// asymmetric or negative artwork margins. This catches the old min(w/vbW,h/vbH) shrink.
+// Flexible vector shapes fill their dimensions. Raster frames use one uniform
+// scale, so the image's circles and body diameters cannot be squashed.
 for(const c of ctx.catalog.filter(c=>!c.orchestraPart&&!c.percussionPart&&!['orchestra','percussion','drums','text'].includes(c.id))){
  assert.ok(c.w>0&&c.d>0,c.id);assert.ok(!c.planScale,c.id+' must not be inflated');
  const box={x:-7.3,y:13.7,width:c.vb[0]*.72,height:c.vb[1]*.58};ctx.artBoundsCache.set(c.id,box);
  for(const scale of [2,37,180]){
   const g=ctx.objectArtGeometry(c,{type:c.id},c.w*scale,c.d*scale);
+  const frame=ctx.stageplotTechFrame(c.art||c.id,{type:c.id});
+  if(frame){
+   near(g.sx,g.sy,c.id+' isotropic scale');near(frame.width*g.sx,c.w*scale,c.id+' metric frame width');near(frame.height*g.sy,c.d*scale,c.id+' metric frame depth');
+   near(frame.width/2*g.sx+g.tx,0,c.id+' frame centre');
+   const custom=ctx.objectArtGeometry(c,{type:c.id,dimensions:{w:2,d:.1}},200,10);near(custom.sx,custom.sy,c.id+' custom frame must not stretch image');
+   assert.ok(frame.width*custom.sx<=200+1e-8&&frame.height*custom.sy<=10+1e-8);continue;
+  }
   near(box.width*g.sx,c.w*scale,c.id+' width');near(box.height*g.sy,c.d*scale,c.id+' depth');
   near((box.x+box.width/2)*g.sx+g.tx,0,c.id+' horizontal centre');near((box.y+box.height/2)*g.sy+g.ty,0,c.id+' vertical centre');
  }

@@ -135,7 +135,7 @@ function createStageplotDrumModel() {
         const standWidth=19.4,standHeight=standWidth*512/313,pedalWidth=10.7,pedalHeight=17.7,rawPedalY=p.y-standHeight/2+standHeight*315/512+pedalHeight/2;
         selectionRect(p,'pedal',p.x,2*p.y-rawPedalY,pedalWidth,pedalHeight,1.5);
       }else if(['pad','table','bongos'].includes(p.kind))selectionRect(p,'body',p.x,p.y,p.w||18,p.h||22,1.5);
-      else if(p.kind==='throne')selectionEllipse(p,'seat',p.x,p.y,p.r*1.375,p.r*1.42);
+      else if(p.kind==='throne')selectionEllipse(p,'seat',p.x,p.y,10.75,10.75);
       else if(p.kind==='snare')selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
       else if(p.kind==='tom'){
         selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
