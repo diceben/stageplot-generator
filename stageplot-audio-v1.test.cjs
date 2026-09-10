@@ -199,3 +199,9 @@ dialogCtx.stage.routing.inputs=[...quickRows(),{id:'full1',stagebox:'a',stagebox
 console.log('PASS PHYSICAL PATCH: real input/output sockets, stereo L/R pink selection, occupied/invalid ports, right-side no-op, commit revalidation, full-box inspection and hidden legacy storage fields.');
 
 assert.match(ctx.audioSocketMarkup(patchBox,'inputs',{port:1,disabled:true,reason:'DI-Box nötig'},'data-audio-connect-port=\"1\"'),/Gesperrt/,'A blocked mono/DI socket must not be mislabeled as a missing stereo pair.');
+
+// Power requirements remain editable for equipment without audio channels.
+const productionNodes=new Map(),productionCtx={byId:{wash:{category:'tech'},power:{category:'tech'},riser:{underlay:true}},$:id=>{if(!productionNodes.has(id))productionNodes.set(id,{});return productionNodes.get(id);}};
+vm.createContext(productionCtx);vm.runInContext(extract('fillProductionObject'),productionCtx);
+for(const type of ['wash','power']){productionCtx.fillProductionObject({type});assert.equal(Boolean(productionCtx.$('sp-production-object').hidden),false,'Non-audio equipment still accepts power requirements.');}
+productionCtx.fillProductionObject({type:'riser'});assert(productionCtx.$('sp-production-object').hidden);productionCtx.fillProductionObject({type:'riser',power:'1 × Schuko'});assert.equal(productionCtx.$('sp-production-object').hidden,false,'Existing requirements on structural objects remain editable.');
