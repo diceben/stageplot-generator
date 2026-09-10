@@ -307,3 +307,95 @@
  #sp-prototype .sp-audio-socket-board .sp-stagebox-ports { grid-template-columns:repeat(4,minmax(0,1fr)); }
  .sp-audio-patch-summary { align-items:flex-start;flex-direction:column; }
 }
+
+/* One connection sheet and one stable hardware view. */
+#sp-prototype #sp-audio-connect-dialog { width:min(800px,calc(100vw - 24px));max-width:800px;padding:0;max-height:calc(100dvh - 24px); }
+#sp-prototype #sp-audio-connect-dialog > .sp-dialog-heading { padding:18px 22px 12px;margin:0;align-items:center;gap:12px; }
+#sp-audio-connect-dialog .sp-dialog-heading > div { min-width:0; }
+#sp-prototype #sp-audio-connect-close { width:44px;min-width:44px;height:44px;min-height:44px;padding:0;border-radius:12px;font-size:22px; }
+#sp-audio-connect-title { outline:none;font-size:21px; }
+#sp-audio-connect-source { margin:0 22px;padding:12px 14px;font-size:13px;line-height:1.6;overflow-wrap:anywhere; }
+#sp-prototype #sp-audio-connect-hint { margin:10px 22px;font-size:12px;line-height:1.5; }
+#sp-prototype .sp-audio-connect-body { flex:1;min-height:0;padding:6px 22px 18px;scroll-padding:16px; }
+#sp-prototype .sp-audio-connect-boxes { display:flex;gap:10px;max-height:none;overflow:auto;padding:2px 2px 10px; }
+#sp-prototype .sp-audio-connect-boxes button { flex:0 0 220px;min-height:78px;width:220px;gap:10px; }
+#sp-prototype .sp-audio-connect-boxes .sp-audio-box-picture { width:56px; }
+#sp-audio-connect-dialog .sp-actions { display:flex;gap:10px;justify-content:space-between;flex:none;margin:0;padding:14px 22px;border-top:1px solid var(--sp-line);background:var(--sp-panel); }
+#sp-audio-connect-dialog .sp-actions:has(> [hidden]):not(:has(> :not([hidden]))) { display:none; }
+#sp-prototype #sp-audio-connect-dialog .sp-actions .sp-button { min-height:48px;font-size:13px;border-radius:12px;white-space:normal; }
+#sp-audio-connect-save { flex:1; }
+#sp-audio-connect-error:not(:empty) { margin:0;padding:12px 22px;background:var(--sp-amber-bg);color:var(--sp-ink); }
+#sp-prototype #sp-audio-source-picker .sp-search { width:100%;margin-bottom:12px; }
+#sp-audio-connect-search { width:100%;min-height:46px;font-size:16px; }
+#sp-audio-connect-signals { display:grid;gap:8px; }
+#sp-prototype #sp-audio-connect-signals button { display:flex;align-items:center;gap:12px;min-height:76px;padding:12px;border:1px solid var(--sp-line);border-radius:12px;background:var(--sp-panel);color:var(--sp-ink);font:inherit;text-align:left; }
+#sp-audio-connect-signals button > span:not(.sp-audio-object-picture) { display:grid;gap:4px;flex:1;min-width:0; }
+#sp-audio-connect-signals strong { font-size:14px;overflow-wrap:anywhere; }
+#sp-audio-connect-signals small { font-size:12px;color:var(--sp-muted);overflow-wrap:anywhere; }
+#sp-audio-connect-signals b { font-size:22px; }
+#sp-prototype #sp-audio-connect-signals button:not(:disabled):hover { background:var(--sp-accent-bg);border-color:var(--sp-teal); }
+#sp-prototype .sp-audio-connect-current { display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0; }
+#sp-audio-connect-current > strong { flex:1;min-width:140px;font-size:17px; }
+#sp-audio-connect-current .sp-button { min-height:48px; }
+#sp-audio-connect-bundle { width:100%;min-height:48px;margin-top:12px;white-space:normal; }
+#sp-audio-connect-selection { white-space:pre-line;font-size:12px;font-weight:500;line-height:1.8;background:var(--sp-soft);border-radius:12px;padding:12px; }
+#sp-audio-connect-conflict { margin-top:14px;padding:16px;border:1px solid var(--sp-pink,#e82382);border-radius:12px;background:var(--sp-panel); }
+#sp-audio-connect-conflict > strong { font-size:15px; }
+#sp-audio-connect-conflict p { font-size:12px;line-height:1.5;margin:8px 0 14px; }
+#sp-audio-connect-conflict > div { display:flex;gap:8px;flex-wrap:wrap; }
+#sp-audio-connect-conflict .sp-button { min-height:44px;flex:1;white-space:normal; }
+#sp-prototype .sp-stagebox-box-tabs { display:flex;flex:none;gap:10px;overflow:auto;padding:16px;background:var(--sp-panel); }
+#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-patch-canvas { flex:1;min-height:0;overflow:auto; }
+#sp-prototype .sp-stagebox-box-tabs button { display:flex;align-items:center;gap:12px;flex:none;min-width:190px;min-height:76px;padding:12px;border:1px solid var(--sp-line);border-radius:12px;background:var(--sp-panel);color:var(--sp-ink);text-align:left; }
+#sp-stagebox-view .sp-stagebox-box-tabs button > span:last-child { display:grid;gap:4px; }
+#sp-stagebox-view .sp-stagebox-box-tabs small { color:var(--sp-muted); }
+#sp-prototype .sp-stagebox-box-tabs [aria-pressed="true"] { border-color:var(--sp-teal);background:var(--sp-accent-bg); }
+#sp-prototype .sp-stagebox-workbench-toolbar { min-height:44px;padding:10px 16px; }
+#sp-prototype .sp-stagebox-workbench-toolbar p { margin:0;font-size:12px;color:var(--sp-muted); }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-io-dialog) .sp-stagebox-ports { grid-template-columns:repeat(8,minmax(0,1fr));gap:10px; }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-io-dialog) .sp-stagebox-ports button { min-height:112px;grid-template-rows:16px 38px minmax(32px,auto);padding:9px 5px; }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-io-dialog) .sp-stagebox-port-number { font-size:12px; }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-io-dialog) .sp-stagebox-port-name { display:block;width:100%;max-width:none;white-space:normal;overflow-wrap:anywhere;font-size:11px;line-height:1.3; }
+#sp-prototype .sp-stagebox-port-name small { display:block;font-size:10px;opacity:.7;margin-top:4px; }
+#sp-prototype .sp-stagebox-card-menu { min-height:44px;padding:8px 12px;border:1px solid var(--sp-line);border-radius:10px;letter-spacing:0; }
+#sp-prototype .sp-patch-feedback { position:fixed;z-index:100000;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:18px;width:max-content;max-width:calc(100vw - 24px);padding:12px 16px;border:1px solid #6c8355;border-radius:14px;background:#202923;color:#fff;box-shadow:0 8px 28px #0004; }
+#sp-prototype .sp-patch-feedback > span { font-size:13px;overflow-wrap:anywhere; }
+#sp-prototype .sp-patch-feedback button { flex:none;min-height:44px;padding:8px 12px;border:1px solid #b5e643;border-radius:10px;background:#c2f52e;color:#18220d;font-weight:700; }
+#sp-prototype #sp-stagebox-settings-dialog { width:min(520px,calc(100vw - 24px));max-height:calc(100dvh - 24px); }
+#sp-stagebox-settings-dialog input { font-size:16px; }
+#sp-stagebox-settings-dialog .sp-stagebox-hardware { padding:12px 0;background:transparent;border:0;color:var(--sp-ink); }
+#sp-stagebox-settings-dialog .sp-stagebox-hardware > h4 { display:none; }
+#sp-stagebox-settings-dialog .sp-stagebox-rename-form { display:flex;gap:10px;align-items:end; }
+#sp-stagebox-settings-dialog .sp-stagebox-rename-form label { flex:1; }
+#sp-stagebox-settings-dialog .sp-stagebox-rename-form button { min-height:44px; }
+@media(max-width:760px) {
+  #sp-prototype #sp-audio-connect-dialog[open] { position:fixed;inset:auto 0 auto;top:calc(var(--sp-visible-top,0px) + var(--sp-visible-height,100dvh));transform:translateY(-100%);width:100vw;max-width:none;max-height:calc(var(--sp-visible-height,100dvh) - 8px);margin:0;border-radius:20px 20px 0 0; }
+  #sp-prototype #sp-audio-connect-dialog > .sp-dialog-heading { padding:14px 16px 10px; }
+  #sp-audio-connect-source { margin:0 16px;font-size:12px; }
+  #sp-prototype #sp-audio-connect-hint { margin:8px 16px;font-size:12px; }
+  #sp-prototype .sp-audio-connect-body { padding:4px 16px 16px; }
+  #sp-audio-connect-dialog .sp-actions { padding:12px 16px max(12px,env(safe-area-inset-bottom)); }
+  #sp-prototype .sp-audio-socket-board .sp-stagebox-ports { grid-template-columns:repeat(4,minmax(0,1fr));gap:8px; }
+  #sp-prototype :is(.sp-stagebox-view,.sp-stagebox-io-dialog) .sp-stagebox-ports { grid-template-columns:repeat(4,minmax(0,1fr));gap:8px; }
+  #sp-prototype .sp-stagebox-patch-canvas { padding:10px; }
+  #sp-prototype .sp-stagebox-card { padding:10px; }
+  #sp-prototype .sp-stagebox-card h2 { font-size:15px; }
+  #sp-prototype .sp-stagebox-card-menu { font-size:11px;padding:6px; }
+  #sp-prototype .sp-audio-socket-board .sp-stagebox-ports button { min-height:98px; }
+}
+
+#sp-prototype #sp-audio-connect-dialog { max-height:min(800px,calc(100dvh - 24px)); }
+#sp-prototype #sp-audio-connect-source { margin:0 22px; }
+#sp-prototype #sp-audio-connect-search { font-size:16px;min-height:46px; }
+#sp-prototype #sp-audio-connect-signals { grid-template-columns:repeat(2,minmax(0,1fr)); }
+#sp-prototype #sp-audio-connect-signals button { min-width:0; }
+#sp-prototype #sp-audio-connect-signals [data-patch-needs-di] { border-style:dashed; }
+@media(max-width:760px) {
+  #sp-prototype > #sp-routing[data-stagebox-mode="true"] { overflow:auto; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-view { flex:none;overflow:visible; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench { height:auto; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-patch-canvas { flex:none;overflow:visible; }
+  #sp-prototype #sp-audio-connect-signals { grid-template-columns:1fr; }
+  #sp-prototype #sp-audio-connect-source { margin:0 16px; }
+  #sp-prototype #sp-audio-connect-dialog { max-height:calc(var(--sp-visible-height,100dvh) - 8px); }
+}
