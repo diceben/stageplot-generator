@@ -13,16 +13,11 @@ for(const type of ['trumpet','trombone','tuba','flugelhorn']){
   assert.equal((svg.match(/<g(?:\s|>)/g)||[]).length,(svg.match(/<\/g>/g)||[]).length,type+' enthält unausgeglichene SVG-Gruppen.');
 }
 
-const wedge=context.render('wedge',{idPrefix:'v79-wedge'});
-for(const part of [
-  'cm14-cabinet','cm14-driver-under-grille','cm14-perforated-grille','cm14-floor-ports',
-  'cm14-side-handles','cm14-rear-connector-panel','cm14-corner-protectors','cm14-logo'
-])assert.ok(wedge.includes('data-part="'+part+'"'),part+' fehlt in der CM14-Draufsicht.');
-
-const quad=context.render('quad-cortex',{idPrefix:'v79-quad'});
-for(const part of ['quad-cortex-anodized-chassis','quad-cortex-rear-io','quad-cortex-7in-touchscreen','quad-cortex-branding'])assert.ok(quad.includes('data-part="'+part+'"'),part+' fehlt in der Quad-Cortex-Draufsicht.');
-assert.equal((quad.match(/data-part="quad-cortex-stomp-rotary-actuator"/g)||[]).length,10,'Quad Cortex zeigt nicht seine zehn Fußschalter/Drehgeber.');
-assert.equal((quad.match(/data-part="quad-cortex-master-rotary-actuator"/g)||[]).length,1,'Quad Cortex zeigt den Master-Drehgeber nicht.');
+// These top views are rendered assets; the shared asset suite validates files and metric geometry.
+for(const type of ['wedge','quad-cortex']){
+ const svg=context.render(type);assert.ok(svg.includes('data-rendered-tech-asset="'+type+'"'));
+ assert.ok(fs.existsSync('stageplot-assets/tech/'+type+'-top-v1.webp'));
+}
 
 for(const marker of [
   'data-stair-anti-slip','data-stair-nosing','data-stair-stringer','data-stairs-visual-handle',

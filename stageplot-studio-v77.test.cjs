@@ -45,9 +45,10 @@ for(const [type,part] of Object.entries(renders))assert.ok(context.render(type).
 const xr18=context.render('mixer-xr18');
 assert.equal((xr18.match(/data-part="input-socket"/g)||[]).length,16,'XR18 zeigt nicht seine 16 Combo-Eingänge.');
 assert.equal((xr18.match(/data-part="output-socket"/g)||[]).length,8,'XR18 zeigt nicht seine acht analogen Ausgänge.');
+// A rack's top cover hides its vertical connector panel. Routing capacities stay in the catalogue.
 const wingRack=context.render('mixer-wing-rack');
-assert.equal((wingRack.match(/data-part="input-socket"/g)||[]).length,24,'WING Rack zeigt nicht seine 24 Preamps.');
-assert.equal((wingRack.match(/data-part="output-socket"/g)||[]).length,8,'WING Rack zeigt nicht seine acht Ausgänge.');
+assert.ok(wingRack.includes('data-rendered-tech-asset="mixer-wing-rack"'));
+assert.match(html,/id:'mixer-wing-rack'[^\n]*inputs:24,outputs:8/,'WING Rack keeps its real routing capacity.');
 
 for(const marker of [
   "mixers:'Mixermodell'",

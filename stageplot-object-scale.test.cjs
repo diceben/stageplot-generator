@@ -29,5 +29,6 @@ const doc=ctx.normalizeSetupDocument({stage,objects:[original]});assert.deepEqua
 near(ctx.size(doc.objects[0]).w,2.4,'saved size');
 const legacy=ctx.normalizeSetupDocument({stage,objects:[{...original,dimensions:undefined}]});assert.equal(legacy.objects[0].dimensions,undefined);near(ctx.size(legacy.objects[0]).w,2,'legacy reference size');
 const invalid=ctx.normalizeSetupDocument({stage,objects:[{...original,dimensions:{w:-1,d:.3}}]});assert.equal(invalid.objects[0].dimensions,undefined);
-assert.doesNotMatch(fs.readFileSync('stageplot-symbols-v3.js','utf8').split("}else if(type==='laptop')")[1].split("}else if(type==='foh')")[0],/playback-rack|playaudio-1u/,'Laptop silhouette must not include an undeclared rack.');
+const techManifest=JSON.parse(fs.readFileSync('stageplot-assets/tech/manifest.json'));
+assert.deepEqual(techManifest.assets.find(a=>a.id==='laptop').footprintMeters,{width:.3557,depth:.2481},'Rendered laptop uses only its own physical footprint.');
 console.log('PASS OBJECT SCALE: complete static catalogue, original equipment dimensions, asymmetric artwork bounds, metric composite preservation, reference reset and custom-size local/import roundtrip.');

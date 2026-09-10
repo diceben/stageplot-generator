@@ -641,6 +641,7 @@
               <li><strong>Freie Bühnenformen:</strong> Flächen, Rundungen, Stege, Seitenbühnen und Ausschnitte kombinieren. Der größere Bühnenbauer bietet Formkarten, direkte Kantenmaße und dieselben Aktionen zum Drehen, Duplizieren und Löschen wie Bühnenobjekte.</li>
               <li><strong>Bündiger Aufbau:</strong> Treppen und Rampen sind eigene Bausteine. Bühnenkanten haben beim Einrasten Vorrang vor dem Raster, auch bei ungeraden Maßen. Riserbeschriftungen stehen kompakter an freien Kanten.</li>
               <li><strong>Gerenderte Kategorien:</strong> Sechs neue Bild-Icons zeigen Instrumente, Orchester, Bühne, Licht und Technik als einheitliche Miniaturen. Die Namen bleiben sichtbar, alle Kategorien stehen gleichmäßig in zwei Reihen. Das Orchester ist an Cello, Harfe und Horn erkennbar und erhält auch in der Bibliothek ein eigenes Vorschaubild.</li>
+              <li><strong>Technik von oben:</strong> 21 neue realistische, dezent gezeichnete Draufsichten für Laptop, Racks, Mischpulte, Stageboxen, Monitore, Verstärker, FOH und Zubehör. Freigestellte lokale Bilddateien ersetzen die bisherigen Zeichnungen; Bibliothek, Bühne, Projektvorschau und Export verwenden dieselben Bilder und Gerätemaße.</li>
               <li><strong>Maßstäbliche Gegenstände:</strong> Zeichnungen füllen ihre hinterlegten Gerätemaße ohne unsichtbare Außenabstände. Mikrofone und DI-Boxen sind in Originalgröße, der Playback-Laptop zeigt nur den Rechner. Stagebox-Maße sind korrigiert; eigene Maße lassen sich direkt in Zentimetern eingeben und bleiben gespeichert. Bühne, Projektvorschau und Export verwenden denselben Maßstab.</li>
               <li><strong>Klarer Audioplan:</strong> Der Arbeitsbereich heißt einheitlich „Routing“, auch im Menü und beim Öffnen am Objekt. Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Audio-Plan und Drum-Editor teilen dieselbe Mikrofon-Auswahl: Sofortsuche, Herstellerfilter, passende Vorschläge, Favoriten und zuletzt verwendete Modelle. 81 der 88 konkreten Mikrofoneinträge haben jetzt Original-Herstellerfotos, auch viele ältere Modelle. Die 78 komprimierten Fotos laden bei Bedarf und funktionieren lokal; abgebildete Varianten und Sets sind gekennzeichnet. Mikrofon und 48 V werden in beide Richtungen abgeglichen; Kanalnummern, Patch und Notizen bleiben erhalten. Overheads lassen sich direkt im Drum-Editor auswählen. Gemeinsame Signalwege vermeiden doppelte Inputs. Playback-Laptops bieten Stereo L/R, PLAYAUDIO1U mit zwölf benennbaren XLR-Ausgängen und Dante Virtual Soundcard über ein Netzwerkkabel. Stereo-Paare lassen sich in Mono-Signale teilen; Namen und Ausgangsnummern erscheinen im Audioplan und Export.</li>
               <li><strong>Einheitliches Anschließen:</strong> Inputliste und Stagebox-Belegung verwenden dieselbe Auswahl: Signal wählen und Buchse antippen oder umgekehrt. Verbindungen werden sofort gespeichert, auch zusammen mit Änderungen aus dem Signal-Editor, und lassen sich direkt rückgängig machen. Instrument, Buchse und Pultkanal bleiben sichtbar. Belegte Buchsen bieten Tauschen oder Ersetzen; Stereo bleibt zusammen. Freie Kanäle eines Instruments lassen sich mit Buchsenvorschau gemeinsam anschließen. Die Belegung zeigt große beschriftete Buchsen und Gerätebilder, ohne automatisch wechselnde Detailleisten; am Handy öffnet sich die Auswahl von unten ohne erzwungene Tastatur.</li>
@@ -8383,11 +8384,37 @@ function createStageplotDrumModel() {
 /* build-inline:end stageplot-drums-v12.js */
   const drumModel=createStageplotDrumModel();
 /* build-inline:start stageplot-symbols-v3.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+// Generated local raster sprites in strict overhead view. See stageplot-assets/tech/manifest.json.
+const STAGEPLOT_TECH_TOP_VIEWS=Object.freeze({
+  'laptop':{width:120,height:90,part:'laptop-top-view'},
+  'rack':{width:100,height:100,part:'rack-top-view'},
+  'wedge':{width:116,height:113,part:'cm14-wedge-top-view'},
+  'drum-throne':{width:100,height:100,part:'drum-throne-top-view'},
+  'piano-bench':{width:110,height:70,part:'piano-bench-top-view'},
+  'power':{width:100,height:31,part:'power-top-view'},
+  'teleprompter':{width:140,height:120,part:'stage-teleprompter-top-view'},
+  'di':{width:100,height:100,part:'di-top-view'},
+  'iem-earphones':{width:100,height:75,part:'iem-earphones-pair'},
+  'mixer-wing-compact':{width:160,height:126,part:'behringer-wing-compact-top-view'},
+  'mixer-wing-rack':{width:160,height:107,part:'behringer-wing-rack-top-view'},
+  'stagebox-8':{width:180,height:90,part:'stagebox-8-top-view'},
+  'stagebox-16':{width:180,height:90,part:'stagebox-16-top-view'},
+  'amp':{width:100,height:55,part:'amp-top-view'},
+  'bass-stack':{width:130,height:91,part:'bass-stack-top-view'},
+  'quad-cortex':{width:145,height:97.5,part:'quad-cortex-top-view'},
+  'foh':{width:180,height:120,part:'foh-mixing-position'},
+  'stagebox-32':{width:364,height:90,part:'stagebox-32-top-view'},
+  'guitar-stand-single':{width:100,height:120,part:'single-guitar-stand'},
+  'guitar-stand-empty':{width:120,height:90,part:'three-slot-stand'},
+  'guitar-tree-empty':{width:120,height:120,part:'three-way-guitar-tree'},
+});
 // Original scalable monochrome artwork; lighter technical linework matches the approved design rendering.
 // Instrument geometry remains informed by the sources in stageplot-referenzen.md.
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
 // Relative positions checked against real overhead photos (see stageplot-referenzen.md).
 function createStageplotSymbolV3(type, options = {}) {
+  const topView=Object.hasOwn(STAGEPLOT_TECH_TOP_VIEWS,type)?STAGEPLOT_TECH_TOP_VIEWS[type]:null;
+  if(topView)return '<g data-equipment="'+type+'" data-part="'+topView.part+'"><image href="stageplot-assets/tech/'+type+'-top-v1.webp" x="0" y="0" width="'+topView.width+'" height="'+topView.height+'" preserveAspectRatio="none" data-rendered-tech-asset="'+type+'"/></g>';
   let out = '';
   const f = n => Math.round(n * 100) / 100;
   const drumMicParts=new Set(Array.isArray(options.drumMicParts)?options.drumMicParts:[]);
@@ -9032,113 +9059,10 @@ function createStageplotSymbolV3(type, options = {}) {
     rect(98,62,32,12,'#242827',.35,2,'#9da3a0');circle(107,68,2.4,'#b9bfbc',.25);circle(118,68,2.4,'#b9bfbc',.25);
     line(151,10,188,-2,1.4,'#343836');circle(188,-2,2.4,'#777d7a',.35);
     out+='<text x="139" y="72" font-family="sans-serif" font-size="7" font-weight="800" fill="#f1f3f0" stroke="none">X AIR XR18</text>';end();
-  }else if(type==='mixer-wing-compact'){
-    group('','behringer-wing-compact-top-view');
-    path('M7 3H153L158 12V116L151 123H9L2 116V12Z','#4b504e',.95,'#202321');rect(8,9,144,108,'#707674',.45,4,'#a1a6a3');
-    group('','wing-compact-touchscreen');rect(60,13,84,47,'#1f2423',.55,3,'#a7adaa');rect(65,17,74,39,'#687d79',.3,2,'#161918');for(let y=23;y<53;y+=6)line(69,y,135,y,.24,'#d0d6d2');end();
-    for(let i=0;i<12;i++){const x=13+i*10.7;group('','wing-compact-channel-strip');rect(x,68,7.8,42,'#575c5a',.25,1,'#929895');circle(x+3.9,73,2.2,'#292d2c',.25,'#bbb');line(x+3.9,81,x+3.9,104,.45,'#c4c9c6');rect(x+1.6,90+(i%4)*2.5,4.6,7,'#d4d8d5',.25,1,'#383b3a');end();}
-    group('','wing-compact-master');rect(141,66,11,46,'#343837',.35,2,'#929795');circle(146.5,74,3.2,'#232625',.3,'#b9bfbc');line(146.5,83,146.5,105,.6,'#d2d6d3');rect(143.5,91,6,9,'#e0e3e0',.28,1,'#3b3f3d');end();
-    for(const [x,y] of [[17,18],[29,18],[41,18],[17,31],[29,31],[41,31],[17,48],[29,48],[41,48]])knob(x,y,3.2);
-    out+='<text x="15" y="62" font-family="sans-serif" font-size="6.5" font-weight="850" fill="#eef1ed" stroke="none">WING COMPACT</text>';end();
-  }else if(type==='mixer-wing-rack'){
-    group('','behringer-wing-rack-top-view');
-    rect(2,3,156,101,'#3f4442',.95,4,'#1b1e1c');for(const y of [8,99])for(const x of [7,153])bolt(x,y,1.4);
-    rect(10,10,140,87,'#656b68',.45,2,'#a3a9a6');
-    group('','wing-rack-touchscreen');rect(15,17,76,47,'#202524',.55,2,'#b0b6b2');rect(20,21,66,39,'#667b77',.3,1,'#151817');for(let y=28;y<=55;y+=6)line(24,y,82,y,.22,'#d4dad6');end();
-    for(const [x,y] of [[104,23],[119,23],[134,23],[104,38],[119,38],[134,38],[104,53],[119,53],[134,53]])knob(x,y,4);
-    sockets(18,76,8,24,17.2,3.5);sockets(128,75,4,8,9,3.4,true);
-    out+='<text x="101" y="65" font-family="sans-serif" font-size="7" font-weight="850" fill="#eef1ed" stroke="none">WING RACK</text>';end();
-  }else if(type==='piano-bench'){
-    group('','piano-bench-top-view');rect(5,8,100,54,'#464a48',.85,9,'#202321');rect(10,13,90,44,'#777c79',.35,7,'#a6aba8');
-    for(const x of [18,92])for(const y of [17,53]){circle(x,y,5,'#2f3331',.45,'#aaa');circle(x,y,2.2,'#8f9491',.25,'#2a2d2c');}
-    line(55,14,55,56,.3,'#c2c7c4');line(11,35,99,35,.3,'#c2c7c4');for(const x of [28,55,82])circle(x,35,1.5,'#2d3130',.2,'#aaa');end();
-  }else if(type==='drum-throne'){
-    group('','drum-throne-top-view');feet(50,53,38,30,2.2,1.8);circle(50,53,9,'#929795',.7,'#2b2e2d');circle(50,50,32,'#3d4140',.9,'#1d201e');circle(50,50,27,'#6d7270',.4,'#9da29f');path('M25 45Q50 58 75 45','none',.5,'#bfc4c1');circle(50,50,3,'#282b2a',.3,'#aaa');end();
   }else if(type.startsWith('stagebox-')){
     const count=Number(type.split('-')[1]);
     if(count===32){group('translate(0 0)');stagebox(16,8);end();group('translate(184 0)');stagebox(16,8);end();}
     else stagebox(count,count===8?4:count===16?8:count===48?16:0);
-  }else if(type==='wedge'){
-    group('','cm14-wedge-top-view');
-    // CM14-inspired orthographic top view: the 35-degree enclosure hides most
-    // of its coaxial driver below a touring-grade perforated grille.
-    const grilleId=scopedId('pattern','cm14-grille'),cabinetId=scopedId('gradient','cm14-cabinet'),grilleShadeId=scopedId('gradient','cm14-grille-shade');
-    out+='<defs><linearGradient id="'+cabinetId+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#656b68"/><stop offset=".3" stop-color="#242826"/><stop offset=".72" stop-color="#111412"/><stop offset="1" stop-color="#454a47"/></linearGradient><linearGradient id="'+grilleShadeId+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f7572"/><stop offset=".28" stop-color="#303432"/><stop offset="1" stop-color="#151817"/></linearGradient><pattern id="'+grilleId+'" width="4.4" height="4.4" patternUnits="userSpaceOnUse"><circle cx="1.1" cy="1.1" r=".54" fill="#979d99"/><circle cx="3.3" cy="3.3" r=".54" fill="#979d99"/></pattern></defs>';
-    group('','cm14-cabinet');path('M13 3H103L114 14V93L105 109H11L2 93V14Z','url(#'+cabinetId+')',1.15,'#0c0e0d');path('M15 8H101L108 16V89L101 101H15L8 89V16Z','#202422',.55,'#777d79');end();
-    group('','cm14-driver-under-grille');out+='<g opacity=".34">';ellipse(58,56,38,34,'#0a0c0b',1,'#7b817d');ellipse(58,56,31,27.5,'#2d312f',.7,'#747a76');ellipse(58,56,11,10,'#080a09',.6,'#7b817d');out+='</g>';end();
-    group('','cm14-perforated-grille');path('M15 13H101L106 19V88L98 96H18L10 88V19Z','url(#'+grilleShadeId+')',.75,'#858b87');path('M16 14H100L104 20V87L97 94H19L12 87V20Z','url(#'+grilleId+')',.38,'#3f4441');path('M19 18H97','none',.75,'#c2c7c3');end();
-    group('','cm14-floor-ports');for(const x of [24,92]){path('M'+(x-8)+' 84Q'+x+' 79 '+(x+8)+' 84V92H'+(x-8)+'Z','#080a09',.55,'#5d625f');line(x-5,86,x+5,86,.35,'#7e847f');}end();
-    group('','cm14-side-handles');for(const [x,flip] of [[6,1],[110,-1]]){path('M'+x+' 42Q'+(x+flip*5)+' 39 '+(x+flip*7)+' 44V66Q'+(x+flip*5)+' 70 '+x+' 67Z','#090b0a',.55,'#686e6a');line(x+flip*2,47,x+flip*2,63,.8,'#9aa09c');}end();
-    group('','cm14-rear-connector-panel');rect(42,98,32,7,'#777d79',.45,1,'#171a18');for(const x of [49,59]){circle(x,101.5,2.3,'#1d211f',.32,'#bec3bf');for(const [dx,dy] of [[0,-.7],[-.65,.45],[.65,.45]])circle(x+dx,101.5+dy,.2,'#d7dbd8',.08);}rect(66,99.5,5,4,'#151817',.25,.4,'#aaa');end();
-    group('','cm14-corner-protectors');for(const [x,y] of [[11,10],[105,10],[11,101],[105,101]]){path('M'+(x-4)+' '+y+'Q'+x+' '+(y-4)+' '+(x+4)+' '+y,'none',2.5,'#8d938f');bolt(x,y,.62);}end();
-    group('','cm14-logo');rect(48,19,20,7,'#d8dcd9',.25,1,'#313532');out+='<text x="58" y="24.3" text-anchor="middle" font-family="sans-serif" font-size="4.7" font-weight="900" fill="#222725" stroke="none">COHESION</text>';end();
-    group('','listening-direction-up');path('M52 34L58 28L64 34M58 28V41','none',1.15,'#e2e5e2');end();end();
-  }else if(type==='teleprompter'){
-    group('','stage-teleprompter-top-view');
-    path('M12 5H128L137 17V105L127 116H13L3 105V17Z','#4b4b4b',1);
-    path('M17 11H123L130 19V99L123 108H17L10 99V19Z','#202020',.65);
-    // The glass/screen is shown from straight above, including the protective hood.
-    path('M24 22H116L110 82H30Z','#9a9a9a',.7);path('M29 27H111L106 76H34Z','#e7e7e5',.45);
-    for(const [y,w] of [[38,57],[48,68],[58,51],[68,63]])line(70-w/2,y,70+w/2,y,1.2,'#777');
-    path('M20 18H120L114 87H26Z','none',2.2,'#666');path('M26 88H114L120 102H20Z','#666',.6);
-    rect(52,94,36,8,'#aaa',.45,1);for(const x of [58,65,72,79,86])circle(x,98,1.2,'#444',.2);
-    for(const x of [7,133]){rect(x-2.5,45,5,24,'#222',.45,1.5);line(x,49,x,65,.6,'#aaa');}
-    for(const x of [15,125])for(const y of [14,106])bolt(x,y,.7);end();
-  }else if(type==='power'){
-    rect(3,2,94,27,'#777',.85,2);rect(6,5,88,21,'#ccc',.4,1);
-    for(let i=0;i<4;i++){const x=31+i*18;circle(x,15.5,7.6,'#eee',.55);circle(x,15.5,6,'#bcbcbc',.35);circle(x-2,15.5,1,'#444',.2);circle(x+2,15.5,1,'#444',.2);line(x,9,x,11,.7);line(x,20,x,22,.7);}
-    rect(10,9,8,13,'#555',.5,1);line(12,12,16,12,.5,'#ddd');
-  }else if(type==='amp'){
-    rect(3,4,94,46,'#555',.85,2);rect(6,7,88,39,'#999',.4,.8);
-    rect(8,9,84,9,'#444',.45,.8);for(let i=0;i<8;i++)knob(15+i*10,13.5,1.7);
-    rect(36,27,28,7,'#333',.6,2);line(40,29,60,29,.6,'#bbb');
-    for(const x of [5,91])for(const y of [6,44])rect(x,y,4,4,'#ccc',.45,.4);
-  }else if(type==='quad-cortex'){
-    group('','quad-cortex-top-view');
-    const chassisId=scopedId('gradient','quad-cortex-chassis'),screenId=scopedId('gradient','quad-cortex-screen');
-    out+='<defs><linearGradient id="'+chassisId+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1f2f0"/><stop offset=".35" stop-color="#aeb3b0"/><stop offset=".7" stop-color="#757a77"/><stop offset="1" stop-color="#d8dbd8"/></linearGradient><linearGradient id="'+screenId+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#303835"/><stop offset="1" stop-color="#0e1210"/></linearGradient></defs>';
-    group('','quad-cortex-anodized-chassis');path('M6 2H139L144 7V91L139 96H6L1 91V7Z','url(#'+chassisId+')',1,'#303432');path('M7 5H138L141 8V89L138 93H7L4 89V8Z','none',.45,'#f5f6f4');end();
-    group('','quad-cortex-rear-io');rect(9,4,127,6,'#434846',.35,1,'#202321');for(const x of [17,25,33,44,55,66,78,89,100,111,122,130]){circle(x,7,1.5,'#181b19',.22,'#d1d5d2');circle(x,7,.52,'#787e7a',.12,'#151817');}end();
-    group('','quad-cortex-7in-touchscreen');rect(10,13,106,43,'#171b19',.7,2.2,'#303532');rect(14,17,98,35,'url(#'+screenId+')',.3,1,'#777d79');
-    for(const [x,y,w,color] of [[20,25,13,'#a9bba9'],[39,25,12,'#a6aeb9'],[57,25,14,'#c4a8b6'],[78,25,13,'#afb9aa'],[97,25,10,'#b4a7bc'],[29,42,17,'#b4bba9'],[56,42,19,'#bea7b1'],[86,42,18,'#a6b9b8']]){rect(x,y,w,7,color,.2,1,'#d4d8d5');}
-    for(const [x1,y1,x2,y2] of [[33,28.5,39,28.5],[51,28.5,57,28.5],[71,28.5,78,28.5],[91,28.5,97,28.5],[46,45.5,56,45.5],[75,45.5,86,45.5]])line(x1,y1,x2,y2,.55,'#e2e5e2');end();
-    const actuatorXs=[18,45,72,99,126];let actuatorIndex=0;
-    for(const y of [67,86])for(const x of actuatorXs){actuatorIndex++;out+='<g data-part="quad-cortex-stomp-rotary-actuator" data-actuator-index="'+actuatorIndex+'">';circle(x,y,5.25,'#545957',.58,'#242725');circle(x,y,3.9,'#e5e7e4',.42,'#777d79');circle(x,y,2.65,'#747a76',.28,'#f0f2ef');circle(x-6.2,y-3.8,.9,actuatorIndex%3===0?'#c9a0b4':actuatorIndex%3===1?'#a7bba8':'#a8b6bf',.2,'#f2f4f1');line(x,y-3.15,x,y-.65,.48,'#fff');out+='</g>';}
-    group('','quad-cortex-master-rotary-actuator');circle(129,27,7.1,'#3e4341',.7,'#171a18');circle(129,27,5.5,'#7b817d',.45,'#d8dcd9');circle(129,27,3.9,'#555b57',.3,'#1d201e');line(129,22.2,129,26,.62,'#fff');end();
-    group('','quad-cortex-branding');out+='<text x="122" y="48" text-anchor="middle" font-family="sans-serif" font-size="3.5" font-weight="800" fill="#373b39" stroke="none">NEURAL DSP</text><text x="122" y="53" text-anchor="middle" font-family="sans-serif" font-size="3.1" font-weight="700" fill="#4b504d" stroke="none">QUAD CORTEX</text>';end();
-    for(const [x,y] of [[7,8],[138,8],[7,90],[138,90]])bolt(x,y,.72);end();
-  }else if(type==='bass-stack'){
-    // Orthographic floor footprint: two stacked cabinets, head visible on top.
-    group('','lower-cabinet');rect(3,13,124,74,'#555',.8,2);rect(6,16,118,65,'#777',.4,1);end();
-    group('','upper-cabinet');rect(6,9,118,70,'#666',.7,2);rect(10,13,110,59,'#888',.4,1);
-    for(const x of [7,119])rect(x,31,4,25,'#333',.45,1.2);
-    rect(12,68,106,8,'#3f3f3f',.5,.6);
-    let grille='';for(let x=16;x<118;x+=4)grille+='M'+x+' 69v6';path(grille,'none',.3,'#999');end();
-    group('','amplifier-head');rect(14,4,102,52,'#444',.8,2);rect(18,8,94,35,'#777',.4,1);
-    let vents='';for(let x=27;x<107;x+=4)vents+='M'+x+' 13v22';path(vents,'none',.6,'#444');
-    rect(42,18,46,7,'#333',.65,2);line(47,20,83,20,.6,'#aaa');
-    rect(18,44,94,9,'#bbb',.5,.5);for(let i=0;i<8;i++)knob(29+i*9,48.5,1.6);circle(106,48.5,1.7,'#444',.3);end();
-    for(const x of [7,119])for(const y of [15,81])rect(x,y,4,4,'#bbb',.4,.4);
-  }else if(type==='guitar-stand-single'){
-    // Single tubular stand in plan view: tripod, padded body cradle and one neck yoke.
-    group('','single-guitar-stand');
-    for(const [x,y,angle] of [[13,106,-31],[87,106,31],[50,12,0]]){
-      group('','stand-leg');rod(50,45,x,y,3.8);
-      group('translate('+x+' '+y+') rotate('+angle+')');rect(-4,-5,8,10,'#555',.5,2);line(-2,-2,2,-2,.4,'#999');end();end();
-    }
-    rod(50,54,28,81,1.3);rod(50,54,72,81,1.3);
-    group('','body-cradle');rod(26,82,74,82,3.2);
-    for(const x of [26,74]){
-      group('','body-support');path('M'+x+' 75V88Q'+x+' 94 '+(x+(x<50?7:-7))+' 94','none',4.8,'#444');
-      line(x,78,x,86,.65,'#aaa');end();
-    }
-    end();
-    circle(50,45,6.5,'#b9b9b9',.75);circle(50,45,3.8,'#555',.45);bolt(58,45,1.4);
-    group('','neck-yoke');rod(50,43,50,28,3);
-    path('M41 43V33Q41 26 50 26Q59 26 59 33V43','none',3,'#444');
-    rect(38.5,38,5,8,'#555',.45,1.6);rect(56.5,38,5,8,'#555',.45,1.6);
-    line(41,39,41,43,.45,'#aaa');line(59,39,59,43,.45,'#aaa');end();
-    end();
   }else if(type.startsWith('guitar-stand-')){
     group('','three-slot-stand');
     rod(8,14,112,14,3);rod(8,76,112,76,3);rod(8,14,8,76,3);rod(112,14,112,76,3);
@@ -9209,51 +9133,6 @@ function createStageplotSymbolV3(type, options = {}) {
     group('','crowd-barrier-top-view');rect(4,8,292,44,'#b8bdb9',.8,2,'#373b38');rect(10,13,280,34,'#e1e4e1',.35,1,'#8b918d');
     for(let x=14;x<290;x+=16)line(x,14,x,46,.6,'#777d78');rod(4,8,296,8,3.5);rod(4,52,296,52,3.5);
     for(const x of [20,80,140,200,260]){path('M'+(x-11)+' 52L'+x+' 58L'+(x+11)+' 52Z','#666b67',.45,'#262926');circle(x,54,1.2,'#d5d9d5',.25);}end();
-  }else if(type==='laptop'){
-    // Orthographic plan view. Every chassis edge stays parallel so the symbol
-    // reads like a technical overhead drawing, not a three-quarter product view.
-    group('','laptop-top-view');
-    group('','laptop-screen');
-    // From directly above the upright display is visible only as a slim edge.
-    rect(16,10,88,9,'#505050',.85,1.4);rect(21,12,78,3,'#9d9d9d',.25,.6);circle(60,11.5,.5,'#dedede',.2);end();
-    group('','laptop-hinge');rect(22,17,12,4,'#666',.35,.7);rect(86,17,12,4,'#666',.35,.7);line(34,19,86,19,.55,'#444');end();
-    group('','laptop-keyboard');rect(12,21,96,57,'#d2d2d2',.85,2);
-    rect(17,26,86,25,'#555',.4,1);
-    let keys='';for(let j=0;j<4;j++)for(let i=0;i<13;i++)keys+='M'+f(19+i*6.35)+' '+f(28+j*5.2)+'h4.7v3.7h-4.7Z';
-    path(keys,'#bdbdbd',.2);rect(45,56,30,15,'#b8b8b8',.4,1);line(16,75,104,75,.35,'#999');
-    for(const [x,y] of [[14,31],[14,43],[106,31],[106,43]])rect(x-1,y-1.8,2,3.6,'#777',.25,.35);end();
-    end();
-  }else if(type==='foh'){
-    group('','foh-mixing-position');
-    rect(3,3,174,114,'#f3f5ef',1,3,'#66715f');
-    rect(27,26,126,49,'#d8ddd3',.8,2);rect(53,31,74,38,'#374333',.8,3);
-    for(let x=61;x<122;x+=10){line(x,43,x,61,1,'#d2d9ce');rect(x-2,49,4,7,'#fff',.3,1);}
-    rect(62,34,20,6,'#a1b996',.3,1);circle(90,94,12,'#f5f7f1',.8);end();
-  }else if(type==='rack'){
-    rect(15,9,70,81,'#888',.9,1.2);rect(18,12,64,75,'#dedede',.6,.8);rect(22,16,56,67,'#444',.5,.5);
-    for(const xx of [14,82]){rect(xx,31,4,21,'#777',.6,.6);rect(xx+.8,35,2.4,13,'#ddd',.3,.4);}
-    for(const yy of [20,43,66]){
-      rect(25,yy,50,17,'#bdbdbd',.45,.6);
-      let vents='';for(let j=0;j<4;j++)for(let i=0;i<11;i++)vents+='M'+f(28+i*4)+' '+f(yy+3+j*2.5)+'h2.2';
-      path(vents,'none',.7,'#666');for(const xx of [26.5,73.5])bolt(xx,yy+8.5,.5);
-    }
-    for(const xx of [16,81])for(const yy of [10,85])rect(xx,yy,3,4,'#eee',.4,.3);
-    rod(27,23,21,3,1.2);rod(72,23,78,3,1.2);
-  }else if(type==='iem-earphones'){
-    group('','iem-earphones-pair');
-    // Two mirrored custom-molded earpieces. Ear hooks remain short so this is
-    // equipment at a musician position, not a stage-cabling route.
-    for(const [side,x,angle,mirror] of [['L',29,-16,1],['R',71,16,-1]]){
-      group('translate('+x+' 38) rotate('+angle+') scale('+mirror+' 1)','iem-earpiece');
-      group('','ear-hook');path('M-8-7C-19-18-23-4-19 10C-16 20-9 24-2 21','none',2.4,'#777');path('M-8-8C-17-15-19-3-16 8','none',.55,'#eee');end();
-      group('','custom-shell');
-      path('M-12-7C-10-16 2-19 11-13C18-8 18 3 12 10C7 17-5 17-12 9C-17 4-16-2-12-7Z','#d4d4d4',.85);
-      path('M-8-6C-5-12 4-13 10-9C14-5 14 2 10 7C6 11-2 12-8 7C-11 4-11-2-8-6Z','#f2f2f2',.45);
-      path('M-7 3Q0-4 10-4','none',.55,'#aaa');circle(5,2,2.1,'#777',.4);circle(5,2,.8,'#ddd',.2);end();
-      group('','sound-nozzle');path('M8 10L14 17L10 21L4 13Z','#aaa',.55);ellipse(13,19,5,3.6,'#ddd',.55);ellipse(14,19,2.3,1.6,'#666',.35);end();
-      end();
-    }
-    end();
   }else if(type==='rug'){
     rect(5,5,90,90,'#e4e4e4',.85,1.6);rect(8,8,84,84,'none',.6,.4);
     let weave='';for(let i=13;i<90;i+=3.5)weave+='M10 '+f(i)+'h80M'+f(i)+' 10v80';
