@@ -318,6 +318,7 @@
             <label class="sp-field"><span class="sp-visually-hidden">Beschriftung</span><input id="sp-label" maxlength="42" placeholder="Name im Bühnenplan"></label>
           </section>
           <section id="sp-audio-object" class="sp-special-fields sp-inspector-section" hidden></section>
+          <div id="sp-outs-display-field" class="sp-inspector-output-visibility" hidden><label class="sp-inspector-switch"><span>Ausgänge im Plan anzeigen</span><input id="sp-outs-visible" type="checkbox" checked><span class="sp-switch-track" aria-hidden="true"></span></label></div>
 <section id="sp-audio-device" class="sp-inspector-section"><h4>Geräteanschlüsse</h4>
           <div id="sp-outs-fields" class="sp-special-fields" hidden>
             <input id="sp-outs" type="hidden" value="">
@@ -327,7 +328,7 @@
             <div class="sp-direct-field sp-io-direct sp-outs-direct" id="sp-outs-direct"><span>Ausgänge / Outs</span><div class="sp-outs-row"><button type="button" class="sp-step-button" data-outs-step="-1" aria-label="Einen Ausgang weniger">−</button><input id="sp-outs-count" type="number" min="0" max="64" step="1" value="0" aria-label="Anzahl Ausgänge"><button type="button" class="sp-step-button" data-outs-step="1" aria-label="Einen Ausgang mehr">+</button></div><div class="sp-choice-pills" id="sp-outs-connector-options" role="group" aria-label="Anschlussart der Ausgänge"><button type="button" data-outs-connector="XLR">XLR</button><button type="button" data-outs-connector="Klinke">Klinke</button><button type="button" data-outs-connector="USB">USB</button><button type="button" data-outs-connector="Digital">Digital</button><button type="button" data-outs-connector="MADI">MADI</button><button type="button" data-outs-connector="Dante">Dante</button></div><small id="sp-outs-preview" class="sp-muted">Keine Outs</small></div>
             <div class="sp-direct-field sp-stereo-links" id="sp-stereo-links"><span>Stereo-Links</span><div id="sp-stereo-link-options" class="sp-stereo-link-options" role="group" aria-label="Ausgangspaare als Stereo-Link führen"></div><small id="sp-stereo-link-hint" class="sp-muted">Verknüpfte Paare werden gemeinsam zugeordnet.</small></div>
             <div class="sp-direct-field sp-io-aliases" id="sp-io-aliases"><span>Signal-Aliase</span><div id="sp-io-alias-list" class="sp-io-alias-list"></div><small class="sp-muted">Zum Beispiel: NS4 · Out 1 + 2: Piano</small></div>
-            <label class="sp-check"><input id="sp-outs-visible" type="checkbox" checked> Outs am Symbol anzeigen</label>
+
           </div>
           </section>
           <div id="sp-production-object" class="sp-special-fields sp-inspector-section"><h4>Strom &amp; Funk</h4>
@@ -5862,6 +5863,9 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-properties-panel .sp-inspector-inline-field { flex-direction:row; align-items:center; gap:12px; }
 #sp-prototype .sp-properties-panel .sp-inspector-inline-field input { flex:1; width:0; }
 #sp-prototype #sp-editor-floor :is([data-selection-frame],[data-selection-handle],[data-footprint-resize] > rect:last-child) { stroke:var(--sp-pink,#e82382); }
+
+#sp-prototype .sp-inspector-output-visibility { padding:0 0 18px; }
+#sp-prototype .sp-inspector-output-visibility .sp-inspector-switch { width:100%; justify-content:space-between; }
 /* build-inline:end stageplot-inspector-v1.css */
 </style>
 
@@ -7858,7 +7862,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   const fohNeeds=o=>Object.entries({table:'Tisch',barrier:'Absperrung',sun:'Sonnenschutz',rain:'Regenschutz'}).filter(([key])=>o.foh?.[key]).map(([,label])=>label);
   function objectProductionLines(o){return [o.power?'Strom: '+o.power:'',o.wireless?'Funk: '+o.wireless:'',...(o.type==='foh'?['FOH '+num(objectSize(o).w)+' × '+metres(objectSize(o).d),...fohNeeds(o)]:[])].filter(Boolean);}
   function fillProductionObject(o){
-    $('sp-production-object').hidden=!(byId[o.type].instrument||o.type==='rack'||o.type==='foh'||o.power||o.wireless||byId[o.type].category==='light'||o.type.startsWith('stagebox-'));
+    $('sp-production-object').hidden=(o.type==='riser'||o.type==='text'||byId[o.type].stageAccess||byId[o.type].stageExtension)&&!o.power&&!o.wireless;
     $('sp-object-power').value=o.power||'';$('sp-object-wireless').value=o.wireless||'';$('sp-object-wireless-field').hidden=!(byId[o.type].instrument||o.type==='rack');$('sp-foh-fields').hidden=o.type!=='foh';
     for(const id of ['sp-object-power','sp-object-wireless','sp-foh-width','sp-foh-depth','sp-foh-table','sp-foh-barrier','sp-foh-sun','sp-foh-rain'])$(id).disabled=!!o.locked;
     if(o.type==='foh'){$('sp-foh-width').value=objectSize(o).w;$('sp-foh-depth').value=objectSize(o).d;for(const key of ['table','barrier','sun','rain'])$('sp-foh-'+key).checked=!!o.foh?.[key];}
@@ -10383,11 +10387,10 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-lock').setAttribute('aria-pressed',String(locked));$('sp-lock').setAttribute('aria-label',locked?'Objekt entsperren':'Objekt sperren');
     for(const id of ['sp-pos-x','sp-pos-y','sp-angle','sp-angle-number','sp-variant','sp-mic-stand','sp-boom-direction','sp-riser-width','sp-riser-depth','sp-riser-height','sp-remove','sp-send-behind'])$(id).disabled=locked;
     root.querySelectorAll('[data-rotate],[data-rotate-hold],[data-rotate-zero]').forEach(button=>button.disabled=locked);
-    const c=byId[o.type],sizeForGroup=objectSize(o),groupCount={'2,1':1,'2,2':2,'3,2':3}[sizeForGroup.w+','+sizeForGroup.d];
-    const preview=o.type==='riser'&&groupCount>1?byId['riser-'+groupCount]:c;
-    updateInspectorIdentity(o);$('sp-selected-icon').innerHTML=o.type==='riser'?'<img src="./stageplot-assets/categories/stage-v1.webp" alt="" width="86" height="80" decoding="async">':icon(preview,{...o,angle:preview.defaultAngle});
+    const c=byId[o.type];
+    updateInspectorIdentity(o);$('sp-selected-icon').innerHTML=o.type==='riser'?'<img src="./stageplot-assets/categories/stage-v1.webp" alt="" width="86" height="80" decoding="async">':icon(c,{...o,angle:c.defaultAngle});
     $('sp-label').value=o.label;$('sp-label-visible').checked=o.showLabel!==false;$('sp-note').value=o.note;$('sp-pos-x').value=o.x;$('sp-pos-y').value=o.y;
-    renderObjectAudio(o);$('sp-audio-device').hidden=!c.instrument||drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type)||(o.type==='laptop'&&playbackMode(o)!=='custom');$('sp-outs-fields').hidden=!c.instrument;$('sp-outs-visible').checked=o.showOuts!==false;if(c.instrument&&!$('sp-audio-device').hidden)syncObjectIoControls(o,locked);
+    renderObjectAudio(o);$('sp-audio-device').hidden=!c.instrument||drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type)||(o.type==='laptop'&&playbackMode(o)!=='custom');$('sp-outs-fields').hidden=!c.instrument;$('sp-outs-display-field').hidden=!c.instrument;$('sp-outs-visible').checked=o.showOuts!==false;if(c.instrument&&!$('sp-audio-device').hidden)syncObjectIoControls(o,locked);
     $('sp-drums-open').hidden=!drumModel.isDrums(o.type)&&!['percussion','orchestra'].includes(o.type);$('sp-drums-open').disabled=locked;$('sp-drums-open').textContent=o.type==='orchestra'?'Orchester-Editor …':o.type==='percussion'?'Percussion-Editor …':'Drum Designer …';
     // Position fields deliberately allow overhang and off-stage centres.
     $('sp-angle').value=o.angle;$('sp-angle-number').value=o.angle;$('sp-angle-label').textContent=o.angle+'°';

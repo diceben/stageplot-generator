@@ -169,3 +169,6 @@
 #sp-prototype .sp-properties-panel .sp-inspector-inline-field { flex-direction:row; align-items:center; gap:12px; }
 #sp-prototype .sp-properties-panel .sp-inspector-inline-field input { flex:1; width:0; }
 #sp-prototype #sp-editor-floor :is([data-selection-frame],[data-selection-handle],[data-footprint-resize] > rect:last-child) { stroke:var(--sp-pink,#e82382); }
+
+#sp-prototype .sp-inspector-output-visibility { padding:0 0 18px; }
+#sp-prototype .sp-inspector-output-visibility .sp-inspector-switch { width:100%; justify-content:space-between; }
