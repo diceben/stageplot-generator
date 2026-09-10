@@ -225,7 +225,7 @@
         <section id="sp-layer-panel" class="sp-layer-panel" role="tabpanel" aria-labelledby="sp-layers-tab"><div class="sp-layer-heading"><h3 id="sp-layers-heading">Ebenen</h3><span id="sp-item-count" class="sp-muted">Noch keine Bausteine</span></div><div id="sp-object-list" class="sp-object-list" aria-label="Baustein auswählen"></div></section>
         <div id="sp-layer-menu" class="sp-context-menu" role="menu" aria-label="Ebenen-Aktionen" hidden><button type="button" role="menuitem" data-layer-action="duplicate">Duplizieren</button><button type="button" role="menuitem" data-layer-action="rotate">90° drehen ↻</button><button type="button" role="menuitem" data-layer-action="lock">Sperren</button><button type="button" role="menuitem" data-layer-action="delete" class="sp-danger">Löschen</button></div>
         <section id="sp-properties-panel" class="sp-properties-panel" role="tabpanel" aria-labelledby="sp-properties-tab">
-        <h3>Eigenschaften</h3>
+        <h3 class="sp-visually-hidden">Eigenschaften</h3>
         <div id="sp-no-selection" class="sp-no-selection"><span aria-hidden="true">↖</span><p>Ein Baustein.<br>Alle Details.</p><span class="sp-muted">Wähle eine Station auf der Bühne.</span></div>
         <div id="sp-iem-selected" class="sp-iem-selected" hidden>
           <strong>IEM-/Rack-Bereich</strong>
@@ -248,41 +248,46 @@
           <button class="sp-button sp-danger-quiet sp-zone-remove" type="button" id="sp-stairs-remove">Treppe entfernen</button>
         </div>
         <div id="sp-selected" hidden>
-          <div class="sp-selected-heading"><div id="sp-selected-icon"></div><strong id="sp-selected-name"></strong></div>
-          <label class="sp-check sp-lock-check"><input id="sp-object-locked" type="checkbox"> Objekt sperren</label>
-          <span id="sp-lock-hint" class="sp-muted" hidden>Position, Drehung und Größe geschützt. Klicks gehen durch; zum Entsperren in der Bausteinliste auswählen.</span>
-          <div class="sp-model-field" id="sp-variant-field" hidden>
+          <header class="sp-inspector-identity">
+            <div id="sp-selected-icon" aria-hidden="true"></div>
+            <div class="sp-inspector-identity-copy"><span id="sp-selected-kind"></span><strong id="sp-selected-name"></strong><div id="sp-footprint" class="sp-footprint"></div></div>
+          </header>
+          <div class="sp-inspector-actions" id="sp-inspector-actions" role="group" aria-label="Objektaktionen">
+            <button type="button" id="sp-inspector-duplicate"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/></svg><span>Duplizieren</span></button>
+            <label class="sp-inspector-lock"><input id="sp-object-locked" type="checkbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg><span id="sp-inspector-lock-label">Sperren</span></label>
+            <button type="button" id="sp-inspector-remove"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M9 7V4h6v3m2 0-.7 13H7.7L7 7M10 11v5m4-5v5"/></svg><span>Löschen</span></button>
+          </div>
+          <span id="sp-lock-hint" class="sp-muted sp-inspector-lock-hint" hidden>Position, Drehung und Größe geschützt. Hier entsperren, um den Aufbau zu ändern.</span>
+          <div class="sp-drum-object-actions"><button class="sp-button" type="button" id="sp-drums-open" hidden>Drum Designer …</button></div>
+          <div class="sp-model-field sp-inspector-section" id="sp-variant-field" hidden>
             <span class="sp-model-label" id="sp-model-picker-label">Modell</span>
-            <button class="sp-model-change-button" id="sp-model-change" type="button" aria-haspopup="dialog" aria-controls="sp-model-dialog" hidden><span id="sp-model-current-icon" aria-hidden="true"></span><span class="sp-visually-hidden">Modell wechseln</span></button>
+            <button class="sp-model-change-button" id="sp-model-change" type="button" aria-haspopup="dialog" aria-controls="sp-model-dialog" hidden><span id="sp-model-current-icon" aria-hidden="true"></span><span class="sp-model-change-copy"><strong id="sp-model-current-name"></strong><small>Modell wechseln →</small></span></button>
             <div class="sp-model-picker" id="sp-model-picker" role="group" aria-labelledby="sp-model-picker-label" hidden></div>
             <input id="sp-variant" type="hidden" value="">
           </div>
-          <div class="sp-drum-object-actions"><button class="sp-button" type="button" id="sp-drums-open" hidden>Drum Designer …</button></div>
-          <div id="sp-mic-fields" class="sp-special-fields" hidden>
+          <div id="sp-mic-fields" class="sp-special-fields sp-inspector-section" hidden><h4>Mikrofonständer</h4>
             <input id="sp-mic-stand" type="hidden" value="boom"><input id="sp-boom-direction" type="hidden" value="up"><input id="sp-mic-purpose" type="hidden" value="vocals">
             <div class="sp-direct-field"><span>Ständer</span><div class="sp-choice-pills" id="sp-mic-stand-options" role="group" aria-label="Mikrofonständer"><button type="button" data-mic-stand="boom">Boom · Dreibein</button><button type="button" data-mic-stand="round">Tellerboden</button></div></div>
             <div class="sp-direct-field" id="sp-boom-direction-field"><span>Boom-Arm</span><div class="sp-choice-pills" id="sp-boom-direction-options" role="group" aria-label="Boom-Arm"><button type="button" data-boom-direction="left">← Links</button><button type="button" data-boom-direction="up">↑ Oben</button><button type="button" data-boom-direction="right">Rechts →</button></div></div>
             <div class="sp-direct-field"><span>Verwendung</span><div class="sp-choice-pills" id="sp-mic-purpose-options" role="group" aria-label="Mikrofonverwendung"><button type="button" data-mic-purpose="vocals">Gesang</button><button type="button" data-mic-purpose="talkback">Talkback</button><button type="button" data-mic-purpose="instrument">Instrument</button></div></div>
           </div>
-          <div id="sp-riser-fields" class="sp-special-fields" hidden>
-            <input id="sp-riser-preset" type="hidden" value="2,1">
-            <div class="sp-direct-field"><span>Riser-Gruppe</span><div class="sp-choice-pills sp-riser-pills" id="sp-riser-preset-options" role="group" aria-label="Riser-Gruppe"><button type="button" data-riser-preset="2,1">1×</button><button type="button" data-riser-preset="2,2">2×</button><button type="button" data-riser-preset="3,2">3×</button><button type="button" data-riser-preset="4,2">4 × 2 m</button><button type="button" data-riser-preset="4,3">4 × 3 m</button><button type="button" data-riser-preset="custom">Frei</button></div></div>
+          <div id="sp-riser-fields" class="sp-special-fields sp-inspector-section" hidden><h4>Größe &amp; Höhe</h4>
             <div class="sp-fields">
-              <label class="sp-field">Riser-Breite (m)<input id="sp-riser-width" type="number" min="0.3" max="30" step="0.1"></label>
-              <label class="sp-field">Riser-Tiefe (m)<input id="sp-riser-depth" type="number" min="0.3" max="20" step="0.1"></label>
+              <label class="sp-field">Breite (m)<input id="sp-riser-width" type="number" min="0.3" max="30" step="0.1"></label>
+              <label class="sp-field">Tiefe (m)<input id="sp-riser-depth" type="number" min="0.3" max="20" step="0.1"></label>
             </div>
-            <div class="sp-direct-field"><span>Aufbauhöhe</span><div class="sp-choice-pills" id="sp-riser-height-options" role="group" aria-label="Riser-Höhe"><button type="button" data-riser-height="20">20 cm</button><button type="button" data-riser-height="40">40 cm</button><button type="button" data-riser-height="60">60 cm</button><button type="button" data-riser-height="80">80 cm</button><button type="button" data-riser-height="100">100 cm</button></div><label class="sp-field">Eigene Höhe (cm)<input id="sp-riser-height" type="number" min="5" max="240" step="5"></label></div>
-            <span class="sp-muted">Übliches Podestmodul: 2 × 1 m. Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern.</span>
+            <div class="sp-direct-field"><span>Aufbauhöhe</span><div class="sp-choice-pills" id="sp-riser-height-options" role="group" aria-label="Riser-Höhe"><button type="button" data-riser-height="20">20 cm</button><button type="button" data-riser-height="40">40 cm</button><button type="button" data-riser-height="60">60 cm</button><button type="button" data-riser-height="80">80 cm</button><button type="button" data-riser-height="100">100 cm</button></div><label class="sp-field sp-inspector-inline-field">Eigene Höhe (cm)<input id="sp-riser-height" type="number" min="5" max="240" step="5"></label></div>
+            <span class="sp-muted">Größe an den Griffen in 10-cm-Schritten ändern.</span>
           </div>
-          <div id="sp-access-fields" class="sp-special-fields" hidden>
+          <div id="sp-access-fields" class="sp-special-fields sp-inspector-section" hidden><h4>Größe im Plan</h4>
             <div class="sp-fields">
               <label class="sp-field">Breite (m)<input id="sp-access-width" type="number" min="0.3" max="30" step="0.1" inputmode="decimal"></label>
               <label class="sp-field">Tiefe (m)<input id="sp-access-depth" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
             </div>
             <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern. Der Pfeil zeigt die Aufstiegsrichtung.</span>
           </div>
-          <div id="sp-object-size-fields" class="sp-special-fields" hidden>
-            <strong>Maße im Plan</strong>
+          <div id="sp-object-size-fields" class="sp-special-fields sp-inspector-section" hidden>
+            <h4>Größe im Plan</h4>
             <div class="sp-fields">
               <label class="sp-field">Breite (cm)<input id="sp-object-width" type="number" min="1" max="3000" step="any" inputmode="decimal"></label>
               <label class="sp-field">Länge / Tiefe (cm)<input id="sp-object-depth" type="number" min="1" max="2000" step="any" inputmode="decimal"></label>
@@ -290,21 +295,33 @@
             <span id="sp-object-size-hint" class="sp-muted"></span>
             <button id="sp-object-size-reset" class="sp-button" type="button">Standardmaße verwenden</button>
           </div>
-          <div id="sp-production-object" class="sp-special-fields">
-            <label class="sp-field">Strombedarf<input id="sp-object-power" maxlength="100" placeholder="z. B. 2 × Schuko 230 V / 16 A"></label>
-            <label class="sp-field" id="sp-object-wireless-field">Funk / IEM · Frequenzbereich<input id="sp-object-wireless" maxlength="100" placeholder="z. B. 470–516 MHz · Kanal 490,250 MHz"></label>
-            <div id="sp-foh-fields" hidden><strong>FOH-Platz</strong><div class="sp-fields">
+          <div id="sp-foh-fields" class="sp-inspector-section" hidden><h4>FOH-Platz</h4><div class="sp-fields">
               <label class="sp-field">FOH-Breite (m)<input id="sp-foh-width" type="number" min="0.3" max="30" step="0.1"></label>
               <label class="sp-field">FOH-Tiefe (m)<input id="sp-foh-depth" type="number" min="0.3" max="20" step="0.1"></label>
             </div><label class="sp-check"><input type="checkbox" id="sp-foh-table"> Tisch benötigt</label><label class="sp-check"><input type="checkbox" id="sp-foh-barrier"> Absperrung benötigt</label><label class="sp-check"><input type="checkbox" id="sp-foh-sun"> Sonnenschutz benötigt</label><label class="sp-check"><input type="checkbox" id="sp-foh-rain"> Regenschutz benötigt</label><small class="sp-muted">Weitere Anforderungen unter Notizen. Position und Größe direkt im Plan ändern.</small></div>
-          </div>
-          <label class="sp-field">Beschriftung<input id="sp-label" maxlength="42" placeholder="Leer lassen für keine Beschriftung"></label>
-          <label class="sp-check"><input id="sp-label-visible" type="checkbox" checked> Beschriftung anzeigen</label>
-          <section id="sp-audio-object" class="sp-special-fields" hidden></section>
-          <details id="sp-audio-device"><summary>Gerätebuchsen · Details</summary>
+          <section class="sp-inspector-section" id="sp-inspector-position">
+            <h4>Position &amp; Drehung</h4>
+            <div class="sp-fields">
+              <label class="sp-field">X · von links (m)<input id="sp-pos-x" type="number" step="0.001" inputmode="decimal"></label>
+              <label class="sp-field">Y · von hinten (m)<input id="sp-pos-y" type="number" step="0.001" inputmode="decimal"></label>
+            </div>
+            <div class="sp-inspector-rotation" role="group" aria-label="Drehung">
+              <button type="button" data-rotate="-90" aria-label="90 Grad nach links drehen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h7M4 9V2m0 7a8 8 0 1 1-1 7"/></svg><span>90°</span></button>
+              <label class="sp-inspector-degrees"><span class="sp-visually-hidden">Drehung in Grad</span><input id="sp-angle-number" type="number" min="-36000" max="36000" step="1" value="0" inputmode="numeric" aria-label="Drehung in Grad"><span aria-hidden="true">°</span></label>
+              <button type="button" data-rotate="90" aria-label="90 Grad nach rechts drehen"><span>90°</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 9h-7m7 0V2m0 7a8 8 0 1 0 1 7"/></svg></button>
+            </div>
+            <input id="sp-angle" type="hidden" value="0"><span id="sp-angle-label" hidden>0°</span>
+            <span class="sp-muted sp-coordinate-note">Objektmitte ab Bühnenkante links / hinten.</span>
+          </section>
+          <section class="sp-inspector-section">
+            <div class="sp-inspector-section-heading"><h4>Beschriftung</h4><label class="sp-inspector-switch"><input id="sp-label-visible" type="checkbox" checked><span class="sp-switch-track" aria-hidden="true"></span><span>Sichtbar</span></label></div>
+            <label class="sp-field"><span class="sp-visually-hidden">Beschriftung</span><input id="sp-label" maxlength="42" placeholder="Name im Bühnenplan"></label>
+          </section>
+          <section id="sp-audio-object" class="sp-special-fields sp-inspector-section" hidden></section>
+<section id="sp-audio-device" class="sp-inspector-section"><h4>Geräteanschlüsse</h4>
           <div id="sp-outs-fields" class="sp-special-fields" hidden>
             <input id="sp-outs" type="hidden" value="">
-            <div class="sp-io-heading"><strong>Instrument I/O</strong><span>Vorhandene Buchsen. Verwendete Signale oben unter Audio planen.</span></div>
+            <p class="sp-muted">Physische Buchsen am Gerät. Die verwendeten Kanäle stehen unter Routing.</p>
             <div id="sp-drum-output-summary" class="sp-drum-output-summary" hidden><strong id="sp-drum-output-count">0 Outputs</strong><div id="sp-drum-output-list" class="sp-drum-output-list"></div><small>Abnahmen im Drum-Designer bearbeiten.</small></div>
             <div class="sp-direct-field sp-io-direct" id="sp-ins-direct"><span>Eingänge / Inputs</span><div class="sp-outs-row"><button type="button" class="sp-step-button" data-ins-step="-1" aria-label="Einen Eingang weniger">−</button><input id="sp-ins-count" type="number" min="0" max="64" step="1" value="0" aria-label="Anzahl Eingänge"><button type="button" class="sp-step-button" data-ins-step="1" aria-label="Einen Eingang mehr">+</button></div><div class="sp-choice-pills" id="sp-ins-connector-options" role="group" aria-label="Anschlussart der Eingänge"><button type="button" data-ins-connector="XLR">XLR</button><button type="button" data-ins-connector="Klinke">Klinke</button><button type="button" data-ins-connector="USB">USB</button><button type="button" data-ins-connector="Digital">Digital</button><button type="button" data-ins-connector="MADI">MADI</button><button type="button" data-ins-connector="Dante">Dante</button></div><small id="sp-ins-preview" class="sp-muted">Keine Inputs</small></div>
             <div class="sp-direct-field sp-io-direct sp-outs-direct" id="sp-outs-direct"><span>Ausgänge / Outs</span><div class="sp-outs-row"><button type="button" class="sp-step-button" data-outs-step="-1" aria-label="Einen Ausgang weniger">−</button><input id="sp-outs-count" type="number" min="0" max="64" step="1" value="0" aria-label="Anzahl Ausgänge"><button type="button" class="sp-step-button" data-outs-step="1" aria-label="Einen Ausgang mehr">+</button></div><div class="sp-choice-pills" id="sp-outs-connector-options" role="group" aria-label="Anschlussart der Ausgänge"><button type="button" data-outs-connector="XLR">XLR</button><button type="button" data-outs-connector="Klinke">Klinke</button><button type="button" data-outs-connector="USB">USB</button><button type="button" data-outs-connector="Digital">Digital</button><button type="button" data-outs-connector="MADI">MADI</button><button type="button" data-outs-connector="Dante">Dante</button></div><small id="sp-outs-preview" class="sp-muted">Keine Outs</small></div>
@@ -312,17 +329,16 @@
             <div class="sp-direct-field sp-io-aliases" id="sp-io-aliases"><span>Signal-Aliase</span><div id="sp-io-alias-list" class="sp-io-alias-list"></div><small class="sp-muted">Zum Beispiel: NS4 · Out 1 + 2: Piano</small></div>
             <label class="sp-check"><input id="sp-outs-visible" type="checkbox" checked> Outs am Symbol anzeigen</label>
           </div>
-          </details>
-          <label class="sp-field">Notiz<textarea id="sp-note" rows="2" maxlength="160" placeholder="z. B. Stereo L/R · Strom am Platz"></textarea></label>
-          <div class="sp-fields">
-            <label class="sp-field">Position X (m)<input id="sp-pos-x" type="number" step="0.001"></label>
-            <label class="sp-field">Position Y (m)<input id="sp-pos-y" type="number" step="0.001"></label>
+          </section>
+          <div id="sp-production-object" class="sp-special-fields sp-inspector-section"><h4>Strom &amp; Funk</h4>
+            <label class="sp-field">Strombedarf<input id="sp-object-power" maxlength="100" placeholder="z. B. 2 × Schuko 230 V / 16 A"></label>
+            <label class="sp-field" id="sp-object-wireless-field">Funk / IEM · Frequenzbereich<input id="sp-object-wireless" maxlength="100" placeholder="z. B. 470–516 MHz · Kanal 490,250 MHz"></label>
+
           </div>
-          <div class="sp-muted sp-coordinate-note">Ab Bühnenkante links / hinten · negative Werte möglich</div>
-          <label class="sp-field">Drehung <span id="sp-angle-label">0°</span><span class="sp-angle-control"><input id="sp-angle" type="range" min="0" max="359" step="1" value="0"><input id="sp-angle-number" type="number" min="-36000" max="36000" step="1" value="0" inputmode="numeric" aria-label="Drehung in Grad"></span></label>
-          <div id="sp-footprint" class="sp-footprint"></div>
+          <section class="sp-inspector-section"><label class="sp-field sp-inspector-note">Notiz<textarea id="sp-note" rows="2" maxlength="160" placeholder="Hinweis für den Aufbau …"></textarea></label></section>
         </div>
         </section>
+        <div id="sp-inspector-save" class="sp-inspector-save" data-state="idle"><span class="sp-save-dot" aria-hidden="true"></span><span id="sp-inspector-save-text">Autosave bereit</span></div>
       </aside>
       <button class="sp-sidebar-edge-toggle sp-sidebar-edge-toggle-left" type="button" id="sp-library-open" aria-label="Bausteinbibliothek aufklappen" aria-controls="sp-library" aria-expanded="false" title="Bausteinbibliothek aufklappen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Bausteine</button>
       <button class="sp-sidebar-edge-toggle sp-sidebar-edge-toggle-right" type="button" id="sp-inspector-open" aria-label="Eigenschaften und Ebenen aufklappen" aria-controls="sp-inspector" aria-expanded="false" title="Eigenschaften und Ebenen aufklappen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 5-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="sp-inspector-open-label">Ebenen</span></button>
@@ -608,6 +624,7 @@
               <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. PDF und Bild nutzen dieselben Seiten mit Maßlinien direkt an den Bühnenkanten und Zusatzinfos neben oder unter dem Plan. Bilder gibt es in HD, 2K und 4K; mehrseitige Ausgaben als ZIP. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
               <li><strong>Schnellerer Start:</strong> Beim Neuladen erscheint direkt die wiederhergestellte Ansicht nach einer kurzen Ladeanzeige. Der alte Demo-Aufbau wird nicht mehr angelegt. Bibliothek und Pack-Vorschauen entstehen erst beim Öffnen; versteckte Druckseiten werden nicht im Hintergrund neu gezeichnet. Bilder geschlossener Editoren laden erst bei Bedarf; 13 ungenutzte Helfer früherer Projekt-, Routing-, Druck- und Drum-Ansichten sind entfernt.</li>
               <li><strong>Projekte &amp; Locations:</strong> „Neues Projekt“ bündelt eigene Bühnen und Location-Vorlagen. Projekt hinzufügen steht zuerst; dauerhafte Projekt-IDs und echte Instrumente in den Vorschauen erleichtern die Übersicht. Der Location-Katalog ist in der Beta frei zugänglich.</li>
+              <li><strong>Offene Objekteigenschaften:</strong> Breitere rechte Leiste mit Objektbild, Name, direkten Aktionen und offen sichtbaren Bereichen für Maße, Position, Drehung und Routing. Große 90°-Tasten, Beschriftungsschalter und echter Speicherstatus; die Leiste bleibt beim Objektwechsel in ihrem gewählten Zustand.</li>
               <li><strong>Ruhigere Bedienung:</strong> Neu gerenderte Werkzeug-Icons mit sichtbaren Namen und eindeutiger Aktiv-Markierung; die Zoomleiste überdeckt auch am Handy keine Werkzeuge. Verständlichere Kategorien, mehr Platz in den Seitenleisten und eine rechte Seitenleiste, die beim Objektwechsel geöffnet oder geschlossen bleibt. Lokale Inventarlisten, Strombedarf, Signalübergabe, FOH-Bedarf und Funkangaben ergänzen die Planung.</li>
             </ul>
           </article>
@@ -1613,7 +1630,7 @@
   --sp-accent-bg: var(--sp-primary-soft);
   --sp-on-accent: var(--sp-primary-ink);
   --sp-library-width: 320px;
-  --sp-inspector-width: 320px;
+  --sp-inspector-width: 420px;
   --sp-drawer-shadow: 0 18px 48px rgb(13 18 13 / 24%);
 }
 
@@ -5672,6 +5689,180 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-canvas-tools .sp-view-controls :is(.sp-button,.sp-snap-toggle) { transition:none; }
 }
 
+/* Open object inspector styles. */
+/* build-inline:start stageplot-inspector-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Object inspector: open sections, shared actions and one persistent scroll area. */
+#sp-prototype .sp-inspector {
+  background:light-dark(#fafbf8,#161c19);
+  border-inline-start:1px solid var(--sp-line);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+#sp-prototype .sp-inspector-tabs {
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 40px;
+  gap:4px;
+  padding:0 16px;
+  background:inherit;
+}
+#sp-prototype .sp-inspector-tabs button {
+  min-height:52px;
+  border:0;
+  border-radius:0;
+  font-size:13px;
+  position:relative;
+}
+#sp-prototype .sp-inspector-tabs button[aria-selected="true"] {
+  color:var(--sp-ink);
+  background:transparent;
+}
+#sp-prototype .sp-inspector-tabs button[aria-selected="true"]::after {
+  content:"";
+  position:absolute;
+  inset:auto 12px 0;
+  height:3px;
+  border-radius:3px 3px 0 0;
+  background:var(--sp-primary);
+}
+#sp-prototype .sp-inspector-tabs .sp-sidebar-toggle { min-width:40px; min-height:44px; align-self:center; border-radius:10px; }
+#sp-prototype .sp-properties-panel {
+  padding:22px;
+  width:100%;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scroll-padding-block:20px;
+  background:transparent;
+}
+#sp-prototype #sp-selected { display:flex; flex-direction:column; gap:0; }
+#sp-prototype .sp-properties-panel :is([hidden],.sp-drum-object-actions:has(> [hidden])) { display:none!important; }
+#sp-prototype #sp-selected .sp-inspector-identity { display:flex; align-items:center; gap:14px; padding-bottom:18px; }
+#sp-prototype #sp-selected-icon { width:86px; height:80px; flex:0 0 86px; display:grid; place-items:center; }
+#sp-prototype #sp-selected-icon svg { width:86px; height:80px; padding:8px; border:1px solid var(--sp-line); border-radius:12px; background:light-dark(#f2f4ef,#252e27); }
+#sp-prototype .sp-inspector-identity-copy { display:grid; min-width:0; gap:5px; }
+#sp-prototype #sp-selected-kind { color:var(--sp-muted); font-size:11px; font-weight:600; letter-spacing:.045em; text-transform:uppercase; overflow-wrap:anywhere; }
+#sp-prototype #sp-selected-name { color:var(--sp-ink); font-size:22px; line-height:1.15; font-weight:750; letter-spacing:-.035em; overflow-wrap:anywhere; }
+#sp-prototype #sp-footprint { color:var(--sp-muted); font-size:12px; line-height:1.5; padding:0; border:0; background:none; }
+#sp-prototype .sp-inspector-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding-bottom:18px; }
+#sp-prototype .sp-inspector-actions :is(button,label) {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-width:0;
+  min-height:66px;
+  padding:10px 4px;
+  border:1px solid var(--sp-line);
+  border-radius:12px;
+  background:var(--sp-panel);
+  color:var(--sp-ink);
+  font-weight:600;
+  line-height:1.2;
+  font-family:inherit;
+  font-size:12px;
+  cursor:pointer;
+}
+#sp-prototype .sp-inspector-actions svg { width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+#sp-prototype .sp-inspector-lock { position:relative; }
+#sp-prototype .sp-inspector-lock input,#sp-prototype .sp-inspector-switch input { position:absolute; opacity:0; width:1px; height:1px; padding:0; margin:0; }
+#sp-prototype .sp-inspector-lock:has(:checked) { background:var(--sp-primary-soft); border-color:var(--sp-primary-strong); }
+#sp-prototype .sp-inspector-lock:has(:focus-visible),#sp-prototype .sp-inspector-switch:has(:focus-visible) { outline:2px solid var(--sp-primary-strong); outline-offset:3px; }
+#sp-prototype .sp-inspector-actions :is(button:not(:disabled),label):hover { border-color:var(--sp-primary-strong); background:var(--sp-soft); }
+#sp-prototype .sp-inspector-actions button:disabled { opacity:.4; cursor:not-allowed; }
+#sp-prototype .sp-inspector-lock-hint { margin:0 0 18px; padding:12px; border-radius:10px; background:var(--sp-primary-soft); }
+#sp-prototype .sp-inspector-section { display:grid; gap:12px; margin:0; padding:20px 0; border:0; border-top:1px solid var(--sp-line); border-radius:0; background:none; }
+#sp-prototype #sp-selected .sp-inspector-section { grid-template-columns:minmax(0,1fr); }
+#sp-prototype .sp-inspector-section :is(h4,h5) { margin:0; font-size:15px; font-weight:700; line-height:1.3; color:var(--sp-ink); letter-spacing:-.015em; }
+#sp-prototype .sp-inspector-section h5 { font-size:13px; }
+#sp-prototype .sp-inspector-section-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+#sp-prototype .sp-inspector-section .sp-direct-field { display:grid; gap:8px; margin:0; padding:0; border:0; background:none; }
+#sp-prototype .sp-properties-panel .sp-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:0; }
+#sp-prototype .sp-properties-panel .sp-field { display:flex; flex-direction:column; gap:7px; min-width:0; margin:0; font-size:12px; color:var(--sp-muted); }
+#sp-prototype .sp-properties-panel :is(input:not([type="hidden"]):not([type="checkbox"]),textarea) {
+  box-sizing:border-box;
+  min-width:0;
+  width:100%;
+  min-height:44px;
+  padding:11px 12px;
+  border:1px solid var(--sp-line);
+  border-radius:10px;
+  background:var(--sp-panel);
+  color:var(--sp-ink);
+  font-weight:400;
+  line-height:1.35;
+  font-family:inherit;
+  font-size:14px;
+  box-shadow:none;
+}
+#sp-prototype .sp-properties-panel input[type="number"] { appearance:textfield; -moz-appearance:textfield; }
+#sp-prototype .sp-properties-panel input::-webkit-inner-spin-button,#sp-prototype .sp-properties-panel input::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+#sp-prototype .sp-properties-panel textarea { min-height:76px; resize:vertical; }
+#sp-prototype .sp-properties-panel input:disabled { opacity:.55; cursor:not-allowed; }
+#sp-prototype .sp-properties-panel .sp-choice-pills { display:flex; flex-wrap:wrap; gap:6px; margin:0; }
+#sp-prototype .sp-properties-panel .sp-choice-pills button { flex:1 0 auto; min-height:42px; min-width:48px; padding:9px 10px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-panel); color:var(--sp-ink); font-size:12px; font-weight:500; }
+#sp-prototype .sp-properties-panel .sp-choice-pills button[aria-pressed="true"] { background:var(--sp-primary); border-color:var(--sp-primary); color:var(--sp-primary-ink); font-weight:700; }
+#sp-prototype .sp-properties-panel :is(.sp-muted,.sp-direct-field > span) { font-size:12px; line-height:1.5; color:var(--sp-muted); }
+#sp-prototype .sp-properties-panel .sp-button { min-height:44px; padding:10px 12px; border-radius:10px; font-size:13px; }
+#sp-prototype .sp-properties-panel .sp-drum-object-actions { padding-bottom:18px; }
+#sp-prototype .sp-properties-panel #sp-drums-open { background:var(--sp-primary-soft); border-color:var(--sp-primary-strong); font-weight:650; }
+#sp-prototype #sp-model-change { display:flex; width:100%; gap:12px; padding:10px; border-radius:12px; color:var(--sp-ink); background:var(--sp-panel); border:1px solid var(--sp-line); }
+#sp-prototype #sp-model-change svg { width:72px; height:52px; flex:none; }
+#sp-prototype .sp-model-change-copy { text-align:left; display:grid; gap:4px; font-size:13px; }
+#sp-prototype .sp-model-change-copy small { color:var(--sp-muted); font-size:12px; }
+#sp-prototype .sp-inspector-rotation { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+#sp-prototype .sp-inspector-rotation > button { min-height:44px; display:flex; align-items:center; justify-content:center; gap:9px; border:1px solid var(--sp-line); border-radius:10px; color:var(--sp-ink); background:var(--sp-panel); font-size:13px; font-weight:600; line-height:1.2; font-family:inherit; cursor:pointer; }
+#sp-prototype .sp-inspector-rotation > button:hover { background:var(--sp-primary-soft); border-color:var(--sp-primary-strong); }
+#sp-prototype .sp-inspector-rotation > button:disabled { opacity:.4; cursor:not-allowed; }
+#sp-prototype .sp-inspector-rotation svg { width:18px; height:18px; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; fill:none; }
+#sp-prototype .sp-inspector-degrees { position:relative; min-width:0; }
+#sp-prototype .sp-inspector-degrees input { text-align:center; padding-inline:8px 22px; }
+#sp-prototype .sp-inspector-degrees > span:last-child { position:absolute; right:13px; top:13px; font-size:14px; color:var(--sp-muted); pointer-events:none; }
+#sp-prototype .sp-inspector-switch { position:relative; display:flex; align-items:center; gap:8px; font-size:12px; color:var(--sp-muted); cursor:pointer; min-height:36px; }
+#sp-prototype .sp-switch-track { display:block; width:40px; height:24px; flex:none; padding:3px; border-radius:20px; background:light-dark(#d8ded3,#52604e); transition:background 120ms ease; }
+#sp-prototype .sp-switch-track::after { content:""; display:block; width:18px; height:18px; border-radius:50%; background:white; box-shadow:0 1px 3px #0002; transition:transform 120ms ease; }
+#sp-prototype .sp-inspector-switch:has(:checked) .sp-switch-track { background:var(--sp-primary); }
+#sp-prototype .sp-inspector-switch:has(:checked) .sp-switch-track::after { transform:translateX(16px); }
+#sp-prototype .sp-properties-panel .sp-inspector-note { color:var(--sp-ink); font-size:15px; font-weight:700; gap:12px; }
+#sp-prototype .sp-properties-panel .sp-check { display:flex; align-items:center; gap:10px; min-height:42px; margin:0; font-size:13px; }
+#sp-prototype .sp-properties-panel .sp-check input { width:20px; height:20px; flex:none; }
+#sp-prototype .sp-properties-panel .sp-audio-object-row { padding:12px; min-height:64px; border-radius:12px; border:1px solid var(--sp-line); color:var(--sp-ink); background:var(--sp-panel); }
+#sp-prototype .sp-properties-panel .sp-audio-object-row strong { font-size:13px; line-height:1.4; overflow-wrap:anywhere; }
+#sp-prototype .sp-properties-panel .sp-audio-object-row small { color:var(--sp-muted); }
+#sp-prototype .sp-properties-panel .sp-audio-available-group { display:grid; gap:10px; padding-block:8px; }
+#sp-prototype .sp-properties-panel .sp-outs-row { grid-template-columns:44px minmax(0,1fr) 44px; }
+#sp-prototype .sp-properties-panel .sp-outs-row button { min-height:44px; border-radius:10px; }
+#sp-prototype .sp-inspector-save { flex:none; display:flex; align-items:center; gap:8px; min-height:45px; padding:12px 22px; border-top:1px solid var(--sp-line); font-size:11px; color:var(--sp-muted); }
+#sp-prototype .sp-inspector-save .sp-save-dot { width:8px; height:8px; border-radius:50%; background:var(--sp-primary); box-shadow:none; }
+#sp-prototype .sp-inspector-save[data-state="pending"] .sp-save-dot { background:#d3a533; }
+#sp-prototype .sp-inspector-save[data-state="error"] { color:light-dark(#b22549,#ffadc1); }
+#sp-prototype .sp-inspector-save[data-state="error"] .sp-save-dot { background:#ef4670; }
+#sp-prototype .sp-inspector-save[data-state="idle"] .sp-save-dot { background:var(--sp-muted); }
+#sp-prototype .sp-no-selection { padding-block:36px; }
+#sp-prototype .sp-no-selection p { font-size:22px; letter-spacing:-.03em; line-height:1.3; }
+#sp-prototype .sp-iem-selected,#sp-prototype .sp-stairs-selected { display:grid; gap:18px; }
+@container sp-frame (min-width:860px) and (max-width:1199px) {
+  #sp-prototype { --sp-inspector-width:360px; }
+  #sp-prototype .sp-properties-panel { padding:18px; }
+}
+@container sp-frame (max-width:859px) {
+  #sp-prototype .sp-inspector { width:min(420px,calc(100% - 24px)); }
+  #sp-prototype .sp-properties-panel { padding:18px; }
+  #sp-prototype .sp-properties-panel :is(input:not([type="hidden"]):not([type="checkbox"]),textarea) { font-size:16px; }
+  #sp-prototype .sp-inspector-save { padding-inline:18px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  #sp-prototype .sp-switch-track,#sp-prototype .sp-switch-track::after { transition:none; }
+}
+
+#sp-prototype #sp-selected-icon img { width:86px; height:80px; object-fit:contain; padding:6px; border:1px solid var(--sp-line); border-radius:12px; background:light-dark(#f2f4ef,#252e27); }
+#sp-prototype .sp-inspector-section .sp-direct-field > span { text-transform:none; letter-spacing:0; font-weight:500; }
+#sp-prototype .sp-properties-panel .sp-inspector-inline-field { flex-direction:row; align-items:center; gap:12px; }
+#sp-prototype .sp-properties-panel .sp-inspector-inline-field input { flex:1; width:0; }
+#sp-prototype #sp-editor-floor :is([data-selection-frame],[data-selection-handle],[data-footprint-resize] > rect:last-child) { stroke:var(--sp-pink,#e82382); }
+/* build-inline:end stageplot-inspector-v1.css */
 </style>
 
 <script src="./stageplot-account-v1.js"></script>
@@ -7667,6 +7858,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   const fohNeeds=o=>Object.entries({table:'Tisch',barrier:'Absperrung',sun:'Sonnenschutz',rain:'Regenschutz'}).filter(([key])=>o.foh?.[key]).map(([,label])=>label);
   function objectProductionLines(o){return [o.power?'Strom: '+o.power:'',o.wireless?'Funk: '+o.wireless:'',...(o.type==='foh'?['FOH '+num(objectSize(o).w)+' × '+metres(objectSize(o).d),...fohNeeds(o)]:[])].filter(Boolean);}
   function fillProductionObject(o){
+    $('sp-production-object').hidden=!(byId[o.type].instrument||o.type==='rack'||o.type==='foh'||o.power||o.wireless||byId[o.type].category==='light'||o.type.startsWith('stagebox-'));
     $('sp-object-power').value=o.power||'';$('sp-object-wireless').value=o.wireless||'';$('sp-object-wireless-field').hidden=!(byId[o.type].instrument||o.type==='rack');$('sp-foh-fields').hidden=o.type!=='foh';
     for(const id of ['sp-object-power','sp-object-wireless','sp-foh-width','sp-foh-depth','sp-foh-table','sp-foh-barrier','sp-foh-sun','sp-foh-rain'])$(id).disabled=!!o.locked;
     if(o.type==='foh'){$('sp-foh-width').value=objectSize(o).w;$('sp-foh-depth').value=objectSize(o).d;for(const key of ['table','barrier','sun','rain'])$('sp-foh-'+key).checked=!!o.foh?.[key];}
@@ -9842,7 +10034,7 @@ function createStageplotSymbolV3(type, options = {}) {
         else {
           sEl('rect',{x:-w/2-3,y:-h/2-3,width:w+6,height:h+6,fill:'none',stroke:'var(--sp-teal)','stroke-width':1.2,'data-selection-frame':o.id,'stroke-dasharray':o.locked?'4 3':'none','pointer-events':'none'},rotation);
           if(!o.locked&&(['riser','foh'].includes(o.type)||c.stageAccess))drawFootprintHandles(rotation,-w/2,-h/2,w,h,o.id,coarse);
-          else if(!o.locked)for(const dx of [-w/2-3,w/2+3])for(const dy of [-h/2-3,h/2+3])sEl('rect',{x:dx-2.5,y:dy-2.5,width:5,height:5,fill:'var(--sp-selection)',stroke:'var(--sp-teal)','pointer-events':'none'},rotation);
+          else if(!o.locked)for(const dx of [-w/2-3,w/2+3])for(const dy of [-h/2-3,h/2+3])sEl('rect',{x:dx-2.5,y:dy-2.5,width:5,height:5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','data-selection-handle':o.id,'pointer-events':'none'},rotation);
         }
       }
       if($('sp-print-labels').checked){
@@ -10101,7 +10293,7 @@ function createStageplotSymbolV3(type, options = {}) {
   let modelDialogContext=null;
   function syncChoiceButtons(host,value,disabled=false){
     if(!host)return;
-    host.querySelectorAll('button').forEach(button=>{const option=button.dataset.iemSide??button.dataset.micStand??button.dataset.boomDirection??button.dataset.micPurpose??button.dataset.riserPreset??button.dataset.riserHeight??button.dataset.outsConnector??button.dataset.insConnector;button.setAttribute('aria-pressed',String(String(option)===String(value)));button.disabled=disabled;});
+    host.querySelectorAll('button').forEach(button=>{const option=button.dataset.iemSide??button.dataset.micStand??button.dataset.boomDirection??button.dataset.micPurpose??button.dataset.riserHeight??button.dataset.outsConnector??button.dataset.insConnector;button.setAttribute('aria-pressed',String(String(option)===String(value)));button.disabled=disabled;});
   }
   function parseIoValue(value,kind='outs'){
     const raw=String(value||'').trim(),noun=kind==='ins'?'(?:Ins?|Inputs?)':'(?:Outs?|Outputs?)',match=raw.match(new RegExp('^(\\d+)\\s*'+noun+'?(?:\\s*[·x×/-]\\s*(.+))?$','i'));
@@ -10148,7 +10340,6 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function syncObjectIoControls(o,locked=false){
     const io=objectIo(o),drums=drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type),disabled=locked||drums;
-    const ioHeading=$('sp-outs-fields').querySelector('.sp-io-heading');ioHeading.querySelector('strong').textContent=o.type==='orchestra'?'Orchester-Abnahmen':o.type==='percussion'?'Percussion-Abnahmen':drums?'Drum-Abnahmen':'Gerätebuchsen';ioHeading.querySelector('span').textContent=drums?'Aktive Abnahmen und Direktausgänge.':'Vorhandene Buchsen. Verwendete Signale oben unter Audio planen.';
     $('sp-ins-direct').hidden=drums;$('sp-outs-direct').hidden=drums;
     $('sp-ins-count').value=io.inputs.count;$('sp-outs-count').value=io.outputs.count;$('sp-ins-count').disabled=disabled;$('sp-outs-count').disabled=disabled;
     syncChoiceButtons($('sp-ins-connector-options'),io.inputs.connector,disabled);syncChoiceButtons($('sp-outs-connector-options'),io.outputs.connector,disabled);
@@ -10161,9 +10352,18 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!drums)for(const group of ioAliasGroups(io)){if(group.kind!==priorDirection){const heading=document.createElement('div');heading.className='sp-io-alias-direction';heading.textContent=group.kind==='outputs'?'Ausgänge':'Eingänge';aliasHost.appendChild(heading);priorDirection=group.kind;}const row=document.createElement('label'),label=document.createElement('span'),input=document.createElement('input'),aliases=io.aliases[group.kind]||[];row.className='sp-io-alias-row';label.textContent=group.label;input.type='text';input.maxLength=60;input.placeholder=group.kind==='outputs'?'z. B. Piano':'z. B. Talkback';input.value=group.ports.map(port=>aliases[port-1]).find(Boolean)||'';input.disabled=disabled;input.dataset.ioAliasKind=group.kind;input.dataset.ioAliasPorts=group.ports.join(',');input.setAttribute('aria-label',group.label+' Alias');row.append(label,input);aliasHost.appendChild(row);}
     $('sp-outs').value=ioValueText(io.outputs,'outputs').replace(/^Keine Outs$/,'');
   }
+  function updateInspectorIdentity(o){
+    const c=byId[o.type],size=objectSize(o),title=o.label||c.name;
+    $('sp-selected-kind').textContent=o.type==='riser'?'Bühne & Podeste':c.name;
+    $('sp-selected-name').textContent=title;
+    $('sp-footprint').textContent=o.type==='riser'?num(size.w)+' × '+metres(size.d)+' · '+(o.height||40)+' cm hoch':num(size.w)+' × '+metres(size.d);
+    $('sp-inspector-actions').setAttribute('aria-label','Aktionen für '+title);
+  }
   function inspector(){
     // Selection changes the inspector's contents, never the user's panel or tab choice.
     setInspectorTab(inspectorTab);
+    const panel=$('sp-properties-panel'),selectionKey=String(selected||'');
+    if(panel.dataset.selection!==selectionKey){panel.dataset.selection=selectionKey;panel.scrollTop=0;}
     const o=objects.find(o=>o.id===selected),zone=selected==='iem-zone'?iemRect(stage):null,stairs=String(selected||'').startsWith('stairs-zone')?stairsGeometry(stage,selected):null,stageZone=selected==='stage-zone';
     $('sp-stage-edit').setAttribute('aria-pressed',String(stageZone));
     $('sp-stage-iem').setAttribute('aria-pressed',String(!!zone));
@@ -10179,15 +10379,15 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!o)return;
     fillProductionObject(o);
     const locked=!!o.locked;
-    $('sp-object-locked').checked=locked;$('sp-lock-hint').hidden=!locked;
+    $('sp-object-locked').checked=locked;$('sp-lock-hint').hidden=!locked;$('sp-inspector-lock-label').textContent=locked?'Entsperren':'Sperren';$('sp-inspector-remove').disabled=locked;
     $('sp-lock').setAttribute('aria-pressed',String(locked));$('sp-lock').setAttribute('aria-label',locked?'Objekt entsperren':'Objekt sperren');
-    for(const id of ['sp-pos-x','sp-pos-y','sp-angle','sp-angle-number','sp-variant','sp-mic-stand','sp-boom-direction','sp-riser-preset','sp-riser-width','sp-riser-depth','sp-riser-height','sp-remove','sp-send-behind'])$(id).disabled=locked;
+    for(const id of ['sp-pos-x','sp-pos-y','sp-angle','sp-angle-number','sp-variant','sp-mic-stand','sp-boom-direction','sp-riser-width','sp-riser-depth','sp-riser-height','sp-remove','sp-send-behind'])$(id).disabled=locked;
     root.querySelectorAll('[data-rotate],[data-rotate-hold],[data-rotate-zero]').forEach(button=>button.disabled=locked);
     const c=byId[o.type],sizeForGroup=objectSize(o),groupCount={'2,1':1,'2,2':2,'3,2':3}[sizeForGroup.w+','+sizeForGroup.d];
     const preview=o.type==='riser'&&groupCount>1?byId['riser-'+groupCount]:c;
-    $('sp-selected-name').textContent=o.type==='riser'?'Riser-Gruppe · '+(groupCount?groupCount+'×':'frei'):c.name;$('sp-selected-icon').innerHTML=icon(preview,{...o,angle:preview.defaultAngle});
+    updateInspectorIdentity(o);$('sp-selected-icon').innerHTML=o.type==='riser'?'<img src="./stageplot-assets/categories/stage-v1.webp" alt="" width="86" height="80" decoding="async">':icon(preview,{...o,angle:preview.defaultAngle});
     $('sp-label').value=o.label;$('sp-label-visible').checked=o.showLabel!==false;$('sp-note').value=o.note;$('sp-pos-x').value=o.x;$('sp-pos-y').value=o.y;
-    renderObjectAudio(o);$('sp-audio-device').hidden=!c.instrument||(o.type==='laptop'&&playbackMode(o)!=='custom');$('sp-outs-fields').hidden=!c.instrument;$('sp-outs-visible').checked=o.showOuts!==false;if(c.instrument)syncObjectIoControls(o,locked);
+    renderObjectAudio(o);$('sp-audio-device').hidden=!c.instrument||drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type)||(o.type==='laptop'&&playbackMode(o)!=='custom');$('sp-outs-fields').hidden=!c.instrument;$('sp-outs-visible').checked=o.showOuts!==false;if(c.instrument&&!$('sp-audio-device').hidden)syncObjectIoControls(o,locked);
     $('sp-drums-open').hidden=!drumModel.isDrums(o.type)&&!['percussion','orchestra'].includes(o.type);$('sp-drums-open').disabled=locked;$('sp-drums-open').textContent=o.type==='orchestra'?'Orchester-Editor …':o.type==='percussion'?'Percussion-Editor …':'Drum Designer …';
     // Position fields deliberately allow overhang and off-stage centres.
     $('sp-angle').value=o.angle;$('sp-angle-number').value=o.angle;$('sp-angle-label').textContent=o.angle+'°';
@@ -10199,7 +10399,6 @@ function createStageplotSymbolV3(type, options = {}) {
       $('sp-object-size-reset').hidden=!normalizedObjectDimensions(o.dimensions);
       $('sp-object-size-hint').textContent=o.dimensions?'Eigene Gerätemaße · maßstäblich auf der Bühne.':o.type==='laptop'?'Referenz: 16″ MacBook Pro · nur der Rechner, ohne Tisch oder Rack.':o.type==='di'?'Referenz: Radial J48 · ohne Stecker und Kabel.':o.type.startsWith('stagebox-')&&!['stagebox-46'].includes(o.type)?'Gerätemaße nach Allen & Heath · ohne Stecker und Kabel.':['mic-sm57','mic-wireless-ewd'].includes(o.type)?'Herstellermaß · ohne Stativ.': 'Standardmaß der abgebildeten Ansicht. Für dein Modell anpassen; Spielraum zusätzlich einplanen.';
     }
-    $('sp-footprint').textContent=o.type==='riser'?'Planmaß: '+riserDescription(o):'Planmaß: '+num(size.w)+' × '+metres(size.d)+(objectDetail(o)?' · '+objectDetail(o):'');
     $('sp-mic-fields').hidden=o.type!=='mic';
     if(o.type==='mic'){
       $('sp-mic-stand').value=o.stand||'boom';$('sp-mic-purpose').value=o.purpose||'vocals';
@@ -10211,16 +10410,14 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-riser-fields').hidden=o.type!=='riser';
     if(o.type==='riser'){
       $('sp-riser-width').value=size.w;$('sp-riser-depth').value=size.d;$('sp-riser-height').value=o.height||40;
-      const preset=size.w+','+size.d;
-      $('sp-riser-preset').value=['2,1','2,2','3,2','4,2','4,3'].includes(preset)?preset:'custom';queueDraftSave();
-      syncChoiceButtons($('sp-riser-preset-options'),$('sp-riser-preset').value,locked);syncChoiceButtons($('sp-riser-height-options'),String(o.height||40),locked);
+      syncChoiceButtons($('sp-riser-height-options'),String(o.height||40),locked);
     }
     const showFamily=!!c.family;$('sp-variant-field').hidden=!showFamily;
     if(showFamily){
       const variants=catalog.filter(v=>v.family===c.family),visualLabel=visualVariantFamilies[c.family]||'Variante',compact=compactModelFamilies.has(c.family);
       $('sp-variant').value=o.type;
       $('sp-model-picker-label').hidden=false;$('sp-model-picker-label').textContent=visualLabel;
-      $('sp-model-change').hidden=!compact;$('sp-model-change').disabled=locked;$('sp-model-change').setAttribute('aria-label',visualLabel+' wechseln · aktuell '+c.name);$('sp-model-change').title=visualLabel+' wechseln · '+c.name;$('sp-model-current-icon').innerHTML=compact?icon(c):'';
+      $('sp-model-change').hidden=!compact;$('sp-model-change').disabled=locked;$('sp-model-current-name').textContent=c.name;$('sp-model-change').setAttribute('aria-label',visualLabel+' wechseln · aktuell '+c.name);$('sp-model-change').title=visualLabel+' wechseln · '+c.name;$('sp-model-current-icon').innerHTML=compact?icon(c):'';
       $('sp-model-picker').hidden=compact;$('sp-model-picker').innerHTML=compact?'':variants.map(v=>'<button class="sp-model-option" type="button" data-model="'+v.id+'" aria-pressed="'+(v.id===o.type)+'" aria-label="'+esc(v.name+(v.id===o.type?' · ausgewählt':''))+'" '+(locked?'disabled':'')+'>'+icon(v)+'<span>'+esc(v.short)+'</span></button>').join('');
     }else{$('sp-model-picker').innerHTML='';$('sp-model-picker-label').hidden=true;$('sp-model-picker').hidden=true;$('sp-model-change').hidden=true;$('sp-model-current-icon').innerHTML='';}
   }
@@ -11146,7 +11343,7 @@ function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
   host.hidden=!all.length&&!rows.length&&o.type!=='laptop';if(host.hidden)return;
   const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),available=all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
-  host.innerHTML=(o.type==='laptop'?playbackShortcut(o):'')+'<strong>Audio · verwendete Signale</strong><p class="sp-muted">'+(rows.length?'Dieselben Kanäle stehen in Liste, Verkabelung und PDF.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<details><summary>+ Weitere Signale verwenden</summary><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></details>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
+  host.innerHTML=(o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4><p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }
 function audioRoutingRows(rows,direction){
   return rows.map(row=>{const stereo=Boolean(row.stereoGroup),patch=stageboxRouteLocation(row,direction),kind=direction==='inputs'?({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||row.signalType):({monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)]),members=(row.linkedSources||[]).length;
@@ -13108,7 +13305,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       if(id==='sp-label')o.label=$(id).value;
       if(id==='sp-note')o.note=$(id).value;
       if(id==='sp-outs')o.outs=$(id).value;
-      if(id!=='sp-note')queueDraw();if(id==='sp-label')updateList();queueDraftSave();
+      if(id!=='sp-note')queueDraw();if(id==='sp-label'){updateList();updateInspectorIdentity(o);}queueDraftSave();
     });
     $(id).addEventListener('change',finishEdit);$(id).addEventListener('blur',finishEdit);
   });
@@ -13165,6 +13362,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-model-dialog-close').addEventListener('click',()=>$('sp-model-dialog').close());
   $('sp-model-dialog').addEventListener('close',()=>{modelDialogContext=null;});
   $('sp-model-dialog-options').addEventListener('click',e=>{const button=e.target.closest('[data-dialog-model]');if(!button)return;const type=button.dataset.dialogModel,context=modelDialogContext;if(!isObjectUnlocked(type)){$('sp-model-dialog').close();lockedObjectPack(type);return;}$('sp-model-dialog').close();if(context?.action==='place')beginPlacement(type,{detail:0});else changeSelectedVariant(type);});
+  $('sp-inspector-position').addEventListener('click',e=>{const button=e.target.closest('[data-rotate]');if(button&&!button.disabled)rotate(Number(button.dataset.rotate));});
   const rotate=amount=>{finishEdit();const o=objects.find(o=>o.id===selected);if(o&&!o.locked)change(()=>{o.angle=(o.angle+amount+360)%360;constrain(o,false);},'Drehung: '+((o.angle+amount+360)%360)+'°');};
   $('sp-object-rotate').addEventListener('click',e=>{const b=e.target.closest('[data-rotate]'),zero=e.target.closest('[data-rotate-zero]');if(b)rotate(Number(b.dataset.rotate));else if(zero){const o=objects.find(o=>o.id===selected);if(o&&!o.locked)change(()=>{o.angle=0;constrain(o,false);},'Drehung: 0°');}});
   let objectRotateHold=null;
@@ -13191,15 +13389,6 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     const target=button.dataset.micStand!==undefined?'sp-mic-stand':button.dataset.boomDirection!==undefined?'sp-boom-direction':'sp-mic-purpose',value=button.dataset.micStand??button.dataset.boomDirection??button.dataset.micPurpose;
     dispatchHiddenChoice($(target),value);
   });
-  $('sp-riser-preset').addEventListener('change',()=>{
-    const o=objects.find(o=>o.id===selected),value=$('sp-riser-preset').value;if(!o||o.locked||o.type!=='riser'||value==='custom')return;
-    change(()=>{
-      [o.width,o.depth]=value.split(',').map(Number);
-      if(/^Riser(?: · [123]×)?$/.test(o.label))o.label='Riser'+({'2,1':' · 1×','2,2':' · 2×','3,2':' · 3×'}[value]||'');
-      constrain(o,false);
-    },'Riser-Gruppe angepasst');
-  });
-  $('sp-riser-preset-options').addEventListener('click',e=>{const button=e.target.closest('[data-riser-preset]');if(!button||button.disabled)return;dispatchHiddenChoice($('sp-riser-preset'),button.dataset.riserPreset);if(button.dataset.riserPreset==='custom')syncChoiceButtons($('sp-riser-preset-options'),'custom',false);});
   $('sp-riser-height-options').addEventListener('click',e=>{const button=e.target.closest('[data-riser-height]');if(!button||button.disabled)return;const input=$('sp-riser-height');input.value=button.dataset.riserHeight;input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));});
   ['sp-riser-width','sp-riser-depth','sp-riser-height'].forEach(id=>{
     $(id).addEventListener('focus',()=>{editBefore=snapshot();});
@@ -13209,9 +13398,8 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       if(!editBefore)editBefore=snapshot();
       o[{'sp-riser-width':'width','sp-riser-depth':'depth','sp-riser-height':'height'}[id]]=value;
       constrain(o,false);queueDraw();
-      $('sp-footprint').textContent=riserDescription(o);
-      const size=objectSize(o),preset=size.w+','+size.d;
-      $('sp-riser-preset').value=['2,1','2,2','3,2','4,2','4,3'].includes(preset)?preset:'custom';
+      updateInspectorIdentity(o);
+      syncChoiceButtons($('sp-riser-height-options'),String(o.height||40),false);
     });
     $(id).addEventListener('change',finishEdit);
     $(id).addEventListener('blur',()=>{finishEdit();inspector();});
@@ -13222,7 +13410,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       const o=objects.find(o=>o.id===selected),input=$(id),value=Number(input.value);
       if(!o||o.locked||!byId[o.type]?.stageAccess||!Number.isFinite(value)||value<Number(input.min)||value>Number(input.max))return;
       if(!editBefore)editBefore=snapshot();o[key]=value;queueDraw();
-      const size=objectSize(o);$('sp-footprint').textContent='Planmaß: '+num(size.w)+' × '+metres(size.d)+' · '+objectDetail(o);
+      updateInspectorIdentity(o);
     });
     $(id).addEventListener('change',finishEdit);
     $(id).addEventListener('blur',()=>{finishEdit();inspector();});
@@ -13233,7 +13421,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       if(!o||o.locked||!editableObjectSize(o)||!input.value||!input.validity.valid||!Number.isFinite(value))return;
       const size=objectSize(o);if(!editBefore)editBefore=snapshot();o.dimensions={w:size.w,d:size.d,[key]:value/100};
       $('sp-object-size-reset').hidden=false;$('sp-object-size-hint').textContent='Eigene Gerätemaße · maßstäblich auf der Bühne.';
-      $('sp-footprint').textContent='Planmaß: '+num(o.dimensions.w)+' × '+metres(o.dimensions.d);queueDraw();
+      updateInspectorIdentity(o);queueDraw();
     });
     $(id).addEventListener('change',finishEdit);$(id).addEventListener('blur',()=>{finishEdit();inspector();});
   }
@@ -13253,7 +13441,9 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-io-alias-list').addEventListener('focusin',e=>{if(e.target.closest('[data-io-alias-kind]')&&!editBefore)editBefore=snapshot();});
   $('sp-io-alias-list').addEventListener('input',e=>{const input=e.target.closest('[data-io-alias-kind]'),o=objects.find(item=>item.id===selected);if(!input||!o||o.locked||drumModel.isDrums(o.type))return;if(!editBefore)editBefore=snapshot();const io=objectIo(o),kind=input.dataset.ioAliasKind,ports=String(input.dataset.ioAliasPorts||'').split(',').map(Number).filter(Number.isInteger),value=ioAliasText(input.value);for(const port of ports)if(port>0&&port<=io[kind].count)io.aliases[kind][port-1]=value;o.io=io;syncRoutingFromStage(false);queueDraw();});
   $('sp-io-alias-list').addEventListener('change',e=>{const input=e.target.closest('[data-io-alias-kind]');if(!input)return;input.value=ioAliasText(input.value);finishEdit();renderEditor();});
-  $('sp-duplicate').addEventListener('click',()=>{const o=objects.find(o=>o.id===selected);if(!o)return;if(!isObjectUnlocked(o.type)){lockedObjectPack(o.type);return;}change(()=>{const copy={...clone(o),id:'station-'+nextId++,x:o.x+.5,y:o.y+.5,locked:false};constrain(copy);objects.push(copy);selected=copy.id;},'Baustein dupliziert');});
+  function duplicateSelectedObject(){finishEdit();const o=objects.find(o=>o.id===selected);if(!o)return;if(!isObjectUnlocked(o.type)){lockedObjectPack(o.type);return;}change(()=>{const copy={...clone(o),id:'station-'+nextId++,x:o.x+.5,y:o.y+.5,locked:false};constrain(copy);objects.push(copy);selected=copy.id;},'Baustein dupliziert');}
+  $('sp-duplicate').addEventListener('click',duplicateSelectedObject);
+  $('sp-inspector-duplicate').addEventListener('click',duplicateSelectedObject);
   $('sp-send-behind').addEventListener('click',()=>{
     finishEdit();const o=objects.find(o=>o.id===selected),below=o&&overlappingObjectBelow(o);
     if(!o||!below||o.locked)return;
@@ -13266,6 +13456,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     change(()=>{const id=selected;detachConnectionsForObject(id);objects=objects.filter(item=>item.id!==id);selected=null;},'Baustein und zugehörige Signale entfernt · mit Rückgängig wiederherstellbar');return true;
   }
   $('sp-remove').addEventListener('click',removeSelectedObject);
+  $('sp-inspector-remove').addEventListener('click',removeSelectedObject);
   $('sp-iem-remove').addEventListener('click',()=>change(()=>{stage.iem='none';selected=null;},'IEM-/Rack-Bereich entfernt'));
   function removeSelectedStairs(){
     if(!String(selected||'').startsWith('stairs-zone'))return;
@@ -13341,6 +13532,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     $('sp-draft-status').dataset.state=state;$('sp-draft-status').textContent=message;
     const header=root.querySelector('.sp-header-status'),short={pending:'Speichert …',saved:'Lokal gespeichert',error:'Speicherfehler',idle:'Autosave bereit'}[state]||message;
     header.dataset.state=state;header.title=message;$('sp-header-draft-status').textContent=short;
+    $('sp-inspector-save').dataset.state=state;$('sp-inspector-save').title=message;$('sp-inspector-save-text').textContent=short;
     $('sp-draft-retry').hidden=state!=='error';
     if(view==='print'&&state==='error')say(message);
     if(view==='project')refreshProjectIdentity();
