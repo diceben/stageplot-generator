@@ -7,7 +7,7 @@ assert.match(html,/const entries=setups\.map\(entry=>\(\{\.\.\.entry,kind:'setup
 assert.match(html,/else entries\.push\(\{\.\.\.draftEntry,kind:'draft',draft:true,draftId:draftEntry\.id\}\)/,'Eigenständige Entwürfe erscheinen nicht als eigene Projektkarten.');
 // Exercise the current project dialog; the old unused createNewProject helper was removed.
 const vm=require('node:vm'),events=[],nodes=new Map(),oldStage={title:'Bestehendes Projekt'};
-const ctx={sharedReadOnly:false,npStageSource:'custom',accountPlan:'pro',dashboardProjects:()=>[],stage:oldStage,npSize:{width:8,depth:5},stageSurfaceDefault:'light',npProjectName:()=> 'Neues Projekt',defaultProjectInfo:()=>({}),defaultRouting:()=>({inputs:[],outputs:[]}),normalizeSetupDocument:value=>value,isSampleProject:()=>false,canSave:false,finishEdit:()=>events.push('finish')};
+const ctx={readNewProjectDimensions:()=>true,sharedReadOnly:false,npStageSource:'custom',accountPlan:'pro',dashboardProjects:()=>[],stage:oldStage,npSize:{width:8,depth:5},stageSurfaceDefault:'light',npProjectName:()=> 'Neues Projekt',defaultProjectInfo:()=>({}),defaultRouting:()=>({inputs:[],outputs:[]}),normalizeSetupDocument:value=>value,isSampleProject:()=>false,canSave:false,finishEdit:()=>events.push('finish')};
 ctx.$=id=>{if(!nodes.has(id))nodes.set(id,{value:'',close(){events.push('close');}});return nodes.get(id);};
 ctx.persistDraft=()=>{events.push('save');return ctx.canSave;};ctx.activateSetupDocument=value=>{events.push('activate');ctx.stage=value.stage;};
 vm.createContext(ctx);vm.runInContext(html.match(/  function createProjectFromDialog\([^]*?\n  }/)[0],ctx);
