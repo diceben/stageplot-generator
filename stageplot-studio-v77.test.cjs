@@ -17,7 +17,7 @@ for(const marker of [
   "id:'mixer-wing-rack'.*w:.486,d:.326",
   "id:'piano-bench'",
   "id:'drum-throne'",
-  "id:'guitar-tree-empty'.*w:.7,d:.7",
+  "id:'guitar-tree-empty'.*w:0.86,d:0.86",
   "id:'stage-ramp'",
   "id:'stage-railing'",
   "id:'stage-truss-tower'",

@@ -1,11 +1,15 @@
 # Technik in Draufsicht
 
-21 lokale, eigens mit dem eingebauten OpenAI-Bildgenerator gerenderte Assets. Realistische Materialien mit zurückhaltender zeichnerischer Kontur, monochrom und senkrecht von oben. Einzeln generiert; keine CSS-Zeichnungen oder Produktfotos.
+29 lokale, mit dem eingebauten OpenAI-Bildgenerator erzeugte Raster-Assets. Realistische Materialien, zurückhaltende Konturen, monochrom. `manifest.json` dokumentiert Quelldatei-Hashes, Alpha-Zuschnitt, Bildgrößen, Millimeterrahmen und die Kalibrierung einzelner Bauteile; `prompts.json` enthält die endgültigen Prompts. Die App verwendet ausschließlich die lokalen WebP-Dateien.
 
-`manifest.json` dokumentiert Quellen-Hashes, Freistellung, Bildgrößen und die bestehenden Planmaße. `prompts.json` enthält die verwendeten Prompts. Die Quelldateien bleiben im lokalen Verzeichnis der Bildgenerierung; die App benötigt nur die versionierten WebP-Dateien.
+## Maßstab ohne Verzerrung
 
-Die Freistellung wird bis zur Objektkontur zugeschnitten (Alpha-Schwelle 128 zur Messung, Bild-Alpha bleibt erhalten), proportional auf höchstens 768 Pixel reduziert und als WebP komprimiert. Die gemeinsame Objektgeometrie bildet diese Kontur auf die gespeicherte Breite und Tiefe ab. Vorhandene Projekte erhalten keine neuen Maße oder Positionen.
+Die Bilder werden an ihrer Alpha-Kontur zugeschnitten, proportional auf maximal 768 Pixel reduziert und in Graustufen als WebP gespeichert. Ein Millimeterrahmen beschreibt das Referenzmaß. `preserveAspectRatio="xMidYMid meet"` und eine gemeinsame gleichmäßige Transformation verhindern ein getrenntes Strecken der Bildachsen. Abweichungen zwischen der gezeichneten Kontur und dem Referenzrahmen werden durch freien Rand aufgefangen. Die generierten Abbildungen sind Illustrationen, keine technischen CAD-Zeichnungen; genaue Abmessungen eines anderen Gerätemodells können abweichen.
 
-Bibliothek, Bühne, Eigenschaften, Projektvorschau und Export referenzieren dieselben Bilder über `stageplot-symbols-v3.js`. Der Export bettet sie ein. Die Zeichnungen dienen zur Orientierung; Kanalzahl und Anschlussbelegung kommen weiterhin aus dem gemeinsamen Gerätekatalog und Routing. Die interaktiven Buchsen bleiben unabhängig vom Bild.
+Bei Dreibeinen bleiben der Mittelpunkt und der Fußkreis erhalten. Der kompakte Schlagzeughocker setzt sich aus zwei gerenderten Assets zusammen: Untergestell mit 43 cm Fußkreis und Sitzfläche mit 30 cm Durchmesser. Dieselben Bauteile werden im Drum-Designer verwendet. Das Mikrofonstativ besteht aus gerenderter Basis und Galgen, der am gemeinsamen Gelenk nach links, rechts oder oben gedreht wird; der Rundfuß bleibt eine eigene 25-cm-Variante.
 
-Bei WING Rack und Verstärkern ist die Oberseite dargestellt. Stageboxen liegen mit dem Anschlussfeld nach oben. Original-Mikrofonfotos und verstellbare Mikrofonständer bleiben erhalten. Die nicht ersetzten Modellvarianten nutzen weiterhin ihre vorhandene Zeichnung.
+Breite und Tiefe sind beim Bearbeiten dieser Technikobjekte gekoppelt. Gespeicherte eigene Maßrahmen bleiben beim Laden erhalten; die Bilder darin werden proportional eingepasst. Entwürfe ohne eigene Maße verwenden die korrigierten Referenzen. Positionen, IDs und Routing werden nicht migriert oder geändert.
+
+Bibliothek, Bühne, Eigenschaften, Projektvorschau und Export verwenden `stageplot-symbols-v3.js`. Der Export bettet die lokalen Rasterbilder ein. Original-Herstellerfotos in der gemeinsamen Mikrofonwahl bleiben erhalten. Anschlusskapazitäten und die interaktiven Buchsen sind weiterhin Daten des Routing-Modells, unabhängig vom Bild.
+
+Quellen und Referenzmaße: [MASSTAB.md](../../MASSTAB.md).

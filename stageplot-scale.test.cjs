@@ -35,6 +35,9 @@ const base=context.drums.drumLayout('drums',context.drums.drumDefaults()),baseAr
 for(const [asset,pixels,source,inches] of [['snare',170,221,14],['rack-tom',186,238,10],['floor-tom',198,252,14]]){
  const img=baseArt.find(t=>t['data-rendered-drum-asset']===asset);near(Number(img.width)*pixels/source*.02,inches*.0254,asset+' head');
 }
+const throneSeat=baseArt.find(t=>t['data-rendered-tech-asset']==='throne-seat');
+near(Number(throneSeat.width)*.05*.02,.3,'Drum throne seat shares the standalone 30 cm calibration');
+near(Number(throneSeat.height)*.05*.02,.3,'Drum throne seat stays round');
 const pad=baseArt.find(t=>t['data-rendered-drum-asset']==='spdsx-overhead-preview-v1');
 near(Number(pad['data-crop-width'])*.02,.364,'SPD-SX width');near(Number(pad['data-crop-height'])*.02,.331,'SPD-SX depth');
 near(percussion.byId.multipad.w,.364,'Same pad in percussion editor');near(percussion.byId.multipad.d,.331,'Same pad depth');

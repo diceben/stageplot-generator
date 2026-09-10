@@ -16,7 +16,7 @@ for(const type of ['trumpet','trombone','tuba','flugelhorn']){
 // These top views are rendered assets; the shared asset suite validates files and metric geometry.
 for(const type of ['wedge','quad-cortex']){
  const svg=context.render(type);assert.ok(svg.includes('data-rendered-tech-asset="'+type+'"'));
- assert.ok(fs.existsSync('stageplot-assets/tech/'+type+'-top-v1.webp'));
+ const file=svg.match(/<image href="([^"]+)"/)[1];assert.ok(fs.existsSync(file),type+' rendered asset exists');
 }
 
 for(const marker of [
