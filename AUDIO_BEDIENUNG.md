@@ -7,13 +7,19 @@ Der Signal-Editor zeigt Instrument und Kanalnummer dauerhaft im Kopf. Vier direk
 - **Kanäle:** Mischpultnummern und die Stagebox-Buchsen des aktuellen Signals. CH und IN/OUT sind unabhängig voneinander. Stereo kann weiterhin getrennte Notizen, Modelle oder Buchsen an verschiedenen Stageboxen behalten.
 - **Notizen & Funk:** Signalname, Notizen, Frequenzbereich, IEM-Übertragung und Reihenfolge.
 
-## Stagebox verbinden und Stagebox-Belegung
+## Einheitlich anschließen
 
-**Stagebox verbinden** ist ein kleines Auswahlfenster für genau ein Signal bzw. Stereopaar. Es zeigt die Stageboxen mit Bild und schlägt eine passende freie Buchse vor. Eine gültige bestehende Zuordnung hat Vorrang; sonst wird die nächste kompatible Stagebox mit genügend Platz empfohlen. Die Buchsen der ausgewählten Stagebox sind als physische XLR-Anschlüsse sichtbar; Inputs, Outputs und Kombibuchsen verwenden dieselbe Darstellung wie die Stagebox-Belegung. Eine freie Buchse direkt anklicken. Die aktuelle Auswahl glitzert rosa und trägt „Gewählt“, bei Stereo mit L/R an beiden Buchsen. Belegte Buchsen zeigen ihren Signalnamen und sind für eine neue Verbindung gesperrt. Für Stereo wird die linke Buchse angeklickt und das benachbarte Paar gemeinsam ausgewählt. Ein Klick auf die bereits gewählte rechte Seite verschiebt das Paar nicht. Zahlenfelder für Stagebox-Ports entfallen auch im Signal-Editor; dessen rosa Buchsen öffnen dieselbe Auswahl. Ein Klick auf „IN … verbinden“ übernimmt die Zuordnung. Volle und inkompatible Stageboxen bleiben mit einer Erklärung zur Ansicht auswählbar; „Verbinden“ bleibt dort gesperrt. Kanalnummern, Mikrofon und Notizen werden dabei nicht geändert. Auch 48 Buchsen lassen sich am Handy durchsuchen, während Signalname und Verbinden-Button sichtbar bleiben. Bei reduzierten Animationen bleibt die rosa Markierung stehen, ohne zu glitzern.
+Inputliste und Stagebox-Belegung verwenden dieselbe Verbindungsauswahl. In der Inputliste „Anschließen“ wählen und eine freie Buchse antippen. In der Stagebox-Belegung eine freie Buchse antippen und das Signal wählen. Die letzte Auswahl speichert sofort; „Rückgängig“ stellt den vorherigen Stand wieder her. Öffnen und Schließen ohne Auswahl ändern nichts.
 
-**Stagebox-Belegung** zeigt dagegen die gesamte Belegung einer oder mehrerer Stageboxen. Dort kann man von einer konkreten Buchse aus arbeiten und prüfen, was bereits angeschlossen ist.
+Der Kopf zeigt Instrument, Stagebox-Buchse und Pultkanal bzw. Mix. IN/OUT ist die physische Buchse; CH/Mix bleibt beim Umstecken erhalten. Die vorgeschlagenen Buchsen glitzern rosa, Stereo zeigt L/R gemeinsam. Eine bestehende Verbindung und dann die nächste passende Stagebox werden bevorzugt. Die Signalauswahl zeigt unverbundene Signale zuerst, mit Bild, Kanal und Mikrofon sowie einer Sofortsuche.
 
-Wird das kleine Fenster aus dem Signal-Editor geöffnet, ist die Wahl zunächst nur Teil des Formularentwurfs. Erst „Übernehmen“ im Signal-Editor speichert sie. Abbrechen lässt die ursprünglichen Daten stehen. Stereo-Zuordnungen werden vollständig geprüft und gemeinsam übernommen; belegte Buchsen werden nicht automatisch überschrieben.
+Eine belegte Buchse zeigt ihre Verbindung mit „Anderes Signal“, „Andere Buchse“, „Signal bearbeiten“ und „Trennen“. Beim Anschließen auf eine belegte Buchse erscheinen direkt die betroffenen Signale und die Aktionen „Andere Buchse“, „Ersetzen“ und – für gleich große, vollständig verbundene Gruppen – „Verbindungen tauschen“. Ersetzen trennt ein betroffenes Stereopaar vollständig. Es gibt keine zusätzliche Bestätigungskette. Kapazität und Anschlussart werden beim endgültigen Klick erneut geprüft.
+
+Beim Anschließen aus dem Signal-Editor werden dessen sichtbare Änderungen gemeinsam mit der Verbindung gespeichert. Der Hinweis im Anschlussfenster erklärt dies vor der Auswahl. Es folgt kein zweiter Übernehmen-Schritt. Ungültige Angaben führen zurück ins unverändert erhaltene Formular; das Projekt wird dabei nicht teilweise geändert.
+
+Bei Instrumenten mit mehreren Signalen bietet die Auswahl eine gemeinsame Zuordnung der noch freien Kanäle an. Vor dem Anschließen zeigt sie jeden Kanal mit der vorgeschlagenen Buchse. Bereits verbundene Kanäle bleiben an ihrem Platz; Stereo wird nicht aufgeteilt und vorhandene Ports werden nicht überschrieben.
+
+Die Stagebox-Belegung zeigt eine per Bildkarte gewählte Stagebox mit großen Buchsen und lesbaren Signal-/Kanalbeschriftungen. Die Arbeitsfläche bleibt stabil; Geräteeinstellungen öffnen ausdrücklich in einem eigenen Fenster. Am Handy öffnet die Verbindungsauswahl vom unteren Rand. Instrument und Ziel bleiben oben sichtbar, die Tastatur erscheint erst beim Antippen der Suche. Die lokalen Datenformate und der Offline-Betrieb bleiben erhalten.
 
 ## Originalfotos
 
