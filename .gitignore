@@ -11,3 +11,4 @@ __pycache__/
 *.stageplot.json
 *.stageplot-drums.json
 npm-debug.log*
+test-results/

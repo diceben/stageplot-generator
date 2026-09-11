@@ -10,6 +10,10 @@ Die mobile Baustein-Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren B
 
 Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
+## Entwicklung und Prüfungen
+
+`npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 38 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
+
 ## Funktionen
 
 - **Projektübersicht am Handy:** „Projekt hinzufügen“ steht direkt oben vor Suche und Projekten. Kompakte Karten zeigen Vorschau und Namen nebeneinander; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Öffnen, Projektdaten, Teilen, Sicherung und Löschen sind direkt erreichbar.

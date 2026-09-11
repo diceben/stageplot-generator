@@ -107,26 +107,7 @@
 <div id="sp-prototype" data-booting aria-busy="true" inert lang="de" data-library-collapsed="false" data-inspector-collapsed="false" data-canvas-focus="false" data-inspector-tab="properties">
   <header class="sp-header">
     <button type="button" class="sp-brand" data-view="dashboard" aria-label="Stageplot · Projekte"><img class="sp-brand-logo" id="sp-brand-logo" src="./stageplot-assets/branding/stageplotter-header-standard-v4.png" data-logo-free="./stageplot-assets/branding/stageplotter-header-standard-v4.png" data-logo-pro="./stageplot-assets/branding/stageplotter-header-pro-v3.png" alt="Stageplotter"><span class="sp-brand-fallback" id="sp-brand-fallback" hidden><svg class="sp-brandmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8 14 3 25 8v13L14 26 3 21ZM3 8l11 6 11-6M14 14v12M3 21l11-7 11 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="sp-brand-word"><span class="sp-brand-name">STAGEPLOT</span><span class="sp-pro-flag" aria-hidden="true">Pro</span></span></span></button>
-    <details id="sp-file-menu" class="sp-file-menu" hidden>
-      <summary>Datei <span aria-hidden="true">⌄</span></summary>
-      <div class="sp-file-panel" aria-label="Datei-Aktionen">
-        <button type="button" id="sp-file-save" aria-keyshortcuts="Meta+s Control+s"><span>Jetzt lokal sichern</span><small aria-hidden="true">⌘ / Ctrl S</small></button>
-        <button type="button" id="sp-file-save-as" aria-keyshortcuts="Meta+Shift+s Control+Shift+s"><span>Projekt duplizieren</span><small aria-hidden="true">⇧ ⌘ / Ctrl S</small></button>
-        <button type="button" id="sp-setups-open">Projekte öffnen …</button>
-        <button type="button" id="sp-setup-download">Sicherung herunterladen</button>
-        <button type="button" id="sp-setup-upload">Projekt importieren …</button>
-        <input id="sp-setup-file" type="file" accept="application/json,.json,.stageplot.json" hidden>
-        <hr>
-        <button type="button" id="sp-settings-open">App-Einstellungen …</button>
-        <div data-editor-actions>
-          <hr>
-          <button type="button" id="sp-edit-stage">Bühne bearbeiten …</button>
-          <button type="button" id="sp-edit-iem" aria-label="IEM-Bereich bearbeiten">IEM-Bereich bearbeiten</button>
-          <button type="button" id="sp-clear-stage" class="sp-danger">Bühne leeren …</button>
-        </div>
-        <p>Projekte werden lokal in diesem Browser gespeichert.</p>
-      </div>
-    </details>
+    <input id="sp-setup-file" type="file" accept="application/json,.json,.stageplot.json" hidden>
     <nav aria-label="Projektbereiche"><ol class="sp-steps">
       <li class="sp-nav-active-pill" aria-hidden="true"></li>
       <li class="sp-nav-hover-bar" aria-hidden="true"></li>
@@ -430,7 +411,7 @@
   </section>
 
   <section id="sp-routing" class="sp-routing" hidden>
-    <div class="sp-page-heading sp-routing-heading"><div><h1>Routing</h1><p id="sp-routing-summary">0 Inputs · 0 Outputs</p></div><div class="sp-page-actions"><button class="sp-button sp-iconbutton" type="button" id="sp-audio-undo" aria-label="Audio-Änderung rückgängig" title="Rückgängig" disabled>↶</button><button class="sp-button sp-iconbutton" type="button" id="sp-audio-redo" aria-label="Audio-Änderung wiederholen" title="Wiederholen" disabled>↷</button><button class="sp-button" type="button" id="sp-routing-sync" hidden>Signale automatisch aktuell</button><button class="sp-button sp-primary" type="button" id="sp-routing-auto">Freie Stagebox-Ports zuordnen</button><button class="sp-button sp-mobile-routing-only" type="button" id="sp-routing-tools-open" aria-haspopup="dialog" aria-controls="sp-routing-tools">Aktionen</button></div></div>
+    <div class="sp-page-heading sp-routing-heading"><div><h1>Routing</h1><p id="sp-routing-summary">0 Inputs · 0 Outputs</p></div><div class="sp-page-actions"><button class="sp-button sp-iconbutton" type="button" id="sp-audio-undo" aria-label="Audio-Änderung rückgängig" title="Rückgängig" disabled>↶</button><button class="sp-button sp-iconbutton" type="button" id="sp-audio-redo" aria-label="Audio-Änderung wiederholen" title="Wiederholen" disabled>↷</button><button class="sp-button sp-primary" type="button" id="sp-routing-auto">Freie Stagebox-Ports zuordnen</button><button class="sp-button sp-mobile-routing-only" type="button" id="sp-routing-tools-open" aria-haspopup="dialog" aria-controls="sp-routing-tools">Aktionen</button></div></div>
     <div class="sp-routing-toolbar">
       <div id="sp-routing-tabs" class="sp-routing-tabs" role="tablist" aria-label="Audio-Ansichten"><button type="button" id="sp-input-tab" role="tab" aria-selected="true" data-routing-tab="inputs">Inputs <span id="sp-input-count">0</span></button><button type="button" id="sp-output-tab" role="tab" aria-selected="false" data-routing-tab="outputs"><b class="sp-routing-tab-label" data-short="Outputs">Outputs &amp; Monitore</b> <span id="sp-output-count">0</span></button><button type="button" id="sp-stagebox-tab" role="tab" aria-selected="false" data-routing-tab="stageboxes"><b class="sp-routing-tab-label" data-short="Stageboxen">Stagebox-Belegung</b> <span id="sp-stagebox-count">0</span></button></div>
       <div class="sp-routing-actions"><button class="sp-button" type="button" id="sp-audio-number">Freie Kanäle nummerieren</button><button class="sp-button" type="button" id="sp-routing-add">+ Signal</button><button class="sp-button" type="button" id="sp-routing-pdf">PDF / Drucken</button><button class="sp-button" type="button" id="sp-audio-more" aria-expanded="false" aria-controls="sp-audio-more-actions">Weitere Aktionen</button></div><div id="sp-audio-more-actions" class="sp-routing-actions" hidden><button class="sp-button" type="button" id="sp-routing-csv-import">CSV importieren</button><input id="sp-routing-csv-file" type="file" accept="text/csv,.csv" hidden><button class="sp-button" type="button" id="sp-routing-csv">CSV exportieren</button><button class="sp-button" type="button" id="sp-routing-xlsx">XLSX <span class="sp-pro-badge">PRO</span></button><button class="sp-button sp-danger-quiet" type="button" id="sp-routing-reset">Routing zurücksetzen</button></div>
@@ -478,7 +459,7 @@
         <label class="sp-field">Details zur Übergabe<input id="sp-handover-notes" maxlength="120" placeholder="z. B. L/R, Kabel stellt Venue"></label>
         <div><strong>FOH-Platz</strong><p class="sp-muted">Den FOH-Platz im Bausteinkatalog unter Technik platzieren. Dort Größe, Strom, Tisch, Absperrung und Wetterschutz festlegen.</p><button type="button" class="sp-button" id="sp-add-foh">FOH-Platz vor der Bühne ergänzen</button></div>
       </div></section>
-      <div class="sp-actions sp-project-dialog-actions"><span class="sp-autosave-hint">Änderungen werden automatisch lokal gespeichert.</span><button class="sp-button" type="button" id="sp-project-export">Sicherung herunterladen</button><button class="sp-button" type="button" id="sp-project-saveas">Projekt duplizieren</button><button class="sp-button sp-primary" type="button" id="sp-project-cancel">Zurück zum Bühnenplan</button></div>
+      <div class="sp-actions sp-project-dialog-actions"><span class="sp-autosave-hint">Änderungen werden automatisch lokal gespeichert.</span><button class="sp-button" type="button" id="sp-project-export">Sicherung herunterladen</button><button class="sp-button" type="button" id="sp-project-saveas" aria-keyshortcuts="Meta+Shift+s Control+Shift+s">Projekt duplizieren</button><button class="sp-button sp-primary" type="button" id="sp-project-cancel">Zurück zum Bühnenplan</button></div>
     </form>
   </section>
 
@@ -715,6 +696,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
+              <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
               <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Kompakte Karten zeigen Vorschau neben dem Namen; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Ruhige Flächen und klare Aktionen ersetzen die gestrichelten Rahmen.</li>
               <li><strong>Routing am Handy:</strong> Kompakte Tabs, Suche und Kanalkarten geben der Liste mehr Platz. „+ Signal“ bleibt direkt erreichbar; Nummerierung, automatische Zuordnung, Rückgängig und Export sind unter „Aktionen“ gebündelt. Kanal, Instrument, Mikrofon und Stagebox-Anschluss stehen zusammen in jeder Karte.</li>
               <li><strong>Mit zwei Fingern drehen:</strong> Eine Geste direkt am Objekt dreht es stufenlos; eine Mehrfachauswahl dreht sich gemeinsam. Instrumentgrößen und Abstände bleiben erhalten. Podeste, FOH, Treppen und Rampen lassen sich zusätzlich in 10-cm-Schritten skalieren. Freie Bühnenfläche bleibt zum Zoomen und Verschieben. Jede Geste lässt sich mit einem Schritt rückgängig machen.</li>
@@ -1308,7 +1290,6 @@
   }
 
   #sp-prototype .sp-header-actions { gap:8px; }
-  #sp-prototype #sp-setups-open { color:#f0f3eb; border-color:#535b52; background:transparent; }
   #sp-prototype #sp-lock { min-width:29px; }
   #sp-prototype #sp-lock[aria-pressed="true"] { background:var(--sp-lime); color:var(--sp-on-accent); }
   /* Locked artwork stays visible, but leaves pointer hit-testing to the layers beneath it. */
@@ -1360,8 +1341,6 @@
   #sp-prototype .sp-header .sp-primary:hover { background:#d3ff57; }
   #sp-prototype .sp-header .sp-iconbutton { font-size:20px; min-width:29px; }
   #sp-prototype .sp-header .sp-button svg { width:17px; height:17px; }
-  #sp-prototype #sp-setups-open { border-color:#535b52; margin-right:3px; }
-  #sp-prototype #sp-clear-stage { color:#e7b5b0; }
   #sp-prototype .sp-canvas-toolbar { order:0; padding:0; margin:0; border:0; background:transparent; gap:6px; }
   #sp-prototype .sp-toolbar-group { gap:2px; }
   #sp-prototype .sp-toolbar-group + .sp-toolbar-group { padding-left:6px; }
@@ -1498,18 +1477,6 @@
   #sp-prototype .sp-steps button span { display:inline-grid; place-items:center; width:18px; height:18px; margin-right:5px; border:1px solid #535b52; border-radius:50%; font-size:11px; }
   #sp-prototype .sp-steps [aria-current] button span { border-color:var(--sp-lime); background:var(--sp-lime); color:var(--sp-on-accent); }
   #sp-prototype .sp-project-summary { order:0; margin-left:auto; flex:0 1 260px; min-width:0; max-width:260px; padding:0 0 0 12px; }
-  #sp-prototype .sp-file-menu { position:relative; flex-shrink:0; color:#edf0e9; font-size:12px; }
-  #sp-prototype .sp-file-menu summary { display:flex; align-items:center; gap:9px; list-style:none; cursor:pointer; padding:8px; border-radius:5px; }
-  #sp-prototype .sp-file-menu summary::-webkit-details-marker { display:none; }
-  #sp-prototype .sp-file-menu[open] summary, #sp-prototype .sp-file-menu summary:hover { background:#343b35; }
-  #sp-prototype .sp-file-panel { position:absolute; left:0; top:calc(100% + 6px); z-index:80; width:250px; max-width:calc(100vw - 32px); padding:5px; color:#edf0e9; background:#252a27; border:1px solid #495148; border-radius:7px; box-shadow:0 8px 24px #0003; }
-  #sp-prototype .sp-file-panel button { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; min-height:35px; padding:7px 9px; border:0; border-radius:4px; background:transparent; color:inherit; text-align:left; font-size:12px; }
-  #sp-prototype .sp-file-panel button:hover { background:#3c443a; }
-  #sp-prototype .sp-file-panel button:disabled { opacity:.45; cursor:not-allowed; }
-  #sp-prototype .sp-file-panel button.sp-danger { color:#efaaa2; }
-  #sp-prototype .sp-file-panel small { color:#b8c0b5; font-size:11px; white-space:nowrap; }
-  #sp-prototype .sp-file-panel hr { border:0; border-top:1px solid #495148; margin:5px; }
-  #sp-prototype .sp-file-panel p { padding:7px 9px; margin:0; color:#b8c0b5; font-size:11px; line-height:1.4; }
   #sp-prototype #sp-canvas-tools { order:1; flex:0 0 auto; padding:5px 7px; gap:4px 6px; border-top:1px solid var(--sp-line); background:var(--sp-panel); color:var(--sp-ink); }
   #sp-prototype #sp-canvas-tools .sp-button[aria-pressed="true"] { color:var(--sp-teal); background:var(--sp-accent-bg); }
   #sp-prototype #sp-canvas-tools svg { width:17px; height:17px; }
@@ -1543,7 +1510,6 @@
     #sp-prototype .sp-header { gap:7px; padding:0 8px; }
     #sp-prototype .sp-steps button { padding:0 9px; }
     #sp-prototype .sp-project-summary { padding-left:8px; }
-    #sp-prototype .sp-file-panel { left:-30px; }
   }
   @container sp-frame (max-width:580px) {
     #sp-prototype .sp-header { min-height:43px; gap:4px; padding:0 5px; }
@@ -1553,7 +1519,6 @@
     #sp-prototype .sp-steps { justify-content:flex-end; gap:0; }
     #sp-prototype .sp-steps button { padding:0 8px; min-height:43px; font-size:12px; }
     #sp-prototype .sp-steps button span { display:none; }
-    #sp-prototype .sp-file-panel { left:0; }
     #sp-prototype .sp-print-toolbar { padding:6px 8px; }
     #sp-prototype .sp-preview-title { flex-basis:100%; }
     #sp-prototype .sp-preview-options { width:100%; justify-content:space-between; }
@@ -1563,7 +1528,7 @@
     #sp-prototype .sp-print-legend { margin-top:5px; }
   }
   @media (pointer:coarse) {
-    #sp-prototype .sp-file-menu summary, #sp-prototype .sp-file-panel button, #sp-prototype .sp-steps button, #sp-prototype .sp-preview-options .sp-button { min-height:44px; }
+    #sp-prototype .sp-steps button, #sp-prototype .sp-preview-options .sp-button { min-height:44px; }
     #sp-prototype .sp-settings-dialog .sp-check, #sp-prototype .sp-preview-options .sp-check { min-height:44px; }
   }
   /* Fullscreen drum workbench: the reference rendering translated to an offline tool. */
@@ -3122,7 +3087,7 @@
 #sp-prototype .sp-document-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3mm; margin-top:5mm; }
 #sp-prototype .sp-document-field { padding:3mm; background:#f2f2ef; }
 #sp-prototype .sp-document-field span { display:block; color:#666; font-size:7pt; text-transform:uppercase; }
-#sp-prototype[data-readonly="true"] :is(#sp-file-menu,[data-editor-actions],#sp-project-new,#sp-project-import,#sp-project-save,#sp-project-apply,#sp-routing-auto,#sp-routing-sync,#sp-routing-add,#sp-routing-reset,.sp-object-rotate,.sp-drum-hover-open,.sp-stagebox-hover-open) { display:none !important; }
+#sp-prototype[data-readonly="true"] :is([data-editor-actions],#sp-project-new,#sp-project-import,#sp-project-save,#sp-project-apply,#sp-routing-auto,#sp-routing-add,#sp-routing-reset,.sp-object-rotate,.sp-drum-hover-open,.sp-stagebox-hover-open) { display:none !important; }
 #sp-prototype[data-readonly="true"] :is(#sp-library,#sp-library-open,[data-route-edit],#sp-routing-xlsx,#sp-routing-csv,#sp-routing-pdf) { display:none !important; }
 #sp-prototype[data-readonly="true"] #sp-editor-floor .sp-object { pointer-events:none !important; }
 #sp-prototype[data-readonly="true"] .sp-header-status::after { content:"Nur Ansicht"; color:#c2f52e; font-size:10px; }
@@ -4251,7 +4216,6 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-view-buttons button { display:flex; align-items:center; justify-content:center; gap:7px; }
 #sp-prototype .sp-stagebox-view-buttons svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; }
 #sp-prototype .sp-stagebox-workbench-body { min-width:0; display:grid; grid-template-columns:minmax(0,1fr); }
-#sp-prototype .sp-stagebox-workbench-body[data-has-details="true"] { grid-template-columns:minmax(0,1fr) 330px; }
 #sp-prototype .sp-stagebox-patch-canvas { position:relative; min-width:0; display:grid; align-content:start; gap:14px; grid-auto-rows:max-content; padding:16px; }
 #sp-prototype .sp-stagebox-card-list { min-width:0; display:grid; grid-template-columns:1fr; gap:14px; }
 #sp-prototype .sp-stagebox-card-list[data-view-mode="list"] { gap:8px; }
@@ -4295,63 +4259,10 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-unpatched[data-complete="true"] > strong { background:#124337; color:#69e2b7; }
 #sp-prototype .sp-stagebox-unpatched span { display:grid; gap:2px; color:inherit; font-size:8px; }
 #sp-prototype .sp-stagebox-unpatched span b { color:inherit; font-size:10px; }
-#sp-prototype .sp-stagebox-source-panel { position:absolute; z-index:8; top:48px; left:50%; width:min(900px,calc(100% - 28px)); height:min(600px,calc(100% - 70px)); max-height:min(620px,calc(100% - 70px)); display:flex; flex-direction:column; overflow:hidden; transform:translateX(-50%); border:1px solid #394657; border-radius:12px; background:rgb(16 27 40 / 98%); box-shadow:0 22px 60px #000b,0 0 0 1px rgb(255 255 255 / 3%) inset; }
-#sp-prototype .sp-stagebox-source-head { display:flex; align-items:start; justify-content:space-between; gap:10px; padding:14px 15px 10px; }
-#sp-prototype .sp-stagebox-source-head span { color:#aab4c0; font-size:9px; }
-#sp-prototype .sp-stagebox-source-head h3 { margin:4px 0 0; color:#f0f3f7; font-size:14px; }
-#sp-prototype .sp-stagebox-source-close,#sp-prototype .sp-stagebox-close-button { display:grid; width:30px; height:30px; flex:0 0 30px; place-items:center; border:0; border-radius:6px; background:transparent; color:#909ba8; font-size:22px; cursor:pointer; }
-#sp-prototype .sp-stagebox-source-close:hover,#sp-prototype .sp-stagebox-close-button:hover { background:#1b2836; color:#fff; }
-#sp-prototype .sp-stagebox-source-search { display:grid; grid-template-columns:17px minmax(0,1fr); align-items:center; gap:7px; margin:0 15px 9px; padding:8px 9px; border:1px solid #263444; border-radius:7px; background:#0c1723; }
-#sp-prototype .sp-stagebox-source-search:focus-within { border-color:#9c59dd; box-shadow:0 0 0 2px rgb(156 89 221 / 13%); }
-#sp-prototype .sp-stagebox-source-search svg { width:16px; fill:none; stroke:#748191; stroke-width:1.6; }
-#sp-prototype .sp-stagebox-source-search input { width:100%; min-width:0; padding:0; border:0; outline:0; background:transparent; color:#edf1f6; font-size:10px; }
-#sp-prototype .sp-stagebox-source-list { min-height:0; flex:1 1 auto; display:grid; align-content:start; gap:8px; overflow:auto; margin:0 8px; padding:7px; border:1px solid #22303e; border-radius:7px; background:#0b1621; }
-#sp-prototype .sp-stagebox-source-option { width:100%; min-height:54px; display:grid; grid-template-columns:36px minmax(0,1fr) auto; align-items:center; gap:10px; padding:8px 11px; border:0; border-bottom:1px solid #202c39; background:#101c29; color:#e7ebf1; text-align:left; cursor:pointer; }
-#sp-prototype .sp-stagebox-source-option:last-child { border-bottom:0; }
-#sp-prototype .sp-stagebox-source-option:hover { background:#162434; }
-#sp-prototype .sp-stagebox-source-option[aria-pressed="true"] { background:#201633; box-shadow:inset 3px 0 #ad67ef; }
-#sp-prototype .sp-stagebox-source-free { border:1px solid #293747; border-radius:7px; }
-#sp-prototype .sp-stagebox-source-groups { display:grid; gap:8px; }
-#sp-prototype .sp-stagebox-source-group { overflow:hidden; border:1px solid #263442; border-radius:8px; background:#0e1a26; }
-#sp-prototype .sp-stagebox-source-group > header { min-height:34px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:7px 10px; border-bottom:1px solid #263442; background:#132130; color:#dce3eb; }
-#sp-prototype .sp-stagebox-source-group > header strong { overflow:hidden; font-size:13px; text-overflow:ellipsis; white-space:nowrap; }
-#sp-prototype .sp-stagebox-source-group > header span { color:#8492a1; font-size:11px; white-space:nowrap; }
-#sp-prototype .sp-stagebox-source-group-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#263442; }
-#sp-prototype .sp-stagebox-source-group-options .sp-stagebox-source-option { min-width:0; border:0; }
-#sp-prototype .sp-stagebox-source-icon { display:grid; width:31px; height:31px; place-items:center; border:1px solid #6737a0; border-radius:6px; background:#25143b; color:#c788ff; font-size:15px; }
-#sp-prototype .sp-stagebox-source-copy { min-width:0; display:grid; gap:2px; }
-#sp-prototype .sp-stagebox-source-copy strong { overflow:hidden; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
-#sp-prototype .sp-stagebox-source-copy small { color:#84909f; font-size:8px; }
-#sp-prototype .sp-stagebox-source-status { max-width:116px; color:#82909e; font-size:8px; text-align:right; }
-#sp-prototype .sp-stagebox-source-status[data-status="used"] { color:#f09a5d; }
-#sp-prototype .sp-stagebox-source-check { color:#b96cff; font-size:16px; }
-#sp-prototype .sp-stagebox-source-empty { padding:22px 12px; color:#7f8b99; font-size:9px; text-align:center; }
-#sp-prototype .sp-stagebox-patch-warning { min-height:0; margin:9px 15px 0; color:#99a5b2; font-size:9px; line-height:1.4; }
-#sp-prototype .sp-stagebox-patch-warning[data-warning="true"] { padding:8px 9px; border:1px solid #6a4b25; border-radius:7px; background:#2a1d12; color:#efbd78; }
-#sp-prototype .sp-stagebox-source-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 15px 12px; }
-#sp-prototype .sp-stagebox-source-actions > span { color:#82909e; font-size:10px; line-height:1.3; }
-#sp-prototype .sp-stagebox-source-actions button { min-height:31px; padding:0 11px; border:1px solid #334253; border-radius:6px; background:#121f2d; color:#dbe1e9; font:750 9px/1 inherit; cursor:pointer; }
-#sp-prototype .sp-stagebox-source-actions button:disabled { opacity:.42; cursor:not-allowed; }
-#sp-prototype .sp-stagebox-channel-details { min-width:0; display:flex; flex-direction:column; border-left:1px solid #24313e; background:linear-gradient(180deg,#0d1824,#09131e); }
-#sp-prototype .sp-stagebox-detail-head { display:flex; align-items:start; justify-content:space-between; gap:9px; min-height:68px; padding:17px 16px 12px; border-bottom:1px solid #202c39; }
-#sp-prototype .sp-stagebox-detail-head h3 { margin:0; color:#edf1f6; font-size:13px; }
-#sp-prototype .sp-stagebox-detail-head small { display:block; margin-top:4px; color:#788593; font-size:8px; }
-#sp-prototype .sp-stagebox-detail-summary { display:grid; grid-template-columns:40px minmax(0,1fr) auto; align-items:center; gap:10px; padding:16px; }
-#sp-prototype .sp-stagebox-detail-summary .sp-stagebox-source-icon { width:38px; height:38px; font-size:18px; }
-#sp-prototype .sp-stagebox-detail-summary strong { display:block; color:#f0f3f7; font-size:13px; }
-#sp-prototype .sp-stagebox-detail-summary small { color:#7f8b99; font-size:9px; }
-#sp-prototype .sp-stagebox-detail-active { display:flex; align-items:center; gap:5px; color:#6cdeb8; font-size:8px; }
-#sp-prototype .sp-stagebox-detail-active::before { width:7px; height:7px; border-radius:50%; background:#4bd8a7; content:""; }
-#sp-prototype .sp-stagebox-detail-tabs { display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid #202c39; }
-#sp-prototype .sp-stagebox-detail-tabs button { min-height:42px; border:0; border-bottom:2px solid transparent; background:transparent; color:#838f9d; font:800 8px/1 inherit; letter-spacing:.06em; cursor:pointer; }
-#sp-prototype .sp-stagebox-detail-tabs button[aria-selected="true"] { border-bottom-color:#ad68ee; color:#bf81fa; }
-#sp-prototype .sp-stagebox-detail-content { min-height:0; flex:1; display:grid; align-content:start; gap:10px; overflow:auto; padding:13px 16px; }
+#sp-prototype .sp-stagebox-close-button { display:grid; width:30px; height:30px; flex:0 0 30px; place-items:center; border:0; border-radius:6px; background:transparent; color:#909ba8; font-size:22px; cursor:pointer; }
+#sp-prototype .sp-stagebox-close-button:hover { background:#1b2836; color:#fff; }
 #sp-prototype .sp-stagebox-detail-card { padding:12px; border:1px solid #22303e; border-radius:7px; background:#0d1925; }
 #sp-prototype .sp-stagebox-detail-card h4 { margin:0 0 10px; color:#cbd3dc; font-size:10px; }
-#sp-prototype .sp-stagebox-detail-current { display:grid; grid-template-columns:30px minmax(0,1fr) auto; align-items:center; gap:8px; padding:9px; border:1px solid #293746; border-radius:6px; background:#111e2b; }
-#sp-prototype .sp-stagebox-detail-current strong { color:#edf1f6; font-size:9px; }
-#sp-prototype .sp-stagebox-detail-current small { color:#788593; font-size:8px; }
-#sp-prototype .sp-stagebox-detail-current button { min-height:28px; padding:0 8px; border:1px solid #334252; border-radius:5px; background:#142230; color:#d7dde5; font-size:8px; cursor:pointer; }
 #sp-prototype .sp-stagebox-signal-list { display:grid; gap:0; }
 #sp-prototype .sp-stagebox-signal-list div { display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid #1f2b37; color:#7d8997; font-size:8px; }
 #sp-prototype .sp-stagebox-signal-list div:last-child { border-bottom:0; }
@@ -4387,9 +4298,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench { height:100%; min-height:0; display:flex; flex-direction:column; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-toolbar { flex:0 0 auto; }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-body { min-height:0; flex:1 1 auto; overflow:hidden; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-body[data-has-details="true"] { grid-template-columns:minmax(0,1fr) clamp(350px,27vw,470px); }
 #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-patch-canvas { min-height:0; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
-#sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-channel-details { min-height:0; overflow:hidden; }
 /* Stagebox-Typografie ist bewusst groß genug für schnelles Lesen auf Distanz. */
 #sp-prototype .sp-stagebox-card p { font-size:12px; }
 #sp-prototype .sp-stagebox-card h2 { font-size:19px; }
@@ -4400,19 +4309,9 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-ports button[data-used="true"] .sp-stagebox-port-name { font-size:12px; }
 #sp-prototype .sp-stagebox-unpatched span { font-size:12px; }
 #sp-prototype .sp-stagebox-unpatched span b { font-size:14px; }
-#sp-prototype .sp-stagebox-source-head span,#sp-prototype .sp-stagebox-source-copy small,#sp-prototype .sp-stagebox-source-status { font-size:12px; }
-#sp-prototype .sp-stagebox-source-head h3 { font-size:19px; }
-#sp-prototype .sp-stagebox-source-search { padding:12px; }
-#sp-prototype .sp-stagebox-source-search input,#sp-prototype .sp-stagebox-source-copy strong { font-size:14px; }
-#sp-prototype .sp-stagebox-source-option { min-height:64px; }
-#sp-prototype .sp-stagebox-source-empty,#sp-prototype .sp-stagebox-patch-warning,#sp-prototype .sp-stagebox-source-actions button { font-size:13px; }
-#sp-prototype .sp-stagebox-source-actions > span { font-size:12px; }
-#sp-prototype .sp-stagebox-detail-head h3 { font-size:18px; }
-#sp-prototype .sp-stagebox-detail-head small,#sp-prototype .sp-stagebox-detail-summary small,#sp-prototype .sp-stagebox-detail-current small { font-size:12px; }
-#sp-prototype .sp-stagebox-detail-summary strong { font-size:18px; }
-#sp-prototype .sp-stagebox-detail-tabs button,#sp-prototype .sp-stagebox-detail-active,#sp-prototype .sp-stagebox-rename-form .sp-field,#sp-prototype .sp-stagebox-rename-form button,#sp-prototype .sp-stagebox-combo-switch strong { font-size:12px; }
+#sp-prototype .sp-stagebox-rename-form .sp-field,#sp-prototype .sp-stagebox-rename-form button,#sp-prototype .sp-stagebox-combo-switch strong { font-size:12px; }
 #sp-prototype .sp-stagebox-detail-card h4 { font-size:14px; }
-#sp-prototype .sp-stagebox-detail-card p,#sp-prototype .sp-stagebox-detail-current strong,#sp-prototype .sp-stagebox-detail-current button { font-size:13px; }
+#sp-prototype .sp-stagebox-detail-card p{ font-size:13px; }
 #sp-prototype .sp-stagebox-signal-list div { font-size:12px; }
 #sp-prototype .sp-stagebox-combo-switch small { font-size:11px; }
 #sp-prototype .sp-stagebox-clear-assignment { font-size:12px; }
@@ -4430,33 +4329,10 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-workbench-toolbar { border-color:var(--sp-sb-line); background:light-dark(#fff,#0b1621); }
 #sp-prototype .sp-stagebox-unpatched { border-color:light-dark(#dcc58d,#5a4929); background:light-dark(#fff7e5,#201b13); color:light-dark(#765817,#e1bd70); }
 #sp-prototype .sp-stagebox-unpatched[data-complete="true"] { border-color:light-dark(#8ecab5,#245947); background:light-dark(#eaf8f2,#0d211e); color:light-dark(#17684f,#72ddb9); }
-#sp-prototype .sp-stagebox-source-panel { border-color:var(--sp-sb-line); background:light-dark(rgb(255 255 255 / 99%),rgb(16 27 40 / 98%)); color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-source-head span,#sp-prototype .sp-stagebox-source-copy small,#sp-prototype .sp-stagebox-source-status,#sp-prototype .sp-stagebox-source-actions > span { color:var(--sp-sb-muted); }
-#sp-prototype .sp-stagebox-source-head h3 { color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-source-close,#sp-prototype .sp-stagebox-close-button { color:var(--sp-sb-muted); }
-#sp-prototype .sp-stagebox-source-close:hover,#sp-prototype .sp-stagebox-close-button:hover { background:var(--sp-sb-soft); color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-source-search { border-color:var(--sp-sb-line); background:var(--sp-sb-soft); }
-#sp-prototype .sp-stagebox-source-search input { color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-source-list { border-color:var(--sp-sb-line); background:var(--sp-sb-soft); }
-#sp-prototype .sp-stagebox-source-free,#sp-prototype .sp-stagebox-source-group { border-color:var(--sp-sb-line); }
-#sp-prototype .sp-stagebox-source-group { background:var(--sp-sb-panel); }
-#sp-prototype .sp-stagebox-source-group > header { border-color:var(--sp-sb-line); background:light-dark(#e9ece7,#132130); color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-source-group > header span { color:var(--sp-sb-muted); }
-#sp-prototype .sp-stagebox-source-group-options { background:var(--sp-sb-line); }
-#sp-prototype .sp-stagebox-source-option { background:var(--sp-sb-panel); color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-source-option:hover { background:light-dark(#f7eef4,#162434); }
-#sp-prototype .sp-stagebox-source-option[aria-pressed="true"] { background:light-dark(#f9e8f2,#201633); box-shadow:inset 3px 0 #d83282; }
-#sp-prototype .sp-stagebox-source-actions button { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-channel-details { border-color:var(--sp-sb-line); background:light-dark(#f8f9f7,#0d1824); color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-detail-head,#sp-prototype .sp-stagebox-detail-tabs { border-color:var(--sp-sb-line); }
-#sp-prototype .sp-stagebox-detail-head h3,#sp-prototype .sp-stagebox-detail-summary strong { color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-detail-head small,#sp-prototype .sp-stagebox-detail-summary small,#sp-prototype .sp-stagebox-detail-current small { color:var(--sp-sb-muted); }
-#sp-prototype .sp-stagebox-detail-tabs button { color:var(--sp-sb-muted); }
+#sp-prototype .sp-stagebox-close-button { color:var(--sp-sb-muted); }
+#sp-prototype .sp-stagebox-close-button:hover { background:var(--sp-sb-soft); color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-detail-card { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); }
 #sp-prototype .sp-stagebox-detail-card h4 { color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-detail-current { border-color:var(--sp-sb-line); background:var(--sp-sb-soft); }
-#sp-prototype .sp-stagebox-detail-current strong { color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-detail-current button { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-signal-list div { border-color:var(--sp-sb-line); color:var(--sp-sb-muted); }
 #sp-prototype .sp-stagebox-signal-list b { color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-rename-form .sp-field { color:var(--sp-sb-muted); }
@@ -4465,10 +4341,10 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-combo-switch { border-color:var(--sp-sb-line); background:var(--sp-sb-panel); color:var(--sp-sb-ink); }
 #sp-prototype .sp-stagebox-combo-switch small { color:var(--sp-sb-muted); }
 #sp-prototype .sp-stagebox-clear-assignment { background:light-dark(#fff1f4,#1e141b); }
-#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas,.sp-stagebox-detail-content,.sp-stagebox-source-list) { scrollbar-width:thin; scrollbar-color:light-dark(#9ba39a,#425166) light-dark(#edf0eb,#0a1520); }
-#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas,.sp-stagebox-detail-content,.sp-stagebox-source-list)::-webkit-scrollbar { width:8px; height:8px; }
-#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas,.sp-stagebox-detail-content,.sp-stagebox-source-list)::-webkit-scrollbar-track { background:light-dark(#edf0eb,#0a1520); }
-#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas,.sp-stagebox-detail-content,.sp-stagebox-source-list)::-webkit-scrollbar-thumb { border:2px solid light-dark(#edf0eb,#0a1520); border-radius:999px; background:light-dark(#9ba39a,#425166); }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas) { scrollbar-width:thin; scrollbar-color:light-dark(#9ba39a,#425166) light-dark(#edf0eb,#0a1520); }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas)::-webkit-scrollbar { width:8px; height:8px; }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas)::-webkit-scrollbar-track { background:light-dark(#edf0eb,#0a1520); }
+#sp-prototype :is(.sp-stagebox-view,.sp-stagebox-patch-canvas)::-webkit-scrollbar-thumb { border:2px solid light-dark(#edf0eb,#0a1520); border-radius:999px; background:light-dark(#9ba39a,#425166); }
 @container sp-frame (max-width:620px) {
   #sp-prototype .sp-stairs-popover { min-width:224px; grid-template-columns:1fr 1fr; }
   #sp-prototype .sp-stairs-popover > div { grid-column:1/-1; justify-content:flex-end; }
@@ -4476,13 +4352,9 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-drum-design-load-preview { width:62px; height:52px; }
   #sp-prototype .sp-drum-design-load-card > .sp-danger-quiet { grid-column:3; }
   #sp-prototype .sp-stagebox-workbench-toolbar { align-items:stretch; flex-direction:column; gap:5px; padding:8px; }
-  #sp-prototype .sp-stagebox-workbench-body[data-has-details="true"] { grid-template-columns:1fr; }
   #sp-prototype #sp-routing[data-stagebox-mode="true"] .sp-stagebox-workbench-body { display:block; overflow:auto; }
-  #sp-prototype #sp-routing[data-stagebox-mode="true"] :is(.sp-stagebox-patch-canvas,.sp-stagebox-channel-details,.sp-stagebox-detail-content) { overflow:visible; }
-  #sp-prototype .sp-stagebox-channel-details { border-top:1px solid #24313e; border-left:0; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] :is(.sp-stagebox-patch-canvas) { overflow:visible; }
   #sp-prototype .sp-stagebox-ports { grid-template-columns:repeat(4,minmax(52px,1fr)); }
-  #sp-prototype .sp-stagebox-source-panel { top:74px; max-height:calc(100% - 88px); }
-  #sp-prototype .sp-stagebox-source-group-options { grid-template-columns:1fr; }
   #sp-prototype .sp-pack-hero { grid-template-columns:1fr; }
   #sp-prototype .sp-pack-hero-art { max-width:260px; }
   #sp-prototype .sp-pack-object-list { grid-template-columns:1fr 1fr; }
@@ -5108,7 +4980,6 @@ html,body { height:100%; overflow:hidden; }
 #sp-audio-right-patch:empty { display:none; }
 .sp-routing-table td { vertical-align:middle; }
 .sp-routing-table [data-audio-stereo="true"] td:nth-child(3) { border-left:3px solid #9da897; }
-#sp-routing-sync,[data-stagebox-sync] { display:none!important; }
 @media(max-width:620px){#sp-channel-dialog{width:calc(100vw - 20px);max-height:calc(100dvh - 20px);padding:16px;}#sp-channel-form .sp-channel-top-fields,.sp-audio-patch-fields{grid-template-columns:1fr;}#sp-channel-form .sp-channel-pills button{min-height:42px;}.sp-audio-merge-option{min-height:44px;}}
 .sp-audio-print-table th:first-child,.sp-audio-print-table td:first-child { width:8mm; }
 .sp-audio-print-table small { display:block;font-size:8pt;line-height:1.3; }
@@ -5198,15 +5069,8 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-stagebox-signal-actions { display:grid;gap:8px; }
 #sp-prototype .sp-stagebox-signal-actions .sp-button { min-height:40px;white-space:normal; }
 #sp-prototype .sp-stagebox-device-details summary { padding:12px 0;font-weight:650;cursor:pointer; }
-#sp-prototype .sp-stagebox-source-actions .sp-check { display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sp-sb-ink); }
-#sp-prototype .sp-stagebox-source-actions input { width:18px;height:18px;flex:0 0 auto; }
 #sp-prototype .sp-stagebox-card-menu { width:auto;padding:6px 8px;font-size:12px; }
 #sp-prototype .sp-stagebox-fix-di { margin:8px 15px; }
-#sp-prototype .sp-stagebox-source-status[data-status="warning"] { color:light-dark(#956515,#ffd285); }
-#sp-prototype .sp-stagebox-source-panel { top:16px;height:calc(100% - 32px);max-height:600px; }
-#sp-prototype .sp-stagebox-source-actions { flex-wrap:wrap; }
-#sp-prototype .sp-stagebox-source-option[hidden],#sp-prototype .sp-stagebox-source-group[hidden] { display:none; }
-@container sp-frame (max-width:620px) { #sp-prototype .sp-stagebox-source-panel { top:12px;height:min(580px,calc(100dvh - 210px));max-height:calc(100dvh - 210px); } }
 
 /* Signal workspace: persistent identity, direct choices and one compact patch picker. */
 #sp-prototype #sp-channel-dialog { width:min(960px,calc(100vw - 32px));max-width:960px;height:min(860px,calc(100dvh - 32px));max-height:calc(100dvh - 32px);padding:24px;overflow:hidden;box-sizing:border-box;border-radius:20px; }
@@ -6202,31 +6066,6 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-nav-label::after { content:attr(data-short); font-size:11px; }
   #sp-prototype .sp-header #sp-project-rename-input { font-size:16px; }
 
-  /* A single scrolling project page; beta information follows the actual projects. */
-  #sp-prototype > #sp-dashboard { display:flex; flex-direction:column; overflow:auto; padding:16px 14px 24px; gap:0; }
-  #sp-prototype .sp-dashboard-hero { align-items:stretch; gap:12px; margin-bottom:14px; }
-  #sp-prototype .sp-dashboard-intro { align-items:center; }
-  #sp-prototype .sp-dashboard-intro h1 { margin:0; font-size:27px; }
-  #sp-prototype .sp-dashboard-logo { display:none; }
-  #sp-prototype .sp-dashboard-actions { display:grid; grid-template-columns:minmax(0,1fr) 100px; gap:8px; }
-  #sp-prototype #sp-project-new { display:none; }
-  #sp-prototype .sp-dashboard-actions .sp-button { min-height:44px; font-size:13px; border-radius:12px; }
-  #sp-prototype #sp-project-import { min-height:44px; }
-  #sp-prototype .sp-dashboard-section-head { display:flex; flex-direction:column; align-items:stretch; gap:8px; margin-bottom:12px; }
-  #sp-prototype .sp-dashboard-section-head > div { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
-  #sp-prototype .sp-dashboard-section-head h2 { font-size:13px; font-weight:500; color:var(--sp-muted); }
-  #sp-prototype #sp-project-count { font-size:12px; }
-  #sp-prototype .sp-dashboard-section-head .sp-search { width:100%; min-height:44px; border-radius:12px; }
-  #sp-prototype #sp-project-search { font-size:16px; min-width:0; }
-  #sp-prototype .sp-project-grid { flex:none; grid-template-columns:1fr; gap:12px; overflow:visible; padding:0; }
-  #sp-prototype .sp-project-add-card { min-height:64px; padding:0; border:1px solid var(--sp-teal); border-radius:14px; background:var(--sp-accent-bg); text-align:left; }
-  #sp-prototype .sp-project-add-card button { display:flex; justify-content:flex-start; align-items:center; gap:12px; width:100%; min-width:0; min-height:64px; padding:10px 14px; border-radius:14px; color:var(--sp-ink); }
-  #sp-prototype .sp-project-add-card svg { width:30px; height:30px; flex:none; }
-  #sp-prototype .sp-project-add-card strong { font-size:15px; }
-  #sp-prototype .sp-project-add-card small { font-size:11px; }
-  #sp-prototype .sp-project-card-actions .sp-button { min-height:44px; }
-  #sp-prototype .sp-plan-card { order:4; margin:18px 0 0; padding:12px; box-shadow:none; }
-  #sp-prototype .sp-plan-switch { min-height:44px; }
   #sp-prototype > .sp-footer { flex-wrap:nowrap; min-height:24px; padding:4px 12px; }
   #sp-prototype > .sp-footer > * { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
@@ -6475,24 +6314,30 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-dashboard .sp-project-card-head small { display:block; margin-top:4px; color:var(--sp-muted); font-size:11px; }
 #sp-prototype #sp-dashboard button { -webkit-tap-highlight-color:transparent; }
 @media (max-width:760px) {
-  #sp-prototype > #sp-dashboard { padding:16px 14px 24px; gap:10px; }
+  #sp-prototype .sp-dashboard-intro { align-items:center; }
+  #sp-prototype .sp-dashboard-logo { display:none; }
+  #sp-prototype #sp-project-new { display:none; }
+  #sp-prototype #sp-project-import { min-height:44px; }
+  #sp-prototype #sp-project-search { font-size:16px; min-width:0; }
+  #sp-prototype .sp-plan-switch { min-height:44px; }
+  #sp-prototype > #sp-dashboard { display:flex; flex-direction:column; overflow:auto; padding:16px 14px 24px; gap:10px; }
   #sp-prototype #sp-dashboard .sp-dashboard-hero { order:0; width:100%; margin:0; gap:8px; flex-direction:row; align-items:center; }
-  #sp-prototype #sp-dashboard .sp-dashboard-intro h1 { font-size:32px; letter-spacing:-1.3px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-intro h1 { margin:0; font-size:32px; letter-spacing:-1.3px; }
   #sp-prototype #sp-dashboard .sp-dashboard-actions { display:flex; flex-wrap:nowrap; gap:4px; }
   #sp-prototype #sp-dashboard #sp-account-open { max-width:114px; padding:6px 8px; white-space:normal; font-size:11px; }
   #sp-prototype #sp-dashboard .sp-dashboard-actions .sp-button { flex:none; min-height:44px; padding:8px 12px; border:0; background:var(--sp-soft); color:var(--sp-ink); font-size:12px; border-radius:999px; }
   #sp-prototype #sp-dashboard .sp-project-grid { display:contents; }
-  #sp-prototype #sp-dashboard .sp-project-add-card { order:1; flex:none; min-height:56px; padding:0; border:0; border-radius:15px; background:var(--sp-primary); box-shadow:none; }
-  #sp-prototype #sp-dashboard .sp-project-add-card button { min-height:56px; padding:10px 16px; color:var(--sp-primary-ink); gap:12px; }
+  #sp-prototype #sp-dashboard .sp-project-add-card { text-align:left; order:1; flex:none; min-height:56px; padding:0; border:0; border-radius:15px; background:var(--sp-primary); box-shadow:none; }
+  #sp-prototype #sp-dashboard .sp-project-add-card button { display:flex; justify-content:flex-start; align-items:center; width:100%; min-width:0; border-radius:14px; min-height:56px; padding:10px 16px; color:var(--sp-primary-ink); gap:12px; }
   #sp-prototype #sp-dashboard .sp-project-add-card button:hover { background:transparent; box-shadow:none; color:var(--sp-primary-ink); }
-  #sp-prototype #sp-dashboard .sp-project-add-card svg { width:24px; height:24px; }
+  #sp-prototype #sp-dashboard .sp-project-add-card svg { flex:none; width:24px; height:24px; }
   #sp-prototype #sp-dashboard .sp-project-add-card strong { font-size:15px; font-weight:750; }
   #sp-prototype #sp-dashboard .sp-project-add-card small { display:none; }
-  #sp-prototype #sp-dashboard .sp-dashboard-section-head { order:2; width:100%; margin:2px 0 0; gap:8px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head { display:flex; flex-direction:column; align-items:stretch; order:2; width:100%; margin:2px 0 0; gap:8px; }
   #sp-prototype #sp-dashboard .sp-dashboard-section-head h2 { display:none; }
-  #sp-prototype #sp-dashboard .sp-dashboard-section-head > div { order:1; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head > div { display:flex; align-items:baseline; justify-content:space-between; gap:8px; order:1; }
   #sp-prototype #sp-dashboard #sp-project-count { font-size:11px; padding-left:3px; }
-  #sp-prototype #sp-dashboard .sp-dashboard-section-head .sp-search { border:0; border-bottom:1px solid var(--sp-line); background:transparent; border-radius:0; min-height:44px; padding:0 3px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head .sp-search { width:100%; border:0; border-bottom:1px solid var(--sp-line); background:transparent; border-radius:0; min-height:44px; padding:0 3px; }
   #sp-prototype #sp-dashboard .sp-project-card { order:3; flex:none; display:grid; grid-template-columns:104px minmax(0,1fr); gap:9px 12px; min-height:0; padding:12px; border-radius:19px; }
   #sp-prototype #sp-dashboard .sp-project-card:hover { transform:none; }
   #sp-prototype #sp-dashboard .sp-project-card-preview { grid-column:1; grid-row:1; width:104px; height:86px; min-height:0; border:0; border-radius:11px; }
@@ -6511,7 +6356,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-open] { background:var(--sp-ink); color:var(--sp-panel); font-weight:700; }
   #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-delete] { color:light-dark(#a83a43,#ff9ba7); background:transparent; }
   #sp-prototype #sp-dashboard .sp-empty-projects { order:3; }
-  #sp-prototype #sp-dashboard .sp-plan-card { order:4; margin:4px 0 0; }
+  #sp-prototype #sp-dashboard .sp-plan-card { padding:12px; box-shadow:none; order:4; margin:4px 0 0; }
 }
 /* build-inline:end stageplot-mobile-v1.css */
 </style>
@@ -10323,7 +10168,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage&&['editor','routing','print','project'].includes(which)){openNewProjectDialog();return;}
     const previousView=view;
     if(which!=='editor'){selectionMode=false;selectionIds.clear();}
-    finishEdit();cancelPlacement(false);closeFileMenu();mobileToolsOpen=false;view=which;root.dataset.view=which;syncWorkspaceUi();
+    finishEdit();cancelPlacement(false);mobileToolsOpen=false;view=which;root.dataset.view=which;syncWorkspaceUi();
     try{window.sessionStorage.setItem(viewStorageKey,which);}catch(error){}
     ['dashboard','setup','editor','routing','print','project'].forEach(name=>{$('sp-'+name).hidden=name!==which;});
     root.querySelectorAll('[data-editor-actions]').forEach(el=>{el.hidden=which!=='editor';});
@@ -10331,7 +10176,6 @@ function createStageplotSymbolV3(type, options = {}) {
     const projStep=root.querySelector('[data-step="project"]');if(projStep)projStep.hidden=isSampleProject();
     syncNavigationPill(true);updateProjectHeading();
     $('sp-show-print').disabled=!stage;
-    $('sp-file-save').disabled=!stage&&which!=='setup';$('sp-file-save-as').disabled=!stage&&which!=='setup';
     if(which==='dashboard')renderDashboard();
     if(which==='setup') updateSetup();
     if(which==='editor'){setLibraryMode(libraryMode);renderEditor();}
@@ -11316,11 +11160,6 @@ function createStageplotSymbolV3(type, options = {}) {
     }).join(''):'<p class="sp-muted">'+(setupLibraryReady?'Noch keine Setups gespeichert.':'Bibliothek nicht verfügbar.')+'</p>';
     syncSetupSave();
   }
-  function refreshSetupLibrary(){
-    try{savedSetups=readSetupLibrary(window.localStorage);setupLibraryReady=true;}
-    catch(error){setupLibraryReady=false;savedSetups=[];setupError(error);}
-    renderSetupLibrary();
-  }
   function confirmSetupAction(title,description,label,action,danger=false){
     pendingSetupAction=action;
     $('sp-setup-confirm-title').textContent=title;$('sp-setup-confirm-description').textContent=description;
@@ -11370,7 +11209,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function downloadSetupFile(){
     try{
       if(!flushProjectForm(true))return;
-      closeFileMenu();finishEdit();if(!stage)throw new Error('Bitte zuerst eine Bühne erstellen.');
+      finishEdit();if(!stage)throw new Error('Bitte zuerst eine Bühne erstellen.');
       const payload=exportModel.createSetupExport(stage.title,{stage,objects},{normalizeDocument:normalizeSetupDocument});
       const json=exportModel.stringifySetupJson(payload,{normalizeDocument:normalizeSetupDocument});
       downloadBlob(new Blob([json],{type:'application/json'}),exportModel.filenameFor(stage.title,'setup'));say('Portable Setup-Datei gesichert');
@@ -11397,7 +11236,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function saveCurrentSetup(asCopy=false){
     if(!flushProjectForm(true))return false;
-    closeFileMenu();cancelPlacement(false);finishEdit();
+    cancelPlacement(false);finishEdit();
     if(view==='setup'){applyStage();if(view==='setup')return false;}
     if(!stage)return false;
     if(asCopy)return duplicateCurrentProject();
@@ -11412,14 +11251,8 @@ function createStageplotSymbolV3(type, options = {}) {
     const document=normalizeSetupDocument({stage:{...stage,title:name},objects});document.stage.project.name=name;
     activateSetupDocument(document,null,{copy:true,persist:true});if(draftState==='error')return false;say('Eigenständige Projektkopie angelegt');return true;
   }
-  $('sp-setups-open').addEventListener('click',()=>show('dashboard'));
-  $('sp-file-save').addEventListener('click',()=>saveCurrentSetup());
-  $('sp-file-save-as').addEventListener('click',()=>saveCurrentSetup(true));
-  $('sp-setup-download').addEventListener('click',downloadSetupFile);
-  $('sp-setup-upload').addEventListener('click',()=>$('sp-setup-file').click());
   $('sp-setup-file').addEventListener('change',()=>uploadSetupFile($('sp-setup-file').files?.[0]));
   $('sp-setups-close').addEventListener('click',()=>$('sp-setups-dialog').close());
-  $('sp-setups-dialog').addEventListener('close',()=>root.querySelector('#sp-file-menu summary').focus({preventScroll:true}));
   $('sp-setup-name').addEventListener('input',()=>{$('sp-setup-feedback').textContent='';syncSetupSave();});
   $('sp-setup-save-form').addEventListener('submit',e=>{
     e.preventDefault();const name=$('sp-setup-name').value.trim();if(!stage||!name||!setupLibraryReady)return;
@@ -11845,11 +11678,6 @@ function createStageplotSymbolV3(type, options = {}) {
   const routeNeedsDi=(row,direction,box)=>direction==='inputs'&&row?.connector==='Klinke'&&!box?.comboJacks;
   const routeStageboxCompatible=(row,direction,box)=>row?.connector!=='Dante'&&!routeNeedsDi(row,direction,box);
   function routeSourceObject(row){const id=String(row?.sourceKey||'').split(':')[0];return objects.find(o=>o.id===id)||null;}
-  function nextStageboxPort(direction,boxId,excludeId=''){
-    const box=routingStageboxes(direction).find(item=>item.id===boxId);if(!box)return null;
-    const used=new Set((stage?.routing?.[direction]||[]).filter(row=>row.id!==excludeId&&row.stagebox===boxId).map(row=>row.stageboxPort).filter(port=>Number.isFinite(port)&&port>0));
-    for(let port=1;port<=box.capacity;port++)if(!used.has(port))return port;return null;
-  }
   function autoAssignRouting(){
     if(!stage||sharedReadOnly)return;const before=snapshot();syncRoutingFromStage(false,false);let assigned=0;
     for(const direction of ['inputs','outputs']){
@@ -11881,9 +11709,6 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function stageboxCardMarkup(box){
     const model=byId[box.type],socketLabel=box.comboJacks?'Combo XLR / Klinke':'XLR';return '<article class="sp-stagebox-card" data-stagebox-card="'+box.id+'" data-combo-jacks="'+String(box.comboJacks)+'"><div class="sp-stagebox-card-head"><div class="sp-stagebox-card-letter" aria-hidden="true">'+stageboxLetter(box)+'</div><div><h2>'+esc(box.name)+'</h2><p>'+esc(model?.detail||'Stagebox')+' · '+socketLabel+'</p></div><button class="sp-stagebox-card-menu" type="button" data-stagebox-details="'+box.id+'" aria-label="'+esc(box.name)+' Details">Einstellungen</button></div>'+stageboxPortSectionMarkup(box,'inputs')+stageboxPortSectionMarkup(box,'outputs')+'</article>';
-  }
-  function stageInputCableStats(){
-    const rows=stage?.routing?.inputs||[],wired=rows.filter(row=>row.stagebox&&row.stageboxPort).length;return {total:rows.length,wired,pending:Math.max(0,rows.length-wired)};
   }
   function stageboxHardwareMarkup(box,dialog=false){
     const renameId=dialog?' id="sp-stagebox-rename-form"':'',inputId=dialog?' id="sp-stagebox-rename-input"':'',comboId=dialog?' id="sp-stagebox-combo-jacks"':'';return '<div class="sp-stagebox-detail-card sp-stagebox-hardware"><h4>Stagebox-Einstellungen</h4><form class="sp-stagebox-rename-form" data-stagebox-rename-form'+renameId+'><label class="sp-field">Stagebox-Name<input'+inputId+' data-stagebox-rename-input maxlength="42" autocomplete="off" required value="'+esc(box.name)+'"></label><button type="submit">Umbenennen</button></form><label class="sp-stagebox-combo-switch"><input'+comboId+' data-stagebox-combo-jacks type="checkbox" role="switch"'+(box.comboJacks?' checked':'')+'><span class="sp-stagebox-combo-control" aria-hidden="true"></span><span><strong>Kombibuchsen (XLR + Klinke)</strong><small>Aus: Klinkensignale brauchen vor der XLR-Buchse eine DI-Box.</small></span></label></div>';
@@ -12083,10 +11908,6 @@ function renderAudioFind(){
   $('sp-routing-status').dataset.summary=visible.length+' von '+rows.length+' Kanälen';
   $('sp-routing-status').textContent=direction+' '+visible.length+' von '+rows.length+' Kanälen · CH = Mischpultkanal, IN/OUT = Stagebox-Buchse.';
 }
-function audioSignalDescription(row,direction){
-  const kind=direction==='inputs'?({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||'Signal'):({monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)]);
-  return [row.stereoGroup?'Stereo L/R':'Mono',kind,row.connector].filter(Boolean).join(' · ');
-}
 function audioInputConnector(row,pickup){
   if(['DI','Mic'].includes(pickup))return 'XLR';if(pickup==='Digital'){const source=routeSourceObject(row),connector=source?objectIo(source).outputs.connector:row.connector;return ['Dante','MADI','USB'].includes(connector)?connector:'Digital';}
   const source=routeSourceObject(row);if(source?.type==='percussion')return generatedInputSpecs().find(spec=>spec.sourceKey===row.sourceKey)?.connector||row.connector||'XLR';return source?objectIo(source).outputs.connector:row.connector||'XLR';
@@ -12131,12 +11952,6 @@ function renderAudioEditorContext(){
   $('sp-channel-title').textContent=summary.name;
   $('sp-audio-context').innerHTML='<div class="sp-audio-channel-badge"><small>'+(direction==='inputs'?'INPUT · CH':'OUTPUT · MIX')+'</small><strong>'+esc(numbers.join(' / '))+'</strong></div><div class="sp-audio-context-copy"><strong>'+esc(summary.kind)+'</strong>'+summary.connections.map(text=>'<span>'+esc(text)+'</span>').join('')+'</div>';
   renderAudioChainPreview();
-}
-function audioPortCandidates(box,rows,excluded,stereo,selection){
-  return Array.from({length:Math.max(0,box.capacity-(stereo?1:0))},(_,i)=>{
-    const port=i+1,occupants=rows.filter(row=>!excluded.has(row.id)&&row.stagebox===box.id&&(row.stageboxPort===port||stereo&&row.stageboxPort===port+1));
-    return {port,occupants,selected:Number(selection.port)===port&&(!stereo||selection.rightBoxId===box.id&&Number(selection.rightPort)===port+1)};
-  });
 }
 function renderAudioPortChoices(){
   const host=$('sp-audio-port-choices'),boxId=$('sp-channel-stagebox').value,direction=$('sp-channel-direction').value,box=routingStageboxes(direction).find(item=>item.id===boxId);
@@ -12306,7 +12121,6 @@ function audioPatchSections(){
 // Every microphone entry point uses the same identities, photos and picker.
 function audioMicPhoto(name){return StageplotMics.photo(name);}
 function audioMicBrand(name){return StageplotMics.brand(name);}
-function audioMicCatalog(){return StageplotMics.catalog;}
 function audioMicSuggestions(name){return StageplotMics.suggestions(name);}
 let audioCustomModel=false,audioQuickPatch=null,audioPickupModels={},audioLastPickup='Mic',audioMicPicker=null,audioMicPickerReset=true;
 function renderAudioMicPicker(){
@@ -12796,7 +12610,6 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   $('sp-stagebox-settings-body').addEventListener('submit',e=>renameStageboxFromForm(e,$('sp-stagebox-io-dialog').open?'dialog':'view'));
   $('sp-stagebox-settings-body').addEventListener('change',e=>changeStageboxCombo(e,$('sp-stagebox-io-dialog').open?'dialog':'view'));
   $('sp-stagebox-io-dialog').addEventListener('close',()=>{activeStageboxPatch=null;if(view==='routing'&&routingTab==='stageboxes')renderRouting();});
-  $('sp-routing-sync').addEventListener('click',()=>{const before=snapshot();syncRoutingFromStage();keepHistory(before);renderRouting();});
   $('sp-routing-auto').addEventListener('click',autoAssignRouting);
   $('sp-routing-add').addEventListener('click',()=>openChannelDialog(routingTab));
   $('sp-routing-rows').addEventListener('click',e=>{if(suppressRoutingClick||e.target.closest('[data-route-drag],[data-playback-open]'))return;const phantom=e.target.closest('[data-route-phantom]');if(phantom){const row=stage.routing.inputs.find(item=>item.id===phantom.dataset.routePhantom);if(row){const before=snapshot(),enabled=!row.phantom;for(const member of audioGroup(stage.routing.inputs,row)){member.phantom=enabled;StageplotMics.writeDrumRoute(objects,member,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));}keepHistory(before);renderRouting();say(row.phantom?'48V aktiviert':'48V deaktiviert');}return;}const patch=e.target.closest('[data-audio-patch]');if(patch){openAudioPatch(routingTab,patch.dataset.audioPatch);return;}const number=e.target.closest('[data-route-number]');if(number){if(openAudioChannel(routingTab,number.dataset.routeNumber)===false)return;showAudioEditorPanel('patch');requestAnimationFrame(()=>{$('sp-channel-number').focus({preventScroll:true});$('sp-channel-number').select();});return;}const row=e.target.closest('[data-route-row]');if(row)openChannelDialog(routingTab,row.dataset.routeRow);});
@@ -13078,14 +12891,6 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const file=$('sp-routing-csv-file').files?.[0];try{if(!file)return;if(file.size>1000000)throw new Error('Bitte eine CSV-Datei unter 1 MB wählen.');const direction=routingTab,rows=parseRoutingCsv(await file.text());if(!rows.length)throw new Error('Keine gültigen Kanalzeilen gefunden.');confirmSetupAction('Routing aus CSV übernehmen?',rows.length+' '+routingDirectionLabel(direction)+'-Kanäle ersetzen den aktuellen Bereich. Die Bühne und der andere Routing-Bereich bleiben unverändert.','CSV übernehmen',()=>change(()=>{stage.routing[direction]=rows;},rows.length+' Kanäle aus CSV importiert'));}catch(error){$('sp-routing-status').textContent='CSV nicht importiert: '+error.message;say($('sp-routing-status').textContent);}finally{$('sp-routing-csv-file').value='';}
   });
 
-  function closeFileMenu(restoreFocus=false){
-    $('sp-file-menu').open=false;
-    if(restoreFocus)root.querySelector('#sp-file-menu summary').focus({preventScroll:true});
-  }
-  $('sp-file-menu').addEventListener('click',e=>{if(e.target.closest('button'))closeFileMenu();});
-  document.addEventListener('pointerdown',e=>{if(!$('sp-file-menu').contains(e.target))closeFileMenu();});
-  document.addEventListener('focusin',e=>{if(!$('sp-file-menu').contains(e.target))closeFileMenu();});
-  $('sp-file-menu').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeFileMenu(true);}});
   const themeStorageKey='stageplot-studio:theme:v1';
   let appTheme='light';
   function applyTheme(theme){appTheme=['light','dark'].includes(theme)?theme:'auto';if(appTheme==='auto')delete root.dataset.theme;else root.dataset.theme=appTheme;}
@@ -13093,17 +12898,16 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   function syncThemeSetting(value=appTheme){$('sp-setting-theme').value=['light','dark'].includes(value)?value:'auto';root.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===$('sp-setting-theme').value)));}
   function saveThemePreference(theme){applyTheme(theme);try{window.localStorage.setItem(themeStorageKey,JSON.stringify({version:1,theme:appTheme}));}catch(error){}syncThemeSetting();}
   root.querySelector('.sp-theme-pills').addEventListener('click',e=>{const button=e.target.closest('[data-theme-choice]');if(button)syncThemeSetting(button.dataset.themeChoice);});
-  $('sp-settings-open').addEventListener('click',()=>{
-    closeFileMenu();cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();
+  function openAppSettings(){
+    cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();
     $('sp-setting-snap').checked=$('sp-snap').checked;
     $('sp-setting-grid').checked=$('sp-grid-visible').getAttribute('aria-pressed')==='true';
     $('sp-setting-fine').checked=$('sp-grid-size').value==='0.125';
     syncAppearanceControls();syncThemeSetting();$('sp-setting-notes').checked=$('sp-print-notes').checked;
     $('sp-settings-dialog').showModal();
-  });
+  }
   $('sp-settings-close').addEventListener('click',()=>$('sp-settings-dialog').close());
   $('sp-settings-cancel').addEventListener('click',()=>$('sp-settings-dialog').close());
-  $('sp-settings-dialog').addEventListener('close',()=>root.querySelector('#sp-file-menu summary').focus({preventScroll:true}));
   $('sp-settings-form').addEventListener('submit',e=>{
     e.preventDefault();$('sp-snap').checked=$('sp-setting-snap').checked;
     $('sp-grid-visible').setAttribute('aria-pressed',String($('sp-setting-grid').checked));
@@ -13137,10 +12941,10 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const next=e.key==='Home'||e.key==='ArrowLeft'?'properties':'layers';setInspectorTab(next,true);
   });
   function openShortcutHelp(){
-    closeFileMenu();helpReturnFocus=document.activeElement;const dialog=$('sp-help-dialog');if(!dialog.open)dialog.showModal();$('sp-help-close').focus({preventScroll:true});
+    helpReturnFocus=document.activeElement;const dialog=$('sp-help-dialog');if(!dialog.open)dialog.showModal();$('sp-help-close').focus({preventScroll:true});
   }
   $('sp-help-open').addEventListener('click',openShortcutHelp);
-  $('sp-settings-gear').addEventListener('click',()=>$('sp-settings-open').click());
+  $('sp-settings-gear').addEventListener('click',openAppSettings);
   $('sp-venue-open').addEventListener('click',()=>openVenueEditor());
   $('sp-venue-setup').addEventListener('click',()=>openVenueEditor());
   $('sp-np-venue-catalog').addEventListener('click',()=>openVenueCatalog({artist:$('sp-np-band').value}));
@@ -13155,11 +12959,11 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   function addStageExtensionModule(){if(!isObjectUnlocked('stage-module')){openPackDialog('stage-builder');return;}change(()=>{stage.complex=true;const module=makeObject('stage-module',{x:stage.w+1,y:.5},'station-'+nextId++);module.angle=0;snapStageModule(module);objects.push(module);selected=module.id;},'2 × 1 m Bühnenmodul angeklippt · für die kurze Seite um 90° drehen');fitView();}
   $('sp-stage-add-module').addEventListener('click',addStageExtensionModule);
   $('sp-stage-popover-settings').addEventListener('click',openStageSettings);
-  $('sp-stage-popover-clear').addEventListener('click',()=>$('sp-clear-stage').click());
-  $('sp-stage-iem').addEventListener('click',()=>$('sp-edit-iem').click());
-  $('sp-stage-clear').addEventListener('click',()=>$('sp-clear-stage').click());
-  $('sp-project-export').addEventListener('click',()=>$('sp-setup-download').click());
-  $('sp-project-saveas').addEventListener('click',()=>$('sp-file-save-as').click());
+  $('sp-stage-popover-clear').addEventListener('click',openClearStage);
+  $('sp-stage-iem').addEventListener('click',editIemArea);
+  $('sp-stage-clear').addEventListener('click',openClearStage);
+  $('sp-project-export').addEventListener('click',downloadSetupFile);
+  $('sp-project-saveas').addEventListener('click',()=>saveCurrentSetup(true));
   $('sp-help-close').addEventListener('click',()=>$('sp-help-dialog').close());
   $('sp-help-dialog').addEventListener('close',()=>{if(helpReturnFocus&&typeof helpReturnFocus.focus==='function')helpReturnFocus.focus({preventScroll:true});helpReturnFocus=null;});
   let drumDraft=null,drumDraftType='drums',drumObjectId=null,drumSelectedPart=null,drumPartDrag=null,drumPendingKind=null,drumHoverPart=null,drumDesigns=[],activeDrumDesignId=null,drumDesignOverwriteId=null,drumPointerOnPart=false,drumDialogReturnFocus=null;
@@ -14297,11 +14101,10 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     const zone=iemRect(stage);if(zone){$('sp-iem-x').value=zone.x;$('sp-iem-y').value=zone.y;}
     $('sp-create').textContent='Bühne übernehmen →';$('sp-cancel-stage').hidden=false;show('setup');
   }
-  $('sp-edit-stage').addEventListener('click',openStageSettings);
-  $('sp-edit-iem').addEventListener('click',()=>{
+  function editIemArea(){
     cancelPlacement(false);finishEdit();if(!iemRect(stage)){openStageSettings();$('sp-iem').focus();return;}
     selected='iem-zone';renderEditor();
-  });
+  }
   function dispatchHiddenChoice(input,value){
     if(!input||input.disabled)return false;input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}));return true;
   }
@@ -14326,18 +14129,17 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     $('sp-clear-summary').textContent=count+' von '+objects.length+' Bausteinen werden entfernt.'+(zones?' IEM-Fläche und Treppe ebenfalls.':' IEM-Fläche und Treppe bleiben erhalten.');
     $('sp-clear-confirm').disabled=!count&&!zones;
   }
-  $('sp-clear-stage').addEventListener('click',()=>{
+  function openClearStage(){
     cancelPlacement(false);finishEdit();
     for(const key of ['instruments','platforms','tech','text']){
       $('sp-clear-'+key).checked=key==='instruments';
       root.querySelector('[data-clear-count="'+key+'"]').textContent='('+objects.filter(o=>clearGroup(o)===key).length+')';
     }
     $('sp-clear-zones').checked=false;updateClearSummary();$('sp-clear-dialog').showModal();
-  });
+  }
   $('sp-clear-dialog').addEventListener('change',updateClearSummary);
   $('sp-clear-all').addEventListener('click',()=>{['instruments','platforms','tech','text','zones'].forEach(key=>$('sp-clear-'+key).checked=true);updateClearSummary();});
   $('sp-clear-cancel').addEventListener('click',()=>$('sp-clear-dialog').close());
-  $('sp-clear-dialog').addEventListener('close',()=>root.querySelector('#sp-file-menu summary').focus({preventScroll:true}));
   $('sp-clear-confirm').addEventListener('click',()=>{
     const groups=clearSelection(),zones=$('sp-clear-zones').checked;
     $('sp-clear-dialog').close();
@@ -14805,7 +14607,6 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(typeof sharedReadOnly!=='undefined'&&sharedReadOnly)return;
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();if(!e.repeat)saveCurrentSetup(e.shiftKey);return;}
     if(e.key==='?'&&!editableKeyTarget(e.target)){e.preventDefault();if(!e.repeat)openShortcutHelp();return;}
-    if($('sp-file-menu').open)return;
     if(e.key==='Escape'&&mobileWorkspace()&&(mobileToolsOpen||!libraryCollapsed||!inspectorCollapsed)){e.preventDefault();mobileToolsOpen=false;libraryCollapsed=true;inspectorCollapsed=true;syncWorkspaceUi();$('sp-editor-floor').focus({preventScroll:true});return;}
     if(placement&&e.key==='Escape'){e.preventDefault();cancelPlacement();return;}
     if(editableKeyTarget(e.target))return;

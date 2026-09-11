@@ -102,12 +102,6 @@ assert.deepEqual(clone(ctx.audioEditorSummary(summaryDraft,summaryBoxes).connect
 assert.deepEqual(clone(ctx.audioEditorSummary({...summaryDraft,rightBoxId:'b',rightPort:'3'},summaryBoxes).connections),['L: Stagebox A · IN 7 → CH 14','R: Stagebox B · IN 3 → CH 15']);
 assert.deepEqual(clone(ctx.audioEditorSummary({...summaryDraft,direction:'outputs'},summaryBoxes).connections),['Mix / Output 14 / 15 → Stagebox A · OUT 7 / 8']);
 assert.deepEqual(clone(ctx.audioEditorSummary({...summaryDraft,stereo:false,boxId:'',number:'#'},summaryBoxes).connections),['Keine Stagebox → CH automatisch']);
-const candidates=ctx.audioPortCandidates(patchBox,[...pair,...busy],new Set(['l','r']),true,{port:5,rightPort:6,rightBoxId:'box'});
-assert.equal(candidates.length,7,'An 8-port box has seven valid adjacent stereo starts, never OUT 8 / 9.');assert(candidates[0].occupants.length);assert(!candidates[4].occupants.length,'Both halves of the current signal remain selectable.');assert(candidates[4].selected);
-assert(!ctx.audioPortCandidates(patchBox,pair,new Set(['l','r']),true,{port:5,rightPort:7,rightBoxId:'box'}).some(item=>item.selected),'Nonadjacent stereo is not shown as a selected adjacent pair.');
-assert(!ctx.audioPortCandidates(patchBox,pair,new Set(['l','r']),true,{port:5,rightPort:6,rightBoxId:'other'}).some(item=>item.selected),'A split-box patch is not shown as an adjacent pair on the left box.');
-assert.equal(ctx.audioPortCandidates({...patchBox,capacity:1},[],new Set(),true,{}).length,0);
-
 // Run the real tab handlers and save function with persistent form controls.
 const dialogNodes=new Map(),dialogCtx={matchMedia:()=>({matches:false,addEventListener(){}}),document:{createComment:()=>({after(){}})},StageplotMics:ctx.StageplotMics,objects:[],drumModel:ctx.drumModel,clone,editingRoute:{id:'l'},esc:ctx.esc,stage:{routing:{inputs:[],outputs:[],disabledSources:[]}},saved:0,routeSourceObject:()=>null,routeNeedsDi:()=>false,normalizeRouteChannel:row=>({...row,linkedSources:row.linkedSources||[]}),routingStageboxes:()=>summaryBoxes,reconcileCablesWithRouting(){},say(){},snapshot:()=>JSON.stringify(dialogCtx.stage),keepHistory:()=>dialogCtx.saved++};
 dialogCtx.$=id=>{if(!dialogNodes.has(id))dialogNodes.set(id,{before(){},id,value:'',attributes:{},handlers:{},validity:{valid:true},hidden:false,querySelectorAll:()=>[],setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,handler){this.handlers[type]=handler;},focus(){dialogCtx.focused=id;},close(){this.open=false;},closest:()=>null});return dialogNodes.get(id);};
@@ -142,13 +136,13 @@ for(const photo of photoSources){
   assert.match(photo.sourceSha256,/^[a-f0-9]{64}$/);assert(photo.sourceBytes>0);assert(photo.width>0&&photo.width<=640);assert(photo.height>0&&photo.height<=640);
   assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');
   assert(photo.processing.includes('no crop'));
-  const model=ctx.audioMicCatalog().find(m=>m.name===photo.model);assert.equal(model.photoLabel,photo.photoLabel||'');
+  const model=ctx.StageplotMics.catalog.find(m=>m.name===photo.model);assert.equal(model.photoLabel,photo.photoLabel||'');
 }
-assert.equal(photoSources.length,81);assert.equal(ctx.audioMicCatalog().filter(m=>m.photo).length,81);
+assert.equal(photoSources.length,81);assert.equal(ctx.StageplotMics.catalog.filter(m=>m.photo).length,81);
 const photoFiles=[...new Set(photoSources.map(p=>p.file))];assert.equal(photoFiles.length,78);assert(photoFiles.reduce((sum,file)=>sum+fs.statSync('stageplot-assets/mics/'+file).size,0)<2500000,'All photo downloads together stay below 2.5 MB.');
 assert.notEqual(ctx.audioMicPhoto('Telefunken M80-SH'),ctx.audioMicPhoto('Telefunken M80'),'Short and full-length versions have their own original photos.');
 assert.equal(ctx.audioMicPhoto('Sennheiser MD 421'),'','A legacy model must not silently receive a different revision’s product photo.');
-const micCatalog=ctx.audioMicCatalog();assert(micCatalog.some(mic=>mic.name==='Shure SM58'));assert.equal(ctx.audioMicBrand('sE Electronics V7'),'sE Electronics');assert.equal(ctx.audioMicBrand('Audio-Technica ATM230'),'Audio-Technica');
+const micCatalog=ctx.StageplotMics.catalog;assert(micCatalog.some(mic=>mic.name==='Shure SM58'));assert.equal(ctx.audioMicBrand('sE Electronics V7'),'sE Electronics');assert.equal(ctx.audioMicBrand('Audio-Technica ATM230'),'Audio-Technica');
 for(const name of ['Snare Top','Kick In','Hi-Hat','Drums · OH L','Congas','Gitarre','Lead Vocals'])for(const model of ctx.audioMicSuggestions(name))assert(micCatalog.some(mic=>mic.name===model),model+' is selectable for '+name);
 assert(ctx.audioMicSuggestions('Snare Top').includes('Shure SM57'));assert(ctx.audioMicSuggestions('Lead Vocals').includes('sE Electronics V7'));
 const dialogMarkup=html.slice(html.indexOf('<dialog id="sp-channel-dialog"'),html.indexOf('<dialog id="sp-audio-connect-dialog"'));

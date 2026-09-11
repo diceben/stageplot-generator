@@ -1,10 +1,10 @@
 // Browser regression: simulated visualViewport keyboard geometry, not a native iOS keyboard.
 // Run against the preview with PLAYWRIGHT_MODULE; BROWSER=webkit selects Safari's engine.
-const {chromium,webkit}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const {engine,launchBrowser,artifactPath}=require('./browser-qa.cjs');
 const assert=require('node:assert/strict');
-const engine=process.env.BROWSER||'chrome';
+
 (async()=>{
-  const browser=await(engine==='webkit'?webkit.launch({headless:true}):chromium.launch({channel:'chrome',headless:true}));
+  const browser=await launchBrowser();
   try{
     const page=await browser.newPage({viewport:{width:390,height:740},isMobile:true,hasTouch:true});
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
