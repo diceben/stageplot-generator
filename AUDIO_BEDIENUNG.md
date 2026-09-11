@@ -21,6 +21,18 @@ Bei Instrumenten mit mehreren Signalen bietet die Auswahl eine gemeinsame Zuordn
 
 Die Stagebox-Belegung zeigt eine per Bildkarte gewählte Stagebox mit großen Buchsen und lesbaren Signal-/Kanalbeschriftungen. Die Arbeitsfläche bleibt stabil; Geräteeinstellungen öffnen ausdrücklich in einem eigenen Fenster. Am Handy öffnet die Verbindungsauswahl vom unteren Rand. Instrument und Ziel bleiben oben sichtbar, die Tastatur erscheint erst beim Antippen der Suche. Die lokalen Datenformate und der Offline-Betrieb bleiben erhalten.
 
+## IEM-Monitore
+
+„IEM-Monitore · Funk / Kabel“ auf die Bühne setzen: Die Übersicht öffnet direkt. Über +/− die Anzahl der Monitor-Mixe (1–16) festlegen. Jede Karte steht für einen Musiker bzw. einen Mix; Name, Mono/Stereo und Funk/Kabel bleiben offen sichtbar. Bei Funk lässt sich der Frequenzbereich ergänzen.
+
+Mono benötigt einen AUX, Stereo zwei. Freie AUX-Nummern werden vorgeschlagen; eigene Nummern sind direkt änderbar. Bereits verwendete Nummern werden nicht doppelt vergeben. AUX bezeichnet den Mix am Pult; die physische OUT-Buchse wird davon unabhängig über „Ausgänge verbinden“ gewählt. Dafür öffnet dieselbe Stagebox-Auswahl mit sichtbaren Buchsen und gemeinsamem L/R-Vorschlag wie im übrigen Routing.
+
+Am Objekt „IEM-Monitore einrichten“ bzw. die schwebende IEM-Taste wählen. Auch die Kanalnummer im Routing und „Signal bearbeiten“ an einer belegten Buchse führen in dieselbe Übersicht. Namen, Funkangaben, AUX und Buchsen erscheinen in den gemeinsamen Outputlisten und im Export mit Technik & Kanälen.
+
+Gültige Änderungen speichern automatisch lokal. Bestehende IEM-Racks übernehmen ihre bisherigen Namen, Kanal-IDs, AUX-Nummern, Notizen und Buchsen. Beim Umschalten auf Mono bleibt der linke Kanal erhalten und der rechte Ausgang wird frei. Weniger IEMs entfernt die letzten Mixe; „Rückgängig“ stellt den vorherigen Stand einschließlich Buchsen wieder her. Der Speicherstatus zeigt auch Fehler an. Die IEM-/Rack-Fläche im Bühnenaufbau bleibt eine separat bemaßbare Stellfläche.
+
+Prüfung: `npm test` enthält die Migration, gemischte Sets, AUX-Konflikte und den Erhalt vorhandener Verbindungen. `scripts/check-iem-monitors.cjs` prüft optional im Browser Platzieren, vier gemischte IEMs, physische Buchsenwahl, Undo, Neuladen, Routing-Einstieg, mobile Ansicht, Druckvorschau und Offline-Speicherung. `APP_URL`, `BROWSER=webkit` und `PLAYWRIGHT_MODULE` sind einstellbar.
+
 ## Originalfotos
 
 Der gemeinsame Katalog enthält Fotos für **81 von 88 konkreten Mikrofoneinträgen**. Hinzu kommen fünf allgemeine Mikrofontypen ohne erfundenes Modellfoto. 78 unterschiedliche Originalaufnahmen stammen direkt von 22 Herstellern, ihren regionalen Produktseiten und Archiven. Sie liegen lokal unter `stageplot-assets/mics/` und funktionieren ohne Abfrage eines Bilddienstes. Es werden keine KI-generierten Mikrofonbilder eingesetzt.

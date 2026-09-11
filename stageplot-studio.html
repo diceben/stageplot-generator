@@ -626,7 +626,7 @@
         <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.7">v0.1.0-beta.7</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-10">10. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
               <li><strong>Symphonie-Orchester &amp; Klassik:</strong> Anpassbare Orchesteraufstellung mit einzeln schaltbaren Instrumentengruppen und eigenem Editor. Streichinstrumente, Harfe, Bläser und Schlagwerk stehen auch einzeln mit realistischen monochromen Bilddarstellungen bereit.</li>
@@ -637,6 +637,7 @@
               <li><strong>Technik von oben &amp; korrekte Proportionen:</strong> Neue realistische Bildassets für Technik, Mikrofone, 3er-Gitarrenständer und Gitarrenbäume – leer und befüllt in Draufsicht. Wedge und Stromleiste werden nicht mehr verzerrt; der kompakte Schlagzeughocker hat eine 30-cm-Sitzfläche und einen 43-cm-Fußkreis, auch im Drum-Designer. Bilder bleiben beim Skalieren proportional, Breite und Tiefe der Technikobjekte sind gekoppelt. Bibliothek, Bühne, Projektvorschau und Export verwenden dieselben lokalen Assets.</li>
               <li><strong>Maßstäbliche Gegenstände:</strong> Geräte und Stellflächen verwenden Referenzmaße in Metern; gerenderte Bilder bleiben proportional in ihrem Maßrahmen. Mikrofone und DI-Boxen werden nicht künstlich vergrößert, der Playback-Laptop zeigt nur den Rechner. Stagebox-Maße sind korrigiert; eigene Maße lassen sich direkt in Zentimetern eingeben und bleiben gespeichert. Bühne, Projektvorschau und Export verwenden denselben Maßstab.</li>
               <li><strong>Klarer Audioplan:</strong> Der Arbeitsbereich heißt einheitlich „Routing“, auch im Menü und beim Öffnen am Objekt. Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Audio-Plan und Drum-Editor teilen dieselbe Mikrofon-Auswahl: Sofortsuche, Herstellerfilter, passende Vorschläge, Favoriten und zuletzt verwendete Modelle. 81 der 88 konkreten Mikrofoneinträge haben jetzt Original-Herstellerfotos, auch viele ältere Modelle. Die 78 komprimierten Fotos laden bei Bedarf und funktionieren lokal; abgebildete Varianten und Sets sind gekennzeichnet. Mikrofon und 48 V werden in beide Richtungen abgeglichen; Kanalnummern, Patch und Notizen bleiben erhalten. Overheads lassen sich direkt im Drum-Editor auswählen. Gemeinsame Signalwege vermeiden doppelte Inputs. Playback-Laptops bieten Stereo L/R, PLAYAUDIO1U mit zwölf benennbaren XLR-Ausgängen und Dante Virtual Soundcard über ein Netzwerkkabel. Stereo-Paare lassen sich in Mono-Signale teilen; Namen und Ausgangsnummern erscheinen im Audioplan und Export.</li>
+              <li><strong>IEM-Monitore:</strong> Beim Platzieren direkt die Anzahl festlegen. Pro Musiker:in Mono oder Stereo, Funk oder Kabel, Frequenzbereich und AUX-Mixe wählen. Physische Ausgänge über dieselbe sichtbare Buchsenauswahl verbinden. Objekt, Routing und Stagebox-Belegung öffnen dieselbe IEM-Übersicht; bestehende Kanalnummern und Verbindungen bleiben erhalten. Änderungen werden lokal gespeichert, sind rückgängig machbar und erscheinen im Export.</li>
               <li><strong>Einheitliches Anschließen:</strong> Inputliste und Stagebox-Belegung verwenden dieselbe Auswahl: Signal wählen und Buchse antippen oder umgekehrt. Verbindungen werden sofort gespeichert, auch zusammen mit Änderungen aus dem Signal-Editor, und lassen sich direkt rückgängig machen. Instrument, Buchse und Pultkanal bleiben sichtbar. Belegte Buchsen bieten Tauschen oder Ersetzen; Stereo bleibt zusammen. Freie Kanäle eines Instruments lassen sich mit Buchsenvorschau gemeinsam anschließen. Die Belegung zeigt große beschriftete Buchsen und Gerätebilder, ohne automatisch wechselnde Detailleisten; am Handy öffnet sich die Auswahl von unten ohne erzwungene Tastatur.</li>
               <li><strong>Übersichtlicher Export:</strong> PDF, Bild oder Link direkt wählen. PDF und Bild nutzen dieselben Seiten mit Maßlinien direkt an den Bühnenkanten und Zusatzinfos neben oder unter dem Plan. Bilder gibt es in HD, 2K und 4K; mehrseitige Ausgaben als ZIP. Druckvorschau und Ausdruck nutzen dasselbe Layout mit Projekt-ID, Seitenzahlen, lesbaren Kanaltabellen, wiederholten Tabellenköpfen und vollständigen Notizen.</li>
               <li><strong>Schnellerer Start:</strong> Beim Neuladen erscheint direkt die wiederhergestellte Ansicht nach einer kurzen Ladeanzeige. Der alte Demo-Aufbau wird nicht mehr angelegt. Bibliothek und Pack-Vorschauen entstehen erst beim Öffnen; versteckte Druckseiten werden nicht im Hintergrund neu gezeichnet. Bilder geschlossener Editoren laden erst bei Bedarf; 13 ungenutzte Helfer früherer Projekt-, Routing-, Druck- und Drum-Ansichten sind entfernt.</li>
@@ -5969,6 +5970,63 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-inspector-output-visibility { padding:0 0 18px; }
 #sp-prototype .sp-inspector-output-visibility .sp-inspector-switch { width:100%; justify-content:space-between; }
 /* build-inline:end stageplot-inspector-v1.css */
+/* build-inline:start stageplot-iem-editor-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+#sp-prototype .sp-iem-monitor-dialog { width:min(960px,calc(100vw - 24px)); max-width:none; max-height:calc(100dvh - 24px); padding:0; border:1px solid var(--sp-line); border-radius:22px; background:var(--sp-panel); color:var(--sp-ink); overflow:hidden; }
+#sp-prototype .sp-iem-monitor-dialog[open] { display:flex; flex-direction:column; }
+#sp-prototype .sp-iem-monitor-dialog::backdrop { background:#1018149c; backdrop-filter:blur(3px); }
+#sp-prototype .sp-iem-monitor-dialog :is(button,input) { font:inherit; font-size:14px; color:inherit; }
+#sp-prototype .sp-iem-monitor-dialog button { min-height:44px; border:1px solid var(--sp-line); border-radius:12px; background:var(--sp-soft); cursor:pointer; padding:8px 14px; }
+#sp-prototype .sp-iem-monitor-dialog button:disabled { opacity:.4; cursor:default; }
+#sp-prototype .sp-iem-monitor-dialog button[aria-pressed="true"] { background:var(--sp-primary); color:var(--sp-primary-ink); border-color:var(--sp-primary); font-weight:700; }
+#sp-prototype .sp-iem-set-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; padding:20px 24px; border-bottom:1px solid var(--sp-line); flex:none; }
+#sp-prototype .sp-iem-set-head h2 { font-size:25px; margin:3px 0 6px; }
+#sp-prototype .sp-iem-set-head p { margin:0; font-size:13px; color:var(--sp-muted); }
+#sp-prototype #sp-iem-set-close { width:44px; min-width:44px; padding:0; font-size:25px; }
+#sp-prototype .sp-iem-set-body { min-height:0; overflow:auto; overscroll-behavior:contain; padding:20px 24px; }
+#sp-prototype .sp-iem-set-quantity { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px; background:var(--sp-soft); border-radius:16px; }
+#sp-prototype .sp-iem-set-quantity strong { font-size:17px; }
+#sp-prototype .sp-iem-set-quantity small { display:block; margin-top:4px; color:var(--sp-muted); font-size:12px; }
+#sp-prototype .sp-iem-set-quantity > div:last-child { display:flex; align-items:center; gap:8px; }
+#sp-prototype #sp-iem-set-count { min-width:28px; text-align:center; font-size:22px; font-weight:750; }
+#sp-prototype #sp-iem-set-summary { margin:10px 0 18px; font-size:12px; }
+#sp-prototype #sp-iem-set-mixes { display:grid; gap:16px; }
+#sp-prototype .sp-iem-mix { padding:18px; border:1px solid var(--sp-line); border-radius:18px; background:var(--sp-panel); }
+#sp-prototype .sp-iem-mix > header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+#sp-prototype .sp-iem-mix > header .sp-field { flex:1; margin:0; }
+#sp-prototype .sp-iem-mix-number { display:grid; place-items:center; width:36px; height:36px; border-radius:50%; background:var(--sp-accent-bg); color:var(--sp-ink); font-weight:750; }
+#sp-prototype .sp-iem-mix input { width:100%; min-width:0; min-height:46px; padding:10px 12px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); color:var(--sp-ink); }
+#sp-prototype .sp-iem-mix .sp-field { font-size:12px; }
+#sp-prototype .sp-iem-mix-options { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+#sp-prototype .sp-iem-mix-options > div > span, #sp-prototype .sp-iem-section-label { display:block; font-size:12px; color:var(--sp-muted); margin-bottom:7px; }
+#sp-prototype .sp-iem-mix-options [role="group"] { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+#sp-prototype .sp-iem-frequency { margin:14px 0 0; }
+#sp-prototype .sp-iem-connection { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding-top:16px; margin-top:16px; border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-iem-aux { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-content:start; gap:8px; }
+#sp-prototype .sp-iem-aux input { font-size:19px; font-weight:700; }
+#sp-prototype .sp-iem-patch > span:not(.sp-iem-section-label) { display:block; margin:4px 0; font-size:12px; overflow-wrap:anywhere; }
+#sp-prototype .sp-iem-patch button { width:100%; margin-top:8px; }
+#sp-prototype .sp-iem-monitor-dialog footer { display:flex; align-items:center; gap:8px; padding:14px 24px; border-top:1px solid var(--sp-line); flex:none; }
+#sp-prototype .sp-iem-monitor-dialog footer span { flex:1; font-size:12px; color:var(--sp-muted); }
+#sp-prototype #sp-iem-set-done { background:var(--sp-primary); color:var(--sp-primary-ink); border-color:var(--sp-primary); }
+#sp-prototype .sp-iem-shortcut { display:flex; width:100%; justify-content:space-between; gap:10px; align-items:center; padding:14px; min-height:70px; border:1px solid var(--sp-line); border-radius:14px; background:var(--sp-accent-bg); color:var(--sp-ink); text-align:left; }
+#sp-prototype .sp-iem-shortcut small { display:block; margin-top:5px; font-size:12px; }
+#sp-prototype .sp-iem-monitor-dialog [aria-invalid="true"] { outline:2px solid #df466c; }
+@media(max-width:760px) {
+  #sp-prototype .sp-iem-monitor-dialog { position:fixed; inset:calc(var(--sp-visible-top,0px) + 6px) 6px auto; width:calc(100vw - 12px); max-height:calc(var(--sp-visible-height,100dvh) - 12px); margin:0; border-radius:18px; }
+  #sp-prototype .sp-iem-set-head, #sp-prototype .sp-iem-set-body { padding:14px; }
+  #sp-prototype .sp-iem-set-head h2 { font-size:22px; }
+  #sp-prototype .sp-iem-set-head p { font-size:12px; }
+  #sp-prototype .sp-iem-mix { padding:12px; }
+  #sp-prototype .sp-iem-mix-options, #sp-prototype .sp-iem-connection { grid-template-columns:1fr; gap:12px; }
+  #sp-prototype .sp-iem-mix input { font-size:16px; }
+  #sp-prototype .sp-iem-set-quantity { flex-wrap:wrap; }
+  #sp-prototype .sp-iem-monitor-dialog footer { flex-wrap:wrap; padding:10px 14px max(10px,env(safe-area-inset-bottom)); }
+  #sp-prototype .sp-iem-monitor-dialog footer span { flex-basis:100%; }
+  #sp-prototype .sp-iem-monitor-dialog footer button { flex:1; }
+}
+
+#sp-prototype #sp-iem-set-save-status[data-state="error"] { color:#c52c51; font-weight:700; }
+/* build-inline:end stageplot-iem-editor-v1.css */
 /* build-inline:start stageplot-mobile-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
 /* Project creation: one scroll area between an always reachable title and actions. */
 #sp-prototype .sp-nav-label { font:inherit; }
@@ -6220,6 +6278,64 @@ html,body { height:100%; overflow:hidden; }
 <script src="./stageplot-inventory-v1.js"></script>
 
 <script>
+/* build-inline:start stageplot-iem-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* IEM monitor sets. Routing rows own AUX numbers and physical output assignments. */
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.StageplotIem=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  const clean=(value,max=80)=>String(value??'').trim().slice(0,max);
+  const own=(o,row)=>String(row.sourceKey||'').startsWith(o.id+':');
+  const nameOf=row=>clean(row.iemName||String(row.instrument||'').replace(/^IEM\s*·\s*/,'').replace(/(?:\s*·)?\s+[LR]$/,''));
+  function normalize(value,fallback={}){
+    const used=new Set(),usedPorts=new Set();
+    return (Array.isArray(value)&&value.length?value:[{id:'legacy',...fallback,ports:[fallback.mode==='mono'?'iem-mono':'iem-l','iem-r']}]).slice(0,16).map((raw,index)=>{
+      const v=raw&&typeof raw==='object'?raw:{};let id=/^[a-z0-9-]{1,60}$/.test(v.id||'')?v.id:'mix-'+(index+1);while(used.has(id))id+='-copy';used.add(id);
+      const port=(n)=>{let key=/^[a-zA-Z0-9_-]{1,110}$/.test(v.ports?.[n]||'')?v.ports[n]:'iem-'+id+(n?'-r':'-l');while(usedPorts.has(key))key+='-copy';usedPorts.add(key);return key;};
+      return {id,name:clean(v.name)||'IEM '+(index+1),mode:v.mode==='mono'?'mono':'stereo',transport:v.transport==='cable'?'cable':'wireless',frequencyBand:clean(v.frequencyBand,100),ports:[port(0),port(1)]};
+    });
+  }
+  function read(o,rows){
+    let source=o.iemMixes;
+    if(!Array.isArray(source)){
+      const members=rows.filter(row=>own(o,row)),seen=new Set();source=[];
+      for(const row of members){const group=row.stereoGroup||row.id;if(seen.has(group))continue;seen.add(group);
+        const pair=row.stereoGroup?members.filter(r=>r.stereoGroup===row.stereoGroup).sort((a,b)=>Number(a.mode==='Stereo R')-Number(b.mode==='Stereo R')):[row];
+        source.push({id:source.length?'mix-'+(source.length+1):'legacy',name:nameOf(pair[0]),mode:pair.length>1?'stereo':'mono',transport:pair[0].iemTransport||o.iem?.transport,frequencyBand:pair[0].frequencyBand||o.wireless||o.iem?.frequencyBand,ports:[pair[0].sourceKey.slice(o.id.length+1),pair[1]?.sourceKey.slice(o.id.length+1)||'iem-'+(source.length+1)+'-r']});
+      }
+    }
+    const mixes=normalize(source,{...o.iem,name:o.iem?.name||o.label||'IEM 1'});
+    return mixes.map(m=>{const left=rows.find(r=>r.sourceKey===o.id+':'+m.ports[0]),right=rows.find(r=>r.sourceKey===o.id+':'+m.ports[1]);return {...m,...(left?{name:nameOf(left)||m.name,transport:left.iemTransport||m.transport,frequencyBand:left.frequencyBand||m.frequencyBand}:{}),aux:[left?.number??null,right?.number??null]};});
+  }
+  function specs(o,mixes=normalize(o.iemMixes,o.iem)){
+    let port=0;return mixes.flatMap(m=>Array.from({length:m.mode==='stereo'?2:1},(_,side)=>({
+      sourceKey:o.id+':'+m.ports[side],instrument:'IEM · '+m.name+(m.mode==='stereo'?' · '+(side?'R':'L'):''),mode:m.mode==='stereo'?'Stereo '+(side?'R':'L'):'Mono',signalType:'Line',connector:'XLR',pickup:'Direct',outputKind:'iem',portIndex:++port,stereoGroup:m.mode==='stereo'?o.id+':iem-set-'+m.id:'',iemGroup:o.id+':iem-set-'+m.id,iemName:m.name,iemMode:m.mode,iemTransport:m.transport,frequencyBand:m.transport==='wireless'?m.frequencyBand:''
+    })));
+  }
+  function resize(mixes,count){
+    const n=Math.max(1,Math.min(16,Math.round(Number(count)||1))),next=mixes.slice(0,n),ids=new Set(mixes.map(m=>m.id));let i=1;
+    while(next.length<n){while(ids.has('mix-'+i))i++;const id='mix-'+i;ids.add(id);next.push({...normalize([{id,name:'IEM '+(next.length+1),mode:'stereo'}])[0],aux:[null,null]});}return next;
+  }
+  function apply(o,current,mixes,token){
+    const nextMixes=normalize(mixes),expected=specs(o,nextMixes),remaining=current.filter(r=>!own(o,r));
+    const used=new Set(remaining.map(r=>r.number).filter(Boolean)),reserved=new Set();
+    for(let i=0;i<nextMixes.length;i++)for(let side=0;side<(nextMixes[i].mode==='stereo'?2:1);side++){
+      const raw=mixes[i].aux?.[side];if(raw==null||raw==='')continue;const n=Number(raw);
+      if(!Number.isInteger(n)||n<1||n>999)throw Error('AUX muss eine ganze Zahl zwischen 1 und 999 sein.');
+      if(used.has(n)||reserved.has(n))throw Error('AUX '+n+' ist bereits vergeben. Bitte einen freien Mix wählen.');reserved.add(n);
+    }
+    let at=0;const generated=[];
+    for(let i=0;i<nextMixes.length;i++)for(let side=0;side<(nextMixes[i].mode==='stereo'?2:1);side++){
+      const spec=expected[at++],old=current.find(r=>r.sourceKey===spec.sourceKey);let number=Number(mixes[i].aux?.[side])||null;
+      if(!number){number=1;while(used.has(number)||reserved.has(number))number++;if(number>999)throw Error('Keine freie AUX-Nummer verfügbar.');reserved.add(number);}
+      generated.push({...old,...spec,number,id:old?.id||'route-'+token(),generatedInstrument:spec.instrument,edited:true,manual:false,stagebox:old?.stagebox||'',stageboxPort:old?.stageboxPort||null,notes:old?.notes||'',linkedSources:old?.linkedSources||[]});
+    }
+    // Retain ordering and identities of existing rows; insert new mixes after the set.
+    const byKey=new Map(generated.map(r=>[r.sourceKey,r])),rows=[];let insertAt=-1;
+    for(const row of current){if(!own(o,row)){rows.push(row);continue;}const replacement=byKey.get(row.sourceKey);if(replacement){rows.push(replacement);byKey.delete(row.sourceKey);}insertAt=rows.length;}
+    rows.splice(insertAt<0?rows.length:insertAt,0,...byKey.values());
+    return {mixes:nextMixes,rows};
+  }
+  return {normalize,read,specs,resize,apply};
+});
+/* build-inline:end stageplot-iem-v1.js */
 /* build-inline:start stageplot-mics-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 /* Shared microphone identities, manufacturer originals and offline preferences. */
 const StageplotMics=(()=>{
@@ -8102,7 +8218,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'mic-wireless-ewd',name:'Sennheiser EW-D · Funkmikrofon',short:'Funkmikrofon · EW-D',category:'mics',w:.268,d:.05,vb:[268,50],keywords:'sennheiser ewd ew-d skm wireless funk handheld mikrofon',detail:'Handsender mit MMD 835 · Originalmaß 268 × 50 mm'},
     {id:'mic-sm57',name:'Shure SM57',short:'Shure SM57',category:'mics',w:.157,d:.032,vb:[157,32],keywords:'shure sm57 instrument microphone dynamisch',detail:'Dynamisches Instrumentenmikrofon · Originalmaß 157 × 32 mm'},
     {id:'laptop',name:'Playback-Laptop',short:'Playback-Laptop',category:'tech',w:.3557,d:.2481,vb:[120,90],detail:'Stereo L/R · PLAYAUDIO1U mit 12 XLR · Dante Virtual Soundcard'},
-    {id:'rack',name:'IEM-Rack',short:'IEM-Rack',category:'tech',w:.6,d:.7},
+    {id:'rack',name:'IEM-Monitore · Funk / Kabel',short:'IEM-Monitore',category:'tech',w:.6,d:.7},
     {id:'mixer-xr18',name:'Behringer X AIR XR18',short:'X AIR XR18',family:'mixers',category:'tech',w:.333,d:.149,vb:[200,89.5],instrument:true,ioDefaults:{inputs:18,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer xr18 xair rackmixer',detail:'18 In / 8 Out · 333 × 149 mm Grundfläche'},
     {id:'mixer-wing-compact',name:'Behringer WING COMPACT',short:'WING Compact',family:'mixers',category:'tech',w:.5743,d:.45337,vb:[160,126],instrument:true,ioDefaults:{inputs:24,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer wing compact console pult',detail:'24 Preamps / 8 Outs · 574,3 × 453,4 mm Grundfläche'},
     {id:'mixer-wing-rack',name:'Behringer WING RACK',short:'WING Rack',family:'mixers',category:'tech',w:.486,d:.326,vb:[160,107],instrument:true,ioDefaults:{inputs:24,outputs:8,inputConnector:'XLR',outputConnector:'XLR'},keywords:'behringer digital mixer wing rack 4u',detail:'4 HE · 24 Preamps / 8 Outs · 486 × 326 mm Grundfläche'},
@@ -8208,7 +8324,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   function objectProductionLines(o){return [o.power?'Strom: '+o.power:'',o.wireless?'Funk: '+o.wireless:'',...(o.type==='foh'?['FOH '+num(objectSize(o).w)+' × '+metres(objectSize(o).d),...fohNeeds(o)]:[])].filter(Boolean);}
   function fillProductionObject(o){
     $('sp-production-object').hidden=(o.type==='riser'||o.type==='text'||byId[o.type].stageAccess||byId[o.type].stageExtension)&&!o.power&&!o.wireless;
-    $('sp-object-power').value=o.power||'';$('sp-object-wireless').value=o.wireless||'';$('sp-object-wireless-field').hidden=!(byId[o.type].instrument||o.type==='rack');$('sp-foh-fields').hidden=o.type!=='foh';
+    $('sp-object-power').value=o.power||'';$('sp-object-wireless').value=o.wireless||'';$('sp-object-wireless-field').hidden=!(byId[o.type].instrument||o.type==='rack'&&!Array.isArray(o.iemMixes));$('sp-foh-fields').hidden=o.type!=='foh';
     for(const id of ['sp-object-power','sp-object-wireless','sp-foh-width','sp-foh-depth','sp-foh-table','sp-foh-barrier','sp-foh-sun','sp-foh-rain'])$(id).disabled=!!o.locked;
     if(o.type==='foh'){$('sp-foh-width').value=objectSize(o).w;$('sp-foh-depth').value=objectSize(o).d;for(const key of ['table','barrier','sun','rain'])$('sp-foh-'+key).checked=!!o.foh?.[key];}
   }
@@ -10313,7 +10429,7 @@ function createStageplotSymbolV3(type, options = {}) {
     stagePopover.hidden=selected!=='stage-zone'||!!placement||view!=='editor'||!svg;
     if(!stagePopover.hidden){const scale=Number(svg.dataset.scale),hostRect=$('sp-editor-floor').getBoundingClientRect(),box=stagePopover.getBoundingClientRect(),cx=Number(svg.dataset.originX)+stage.w*scale/2,top=Number(svg.dataset.originY);$('sp-stage-popover-size').textContent=num(stage.w)+' × '+metres(stage.d);stagePopover.style.left=Math.max(5,Math.min(hostRect.width-box.width-5,cx-box.width/2))+'px';stagePopover.style.top=Math.max(5,Math.min(hostRect.height-box.height-5,top+10))+'px';}
     const hidden=!o||!!placement||view!=='editor'||!svg;
-    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&!['percussion','orchestra','laptop'].includes(o.type));if(o){drumButton.setAttribute('aria-label',o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester-Editor öffnen':o.type==='percussion'?'Percussion-Editor öffnen':'Drumdesigner öffnen');drumButton.querySelector('strong').textContent=o.type==='laptop'?'Playback-Ausgänge':o.type==='orchestra'?'Orchester-Editor':o.type==='percussion'?'Percussion-Editor':'Drumdesigner';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
+    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&!['percussion','orchestra','laptop','rack'].includes(o.type));if(o){drumButton.setAttribute('aria-label',o.type==='rack'?'IEM-Monitore einrichten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester-Editor öffnen':o.type==='percussion'?'Percussion-Editor öffnen':'Drumdesigner öffnen');drumButton.querySelector('strong').textContent=o.type==='rack'?'IEM-Monitore':o.type==='laptop'?'Playback-Ausgänge':o.type==='orchestra'?'Orchester-Editor':o.type==='percussion'?'Percussion-Editor':'Drumdesigner';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
     drumButton.disabled=!!o.locked;stageboxButton.disabled=!!o.locked;if(!stageboxButton.hidden)stageboxButton.setAttribute('aria-label',(o.label||byId[o.type].short)+' Routing und I/O öffnen');
     const below=overlappingObjectBelow(o),sendBehind=$('sp-send-behind');
     if(sendBehind){sendBehind.hidden=!below;sendBehind.disabled=!!o.locked;sendBehind.dataset.overlapTarget=below?.id||'';
@@ -10715,7 +10831,7 @@ function createStageplotSymbolV3(type, options = {}) {
       }
       if(byId[type].instrument){item.io=normalizeObjectIo(o.io,{...o,type,drums:item.drums||o.drums});item.outs=ioValueText(item.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
       if(stageboxCapacity[type])item.comboJacks=o.comboJacks===true;
-      if(type==='rack')item.iem=normalizeIemConfig(o.iem,item.label);
+      if(type==='rack'){item.iem=normalizeIemConfig(o.iem,item.label);if(Array.isArray(o.iemMixes))item.iemMixes=StageplotIem.normalize(o.iemMixes,item.iem);}
       if(type==='laptop'&&o.playback)item.playback=normalizePlayback(o.playback);
       if(type==='mic')Object.assign(item,{stand:o.stand==='round'?'round':'boom',purpose:['vocals','talkback','instrument'].includes(o.purpose)?o.purpose:'vocals',boomDirection:['up','left','right'].includes(o.boomDirection)?o.boomDirection:'up'});
       if(type==='foh'){const f=o.foh||{};Object.assign(item,{width:finite(o.width,.3,30)?o.width:3,depth:finite(o.depth,.3,20)?o.depth:2,foh:{table:f.table===true,barrier:f.barrier===true,sun:f.sun===true,rain:f.rain===true}});}
@@ -11276,6 +11392,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(io)for(let index=0;index<io.inputs.count;index++){const number=index+1,alias=ioAliasAt(io,'inputs',number),suffix=alias?' · '+alias:io.inputs.count>1?' · In '+number:'',signal=['USB','Digital','MADI','Dante'].includes(io.inputs.connector)?'Digital':'Line';specs.push(routeSpec(o,'io-in-'+number,(o.label||c.name)+suffix,io.inputs.count===1?'Mono':'Direct',signal,{connector:io.inputs.connector,portIndex:number}));}
       if(o.type==='wedge')specs.push(routeSpec(o,'monitor','Monitor · '+(o.label||'Wedge'),'Mono','Line',{connector:'XLR',portIndex:1}));
       if(o.type==='iem-earphones'){specs.push(routeSpec(o,'iem-l','IEM · '+(o.label||'Musiker')+' L','Stereo L','Line',{connector:'XLR',portIndex:1,stereoGroup:o.id+':iem'}));specs.push(routeSpec(o,'iem-r','IEM · '+(o.label||'Musiker')+' R','Stereo R','Line',{connector:'XLR',portIndex:2,stereoGroup:o.id+':iem'}));}
+      if(o.type==='rack'&&Array.isArray(o.iemMixes)){specs.push(...StageplotIem.specs(o));continue;}
       if(o.type==='rack'){const config=normalizeIemConfig(o.iem,o.label),group=o.id+':iem';if(config.mode==='stereo'){specs.push(routeSpec(o,'iem-l','IEM · '+config.name+' L','Stereo L','Line',{connector:'XLR',portIndex:1,stereoGroup:group,iemName:config.name,iemMode:'stereo',iemTransport:config.transport,frequencyBand:o.wireless||config.frequencyBand,iemGroup:group}));specs.push(routeSpec(o,'iem-r','IEM · '+config.name+' R','Stereo R','Line',{connector:'XLR',portIndex:2,stereoGroup:group,iemName:config.name,iemMode:'stereo',iemTransport:config.transport,frequencyBand:o.wireless||config.frequencyBand,iemGroup:group}));}else specs.push(routeSpec(o,'iem-mono','IEM · '+config.name,'Mono','Line',{connector:'XLR',portIndex:1,iemName:config.name,iemMode:'mono',iemTransport:config.transport,frequencyBand:o.wireless||config.frequencyBand,iemGroup:group}));}
     }return specs;
   }
@@ -11391,6 +11508,81 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function saveChannelDialog(){saveAudioChannel();
   }
+/* build-inline:start stageplot-iem-editor-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+// Embedded in the editor closure. One IEM editor for placement, object and routing.
+let iemEditingId=null;
+function dialogBody(){return $('sp-iem-monitor-dialog').querySelector('.sp-iem-set-body');}
+function iemSetRows(o){return StageplotIem.read(o,stage.routing.outputs);}
+function iemMonitorShortcut(o){
+  const mixes=iemSetRows(o),stereo=mixes.filter(m=>m.mode==='stereo').length;
+  return '<button type="button" class="sp-iem-shortcut" data-iem-monitors="'+esc(o.id)+'"'+(o.locked?' disabled':'')+'><span><strong>IEM-Monitore einrichten</strong><small>'+mixes.length+' IEM · '+(mixes.length-stereo)+' Mono · '+stereo+' Stereo</small></span><b aria-hidden="true">→</b></button>';
+}
+function commitIemSet(o,mixes){
+  if(!o||o.locked||sharedReadOnly)return false;
+  const before=snapshot();
+  try{
+    const result=StageplotIem.apply(o,stage.routing.outputs,mixes,routeToken);
+    o.iemMixes=result.mixes;o.iem={...result.mixes[0]};
+    if(/^(IEM(?:-Rack|-Monitore)?|\d+ IEM-Monitore)$/.test(o.label))o.label=result.mixes.length+' IEM-Monitore';
+    stage.routing.outputs=result.rows.map((row,i)=>normalizeRouteChannel(row,i,'outputs'));
+    stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>!key.startsWith(o.id+':'));
+    reconcileCablesWithRouting();keepHistory(before);refreshAudioSurface();return true;
+  }catch(error){$('sp-iem-set-error').textContent=error.message;$('sp-iem-set-error').hidden=false;return false;}
+}
+function openIemMonitors(id,mixKey=null){
+  const o=objects.find(o=>o.id===id&&o.type==='rack');if(!o||o.locked||sharedReadOnly)return false;
+  finishEdit();iemEditingId=id;renderIemMonitors();
+  if(!$('sp-iem-monitor-dialog').open)$('sp-iem-monitor-dialog').showModal();
+  const mix=iemSetRows(o).find(m=>m.ports.some(port=>id+':'+port===mixKey));
+  if(mix)requestAnimationFrame(()=>document.getElementById('sp-iem-mix-'+mix.id)?.scrollIntoView({block:'nearest'}));
+  else requestAnimationFrame(()=>{$('sp-iem-set-heading').focus({preventScroll:true});dialogBody().scrollTop=0;});return false;
+}
+function renderIemMonitors(){
+  const o=objects.find(o=>o.id===iemEditingId);if(!o){$('sp-iem-monitor-dialog').close();return;}
+  const mixes=iemSetRows(o),channels=mixes.reduce((sum,m)=>sum+(m.mode==='stereo'?2:1),0);
+  $('sp-iem-set-count').textContent=mixes.length;$('sp-iem-count-less').disabled=mixes.length<=1;$('sp-iem-count-more').disabled=mixes.length>=16;
+  $('sp-iem-set-summary').textContent=channels+' AUX-Mixe / Ausgangskanäle · Mono braucht einen, Stereo zwei.';
+  $('sp-iem-set-error').hidden=true;
+  const choice=(m,field,value,text)=>'<button type="button" data-iem-field="'+field+'" data-iem-value="'+value+'" aria-pressed="'+(m[field]===value)+'">'+text+'</button>';
+  $('sp-iem-set-mixes').innerHTML=mixes.map((m,i)=>{
+    const rows=m.ports.map(port=>stage.routing.outputs.find(row=>row.sourceKey===o.id+':'+port)).slice(0,m.mode==='stereo'?2:1);
+    const aux=rows.map((row,side)=>'<label class="sp-field">'+(m.mode==='stereo'?(side?'Rechts · AUX':'Links · AUX'):'Mono · AUX')+'<input type="number" inputmode="numeric" min="1" max="999" step="1" data-iem-aux="'+side+'" value="'+(row?.number||'')+'" placeholder="Freier Mix" aria-label="IEM '+(i+1)+' '+(side?'rechts':'links')+' AUX"></label>').join('');
+    const patch=rows.map((row,side)=>'<span><b>'+(m.mode==='stereo'?(side?'R':'L'):'Mono')+'</b> '+esc(row?stageboxRouteLocation(row,'outputs'):'Ausgang noch offen')+'</span>').join('');
+    return '<section class="sp-iem-mix" id="sp-iem-mix-'+m.id+'" data-iem-mix="'+m.id+'"><header><span class="sp-iem-mix-number">'+(i+1)+'</span><label class="sp-field">Musiker:in / Monitor<input data-iem-name maxlength="80" value="'+esc(m.name)+'" aria-label="IEM '+(i+1)+' Name"></label></header><div class="sp-iem-mix-options"><div><span>Monitor-Mix</span><div role="group" aria-label="IEM '+(i+1)+' Mono oder Stereo">'+choice(m,'mode','mono','Mono')+choice(m,'mode','stereo','Stereo L / R')+'</div></div><div><span>Verbindung zum Musiker</span><div role="group" aria-label="IEM '+(i+1)+' Funk oder Kabel">'+choice(m,'transport','wireless','Funk')+choice(m,'transport','cable','Kabel')+'</div></div></div>'+(m.transport==='wireless'?'<label class="sp-field sp-iem-frequency">Frequenzbereich · optional<input data-iem-frequency maxlength="100" value="'+esc(m.frequencyBand)+'" placeholder="z. B. 470–526 MHz" aria-label="IEM '+(i+1)+' Frequenzbereich"></label>':'')+'<div class="sp-iem-connection"><div class="sp-iem-aux">'+aux+'</div><div class="sp-iem-patch"><span class="sp-iem-section-label">Physischer Ausgang</span>'+patch+'<button type="button" class="sp-button" data-iem-patch="'+m.id+'">'+(rows.some(row=>row?.stagebox)?'Ausgänge ändern':'Ausgänge verbinden')+' →</button></div></div></section>';
+  }).join('');
+  $('sp-iem-set-undo').disabled=!history.length;
+}
+function initializeIemMonitorEditor(){
+  const dialog=document.createElement('dialog');dialog.id='sp-iem-monitor-dialog';dialog.className='sp-iem-monitor-dialog';dialog.setAttribute('aria-labelledby','sp-iem-set-heading');
+  dialog.innerHTML='<header class="sp-iem-set-head"><div><span class="sp-eyebrow">MONITORING</span><h2 id="sp-iem-set-heading" tabindex="-1">IEM-Monitore</h2><p>Ein eigener Mix pro Musiker:in – direkt mit dem Routing verbunden.</p></div><button type="button" id="sp-iem-set-close" aria-label="IEM-Monitore schließen">×</button></header><div class="sp-iem-set-body"><section class="sp-iem-set-quantity"><div><strong>Wie viele IEMs?</strong><small>Ein IEM steht für einen Monitor-Mix.</small></div><div><button type="button" id="sp-iem-count-less" aria-label="Ein IEM weniger">−</button><output id="sp-iem-set-count" aria-live="polite">1</output><button type="button" id="sp-iem-count-more" aria-label="Ein IEM mehr">+</button></div></section><p id="sp-iem-set-summary" class="sp-muted"></p><p id="sp-iem-set-error" class="sp-error" role="alert" hidden></p><div id="sp-iem-set-mixes"></div></div><footer><span id="sp-iem-set-save-status" role="status"></span><button type="button" id="sp-iem-set-undo" class="sp-button">Rückgängig</button><button type="button" id="sp-iem-set-done" class="sp-button sp-primary">Fertig</button></footer>';
+  root.appendChild(dialog);
+  const syncSaveStatus=()=>{const source=$('sp-header-draft-status'),status=$('sp-iem-set-save-status');status.textContent=source.textContent;status.title=source.parentElement.title;status.dataset.state=source.parentElement.dataset.state;};
+  new MutationObserver(syncSaveStatus).observe($('sp-header-draft-status'),{childList:true,subtree:true,characterData:true});syncSaveStatus();
+  const finish=()=>{if(dialog.querySelector('[aria-invalid="true"]')){$('sp-iem-set-error').hidden=false;return;}dialog.close();};
+  $('sp-iem-set-close').addEventListener('click',finish);$('sp-iem-set-done').addEventListener('click',finish);
+  dialog.addEventListener('cancel',e=>{if(dialog.querySelector('[aria-invalid="true"]')){e.preventDefault();$('sp-iem-set-error').hidden=false;}});
+  dialog.addEventListener('click',e=>{
+    const o=objects.find(o=>o.id===iemEditingId);if(!o)return;
+    if(e.target.closest('#sp-iem-set-undo')){undo(false);renderIemMonitors();return;}
+    if(dialog.querySelector('[aria-invalid="true"]'))return;
+    const count=e.target.closest('#sp-iem-count-less,#sp-iem-count-more');
+    if(count){if(commitIemSet(o,StageplotIem.resize(iemSetRows(o),iemSetRows(o).length+(count.id==='sp-iem-count-more'?1:-1))))renderIemMonitors();return;}
+    const card=e.target.closest('[data-iem-mix]'),button=e.target.closest('[data-iem-field]');
+    if(button&&card){const mixes=iemSetRows(o),mix=mixes.find(m=>m.id===card.dataset.iemMix);mix[button.dataset.iemField]=button.dataset.iemValue;if(commitIemSet(o,mixes))renderIemMonitors();return;}
+    const patch=e.target.closest('[data-iem-patch]');
+    if(patch){const mixes=iemSetRows(o);if(!commitIemSet(o,mixes))return;const mix=mixes.find(m=>m.id===patch.dataset.iemPatch),row=stage.routing.outputs.find(row=>row.sourceKey===o.id+':'+mix.ports[0]);openAudioPatch('outputs',row.id);}
+  });
+  dialog.addEventListener('change',e=>{
+    const field=e.target,card=field.closest('[data-iem-mix]'),o=objects.find(o=>o.id===iemEditingId);if(!card||!o)return;
+    if(!field.checkValidity()){field.setAttribute('aria-invalid','true');$('sp-iem-set-error').textContent=field.validationMessage;$('sp-iem-set-error').hidden=false;return;}
+    const mixes=iemSetRows(o),mix=mixes.find(m=>m.id===card.dataset.iemMix);if(field.hasAttribute('data-iem-name'))mix.name=field.value;else if(field.hasAttribute('data-iem-frequency'))mix.frequencyBand=field.value;else if(field.hasAttribute('data-iem-aux'))mix.aux[Number(field.dataset.iemAux)]=field.value;else return;
+    if(commitIemSet(o,mixes)){field.removeAttribute('aria-invalid');$('sp-iem-set-error').hidden=true;const saved=iemSetRows(o).find(m=>m.id===mix.id);if(field.hasAttribute('data-iem-aux'))field.value=saved.aux[Number(field.dataset.iemAux)]||'';if(field.hasAttribute('data-iem-name'))field.value=saved.name;}else field.setAttribute('aria-invalid','true');
+  });
+  $('sp-audio-connect-dialog').addEventListener('close',()=>{if(dialog.open)renderIemMonitors();});
+  root.addEventListener('click',e=>{const button=e.target.closest('[data-iem-monitors]');if(button)openIemMonitors(button.dataset.iemMonitors);});
+}
+initializeIemMonitorEditor();
+/* build-inline:end stageplot-iem-editor-v1.js */
 /* build-inline:start stageplot-audio-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Embedded inside the editor closure. These helpers operate on the same routing
 // records used by stagebox assignment, persistence and printing; physical I/O is only capacity.
@@ -11537,13 +11729,13 @@ function selectAudioSpecs(specs,direction){
 }
 function audioObjectRows(o){return ['inputs','outputs'].flatMap(direction=>(stage?.routing?.[direction]||[]).filter(row=>audioMembers(row).some(member=>member.sourceKey.startsWith(o.id+':'))).map(row=>({row,direction})));}
 function audioObjectChannels(o){
-  const rows=audioObjectRows(o);return ['inputs','outputs'].map(direction=>{const list=rows.filter(item=>item.direction===direction).map(item=>item.row.number||'—');return list.length?(direction==='inputs'?'CH ':'OUT ')+[...new Set(list)].join(' / '):'';}).filter(Boolean).join(' · ');
+  const rows=audioObjectRows(o);return ['inputs','outputs'].map(direction=>{const list=rows.filter(item=>item.direction===direction).map(item=>item.row.number||'—');return list.length?(direction==='inputs'?'CH ':o.type==='rack'?'AUX ':'OUT ')+[...new Set(list)].join(' / '):'';}).filter(Boolean).join(' · ');
 }
 function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
   host.hidden=!all.length&&!rows.length&&o.type!=='laptop';if(host.hidden)return;
   const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),available=all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
-  host.innerHTML=(o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4><p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
+  host.innerHTML=(o.type==='rack'?iemMonitorShortcut(o):o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4><p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }
 function audioRoutingRows(rows,direction){
   return rows.map(row=>{const stereo=Boolean(row.stereoGroup),patch=stageboxRouteLocation(row,direction),kind=direction==='inputs'?({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||row.signalType):({monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)]),members=(row.linkedSources||[]).length;
@@ -11561,6 +11753,8 @@ function audioCanStereo(row,direction){
   return objectIo(o).outputs.count>=(row.portIndex||1)+1;
 }
 function openAudioChannel(direction,id=null){
+  const iemRow=stage?.routing?.[direction]?.find(row=>row.id===id),iemObject=iemRow?routeSourceObject(iemRow):null;
+  if(direction==='outputs'&&iemObject?.type==='rack')return openIemMonitors(iemObject.id,iemRow.sourceKey);
   if(sharedReadOnly)return;direction=direction==='outputs'?'outputs':'inputs';syncRoutingFromStage(false,false);
   const rows=stage.routing[direction],clicked=rows.find(row=>row.id===id),group=audioGroup(rows,clicked),row=group.find(item=>item.mode==='Stereo L')||clicked||normalizeRouteChannel({id:'route-'+routeToken(),manual:true,instrument:'Neues Signal',signalType:direction==='inputs'?'Mic':'Line',pickup:direction==='inputs'?'Mic':'Direct'},rows.length,direction),partner=group.find(item=>item.id!==row.id);
   editingRoute={...clone(row),direction,index:rows.indexOf(row),isNew:!id,partner:partner?clone(partner):null};
@@ -12151,7 +12345,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   $('sp-routing-sync').addEventListener('click',()=>{const before=snapshot();syncRoutingFromStage();keepHistory(before);renderRouting();});
   $('sp-routing-auto').addEventListener('click',autoAssignRouting);
   $('sp-routing-add').addEventListener('click',()=>openChannelDialog(routingTab));
-  $('sp-routing-rows').addEventListener('click',e=>{if(suppressRoutingClick||e.target.closest('[data-route-drag],[data-playback-open]'))return;const phantom=e.target.closest('[data-route-phantom]');if(phantom){const row=stage.routing.inputs.find(item=>item.id===phantom.dataset.routePhantom);if(row){const before=snapshot(),enabled=!row.phantom;for(const member of audioGroup(stage.routing.inputs,row)){member.phantom=enabled;StageplotMics.writeDrumRoute(objects,member,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));}keepHistory(before);renderRouting();say(row.phantom?'48V aktiviert':'48V deaktiviert');}return;}const patch=e.target.closest('[data-audio-patch]');if(patch){openAudioPatch(routingTab,patch.dataset.audioPatch);return;}const number=e.target.closest('[data-route-number]');if(number){openAudioChannel(routingTab,number.dataset.routeNumber);showAudioEditorPanel('patch');requestAnimationFrame(()=>{$('sp-channel-number').focus({preventScroll:true});$('sp-channel-number').select();});return;}const row=e.target.closest('[data-route-row]');if(row)openChannelDialog(routingTab,row.dataset.routeRow);});
+  $('sp-routing-rows').addEventListener('click',e=>{if(suppressRoutingClick||e.target.closest('[data-route-drag],[data-playback-open]'))return;const phantom=e.target.closest('[data-route-phantom]');if(phantom){const row=stage.routing.inputs.find(item=>item.id===phantom.dataset.routePhantom);if(row){const before=snapshot(),enabled=!row.phantom;for(const member of audioGroup(stage.routing.inputs,row)){member.phantom=enabled;StageplotMics.writeDrumRoute(objects,member,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));}keepHistory(before);renderRouting();say(row.phantom?'48V aktiviert':'48V deaktiviert');}return;}const patch=e.target.closest('[data-audio-patch]');if(patch){openAudioPatch(routingTab,patch.dataset.audioPatch);return;}const number=e.target.closest('[data-route-number]');if(number){if(openAudioChannel(routingTab,number.dataset.routeNumber)===false)return;showAudioEditorPanel('patch');requestAnimationFrame(()=>{$('sp-channel-number').focus({preventScroll:true});$('sp-channel-number').select();});return;}const row=e.target.closest('[data-route-row]');if(row)openChannelDialog(routingTab,row.dataset.routeRow);});
   $('sp-routing-rows').addEventListener('keydown',e=>{if(!['Enter',' '].includes(e.key)||e.target.closest('button'))return;const row=e.target.closest('[data-route-row]');if(row){e.preventDefault();openChannelDialog(routingTab,row.dataset.routeRow);}});
   $('sp-routing-rows').addEventListener('dragstart',e=>{const handle=e.target.closest('[data-route-drag]'),row=handle?.closest('[data-route-row]');if(!handle||!row){e.preventDefault();return;}routingDrag={id:row.dataset.routeRow,moved:false};row.dataset.dragging='true';e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',routingDrag.id);});
   $('sp-routing-rows').addEventListener('dragover',e=>{if(!routingDrag)return;const row=e.target.closest('[data-route-row]');if(!row||row.dataset.routeRow===routingDrag.id)return;e.preventDefault();routingDrag.moved=true;const rect=row.getBoundingClientRect(),placement=e.clientY<rect.top+rect.height/2?'before':'after';$('sp-routing-rows').querySelectorAll('[data-drop-position]').forEach(node=>delete node.dataset.dropPosition);row.dataset.dropPosition=placement;e.dataTransfer.dropEffect='move';});
@@ -12345,7 +12539,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     finally{button.disabled=false;button.removeAttribute('aria-busy');}
   }
   $('sp-export-png').addEventListener('click',runExportIntent);
-  function routeFrequency(row){return [...new Set(audioMembers(row).map(member=>routeSourceObject(member)?.wireless||member.frequencyBand||'').filter(Boolean))].join(' · ');}
+  function routeFrequency(row){return [...new Set(audioMembers(row).map(member=>{if(member.iemTransport==='cable')return '';const source=routeSourceObject(member);return source?.type==='rack'&&Array.isArray(source.iemMixes)?member.frequencyBand||'':source?.wireless||member.frequencyBand||'';}).filter(Boolean))].join(' · ');}
   const routingHeaders=['Kanalnummer','Instrument / Input','Mode','Signaltyp','Mikrofon','48V','Stagebox','Notizen','Funk / Frequenz'];
   function routingExportRows(direction){
     const boxes=new Map(routingStageboxes(direction).map(box=>[box.id,box.name]));return stage.routing[direction].map(row=>[row.number||'',row.instrument,row.mode,row.signalType,row.microphone,row.phantom?'48V':'',row.stagebox?(boxes.get(row.stagebox)||'Nicht verfügbar'):'',row.notes,routeFrequency(row)]);
@@ -12939,6 +13133,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     if((e.key==='Delete'||e.key==='Backspace')&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)&&removableDrumPart(drumSelectedPart)){e.preventDefault();removeSelectedDrumPart();}
   });
   function openSelectedDrumDesigner(e){
+    const iemObject=objects.find(o=>o.id===selected&&o.type==='rack');if(iemObject){openIemMonitors(iemObject.id);return;}
     const playbackObject=objects.find(o=>o.id===selected&&o.type==='laptop');if(playbackObject){openPlaybackDialog(playbackObject.id,e?.currentTarget);return;}
     const orchestraObject=objects.find(o=>o.id===selected&&o.type==='orchestra');if(orchestraObject){if(!orchestraObject.locked){cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();orchestraEditor.open(orchestraObject,e?.currentTarget,stage);}return;}
     const percussionObject=objects.find(o=>o.id===selected&&o.type==='percussion');if(percussionObject){if(!percussionObject.locked){cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();percussionEditor.open(percussionObject,e?.currentTarget);}return;}
@@ -13215,7 +13410,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type)&&seed?.drums)o.drums=drumModel.normalizeDrums(type,seed.drums);
     if(c.instrument){o.io=normalizeObjectIo(null,o);o.outs=ioValueText(o.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
     if(stageboxCapacity[type])o.comboJacks=false;
-    if(type==='rack')o.iem=normalizeIemConfig(null,o.label);
+    if(type==='rack')o.iem=normalizeIemConfig({name:'IEM 1'},o.label);
     if(type==='mic')Object.assign(o,{stand:'boom',purpose:'vocals',boomDirection:'up'});
     if(seed?.inventory){const entry=seed.inventory,d=entry.document;Object.assign(o,{inventoryId:entry.id,label:d.name.slice(0,42),power:d.power,wireless:d.wireless,note:[d.model,d.notes].filter(Boolean).join(" · ").slice(0,160)});}
     constrain(o);return o;
@@ -13228,7 +13423,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     let added=null;change(()=>{
       const o=makeObject(type,point,'station-'+nextId++,seed);objects.push(o);selected=o.id;added=o;syncRoutingFromStage(false);
     },c.name+' platziert');
-    if(added?.type==='rack')requestAnimationFrame(()=>{const row=stage.routing.outputs.find(item=>item.sourceKey===added.id+':iem-l'||item.sourceKey===added.id+':iem-mono');if(row)openChannelDialog('outputs',row.id);});
+    if(added?.type==='rack')requestAnimationFrame(()=>openIemMonitors(added.id));
   }
   function beginPlacement(type,event,seed=null){
     if(!stage||view!=='editor'||!Object.hasOwn(byId,type))return;
