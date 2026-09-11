@@ -29,14 +29,14 @@ let drafts={lastId:'draft-new',entries:[{id:'draft-old',sourceSetupId:'setup-sha
 const dc={hasLinkedAccount:()=>true,localStorage:{},readDraftLibrary:()=>plain(drafts),readSetupLibrary:()=>plain(setups),writeDraftLibrary:(_s,v)=>drafts=v,writeSetupLibrary:(_s,v)=>setups=v,activeDraftId:'draft-new',cloudBridge:{local:{matches:(_k,entry)=>entry.name==='Cloud'}}};vm.createContext(dc);vm.runInContext(extract('prepareDraftsForSync'),dc);dc.prepareDraftsForSync();assert.equal(setups.length,2);assert.equal(setups.find(p=>p.id==='setup-shared').name,'Neu');assert.equal(setups.find(p=>p.id==='setup-old').name,'Alt');assert.equal(drafts.entries[0].sourceSetupId,'setup-old');
 // Exercise the actual two-pointer handlers with a stable host; no hardware claims.
 const listeners={},hostListeners={},captures=new Set(),host={addEventListener:(n,fn)=>hostListeners[n]=fn,setPointerCapture:id=>captures.add(id),hasPointerCapture:id=>captures.has(id),releasePointerCapture:id=>captures.delete(id),querySelector:()=>({dataset:{scale:50,originX:0,originY:0},getAttribute:()=>500})};
-const pc={window:{addEventListener:(n,fn)=>listeners[n]=fn},$:()=>host,selected:'station-1',stage:{},objects:[{id:'station-1',w:2,d:1}],drag:null,panDrag:null,placement:null,cableDrag:null,history:[],selectedFootprint:()=>({x:0,y:0,w:2,d:1}),redrawFootprintDrag:()=>{},renderEditor:()=>{}};pc.snapshot=()=>JSON.stringify({stage:pc.stage,objects:pc.objects});pc.applyFootprint=(_id,r)=>Object.assign(pc.objects[0],r);pc.keepHistory=before=>pc.history.push(before);vm.createContext(pc);
+const pc={panMode:false,selectionMode:false,StageplotQol:require('./stageplot-qol-v1.js'),objectSize:o=>({w:o.w,d:o.d}),window:{addEventListener:(n,fn)=>listeners[n]=fn},$:()=>host,selected:'station-1',stage:{},objects:[{id:'station-1',w:2,d:1}],drag:null,panDrag:null,placement:null,cableDrag:null,history:[],selectedFootprint:()=>({x:0,y:0,w:2,d:1}),redrawFootprintDrag:()=>{},renderEditor:()=>{}};pc.selectedObjects=()=>pc.objects;pc.snapshot=()=>JSON.stringify({stage:pc.stage,objects:pc.objects});pc.applyFootprint=(_id,r)=>Object.assign(pc.objects[0],r);pc.keepHistory=before=>pc.history.push(before);vm.createContext(pc);
 const start=html.indexOf('  const footprintTouches='),end=html.indexOf("  window.addEventListener('pointermove',moveObjectDrag);",start);vm.runInContext(html.slice(start,end),pc);
-const event=(id,x,y=0)=>({pointerType:'touch',pointerId:id,clientX:x,clientY:y,preventDefault(){},stopImmediatePropagation(){}});
+const event=(id,x,y=0)=>({target:{closest:selector=>selector==='[data-object]'?{dataset:{object:'station-1'}}:null},pointerType:'touch',pointerId:id,clientX:x,clientY:y,preventDefault(){},stopImmediatePropagation(){}});
 hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,150));assert.equal(pc.objects[0].w,3);assert.equal(pc.objects[0].d,1.5);listeners.pointerup(event(2,150));assert.equal(pc.history.length,1);assert.equal(captures.size,0);
 hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,200));listeners.pointercancel(event(2,200));assert.equal(pc.objects[0].w,3,'Abgebrochene Geste stellt den Ausgangszustand wieder her.');
 // A camera gesture must never resize equipment or add an object-history entry.
 const beforeCamera=pc.snapshot(),historyBeforeCamera=pc.history.length;
-pc.selectedFootprint=()=>null;pc.camera={zoom:1,panX:0,panY:0};
+pc.selectedFootprint=()=>null;pc.selectedObjects=()=>[];pc.camera={zoom:1,panX:0,panY:0};
 pc.syncViewControls=pc.queueDraw=pc.queueViewportSave=()=>{};
 host.getBoundingClientRect=()=>({left:0,top:0});
 vm.runInContext(extract('floorView')+'\n'+extract('zoomCamera'),pc);
@@ -52,6 +52,42 @@ assert.equal(pc.snapshot(),beforeCamera);assert.equal(pc.history.length,historyB
 const retainedCamera=plain(pc.camera);
 hostListeners.pointerdown(event(4,100));hostListeners.pointerdown(event(5,200));listeners.pointermove(event(5,260));listeners.pointercancel(event(4,100));
 assert.deepEqual(plain(pc.camera),retainedCamera,'Cancelled viewport gesture restores only the camera.');assert.equal(pc.snapshot(),beforeCamera);
+// Instrument rotation preserves metric dimensions, cancels atomically and crosses ±180°.
+pc.selectedObjects=()=>pc.objects;
+pc.objects=[{id:'station-1',x:2,y:3,w:.4,d:.6,angle:15}];
+const rotationStart=pc.snapshot(),historyStart=pc.history.length;
+hostListeners.pointerdown(event(1,100,100));hostListeners.pointerdown(event(2,200,100));
+listeners.pointermove(event(2,100,240));assert.equal(pc.objects[0].angle,105);
+assert.equal(pc.objects[0].w,.4);assert.equal(pc.objects[0].d,.6);assert.equal(pc.objects[0].x,2);
+listeners.pointermove(event(2,0,99));listeners.pointermove(event(2,0,101));
+assert.ok(Math.abs(pc.objects[0].angle-194.4)<.11,'Crossing the atan2 seam remains continuous.');
+listeners.pointercancel(event(2,0,101));assert.equal(pc.snapshot(),rotationStart);assert.equal(pc.history.length,historyStart);
+hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));
+listeners.pointermove(event(2,0,100));listeners.pointerup(event(2,0,100));
+assert.equal(pc.objects[0].angle,105);assert.equal(pc.history.length,historyStart+1);
+// A group rotates as one rigid arrangement, without scaling its spacing.
+pc.objects=[{id:'station-1',x:1,y:2,w:1,d:1,angle:0},{id:'station-2',x:3,y:2,w:1,d:1,angle:30}];
+const groupStart=pc.snapshot();
+hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,0,150));
+assert.equal(pc.objects[0].angle,90);assert.equal(pc.objects[1].angle,120);
+assert.ok(Math.abs(Math.hypot(pc.objects[0].x-pc.objects[1].x,pc.objects[0].y-pc.objects[1].y)-2)<1e-9);
+assert.equal(pc.objects[0].w,1);listeners.blur();assert.equal(pc.snapshot(),groupStart);assert.equal(captures.size,0);
+// Locked groups and selection mode retain the view gesture.
+for(const mode of ['locked','selection']){
+ pc.objects[1].locked=mode==='locked';pc.selectionMode=mode==='selection';const before=pc.snapshot();
+ hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,0,150));listeners.pointerup(event(2,0,150));assert.equal(pc.snapshot(),before);
+}
+pc.selectionMode=false;pc.objects[1].locked=false;
+// Tiny spans cannot cause unstable rotation; angular jitter does not rotate an instrument.
+hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,0));listeners.pointermove(event(2,1,1));assert.equal(pc.objects[0].angle,0);
+listeners.pointermove(event(2,100,0));listeners.pointermove(event(2,100,2));assert.equal(pc.objects[0].angle,0);listeners.pointercancel(event(1,0));
+// Starting on free space always controls the camera, even with a selected group.
+const blank=(id,x,y=0)=>({...event(id,x,y),target:{closest:()=>null}}),selectedGroup=pc.snapshot();
+hostListeners.pointerdown(blank(1,0));hostListeners.pointerdown(blank(2,100));listeners.pointermove(blank(2,0,150));listeners.pointerup(blank(2,0,150));assert.equal(pc.snapshot(),selectedGroup);
+// A Riser combines rotation with 10 cm scaling, while retaining its center.
+pc.objects=[{id:'station-1',x:2,y:3,w:2,d:1,angle:0}];pc.selectedFootprint=()=>({x:2,y:3,w:2,d:1,angle:0});
+hostListeners.pointerdown(event(1,0));hostListeners.pointerdown(event(2,100));listeners.pointermove(event(2,0,150));listeners.pointerup(event(2,0,150));
+assert.deepEqual(plain(pc.objects[0]),{id:'station-1',x:2,y:3,w:3,d:1.5,angle:90});
 // Fit the real outline on phones, while keeping view extents stable during edits.
 let mobile=true;
 const fitContext={editorFit:null,mobileWorkspace:()=>mobile,iemRect:()=>null,stairStates:()=>[{id:'stairs-zone'}],stairsGeometry:()=>({x:1,y:5,w:1.2,d:.9}),objectSize:o=>({w:o.w,d:o.d}),workspaceBounds:()=>({minX:-1.25,minY:-1.25,maxX:9.25,maxY:6.25}),compiledVenue:()=>({bounds:{minX:-2,minY:-1,maxX:10,maxY:7}})};
