@@ -27,8 +27,10 @@ for(const direction of ['up','left','right']){const svg=ctx.render('mic',{boomDi
 for(const direction of ['up','left','right']){
  const svg=ctx.render('mic',{boomDirection:direction}),head=svg.match(/<g data-part="boom-microphone"[^]*?<\/g>/)[0];
  assert.match(head,/data-mic-direction="up"/);assert.match(head,/mic-boom-head-top-v3/);assert.ok(!head.includes('rotate('),'Microphone stays upright independently of the boom');
- assert.equal((svg.match(/<image /g)||[]).length,3);assert.deepEqual(JSON.parse(JSON.stringify(ctx.frame('mic',{boomDirection:direction}))),{width:650,height:650});
+ assert.equal((svg.match(/<image /g)||[]).length,3);assert.deepEqual(JSON.parse(JSON.stringify(ctx.frame('mic',{boomDirection:direction}))),{width:1450,height:1450});
 }
+assert.equal(manifest.assets.find(a=>a.id==='mic-boom').calibration.overallLengthMillimeters,745);
+assert.match(ctx.render('mic'),/data-diameter-mm="600"/);
 assert.equal(manifest.assets.find(a=>a.id==='mic-boom-head').calibration.displayLengthMillimeters,230);
 assert.notEqual(ctx.render('mic',{stand:'round'}),ctx.render('mic',{stand:'boom'}));
 assert.match(ctx.render('mic',{stand:'round'}),/width="250" height="250"/);

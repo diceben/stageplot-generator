@@ -3,7 +3,7 @@
   "created": "2026-09-10",
   "method": "OpenAI built-in image_gen; one generation per asset",
   "style": "Monochrome, realistic with restrained drawn contours; strict overhead views",
-  "normalization": "Alpha silhouette crop; proportional grayscale WebP, max 768 px. Millimetre frames and uniform scaling preserve image proportions. Tripod hubs and foot circles are calibrated independently; throne seat diameter is 300 mm. Boom microphones use independent enlarged heads with fixed upward orientation; the 650 mm stand frame remains unchanged.",
+  "normalization": "Alpha silhouette crop; proportional grayscale WebP, max 768 px. Millimetre frames and uniform scaling preserve image proportions. Tripod hubs and foot circles are calibrated independently; throne seat diameter is 300 mm. Boom microphones use independent enlarged heads with fixed upward orientation; the stand foot circle remains unchanged inside a 1450 mm boom sweep frame. Boom arm calibrated to 745 mm overall length.",
   "assets": [
     {
       "id": "laptop",
@@ -1083,18 +1083,18 @@
       "bytes": 7924,
       "sha256": "6d8177b726c1fd52f9950b4aeb5b14528e9dd8d4adf1c6c3865d1845d5ce9588",
       "viewBox": [
-        650,
-        650
+        1450,
+        1450
       ],
       "footprintMeters": {
-        "width": 0.65,
-        "depth": 0.65
+        "width": 1.45,
+        "depth": 1.45
       },
       "imageRect": [
-        319.7447,
-        200.0,
-        18.2683,
-        177.5526
+        702.9493,
+        200.5074,
+        76.6526,
+        745
       ],
       "calibration": {
         "sourceHub": [
@@ -1106,10 +1106,12 @@
           31
         ],
         "attachmentPoint": [
-          323.7487,
-          200
+          719.7498,
+          200.5074
         ],
-        "displayOnly": true
+        "displayOnly": false,
+        "overallLengthMillimeters": 745,
+        "reference": "https://www.k-m.de/en/products/microphone-stands/boom-arms/211-1-boom-arm-black"
       },
       "source": {
         "file": "exec-d8748011-3ad4-47d7-a449-7b90de34b451.png",

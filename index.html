@@ -646,7 +646,7 @@
               <li><strong>Freie Bühnenformen:</strong> Flächen, Rundungen, Stege, Seitenbühnen und Ausschnitte kombinieren. Der größere Bühnenbauer bietet Formkarten, direkte Kantenmaße und dieselben Aktionen zum Drehen, Duplizieren und Löschen wie Bühnenobjekte.</li>
               <li><strong>Bündiger Aufbau:</strong> Treppen und Rampen sind eigene Bausteine. Bühnenkanten haben beim Einrasten Vorrang vor dem Raster, auch bei ungeraden Maßen. Riserbeschriftungen stehen kompakter an freien Kanten.</li>
               <li><strong>Gerenderte Kategorien:</strong> Sechs neue Bild-Icons zeigen Instrumente, Orchester, Bühne, Licht und Technik als einheitliche Miniaturen. Die Namen bleiben sichtbar, alle Kategorien stehen gleichmäßig in zwei Reihen. Das Orchester ist an Cello, Harfe und Horn erkennbar und erhält auch in der Bibliothek ein eigenes Vorschaubild.</li>
-              <li><strong>Technik von oben &amp; korrekte Proportionen:</strong> Boom-Mikrofone besitzen jetzt einen besser erkennbaren, bewusst vergrößerten Mikrofonkopf als eigenes Draufsicht-Bildasset; beim Wechsel des Arms nach links oder rechts bleibt der Kopf nach oben ausgerichtet.  Neue realistische Bildassets für Technik, Mikrofone, 3er-Gitarrenständer und Gitarrenbäume – leer und befüllt in Draufsicht. Wedge und Stromleiste werden nicht mehr verzerrt; der kompakte Schlagzeughocker hat eine 30-cm-Sitzfläche und einen 43-cm-Fußkreis, auch im Drum-Designer. Bilder bleiben beim Skalieren proportional, Breite und Tiefe der Technikobjekte sind gekoppelt. Bibliothek, Bühne, Projektvorschau und Export verwenden dieselben lokalen Assets.</li>
+              <li><strong>Technik von oben &amp; korrekte Proportionen:</strong> Boom-Mikrofone zeigen einen weit ausgezogenen 74,5-cm-Arm mit kräftigerem Rohr und einen besser erkennbaren, bewusst vergrößerten Mikrofonkopf als eigenes Draufsicht-Bildasset; beim Wechsel des Arms nach links oder rechts bleibt der Kopf nach oben ausgerichtet.  Neue realistische Bildassets für Technik, Mikrofone, 3er-Gitarrenständer und Gitarrenbäume – leer und befüllt in Draufsicht. Wedge und Stromleiste werden nicht mehr verzerrt; der kompakte Schlagzeughocker hat eine 30-cm-Sitzfläche und einen 43-cm-Fußkreis, auch im Drum-Designer. Bilder bleiben beim Skalieren proportional, Breite und Tiefe der Technikobjekte sind gekoppelt. Bibliothek, Bühne, Projektvorschau und Export verwenden dieselben lokalen Assets.</li>
               <li><strong>Maßstäbliche Gegenstände:</strong> Geräte und Stellflächen verwenden Referenzmaße in Metern; gerenderte Bilder bleiben proportional in ihrem Maßrahmen. Mikrofone und DI-Boxen werden nicht künstlich vergrößert, der Playback-Laptop zeigt nur den Rechner. Stagebox-Maße sind korrigiert; eigene Maße lassen sich direkt in Zentimetern eingeben und bleiben gespeichert. Bühne, Projektvorschau und Export verwenden denselben Maßstab.</li>
               <li><strong>Klarer Audioplan:</strong> Der Arbeitsbereich heißt einheitlich „Routing“, auch im Menü und beim Öffnen am Objekt. Instrument, Kanalnummer und aktuelle Zuordnung bleiben im Signal-Editor sichtbar. Audio-Plan und Drum-Editor teilen dieselbe Mikrofon-Auswahl: Sofortsuche, Herstellerfilter, passende Vorschläge, Favoriten und zuletzt verwendete Modelle. 81 der 88 konkreten Mikrofoneinträge haben jetzt Original-Herstellerfotos, auch viele ältere Modelle. Die 78 komprimierten Fotos laden bei Bedarf und funktionieren lokal; abgebildete Varianten und Sets sind gekennzeichnet. Mikrofon und 48 V werden in beide Richtungen abgeglichen; Kanalnummern, Patch und Notizen bleiben erhalten. Overheads lassen sich direkt im Drum-Editor auswählen. Gemeinsame Signalwege vermeiden doppelte Inputs. Playback-Laptops bieten Stereo L/R, PLAYAUDIO1U mit zwölf benennbaren XLR-Ausgängen und Dante Virtual Soundcard über ein Netzwerkkabel. Stereo-Paare lassen sich in Mono-Signale teilen; Namen und Ausgangsnummern erscheinen im Audioplan und Export.</li>
               <li><strong>IEM-Monitore:</strong> Beim Platzieren direkt die Anzahl festlegen. Pro Musiker:in Mono oder Stereo, Funk oder Kabel, Frequenzbereich und AUX-Mixe wählen. Physische Ausgänge über dieselbe sichtbare Buchsenauswahl verbinden. Objekt, Routing und Stagebox-Belegung öffnen dieselbe IEM-Übersicht; bestehende Kanalnummern und Verbindungen bleiben erhalten. Änderungen werden lokal gespeichert, sind rückgängig machbar und erscheinen im Export.</li>
@@ -8226,7 +8226,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'guitar-stand-full',name:'Gitarrenständer · 3-fach · befüllt',short:'3er-Ständer · voll',family:'guitar-stands',category:'strings',w:0.626,d:0.39,vb:[120,90],instrument:true,clearGroup:'tech',detail:'E-Gitarre · Akustik · Bass'},
     {id:'guitar-tree-empty',name:'Gitarrenbaum · 3-fach · leer',short:'Gitarrenbaum · leer',family:'guitar-trees',category:'strings',w:0.86,d:0.86,vb:[120,120],instrument:false,clearGroup:'tech',detail:'Drei radiale Halsaufnahmen · Fußkreis Ø 86 cm · Referenz GS432B Plus'},
     {id:'guitar-tree-full',name:'Gitarrenbaum · 3-fach · befüllt',short:'Gitarrenbaum · voll',family:'guitar-trees',category:'strings',w:0.86,d:0.86,vb:[120,120],instrument:true,clearGroup:'tech',detail:'Drei aufrecht gelagerte Gitarren · Fußkreis Ø 86 cm · Referenz GS432B Plus'},
-    {id:'mic',name:'Mikrofon',short:'Mikrofon',category:'mics',w:.65,d:.65},
+    {id:'mic',name:'Mikrofon',short:'Mikrofon',category:'mics',w:1.45,d:1.45},
     {id:'mic-wireless-ewd',name:'Sennheiser EW-D · Funkmikrofon',short:'Funkmikrofon · EW-D',category:'mics',w:.268,d:.05,vb:[268,50],keywords:'sennheiser ewd ew-d skm wireless funk handheld mikrofon',detail:'Handsender mit MMD 835 · Originalmaß 268 × 50 mm'},
     {id:'mic-sm57',name:'Shure SM57',short:'Shure SM57',category:'mics',w:.157,d:.032,vb:[157,32],keywords:'shure sm57 instrument microphone dynamisch',detail:'Dynamisches Instrumentenmikrofon · Originalmaß 157 × 32 mm'},
     {id:'laptop',name:'Playback-Laptop',short:'Playback-Laptop',category:'tech',w:.3557,d:.2481,vb:[120,90],detail:'Stereo L/R · PLAYAUDIO1U mit 12 XLR · Dante Virtual Soundcard'},
@@ -8656,11 +8656,11 @@ const STAGEPLOT_TECH_TOP_VIEWS=Object.freeze({
   "guitar-tree-full":{"width":860,"height":860,"file":"guitar-tree-full-top-v2.webp","rect":[110.6055,28.0653,639.3871,708.1706],"part":"three-way-guitar-tree"},
   "mic-tripod-base":{"width":650,"height":650,"file":"mic-tripod-base-top-v2.webp","rect":[66.7051,29.537,516.1193,470.012],"part":"mic-tripod-base"},
   "mic-round-base":{"width":250,"height":250,"file":"mic-round-base-top-v2.webp","rect":[0,0,250,250],"part":"mic-round-base"},
-  "mic-boom":{"width":650,"height":650,"file":"mic-boom-arm-top-v3.webp","rect":[319.7447,200.0,18.2683,177.5526],"part":"mic-boom"},
+  "mic-boom":{"width":1450,"height":1450,"file":"mic-boom-arm-top-v3.webp","rect":[702.9493,200.5074,76.6526,745],"part":"mic-boom"},
   "mic-boom-head":{"width":650,"height":650,"file":"mic-boom-head-top-v3.webp","rect":[-33.2336,-170,66.4671,230],"part":"mic-boom-head"}
 });
 function stageplotTechFrame(type,options={}) {
-  if(type==='mic')return options.stand==='round'?{width:250,height:250}:{width:650,height:650};
+  if(type==='mic')return options.stand==='round'?{width:250,height:250}:{width:1450,height:1450};
   if(type==='drum-throne')return {width:430,height:430};
   return Object.hasOwn(STAGEPLOT_TECH_TOP_VIEWS,type)?STAGEPLOT_TECH_TOP_VIEWS[type]:null;
 }
@@ -8679,9 +8679,9 @@ function stageplotTechArtwork(type,options={}) {
     if(options.stand==='round')art=stageplotTechImage('mic-round-base');
     else{
       const direction=['left','right'].includes(options.boomDirection)?options.boomDirection:'up',angle=direction==='left'?-90:direction==='right'?90:0;
-      const tip=direction==='left'?[200,326.2513]:direction==='right'?[450,323.7487]:[323.7487,200];
+      const tip=direction==='left'?[200.5074,730.2502]:direction==='right'?[1249.4926,719.7498]:[719.7498, 200.5074];
       // The clip swivels independently: moving the boom never turns the microphone sideways.
-      art=stageplotTechImage('mic-tripod-base')+'<g data-part="boom-arm-'+direction+'" transform="rotate('+angle+' 325 325)">'+stageplotTechImage('mic-boom')+'</g><g data-part="boom-microphone" data-mic-direction="up" data-display-enlarged="true" transform="translate('+tip[0]+' '+tip[1]+')">'+stageplotTechImage('mic-boom-head')+'</g>';
+      art='<g transform="translate(400 400)" data-part="stand-foot-circle" data-diameter-mm="600">'+stageplotTechImage('mic-tripod-base')+'</g>'+'<g data-part="boom-arm-'+direction+'" transform="rotate('+angle+' 725 725)">'+stageplotTechImage('mic-boom')+'</g><g data-part="boom-microphone" data-mic-direction="up" data-display-enlarged="true" transform="translate('+tip[0]+' '+tip[1]+')">'+stageplotTechImage('mic-boom-head')+'</g>';
     }
   }else art='<g data-part="'+frame.part+'">'+stageplotTechImage(type)+'</g>';
   // The frame includes the real foot circle of tripods, not just their triangular ink bounds.
@@ -10742,7 +10742,7 @@ function createStageplotSymbolV3(type, options = {}) {
       $('sp-object-width').value=Number((size.w*100).toFixed(3));$('sp-object-depth').value=Number((size.d*100).toFixed(3));
       for(const id of ['sp-object-width','sp-object-depth','sp-object-size-reset'])$(id).disabled=locked;
       $('sp-object-size-reset').hidden=!normalizedObjectDimensions(o.dimensions);
-      $('sp-object-size-hint').textContent=stageplotTechFrame(byId[o.type].art||o.type,o)?(o.type==='drum-throne'?'Referenz: Sitz Ø 30 cm · Fußkreis Ø 43 cm. ':'')+'Breite und Tiefe sind gekoppelt; Proportionen bleiben erhalten.':o.dimensions?'Eigene Gerätemaße · maßstäblich auf der Bühne.':o.type==='laptop'?'Referenz: 16″ MacBook Pro · nur der Rechner, ohne Tisch oder Rack.':o.type==='di'?'Referenz: Radial J48 · ohne Stecker und Kabel.':o.type.startsWith('stagebox-')&&!['stagebox-46'].includes(o.type)?'Gerätemaße nach Allen & Heath · ohne Stecker und Kabel.':['mic-sm57','mic-wireless-ewd'].includes(o.type)?'Herstellermaß · ohne Stativ.': 'Standardmaß der abgebildeten Ansicht. Für dein Modell anpassen; Spielraum zusätzlich einplanen.';
+      $('sp-object-size-hint').textContent=stageplotTechFrame(byId[o.type].art||o.type,o)?(o.type==='drum-throne'?'Referenz: Sitz Ø 30 cm · Fußkreis Ø 43 cm. ':o.type==='mic'&&o.stand!=='round'?'Schwenkbereich inkl. 74,5-cm-Boom · Fußkreis 60 cm · Mikrofon zur Erkennung vergrößert. ':'')+'Breite und Tiefe sind gekoppelt; Proportionen bleiben erhalten.':o.dimensions?'Eigene Gerätemaße · maßstäblich auf der Bühne.':o.type==='laptop'?'Referenz: 16″ MacBook Pro · nur der Rechner, ohne Tisch oder Rack.':o.type==='di'?'Referenz: Radial J48 · ohne Stecker und Kabel.':o.type.startsWith('stagebox-')&&!['stagebox-46'].includes(o.type)?'Gerätemaße nach Allen & Heath · ohne Stecker und Kabel.':['mic-sm57','mic-wireless-ewd'].includes(o.type)?'Herstellermaß · ohne Stativ.': 'Standardmaß der abgebildeten Ansicht. Für dein Modell anpassen; Spielraum zusätzlich einplanen.';
     }
     $('sp-mic-fields').hidden=o.type!=='mic';
     if(o.type==='mic'){
@@ -10848,7 +10848,11 @@ function createStageplotSymbolV3(type, options = {}) {
       if(stageboxCapacity[type])item.comboJacks=o.comboJacks===true;
       if(type==='rack'){item.iem=normalizeIemConfig(o.iem,item.label);if(Array.isArray(o.iemMixes))item.iemMixes=StageplotIem.normalize(o.iemMixes,item.iem);}
       if(type==='laptop'&&o.playback)item.playback=normalizePlayback(o.playback);
-      if(type==='mic')Object.assign(item,{stand:o.stand==='round'?'round':'boom',purpose:['vocals','talkback','instrument'].includes(o.purpose)?o.purpose:'vocals',boomDirection:['up','left','right'].includes(o.boomDirection)?o.boomDirection:'up'});
+      if(type==='mic'){
+        Object.assign(item,{stand:o.stand==='round'?'round':'boom',purpose:['vocals','talkback','instrument'].includes(o.purpose)?o.purpose:'vocals',boomDirection:['up','left','right'].includes(o.boomDirection)?o.boomDirection:'up',micFrameVersion:2});
+        // Legacy custom sizes described the foot frame. Preserve its scale in the larger boom sweep frame.
+        if(item.stand==='boom'&&item.dimensions&&o.micFrameVersion!==2){const factor=Math.min(1450/650,30/item.dimensions.w,20/item.dimensions.d);item.dimensions={w:item.dimensions.w*factor,d:item.dimensions.d*factor};}
+      }
       if(type==='foh'){const f=o.foh||{};Object.assign(item,{width:finite(o.width,.3,30)?o.width:3,depth:finite(o.depth,.3,20)?o.depth:2,foh:{table:f.table===true,barrier:f.barrier===true,sun:f.sun===true,rain:f.rain===true}});}
       if(byId[type].stageAccess)Object.assign(item,{width:finite(o.width,.3,30)?o.width:byId[type].w,depth:finite(o.depth,.3,20)?o.depth:byId[type].d});
       if(type==='riser'){
@@ -13426,7 +13430,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(c.instrument){o.io=normalizeObjectIo(null,o);o.outs=ioValueText(o.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
     if(stageboxCapacity[type])o.comboJacks=false;
     if(type==='rack')o.iem=normalizeIemConfig({name:'IEM 1'},o.label);
-    if(type==='mic')Object.assign(o,{stand:'boom',purpose:'vocals',boomDirection:'up'});
+    if(type==='mic')Object.assign(o,{stand:'boom',purpose:'vocals',boomDirection:'up',micFrameVersion:2});
     if(seed?.inventory){const entry=seed.inventory,d=entry.document;Object.assign(o,{inventoryId:entry.id,label:d.name.slice(0,42),power:d.power,wireless:d.wireless,note:[d.model,d.notes].filter(Boolean).join(" · ").slice(0,160)});}
     constrain(o);return o;
   }
