@@ -696,7 +696,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
-              <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
+              <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Titel und Aktionen bleiben auch auf schmalen Bildschirmen nebeneinander lesbar; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
               <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Kompakte Karten zeigen Vorschau neben dem Namen; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Ruhige Flächen und klare Aktionen ersetzen die gestrichelten Rahmen.</li>
               <li><strong>Routing am Handy:</strong> Kompakte Tabs, Suche und Kanalkarten geben der Liste mehr Platz. „+ Signal“ bleibt direkt erreichbar; Nummerierung, automatische Zuordnung, Rückgängig und Export sind unter „Aktionen“ gebündelt. Kanal, Instrument, Mikrofon und Stagebox-Anschluss stehen zusammen in jeder Karte.</li>
               <li><strong>Mit zwei Fingern drehen:</strong> Eine Geste direkt am Objekt dreht es stufenlos; eine Mehrfachauswahl dreht sich gemeinsam. Instrumentgrößen und Abstände bleiben erhalten. Podeste, FOH, Treppen und Rampen lassen sich zusätzlich in 10-cm-Schritten skalieren. Freie Bühnenfläche bleibt zum Zoomen und Verschieben. Jede Geste lässt sich mit einem Schritt rückgängig machen.</li>
@@ -6321,10 +6321,10 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-project-search { font-size:16px; min-width:0; }
   #sp-prototype .sp-plan-switch { min-height:44px; }
   #sp-prototype > #sp-dashboard { display:flex; flex-direction:column; overflow:auto; padding:16px 14px 24px; gap:10px; }
-  #sp-prototype #sp-dashboard .sp-dashboard-hero { order:0; width:100%; margin:0; gap:8px; flex-direction:row; align-items:center; }
+  #sp-prototype #sp-dashboard .sp-dashboard-hero { display:grid; grid-template-columns:auto minmax(0,1fr); order:0; width:100%; margin:0; gap:8px; align-items:center; }
   #sp-prototype #sp-dashboard .sp-dashboard-intro h1 { margin:0; font-size:32px; letter-spacing:-1.3px; }
-  #sp-prototype #sp-dashboard .sp-dashboard-actions { display:flex; flex-wrap:nowrap; gap:4px; }
-  #sp-prototype #sp-dashboard #sp-account-open { max-width:114px; padding:6px 8px; white-space:normal; font-size:11px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-actions { display:flex; min-width:0; justify-content:flex-end; flex-wrap:nowrap; gap:4px; }
+  #sp-prototype #sp-dashboard #sp-account-open { flex:0 1 114px; min-width:0; max-width:114px; padding:6px 8px; white-space:normal; font-size:11px; }
   #sp-prototype #sp-dashboard .sp-dashboard-actions .sp-button { flex:none; min-height:44px; padding:8px 12px; border:0; background:var(--sp-soft); color:var(--sp-ink); font-size:12px; border-radius:999px; }
   #sp-prototype #sp-dashboard .sp-project-grid { display:contents; }
   #sp-prototype #sp-dashboard .sp-project-add-card { text-align:left; order:1; flex:none; min-height:56px; padding:0; border:0; border-radius:15px; background:var(--sp-primary); box-shadow:none; }

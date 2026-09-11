@@ -24,7 +24,7 @@ async function assertNoOverflow(page,selector,label){
       const bounds=el.getBoundingClientRect();
       return {clientWidth:el.clientWidth,scrollWidth:el.scrollWidth,bounds:bounds.toJSON(),overflow:[...el.querySelectorAll('*')].filter(node=>node.getBoundingClientRect().right>bounds.right+1).slice(0,15).map(node=>({tag:node.tagName,id:node.id,className:String(node.className),rect:node.getBoundingClientRect().toJSON()}))};
     });
-    console.error(label,geometry);await page.screenshot({path:artifactPath('overflow-'+engine+'.png')});throw error;
+    console.error(label,JSON.stringify(geometry,null,2));await page.screenshot({path:artifactPath('overflow-'+engine+'.png')});throw error;
   }
 }
 module.exports.assertNoOverflow=assertNoOverflow;
