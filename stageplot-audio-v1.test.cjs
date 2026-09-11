@@ -91,7 +91,7 @@ assert.equal(bundleChoices.find(choice=>choice.box.id==='fragmented').plan,null)
 console.log('PASS UNIFIED PATCH PLANNER: swaps preserve CH/mics/notes, replacement keeps stereo atomic, bundles use contiguous free sockets without moving occupied ones.');
 
 // The editor must also work with no selected object after removing cable selection.
-const inspectorNodes=new Map(),inspectorCtx={objects:[],selected:null,inspectorTab:'audio',setInspectorTab(){},$:id=>{if(!inspectorNodes.has(id))inspectorNodes.set(id,{dataset:{},scrollTop:0,setAttribute(){}});return inspectorNodes.get(id);}};
+const inspectorNodes=new Map(),inspectorCtx={selectedObjects:()=>[],syncMultiUi(){},objects:[],selected:null,inspectorTab:'audio',setInspectorTab(){},$:id=>{if(!inspectorNodes.has(id))inspectorNodes.set(id,{dataset:{},scrollTop:0,setAttribute(){}});return inspectorNodes.get(id);}};
 vm.createContext(inspectorCtx);vm.runInContext(extract('inspector'),inspectorCtx);inspectorCtx.inspector();assert.equal(inspectorCtx.$('sp-no-selection').hidden,false);inspectorCtx.selected='stage-zone';inspectorCtx.inspector();assert.equal(inspectorCtx.$('sp-no-selection').hidden,true);
 inspectorCtx.$('sp-properties-panel').scrollTop=180;inspectorCtx.inspector();assert.equal(inspectorCtx.$('sp-properties-panel').scrollTop,180,'Updating the same selection preserves the inspector scroll position.');inspectorCtx.selected=null;inspectorCtx.inspector();assert.equal(inspectorCtx.$('sp-properties-panel').scrollTop,0,'A new selection starts at its identity without changing panel visibility or tabs.');
 console.log('PASS AUDIO EDITOR: empty and stage selection do not depend on removed cable state.');

@@ -16,7 +16,7 @@ for(const marker of [
   "if(context?.action==='place')beginPlacement(type,{detail:0})"
 ])assert.ok(script.includes(marker)||html.includes(marker),marker+' fehlt im gemeinsamen Modell-Picker-Workflow.');
 
-assert.match(script,/const matched=catalog\.filter[\s\S]*seenFamilies=new Set\(\),visible=\[\]/,'Die Bibliothek fasst Modellfamilien nicht zusammen.');
+assert.match(script,/const visible=\[\],seenFamilies=new Set\(\);[\s\S]*seenFamilies\.has\(c\.family\)/,'Die Bibliothek fasst Modellfamilien nicht zusammen.');
 assert.match(script,/showCompactModelDialog\(current\.family,o\.type,'change'\)/,'Der Eigenschaften-Button verwendet nicht denselben Modell-Picker.');
 assert.match(html,/\.sp-library-model-family \{ cursor:pointer; \}/,'Sammelobjekte sind nicht als Modell-Picker erkennbar.');
 

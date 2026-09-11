@@ -12,6 +12,9 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Mehrfachauswahl:** Shift-Klick oder „Mehrere“ am Handy; gemeinsam verschieben, drehen, duplizieren, sperren und löschen. Kanten/Mittelpunkte ausrichten und ab drei Objekten gleichmäßige freie Abstände verteilen. Jede Änderung ist mit einem Schritt rückgängig.
+- **Favoriten & zuletzt benutzt:** Sterne an den Bausteinen und am ausgewählten Objekt; drei direkte Filter für alle Bausteine, Favoriten und die zwölf zuletzt platzierten Typen. Lokal und projektübergreifend gespeichert.
+
 - **Offene Objekteigenschaften:** 420 px breite rechte Leiste mit Objektbild, Namen und gemeinsamen Aktionen zum Duplizieren, Sperren und Löschen. Maße, Position, 90°-Drehungen, Beschriftung und Routing sind direkt erreichbar; technische Felder passen sich dem Objekt an. Echter lokaler Speicherstatus, Tastaturbedienung und eine angepasste mobile Leiste bleiben enthalten.
 
 - **Gezielter Start:** Die wiederhergestellte Ansicht erscheint ohne Aufblitzen des alten Bühnenformulars. Kein automatischer Demo-Aufbau, keine versteckten Druckvorschauen beim Start; Bausteine und Pack-Bilder werden erst in ihrer Ansicht aufgebaut. Bilder geschlossener Editoren laden bei Bedarf. [Messung und weitere Codepflege](STARTOPTIMIERUNG.md).
