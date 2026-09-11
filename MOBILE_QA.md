@@ -16,3 +16,9 @@ Beim Antippen eines Bausteins schließt die Bibliothek und die Bühne erwartet d
 Bei 390 Pixeln Fensterbreite nimmt eine rechteckige 8-m-Bühne mit vorderer Treppe jetzt etwa 337 Pixel ein (vorher etwa 249 Pixel im gleichen Fenster). Maße liegen neben dem Bühnenrand. Die Bedienflächen berücksichtigen den unteren Sicherheitsabstand; der Editor reagiert auf die sichtbare Browserhöhe.
 
 Die Browserprüfungen ersetzen keine Prüfung auf einem physischen iPhone. Safari-Leisten, Bildschirmtastatur und Gerätesicherheitsabstände sollten beim nächsten echten Handytest zusätzlich kontrolliert werden.
+
+## Nachbesserung vom 11. September 2026
+
+Ein echter außerhalb platzierter Baustein reproduzierte eine 421 Pixel hohe Warnfläche bei 390 × 640 Pixeln. Ursache: Die mobile `top`-Angabe traf auf eine spezifischere alte `bottom`- und Zentrierungsregel. Der vollständige mobile Positionsanker wird jetzt gemeinsam zurückgesetzt; die Höhe folgt dem Text.
+
+Der Browser-Regressionstest `scripts/check-mobile-warning.cjs` prüft diesen Zustand in Chrome und WebKit bei 320–844 Pixeln, mehrzeilige Warnungen, Dunkelmodus, erreichbare Bedienflächen und eine beim Ein-/Ausblenden unveränderte Bühnenansicht. Bei laufender Vorschau und verfügbarem Playwright: `node scripts/check-mobile-warning.cjs`; `BROWSER=webkit` wählt WebKit, `APP_URL` eine andere Vorschau oder die Live-Seite. Playwright kann bei Bedarf über `PLAYWRIGHT_MODULE` angegeben werden.
