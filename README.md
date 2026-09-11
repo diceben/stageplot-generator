@@ -4,6 +4,8 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
+Die mobile Baustein-Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm; Suche und Schließen bleiben erreichbar, Treffer scrollen separat und durchsuchen alle Kategorien.
+
 **Aktuelle Version:** v0.1.0-beta.7 · Release Notes sind in der App über `?` erreichbar.
 
 Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).

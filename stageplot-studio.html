@@ -629,6 +629,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
+              <li><strong>Bausteine am Handy:</strong> Die Auswahl nutzt den sichtbaren Bildschirm auch bei geöffneter Tastatur. Suche und Schließen bleiben sichtbar, Treffer lassen sich separat scrollen. Während der Suche werden Inventar und Kategorien ausgeblendet; Suchbegriffe finden Bausteine in allen Kategorien.</li>
               <li><strong>Symphonie-Orchester &amp; Klassik:</strong> Anpassbare Orchesteraufstellung mit einzeln schaltbaren Instrumentengruppen und eigenem Editor. Streichinstrumente, Harfe, Bläser und Schlagwerk stehen auch einzeln mit realistischen monochromen Bilddarstellungen bereit.</li>
               <li><strong>Percussion-Set:</strong> Direkt neben dem Schlagzeug verfügbar, mit eigenem Editor für Congas, Bongos, Timbales und weiteres Zubehör. Crash, Splash, Ride, China und Hi-Hat bieten direkt anklickbare Zollgrößen, maßstabsgetreue Durchmesser und eigene realistische Beckenbilder. Alle Percussion-Objekte lassen sich direkt mit den Drehpfeilen und dem 0°-Reset wie im Drumdesigner bearbeiten, auch per Touch; Halten dreht stufenlos und bleibt mit einem Schritt rückgängig. Monochrome Draufsichten und korrigierte Größenverhältnisse für Percussion und Schlagzeug gelten auch in Vorschau und Export.</li>
               <li><strong>Freie Bühnenformen:</strong> Flächen, Rundungen, Stege, Seitenbühnen und Ausschnitte kombinieren. Der größere Bühnenbauer bietet Formkarten, direkte Kantenmaße und dieselben Aktionen zum Drehen, Duplizieren und Löschen wie Bühnenobjekte.</li>
@@ -6269,6 +6270,31 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-mobile-editor-actions :is(svg,img) { display:none; }
   #sp-prototype .sp-mobile-editor-actions :is(.sp-sidebar-edge-toggle,#sp-mobile-tools-open) { font-size:11px; }
 }
+
+/* The mobile library owns the visible viewport, including above the iOS keyboard.
+   Keep it in the workspace DOM so desktop layout and event handlers stay shared. */
+@media (max-width:760px), (max-width:900px) and (max-height:500px) and (pointer:coarse) {
+  #sp-prototype[data-view="editor"][data-library-collapsed="false"][data-canvas-focus="false"] {
+    position:fixed; inset:var(--sp-visible-top,0px) 0 auto;
+    height:var(--sp-visible-height,100dvh); z-index:100;
+  }
+  #sp-prototype[data-view="editor"][data-library-collapsed="false"][data-canvas-focus="false"] > .sp-header,
+  #sp-prototype[data-library-collapsed="false"][data-canvas-focus="false"] .sp-mobile-editor-actions { display:none; }
+  #sp-prototype[data-library-collapsed="false"][data-canvas-focus="false"] .sp-library {
+    inset:0; width:100%; height:100%; padding:10px 12px max(10px,env(safe-area-inset-bottom));
+    border:0; border-radius:0; overflow:hidden; gap:8px; box-shadow:none;
+  }
+  #sp-prototype .sp-library .sp-sidebar-head { position:static; padding:0; min-height:44px; }
+  #sp-prototype .sp-library .sp-sidebar-head strong { font-size:19px; }
+  #sp-prototype .sp-library .sp-search { flex:none; min-height:46px; margin:0; padding:0 12px; border-radius:13px; }
+  #sp-prototype .sp-library .sp-search:focus-within { outline:2px solid var(--sp-teal); outline-offset:0; }
+  #sp-prototype .sp-library .sp-search input { font-size:16px; min-height:44px; outline:none; box-shadow:none; }
+  #sp-prototype .sp-library .sp-search-count { min-height:0; padding:0; font-size:12px; }
+  #sp-prototype .sp-library .sp-library-items { flex:1 1 0; min-height:0; overflow-y:auto; scrollbar-gutter:auto; scroll-padding:4px; }
+  #sp-prototype .sp-library .sp-category-tabs { grid-template-columns:repeat(6,minmax(0,1fr)); }
+  #sp-prototype .sp-library .sp-library-hint { display:none; }
+  #sp-prototype .sp-library[data-searching="true"] :is(.sp-library-mode-tabs,#sp-inventory-open,.sp-category-tabs) { display:none; }
+}
 /* build-inline:end stageplot-mobile-v1.css */
 </style>
 
@@ -8371,6 +8397,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   }
   function syncWorkspaceUi(announce=''){
     root.dataset.libraryCollapsed=String(libraryCollapsed);root.dataset.inspectorCollapsed=String(inspectorCollapsed);root.dataset.canvasFocus=String(canvasFocus);
+    if(mobileWorkspace()&&(libraryCollapsed||canvasFocus)&&$('sp-library').contains(document.activeElement))document.activeElement.blur();
     $('sp-library').inert=libraryCollapsed||canvasFocus;$('sp-inspector').inert=inspectorCollapsed||canvasFocus;
     $('sp-library-toggle').setAttribute('aria-label',mobileWorkspace()?'Bausteine schließen':'Bausteinbibliothek umschalten');
     $('sp-inspector-toggle').setAttribute('aria-label',mobileWorkspace()?'Eigenschaften schließen':'Eigenschaften umschalten');
@@ -10567,12 +10594,17 @@ function createStageplotSymbolV3(type, options = {}) {
     const text=normalize([c.name,c.short,c.keywords||'',c.detail||'',terms[c.category]||'',groupTerms[libraryGroupFor(c)]||'',c.id.startsWith('guitar-tree-')?'tanne baum dreier stander triple':c.id==='guitar-stand-single'?'einzeln einzel einfacher ein gitarren bass stander single stand':c.id.startsWith('guitar-stand-')?'dreier stander rack':''].join(' '));
     return normalize(query).trim().split(/\s+/).filter(Boolean).every(word=>text.includes(word));
   }
+  function syncLibrarySearchUi(){
+    $('sp-library').dataset.searching=String(!!$('sp-library-search').value.trim()||document.activeElement===$('sp-library-search')||($('sp-library').dataset.searching==='true'&&$('sp-library-items').contains(document.activeElement)));
+  }
   function library() {
     if(view!=='editor'||libraryMode!=='objects')return;
-    const matched=catalog.filter(c=>libraryMatches(c,libraryCategory,$('sp-library-search').value)),seenFamilies=new Set(),visible=[];
+    const query=$('sp-library-search').value.trim();
+    syncLibrarySearchUi();
+    const matched=catalog.filter(c=>libraryMatches(c,query?'all':libraryCategory,query)),seenFamilies=new Set(),visible=[];
     for(const c of matched){const familyCard=libraryModelFamilyCards[c.family];if(!familyCard)visible.push({c});else if(!seenFamilies.has(c.family)){seenFamilies.add(c.family);const variants=catalog.filter(item=>item.family===c.family),representative=byId[familyCard.representative];visible.push({c:{...representative,name:familyCard.label,short:familyCard.label},family:c.family,variants});}}
     root.querySelectorAll('[data-category]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===libraryCategory)));
-    const locked=visible.filter(entry=>entry.family?entry.variants.every(item=>!isObjectUnlocked(item.id)):!isObjectUnlocked(entry.c.id)).length;$('sp-search-count').textContent=visible.length+' Baustein'+(visible.length===1?'':'e')+(locked?' · '+locked+' gesperrt':'');
+    const locked=visible.filter(entry=>entry.family?entry.variants.every(item=>!isObjectUnlocked(item.id)):!isObjectUnlocked(entry.c.id)).length;$('sp-search-count').textContent=visible.length+(query?' Treffer in allen Kategorien':' Baustein'+(visible.length===1?'':'e'))+(locked?' · '+locked+' gesperrt':'');
     $('sp-library-items').innerHTML=visible.map(entry=>{const c=entry.c;if(entry.family){const active=objects.some(o=>byId[o.type]?.family===entry.family),count=entry.variants.length;return '<button class="sp-library-item sp-library-model-family" type="button" data-library-model-family="'+entry.family+'" data-active="'+active+'" aria-haspopup="dialog" aria-controls="sp-model-dialog" aria-label="'+esc(c.name+' auswählen · '+count+' Modelle')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span><span class="sp-library-model-count">'+count+' Modelle</span></button>';}
       const unlocked=isObjectUnlocked(c.id),pack=objectPackById[objectPackForType.get(c.id)];return '<button class="sp-library-item" type="button" '+(unlocked?'data-add="'+c.id+'" data-pending="'+(placement?.type===c.id)+'"':'data-pack-open="'+pack.id+'" data-pack-locked="true"')+' aria-label="'+esc(unlocked?c.name+' zum Platzieren auswählen':c.name+' ist im '+pack.name+' Pack · Pack ansehen')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span>'+(unlocked?'':'<span class="sp-library-lock-label">'+esc(pack.name)+'</span>')+'</button>';}).join('')||'<p class="sp-library-empty">Keine passenden Bausteine. Suche oder Kategorie ändern.</p>';
     $('sp-library-items').scrollTop=0;
@@ -13683,6 +13715,9 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   });
   $('sp-category-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(b){libraryCategory=b.dataset.category;library();}});
   $('sp-library-search').addEventListener('input',library);
+  $('sp-library-search').addEventListener('focus',syncLibrarySearchUi);
+  // Let the result's click finish before restoring category controls after blur.
+  $('sp-library-search').addEventListener('blur',()=>requestAnimationFrame(syncLibrarySearchUi));
   $('sp-placement-cancel').addEventListener('click',()=>{cancelPlacement();renderEditor();});
   window.addEventListener('pointermove',movePlacementPointer);
   $('sp-library-items').addEventListener('wheel',e=>{
