@@ -65,10 +65,6 @@ function renderAudioFind(){
   $('sp-routing-status').dataset.summary=visible.length+' von '+rows.length+' Kanälen';
   $('sp-routing-status').textContent=direction+' '+visible.length+' von '+rows.length+' Kanälen · CH = Mischpultkanal, IN/OUT = Stagebox-Buchse.';
 }
-function audioSignalDescription(row,direction){
-  const kind=direction==='inputs'?({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||'Signal'):({monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)]);
-  return [row.stereoGroup?'Stereo L/R':'Mono',kind,row.connector].filter(Boolean).join(' · ');
-}
 function audioInputConnector(row,pickup){
   if(['DI','Mic'].includes(pickup))return 'XLR';if(pickup==='Digital'){const source=routeSourceObject(row),connector=source?objectIo(source).outputs.connector:row.connector;return ['Dante','MADI','USB'].includes(connector)?connector:'Digital';}
   const source=routeSourceObject(row);if(source?.type==='percussion')return generatedInputSpecs().find(spec=>spec.sourceKey===row.sourceKey)?.connector||row.connector||'XLR';return source?objectIo(source).outputs.connector:row.connector||'XLR';
@@ -113,12 +109,6 @@ function renderAudioEditorContext(){
   $('sp-channel-title').textContent=summary.name;
   $('sp-audio-context').innerHTML='<div class="sp-audio-channel-badge"><small>'+(direction==='inputs'?'INPUT · CH':'OUTPUT · MIX')+'</small><strong>'+esc(numbers.join(' / '))+'</strong></div><div class="sp-audio-context-copy"><strong>'+esc(summary.kind)+'</strong>'+summary.connections.map(text=>'<span>'+esc(text)+'</span>').join('')+'</div>';
   renderAudioChainPreview();
-}
-function audioPortCandidates(box,rows,excluded,stereo,selection){
-  return Array.from({length:Math.max(0,box.capacity-(stereo?1:0))},(_,i)=>{
-    const port=i+1,occupants=rows.filter(row=>!excluded.has(row.id)&&row.stagebox===box.id&&(row.stageboxPort===port||stereo&&row.stageboxPort===port+1));
-    return {port,occupants,selected:Number(selection.port)===port&&(!stereo||selection.rightBoxId===box.id&&Number(selection.rightPort)===port+1)};
-  });
 }
 function renderAudioPortChoices(){
   const host=$('sp-audio-port-choices'),boxId=$('sp-channel-stagebox').value,direction=$('sp-channel-direction').value,box=routingStageboxes(direction).find(item=>item.id===boxId);
@@ -288,7 +278,6 @@ function audioPatchSections(){
 // Every microphone entry point uses the same identities, photos and picker.
 function audioMicPhoto(name){return StageplotMics.photo(name);}
 function audioMicBrand(name){return StageplotMics.brand(name);}
-function audioMicCatalog(){return StageplotMics.catalog;}
 function audioMicSuggestions(name){return StageplotMics.suggestions(name);}
 let audioCustomModel=false,audioQuickPatch=null,audioPickupModels={},audioLastPickup='Mic',audioMicPicker=null,audioMicPickerReset=true;
 function renderAudioMicPicker(){

@@ -55,3 +55,13 @@ Browserprüfung mit `scripts/check-mobile-library.cjs`: Chrome und WebKit, 320�
 „Projekt hinzufügen“ steht auf dem Handy vor Suche und Projektkarten. Titel sowie Account-/Importaktionen teilen sich eine kompakte Zeile. Projektkarten zeigen ein maßstäbliches Vorschaubild neben dem Namen; Maße und Bausteinanzahl stehen gemeinsam darunter. Gestrichelte Rahmen und die separate große ID-Fläche entfallen. ID-Kopieren, vollständiger Speicherstatus und alle bisherigen Projektaktionen bleiben erreichbar. Die Vorschau nutzt ein 4:3-Bildformat für rechteckige und freie Bühnen, ohne Objekte oder Umrisse abzuschneiden.
 
 Browserprüfung: `scripts/check-project-dashboard.cjs` in Chrome und WebKit. Bei 390 × 670 px passt eine vollständige Standard-Projektkarte einschließlich aller Aktionen in den sichtbaren Bereich. Geprüft: Erstellen bleibt vor Suche/Projekten, Suche und leere Ergebnisse, Öffnen/Projektdaten, ID-Kopieren ohne versehentliches Öffnen, Sicherungsdownload, lange Namen, mehrere Projekte und Reload sowie 320–1440 px Breite. Helle und dunkle Darstellung anhand von Screenshots geprüft. Kein physischer iPhone-Test; alle 38 Testgruppen bestehen.
+
+## Automatische Veröffentlichungsschranke · 11. September 2026
+
+`npm run test:browser` startet ohne `APP_URL` einen eigenen lokalen Vorschau-Server und beendet ihn anschließend. `BROWSER=chromium` (Standard) und `BROWSER=webkit` wählen die Engine; `BROWSER=chrome` verwendet ein lokal installiertes Chrome. Playwright und Browser vorher mit `npm ci` sowie `npx playwright install chromium webkit` installieren (auf Linux gegebenenfalls `--with-deps`).
+
+Vier isolierte Browserabläufe laufen bei Pull Requests und vor der Veröffentlichung: Projektübersicht, mobile Bausteinsuche, mobiles Routing und Projektaktionen. Letzterer prüft Einstellungen/Fokusrückkehr, Abbrechen von Leeren, IEM-Aktion, Sicherungsdownload, unabhängige Projektkopie, Reload und Import einer synthetischen Datei. Die vorhandenen Tests für lokale Daten und Migrationen bleiben zusätzlich aktiv. Screenshots werden unter `test-results/` gespeichert und in GitHub Actions als Artefakte angehängt. Beide Browserjobs und die Funktionstests müssen erfolgreich sein, bevor Pages veröffentlicht.
+
+Die Tests verwenden synthetische Projekte in frischen Browserkontexten. Die Tastaturgeometrie bleibt simuliert; dies ersetzt keinen Test mit einer echten iPhone-Tastatur.
+
+Die neue Linux-WebKit-Prüfung fand bei 320 px einen tatsächlichen Überlauf des Importbuttons. Die Kopfzeile verwendet nun eine feste Titelspalte und eine flexible Aktionsspalte; „Account & Inventar“ darf innerhalb seines verfügbaren Platzes schrumpfen. Die Überlaufprüfung wartet auf das fertige Layout und erzeugt bei Fehlern Geometriedaten und einen Screenshot.

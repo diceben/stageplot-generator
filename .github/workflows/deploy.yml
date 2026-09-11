@@ -33,11 +33,37 @@ jobs:
           node-version: 22
       # Die Tests sind reines Node (keine Abhängigkeiten). npm test prüft dabei
       # auch, dass index.html und die eingebetteten Module synchron sind.
+      - run: npm run check
       - run: npm test
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: npm run test:browser
+        env:
+          BROWSER: ${{ matrix.browser }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-${{ matrix.browser }}
+          path: test-results/
+          if-no-files-found: ignore
 
   deploy:
     # Kein needs, kein Deploy: Diese Zeile ist das Tor.
-    needs: test
+    needs: [test, browser]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
