@@ -297,7 +297,7 @@
         <section id="sp-properties-panel" class="sp-properties-panel" role="tabpanel" aria-labelledby="sp-properties-tab">
         <h3 class="sp-visually-hidden">Eigenschaften</h3>
         <section id="sp-multi-panel" class="sp-multi-panel" hidden>
-          <div><h3 id="sp-multi-title">Auswahl bearbeiten</h3><p>Zum Verschieben eines der markierten Objekte auf der Bühne ziehen. Im Auswahlmodus zuerst „Fertig“ tippen.</p></div>
+          <div><h3 id="sp-multi-title">Auswahl bearbeiten</h3><p>Ein markiertes Objekt ziehen, um die Auswahl zu verschieben. Mit zwei Fingern am Objekt gemeinsam drehen. Im Auswahlmodus zuerst „Fertig“ tippen.</p></div>
           <div id="sp-multi-names"></div><p id="sp-multi-lock-hint" hidden></p>
           <div class="sp-multi-actions"><button type="button" data-multi-action="duplicate">Duplizieren</button><button type="button" data-multi-action="lock">Sperren</button><button type="button" data-multi-action="rotate-left">↶ 90° drehen</button><button type="button" data-multi-action="rotate-right">90° drehen ↷</button></div>
           <div><h4>Ausrichten</h4><div class="sp-multi-actions sp-multi-align"><button type="button" data-multi-action="left">Linke Kante</button><button type="button" data-multi-action="center-x">Mittig ↔</button><button type="button" data-multi-action="right">Rechte Kante</button><button type="button" data-multi-action="top">Obere Kante</button><button type="button" data-multi-action="center-y">Mittig ↕</button><button type="button" data-multi-action="bottom">Untere Kante</button></div></div>
@@ -697,7 +697,7 @@
       <section class="sp-help-section" aria-labelledby="sp-shortcuts-title">
         <h3 id="sp-shortcuts-title">Schneller arbeiten</h3>
         <p class="sp-muted">Die wichtigsten Befehle funktionieren direkt im Entwurf.</p>
-        <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
+        <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
         <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.7">v0.1.0-beta.7</span></div>
@@ -706,6 +706,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
+              <li><strong>Mit zwei Fingern drehen:</strong> Eine Geste direkt am Objekt dreht es stufenlos; eine Mehrfachauswahl dreht sich gemeinsam. Instrumentgrößen und Abstände bleiben erhalten. Podeste, FOH, Treppen und Rampen lassen sich zusätzlich in 10-cm-Schritten skalieren. Freie Bühnenfläche bleibt zum Zoomen und Verschieben. Jede Geste lässt sich mit einem Schritt rückgängig machen.</li>
               <li><strong>Mehrfachauswahl &amp; schnelle Bausteine:</strong> Mehrere Objekte per Shift-Klick oder „Mehrere“ auswählen, gemeinsam verschieben, drehen, duplizieren, sperren und löschen. Kanten und Mittelpunkte ausrichten sowie gleiche Abstände verteilen, jeweils mit einem Rückgängig-Schritt. Favoriten und zuletzt platzierte Bausteine stehen projektübergreifend bereit und bleiben lokal gespeichert.</li>
               <li><strong>Bausteine am Handy:</strong> Die Auswahl nutzt den sichtbaren Bildschirm auch bei geöffneter Tastatur. Suche und Schließen bleiben sichtbar, Treffer lassen sich separat scrollen. Während der Suche werden Inventar und Kategorien ausgeblendet; Suchbegriffe finden Bausteine in allen Kategorien.</li>
               <li><strong>Symphonie-Orchester &amp; Klassik:</strong> Anpassbare Orchesteraufstellung mit einzeln schaltbaren Instrumentengruppen und eigenem Editor. Streichinstrumente, Harfe, Bläser und Schlagwerk stehen auch einzeln mit realistischen monochromen Bilddarstellungen bereit.</li>
@@ -14013,30 +14014,48 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-editor-floor').addEventListener('pointercancel',e=>endViewPan(e,true));
   const footprintTouches=new Map();let footprintPinch=null,viewportPinch=null;
   const touchCenter=()=>{const [a,b]=[...footprintTouches.values()];return a&&b?{x:(a.x+b.x)/2,y:(a.y+b.y)/2}:null;};
+  const touchAngle=()=>{const [a,b]=[...footprintTouches.values()];return Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;};
   const touchDistance=()=>{const [a,b]=[...footprintTouches.values()];return a&&b?Math.hypot(a.x-b.x,a.y-b.y):0;};
   $('sp-editor-floor').addEventListener('pointerdown',e=>{
     if(e.pointerType!=='touch')return;
     if(footprintTouches.size>=2){e.preventDefault();e.stopImmediatePropagation();return;}
-    footprintTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    footprintTouches.set(e.pointerId,{x:e.clientX,y:e.clientY,target:e.target.closest('[data-object]')?.dataset.object||(e.target.closest('[data-iem-zone]')?'iem-zone':null),viewOnly:panMode||selectionMode});
     if(footprintTouches.size!==2||placement)return;
     const before=drag?.before||snapshot();if(drag)cancelObjectDrag();if(panDrag)endViewPan({pointerId:panDrag.pointer},true);
-    const svg=$('sp-editor-floor').querySelector('svg'),base=selectedFootprint();
-    if(!base){
+    const svg=$('sp-editor-floor').querySelector('svg'),first=footprintTouches.values().next().value;
+    const cohort=selectedObjects(),editable=!first.viewOnly&&first.target&&(first.target==='iem-zone'||cohort.some(o=>o.id===first.target))&&!cohort.some(o=>o.locked);
+    const base=editable?selectedFootprint():null,items=editable&&first.target!=='iem-zone'?cohort.map(o=>({id:o.id,x:o.x,y:o.y,angle:Number(o.angle)||0})):[];
+    if(!base&&!items.length){
       viewportPinch={zoom:camera.zoom,distance:Math.max(1,touchDistance()),center:touchCenter(),camera:{...camera}};
       for(const id of footprintTouches.keys())$('sp-editor-floor').setPointerCapture(id);e.preventDefault();e.stopImmediatePropagation();return;
     }
-    footprintPinch={id:selected,base,before,distance:Math.max(1,touchDistance()),fixed:{scale:Number(svg.dataset.scale),mx:Number(svg.dataset.originX),top:Number(svg.dataset.originY),H:Number(svg.getAttribute('height'))},svg};
+    const bounds=items.length?StageplotQol.extent(cohort,objectSize):null;
+    footprintPinch={id:selected,base,items,pivot:bounds?{x:(bounds.left+bounds.right)/2,y:(bounds.top+bounds.bottom)/2}:null,before,distance:Math.max(12,touchDistance()),lastAngle:touchDistance()>=12?touchAngle():null,turn:0,rotating:false,fixed:{scale:Number(svg.dataset.scale),mx:Number(svg.dataset.originX),top:Number(svg.dataset.originY),H:Number(svg.getAttribute('height'))},svg};
     for(const id of footprintTouches.keys())$('sp-editor-floor').setPointerCapture(id);e.preventDefault();e.stopImmediatePropagation();
   },true);
   window.addEventListener('pointermove',e=>{
-    if(!footprintTouches.has(e.pointerId))return;footprintTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(viewportPinch){
+    if(!footprintTouches.has(e.pointerId))return;footprintTouches.set(e.pointerId,{...footprintTouches.get(e.pointerId),x:e.clientX,y:e.clientY});if(viewportPinch){
       e.preventDefault();e.stopImmediatePropagation();const p=viewportPinch,c=touchCenter(),rect=$('sp-editor-floor').getBoundingClientRect();
       setZoom(p.zoom*touchDistance()/p.distance,{x:p.center.x-rect.left,y:p.center.y-rect.top});
       camera.panX+=c.x-p.center.x;camera.panY+=c.y-p.center.y;p.center=c;queueDraw();queueViewportSave();return;
     }
     if(!footprintPinch)return;
     e.preventDefault();e.stopImmediatePropagation();const p=footprintPinch,ratio=touchDistance()/p.distance;
-    applyFootprint(p.id,{...p.base,w:Math.max(.3,Math.min(30,Math.round(p.base.w*ratio*10)/10)),d:Math.max(.3,Math.min(20,Math.round(p.base.d*ratio*10)/10))});redrawFootprintDrag(p);
+    if(p.base)applyFootprint(p.id,{...p.base,w:Math.max(.3,Math.min(30,Math.round(p.base.w*ratio*10)/10)),d:Math.max(.3,Math.min(20,Math.round(p.base.d*ratio*10)/10))});
+    if(touchDistance()>=12){
+      const angle=touchAngle();
+      if(p.lastAngle!==null)p.turn+=((angle-p.lastAngle+540)%360)-180;
+      p.lastAngle=angle;
+      if(Math.abs(p.turn)>=4)p.rotating=true;
+    }else p.lastAngle=null;
+    if(p.rotating){
+      const degrees=Math.round(p.turn*10)/10,r=degrees*Math.PI/180,c=p.pivot;
+      for(const item of p.items){const o=objects.find(o=>o.id===item.id);if(!o)continue;
+        o.angle=((item.angle+degrees)%360+360)%360;
+        if(p.items.length>1){o.x=c.x+(item.x-c.x)*Math.cos(r)-(item.y-c.y)*Math.sin(r);o.y=c.y+(item.x-c.x)*Math.sin(r)+(item.y-c.y)*Math.cos(r);}
+      }
+    }
+    redrawFootprintDrag(p);
   },{capture:true,passive:false});
   function finishFootprintPinch(e,cancel=false){
     if(!footprintTouches.has(e.pointerId))return;
@@ -14051,6 +14070,11 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   }
   window.addEventListener('pointerup',e=>finishFootprintPinch(e),true);
   window.addEventListener('pointercancel',e=>finishFootprintPinch(e,true),true);
+  window.addEventListener('blur',()=>{
+    const pointerId=footprintTouches.keys().next().value;
+    if(pointerId!==undefined)finishFootprintPinch({pointerId,preventDefault(){},stopImmediatePropagation(){}},true);
+    footprintTouches.clear();
+  });
   window.addEventListener('pointermove',moveObjectDrag);
   window.addEventListener('pointerup',endObjectDrag);
   window.addEventListener('pointercancel',e=>{if(drag?.pointer===e.pointerId)cancelObjectDrag();});
