@@ -264,3 +264,82 @@
   #sp-prototype .sp-library .sp-library-hint { display:none; }
   #sp-prototype .sp-library[data-searching="true"] :is(.sp-library-mode-tabs,#sp-inventory-open,.sp-category-tabs) { display:none; }
 }
+
+/* Mobile routing prioritizes channels. Shared controls move into an explicit sheet. */
+#sp-prototype #sp-routing button { -webkit-tap-highlight-color:transparent; }
+#sp-prototype #sp-routing .sp-mobile-routing-only,
+#sp-prototype #sp-routing .sp-route-mobile-meta,
+#sp-prototype #sp-routing .sp-route-mobile-ch { display:none; }
+#sp-prototype #sp-routing .sp-routing-tab-label { font:inherit; }
+#sp-prototype #sp-routing-tools:not([open]) { display:none; }
+#sp-prototype #sp-routing-tools {
+  box-sizing:border-box; width:calc(100% - 16px); max-width:560px;
+  max-height:calc(var(--sp-visible-height,100dvh) - 24px); padding:18px;
+  border:1px solid var(--sp-line); border-radius:22px; background:var(--sp-panel); color:var(--sp-ink);
+}
+#sp-prototype #sp-routing-tools[open] { display:flex; flex-direction:column; gap:16px; }
+#sp-routing-tools::backdrop { background:#10191388; backdrop-filter:blur(4px); }
+#sp-prototype #sp-routing .sp-routing-tools-head { display:flex; align-items:center; justify-content:space-between; gap:12px; flex:none; }
+#sp-prototype #sp-routing .sp-routing-tools-head h2 { margin:0; font-size:22px; }
+#sp-prototype #sp-routing .sp-routing-tools-head p { margin:4px 0 0; font-size:12px; color:var(--sp-muted); }
+#sp-prototype #sp-routing-tools-close { width:44px; min-width:44px; height:44px; padding:0; font-size:26px; }
+#sp-prototype #sp-routing .sp-routing-tools-body { min-height:0; overflow:auto; overscroll-behavior:contain; display:grid; gap:20px; }
+#sp-prototype #sp-routing .sp-routing-tools-body h3 { margin:0 0 8px; font-size:13px; }
+#sp-prototype #sp-routing .sp-routing-tools-body p { margin:8px 0 0; font-size:12px; color:var(--sp-muted); line-height:1.5; }
+#sp-prototype #sp-routing .sp-routing-tools-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+#sp-prototype #sp-routing .sp-routing-tools-grid .sp-button { min-height:48px; width:100%; min-width:0; font-size:13px; white-space:normal; }
+#sp-prototype #sp-routing-tools-history .sp-iconbutton { font-size:0; }
+#sp-prototype #sp-routing-tools-history .sp-iconbutton::after { content:attr(title); font-size:13px; }
+@media (max-width:760px) {
+  #sp-prototype > #sp-routing { padding:10px 10px 6px; gap:8px; }
+  #sp-prototype #sp-routing .sp-routing-heading { margin:0; gap:6px; flex-wrap:nowrap; }
+  #sp-prototype #sp-routing .sp-routing-heading > div:first-child { flex-direction:column; align-items:flex-start; gap:3px; }
+  #sp-prototype #sp-routing .sp-routing-heading h1 { font-size:23px; }
+  #sp-prototype #sp-routing .sp-routing-heading p { font-size:10px; }
+  #sp-prototype #sp-routing .sp-routing-heading .sp-page-actions { flex:none; display:flex; flex-wrap:nowrap; gap:6px; }
+  #sp-prototype #sp-routing .sp-routing-heading .sp-button { min-height:44px; min-width:0; padding:8px 11px; font-size:12px; }
+  #sp-prototype #sp-routing-add { background:var(--sp-primary); color:var(--sp-primary-ink); border-color:transparent; font-weight:750; }
+  #sp-prototype #sp-routing #sp-routing-tools-open { display:inline-flex; }
+  #sp-prototype #sp-routing .sp-routing-toolbar { position:static; display:block; margin:0; padding:0; }
+  #sp-prototype #sp-routing .sp-routing-toolbar > .sp-routing-actions { display:none; }
+  #sp-prototype #sp-routing .sp-routing-tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:3px; gap:2px; border-radius:12px; }
+  #sp-prototype #sp-routing .sp-routing-tabs button { display:flex; align-items:center; justify-content:center; gap:4px; padding:6px 2px; min-height:44px; font-size:12px; white-space:nowrap; }
+  #sp-prototype #sp-routing .sp-routing-tabs .sp-routing-tab-label { font-size:0; }
+  #sp-prototype #sp-routing .sp-routing-tab-label::after { content:attr(data-short); font-size:12px; }
+  #sp-prototype #sp-routing .sp-routing-tabs span { margin:0; padding:0 4px; min-width:16px; height:18px; font-size:10px; }
+  #sp-prototype #sp-routing .sp-audio-find { margin:0; gap:5px; }
+  #sp-prototype #sp-routing .sp-audio-search { min-width:0; }
+  #sp-prototype #sp-routing .sp-audio-search input { min-height:44px; font-size:16px; border-radius:12px; }
+  #sp-prototype #sp-routing .sp-audio-filters { width:100%; gap:3px; }
+  #sp-prototype #sp-routing .sp-audio-filters .sp-button { min-height:44px; padding:5px 3px; border-radius:9px; border-color:transparent; background:transparent; font-size:11px; white-space:nowrap; }
+  #sp-prototype #sp-routing .sp-audio-filters [aria-pressed="true"] { background:var(--sp-accent-bg); box-shadow:none; border-color:transparent; }
+  #sp-prototype #sp-audio-search-clear { flex:none; width:44px; min-height:44px; font-size:0; padding:0; }
+  #sp-prototype #sp-audio-search-clear::after { content:'×'; font-size:23px; }
+  #sp-prototype #sp-routing .sp-audio-find:has(#sp-audio-search-clear:not([hidden])) .sp-audio-filters { width:calc(100% - 50px); flex-basis:calc(100% - 50px); }
+  #sp-prototype #sp-routing:not([data-stagebox-mode="true"]) #sp-routing-status { font-size:0; margin:0; line-height:14px; }
+  #sp-prototype #sp-routing:not([data-stagebox-mode="true"]) #sp-routing-status::after { content:attr(data-summary); font-size:11px; }
+  #sp-prototype #sp-routing .sp-routing-table-wrap { flex:1 1 0; min-height:140px; margin:0; padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; scrollbar-gutter:auto; }
+  #sp-prototype #sp-routing .sp-routing-table tbody { gap:7px; }
+  #sp-prototype #sp-routing .sp-routing-table tr[data-route-row] { grid-template-columns:44px minmax(0,1fr) 48px; gap:3px 8px; padding:10px; border:1px solid var(--sp-line); border-radius:14px; background:var(--sp-panel); }
+  #sp-prototype #sp-routing .sp-routing-table td { padding:0; }
+  #sp-prototype #sp-routing .sp-routing-table td:nth-child(2) { grid-column:1; grid-row:1/3; width:auto; }
+  #sp-prototype #sp-routing .sp-routing-table td:nth-child(3) { grid-column:2; grid-row:1; align-self:center; font-size:13px; line-height:1.35; border-left:0; }
+  #sp-prototype #sp-routing .sp-routing-table td:nth-child(3) > strong { display:block; }
+  #sp-prototype #sp-routing .sp-routing-table td:nth-child(3) small { font-size:11px; }
+  #sp-prototype #sp-routing .sp-routing-table .sp-route-mobile-meta { display:block; color:var(--sp-muted); margin-top:3px; }
+  #sp-prototype #sp-routing .sp-route-number { display:flex; flex-direction:column; align-items:center; justify-content:center; width:44px; min-height:48px; padding:3px; background:var(--sp-soft); border-radius:10px; font-size:17px; }
+  #sp-prototype #sp-routing .sp-route-number .sp-route-mobile-ch { display:block; font-size:9px; letter-spacing:.04em; }
+  #sp-prototype #sp-routing .sp-routing-table td:is(:nth-child(4),:nth-child(5),:nth-child(6),:nth-child(10)) { display:none; }
+  #sp-prototype #sp-routing .sp-routing-table td:nth-child(7) { grid-column:3; grid-row:1; align-self:center; }
+  #sp-prototype #sp-routing .sp-routing-table .sp-routing-phantom { min-width:44px; min-height:44px; padding:3px; font-size:11px; }
+  #sp-prototype #sp-routing .sp-routing-table td:nth-child(8) { grid-column:2/4; grid-row:2; }
+  #sp-prototype #sp-routing .sp-audio-patch-button { width:100%; min-height:44px; font-size:11px; border-radius:9px; }
+  #sp-prototype #sp-routing .sp-routing-table td:nth-child(9) { grid-column:2/4; grid-row:3; font-size:11px; }
+  #sp-prototype #sp-routing .sp-routing-table [data-route-notes="false"] { display:none; }
+  #sp-prototype #sp-routing[data-stagebox-mode="true"] #sp-routing-status { font-size:11px; margin:0; }
+}
+/* Short landscape screens scroll the whole routing page instead of clipping controls. */
+@media (max-width:760px) and (max-height:560px) {
+  #sp-prototype > #sp-routing { overflow:auto; }
+  #sp-prototype #sp-routing .sp-routing-table-wrap { flex:none; overflow:visible; }
+}
