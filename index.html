@@ -214,7 +214,7 @@
       <aside id="sp-library" class="sp-library" aria-label="Bausteinbibliothek">
         <div class="sp-sidebar-head"><strong>Bausteine</strong><button class="sp-sidebar-toggle sp-shell-toggle" type="button" id="sp-library-toggle" aria-label="Bausteinbibliothek einklappen" aria-expanded="true" aria-controls="sp-library"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M7 3v14m5.5-10-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
         <div class="sp-library-mode-tabs" role="tablist" aria-label="Bausteine und Objekt-Packs"><button type="button" id="sp-library-objects-tab" role="tab" aria-selected="true" aria-controls="sp-library-items" data-library-mode="objects">Objekte</button><button type="button" id="sp-library-packs-tab" role="tab" aria-selected="false" aria-controls="sp-library-packs" data-library-mode="packs">Packs <span id="sp-library-pack-count" aria-label=""></span></button></div>
-        <label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-library-search" type="search" aria-label="Baustein suchen" placeholder="Baustein suchen …" maxlength="80" autocomplete="off"></label>
+        <label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-library-search" type="search" enterkeyhint="done" aria-label="Baustein suchen" placeholder="Baustein suchen …" maxlength="80" autocomplete="off"></label>
         <div class="sp-library-quick-filters" role="group" aria-label="Bausteine filtern"><button type="button" data-library-scope="all" aria-pressed="true">Alle</button><button type="button" data-library-scope="favorites" aria-pressed="false">★ Favoriten</button><button type="button" data-library-scope="recent" aria-pressed="false">Zuletzt benutzt</button></div>
         <button type="button" class="sp-button" id="sp-inventory-open">Mein Inventar</button>
         <div id="sp-category-tabs" class="sp-category-tabs" role="group" aria-label="Baustein-Kategorien">
@@ -718,7 +718,7 @@
               <li><strong>Routing am Handy:</strong> Kompakte Tabs, Suche und Kanalkarten geben der Liste mehr Platz. „+ Signal“ bleibt direkt erreichbar; Nummerierung, automatische Zuordnung, Rückgängig und Export sind unter „Aktionen“ gebündelt. Kanal, Instrument, Mikrofon und Stagebox-Anschluss stehen zusammen in jeder Karte.</li>
               <li><strong>Mit zwei Fingern drehen:</strong> Eine Geste direkt am Objekt dreht es stufenlos; eine Mehrfachauswahl dreht sich gemeinsam. Instrumentgrößen und Abstände bleiben erhalten. Podeste, FOH, Treppen und Rampen lassen sich zusätzlich in 10-cm-Schritten skalieren. Freie Bühnenfläche bleibt zum Zoomen und Verschieben. Jede Geste lässt sich mit einem Schritt rückgängig machen.</li>
               <li><strong>Mehrfachauswahl &amp; schnelle Bausteine:</strong> Mehrere Objekte per Shift-Klick oder „Mehrere“ auswählen, gemeinsam verschieben, drehen, duplizieren, sperren und löschen. Kanten und Mittelpunkte ausrichten sowie gleiche Abstände verteilen, jeweils mit einem Rückgängig-Schritt. Favoriten und zuletzt platzierte Bausteine stehen projektübergreifend bereit und bleiben lokal gespeichert.</li>
-              <li><strong>Bausteine am Handy:</strong> Die Auswahl nutzt den sichtbaren Bildschirm auch bei geöffneter Tastatur. Suche und Schließen bleiben sichtbar, Treffer lassen sich separat scrollen. Während der Suche werden Inventar und Kategorien ausgeblendet; Suchbegriffe finden Bausteine in allen Kategorien.</li>
+              <li><strong>Bausteine am Handy:</strong> Die Auswahl nutzt den sichtbaren Bildschirm auch bei geöffneter Tastatur. Während der Suche stehen Suchfeld und Schließen nebeneinander; kompakte Trefferzeilen mit Bild, Name und Favorit lassen mehr Bausteine gleichzeitig sichtbar. „Fertig“ auf der Tastatur beendet die Eingabe und erhält die Treffer. Die Liste scrollt separat. Während der Suche werden Inventar und Kategorien ausgeblendet; Suchbegriffe finden Bausteine in allen Kategorien.</li>
               <li><strong>Symphonie-Orchester &amp; Klassik:</strong> Anpassbare Orchesteraufstellung mit einzeln schaltbaren Instrumentengruppen und eigenem Editor. Streichinstrumente, Harfe, Bläser und Schlagwerk stehen auch einzeln mit realistischen monochromen Bilddarstellungen bereit.</li>
               <li><strong>Percussion-Set:</strong> Direkt neben dem Schlagzeug verfügbar, mit eigenem Editor für Congas, Bongos, Timbales und weiteres Zubehör. Crash, Splash, Ride, China und Hi-Hat bieten direkt anklickbare Zollgrößen, maßstabsgetreue Durchmesser und eigene realistische Beckenbilder. Alle Percussion-Objekte lassen sich direkt mit den Drehpfeilen und dem 0°-Reset wie im Drumdesigner bearbeiten, auch per Touch; Halten dreht stufenlos und bleibt mit einem Schritt rückgängig. Monochrome Draufsichten und korrigierte Größenverhältnisse für Percussion und Schlagzeug gelten auch in Vorschau und Export.</li>
               <li><strong>Freie Bühnenformen:</strong> Flächen, Rundungen, Stege, Seitenbühnen und Ausschnitte kombinieren. Der größere Bühnenbauer bietet Formkarten, direkte Kantenmaße und dieselben Aktionen zum Drehen, Duplizieren und Löschen wie Bühnenobjekte.</li>
@@ -6510,16 +6510,38 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-canvas-tools #sp-venue-open::after { content:'Form'; font-size:12px; }
   #sp-prototype #sp-canvas-tools #sp-canvas-focus { padding:0 6px; }
 }
-@media (max-width:760px), (max-width:900px) and (max-height:500px) and (pointer:coarse) {
-  /* Above the keyboard, keep a complete result row alongside 44 px star targets. */
-  #sp-prototype .sp-library[data-searching="true"] .sp-library-card > .sp-library-item { min-height:96px; padding-top:22px; gap:3px; }
-  #sp-prototype .sp-library[data-searching="true"] .sp-library-item > :is(svg,.sp-library-thumbnail) { height:40px; }
-}
-
 @media (max-width:500px) {
   #sp-prototype .sp-library .sp-library-items { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  #sp-prototype .sp-library[data-searching="true"] .sp-library-card > .sp-library-item { padding-top:5px; }
-  #sp-prototype .sp-library[data-searching="true"] .sp-library-item > :is(svg,.sp-library-thumbnail) { width:calc(100% - 44px); max-width:none; height:48px; align-self:flex-start; margin-left:4px; }
+}
+/* Search results become compact rows above the phone keyboard. The same buttons
+   and images remain in use; each favorite keeps its own 44 px touch target. */
+@media (max-width:760px), (max-width:900px) and (max-height:500px) and (pointer:coarse) {
+  #sp-prototype #sp-library[data-searching="true"] {
+    display:grid; grid-template-columns:minmax(0,1fr) 44px;
+    grid-template-rows:44px auto minmax(0,1fr); gap:6px 8px;
+    padding:8px 10px max(8px,env(safe-area-inset-bottom));
+  }
+  #sp-prototype #sp-library[data-searching="true"] .sp-sidebar-head { grid-column:2; grid-row:1; min-width:0; margin:0; padding:0; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-sidebar-head strong { display:none; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-search { grid-column:1; grid-row:1; min-width:0; min-height:44px; height:44px; padding:0 10px; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-search-count { grid-column:1/3; grid-row:2; min-height:0; margin:0; padding:0 2px; font-size:11px; line-height:16px; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-items { grid-column:1/3; grid-row:3; grid-template-columns:minmax(0,1fr); grid-auto-rows:min-content; align-content:start; gap:4px; margin:0; padding:2px; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-card > .sp-library-item {
+    display:grid; grid-template-columns:64px minmax(0,1fr); grid-template-rows:auto auto; gap:0 10px;
+    min-height:56px; height:100%; padding:5px 52px 5px 8px; border-radius:11px;
+    text-align:left; align-items:center;
+  }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-item > :is(svg,.sp-library-thumbnail) {
+    grid-column:1; grid-row:1/3; width:64px; max-width:64px; height:44px;
+    margin:0; padding:0; align-self:center; object-fit:contain;
+  }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-item > span {
+    grid-column:2; grid-row:1/3; min-width:0; min-height:0; margin:0;
+    display:block; text-align:left; font-size:13px; line-height:1.3;
+  }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-item:has(.sp-library-model-count,.sp-library-lock-label) > span { grid-row:1; align-self:end; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-item > span:is(.sp-library-model-count,.sp-library-lock-label) { grid-row:2; align-self:start; font-size:10px; line-height:1.3; margin:2px 0 0; color:var(--sp-muted); }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-favorite { right:5px; top:calc(50% - 22px); width:44px; height:44px; background:transparent; -webkit-tap-highlight-color:transparent; }
 }
 /* build-inline:end stageplot-qol-v1.css */
 </style>
@@ -14091,6 +14113,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   });
   $('sp-category-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(b){libraryCategory=b.dataset.category;library();}});
   $('sp-library-search').addEventListener('input',library);
+  $('sp-library-search').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();e.currentTarget.blur();}});
   root.querySelector('.sp-library-quick-filters').addEventListener('click',e=>{const b=e.target.closest('[data-library-scope]');if(b){libraryScope=b.dataset.libraryScope;library();}});
   $('sp-library-items').addEventListener('click',e=>{const b=e.target.closest('[data-library-favorite]');if(b){e.stopPropagation();toggleLibraryFavorite(b.dataset.libraryFavorite);}});
   $('sp-object-favorite').addEventListener('click',()=>{const o=objects.find(o=>o.id===selected);if(o)toggleLibraryFavorite(o.type);});

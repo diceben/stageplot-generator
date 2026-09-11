@@ -53,7 +53,25 @@ const engine=process.env.BROWSER||'chrome';
         if(geometry.scrollHeight>geometry.clientHeight)assert(await page.locator('#sp-library-items').evaluate(el=>el.scrollTop>0));
         await page.locator('#sp-library-items').evaluate(el=>el.scrollTop=0);
       }
-      if(size.width===390&&process.env.QA_SCREENSHOT)await page.screenshot({path:process.env.QA_SCREENSHOT});
+      if(size.width===390){
+        await page.locator('#sp-library-search').fill('stag');await viewport(344);
+        const layout=await page.locator('#sp-library-items').evaluate(el=>{
+          const list=el.getBoundingClientRect(),cards=[...el.querySelectorAll('.sp-library-card')].map(card=>{
+            const r=card.getBoundingClientRect(),button=card.querySelector('.sp-library-item'),picture=button.querySelector('svg,img').getBoundingClientRect(),name=button.querySelector('span').getBoundingClientRect(),star=card.querySelector('.sp-library-favorite').getBoundingClientRect();
+            return {top:r.top,bottom:r.bottom,height:r.height,pictureRight:picture.right,nameLeft:name.left,nameRight:name.right,nameBottom:name.bottom,detailTop:button.querySelector('.sp-library-model-count,.sp-library-lock-label')?.getBoundingClientRect().top??null,starLeft:star.left,starWidth:star.width,starHeight:star.height};
+          });return {listBottom:list.bottom,cards};
+        });
+        assert(layout.cards.filter(c=>c.bottom<=layout.listBottom).length>=4,'Four complete search results fit above a keyboard leaving 344 px');
+        for(const c of layout.cards){assert(c.height<=60,JSON.stringify(c));assert(c.pictureRight<=c.nameLeft);assert(c.nameRight<=c.starLeft);if(c.detailTop!==null)assert(c.nameBottom<=c.detailTop,'Model count stays below the name');assert(c.starWidth>=44&&c.starHeight>=44);}
+        const star=page.locator('#sp-library-items [data-library-favorite]').first();await star.tap();
+        assert.equal(await page.locator('#sp-prototype').getAttribute('data-library-collapsed'),'false','Favoriting does not select a result');
+        assert.equal(await page.locator('#sp-library-search').inputValue(),'stag');
+        await page.locator('#sp-library-search').focus();await page.locator('#sp-library-search').press('Enter');
+        assert.equal(await page.locator('#sp-library-search').evaluate(el=>el===document.activeElement),false,'Done dismisses input focus');
+        assert.equal(await page.locator('#sp-library-search').inputValue(),'stag');
+        if(process.env.QA_SCREENSHOT)await page.screenshot({path:process.env.QA_SCREENSHOT,clip:{x:0,y:0,width:390,height:344}});
+        await page.locator('#sp-library-search').fill('mik');
+      }
       await page.locator('#sp-library-items [data-add="mic"]').tap();
       assert.equal(await page.locator('#sp-prototype').getAttribute('data-library-collapsed'),'true');
       assert.equal(await page.locator('#sp-library-search').evaluate(el=>el===document.activeElement),false,'Selection releases keyboard focus');
