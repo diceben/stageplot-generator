@@ -3,7 +3,7 @@
   "created": "2026-09-10",
   "method": "OpenAI built-in image_gen; one generation per asset",
   "style": "Monochrome, realistic with restrained drawn contours; strict overhead views",
-  "normalization": "Alpha silhouette crop; proportional grayscale WebP, max 768 px. Millimetre frames and uniform scaling preserve image proportions. Tripod hubs and foot circles are calibrated independently; throne seat diameter is 300 mm.",
+  "normalization": "Alpha silhouette crop; proportional grayscale WebP, max 768 px. Millimetre frames and uniform scaling preserve image proportions. Tripod hubs and foot circles are calibrated independently; throne seat diameter is 300 mm. Boom microphones use independent enlarged heads with fixed upward orientation; the stand foot circle remains unchanged inside a 1450 mm boom sweep frame. Boom arm calibrated to 745 mm overall length.",
   "assets": [
     {
       "id": "laptop",
@@ -1075,13 +1075,67 @@
     },
     {
       "id": "mic-boom",
-      "file": "mic-boom-top-v2.webp",
+      "file": "mic-boom-arm-top-v3.webp",
       "view": "orthographic-top",
-      "width": 86,
+      "width": 79,
       "height": 768,
       "hasAlpha": true,
-      "bytes": 15738,
-      "sha256": "a5dcaaf887a3928bfaa5286a2f4937900611918048dfded144e13c9e6421a170",
+      "bytes": 7924,
+      "sha256": "6d8177b726c1fd52f9950b4aeb5b14528e9dd8d4adf1c6c3865d1845d5ce9588",
+      "viewBox": [
+        1450,
+        1450
+      ],
+      "footprintMeters": {
+        "width": 1.45,
+        "depth": 1.45
+      },
+      "imageRect": [
+        702.9493,
+        200.5074,
+        76.6526,
+        745
+      ],
+      "calibration": {
+        "sourceHub": [
+          522,
+          1030
+        ],
+        "sourceTip": [
+          512,
+          31
+        ],
+        "attachmentPoint": [
+          719.7498,
+          200.5074
+        ],
+        "displayOnly": false,
+        "overallLengthMillimeters": 745,
+        "reference": "https://www.k-m.de/en/products/microphone-stands/boom-arms/211-1-boom-arm-black"
+      },
+      "source": {
+        "file": "exec-d8748011-3ad4-47d7-a449-7b90de34b451.png",
+        "sha256": "f4ec260f280fc6701faa9dfe2ef2ae615fa830df30e6c5947ce28024c1c9851f",
+        "width": 1024,
+        "height": 1536
+      },
+      "crop": {
+        "left": 480,
+        "top": 31,
+        "width": 146,
+        "height": 1419
+      },
+      "cropAlphaThreshold": 128
+    },
+    {
+      "id": "mic-boom-head",
+      "file": "mic-boom-head-top-v3.webp",
+      "view": "orthographic-top",
+      "width": 222,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 43902,
+      "sha256": "3f177bcbb2128af5a75ee97fb5c95ab27dc4b8defaeab23cac92dc9ce16d6f8c",
       "viewBox": [
         650,
         650
@@ -1091,31 +1145,34 @@
         "depth": 0.65
       },
       "imageRect": [
-        299.7508,
-        24.3355,
-        55.814,
-        500
+        -33.2336,
+        -170,
+        66.4671,
+        230
       ],
       "calibration": {
-        "sourceHub": [
-          508,
-          918
+        "attachmentOffset": [
+          33.233555062823356,
+          170
         ],
-        "overallLengthMillimeters": 500
+        "displayLengthMillimeters": 230,
+        "displayOnly": true,
+        "note": "Deliberately enlarged microphone for readability; not a measurement of the microphone."
       },
       "source": {
-        "file": "exec-7384630d-df9e-4a83-b586-08ed0907ce3f.png",
-        "sha256": "e303ffdd5855a5d5dde765aa8bdce48ad67620a1fa735e255723aa4d8a5197b0",
+        "file": "exec-a1dad888-d644-4d04-b7a3-a968e5ddf044.png",
+        "sha256": "f4a13b0ad2432f7f8c1f010ab2db773d429fc3b51235f7a1fd85e5ffe10c3bed",
         "width": 1024,
         "height": 1536
       },
       "crop": {
-        "left": 432,
-        "top": 13,
-        "width": 168,
-        "height": 1505
+        "left": 317,
+        "top": 85,
+        "width": 391,
+        "height": 1353
       },
       "cropAlphaThreshold": 128
     }
-  ]
+  ],
+  "updated": "2026-09-11"
 }

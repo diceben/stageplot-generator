@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const html=fs.readFileSync('stageplot-studio.html','utf8');
 const extract=name=>{const result=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert.ok(result,name);return result[0];};
-const ctx={drumModel:{isDrums:type=>type==='drums'},artBoundsCache:new Map(),artId:c=>c.id,stageboxCapacity:{},normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:v=>String(v||'')};vm.createContext(ctx);vm.runInContext(fs.readFileSync('stageplot-symbols-v3.js','utf8'),ctx);
+const ctx={drumModel:{isDrums:type=>type==='drums'},artBoundsCache:new Map(),artId:c=>c.id,stageboxCapacity:{},normalizeObjectIo:()=>({inputs:{count:0},outputs:{count:1,connector:'XLR'}}),ioValueText:()=>'',normalizeExtraStairs:()=>[],normalizeCables:()=>[],normalizeRouting:v=>v||{},projectText:v=>String(v||'')};vm.createContext(ctx);vm.runInContext(fs.readFileSync('stageplot-symbols-v3.js','utf8'),ctx);
 vm.runInContext(html.slice(html.indexOf('  const catalog = ['),html.indexOf('  const libraryModelFamilyCards='))+'\nthis.catalog=catalog;'+['editableObjectSize','normalizedObjectDimensions','defaultObjectSize','objectArtGeometry','projectIdentity','iemRect','validStage','normalizeProductionInfo','normalizeProjectInfo','normalizeSetupDocument'].map(extract).join('\n')+html.match(/  const objectSize = [^\n]+/)[0]+'\nthis.size=objectSize;',ctx);
 const near=(a,b,label)=>assert.ok(Math.abs(a-b)<1e-9,`${label}: ${a} != ${b}`);
 for(const [id,w,d] of [['laptop',.3557,.2481],['mic-sm57',.157,.032],['mic-wireless-ewd',.268,.05],['drum-throne',.43,.43],['power',.3,.06],['guitar-stand-empty',.626,.335],['guitar-tree-empty',.86,.86],['di',.127,.084],['stagebox-8',.483,.22],['stagebox-16',.41,.19],['stagebox-32',.82,.19],['stagebox-48',.4816,.255]]){
@@ -30,6 +30,10 @@ const kit={id:'drums',vb:[144,102]};ctx.artBoundsCache.set('drums',{x:8,y:5,widt
 near(ctx.size({type:'mic',stand:'round'}).w,.25,'Round base 25 cm');
 for(const invalid of [{w:0,d:.2},{w:-1,d:1},{w:Infinity,d:1},{w:.2,d:NaN},{w:31,d:1},{w:1,d:21},{w:'0.4',d:.3},null])assert.equal(ctx.normalizedObjectDimensions(invalid),null);
 const stage={w:8,d:5,title:'Scale fixture',stairs:'none',stairsOffset:.5,iem:'none',iemLength:2,iemDepth:1,iemX:0,iemY:0};
+const oldMic={id:'old-mic',type:'mic',x:2,y:2,angle:0,stand:'boom',dimensions:{w:.65,d:.65}};
+const migratedMic=ctx.normalizeSetupDocument({stage,objects:[oldMic]});near(migratedMic.objects[0].dimensions.w,1.45,'Legacy foot scale preserved in sweep frame');assert.equal(migratedMic.objects[0].micFrameVersion,2);
+near(ctx.normalizeSetupDocument(migratedMic).objects[0].dimensions.w,1.45,'Repeated load does not enlarge again');
+near(ctx.normalizeSetupDocument({stage,objects:[{...oldMic,stand:'round',dimensions:{w:.25,d:.25}}]}).objects[0].dimensions.w,.25,'Round stand unaffected');
 const original={id:'station-1',type:'rug',x:3.16,y:2.07,angle:37,label:'Measured rug',dimensions:{w:2.4,d:1.7},locked:true};
 const plain=v=>JSON.parse(JSON.stringify(v));
 const doc=ctx.normalizeSetupDocument({stage,objects:[original]});assert.deepEqual(plain(doc.objects[0].dimensions),original.dimensions);assert.equal(doc.objects[0].x,original.x);assert.equal(doc.objects[0].angle,37);assert.equal(doc.objects[0].locked,true);assert.deepEqual(plain(ctx.normalizeSetupDocument(doc)),plain(doc));
