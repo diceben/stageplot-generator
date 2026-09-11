@@ -62,6 +62,7 @@ function renderAudioFind(){
   $('sp-routing-empty').querySelector('span').textContent=rows.length?'Suche oder Filter anpassen.':'Ein Instrument auf der Bühne platzieren oder mit „+ Signal“ selbst anlegen.';
   $('sp-audio-search-clear').hidden=!audioQuery&&audioFilter==='all';
   const direction=routingTab==='inputs'?'Inputs: von der Bühne zum Mischpult.':'Outputs: vom Mischpult zu Monitoren, IEM oder anderen Geräten.';
+  $('sp-routing-status').dataset.summary=visible.length+' von '+rows.length+' Kanälen';
   $('sp-routing-status').textContent=direction+' '+visible.length+' von '+rows.length+' Kanälen · CH = Mischpultkanal, IN/OUT = Stagebox-Buchse.';
 }
 function audioSignalDescription(row,direction){
@@ -153,7 +154,7 @@ function renderObjectAudio(o){
 }
 function audioRoutingRows(rows,direction){
   return rows.map(row=>{const stereo=Boolean(row.stereoGroup),patch=stageboxRouteLocation(row,direction),kind=direction==='inputs'?({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||row.signalType):({monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)]),members=(row.linkedSources||[]).length;
-    return '<tr tabindex="0" data-route-row="'+row.id+'" data-audio-stereo="'+stereo+'"><td><button class="sp-route-drag-handle" type="button" draggable="true" data-route-drag="'+row.id+'" aria-label="'+esc(row.instrument)+' verschieben" title="'+(stereo?'Stereopaar':'Signal')+' verschieben">⠿</button></td><td><button class="sp-route-number" type="button" data-route-number="'+row.id+'" aria-label="Kanalnummer bearbeiten">'+(row.number||'—')+'</button></td><td><strong>'+esc(row.instrument||'Unbenannt')+'</strong>'+(routeSourceObject(row)?.type==='laptop'?'<small>'+esc(playbackSourceHint(row))+'</small>':'')+(members?'<small>'+members+' weitere Bühnenobjekte im Signalweg</small>':'')+(routeFrequency(row)?'<small>Funk: '+esc(routeFrequency(row))+'</small>':'')+'</td><td>'+esc(stereo?row.mode:'Mono')+'</td><td>'+kind+'</td><td>'+esc(row.microphone||'—')+'</td><td>'+(direction==='inputs'&&row.connector!=='Dante'?'<button class="sp-routing-phantom" type="button" data-route-phantom="'+row.id+'" aria-pressed="'+row.phantom+'">48V</button>':'—')+'</td><td>'+audioPatchButton(row,direction)+'</td><td>'+esc(row.notes||'—')+'</td><td><button class="sp-button" type="button" data-route-edit="'+row.id+'">Bearbeiten</button></td></tr>';
+    return '<tr tabindex="0" data-route-row="'+row.id+'" data-audio-stereo="'+stereo+'"><td><button class="sp-route-drag-handle" type="button" draggable="true" data-route-drag="'+row.id+'" aria-label="'+esc(row.instrument)+' verschieben" title="'+(stereo?'Stereopaar':'Signal')+' verschieben">⠿</button></td><td><button class="sp-route-number" type="button" data-route-number="'+row.id+'" aria-label="Kanalnummer für '+esc(row.instrument||'Signal')+' bearbeiten"><small class="sp-route-mobile-ch">'+(direction==='inputs'?'CH':'OUT')+'</small>'+(row.number||'—')+'</button></td><td><strong>'+esc(row.instrument||'Unbenannt')+'</strong><small class="sp-route-mobile-meta">'+esc([stereo?row.mode:'Mono',row.microphone||kind].filter(Boolean).join(' · '))+'</small>'+(routeSourceObject(row)?.type==='laptop'?'<small>'+esc(playbackSourceHint(row))+'</small>':'')+(members?'<small>'+members+' weitere Bühnenobjekte im Signalweg</small>':'')+(routeFrequency(row)?'<small>Funk: '+esc(routeFrequency(row))+'</small>':'')+'</td><td>'+esc(stereo?row.mode:'Mono')+'</td><td>'+kind+'</td><td>'+esc(row.microphone||'—')+'</td><td>'+(direction==='inputs'&&row.connector!=='Dante'?'<button class="sp-routing-phantom" type="button" data-route-phantom="'+row.id+'" aria-pressed="'+row.phantom+'">48V</button>':'—')+'</td><td>'+audioPatchButton(row,direction)+'</td><td data-route-notes="'+Boolean(row.notes)+'">'+esc(row.notes||'—')+'</td><td><button class="sp-button" type="button" data-route-edit="'+row.id+'">Bearbeiten</button></td></tr>';
   }).join('');
 }
 function moveAudioGroup(rows,sourceId,targetId,placement='before'){
@@ -545,6 +546,27 @@ $('sp-audio-wireless').addEventListener('change',()=>audioFormChanged());
 $('sp-audio-order').addEventListener('click',e=>{const move=e.target.closest('[data-audio-move]');if(!move||!editingRoute)return;const direction=editingRoute.direction,rows=stage.routing[direction],row=rows.find(row=>row.id===editingRoute.id),group=audioGroup(rows,row),indices=group.map(row=>rows.indexOf(row)),up=move.dataset.audioMove==='up',target=rows[up?Math.min(...indices)-1:Math.max(...indices)+1];if(!target)return;const before=snapshot();stage.routing[direction]=moveAudioGroup(rows,row.id,target.id,up?'before':'after');keepHistory(before);const movedRows=stage.routing[direction],movedGroup=audioGroup(movedRows,movedRows.find(item=>item.id===row.id));editingRoute.index=movedRows.findIndex(item=>item.id===row.id);$('sp-audio-order').querySelector('[data-audio-move="up"]').disabled=Math.min(...movedGroup.map(item=>movedRows.indexOf(item)))<=0;$('sp-audio-order').querySelector('[data-audio-move="down"]').disabled=Math.max(...movedGroup.map(item=>movedRows.indexOf(item)))>=movedRows.length-1;renderRouting();say('Signal verschoben · Kanalnummern beibehalten');});
 
 $('sp-audio-more').addEventListener('click',()=>{const panel=$('sp-audio-more-actions');panel.hidden=!panel.hidden;$('sp-audio-more').setAttribute('aria-expanded',String(!panel.hidden));});
+// Move the actual controls, retaining one action handler and its disabled/read-only state.
+const routingMobileMedia=matchMedia('(max-width:760px)'),routingMobileControls=[
+  ['sp-audio-undo','sp-routing-tools-history'],['sp-audio-redo','sp-routing-tools-history'],
+  ['sp-audio-number','sp-routing-tools-patch'],['sp-routing-auto','sp-routing-tools-patch'],
+  ['sp-routing-pdf','sp-routing-tools-files'],['sp-routing-csv-import','sp-routing-tools-files'],
+  ['sp-routing-csv','sp-routing-tools-files'],['sp-routing-xlsx','sp-routing-tools-files'],
+  ['sp-routing-reset','sp-routing-tools-reset'],['sp-routing-add',null]
+].map(([id,target])=>{const node=$(id),anchor=document.createComment(id+' desktop position');node.before(anchor);return {node,anchor,target};});
+function syncMobileRoutingActions(){
+  const mobile=routingMobileMedia.matches;
+  if(!mobile&&$('sp-routing-tools').open)$('sp-routing-tools').close();
+  for(const {node,anchor,target} of routingMobileControls){if(mobile){if(target)$(target).append(node);else $('sp-routing-tools-open').before(node);}else anchor.after(node);}
+}
+routingMobileMedia.addEventListener('change',syncMobileRoutingActions);syncMobileRoutingActions();
+$('sp-routing-tools-open').addEventListener('click',()=>$('sp-routing-tools').showModal());
+$('sp-routing-tools-close').addEventListener('click',()=>$('sp-routing-tools').close());
+$('sp-routing-tools').addEventListener('click',e=>{
+  if(e.target.closest('.sp-routing-tools-body button'))$('sp-routing-tools').close();
+  else if(e.target===$('sp-routing-tools')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close();}
+},true);
+
 
 $('sp-audio-search').addEventListener('input',e=>{audioQuery=e.target.value;renderAudioFind();});
 $('sp-audio-find').addEventListener('click',e=>{const button=e.target.closest('[data-audio-filter]');if(button){audioFilter=button.dataset.audioFilter;renderAudioFind();}if(e.target.closest('#sp-audio-search-clear')){audioQuery='';audioFilter='all';$('sp-audio-search').value='';renderAudioFind();$('sp-audio-search').focus();}});

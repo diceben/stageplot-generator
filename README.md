@@ -12,6 +12,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Routing am Handy:** Kompakte Tabs und Kanalkarten zeigen Kanalnummer, Instrument, Mikrofon und Anschluss zusammen. „+ Signal“ bleibt sichtbar; Nummerierung, automatische Stagebox-Zuordnung, Rückgängig und Export stehen unter „Aktionen“. Auf kurzen Bildschirmen scrollt die gesamte Ansicht.
 - **Zwei-Finger-Drehung am Handy:** Auf einem Objekt beginnen und mit dem zweiten Finger drehen. Eine markierte Auswahl dreht sich gemeinsam; Instrumentgrößen und Abstände bleiben erhalten. Auf freier Fläche zoomen und verschieben zwei Finger die Ansicht. Podeste, FOH, Treppen und Rampen bleiben zusätzlich in 10-cm-Schritten skalierbar. Eine Geste entspricht einem Rückgängig-Schritt.
 - **Mehrfachauswahl:** Shift-Klick oder „Mehrere“ am Handy; gemeinsam verschieben, drehen, duplizieren, sperren und löschen. Kanten/Mittelpunkte ausrichten und ab drei Objekten gleichmäßige freie Abstände verteilen. Jede Änderung ist mit einem Schritt rückgängig.
 - **Favoriten & zuletzt benutzt:** Sterne an den Bausteinen und am ausgewählten Objekt; drei direkte Filter für alle Bausteine, Favoriten und die zwölf zuletzt platzierten Typen. Lokal und projektübergreifend gespeichert.
