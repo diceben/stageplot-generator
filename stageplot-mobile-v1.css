@@ -343,3 +343,51 @@
   #sp-prototype > #sp-routing { overflow:auto; }
   #sp-prototype #sp-routing .sp-routing-table-wrap { flex:none; overflow:visible; }
 }
+
+/* Project library: one primary action and compact, calm project cards. */
+#sp-prototype #sp-dashboard .sp-project-card { border-style:solid; background:var(--sp-panel); box-shadow:0 4px 18px #17211908; }
+#sp-prototype #sp-dashboard .sp-project-card[data-current="true"] { border-color:color-mix(in srgb,var(--sp-teal) 32%,var(--sp-line)); box-shadow:0 4px 18px #17211908; }
+#sp-prototype #sp-dashboard .sp-project-card-preview { opacity:1; }
+#sp-prototype #sp-dashboard .sp-project-identity { border:0; background:transparent; padding-inline:0; font-size:10px; }
+#sp-prototype #sp-dashboard .sp-project-identity code { font-size:10px; }
+#sp-prototype #sp-dashboard .sp-project-card-head small { display:block; margin-top:4px; color:var(--sp-muted); font-size:11px; }
+#sp-prototype #sp-dashboard button { -webkit-tap-highlight-color:transparent; }
+@media (max-width:760px) {
+  #sp-prototype > #sp-dashboard { padding:16px 14px 24px; gap:10px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-hero { order:0; width:100%; margin:0; gap:8px; flex-direction:row; align-items:center; }
+  #sp-prototype #sp-dashboard .sp-dashboard-intro h1 { font-size:32px; letter-spacing:-1.3px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-actions { display:flex; flex-wrap:nowrap; gap:4px; }
+  #sp-prototype #sp-dashboard #sp-account-open { max-width:114px; padding:6px 8px; white-space:normal; font-size:11px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-actions .sp-button { flex:none; min-height:44px; padding:8px 12px; border:0; background:var(--sp-soft); color:var(--sp-ink); font-size:12px; border-radius:999px; }
+  #sp-prototype #sp-dashboard .sp-project-grid { display:contents; }
+  #sp-prototype #sp-dashboard .sp-project-add-card { order:1; flex:none; min-height:56px; padding:0; border:0; border-radius:15px; background:var(--sp-primary); box-shadow:none; }
+  #sp-prototype #sp-dashboard .sp-project-add-card button { min-height:56px; padding:10px 16px; color:var(--sp-primary-ink); gap:12px; }
+  #sp-prototype #sp-dashboard .sp-project-add-card button:hover { background:transparent; box-shadow:none; color:var(--sp-primary-ink); }
+  #sp-prototype #sp-dashboard .sp-project-add-card svg { width:24px; height:24px; }
+  #sp-prototype #sp-dashboard .sp-project-add-card strong { font-size:15px; font-weight:750; }
+  #sp-prototype #sp-dashboard .sp-project-add-card small { display:none; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head { order:2; width:100%; margin:2px 0 0; gap:8px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head h2 { display:none; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head > div { order:1; }
+  #sp-prototype #sp-dashboard #sp-project-count { font-size:11px; padding-left:3px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head .sp-search { border:0; border-bottom:1px solid var(--sp-line); background:transparent; border-radius:0; min-height:44px; padding:0 3px; }
+  #sp-prototype #sp-dashboard .sp-project-card { order:3; flex:none; display:grid; grid-template-columns:104px minmax(0,1fr); gap:9px 12px; min-height:0; padding:12px; border-radius:19px; }
+  #sp-prototype #sp-dashboard .sp-project-card:hover { transform:none; }
+  #sp-prototype #sp-dashboard .sp-project-card-preview { grid-column:1; grid-row:1; width:104px; height:86px; min-height:0; border:0; border-radius:11px; }
+  #sp-prototype #sp-dashboard .sp-project-card-preview > span { display:none; }
+  #sp-prototype #sp-dashboard .sp-project-card-body { display:contents; }
+  #sp-prototype #sp-dashboard .sp-project-card-head { grid-column:2; grid-row:1; flex-direction:column; justify-content:center; gap:5px; min-width:0; }
+  #sp-prototype #sp-dashboard .sp-project-card-head h3 { font-size:18px; line-height:1.15; letter-spacing:-.4px; }
+  #sp-prototype #sp-dashboard .sp-project-card-head .sp-pro-badge { order:-1; padding:3px 6px; border-radius:5px; font-size:8px; letter-spacing:.08em; }
+  #sp-prototype #sp-dashboard .sp-project-card-meta { grid-column:1/-1; margin:0; gap:5px; }
+  #sp-prototype #sp-dashboard .sp-project-card-meta span { padding:3px 6px; font-size:10px; }
+  #sp-prototype #sp-dashboard .sp-project-identity { grid-column:1/-1; min-height:44px; gap:5px; margin:-6px 0; }
+  #sp-prototype #sp-dashboard .sp-project-identity svg { margin-left:auto; flex:none; width:16px; height:16px; }
+  #sp-prototype #sp-dashboard .sp-project-storage { grid-column:1/-1; margin:0; font-size:10px; line-height:1.4; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; padding-top:9px; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions .sp-button { min-height:44px; padding:6px 3px; border-radius:10px; font-size:10px; background:var(--sp-soft); border:0; margin:0; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-open] { background:var(--sp-ink); color:var(--sp-panel); font-weight:700; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-delete] { color:light-dark(#a83a43,#ff9ba7); background:transparent; }
+  #sp-prototype #sp-dashboard .sp-empty-projects { order:3; }
+  #sp-prototype #sp-dashboard .sp-plan-card { order:4; margin:4px 0 0; }
+}

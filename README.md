@@ -12,6 +12,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Projektübersicht am Handy:** „Projekt hinzufügen“ steht direkt oben vor Suche und Projekten. Kompakte Karten zeigen Vorschau und Namen nebeneinander; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Öffnen, Projektdaten, Teilen, Sicherung und Löschen sind direkt erreichbar.
 - **Routing am Handy:** Kompakte Tabs und Kanalkarten zeigen Kanalnummer, Instrument, Mikrofon und Anschluss zusammen. „+ Signal“ bleibt sichtbar; Nummerierung, automatische Stagebox-Zuordnung, Rückgängig und Export stehen unter „Aktionen“. Auf kurzen Bildschirmen scrollt die gesamte Ansicht.
 - **Zwei-Finger-Drehung am Handy:** Auf einem Objekt beginnen und mit dem zweiten Finger drehen. Eine markierte Auswahl dreht sich gemeinsam; Instrumentgrößen und Abstände bleiben erhalten. Auf freier Fläche zoomen und verschieben zwei Finger die Ansicht. Podeste, FOH, Treppen und Rampen bleiben zusätzlich in 10-cm-Schritten skalierbar. Eine Geste entspricht einem Rückgängig-Schritt.
 - **Mehrfachauswahl:** Shift-Klick oder „Mehrere“ am Handy; gemeinsam verschieben, drehen, duplizieren, sperren und löschen. Kanten/Mittelpunkte ausrichten und ab drei Objekten gleichmäßige freie Abstände verteilen. Jede Änderung ist mit einem Schritt rückgängig.
