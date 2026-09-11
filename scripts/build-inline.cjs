@@ -19,6 +19,8 @@ const INDEX = path.join(root, 'index.html');
 // Reihenfolge = Ladereihenfolge in der HTML (export vor drums vor symbols).
 // transform() muss exakt den Text erzeugen, der eingebettet werden soll.
 const MODULES = [
+  { file: 'stageplot-qol-v1.js', transform: s => s.trim() },
+  { file: 'stageplot-qol-v1.css', transform: s => s.trim() },
   { file: 'stageplot-iem-v1.js', transform: s => s.trim() },
   { file: 'stageplot-iem-editor-v1.js', transform: s => s.trim() },
   { file: 'stageplot-iem-editor-v1.css', transform: s => s.trim() },

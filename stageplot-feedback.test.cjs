@@ -63,7 +63,7 @@ fitContext.editorFit=null;const outsideFit=fitContext.editorWorkspaceBounds(stag
 mobile=false;assert.deepEqual(plain(fitContext.editorWorkspaceBounds(stageFit,[])),fitContext.workspaceBounds(),'Desktop retains its own padding.');
 // Access pieces use the existing object creation, resize, locking and persistence paths.
 const accessCatalog=Object.fromEntries(['stage-stairs','stage-ramp'].map(id=>{const line=html.split('\n').find(line=>line.includes("{id:'"+id+"',name:"));assert(line,id+' fehlt');const entry=vm.runInNewContext('('+line.trim().replace(/,$/,'')+')');return [id,entry];}));
-const accessContext={byId:accessCatalog,drumModel:{isDrums:()=>false},stageboxCapacity:{},constrain:()=>{},objects:[],stage:{w:8,d:5},selected:null};vm.createContext(accessContext);
+const accessContext={selectionMode:false,selectedObjects:()=>[],byId:accessCatalog,drumModel:{isDrums:()=>false},stageboxCapacity:{},constrain:()=>{},objects:[],stage:{w:8,d:5},selected:null};vm.createContext(accessContext);
 const sizeSource=html.match(/  const objectSize = [^\n]+/)[0];
 vm.runInContext(sizeSource+'\n'+['makeObject','resizeFootprint','selectedFootprint','applyFootprint','outside'].map(extract).join('\n'),accessContext);
 Object.assign(nc.byId,accessCatalog);
