@@ -715,6 +715,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
+              <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Kompakte Karten zeigen Vorschau neben dem Namen; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Ruhige Flächen und klare Aktionen ersetzen die gestrichelten Rahmen.</li>
               <li><strong>Routing am Handy:</strong> Kompakte Tabs, Suche und Kanalkarten geben der Liste mehr Platz. „+ Signal“ bleibt direkt erreichbar; Nummerierung, automatische Zuordnung, Rückgängig und Export sind unter „Aktionen“ gebündelt. Kanal, Instrument, Mikrofon und Stagebox-Anschluss stehen zusammen in jeder Karte.</li>
               <li><strong>Mit zwei Fingern drehen:</strong> Eine Geste direkt am Objekt dreht es stufenlos; eine Mehrfachauswahl dreht sich gemeinsam. Instrumentgrößen und Abstände bleiben erhalten. Podeste, FOH, Treppen und Rampen lassen sich zusätzlich in 10-cm-Schritten skalieren. Freie Bühnenfläche bleibt zum Zoomen und Verschieben. Jede Geste lässt sich mit einem Schritt rückgängig machen.</li>
               <li><strong>Mehrfachauswahl &amp; schnelle Bausteine:</strong> Mehrere Objekte per Shift-Klick oder „Mehrere“ auswählen, gemeinsam verschieben, drehen, duplizieren, sperren und löschen. Kanten und Mittelpunkte ausrichten sowie gleiche Abstände verteilen, jeweils mit einem Rückgängig-Schritt. Favoriten und zuletzt platzierte Bausteine stehen projektübergreifend bereit und bleiben lokal gespeichert.</li>
@@ -6464,6 +6465,54 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype > #sp-routing { overflow:auto; }
   #sp-prototype #sp-routing .sp-routing-table-wrap { flex:none; overflow:visible; }
 }
+
+/* Project library: one primary action and compact, calm project cards. */
+#sp-prototype #sp-dashboard .sp-project-card { border-style:solid; background:var(--sp-panel); box-shadow:0 4px 18px #17211908; }
+#sp-prototype #sp-dashboard .sp-project-card[data-current="true"] { border-color:color-mix(in srgb,var(--sp-teal) 32%,var(--sp-line)); box-shadow:0 4px 18px #17211908; }
+#sp-prototype #sp-dashboard .sp-project-card-preview { opacity:1; }
+#sp-prototype #sp-dashboard .sp-project-identity { border:0; background:transparent; padding-inline:0; font-size:10px; }
+#sp-prototype #sp-dashboard .sp-project-identity code { font-size:10px; }
+#sp-prototype #sp-dashboard .sp-project-card-head small { display:block; margin-top:4px; color:var(--sp-muted); font-size:11px; }
+#sp-prototype #sp-dashboard button { -webkit-tap-highlight-color:transparent; }
+@media (max-width:760px) {
+  #sp-prototype > #sp-dashboard { padding:16px 14px 24px; gap:10px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-hero { order:0; width:100%; margin:0; gap:8px; flex-direction:row; align-items:center; }
+  #sp-prototype #sp-dashboard .sp-dashboard-intro h1 { font-size:32px; letter-spacing:-1.3px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-actions { display:flex; flex-wrap:nowrap; gap:4px; }
+  #sp-prototype #sp-dashboard #sp-account-open { max-width:114px; padding:6px 8px; white-space:normal; font-size:11px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-actions .sp-button { flex:none; min-height:44px; padding:8px 12px; border:0; background:var(--sp-soft); color:var(--sp-ink); font-size:12px; border-radius:999px; }
+  #sp-prototype #sp-dashboard .sp-project-grid { display:contents; }
+  #sp-prototype #sp-dashboard .sp-project-add-card { order:1; flex:none; min-height:56px; padding:0; border:0; border-radius:15px; background:var(--sp-primary); box-shadow:none; }
+  #sp-prototype #sp-dashboard .sp-project-add-card button { min-height:56px; padding:10px 16px; color:var(--sp-primary-ink); gap:12px; }
+  #sp-prototype #sp-dashboard .sp-project-add-card button:hover { background:transparent; box-shadow:none; color:var(--sp-primary-ink); }
+  #sp-prototype #sp-dashboard .sp-project-add-card svg { width:24px; height:24px; }
+  #sp-prototype #sp-dashboard .sp-project-add-card strong { font-size:15px; font-weight:750; }
+  #sp-prototype #sp-dashboard .sp-project-add-card small { display:none; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head { order:2; width:100%; margin:2px 0 0; gap:8px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head h2 { display:none; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head > div { order:1; }
+  #sp-prototype #sp-dashboard #sp-project-count { font-size:11px; padding-left:3px; }
+  #sp-prototype #sp-dashboard .sp-dashboard-section-head .sp-search { border:0; border-bottom:1px solid var(--sp-line); background:transparent; border-radius:0; min-height:44px; padding:0 3px; }
+  #sp-prototype #sp-dashboard .sp-project-card { order:3; flex:none; display:grid; grid-template-columns:104px minmax(0,1fr); gap:9px 12px; min-height:0; padding:12px; border-radius:19px; }
+  #sp-prototype #sp-dashboard .sp-project-card:hover { transform:none; }
+  #sp-prototype #sp-dashboard .sp-project-card-preview { grid-column:1; grid-row:1; width:104px; height:86px; min-height:0; border:0; border-radius:11px; }
+  #sp-prototype #sp-dashboard .sp-project-card-preview > span { display:none; }
+  #sp-prototype #sp-dashboard .sp-project-card-body { display:contents; }
+  #sp-prototype #sp-dashboard .sp-project-card-head { grid-column:2; grid-row:1; flex-direction:column; justify-content:center; gap:5px; min-width:0; }
+  #sp-prototype #sp-dashboard .sp-project-card-head h3 { font-size:18px; line-height:1.15; letter-spacing:-.4px; }
+  #sp-prototype #sp-dashboard .sp-project-card-head .sp-pro-badge { order:-1; padding:3px 6px; border-radius:5px; font-size:8px; letter-spacing:.08em; }
+  #sp-prototype #sp-dashboard .sp-project-card-meta { grid-column:1/-1; margin:0; gap:5px; }
+  #sp-prototype #sp-dashboard .sp-project-card-meta span { padding:3px 6px; font-size:10px; }
+  #sp-prototype #sp-dashboard .sp-project-identity { grid-column:1/-1; min-height:44px; gap:5px; margin:-6px 0; }
+  #sp-prototype #sp-dashboard .sp-project-identity svg { margin-left:auto; flex:none; width:16px; height:16px; }
+  #sp-prototype #sp-dashboard .sp-project-storage { grid-column:1/-1; margin:0; font-size:10px; line-height:1.4; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; padding-top:9px; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions .sp-button { min-height:44px; padding:6px 3px; border-radius:10px; font-size:10px; background:var(--sp-soft); border:0; margin:0; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-open] { background:var(--sp-ink); color:var(--sp-panel); font-weight:700; }
+  #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-delete] { color:light-dark(#a83a43,#ff9ba7); background:transparent; }
+  #sp-prototype #sp-dashboard .sp-empty-projects { order:3; }
+  #sp-prototype #sp-dashboard .sp-plan-card { order:4; margin:4px 0 0; }
+}
 /* build-inline:end stageplot-mobile-v1.css */
 </style>
 <style>
@@ -9993,8 +10042,8 @@ function createStageplotSymbolV3(type, options = {}) {
     return b;
   }
   function venuePreviewMarkup(document,badge){
-    const s=document.stage,list=document.objects||[],c=compiledVenue(s,list),b=projectPreviewBounds(s,list),W=320,H=120,scale=Math.min(288/(b.maxX-b.minX),90/(b.maxY-b.minY)),x=W/2-(b.minX+b.maxX)/2*scale,y=H/2-(b.minY+b.maxY)/2*scale;
-    const svg=sEl('svg',{viewBox:'0 0 320 120','aria-hidden':'true'});
+    const s=document.stage,list=document.objects||[],c=compiledVenue(s,list),b=projectPreviewBounds(s,list),W=160,H=120,scale=Math.min(136/(b.maxX-b.minX),96/(b.maxY-b.minY)),x=W/2-(b.minX+b.maxX)/2*scale,y=H/2-(b.minY+b.maxY)/2*scale;
+    const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,'aria-hidden':'true'});
     sEl('rect',{width:W,height:H,fill:'var(--sp-paper)'},svg);sEl('path',{d:StageplotGeometry.path(c.floor,scale,x,y),fill:s.surface==='black'?'#252725':'#f6f8f3',stroke:'var(--sp-art)','stroke-width':1,'fill-rule':'evenodd'},svg);
     StageplotVenue.drawDetails(svg,s.geometry,{scale,x,y,measures:false,labels:false});
     sEl('g',{},svg).innerHTML=projectPreviewObjectsMarkup(list,scale,x,y,s.surface==='black');
@@ -11462,7 +11511,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function dashboardPreviewMarkup(document,badge='VORSCHAU'){
     if(document.stage.geometry)return venuePreviewMarkup(document,badge);
-    const s=document.stage,list=document.objects||[],b=projectPreviewBounds(s,list),W=320,H=120,padX=14,padY=14,scale=Math.min((W-padX*2)/(b.maxX-b.minX),(H-padY*2)/(b.maxY-b.minY)),stageW=s.w*scale,stageH=s.d*scale,left=W/2-(b.minX+b.maxX)/2*scale,top=H/2-(b.minY+b.maxY)/2*scale,black=s.surface==='black',moduleLines=[];
+    const s=document.stage,list=document.objects||[],b=projectPreviewBounds(s,list),W=160,H=120,padX=12,padY=12,scale=Math.min((W-padX*2)/(b.maxX-b.minX),(H-padY*2)/(b.maxY-b.minY)),stageW=s.w*scale,stageH=s.d*scale,left=W/2-(b.minX+b.maxX)/2*scale,top=H/2-(b.minY+b.maxY)/2*scale,black=s.surface==='black',moduleLines=[];
     for(let x=2;x<s.w;x+=2)moduleLines.push('<line x1="'+(left+x*scale).toFixed(2)+'" y1="'+top.toFixed(2)+'" x2="'+(left+x*scale).toFixed(2)+'" y2="'+(top+stageH).toFixed(2)+'"/>');
     for(let y=1;y<s.d;y+=1)moduleLines.push('<line x1="'+left.toFixed(2)+'" y1="'+(top+y*scale).toFixed(2)+'" x2="'+(left+stageW).toFixed(2)+'" y2="'+(top+y*scale).toFixed(2)+'"/>');
     const items=projectPreviewObjectsMarkup(list,scale,left,top,black);
@@ -11519,7 +11568,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-project-new').disabled=false;
     const cards=entries.map(entry=>{
       const s=entry.document.stage,p=normalizeProjectInfo(s.project,s.title),cardName=p.name,current=entry.id===activeDraftId||entry.draftId===activeDraftId||(!activeDraftId&&entry.id===activeSetupId),status=projectStorageStatus(entry,current);
-      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,'BÜHNENPLAN')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Lokal gespeichert':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'</div>'+projectIdentityMarkup(projectIdentity(s.projectId))+'<p class="sp-project-storage" data-project-storage="'+entry.id+'" data-state="'+status.state+'">'+esc(status.text)+'</p><p>'+entry.document.objects.length+' Bausteine</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Projektdaten</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Sicherung herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Sicherung</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
+      return '<article class="sp-project-card" data-current="'+current+'" data-draft="'+String(entry.draft)+'" data-project-open-card="'+entry.id+'" tabindex="0" aria-label="'+esc(cardName)+' im Editor öffnen">'+dashboardPreviewMarkup(entry.document,'BÜHNENPLAN')+'<div class="sp-project-card-body"><div class="sp-project-card-head"><div><h3>'+esc(cardName)+'</h3><small>'+(entry.draft?'Lokal gespeichert':current?'Geöffnetes Projekt':'Gespeichertes Projekt')+'</small></div>'+(current?'<span class="sp-pro-badge">AKTIV</span>':'')+'</div><div class="sp-project-card-meta"><span>'+(s.geometry?venueSizeText(s):num(s.w)+' × '+metres(s.d))+'</span>'+(p.artist?'<span>'+esc(p.artist)+'</span>':'')+(p.venue?'<span>'+esc(p.venue)+'</span>':'')+'<span>'+entry.document.objects.length+' Bausteine</span></div>'+projectIdentityMarkup(projectIdentity(s.projectId))+'<p class="sp-project-storage" data-project-storage="'+entry.id+'" data-state="'+status.state+'">'+esc(status.text)+'</p><div class="sp-project-card-actions"><button class="sp-button sp-primary" type="button" data-project-open="'+entry.id+'">Editor öffnen</button><button class="sp-button" type="button" data-project-settings="'+entry.id+'">Projektdaten</button><button class="sp-button" type="button" data-project-share="'+entry.id+'">Teilen</button><button class="sp-button" type="button" data-project-download="'+entry.id+'" aria-label="'+esc(cardName)+' als Sicherung herunterladen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-3-3 3 3 3-3M4 15h12"/></svg> Sicherung</button><button class="sp-button sp-danger-quiet" type="button" data-project-delete="'+entry.id+'" aria-label="'+esc(cardName)+' löschen">Löschen</button></div></div></article>';
     }).join(''),empty=!entries.length&&query?'<div class="sp-empty-projects"><div><strong>Kein passendes Projekt</strong><p>Versuche einen anderen Suchbegriff.</p></div></div>':'',add='<article class="sp-project-add-card"><button type="button" data-project-add><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><span><strong>Projekt hinzufügen</strong><small>Neuen Stageplot anlegen</small></span></button></article>';
     $('sp-project-grid').innerHTML=add+cards+empty;
   }
