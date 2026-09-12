@@ -1,0 +1,34 @@
+const {engine,launchBrowser,artifactPath,assertNoOverflow}=require('./browser-qa.cjs');
+const assert=require('node:assert/strict');
+(async()=>{const browser=await launchBrowser();try{for(const [width,height] of [[1440,1000],[390,740],[320,568],[844,390]]){
+const p=await browser.newPage({viewport:{width:width===844?390:width,height:width===844?740:height},isMobile:width<901,hasTouch:width<901});p.setDefaultTimeout(10000);const errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto(process.env.APP_URL||'http://127.0.0.1:8880/');await p.locator('#sp-upgrade-open').click();await p.locator('[data-project-add]').click();await p.locator('#sp-np-create').click();await p.setViewportSize({width,height});await p.locator('#sp-venue-open').click();
+const d=p.locator('.sp-venue-dialog');await d.waitFor();await d.screenshot({path:artifactPath(`venue-${engine}-${width}.png`)});
+await assertNoOverflow(p,'.sp-venue-dialog',`venue ${width}`);
+const canvas=await d.locator('.sv-canvas').boundingBox();assert(canvas.height>=150,'Usable plan height');
+const toggle=await d.locator('[data-field="snap"]').boundingBox();assert(toggle.width>=32,'Full switch fits its thumb');
+if(width<=900)await d.locator('[data-action="toggle-details"]').first().click();
+await d.locator('.sv-empty [data-select]').first().click();assert(await d.locator('[data-prop="w"]').isVisible());
+await d.locator('[data-prop="w"]').fill('6.2');await d.locator('[data-prop="w"]').press('Tab');
+await d.screenshot({path:artifactPath(`venue-selected-${engine}-${width}.png`)});
+if(width<=900)await d.locator('.sv-details-close').click();
+await d.locator('[data-field="snap"]').uncheck();assert(!(await d.locator('[data-field="snap"]').isChecked()));
+await d.locator('[data-kind="ellipse"][data-action="add"]').click();
+await d.locator('.sv-part-toolbar [data-part-action="rotate"][data-amount="45"]').click();
+if(width<=900)await d.locator('[data-action="toggle-details"]').first().click();
+assert.equal(await d.locator('[data-prop="angle"]').inputValue(),'45');
+await d.locator('.sv-selection [data-part-action="duplicate"]').click();
+await d.locator('.sv-selection [data-part-action="remove"]').click();
+await d.locator('[data-side-view="house"]').click();assert.equal(await d.locator('.sv-saved-templates details').count(),0);
+if(width<=900)await d.locator('.sv-details-close').click();
+await d.locator('[data-action="undo"]').click();await d.locator('[data-action="redo"]').click();
+await p.locator('#sp-prototype').evaluate(el=>el.dataset.theme='dark');await d.screenshot({path:artifactPath(`venue-dark-${engine}-${width}.png`)});
+await d.locator('[data-action="focus-plan"]').click();assert(!(await d.locator('.sv-tools').isVisible()));await d.locator('[data-action="focus-plan"]').click();
+await d.locator('[data-tool-mode="preset"]').click();await d.locator('[data-kind="l"][data-action="preset"]').click();
+assert((await d.locator('.sv-all-parts').textContent()).includes('Rundfläche'),'Presets keep existing parts');
+await d.locator('[data-action="undo"]').click();
+await d.locator('[data-action="apply"]').click();await d.waitFor({state:'detached'});await p.locator('#sp-venue-open').click();
+const names=await p.locator('.sv-all-parts').textContent();assert(names.includes('Rundfläche'));assert(names.includes('6,2'));
+await p.locator('.sv-head [data-action="close"]').click();assert.deepEqual(errors,[]);await p.close();
+}console.log('PASS '+engine+': venue add/select/dimensions/rotate/duplicate/remove/undo/redo/apply/reopen, responsive and dark.');}finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exit(1)});
