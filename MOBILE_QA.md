@@ -71,3 +71,9 @@ Die neue Linux-WebKit-Prüfung fand bei 320 px einen tatsächlichen Überlauf de
 Inventar sitzt neben dem Titel. Objekte/Packs verwenden eine schmale Tab-Markierung; Katalog, Favoriten und Zuletzt bleiben direkt bedienbar. Kategorien zeigen die vorhandenen lokalen Bild-Icons mit sichtbaren Namen, am Handy in zwei kompakten Reihen mit mindestens 44 px hohen Zielen. Karten und Favoriten sind optisch ruhiger; dunkle Gerätebilder bekommen im Dunkelmodus eine helle Vorschaufläche. Die einzeilige Suche mit separatem Schließen und den kompakten Treffern bei Tastatur bleibt erhalten.
 
 Geprüft in Chromium und WebKit: Desktop und Handy, Hell/Dunkel, alle Kategorien, Packs/Objekte, Inventarzugang sowie der vorhandene mobile Suchablauf einschließlich simuliertem Tastaturbereich. 38 Funktionstestgruppen bestehen.
+
+## Bühnenform-Editor · 12. September 2026
+
+Neue Werkzeug-Tabs und Formkarten, größere Raster-/Equipment-Schalter sowie eine breitere Eigenschaftenleiste. Im leeren Auswahlbereich stehen vorhandene Elemente direkt mit ihren Abmessungen; Vorlagen sind offen sichtbar. Die flache Queransicht ordnet Werkzeugauswahl und Formen nebeneinander an, damit mehr Höhe für den Plan bleibt.
+
+`scripts/check-venue-editor.cjs` prüft in Chromium und WebKit 1440 × 1000, 390 × 740, 320 × 568 und 844 × 390 Pixel: Elementauswahl, Maße ändern, Drehen, Duplizieren, Löschen, Undo/Redo, additive Grundformen, Übernehmen und erneutes Öffnen. Zusätzlich: verfügbare Planhöhe, horizontaler Überlauf, Schalterbreite, bewusstes Öffnen/Schließen der Details, Planfokus und Dunkelmodus. Der Ablauf gehört zu `npm run test:browser`.

@@ -16,6 +16,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Bühnenbau:** Ruhige Werkzeug-Tabs, breitere Eigenschaften mit hervorgehobenen Maßen und direkt auswählbaren Elementen. Große Schalter für Raster und Equipment; Bühnenvorlagen bleiben offen sichtbar. Responsive Planansicht mit bewusst geöffneten Details.
 - **Bausteinleiste:** Kompakte Tabs und Katalog-/Favoriten-/Zuletzt-Filter, kleinere Kategorien mit lokalen Bild-Icons und klaren Namen, ruhige Objektkarten mit separatem Favoritenstern. Inventar direkt im Kopf. Angepasste Karten im Dunkelmodus und unveränderte kompakte Tastatursuche am Handy.
 
 - **Projektübersicht am Handy:** „Projekt hinzufügen“ steht direkt oben vor Suche und Projekten. Kompakte Karten zeigen Vorschau und Namen nebeneinander; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Öffnen, Projektdaten, Teilen, Sicherung und Löschen sind direkt erreichbar.
