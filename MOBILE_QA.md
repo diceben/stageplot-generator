@@ -65,3 +65,9 @@ Vier isolierte Browserabläufe laufen bei Pull Requests und vor der Veröffentli
 Die Tests verwenden synthetische Projekte in frischen Browserkontexten. Die Tastaturgeometrie bleibt simuliert; dies ersetzt keinen Test mit einer echten iPhone-Tastatur.
 
 Die neue Linux-WebKit-Prüfung fand bei 320 px einen tatsächlichen Überlauf des Importbuttons. Die Kopfzeile verwendet nun eine feste Titelspalte und eine flexible Aktionsspalte; „Account & Inventar“ darf innerhalb seines verfügbaren Platzes schrumpfen. Die Überlaufprüfung wartet auf das fertige Layout und erzeugt bei Fehlern Geometriedaten und einen Screenshot.
+
+## Bausteinleiste · 12. September 2026
+
+Inventar sitzt neben dem Titel. Objekte/Packs verwenden eine schmale Tab-Markierung; Katalog, Favoriten und Zuletzt bleiben direkt bedienbar. Kategorien zeigen die vorhandenen lokalen Bild-Icons mit sichtbaren Namen, am Handy in zwei kompakten Reihen mit mindestens 44 px hohen Zielen. Karten und Favoriten sind optisch ruhiger; dunkle Gerätebilder bekommen im Dunkelmodus eine helle Vorschaufläche. Die einzeilige Suche mit separatem Schließen und den kompakten Treffern bei Tastatur bleibt erhalten.
+
+Geprüft in Chromium und WebKit: Desktop und Handy, Hell/Dunkel, alle Kategorien, Packs/Objekte, Inventarzugang sowie der vorhandene mobile Suchablauf einschließlich simuliertem Tastaturbereich. 38 Funktionstestgruppen bestehen.
