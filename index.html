@@ -696,6 +696,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
+              <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
               <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Titel und Aktionen bleiben auch auf schmalen Bildschirmen nebeneinander lesbar; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
               <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Kompakte Karten zeigen Vorschau neben dem Namen; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Ruhige Flächen und klare Aktionen ersetzen die gestrichelten Rahmen.</li>
               <li><strong>Routing am Handy:</strong> Kompakte Tabs, Suche und Kanalkarten geben der Liste mehr Platz. „+ Signal“ bleibt direkt erreichbar; Nummerierung, automatische Zuordnung, Rückgängig und Export sind unter „Aktionen“ gebündelt. Kanal, Instrument, Mikrofon und Stagebox-Anschluss stehen zusammen in jeder Karte.</li>
@@ -10541,7 +10542,6 @@ function createStageplotSymbolV3(type, options = {}) {
         else {
           sEl('rect',{x:-w/2-3,y:-h/2-3,width:w+6,height:h+6,fill:'none',stroke:'var(--sp-teal)','stroke-width':1.2,'data-selection-frame':o.id,'stroke-dasharray':o.locked?'4 3':'none','pointer-events':'none'},rotation);
           if(!o.locked&&activeSelection.size===1&&!selectionMode&&(['riser','foh'].includes(o.type)||c.stageAccess))drawFootprintHandles(rotation,-w/2,-h/2,w,h,o.id,coarse);
-          else if(!o.locked)for(const dx of [-w/2-3,w/2+3])for(const dy of [-h/2-3,h/2+3])sEl('rect',{x:dx-2.5,y:dy-2.5,width:5,height:5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','data-selection-handle':o.id,'pointer-events':'none'},rotation);
         }
       }
       if($('sp-print-labels').checked){
