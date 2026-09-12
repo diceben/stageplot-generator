@@ -297,13 +297,13 @@
           <header class="sp-inspector-identity">
             <div id="sp-selected-icon" aria-hidden="true"></div>
             <div class="sp-inspector-identity-copy"><span id="sp-selected-kind"></span><strong id="sp-selected-name"></strong><div id="sp-footprint" class="sp-footprint"></div></div>
+            <button id="sp-object-favorite" class="sp-button" type="button" aria-label="Als Favorit merken" title="Als Favorit merken" aria-pressed="false" hidden>☆</button>
           </header>
           <div class="sp-inspector-actions" id="sp-inspector-actions" role="group" aria-label="Objektaktionen">
             <button type="button" id="sp-inspector-duplicate"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/></svg><span>Duplizieren</span></button>
             <label class="sp-inspector-lock"><input id="sp-object-locked" type="checkbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg><span id="sp-inspector-lock-label">Sperren</span></label>
             <button type="button" id="sp-inspector-remove"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M9 7V4h6v3m2 0-.7 13H7.7L7 7M10 11v5m4-5v5"/></svg><span>Löschen</span></button>
           </div>
-          <button id="sp-object-favorite" class="sp-button" type="button" aria-pressed="false" hidden>☆ Als Favorit merken</button>
           <span id="sp-lock-hint" class="sp-muted sp-inspector-lock-hint" hidden>Position, Drehung und Größe geschützt. Hier entsperren, um den Aufbau zu ändern.</span>
           <div class="sp-drum-object-actions"><button class="sp-button" type="button" id="sp-drums-open" hidden>Drum Designer …</button></div>
           <div class="sp-model-field sp-inspector-section" id="sp-variant-field" hidden>
@@ -312,12 +312,12 @@
             <div class="sp-model-picker" id="sp-model-picker" role="group" aria-labelledby="sp-model-picker-label" hidden></div>
             <input id="sp-variant" type="hidden" value="">
           </div>
-          <div id="sp-mic-fields" class="sp-special-fields sp-inspector-section" hidden><h4>Mikrofonständer</h4>
+          <div id="sp-mic-fields" class="sp-special-fields sp-inspector-section" hidden><h4>Stativ &amp; Ausrichtung</h4>
             <input id="sp-mic-stand" type="hidden" value="boom"><input id="sp-boom-direction" type="hidden" value="up"><input id="sp-mic-purpose" type="hidden" value="vocals">
-            <div class="sp-direct-field"><span>Ständer</span><div class="sp-choice-pills" id="sp-mic-stand-options" role="group" aria-label="Mikrofonständer"><button type="button" data-mic-stand="boom">Boom · Dreibein</button><button type="button" data-mic-stand="round">Tellerboden</button></div></div>
+            <div class="sp-direct-field"><span>Stativ</span><div class="sp-choice-pills" id="sp-mic-stand-options" role="group" aria-label="Mikrofonständer"><button type="button" data-mic-stand="boom">Dreibein + Boom</button><button type="button" data-mic-stand="round">Tellerboden</button></div></div>
             <div class="sp-direct-field" id="sp-boom-direction-field"><span>Boom-Arm</span><div class="sp-choice-pills" id="sp-boom-direction-options" role="group" aria-label="Boom-Arm"><button type="button" data-boom-direction="left">← Links</button><button type="button" data-boom-direction="up">↑ Oben</button><button type="button" data-boom-direction="right">Rechts →</button></div></div>
             <input id="sp-mic-head-direction" type="hidden" value="follow">
-            <div class="sp-direct-field"><span>Mikrofonkopf ausrichten</span><div class="sp-choice-pills" id="sp-mic-head-direction-options" role="group" aria-label="Richtung des Mikrofonkopfs"><button type="button" data-mic-head-direction="follow">Mitdrehen</button><button type="button" data-mic-head-direction="up">↑ Oben</button><button type="button" data-mic-head-direction="right">→ Rechts</button><button type="button" data-mic-head-direction="down">↓ Unten</button><button type="button" data-mic-head-direction="left">← Links</button></div><small class="sp-muted">Wähle eine feste Richtung: Der Kopf behält sie beim Drehen des Stativs bei.</small></div>
+            <div class="sp-direct-field" id="sp-mic-head-field"><span>Kopf-Richtung</span><div class="sp-choice-pills" id="sp-mic-head-direction-options" role="group" aria-label="Richtung des Mikrofonkopfs"><button type="button" data-mic-head-direction="follow" title="Kopf dreht mit dem Stativ">Mitdrehen</button><button type="button" data-mic-head-direction="up" aria-label="Kopf bleibt oben" title="Kopf bleibt oben"><span aria-hidden="true">↑</span></button><button type="button" data-mic-head-direction="right" aria-label="Kopf bleibt rechts" title="Kopf bleibt rechts"><span aria-hidden="true">→</span></button><button type="button" data-mic-head-direction="down" aria-label="Kopf bleibt unten" title="Kopf bleibt unten"><span aria-hidden="true">↓</span></button><button type="button" data-mic-head-direction="left" aria-label="Kopf bleibt links" title="Kopf bleibt links"><span aria-hidden="true">←</span></button></div><small id="sp-mic-head-hint" class="sp-muted" aria-live="polite">Kopf dreht mit dem Stativ.</small></div>
             <div class="sp-direct-field"><span>Verwendung</span><div class="sp-choice-pills" id="sp-mic-purpose-options" role="group" aria-label="Mikrofonverwendung"><button type="button" data-mic-purpose="vocals">Gesang</button><button type="button" data-mic-purpose="talkback">Talkback</button><button type="button" data-mic-purpose="instrument">Instrument</button></div></div>
           </div>
           <div id="sp-riser-fields" class="sp-special-fields sp-inspector-section" hidden><h4>Größe &amp; Höhe</h4>
@@ -334,15 +334,6 @@
               <label class="sp-field">Tiefe (m)<input id="sp-access-depth" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
             </div>
             <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern. Der Pfeil zeigt die Aufstiegsrichtung.</span>
-          </div>
-          <div id="sp-object-size-fields" class="sp-special-fields sp-inspector-section" hidden>
-            <h4>Größe im Plan</h4>
-            <div class="sp-fields">
-              <label class="sp-field">Breite (cm)<input id="sp-object-width" type="number" min="1" max="3000" step="any" inputmode="decimal"></label>
-              <label class="sp-field">Länge / Tiefe (cm)<input id="sp-object-depth" type="number" min="1" max="2000" step="any" inputmode="decimal"></label>
-            </div>
-            <span id="sp-object-size-hint" class="sp-muted"></span>
-            <button id="sp-object-size-reset" class="sp-button" type="button">Standardmaße verwenden</button>
           </div>
           <div id="sp-foh-fields" class="sp-inspector-section" hidden><h4>FOH-Platz</h4><div class="sp-fields">
               <label class="sp-field">FOH-Breite (m)<input id="sp-foh-width" type="number" min="0.3" max="30" step="0.1"></label>
@@ -362,6 +353,15 @@
             <input id="sp-angle" type="hidden" value="0"><span id="sp-angle-label" hidden>0°</span>
             <span class="sp-muted sp-coordinate-note">Objektmitte ab Bühnenkante links / hinten.</span>
           </section>
+          <div id="sp-object-size-fields" class="sp-special-fields sp-inspector-section" hidden>
+            <h4>Größe im Plan</h4>
+            <div class="sp-fields">
+              <label class="sp-field">Breite (cm)<input id="sp-object-width" type="number" min="1" max="3000" step="any" inputmode="decimal"></label>
+              <label class="sp-field">Länge / Tiefe (cm)<input id="sp-object-depth" type="number" min="1" max="2000" step="any" inputmode="decimal"></label>
+            </div>
+            <span id="sp-object-size-hint" class="sp-muted"></span>
+            <button id="sp-object-size-reset" class="sp-button" type="button">Standardmaße verwenden</button>
+          </div>
           <section class="sp-inspector-section">
             <div class="sp-inspector-section-heading"><h4>Beschriftung</h4><label class="sp-inspector-switch"><input id="sp-label-visible" type="checkbox" checked><span class="sp-switch-track" aria-hidden="true"></span><span>Sichtbar</span></label></div>
             <label class="sp-field"><span class="sp-visually-hidden">Beschriftung</span><input id="sp-label" maxlength="42" placeholder="Name im Bühnenplan"></label>
@@ -685,7 +685,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-12">12. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
-              <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung. „Mikrofon · Tellerboden“ steht zusätzlich direkt als Baustein bereit – mit rundem Fuß, Mikrofonkopf und denselben Routing-Einstellungen. Der Kopf kann beim Drehen des Stativs optional fest nach oben, rechts, unten oder links ausgerichtet bleiben – auch in Vorschau und Export. Stativfüße und Tellerboden liegen unter dem Equipment, Boom-Arm und Mikrofonkopf darüber; beide Ebenen bleiben gemeinsam bedienbar.</li>
+              <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung. „Mikrofon · Tellerboden“ steht zusätzlich direkt als Baustein bereit – mit rundem Fuß, Mikrofonkopf und denselben Routing-Einstellungen. Der Kopf kann beim Drehen des Stativs optional fest nach oben, rechts, unten oder links ausgerichtet bleiben – auch in Vorschau und Export. Stativfüße und Tellerboden liegen unter dem Equipment, Boom-Arm und Mikrofonkopf darüber; beide Ebenen bleiben gemeinsam bedienbar. Kompakte Eigenschaften mit direkten Stativoptionen, einer Richtungszeile und klarer Rückmeldung zur Kopfausrichtung.</li>
               <li><strong>Bühnenbau aufgeräumt:</strong> Klarere Werkzeug-Tabs, großzügigere Eigenschaften und direkt auswählbare Elemente mit Maßangaben. Große Schalter für Raster und Equipment, eine ruhigere Planfläche und offen sichtbare Bühnenvorlagen vereinfachen die Bearbeitung – auch am Handy.</li>
               <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
@@ -3364,9 +3364,6 @@
 /* V54: direkte, dropdownfreie Objektsteuerung. */
 #sp-prototype .sp-direct-field { display:grid; gap:6px; min-width:0; }
 #sp-prototype .sp-direct-field > span,#sp-prototype .sp-model-label { color:#6e746d; font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-#sp-prototype #sp-mic-head-direction-options { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
-#sp-prototype #sp-mic-head-direction-options button { min-width:0; padding-inline:6px; }
-#sp-prototype #sp-mic-head-direction-options button:first-child { grid-column:1/-1; }
 #sp-prototype .sp-choice-pills { display:flex; flex-wrap:wrap; gap:5px; min-width:0; }
 #sp-prototype .sp-choice-pills button { min-width:0; min-height:30px; flex:1 1 auto; padding:6px 8px; border:1px solid #d8dcd4; border-radius:8px; background:#fafbf8; color:#555c55; font:700 9px/1.15 inherit; cursor:pointer; }
 #sp-prototype .sp-choice-pills button:hover { border-color:#979f94; background:#fff; color:#222822; }
@@ -5810,23 +5807,23 @@ html,body { height:100%; overflow:hidden; }
 }
 #sp-prototype #sp-selected { display:flex; flex-direction:column; gap:0; }
 #sp-prototype .sp-properties-panel :is([hidden],.sp-drum-object-actions:has(> [hidden])) { display:none!important; }
-#sp-prototype #sp-selected .sp-inspector-identity { display:flex; align-items:center; gap:14px; padding-bottom:18px; }
-#sp-prototype #sp-selected-icon { width:86px; height:80px; flex:0 0 86px; display:grid; place-items:center; }
-#sp-prototype #sp-selected-icon svg { width:86px; height:80px; padding:8px; border:1px solid var(--sp-line); border-radius:12px; background:light-dark(#f2f4ef,#252e27); }
+#sp-prototype #sp-selected .sp-inspector-identity { display:flex; align-items:center; gap:12px; padding-bottom:14px; }
+#sp-prototype #sp-selected-icon { width:64px; height:64px; flex:0 0 64px; display:grid; place-items:center; }
+#sp-prototype #sp-selected-icon svg { width:64px; height:64px; padding:8px; border:1px solid var(--sp-line); border-radius:12px; background:light-dark(#f2f4ef,#252e27); }
 #sp-prototype .sp-inspector-identity-copy { display:grid; min-width:0; gap:5px; }
 #sp-prototype #sp-selected-kind { color:var(--sp-muted); font-size:11px; font-weight:600; letter-spacing:.045em; text-transform:uppercase; overflow-wrap:anywhere; }
-#sp-prototype #sp-selected-name { color:var(--sp-ink); font-size:22px; line-height:1.15; font-weight:750; letter-spacing:-.035em; overflow-wrap:anywhere; }
+#sp-prototype #sp-selected-name { color:var(--sp-ink); font-size:19px; line-height:1.2; font-weight:750; letter-spacing:-.035em; overflow-wrap:anywhere; }
 #sp-prototype #sp-footprint { color:var(--sp-muted); font-size:12px; line-height:1.5; padding:0; border:0; background:none; }
-#sp-prototype .sp-inspector-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding-bottom:18px; }
+#sp-prototype .sp-inspector-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; padding-bottom:14px; }
 #sp-prototype .sp-inspector-actions :is(button,label) {
   display:flex;
-  flex-direction:column;
+  flex-direction:row;
   align-items:center;
   justify-content:center;
-  gap:8px;
+  gap:6px;
   min-width:0;
-  min-height:66px;
-  padding:10px 4px;
+  min-height:44px;
+  padding:8px 6px;
   border:1px solid var(--sp-line);
   border-radius:12px;
   background:var(--sp-panel);
@@ -5837,7 +5834,7 @@ html,body { height:100%; overflow:hidden; }
   font-size:12px;
   cursor:pointer;
 }
-#sp-prototype .sp-inspector-actions svg { width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+#sp-prototype .sp-inspector-actions svg { width:17px; height:17px; flex:none; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
 #sp-prototype .sp-inspector-lock { position:relative; }
 #sp-prototype .sp-inspector-lock input,#sp-prototype .sp-inspector-switch input { position:absolute; opacity:0; width:1px; height:1px; padding:0; margin:0; }
 #sp-prototype .sp-inspector-lock:has(:checked) { background:var(--sp-primary-soft); border-color:var(--sp-primary-strong); }
@@ -5929,7 +5926,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-switch-track,#sp-prototype .sp-switch-track::after { transition:none; }
 }
 
-#sp-prototype #sp-selected-icon img { width:86px; height:80px; object-fit:contain; padding:6px; border:1px solid var(--sp-line); border-radius:12px; background:light-dark(#f2f4ef,#252e27); }
+#sp-prototype #sp-selected-icon img { width:64px; height:64px; object-fit:contain; padding:6px; border:1px solid var(--sp-line); border-radius:12px; background:light-dark(#f2f4ef,#252e27); }
 #sp-prototype .sp-inspector-section .sp-direct-field > span { text-transform:none; letter-spacing:0; font-weight:500; }
 #sp-prototype .sp-properties-panel .sp-inspector-inline-field { flex-direction:row; align-items:center; gap:12px; }
 #sp-prototype .sp-properties-panel .sp-inspector-inline-field input { flex:1; width:0; }
@@ -5937,6 +5934,22 @@ html,body { height:100%; overflow:hidden; }
 
 #sp-prototype .sp-inspector-output-visibility { padding:0 0 18px; }
 #sp-prototype .sp-inspector-output-visibility .sp-inspector-switch { width:100%; justify-content:space-between; }
+
+/* Compact identity and actions; mic controls use one consistent, quiet selection style. */
+#sp-prototype .sp-inspector-identity-copy { flex:1; }
+#sp-prototype .sp-inspector-identity #sp-object-favorite { flex:0 0 44px; width:44px; min-height:44px; margin:0; padding:0; border:0; background:transparent; color:var(--sp-muted); font-size:26px; }
+#sp-prototype .sp-inspector-identity #sp-object-favorite[aria-pressed="true"] { color:var(--sp-primary-strong); background:var(--sp-primary-soft); }
+#sp-prototype #sp-mic-fields { gap:16px; padding-block:16px; }
+#sp-prototype #sp-mic-fields .sp-direct-field { gap:6px; }
+#sp-prototype #sp-mic-fields .sp-direct-field:not(#sp-mic-head-field) { grid-template-columns:76px minmax(0,1fr); align-items:center; column-gap:10px; }
+#sp-prototype #sp-mic-fields .sp-choice-pills { display:flex; gap:3px; padding:3px; border:1px solid var(--sp-line); border-radius:12px; background:var(--sp-soft); }
+#sp-prototype #sp-mic-fields .sp-choice-pills button { flex:1; min-width:0; min-height:44px; padding:8px 5px; border:0; border-radius:9px; background:transparent; box-shadow:none; font-size:12px; font-weight:550; }
+#sp-prototype #sp-mic-fields .sp-choice-pills button[aria-pressed="true"] { background:var(--sp-panel); color:var(--sp-ink); box-shadow:0 1px 4px #0002,inset 0 -2px var(--sp-primary); font-weight:750; }
+#sp-prototype #sp-mic-fields .sp-choice-pills button:focus-visible { outline:2px solid var(--sp-primary-strong); outline-offset:1px; }
+#sp-prototype #sp-mic-fields #sp-mic-head-direction-options { display:grid; grid-template-columns:minmax(88px,1.8fr) repeat(4,minmax(38px,1fr)); }
+#sp-prototype #sp-mic-head-direction-options button span { font-size:21px; line-height:1; }
+#sp-prototype #sp-mic-head-hint { min-height:18px; font-size:11px; line-height:1.4; }
+#sp-prototype #sp-selected[data-object-type="mic"] .sp-inspector-section { padding-block:16px; }
 /* build-inline:end stageplot-inspector-v1.css */
 /* build-inline:start stageplot-iem-editor-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
 #sp-prototype .sp-iem-monitor-dialog { width:min(960px,calc(100vw - 24px)); max-width:none; max-height:calc(100dvh - 24px); padding:0; border:1px solid var(--sp-line); border-radius:22px; background:var(--sp-panel); color:var(--sp-ink); overflow:hidden; }
@@ -11059,8 +11072,11 @@ function createStageplotSymbolV3(type, options = {}) {
   function updateInspectorIdentity(o){
     const c=byId[o.type],size=objectSize(o),title=o.label||c.name;
     $('sp-selected-kind').textContent=o.type==='riser'?'Bühne & Podeste':c.name;
+    $('sp-selected-kind').hidden=title===c.name;
     $('sp-selected-name').textContent=title;
+    $('sp-selected').dataset.objectType=o.type;
     $('sp-footprint').textContent=o.type==='riser'?num(size.w)+' × '+metres(size.d)+' · '+(o.height||40)+' cm hoch':num(size.w)+' × '+metres(size.d);
+    if(o.type==='mic')$('sp-footprint').textContent=(o.stand==='round'?'Tellerboden':'Dreibein mit Boom')+' · '+(micPurpose[o.purpose]||'Gesang');
     $('sp-inspector-actions').setAttribute('aria-label','Aktionen für '+title);
   }
   function inspector(){
@@ -11083,7 +11099,7 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     $('sp-object-favorite').hidden=!o;
     if(!o)return;
-    const favorite=libraryPreferences.favorites.includes(libraryTypeForObject(o));$('sp-object-favorite').setAttribute('aria-pressed',String(favorite));$('sp-object-favorite').textContent=favorite?'★ In Favoriten':'☆ Als Favorit merken';
+    const favorite=libraryPreferences.favorites.includes(libraryTypeForObject(o));$('sp-object-favorite').setAttribute('aria-pressed',String(favorite));$('sp-object-favorite').textContent=favorite?'★':'☆';$('sp-object-favorite').setAttribute('aria-label',favorite?'Aus Favoriten entfernen':'Als Favorit merken');$('sp-object-favorite').title=favorite?'Aus Favoriten entfernen':'Als Favorit merken';
     fillProductionObject(o);
     const locked=!!o.locked;
     $('sp-object-locked').checked=locked;$('sp-lock-hint').hidden=!locked;$('sp-inspector-lock-label').textContent=locked?'Entsperren':'Sperren';$('sp-inspector-remove').disabled=locked;
@@ -11105,9 +11121,13 @@ function createStageplotSymbolV3(type, options = {}) {
       $('sp-object-size-reset').hidden=!normalizedObjectDimensions(o.dimensions);
       $('sp-object-size-hint').textContent=stageplotTechFrame(byId[o.type].art||o.type,o)?(o.type==='drum-throne'?'Referenz: Sitz Ø 30 cm · Fußkreis Ø 43 cm. ':o.type==='mic'&&o.stand!=='round'?'Schwenkbereich inkl. 74,5-cm-Boom · Fußkreis 60 cm · Mikrofon zur Erkennung vergrößert. ':'')+'Breite und Tiefe sind gekoppelt; Proportionen bleiben erhalten.':o.dimensions?'Eigene Gerätemaße · maßstäblich auf der Bühne.':o.type==='laptop'?'Referenz: 16″ MacBook Pro · nur der Rechner, ohne Tisch oder Rack.':o.type==='di'?'Referenz: Radial J48 · ohne Stecker und Kabel.':o.type.startsWith('stagebox-')&&!['stagebox-46'].includes(o.type)?'Gerätemaße nach Allen & Heath · ohne Stecker und Kabel.':['mic-sm57','mic-wireless-ewd'].includes(o.type)?'Herstellermaß · ohne Stativ.': 'Standardmaß der abgebildeten Ansicht. Für dein Modell anpassen; Spielraum zusätzlich einplanen.';
     }
+    $('sp-object-size-fields').querySelector('h4').textContent=o.type==='mic'?'Darstellungsgröße':'Größe im Plan';
+    if(o.type==='mic')$('sp-object-size-hint').textContent='Rahmen der Zeichnung, nicht die Standfläche. Proportionen bleiben erhalten.';
     $('sp-mic-fields').hidden=o.type!=='mic';
     if(o.type==='mic'){
       $('sp-mic-head-direction').value=o.micHeadDirection||'follow';syncChoiceButtons($('sp-mic-head-direction-options'),$('sp-mic-head-direction').value,locked);
+      const headDirection=o.micHeadDirection||'follow';
+      $('sp-mic-head-hint').textContent=headDirection==='follow'?'Kopf dreht mit dem Stativ.':'Kopf bleibt nach '+({up:'oben',right:'rechts',down:'unten',left:'links'}[headDirection]||'oben')+' gerichtet – auch beim Drehen.';
       $('sp-mic-stand').value=o.stand||'boom';$('sp-mic-purpose').value=o.purpose||'vocals';
       $('sp-boom-direction-field').hidden=o.stand==='round';$('sp-boom-direction').value=o.boomDirection||'up';
       syncChoiceButtons($('sp-mic-stand-options'),$('sp-mic-stand').value,locked);syncChoiceButtons($('sp-boom-direction-options'),$('sp-boom-direction').value,locked);syncChoiceButtons($('sp-mic-purpose-options'),$('sp-mic-purpose').value,false);
