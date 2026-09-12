@@ -57,7 +57,7 @@ function stageplotTechArtwork(type,options={}) {
     }
   }else art='<g data-part="'+frame.part+'">'+stageplotTechImage(type)+'</g>';
   // The frame includes the real foot circle of tripods, not just their triangular ink bounds.
-  return '<g data-equipment="'+type+'" data-metric-tech="true"><rect x="0" y="0" width="'+frame.width+'" height="'+frame.height+'" fill="none" stroke="none" pointer-events="none" data-metric-frame="true"/>'+art+'</g>';
+  return '<g data-equipment="'+type+'" data-metric-tech="true"><rect x="0" y="0" width="'+frame.width+'" height="'+frame.height+'" fill="none" stroke="none" pointer-events="none" data-metric-frame="true"/>'+(type==='mic'?'<g data-mic-visible-art="true">'+art+'</g>':art)+'</g>';
 }
 // Original scalable monochrome artwork; lighter technical linework matches the approved design rendering.
 // Instrument geometry remains informed by the sources in stageplot-referenzen.md.
