@@ -193,11 +193,10 @@
   <section id="sp-editor" hidden>
     <div class="sp-workspace">
       <aside id="sp-library" class="sp-library" aria-label="Bausteinbibliothek">
-        <div class="sp-sidebar-head"><strong>Bausteine</strong><button class="sp-sidebar-toggle sp-shell-toggle" type="button" id="sp-library-toggle" aria-label="Bausteinbibliothek einklappen" aria-expanded="true" aria-controls="sp-library"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M7 3v14m5.5-10-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+        <div class="sp-sidebar-head"><strong>Bausteine</strong><div class="sp-library-head-actions"><button type="button" class="sp-button" id="sp-inventory-open" aria-label="Mein Inventar öffnen">Inventar</button><button class="sp-sidebar-toggle sp-shell-toggle" type="button" id="sp-library-toggle" aria-label="Bausteinbibliothek einklappen" aria-expanded="true" aria-controls="sp-library"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M7 3v14m5.5-10-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
         <div class="sp-library-mode-tabs" role="tablist" aria-label="Bausteine und Objekt-Packs"><button type="button" id="sp-library-objects-tab" role="tab" aria-selected="true" aria-controls="sp-library-items" data-library-mode="objects">Objekte</button><button type="button" id="sp-library-packs-tab" role="tab" aria-selected="false" aria-controls="sp-library-packs" data-library-mode="packs">Packs <span id="sp-library-pack-count" aria-label=""></span></button></div>
         <label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-library-search" type="search" enterkeyhint="done" aria-label="Baustein suchen" placeholder="Baustein suchen …" maxlength="80" autocomplete="off"></label>
-        <div class="sp-library-quick-filters" role="group" aria-label="Bausteine filtern"><button type="button" data-library-scope="all" aria-pressed="true">Alle</button><button type="button" data-library-scope="favorites" aria-pressed="false">★ Favoriten</button><button type="button" data-library-scope="recent" aria-pressed="false">Zuletzt benutzt</button></div>
-        <button type="button" class="sp-button" id="sp-inventory-open">Mein Inventar</button>
+        <div class="sp-library-quick-filters" role="group" aria-label="Bausteine filtern"><button type="button" data-library-scope="all" aria-pressed="true">Katalog</button><button type="button" data-library-scope="favorites" aria-pressed="false">★ Favoriten</button><button type="button" data-library-scope="recent" aria-pressed="false" aria-label="Zuletzt benutzte Bausteine">Zuletzt</button></div>
         <div id="sp-category-tabs" class="sp-category-tabs" role="group" aria-label="Baustein-Kategorien">
           <button type="button" data-category="all" aria-pressed="true" aria-label="Alle" data-tooltip="Alle"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="all" src="./stageplot-assets/categories/all-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Alle</span></button>
           <button type="button" data-category="instruments" aria-pressed="false" aria-label="Instrumente" data-tooltip="Instrumente"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="instruments" src="./stageplot-assets/categories/instruments-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Instrumente</span></button>
@@ -696,6 +695,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-11">11. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
+              <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
               <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Titel und Aktionen bleiben auch auf schmalen Bildschirmen nebeneinander lesbar; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
               <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Kompakte Karten zeigen Vorschau neben dem Namen; Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar. Ruhige Flächen und klare Aktionen ersetzen die gestrichelten Rahmen.</li>
@@ -1982,7 +1982,6 @@
   white-space: nowrap;
 }
 
-#sp-prototype .sp-category-tabs button svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.25; stroke-linecap:round; stroke-linejoin:round; }
 
 #sp-prototype .sp-category-tabs button:hover {
   color: var(--sp-ink);
@@ -4135,12 +4134,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-drum-design-load-card { grid-template-columns:82px minmax(0,1fr) auto auto; }
 #sp-prototype .sp-drum-design-load-preview { display:grid; width:82px; height:62px; place-items:center; overflow:hidden; border:1px solid #dfe2da; border-radius:8px; background:#fff; }
 #sp-prototype .sp-drum-design-load-preview svg { display:block; width:76px; height:56px; }
-#sp-prototype .sp-library-mode-tabs { display:grid; grid-template-columns:1fr 1fr; flex:0 0 auto; gap:3px; margin:8px 0 7px; padding:3px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-soft); }
-#sp-prototype .sp-library-mode-tabs button { min-width:0; min-height:31px; padding:5px 7px; border:0; border-radius:7px; background:transparent; color:var(--sp-muted); font:inherit; font-size:11px; font-weight:700; line-height:1.1; cursor:pointer; }
-#sp-prototype .sp-library-mode-tabs button:hover { color:var(--sp-ink); background:color-mix(in srgb,var(--sp-panel) 72%,transparent); }
-#sp-prototype .sp-library-mode-tabs button[aria-selected="true"] { color:var(--sp-primary-ink); background:var(--sp-panel); box-shadow:0 1px 5px rgb(28 36 25 / 11%); }
 #sp-prototype #sp-library-pack-count:not(:empty) { display:inline-grid; min-width:17px; height:17px; margin-left:3px; padding:0 4px; place-items:center; border-radius:999px; background:#ec2c84; color:#fff; font-size:8px; vertical-align:1px; }
-#sp-prototype .sp-library[data-library-mode="packs"] :is(.sp-search,.sp-category-tabs,.sp-search-count,.sp-library-items,.sp-library-hint) { display:none; }
 #sp-prototype .sp-library-packs { flex:1; min-height:0; display:grid; grid-template-columns:1fr; align-content:start; gap:8px; padding:2px; overflow-y:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
 #sp-prototype .sp-library-packs[hidden] { display:none; }
 #sp-prototype .sp-pack-card { position:relative; min-width:0; display:grid; gap:8px; padding:10px; overflow:hidden; border:1px solid var(--sp-line); border-radius:11px; background:var(--sp-panel); color:var(--sp-ink); text-align:left; cursor:pointer; }
@@ -4536,13 +4530,6 @@ html,body { height:100%; overflow:hidden; }
 }
 
 /* Rendered category assets: fixed hit targets and permanently readable names. */
-#sp-prototype .sp-category-tabs { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin:9px 0 7px; padding:0; border:0; }
-#sp-prototype .sp-category-tabs button { position:relative; width:100%; min-width:0; min-height:76px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:7px 3px; border:1px solid var(--sp-line); border-radius:13px; background:var(--sp-panel); color:var(--sp-ink); font-weight:600; transform:none; }
-#sp-prototype .sp-category-tabs button:hover { background:var(--sp-soft); border-color:var(--sp-muted); transform:none; }
-#sp-prototype .sp-category-tabs button[aria-pressed="true"] { color:var(--sp-primary-ink); background:var(--sp-primary); border-color:var(--sp-primary); }
-#sp-prototype .sp-category-tabs button .sp-category-icon { display:block; width:42px; height:42px; flex:none; object-fit:contain; pointer-events:none; user-select:none; transition:transform .16s ease; }
-#sp-prototype .sp-category-tabs button:hover .sp-category-icon { transform:translateY(-1px); }
-#sp-prototype .sp-category-tabs button .sp-category-name { position:static; inset:auto; display:block; width:100%; height:auto; min-height:14px; margin:0; padding:0; clip:auto; clip-path:none; overflow:hidden; max-width:100%; text-overflow:ellipsis; white-space:nowrap; text-align:center; color:inherit; font-size:10px; line-height:1.3; opacity:1; visibility:visible; pointer-events:none; transform:none; transition:none; }
 #sp-prototype .sp-library-item > .sp-library-thumbnail { display:block; width:82px; height:72px; max-width:100%; object-fit:contain; padding:2px; user-select:none; pointer-events:none; }
 #sp-prototype .sp-library-item[data-pack-locked="true"] > .sp-library-thumbnail { opacity:.62; }
 @media (prefers-reduced-motion:reduce) { #sp-prototype .sp-category-tabs button .sp-category-icon { transition:none; transform:none; } }
@@ -4561,7 +4548,6 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-inventory-form, #sp-prototype #sp-account-login, #sp-prototype #sp-account-verify { display:grid; gap:14px; }
 #sp-prototype #sp-inventory-form .sp-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
 #sp-prototype #sp-inventory-status { font-size:12px; }
-#sp-prototype #sp-inventory-open { margin:7px 0 0; width:100%; }
 #sp-prototype #sp-foh-fields .sp-check { display:flex; align-items:center; gap:7px; padding:8px 0; }
 @media(max-width:700px) { #sp-prototype .sp-inventory-layout { grid-template-columns:1fr; } #sp-prototype .sp-account-dialog { padding:14px; } }
 /* build-inline:start stageplot-venue-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
@@ -6363,14 +6349,42 @@ html,body { height:100%; overflow:hidden; }
 </style>
 <style>
 /* build-inline:start stageplot-qol-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
-#sp-prototype .sp-library-quick-filters { display:flex; flex:none; gap:4px; }
-#sp-prototype .sp-library-quick-filters button { flex:1; min-height:38px; padding:5px 4px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-panel); font-size:11px; }
-#sp-prototype .sp-library-quick-filters button[aria-pressed="true"] { background:var(--sp-accent-bg); border-color:var(--sp-teal); }
+/* Library surface: quiet navigation, compact categories, prominent object previews. */
+#sp-prototype #sp-library .sp-sidebar-head { gap:8px; min-height:40px; margin:0; }
+#sp-prototype #sp-library .sp-sidebar-head > strong { font-size:18px; letter-spacing:-.5px; }
+#sp-prototype .sp-library-head-actions { display:flex; align-items:center; gap:4px; }
+#sp-prototype #sp-library #sp-inventory-open { min-width:0; min-height:36px; padding:5px 10px; border:0; border-radius:999px; background:var(--sp-soft); color:var(--sp-muted); font-size:11px; font-weight:600; }
+#sp-prototype #sp-library .sp-library-mode-tabs { display:flex; flex:none; gap:22px; margin:4px 0 10px; padding:0; border:0; border-bottom:1px solid var(--sp-line); border-radius:0; background:transparent; }
+#sp-prototype #sp-library .sp-library-mode-tabs button { position:relative; min-width:0; min-height:40px; padding:8px 2px; border:0; border-radius:0; background:transparent; color:var(--sp-muted); font-family:inherit; font-size:12px; font-weight:600; line-height:1.2; box-shadow:none; }
+#sp-prototype #sp-library .sp-library-mode-tabs button[aria-selected="true"] { color:var(--sp-ink); }
+#sp-prototype #sp-library .sp-library-mode-tabs button[aria-selected="true"]::after { content:''; position:absolute; bottom:-1px; left:0; right:0; height:3px; border-radius:3px; background:var(--sp-primary); }
+#sp-prototype #sp-library > .sp-search { min-height:42px; padding:0 12px; border:1px solid transparent; border-radius:12px; background:var(--sp-soft); box-shadow:none; }
+#sp-prototype #sp-library > .sp-search:focus-within { border-color:var(--sp-teal); box-shadow:0 0 0 2px var(--sp-accent-bg); }
+#sp-prototype #sp-library > .sp-search input { padding:8px 0; background:transparent; border:0; outline:0; box-shadow:none; font-size:13px; }
+#sp-prototype #sp-library .sp-library-quick-filters { display:flex; flex:none; gap:4px; margin:6px 0 0; }
+#sp-prototype #sp-library .sp-library-quick-filters button { flex:1; min-width:0; min-height:34px; padding:5px 7px; border:0; border-radius:999px; background:transparent; color:var(--sp-muted); font-size:11px; font-weight:550; box-shadow:none; }
+#sp-prototype #sp-library .sp-library-quick-filters button[aria-pressed="true"] { background:var(--sp-ink); color:var(--sp-panel); }
+#sp-prototype #sp-library button:focus:not(:focus-visible) { outline:none; }
+#sp-prototype #sp-library button:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
+#sp-prototype #sp-library .sp-category-tabs { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; flex:none; margin:10px 0 0; padding:0 0 10px; border:0; border-bottom:1px solid var(--sp-line); }
+#sp-prototype #sp-library .sp-category-tabs button { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-width:0; min-height:62px; gap:3px; padding:5px 3px; border:1px solid transparent; border-radius:11px; background:transparent; color:var(--sp-muted); font-weight:600; transform:none; box-shadow:none; }
+#sp-prototype #sp-library .sp-category-tabs button:hover { background:var(--sp-soft); color:var(--sp-ink); }
+#sp-prototype #sp-library .sp-category-tabs button[aria-pressed="true"] { background:var(--sp-accent-bg); color:var(--sp-ink); border-color:color-mix(in srgb,var(--sp-teal) 20%,transparent); }
+#sp-prototype #sp-library .sp-category-tabs .sp-category-icon { display:block; width:30px; height:30px; flex:none; object-fit:contain; pointer-events:none; user-select:none; transform:none; transition:none; }
+#sp-prototype #sp-library .sp-category-tabs .sp-category-name { position:static; inset:auto; display:block; width:100%; height:auto; min-height:14px; margin:0; padding:0; clip:auto; clip-path:none; overflow:hidden; max-width:100%; text-overflow:ellipsis; white-space:nowrap; text-align:center; color:inherit; font-size:10px; line-height:1.3; opacity:1; visibility:visible; pointer-events:none; transform:none; transition:none; }
+#sp-prototype #sp-library .sp-search-count { padding:10px 2px 6px; margin:0; color:var(--sp-muted); font-size:10px; font-weight:600; letter-spacing:.02em; }
+#sp-prototype #sp-library .sp-library-items { gap:8px; padding:2px 3px 8px; scrollbar-width:thin; }
 #sp-prototype .sp-library-card { position:relative; min-width:0; }
-#sp-prototype .sp-library-card > .sp-library-item { width:100%; height:100%; padding-top:27px; }
-#sp-prototype .sp-library-favorite { position:absolute; right:2px; top:2px; z-index:2; display:grid; place-items:center; width:32px; height:30px; padding:0; border:0; border-radius:9px; background:var(--sp-panel); color:var(--sp-muted); font-size:22px; line-height:1; }
-#sp-prototype .sp-library-favorite[aria-pressed="true"] { color:var(--sp-ink); background:var(--sp-accent-bg); }
-#sp-prototype .sp-library[data-library-mode="packs"] .sp-library-quick-filters { display:none; }
+#sp-prototype #sp-library .sp-library-card > .sp-library-item { width:100%; height:100%; min-height:136px; gap:4px; padding:14px 8px 12px; border:1px solid transparent; border-radius:14px; background:var(--sp-soft); color:var(--sp-ink); box-shadow:none; }
+#sp-prototype #sp-library .sp-library-card > .sp-library-item:hover { background:var(--sp-panel); border-color:var(--sp-line); box-shadow:0 3px 12px #1424100a; }
+#sp-prototype #sp-library .sp-library-card > .sp-library-item:is([data-active="true"],[data-pending="true"]) { border-color:var(--sp-teal); background:var(--sp-accent-bg); box-shadow:none; }
+#sp-prototype #sp-library .sp-library-item > :is(svg,.sp-library-thumbnail) { width:88px; max-width:100%; height:76px; padding:4px; margin:0; border-radius:9px; background:light-dark(transparent,#e4e7df); object-fit:contain; }
+#sp-prototype #sp-library .sp-library-item > span { min-height:0; font-size:12px; font-weight:600; line-height:1.3; }
+#sp-prototype #sp-library .sp-library-item > span:is(.sp-library-model-count,.sp-library-lock-label) { font-size:9px; font-weight:500; margin:0; }
+#sp-prototype #sp-library .sp-library-favorite { position:absolute; right:3px; top:3px; z-index:2; display:grid; place-items:center; width:30px; height:30px; padding:0; border:0; border-radius:50%; background:transparent; color:var(--sp-muted); font-size:18px; line-height:1; }
+#sp-prototype #sp-library .sp-library-favorite:hover { background:var(--sp-panel); color:var(--sp-ink); }
+#sp-prototype #sp-library .sp-library-favorite[aria-pressed="true"] { color:var(--sp-ink); background:var(--sp-primary); }
+#sp-prototype #sp-library[data-library-mode="packs"] :is(.sp-search,.sp-category-tabs,.sp-search-count,.sp-library-items,.sp-library-hint,.sp-library-quick-filters) { display:none; }
 #sp-prototype #sp-canvas-tools #sp-multi-toggle { width:auto; min-width:44px; padding:0 10px; font-size:12px; }
 #sp-prototype #sp-canvas-tools #sp-multi-toggle[aria-pressed="true"] { background:var(--sp-primary); color:var(--sp-primary-ink); }
 #sp-prototype .sp-multi-bar { position:absolute; z-index:14; bottom:90px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; width:max-content; max-width:calc(100% - 16px); padding:8px; border:1px solid var(--sp-line); border-radius:16px; background:var(--sp-panel); box-shadow:0 5px 20px #0002; }
@@ -6390,10 +6404,17 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-object-favorite { min-height:44px; margin-top:8px; border-radius:12px; }
 #sp-prototype #sp-object-favorite[aria-pressed="true"] { background:var(--sp-accent-bg); }
 @media (max-width:760px), (max-width:900px) and (max-height:500px) and (pointer:coarse) {
-  #sp-prototype .sp-library-favorite { width:44px; height:44px; }
-  #sp-prototype .sp-library-card > .sp-library-item { padding-top:40px; min-height:126px; }
-  #sp-prototype .sp-library-quick-filters button { min-height:44px; }
-  #sp-prototype .sp-library[data-searching="true"] .sp-library-quick-filters { display:none; }
+  #sp-prototype #sp-library .sp-library-favorite { width:44px; height:44px; }
+  #sp-prototype #sp-library .sp-library-card > .sp-library-item { padding-top:20px; min-height:130px; }
+  #sp-prototype #sp-library .sp-library-quick-filters button { min-height:44px; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-quick-filters { display:none; }
+  #sp-prototype #sp-library #sp-inventory-open { min-height:44px; }
+  #sp-prototype #sp-library .sp-library-mode-tabs button { min-height:44px; }
+  #sp-prototype #sp-library > .sp-search input { font-size:16px; }
+  #sp-prototype #sp-library .sp-category-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  #sp-prototype #sp-library .sp-category-tabs button { min-height:44px; flex-direction:row; gap:3px; }
+  #sp-prototype #sp-library .sp-category-tabs .sp-category-icon { width:22px; height:22px; }
+  #sp-prototype #sp-library .sp-category-tabs .sp-category-name { width:auto; font-size:10px; }
   #sp-prototype .sp-multi-bar { bottom:calc(var(--sp-mobile-actions-height) + 8px); gap:4px; padding:6px; }
   #sp-prototype .sp-multi-bar strong { font-size:11px; }
   #sp-prototype .sp-multi-bar button { padding:6px 8px; }
