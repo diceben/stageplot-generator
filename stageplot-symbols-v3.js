@@ -48,7 +48,7 @@ function stageplotTechArtwork(type,options={}) {
   let art='';
   if(type==='drum-throne')art=stageplotTechThrone();
   else if(type==='mic'){
-    if(options.stand==='round')art=stageplotTechImage('mic-round-base');
+    if(options.stand==='round')art=stageplotTechImage('mic-round-base')+'<g data-part="round-base-microphone" data-mic-direction="up">'+stageplotTechImage('mic-boom-head',[91.7664,10,66.4671,230])+'</g>';
     else{
       const direction=['left','right'].includes(options.boomDirection)?options.boomDirection:'up',angle=direction==='left'?-90:direction==='right'?90:0;
       // A raised forward boom is foreshortened in plan view; keep tube thickness and the head unchanged.

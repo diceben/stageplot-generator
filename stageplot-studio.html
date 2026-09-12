@@ -683,7 +683,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-12">12. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
-              <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung.</li>
+              <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung. „Mikrofon · Tellerboden“ steht zusätzlich direkt als Baustein bereit – mit rundem Fuß, Mikrofonkopf und denselben Routing-Einstellungen.</li>
               <li><strong>Bühnenbau aufgeräumt:</strong> Klarere Werkzeug-Tabs, großzügigere Eigenschaften und direkt auswählbare Elemente mit Maßangaben. Große Schalter für Raster und Equipment, eine ruhigere Planfläche und offen sichtbare Bühnenvorlagen vereinfachen die Bearbeitung – auch am Handy.</li>
               <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
@@ -8428,7 +8428,8 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'guitar-stand-full',name:'Gitarrenständer · 3-fach · befüllt',short:'3er-Ständer · voll',family:'guitar-stands',category:'strings',w:0.626,d:0.39,vb:[120,90],instrument:true,clearGroup:'tech',detail:'E-Gitarre · Akustik · Bass'},
     {id:'guitar-tree-empty',name:'Gitarrenbaum · 3-fach · leer',short:'Gitarrenbaum · leer',family:'guitar-trees',category:'strings',w:0.86,d:0.86,vb:[120,120],instrument:false,clearGroup:'tech',detail:'Drei radiale Halsaufnahmen · Fußkreis Ø 86 cm · Referenz GS432B Plus'},
     {id:'guitar-tree-full',name:'Gitarrenbaum · 3-fach · befüllt',short:'Gitarrenbaum · voll',family:'guitar-trees',category:'strings',w:0.86,d:0.86,vb:[120,120],instrument:true,clearGroup:'tech',detail:'Drei aufrecht gelagerte Gitarren · Fußkreis Ø 86 cm · Referenz GS432B Plus'},
-    {id:'mic',name:'Mikrofon',short:'Mikrofon',category:'mics',w:1.45,d:1.45},
+    {id:'mic',name:'Mikrofon · Boom',short:'Mikrofon · Boom',category:'mics',w:1.45,d:1.45},
+    {id:'mic-round',art:'mic',micStand:'round',name:'Mikrofon · Tellerboden',short:'Mikrofon · Tellerboden',category:'mics',w:.25,d:.25,keywords:'tellerboden rundfuss rundfuß runder fuß round base gerade stativ',detail:'Gerader Mikrofonständer · runder Fuß Ø 25 cm'},
     {id:'mic-wireless-ewd',name:'Sennheiser EW-D · Funkmikrofon',short:'Funkmikrofon · EW-D',category:'mics',w:.268,d:.05,vb:[268,50],keywords:'sennheiser ewd ew-d skm wireless funk handheld mikrofon',detail:'Handsender mit MMD 835 · Originalmaß 268 × 50 mm'},
     {id:'mic-sm57',name:'Shure SM57',short:'Shure SM57',category:'mics',w:.157,d:.032,vb:[157,32],keywords:'shure sm57 instrument microphone dynamisch',detail:'Dynamisches Instrumentenmikrofon · Originalmaß 157 × 32 mm'},
     {id:'laptop',name:'Playback-Laptop',short:'Playback-Laptop',category:'tech',w:.3557,d:.2481,vb:[120,90],detail:'Stereo L/R · PLAYAUDIO1U mit 12 XLR · Dante Virtual Soundcard'},
@@ -8481,7 +8482,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     'electric-basses':{label:'Bass',representative:'bass'}
   };
   const objectPacks=[
-    {id:'core',name:'Core',kicker:'KOSTENLOS',price:'Kostenlos',description:'Die Grundausstattung für vollständige Stageplots, Routing und technische Übergaben.',objectIds:['drums','keys-stage4','guitar','mic','stagebox-16','amp','stage-stairs','stage-ramp'],free:true},
+    {id:'core',name:'Core',kicker:'KOSTENLOS',price:'Kostenlos',description:'Die Grundausstattung für vollständige Stageplots, Routing und technische Übergaben.',objectIds:['drums','keys-stage4','guitar','mic','mic-round','stagebox-16','amp','stage-stairs','stage-ramp'],free:true},
     {id:'light-lab',name:'Light Lab',kicker:'LICHT & FX',price:'6,90 €',description:'Technische Draufsichten für moderne Lichtshows und Bühneneffekte.',objectIds:['light-moving-spot','light-moving-wash','light-spark','light-fog','light-wave-bar','light-flightcase']},
     {id:'stage-builder',name:'Stage Builder',kicker:'BÜHNE & PODESTE',price:'5,90 €',description:'Flexible Bühnenmodule, Sicherungen und Produktionsflächen für komplexere Aufbauten.',objectIds:['stage-module','riser-2','riser-3','rug','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier']},
     {id:'pro-crew',name:'Pro Crew',kicker:'MONITORING & PRODUCTION',price:'5,90 €',description:'Spezialisierte Produktionsobjekte für professionelle Bühnenarbeitsplätze.',objectIds:['teleprompter','wedge','quad-cortex','stagebox-48']},
@@ -8883,7 +8884,7 @@ function stageplotTechArtwork(type,options={}) {
   let art='';
   if(type==='drum-throne')art=stageplotTechThrone();
   else if(type==='mic'){
-    if(options.stand==='round')art=stageplotTechImage('mic-round-base');
+    if(options.stand==='round')art=stageplotTechImage('mic-round-base')+'<g data-part="round-base-microphone" data-mic-direction="up">'+stageplotTechImage('mic-boom-head',[91.7664,10,66.4671,230])+'</g>';
     else{
       const direction=['left','right'].includes(options.boomDirection)?options.boomDirection:'up',angle=direction==='left'?-90:direction==='right'?90:0;
       // A raised forward boom is foreshortened in plan view; keep tube thickness and the head unchanged.
@@ -9679,6 +9680,7 @@ function createStageplotSymbolV3(type, options = {}) {
     artCache.set(key,id);return id;
   }
   function icon(c,o={}) {
+    if(c.micStand&&!o.stand)o={...o,stand:c.micStand};
     if(c.id==='orchestra'||c.orchestraPart)c={...c,...orchestraModel.layout(o.orchestra||(c.orchestraPart?orchestraModel.single(c.orchestraPart):undefined))};
     if(c.id==='percussion'||c.percussionPart)c={...c,...percussionModel.layout(o.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined))};
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(c.id))c={...c,...drumModel.drumLayout(c.id,o.drums)};
@@ -10851,6 +10853,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function saveLibraryPreferences(){
     return StageplotQol.writePreferences(window.localStorage,libraryPreferences);
   }
+  const libraryTypeForObject=o=>o.type==='mic'&&o.stand==='round'?'mic-round':o.type;
   function toggleLibraryFavorite(id){
     const scroll=$('sp-library-items').scrollTop,fromInspector=document.activeElement===$('sp-object-favorite');
     libraryPreferences=StageplotQol.favorite(libraryPreferences,id,libraryPreferenceIds);
@@ -11032,7 +11035,7 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     $('sp-object-favorite').hidden=!o;
     if(!o)return;
-    const favorite=libraryPreferences.favorites.includes(o.type);$('sp-object-favorite').setAttribute('aria-pressed',String(favorite));$('sp-object-favorite').textContent=favorite?'★ In Favoriten':'☆ Als Favorit merken';
+    const favorite=libraryPreferences.favorites.includes(libraryTypeForObject(o));$('sp-object-favorite').setAttribute('aria-pressed',String(favorite));$('sp-object-favorite').textContent=favorite?'★ In Favoriten':'☆ Als Favorit merken';
     fillProductionObject(o);
     const locked=!!o.locked;
     $('sp-object-locked').checked=locked;$('sp-lock-hint').hidden=!locked;$('sp-inspector-lock-label').textContent=locked?'Entsperren':'Sperren';$('sp-inspector-remove').disabled=locked;
@@ -13717,7 +13720,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   }
   function makeObject(type,point,id,seed=null){
     const c=byId[type];
-    const o={id,type:c.orchestraPart?'orchestra':c.percussionPart?'percussion':c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
+    const o={id,type:c.micStand?'mic':c.orchestraPart?'orchestra':c.percussionPart?'percussion':c.riserCount?'riser':type,x:point.x,y:point.y,angle:c.defaultAngle||0,label:c.short==='Text'?'Beschriftung':c.short,showLabel:true,note:''};
     if(o.type==='orchestra')o.orchestra=orchestraModel.normalize(seed?.orchestra||(c.orchestraPart?orchestraModel.single(c.orchestraPart):undefined));
     if(o.type==='percussion')o.percussion=percussionModel.normalize(seed?.percussion||(c.percussionPart?{parts:[percussionModel.part(c.percussionPart,'p1')]}:undefined));
     if(c.riserCount)Object.assign(o,{width:c.w,depth:c.d,height:40});
@@ -13728,7 +13731,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(c.instrument){o.io=normalizeObjectIo(null,o);o.outs=ioValueText(o.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
     if(stageboxCapacity[type])o.comboJacks=false;
     if(type==='rack')o.iem=normalizeIemConfig({name:'IEM 1'},o.label);
-    if(type==='mic')Object.assign(o,{stand:'boom',purpose:'vocals',boomDirection:'up',micFrameVersion:2});
+    if(o.type==='mic')Object.assign(o,{stand:c.micStand||'boom',purpose:'vocals',boomDirection:'up',micFrameVersion:2});
     if(seed?.inventory){const entry=seed.inventory,d=entry.document;Object.assign(o,{inventoryId:entry.id,label:d.name.slice(0,42),power:d.power,wireless:d.wireless,note:[d.model,d.notes].filter(Boolean).join(" · ").slice(0,160)});}
     constrain(o);return o;
   }
@@ -13740,7 +13743,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     let added=null;change(()=>{
       const o=makeObject(type,point,'station-'+nextId++,seed);objects.push(o);selected=o.id;added=o;syncRoutingFromStage(false);
     },c.name+' platziert');
-    if(added){libraryPreferences=StageplotQol.remember(libraryPreferences,added.type,libraryPreferenceIds);saveLibraryPreferences();library();}
+    if(added){libraryPreferences=StageplotQol.remember(libraryPreferences,libraryTypeForObject(added),libraryPreferenceIds);saveLibraryPreferences();library();}
     if(added?.type==='rack')requestAnimationFrame(()=>openIemMonitors(added.id));
   }
   function beginPlacement(type,event,seed=null){
@@ -14022,7 +14025,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-library-search').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();e.currentTarget.blur();}});
   root.querySelector('.sp-library-quick-filters').addEventListener('click',e=>{const b=e.target.closest('[data-library-scope]');if(b){libraryScope=b.dataset.libraryScope;library();}});
   $('sp-library-items').addEventListener('click',e=>{const b=e.target.closest('[data-library-favorite]');if(b){e.stopPropagation();toggleLibraryFavorite(b.dataset.libraryFavorite);}});
-  $('sp-object-favorite').addEventListener('click',()=>{const o=objects.find(o=>o.id===selected);if(o)toggleLibraryFavorite(o.type);});
+  $('sp-object-favorite').addEventListener('click',()=>{const o=objects.find(o=>o.id===selected);if(o)toggleLibraryFavorite(libraryTypeForObject(o));});
   window.addEventListener('storage',e=>{if(e.key===StageplotQol.key){libraryPreferences=StageplotQol.readPreferences(window.localStorage,libraryPreferenceIds);library();if(view==='editor')inspector();}});
   $('sp-library-search').addEventListener('focus',syncLibrarySearchUi);
   // Let the result's click finish before restoring category controls after blur.
