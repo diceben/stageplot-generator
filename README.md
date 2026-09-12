@@ -16,6 +16,8 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Feste Mikrofonrichtung:** In den Eigenschaften „Mikrofonkopf ausrichten“ auf oben/rechts/unten/links setzen. Stativ und Boom drehen weiter, der Kopf behält seine Richtung zur Bühne. „Mitdrehen“ bleibt Standard. Gilt auch für Tellerboden, gespeicherte Projekte, Vorschauen und Export.
+
 - **Bühnenbau:** Ruhige Werkzeug-Tabs, breitere Eigenschaften mit hervorgehobenen Maßen und direkt auswählbaren Elementen. Große Schalter für Raster und Equipment; Bühnenvorlagen bleiben offen sichtbar. Responsive Planansicht mit bewusst geöffneten Details.
 - **Bausteinleiste:** Kompakte Tabs und Katalog-/Favoriten-/Zuletzt-Filter, kleinere Kategorien mit lokalen Bild-Icons und klaren Namen, ruhige Objektkarten mit separatem Favoritenstern. Inventar direkt im Kopf. Angepasste Karten im Dunkelmodus und unveränderte kompakte Tastatursuche am Handy.
 
