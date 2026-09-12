@@ -51,9 +51,11 @@ function stageplotTechArtwork(type,options={}) {
     if(options.stand==='round')art=stageplotTechImage('mic-round-base');
     else{
       const direction=['left','right'].includes(options.boomDirection)?options.boomDirection:'up',angle=direction==='left'?-90:direction==='right'?90:0;
-      const tip=direction==='left'?[200.5074,730.2502]:direction==='right'?[1249.4926,719.7498]:[719.7498, 200.5074];
+      // A raised forward boom is foreshortened in plan view; keep tube thickness and the head unchanged.
+      const projection=direction==='up'?.34:1;
+      const tip=direction==='left'?[200.5074,730.2502]:direction==='right'?[1249.4926,719.7498]:[719.7498,725+(200.5074-725)*projection];
       // The clip swivels independently: moving the boom never turns the microphone sideways.
-      art='<g transform="translate(400 400)" data-part="stand-foot-circle" data-diameter-mm="600">'+stageplotTechImage('mic-tripod-base')+'</g>'+'<g data-part="boom-arm-'+direction+'" transform="rotate('+angle+' 725 725)">'+stageplotTechImage('mic-boom')+'</g><g data-part="boom-microphone" data-mic-direction="up" data-display-enlarged="true" transform="translate('+tip[0]+' '+tip[1]+')">'+stageplotTechImage('mic-boom-head')+'</g>';
+      art='<g transform="translate(400 400)" data-part="stand-foot-circle" data-diameter-mm="600">'+stageplotTechImage('mic-tripod-base')+'</g>'+'<g data-part="boom-arm-'+direction+'" transform="rotate('+angle+' 725 725) translate(725 725) scale(1 '+projection+') translate(-725 -725)">'+stageplotTechImage('mic-boom')+'</g><g data-part="boom-microphone" data-mic-direction="up" data-display-enlarged="true" transform="translate('+tip[0]+' '+tip[1]+')">'+stageplotTechImage('mic-boom-head')+'</g>';
     }
   }else art='<g data-part="'+frame.part+'">'+stageplotTechImage(type)+'</g>';
   // The frame includes the real foot circle of tripods, not just their triangular ink bounds.
