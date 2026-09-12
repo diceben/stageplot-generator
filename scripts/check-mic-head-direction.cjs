@@ -16,12 +16,12 @@ const assert=require('node:assert/strict');
       await p.locator('#sp-angle-number').fill(String(angle));await p.locator('#sp-angle-number').press('Tab');await p.waitForFunction(angle=>document.querySelector('#sp-editor-floor [data-object="station-1"]>g')?.getAttribute('transform').includes('rotate('+angle+')'),angle);await assertHeading(head,degrees);
       const containment=await p.locator('#sp-editor-floor [data-object="station-1"]').evaluate(el=>{
         const frame=el.querySelector('[data-selection-frame]'),box=frame.getBBox(),inverse=frame.parentNode.getCTM().inverse();
-        return [...el.querySelectorAll('[data-mic-visible-art] image')].every(image=>{const b=image.getBBox(),m=inverse.multiply(image.getCTM());return [[b.x,b.y],[b.x+b.width,b.y],[b.x+b.width,b.y+b.height],[b.x,b.y+b.height]].every(([x,y])=>{const p=new DOMPoint(x,y).matrixTransform(m);return p.x>=box.x-.01&&p.y>=box.y-.01&&p.x<=box.x+box.width+.01&&p.y<=box.y+box.height+.01;});});
+        return [...el.closest('svg').querySelectorAll('[data-object="station-1"] [data-mic-visible-art] image,[data-mic-object="station-1"] [data-mic-visible-art] image')].every(image=>{const b=image.getBBox(),m=inverse.multiply(image.getCTM());return [[b.x,b.y],[b.x+b.width,b.y],[b.x+b.width,b.y+b.height],[b.x,b.y+b.height]].every(([x,y])=>{const p=new DOMPoint(x,y).matrixTransform(m);return p.x>=box.x-.01&&p.y>=box.y-.01&&p.x<=box.x+box.width+.01&&p.y<=box.y+box.height+.01;});});
       });assert(containment,'Frame includes head after counterrotation');
     }
   }
   assert((await p.locator('[id^="sp-art-mic-boom"]').count())<=3,'Rotation must not accumulate shared symbols');
-  await p.locator('[data-mic-head-direction="follow"]').click();assert.equal(await p.locator(head).count(),0,'Follow mode uses the shared unrotated head');
+  await p.locator('[data-mic-head-direction="follow"]').click();await assertHeading(head,359);
   await p.locator('[data-mic-head-direction="up"]').click();await p.locator('#sp-angle-number').fill('135');await p.locator('#sp-angle-number').press('Tab');
   await p.screenshot({path:artifactPath(`mic-direction-${engine}-${width}.png`)});
   await p.locator('[data-mic-stand="round"]').click();const roundHead='#sp-editor-floor [data-object="station-1"] [data-part="round-base-microphone"]';await assertHeading(roundHead,0);

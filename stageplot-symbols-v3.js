@@ -54,12 +54,12 @@ function stageplotMicLayout(options={}) {
 function stageplotMicVisibleBounds(options={}) {
   const layout=stageplotMicLayout(options),points=[],rotate=([x,y],angle)=>{const r=angle*Math.PI/180;return [x*Math.cos(r)-y*Math.sin(r),x*Math.sin(r)+y*Math.cos(r)];};
   const rect=(box,transform)=>{const [x,y,w,h]=box;for(const p of [[x,y],[x+w,y],[x+w,y+h],[x,y+h]])points.push(transform(p));};
-  if(options.stand==='round')rect([0,0,250,250],p=>p);
+  if(options.stand==='round'){if(options.micLayer!=='upper')rect([0,0,250,250],p=>p);}
   else {
-    rect(STAGEPLOT_TECH_TOP_VIEWS['mic-tripod-base'].rect,([x,y])=>[x+400,y+400]);
-    rect(STAGEPLOT_TECH_TOP_VIEWS['mic-boom'].rect,([x,y])=>{const p=rotate([x-725,(y-725)*layout.projection],layout.armAngle);return [p[0]+725,p[1]+725];});
+    if(options.micLayer!=='upper')rect(STAGEPLOT_TECH_TOP_VIEWS['mic-tripod-base'].rect,([x,y])=>[x+400,y+400]);
+    if(options.micLayer!=='base')rect(STAGEPLOT_TECH_TOP_VIEWS['mic-boom'].rect,([x,y])=>{const p=rotate([x-725,(y-725)*layout.projection],layout.armAngle);return [p[0]+725,p[1]+725];});
   }
-  rect(layout.headRect,p=>{const q=rotate(p,layout.headAngle);return [q[0]+layout.tip[0],q[1]+layout.tip[1]];});
+  if(options.micLayer!=='base')rect(layout.headRect,p=>{const q=rotate(p,layout.headAngle);return [q[0]+layout.tip[0],q[1]+layout.tip[1]];});
   const xs=points.map(p=>p[0]),ys=points.map(p=>p[1]),x=Math.min(...xs),y=Math.min(...ys);
   return {x,y,width:Math.max(...xs)-x,height:Math.max(...ys)-y};
 }
@@ -70,8 +70,9 @@ function stageplotTechArtwork(type,options={}) {
   else if(type==='mic'){
     const {direction,projection,armAngle,tip,headAngle,headRect}=stageplotMicLayout(options);
     const head='<g data-part="'+(options.stand==='round'?'round-base-microphone':'boom-microphone')+'" data-mic-direction="'+(['up','right','down','left'].includes(options.micHeadDirection)?options.micHeadDirection:'up')+'" data-display-enlarged="true" transform="translate('+tip[0]+' '+tip[1]+')'+(headAngle?' rotate('+headAngle+')':'')+'">'+stageplotTechImage('mic-boom-head',headRect)+'</g>';
-    if(options.stand==='round')art=stageplotTechImage('mic-round-base')+head;
-    else art='<g transform="translate(400 400)" data-part="stand-foot-circle" data-diameter-mm="600">'+stageplotTechImage('mic-tripod-base')+'</g><g data-part="boom-arm-'+direction+'" transform="rotate('+armAngle+' 725 725) translate(725 725) scale(1 '+projection+') translate(-725 -725)">'+stageplotTechImage('mic-boom')+'</g>'+head;
+    const base=options.stand==='round'?stageplotTechImage('mic-round-base'):'<g transform="translate(400 400)" data-part="stand-foot-circle" data-diameter-mm="600">'+stageplotTechImage('mic-tripod-base')+'</g>';
+    const upper=(options.stand==='round'?'':'<g data-part="boom-arm-'+direction+'" transform="rotate('+armAngle+' 725 725) translate(725 725) scale(1 '+projection+') translate(-725 -725)">'+stageplotTechImage('mic-boom')+'</g>')+head;
+    art=options.micLayer==='base'?base:options.micLayer==='upper'?upper:base+upper;
   }else art='<g data-part="'+frame.part+'">'+stageplotTechImage(type)+'</g>';
   // The frame includes the real foot circle of tripods, not just their triangular ink bounds.
   return '<g data-equipment="'+type+'" data-metric-tech="true"><rect x="0" y="0" width="'+frame.width+'" height="'+frame.height+'" fill="none" stroke="none" pointer-events="none" data-metric-frame="true"/>'+(type==='mic'?'<g data-mic-visible-art="true">'+art+'</g>':art)+'</g>';

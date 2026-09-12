@@ -685,7 +685,7 @@
             <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-12">12. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
-              <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung. „Mikrofon · Tellerboden“ steht zusätzlich direkt als Baustein bereit – mit rundem Fuß, Mikrofonkopf und denselben Routing-Einstellungen. Der Kopf kann beim Drehen des Stativs optional fest nach oben, rechts, unten oder links ausgerichtet bleiben – auch in Vorschau und Export.</li>
+              <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung. „Mikrofon · Tellerboden“ steht zusätzlich direkt als Baustein bereit – mit rundem Fuß, Mikrofonkopf und denselben Routing-Einstellungen. Der Kopf kann beim Drehen des Stativs optional fest nach oben, rechts, unten oder links ausgerichtet bleiben – auch in Vorschau und Export. Stativfüße und Tellerboden liegen unter dem Equipment, Boom-Arm und Mikrofonkopf darüber; beide Ebenen bleiben gemeinsam bedienbar.</li>
               <li><strong>Bühnenbau aufgeräumt:</strong> Klarere Werkzeug-Tabs, großzügigere Eigenschaften und direkt auswählbare Elemente mit Maßangaben. Große Schalter für Raster und Equipment, eine ruhigere Planfläche und offen sichtbare Bühnenvorlagen vereinfachen die Bearbeitung – auch am Handy.</li>
               <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
@@ -8895,12 +8895,12 @@ function stageplotMicLayout(options={}) {
 function stageplotMicVisibleBounds(options={}) {
   const layout=stageplotMicLayout(options),points=[],rotate=([x,y],angle)=>{const r=angle*Math.PI/180;return [x*Math.cos(r)-y*Math.sin(r),x*Math.sin(r)+y*Math.cos(r)];};
   const rect=(box,transform)=>{const [x,y,w,h]=box;for(const p of [[x,y],[x+w,y],[x+w,y+h],[x,y+h]])points.push(transform(p));};
-  if(options.stand==='round')rect([0,0,250,250],p=>p);
+  if(options.stand==='round'){if(options.micLayer!=='upper')rect([0,0,250,250],p=>p);}
   else {
-    rect(STAGEPLOT_TECH_TOP_VIEWS['mic-tripod-base'].rect,([x,y])=>[x+400,y+400]);
-    rect(STAGEPLOT_TECH_TOP_VIEWS['mic-boom'].rect,([x,y])=>{const p=rotate([x-725,(y-725)*layout.projection],layout.armAngle);return [p[0]+725,p[1]+725];});
+    if(options.micLayer!=='upper')rect(STAGEPLOT_TECH_TOP_VIEWS['mic-tripod-base'].rect,([x,y])=>[x+400,y+400]);
+    if(options.micLayer!=='base')rect(STAGEPLOT_TECH_TOP_VIEWS['mic-boom'].rect,([x,y])=>{const p=rotate([x-725,(y-725)*layout.projection],layout.armAngle);return [p[0]+725,p[1]+725];});
   }
-  rect(layout.headRect,p=>{const q=rotate(p,layout.headAngle);return [q[0]+layout.tip[0],q[1]+layout.tip[1]];});
+  if(options.micLayer!=='base')rect(layout.headRect,p=>{const q=rotate(p,layout.headAngle);return [q[0]+layout.tip[0],q[1]+layout.tip[1]];});
   const xs=points.map(p=>p[0]),ys=points.map(p=>p[1]),x=Math.min(...xs),y=Math.min(...ys);
   return {x,y,width:Math.max(...xs)-x,height:Math.max(...ys)-y};
 }
@@ -8911,8 +8911,9 @@ function stageplotTechArtwork(type,options={}) {
   else if(type==='mic'){
     const {direction,projection,armAngle,tip,headAngle,headRect}=stageplotMicLayout(options);
     const head='<g data-part="'+(options.stand==='round'?'round-base-microphone':'boom-microphone')+'" data-mic-direction="'+(['up','right','down','left'].includes(options.micHeadDirection)?options.micHeadDirection:'up')+'" data-display-enlarged="true" transform="translate('+tip[0]+' '+tip[1]+')'+(headAngle?' rotate('+headAngle+')':'')+'">'+stageplotTechImage('mic-boom-head',headRect)+'</g>';
-    if(options.stand==='round')art=stageplotTechImage('mic-round-base')+head;
-    else art='<g transform="translate(400 400)" data-part="stand-foot-circle" data-diameter-mm="600">'+stageplotTechImage('mic-tripod-base')+'</g><g data-part="boom-arm-'+direction+'" transform="rotate('+armAngle+' 725 725) translate(725 725) scale(1 '+projection+') translate(-725 -725)">'+stageplotTechImage('mic-boom')+'</g>'+head;
+    const base=options.stand==='round'?stageplotTechImage('mic-round-base'):'<g transform="translate(400 400)" data-part="stand-foot-circle" data-diameter-mm="600">'+stageplotTechImage('mic-tripod-base')+'</g>';
+    const upper=(options.stand==='round'?'':'<g data-part="boom-arm-'+direction+'" transform="rotate('+armAngle+' 725 725) translate(725 725) scale(1 '+projection+') translate(-725 -725)">'+stageplotTechImage('mic-boom')+'</g>')+head;
+    art=options.micLayer==='base'?base:options.micLayer==='upper'?upper:base+upper;
   }else art='<g data-part="'+frame.part+'">'+stageplotTechImage(type)+'</g>';
   // The frame includes the real foot circle of tripods, not just their triangular ink bounds.
   return '<g data-equipment="'+type+'" data-metric-tech="true"><rect x="0" y="0" width="'+frame.width+'" height="'+frame.height+'" fill="none" stroke="none" pointer-events="none" data-metric-frame="true"/>'+(type==='mic'?'<g data-mic-visible-art="true">'+art+'</g>':art)+'</g>';
@@ -9726,7 +9727,7 @@ function createStageplotSymbolV3(type, options = {}) {
     // Composite coordinates retain their metre calibration; flexible vector areas may stretch.
     const b=tech?{x:0,y:0,width:tech.width,height:tech.height}:metric?{x:0,y:0,width:c.vb[0],height:c.vb[1]}:artBoundsCache.get(id)||{x:0,y:0,width:c.vb[0],height:c.vb[1]};
     const sx=tech?Math.min(w/b.width,h/b.height):w/b.width,sy=tech?sx:h/b.height,tx=-(b.x+b.width/2)*sx,ty=-(b.y+b.height/2)*sy;
-    const markup=c.art==='mic'&&['up','right','down','left'].includes(o.micHeadDirection)?createStageplotSymbolV3('mic',o):'<use href="#'+id+'"/>';
+    const markup=c.art==='mic'&&(o.micLayer||['up','right','down','left'].includes(o.micHeadDirection))?createStageplotSymbolV3('mic',o):'<use href="#'+id+'"/>';
     return {id,sx,sy,tx,ty,markup,transform:'matrix('+[sx,0,0,sy,tx,ty].join(' ')+')'};
   }
   const objectSize = o => (o.type==='orchestra'||byId[o.type]?.orchestraPart)&&typeof orchestraModel!=='undefined'?orchestraModel.layout(o.orchestra||(byId[o.type]?.orchestraPart?orchestraModel.single(byId[o.type].orchestraPart):undefined)):o.type==='percussion'&&typeof percussionModel!=='undefined'?percussionModel.layout(o.percussion):['riser','foh'].includes(o.type)||byId[o.type]?.stageAccess?{w:o.width||(o.type==='foh'?3:o.type==='riser'?2:byId[o.type].w),d:o.depth||(o.type==='foh'?2:o.type==='riser'?1:byId[o.type].d)}:typeof drumModel!=='undefined'&&drumModel.isDrums(o.type)?drumModel.drumLayout(o.type,o.drums):normalizedObjectDimensions(o.dimensions)||defaultObjectSize(o);
@@ -9773,6 +9774,20 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function stageObjectOrder(list){
     return [...list].sort((a,b)=>Number(!!byId[b.type].underlay)-Number(!!byId[a.type].underlay));
+  }
+  // One saved object, two physical heights. Floor areas stay below stand feet.
+  function stageArtworkLayers(list){
+    const ordered=stageObjectOrder(list),layer=(object,micLayer)=>({object,micLayer});
+    return [
+      ...ordered.filter(o=>objectCatalog(o).underlay).map(o=>layer(o)),
+      ...ordered.filter(o=>o.type==='mic').map(o=>layer(o,'base')),
+      ...ordered.filter(o=>!objectCatalog(o).underlay&&o.type!=='mic').map(o=>layer(o)),
+      ...ordered.filter(o=>o.type==='mic').map(o=>layer(o,'upper'))
+    ];
+  }
+  function stageObjectTarget(target){
+    const hit=target.closest('[data-object],[data-mic-object]');
+    return hit?.dataset.object||hit?.dataset.micObject;
   }
   function overlapShadowIds(ordered){
     const result=new Set();
@@ -9893,7 +9908,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const x=mx+b.minX*scale,y=top+b.minY*scale,w=(b.maxX-b.minX)*scale,d=(b.maxY-b.minY)*scale,offset=14;
     const width=svg.querySelector('[data-dim-width]'),depth=svg.querySelector('[data-dim-depth]');
     const attrs=(node,values)=>{if(node)for(const [key,value] of Object.entries(values))node.setAttribute(key,value);};
-    const occupied=[...svg.querySelectorAll('[data-stairs-zone],[data-object],[data-label-for],[data-iem-zone],[data-venue-part]')].flatMap(node=>{
+    const occupied=[...svg.querySelectorAll('[data-stairs-zone],[data-object],[data-mic-object],[data-label-for],[data-iem-zone],[data-venue-part]')].flatMap(node=>{
       try{const box=node.getBBox(),m=node.transform.baseVal.consolidate()?.matrix,points=[[box.x,box.y],[box.x+box.width,box.y],[box.x,box.y+box.height],[box.x+box.width,box.y+box.height]].map(([px,py])=>m?new DOMPoint(px,py).matrixTransform(m):{x:px,y:py});return [{left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))}];}catch(error){return [];}
     });
     const horizontal=cy=>occupied.filter(box=>box.top-5<cy&&box.bottom+5>cy).reduce((sum,box)=>sum+Math.max(0,Math.min(x+w,box.right)-Math.max(x,box.left)),0);
@@ -10552,16 +10567,28 @@ function createStageplotSymbolV3(type, options = {}) {
     }));
     const artworkBoxes=list.filter(o=>!byId[o.type].underlay&&o.type!=='text').map(o=>ownerBoxes.get(o.id));
     const ordered=stageObjectOrder(list),shadowed=overlapShadowIds(ordered);
-    ordered.forEach(o=>{
+    stageArtworkLayers(list).forEach(({object:o,micLayer})=>{
       const c=objectCatalog(o),size=objectSize(o),x=mx+o.x*scale,y=top+o.y*scale,w=size.w*scale,h=size.d*scale;
+      if(micLayer==='base'){
+        const options={...o,micLayer},geometry=objectArtGeometry(c,options,w,h),box=stageplotMicVisibleBounds(options);
+        const base=sEl('g',{'data-mic-object':o.id,'data-mic-layer':'base',class:mode==='editor'?'sp-object':''},svg);
+        const baseRotation=sEl('g',{transform:'translate('+x+' '+y+') rotate('+o.angle+')'},base);
+        const hit=mode==='editor'&&coarse?44:24,bw=box.width*geometry.sx,bh=box.height*geometry.sy;
+        sEl('rect',{x:box.x*geometry.sx+geometry.tx-(Math.max(bw,hit)-bw)/2,y:box.y*geometry.sy+geometry.ty-(Math.max(bh,hit)-bh)/2,width:Math.max(bw,hit),height:Math.max(bh,hit),fill:'transparent','data-mic-base-hit':o.id},baseRotation);
+        const art=sEl('g',{transform:geometry.transform,class:'sp-symbol'},baseRotation);art.innerHTML=geometry.markup;
+        return;
+      }
       const group=sEl('g',{'data-object':o.id,'data-locked':String(!!o.locked),'data-multi-selected':String(mode==='editor'&&(selectionMode||activeSelection.size>1)&&activeSelection.has(o.id)),class:mode==='editor'?'sp-object':'','aria-label':(o.label||c.name)+(mode==='editor'&&o.locked?' · gesperrt':'')},svg);
+      if(micLayer)group.dataset.micLayer=micLayer;
       const rotation=sEl('g',{transform:'translate('+x+' '+y+') rotate('+o.angle+')'},group);
       const drumGeometry=drumRenderGeometry(o,c,w,h);
-      let selectionBox={x:-w/2,y:-h/2,width:w,height:h};
+      let selectionBox={x:-w/2,y:-h/2,width:w,height:h},micHitBox=null;
       if(o.type==='mic'){
         // Keep the calibrated sweep frame for scale and rotation; interact with the visible stand only.
         const geometry=objectArtGeometry(c,o,w,h),box=stageplotMicVisibleBounds(o);
         if(box)selectionBox={x:box.x*geometry.sx+geometry.tx,y:box.y*geometry.sy+geometry.ty,width:box.width*geometry.sx,height:box.height*geometry.sy};
+        const upper=stageplotMicVisibleBounds({...o,micLayer:'upper'});
+        micHitBox={x:upper.x*geometry.sx+geometry.tx,y:upper.y*geometry.sy+geometry.ty,width:upper.width*geometry.sx,height:upper.height*geometry.sy};
       }
       if(drumGeometry){
         const hitArea=sEl('g',{'data-drum-hit-area':o.id},rotation);
@@ -10570,7 +10597,7 @@ function createStageplotSymbolV3(type, options = {}) {
           if(p.shape==='rect')sEl('rect',{x:p.x-p.w/2,y:p.y-p.h/2,width:p.w,height:p.h,rx:p.rx,fill:'transparent',stroke:'none','pointer-events':'all','data-drum-hit-part':p.id,...(p.angle?{transform:'rotate('+p.angle+' '+p.x+' '+p.y+')'}:{})},hitArea);
           else sEl('ellipse',{...attrs,rx:p.rx,ry:p.ry,...(p.angle?{transform:'rotate('+p.angle+' '+p.x+' '+p.y+')'}:{})},hitArea);
         }
-      }else {const hit=mode==='editor'&&coarse?44:24,box=selectionBox,hitWidth=Math.max(box.width,hit),hitHeight=Math.max(box.height,hit);sEl('rect',{x:box.x+(box.width-hitWidth)/2,y:box.y+(box.height-hitHeight)/2,width:hitWidth,height:hitHeight,fill:'transparent','data-object-hit':o.id},rotation);}
+      }else {const hit=mode==='editor'&&coarse?44:24,box=micHitBox||selectionBox,hitWidth=Math.max(box.width,hit),hitHeight=Math.max(box.height,hit);sEl('rect',{x:box.x+(box.width-hitWidth)/2,y:box.y+(box.height-hitHeight)/2,width:hitWidth,height:hitHeight,fill:'transparent','data-object-hit':o.id},rotation);}
       const visualAttrs={'data-object-visual':o.id,'data-overlap-shadow':String(shadowed.has(o.id))};
       if(shadowed.has(o.id))visualAttrs.filter='url(#'+overlapFilterId+')';
       const visual=sEl('g',visualAttrs,rotation);
@@ -10607,7 +10634,7 @@ function createStageplotSymbolV3(type, options = {}) {
           if(h>=24){const tx=w/2-7;sEl('text',{...style,x:tx,y:0,transform:'rotate('+upright(90)+' '+tx+' 0)','data-access-measure':'depth'},visual,metres(size.d));}
         }
       }else if(c.art!=='text'){
-        const geometry=objectArtGeometry(c,o,w,h),art=sEl('g',{transform:geometry.transform,class:'sp-symbol'},visual);
+        const geometry=objectArtGeometry(c,micLayer?{...o,micLayer}:o,w,h),art=sEl('g',{transform:geometry.transform,class:'sp-symbol'},visual);
         art.innerHTML=geometry.markup;
       }
       if(mode==='editor'&&activeSelection.has(o.id)){
@@ -11413,11 +11440,11 @@ function createStageplotSymbolV3(type, options = {}) {
     return entries.sort((a,b)=>b.savedAt-a.savedAt);
   }
   function projectPreviewObjectsMarkup(list,scale,left,top,black){
-    return stageObjectOrder(list).slice(0,80).map(o=>{
+    return stageArtworkLayers(stageObjectOrder(list).slice(0,80)).map(({object:o,micLayer})=>{
       const c=objectCatalog(o),size=objectSize(o),x=left+o.x*scale,y=top+o.y*scale,w=size.w*scale,h=size.d*scale;
       if(c.art==='text')return '<text x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" text-anchor="middle" font-size="4.5" fill="'+(black?'#f3f3ee':'#353a35')+'">T</text>';
-      const art=objectArtGeometry(c,o,w,h);
-      return '<g transform="translate('+x+' '+y+') rotate('+(Number(o.angle)||0)+') '+art.transform+'">'+art.markup+'</g>';
+      const art=objectArtGeometry(c,micLayer?{...o,micLayer}:o,w,h);
+      return '<g'+(micLayer?' data-mic-layer="'+micLayer+'"':'')+' transform="translate('+x+' '+y+') rotate('+(Number(o.angle)||0)+') '+art.transform+'">'+art.markup+'</g>';
     }).join('');
   }
   function dashboardPreviewMarkup(document,badge='VORSCHAU'){
@@ -13859,7 +13886,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   }
   function startObjectDrag(e){
     focusCanvas();
-    const id=e.target.closest('[data-object]')?.dataset.object,stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
+    const id=stageObjectTarget(e.target),stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
     if(e.button===1||panMode||spaceHeld||e.altKey){
       const blankPrimary=e.button===0&&!id&&!stairsTarget&&!iemTarget;
       startViewPan(e);
@@ -13927,7 +13954,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       const anchor=drag.items.find(o=>o.id===drag.id),q=$('sp-snap').checked?gridStep():.001;
       const dx=Math.round((anchor.x+p.x-drag.x)/q)*q-anchor.x,dy=Math.round((anchor.y+p.y-drag.y)/q)*q-anchor.y,scale=Number(drag.svg.dataset.scale);
       for(const base of drag.items){const o=objects.find(o=>o.id===base.id);o.x=base.x+dx;o.y=base.y+dy;
-        for(const selector of ['[data-object="'+o.id+'"]','[data-label-for="'+o.id+'"]'])drag.svg.querySelector(selector)?.setAttribute('transform','translate('+(dx*scale)+' '+(dy*scale)+')');
+        for(const selector of ['[data-object="'+o.id+'"]','[data-mic-object="'+o.id+'"]','[data-label-for="'+o.id+'"]'])drag.svg.querySelector(selector)?.setAttribute('transform','translate('+(dx*scale)+' '+(dy*scale)+')');
       }
       syncRiserEdgeLabels(drag.svg);return;
     }
@@ -13964,6 +13991,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     o.x=drag.ox+p.x-drag.x;o.y=drag.oy+p.y-drag.y;constrain(o);
     const old=drag.svg.querySelector('[data-object="'+o.id+'"]'),dx=(o.x-drag.ox)*Number(drag.svg.dataset.scale),dy=(o.y-drag.oy)*Number(drag.svg.dataset.scale);
     if(old)old.setAttribute('transform','translate('+dx+' '+dy+')');
+    drag.svg.querySelector('[data-mic-object="'+o.id+'"]')?.setAttribute('transform','translate('+dx+' '+dy+')');
     const caption=drag.svg.querySelector('[data-label-for="'+o.id+'"]');if(caption)caption.setAttribute('transform','translate('+dx+' '+dy+')');
     syncRiserEdgeLabels(drag.svg);
     $('sp-pos-x').value=o.x;$('sp-pos-y').value=o.y;positionRotationToolbar(drag.svg);
@@ -14084,7 +14112,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-editor-floor').addEventListener('pointerdown',e=>{
     if(e.pointerType!=='touch')return;
     if(footprintTouches.size>=2){e.preventDefault();e.stopImmediatePropagation();return;}
-    footprintTouches.set(e.pointerId,{x:e.clientX,y:e.clientY,target:e.target.closest('[data-object]')?.dataset.object||(e.target.closest('[data-iem-zone]')?'iem-zone':null),viewOnly:panMode||selectionMode});
+    footprintTouches.set(e.pointerId,{x:e.clientX,y:e.clientY,target:stageObjectTarget(e.target)||(e.target.closest('[data-iem-zone]')?'iem-zone':null),viewOnly:panMode||selectionMode});
     if(footprintTouches.size!==2||placement)return;
     const before=drag?.before||snapshot();if(drag)cancelObjectDrag();if(panDrag)endViewPan({pointerId:panDrag.pointer},true);
     const svg=$('sp-editor-floor').querySelector('svg'),first=footprintTouches.values().next().value;
@@ -14430,7 +14458,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     menu.style.left=Math.max(6,Math.min(x,window.innerWidth-mw-8))+'px';
     menu.style.top=Math.max(6,Math.min(y,window.innerHeight-mh-8))+'px';
   }
-  $('sp-editor-floor').addEventListener('contextmenu',e=>{const hit=e.target.closest('[data-object]'),zone=e.target.closest('[data-iem-zone]'),id=hit?.dataset.object||(zone?'iem-zone':null);if(!id)return;e.preventDefault();openLayerMenu(e.clientX,e.clientY,id);});
+  $('sp-editor-floor').addEventListener('contextmenu',e=>{const zone=e.target.closest('[data-iem-zone]'),id=stageObjectTarget(e.target)||(zone?'iem-zone':null);if(!id)return;e.preventDefault();openLayerMenu(e.clientX,e.clientY,id);});
   $('sp-object-list').addEventListener('contextmenu',e=>{
     const btn=e.target.closest('.sp-layer-row [data-select]'),id=btn&&btn.dataset.select;
     if(!id)return;

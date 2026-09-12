@@ -47,3 +47,10 @@ assert.ok(fs.readFileSync('stageplot-preview.py','utf8').includes('"/stageplot-a
 assert.ok(!html.includes('const unit=Math.min(w/180,h/120)'), 'FOH uses the same metric transform, not the former fixed viewBox');
 assert.match(html,/image\.setAttribute\('href',await localImageDataUrl\(url\)\)/);
 console.log('PASS TECH ASSETS: 30 local alpha sprites, uniform raster proportions, millimetre frames, calibrated 30 cm throne seat, boom/round variants and full overhead guitar stands.');
+
+for(const stand of ['boom','round'])for(const boomDirection of ['up','left','right']){
+  const options={stand,boomDirection,angle:137,micHeadDirection:'right'},base=ctx.render('mic',{...options,micLayer:'base'}),upper=ctx.render('mic',{...options,micLayer:'upper'});
+  assert.match(base,/mic-(tripod|round)-base-top/);assert.doesNotMatch(base,/mic-boom-(arm|head)-top/);
+  assert.match(upper,/mic-boom-head-top/);assert.doesNotMatch(upper,/mic-(tripod|round)-base-top/);
+  assert.equal((base+upper).match(/<image /g).length,stand==='round'?2:3,'Split layers draw each sprite exactly once');
+}
