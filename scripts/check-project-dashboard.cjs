@@ -9,9 +9,13 @@ const {engine,launchBrowser,artifactPath,assertNoOverflow}=require('./browser-qa
  const card=p.locator('[data-project-open-card]').first();await card.waitFor();
  const layout=await p.evaluate(()=>{const r=s=>document.querySelector(s).getBoundingClientRect().toJSON();return {add:r('.sp-project-add-card'),search:r('#sp-project-search'),card:r('.sp-project-card'),footer:r('.sp-footer')};});console.log(engine,layout);
  assert(layout.add.top<layout.search.top&&layout.add.top<layout.card.top,'New project stays before search and projects');
- assert(layout.card.bottom<=layout.footer.top+2,'A complete project card fits on a 390×670 screen');
+ await card.locator('[data-project-open]').scrollIntoViewIfNeeded();
+ const openBox=await card.locator('[data-project-open]').boundingBox();assert(openBox.height>=44&&openBox.y+openBox.height<=layout.footer.top+2,'Primary action remains reachable by scrolling on a 390×670 screen');
+ assert.equal(await card.locator('.sp-project-storage').count(),1,'One storage status per card');
  assert.equal(await card.evaluate(el=>getComputedStyle(el).borderTopStyle),'solid');
+ await p.setViewportSize({width:390,height:900});await p.locator('#sp-dashboard').evaluate(el=>el.scrollTop=0);
  await p.screenshot({path:artifactPath('project-dashboard-'+engine+'.png')});
+ await p.setViewportSize({width:390,height:670});
  await p.locator('#sp-project-search').fill('no-project-matches');assert.equal(await p.locator('[data-project-open-card]').count(),0);assert(await p.locator('[data-project-add]').isVisible());
  await p.locator('#sp-project-search').fill('');await p.locator('#sp-project-search').blur();
  await card.locator('[data-project-settings]').tap();assert(await p.locator('#sp-project').isVisible());await p.locator('.sp-steps [data-view="dashboard"]').tap();
