@@ -72,7 +72,8 @@ function createStageplotOrchestraModel() {
   }
   function imageMarkup(p,unit=100){
     const {w,d}=dimensions(p),c=byId[p.type];
-    return '<image data-orchestra-image="'+c.id+'" href="./stageplot-assets/orchestra/'+c.asset+'.webp" x="'+(-w*unit/2)+'" y="'+(-d*unit/2)+'" width="'+w*unit+'" height="'+d*unit+'" preserveAspectRatio="none" style="filter:grayscale(1)"/>';
+    const illustrated=['violin','viola','cello','harp','clarinet'].includes(c.id),asset=illustrated?'./stageplot-assets/objects/'+c.id+'-v1.webp':'./stageplot-assets/orchestra/'+c.asset+'.webp';
+    return '<image data-orchestra-image="'+c.id+'" href="'+asset+'" x="'+(-w*unit/2)+'" y="'+(-d*unit/2)+'" width="'+w*unit+'" height="'+d*unit+'" preserveAspectRatio="'+(illustrated?'xMidYMid meet':'none')+'" style="filter:grayscale(1)"/>';
   }
   function furnitureMarkup(p){
     if(!['strings','woodwinds','brass'].includes(byId[p.type].family))return '';

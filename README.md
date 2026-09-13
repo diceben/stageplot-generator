@@ -6,7 +6,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die mobile Baustein-Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
 
-**Aktuelle Version:** v0.1.0-beta.7 · Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.8 · Release Notes sind in der App über `?` erreichbar.
 
 Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
@@ -74,6 +74,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 - **Bündig einrasten:** Treppen, Rampen, Bühnenmodule und Riser richten sich bei aktiviertem Raster an den tatsächlichen Bühnenkanten aus, auch bei ungeraden Bühnenmaßen. Im Bühnenbauer gilt das ebenso für verschiebbare Flächen, Treppen und Rampen. Kanten haben Vorrang vor dem Raster; Pfeiltasten und ausgeschaltetes Raster erlauben freie Korrekturen.
 - **Gerenderte Technik-Draufsichten:** 30 lokale monochrome Bildassets für Technik, Mikrofone und Gitarrenständer. Boom-Mikrofone zeigen einen ausgezogenen 74,5-cm-Arm mit erkennbarem Rohr und einen separat gerenderten, zur besseren Erkennung bewusst vergrößerten Mikrofonkopf, der bei links/rechts schwenkendem Arm nach oben zeigt. Neue 3er-Ständer und Gitarrenbäume leer/voll in Draufsicht, kräftigere Mikrofonkörper, unverzerrte Stromleisten und Wedges. Kalibrierter kompakter Hocker mit 30-cm-Sitz und 43-cm-Fußkreis, auch im Drum-Designer. Bilder werden proportional skaliert; Breite und Tiefe sind gekoppelt. [Assets und Herkunft](stageplot-assets/tech/manifest.json), [Prompts](stageplot-assets/tech/prompts.json), [Maße](MASSTAB.md).
 - **Technische Topviews** für Teleprompter, Wedges, Licht, Effekte, Nebelmaschine und Flightcases.
+- **40 illustrierte Objektgrafiken (35 zusätzliche Bausteine, fünf aktualisierte Orchesterinstrumente)** für Percussion, Tasten, DJ, Backline, PA, Orchester und Video, mit lokal gespeicherten Bildgenerierungs-Assets in Draufsicht. Alle vier Etappen und die Asset-Pflege: [ILLUSTRATED_OBJECTS.md](ILLUSTRATED_OBJECTS.md).
 - **Object Packs** mit Shop-Vorschau, lokalen Offline-Freischaltungen, signierten Codes, Beta Crew Pass und Crew Rewards.
 - **Projektverwaltung** mit Karten-Vorschau, direktem Umbenennen, portablem Download und abgesichertem Löschen.
 - **Dauerhafte Projekt-ID** auf jeder Projektkarte und in den Projektdaten, per Klick kopierbar und über die Projektsuche auffindbar. Bestehende lokale Projekte erhalten automatisch eine ID; Umbenennen, normales Speichern und Gerätesync behalten sie bei. „Projekt duplizieren“, importierte Kopien und Konfliktkopien erhalten eigene IDs. Der Speicherstatus unterscheidet lokale Speicherung, offene Änderungen und tatsächlich bestätigten Sync.
@@ -181,7 +182,7 @@ Optional kann mit `--expires 2027-09-02` ein Ablaufdatum gesetzt werden. Verkauf
 npm test
 ```
 
-35 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar, Katalogkopien mit Quellenangaben und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
+40 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar, illustrierte Objekt-Assets und Export, Katalogkopien mit Quellenangaben und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
 
 ## Daten und Geheimnisse
 

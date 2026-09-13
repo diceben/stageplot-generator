@@ -82,6 +82,13 @@ function stageplotTechArtwork(type,options={}) {
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
 // Relative positions checked against real overhead photos (see stageplot-referenzen.md).
 function createStageplotSymbolV3(type, options = {}) {
+  // illustrated-assets:start
+  const illustratedAssets = {"music-stand":[55.0,55.0],"musician-chair":[50.0,55.0],"tablet-stand":[50.0,50.0],"standing-stool":[45.0,50.0],"equipment-table":[120.0,60.0],"congas":[80.0,45.0],"bongos":[48.0,25.0],"djembe":[36.0,36.0],"timbales":[85.0,50.0],"percussion-table":[80.0,50.0],"grand-piano":[155.0,210.0],"upright-piano":[150.0,60.0],"leslie":[75.0,55.0],"dj-controller":[72.0,40.0],"dj-player":[32.0,45.0],"turntable":[45.0,36.0],"dj-mixer":[32.0,40.0],"sampler":[35.0,30.0],"drum-machine":[38.0,22.0],"pedalboard":[65.0,35.0],"amp-head":[65.0,27.0],"cabinet-112":[50.0,30.0],"cabinet-212":[75.0,32.0],"cabinet-412":[76.0,37.0],"pa-top":[100,100],"subwoofer":[70.0,75.0],"sidefill":[75.0,85.0],"drumfill":[65.0,75.0],"violin":[20.7,59.0],"viola":[25.0,68.0],"cello":[44.0,125.0],"harp":[55.0,100.0],"accordion":[65.0,40.0],"clarinet":[8.0,67.0],"french-horn":[55.0,40.0],"drum-shield":[240.0,110.0],"wireless-antenna":[65.0,65.0],"camera-tripod":[85.0,85.0],"led-wall":[300,65.0],"projection-screen":[240.0,60.0]};
+  if(Object.hasOwn(illustratedAssets,type)){
+    const [width,height]=illustratedAssets[type];
+    return `<image href="stageplot-assets/objects/${type}-v1.webp" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet" data-rendered-object-asset="${type}"/>`;
+  }
+  // illustrated-assets:end
   const techArtwork=stageplotTechArtwork(type,options);if(techArtwork)return techArtwork;
   let out = '';
   const f = n => Math.round(n * 100) / 100;
