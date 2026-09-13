@@ -689,7 +689,7 @@
               <li><strong>Bühnenbau aufgeräumt:</strong> Klarere Werkzeug-Tabs, großzügigere Eigenschaften und direkt auswählbare Elemente mit Maßangaben. Große Schalter für Raster und Equipment, eine ruhigere Planfläche und offen sichtbare Bühnenvorlagen vereinfachen die Bearbeitung – auch am Handy.</li>
               <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
-              <li><strong>Ruhigere mobile Bühne:</strong> Einheitliche Werkzeugleiste mit mittigen Beschriftungen, größere Bühnenansicht durch präziseres Einpassen und dezente Objektlabels. Die Bühne rückt näher an die Werkzeuge; Hinweise und die untere Bedienleiste bleiben kompakt.</li>
+              <li><strong>Ruhigere mobile Bühne:</strong> Einheitliche Werkzeugleiste mit mittigen Beschriftungen, größere Bühnenansicht durch präziseres Einpassen und dezente Objektlabels. Die Bühne rückt näher an die Werkzeuge; Hinweise und die untere Bedienleiste bleiben kompakt. Überlappungen mit der IEM-Fläche erzeugen keine Warnung mehr.</li>
               <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Titel und Aktionen bleiben auch auf schmalen Bildschirmen nebeneinander lesbar; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
               <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Große echte Bühnenvorschauen im dunklen Rahmen, ein klarer Lime-Button zum Öffnen und kompakte direkte Aktionen setzen die Projekte in Szene. Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar – auf Handy und Desktop, auch bei freien Bühnenformen.</li>
               <li><strong>Routing am Handy:</strong> Kompakte Tabs, Suche und Kanalkarten geben der Liste mehr Platz. „+ Signal“ bleibt direkt erreichbar; Nummerierung, automatische Zuordnung, Rückgängig und Export sind unter „Aktionen“ gebündelt. Kanal, Instrument, Mikrofon und Stagebox-Anschluss stehen zusammen in jeder Karte.</li>
@@ -10247,11 +10247,6 @@ function createStageplotSymbolV3(type, options = {}) {
   function resetEditorView(){
     editorFit=null;camera={zoom:1,panX:0,panY:0};
   }
-  function iemOverlap(o,s) {
-    const r=iemRect(s);if(!r||byId[o.type].underlay||o.type==='rack'||o.type==='text')return false;
-    const b=bounds(o);
-    return o.x+b.hw>r.x&&o.x-b.hw<r.x+r.w&&o.y+b.hd>r.y&&o.y-b.hd<r.y+r.d;
-  }
   function outside(o,s) {
     if(o.type==='foh'||byId[o.type]?.stageExtension||byId[o.type]?.stageAccess)return false;
     if(s.geometry){if(o.type==='text')return false;const c=compiledVenue(s,typeof objects!=='undefined'?objects:[]),p=venueObjectPart(o);return !StageplotGeometry.containsFootprint(c.usable,StageplotGeometry.ring(p));}
@@ -10333,9 +10328,8 @@ function createStageplotSymbolV3(type, options = {}) {
     if(s.geometry)$('sp-preview-size').textContent=venueSizeText(s);
     if(!error){
       drawFloor($('sp-setup-floor'),s,previewObjects,'setup');
-      const outsideCount=previewObjects.filter(o=>outside(o,s)).length,iemCount=previewObjects.filter(o=>iemOverlap(o,s)).length,notes=[];
+      const outsideCount=previewObjects.filter(o=>outside(o,s)).length,notes=[];
       if(outsideCount)notes.push(outsideCount+' Baustein'+(outsideCount===1?' liegt':'e liegen')+' danach außerhalb');
-      if(iemCount)notes.push(iemCount+' Baustein'+(iemCount===1?' berührt':'e berühren')+' den IEM-Bereich');
       impact.textContent=notes.length?'Achtung: '+notes.join(' · '):previewObjects.length?'Alle vorhandenen Bausteine passen in diesen Bühnenentwurf.':'';
       impact.hidden=!impact.textContent;
     }else impact.hidden=true;
@@ -11016,10 +11010,9 @@ function createStageplotSymbolV3(type, options = {}) {
     sizeEditorWorkspace();syncViewControls();
     drawFloor($('sp-editor-floor'),stage,objects,'editor');
     if(placement)queuePlacementPreview();
-    const outsideCount=objects.filter(o=>outside(o,stage)).length,iemCount=objects.filter(o=>iemOverlap(o,stage)).length;
+    const outsideCount=objects.filter(o=>outside(o,stage)).length;
     const messages=[];
     if(outsideCount)messages.push(outsideCount===1?'1 Baustein ragt über den Bühnenrand.':outsideCount+' Bausteine ragen über den Bühnenrand.');
-    if(iemCount)messages.push('IEM-Fläche berührt: '+iemCount+(iemCount===1?' Baustein.':' Bausteine.'));
     $('sp-stage-warning').hidden=!messages.length;$('sp-stage-warning').textContent=messages.join(' ');
 
   }
@@ -12818,7 +12811,6 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     $('sp-print-dimensions').hidden=!$('sp-print-measures').checked;
     const warnings=stageMeta(stage);
     if(objects.some(o=>outside(o,stage)))warnings.push('Aufbau ragt über die Bühne');
-    if(objects.some(o=>iemOverlap(o,stage)))warnings.push('IEM-Stellfläche prüfen');
     $('sp-print-status').textContent=warnings.join(' · ');
     drawFloor($('sp-print-floor'),stage,objects,'print');
     if(!pdf&&exportIntent==='share')layoutPrintSummary($('sp-print-floor').querySelector('svg'),productionLines(stage));
