@@ -712,7 +712,7 @@
               <li>Die Audioplanung erfolgt über Signal, Stagebox und Buchse. Kabelzeichnen und die separate Kabelansicht entfallen.</li>
               <li>Keyboard, Gitarre und Bass erscheinen links jeweils nur einmal; derselbe große Modell-Picker dient zum Platzieren und zum späteren Modellwechsel.</li>
               <li>Das Patch Overview unterstützt IEM-Ausgänge, rote 48-V-Schaltung, automatische Kanalnummern sowie MADI und Dante; Quellen werden sofort verbunden und nach Instrument gruppiert.</li>
-              <li>Der allgemeine System-/Hell-/Dunkel-Schalter gilt nun auch für Projekte, Routing, Projektdaten und die Export-Bedienoberfläche; das Druckpapier bleibt bewusst weiß.</li>
+              <li>Hell, Dunkel und System werden beim Antippen sofort angewendet und gespeichert. Die Auswahl bleibt beim Neuladen erhalten und wird zwischen offenen Tabs abgeglichen. Projekte, Routing und Dialoge folgen dem Farbschema; das Druckpapier bleibt weiß.</li>
               <li>Neue Produktionsobjekte umfassen Korg KRONOS 3, Korg SV-1, Hammond B-3, EW-D, SM57, XR18, WING Compact/Rack, Hocker und zusätzliche Bühnenbauteile.</li>
               <li>CM14-Wedge, Quad Cortex und Blechbläser besitzen detailliertere technische Draufsichten; Handmikrofone sind als gut lesbare 2×-Plansymbole mit dokumentiertem Originalmaß verfügbar.</li>
               <li>Treppen sind realistischer gezeichnet, ihre Bearbeitungsbox liegt außerhalb der Stufen und die Ziehlogik bleibt auch an oberer und rechter Bühnenkante korrekt verankert.</li>
@@ -832,7 +832,7 @@
       <fieldset><legend>Darstellung</legend>
         <input id="sp-setting-theme" type="hidden" value="auto">
         <div class="sp-choice-pills sp-theme-pills" role="group" aria-label="Farbschema"><button type="button" data-theme-choice="auto">System</button><button type="button" data-theme-choice="light">Hell</button><button type="button" data-theme-choice="dark">Dunkel</button></div>
-        <p class="sp-muted">„System“ folgt automatisch der Hell-/Dunkel-Einstellung dieses Geräts.</p>
+        <p class="sp-muted">Wird sofort gespeichert. „System“ folgt der Einstellung dieses Geräts.</p>
       </fieldset>
       <fieldset><legend>Entwurf</legend>
         <label class="sp-check"><input id="sp-setting-snap" type="checkbox"> Objekte am Raster einrasten</label>
@@ -13003,7 +13003,8 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   function loadThemePreference(){try{applyTheme(JSON.parse(window.localStorage.getItem(themeStorageKey)||'null')?.theme||'light');}catch(error){applyTheme('light');}}
   function syncThemeSetting(value=appTheme){$('sp-setting-theme').value=['light','dark'].includes(value)?value:'auto';root.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===$('sp-setting-theme').value)));}
   function saveThemePreference(theme){applyTheme(theme);try{window.localStorage.setItem(themeStorageKey,JSON.stringify({version:1,theme:appTheme}));}catch(error){}syncThemeSetting();}
-  root.querySelector('.sp-theme-pills').addEventListener('click',e=>{const button=e.target.closest('[data-theme-choice]');if(button)syncThemeSetting(button.dataset.themeChoice);});
+  root.querySelector('.sp-theme-pills').addEventListener('click',e=>{const button=e.target.closest('[data-theme-choice]');if(button)saveThemePreference(button.dataset.themeChoice);});
+  window.addEventListener('storage',event=>{if(event.key===themeStorageKey||event.key===null){loadThemePreference();syncThemeSetting();}});
   function openAppSettings(){
     cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();
     $('sp-setting-snap').checked=$('sp-snap').checked;
