@@ -95,7 +95,8 @@ vm.createContext(fitContext);vm.runInContext(extract('mobileEditorBounds')+'\n'+
 const stageFit={w:8,d:5},first=plain(fitContext.editorWorkspaceBounds(stageFit,[]));
 assert.equal(first.minX,-.2);assert.equal(first.maxX,8.2);assert.ok(Math.abs(first.maxY-6.1)<1e-9,'The complete front stair is inside the fit.');
 assert.deepEqual(plain(fitContext.editorWorkspaceBounds(stageFit,[{x:30,y:5,w:2,d:1}])),first,'Moving an object does not refit the camera.');
-fitContext.editorFit=null;const outsideFit=fitContext.editorWorkspaceBounds(stageFit,[{x:-3,y:4,w:2,d:2}]);assert.ok(outsideFit.minX<-4.4,'Explicit fit includes external objects.');
+fitContext.editorFit=null;const outsideFit=fitContext.editorWorkspaceBounds(stageFit,[{x:-3,y:4,w:2,d:2}]);assert.equal(outsideFit.minX,-4.2,'Explicit fit includes actual external footprint without extra circular padding.');
+const rotatedFit=fitContext.mobileEditorBounds(stageFit,[{x:-3,y:4,w:4,d:1,angle:90}]);assert.equal(rotatedFit.minX,-3.7,'Fit uses rotated width, not the maximum diagonal on both axes.');
 mobile=false;assert.deepEqual(plain(fitContext.editorWorkspaceBounds(stageFit,[])),fitContext.workspaceBounds(),'Desktop retains its own padding.');
 // Access pieces use the existing object creation, resize, locking and persistence paths.
 const accessCatalog=Object.fromEntries(['stage-stairs','stage-ramp'].map(id=>{const line=html.split('\n').find(line=>line.includes("{id:'"+id+"',name:"));assert(line,id+' fehlt');const entry=vm.runInNewContext('('+line.trim().replace(/,$/,'')+')');return [id,entry];}));
