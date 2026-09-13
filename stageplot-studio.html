@@ -206,10 +206,10 @@
             <div class="sp-toolbar-group sp-canvas-cluster sp-history-controls" data-canvas-cluster="history">
               <button class="sp-button sp-iconbutton" id="sp-undo" type="button" aria-label="Rückgängig" data-tooltip="Rückgängig · ⌘ Z" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 5.5 3.5 9l4 3.5M4 9h7.2a4.8 4.8 0 1 1 0 9.6H9.5" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               <button class="sp-button sp-iconbutton" id="sp-redo" type="button" aria-label="Wiederholen" data-tooltip="Wiederholen · ⇧ ⌘ Z" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 5.5 4 3.5-4 3.5M16 9H8.8a4.8 4.8 0 1 0 0 9.6h1.7" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button class="sp-button" id="sp-venue-open" type="button">Bühnenform</button>
+              <button class="sp-button" id="sp-venue-open" type="button"><span class="sp-tool-desktop-label">Bühnenform</span><span class="sp-tool-mobile-label">Form</span></button>
             </div>
             <div class="sp-toolbar-group sp-canvas-cluster sp-focus-controls" data-canvas-cluster="focus">
-              <button class="sp-button" id="sp-multi-toggle" type="button" aria-pressed="false" aria-label="Mehrere Objekte auswählen">Mehrere auswählen</button>
+              <button class="sp-button" id="sp-multi-toggle" type="button" aria-pressed="false" aria-label="Mehrere Objekte auswählen"><span class="sp-tool-desktop-label">Mehrere auswählen</span><span class="sp-tool-mobile-label">Mehrere</span></button>
               <button class="sp-button sp-iconbutton" id="sp-canvas-focus" type="button" aria-label="Canvas-Fokus ein- oder ausschalten" aria-pressed="false" data-tooltip="Nur Canvas · F"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4M13 3h4v4M3 13v4h4M17 13v4h-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
             </div>
             <div class="sp-canvas-dock" id="sp-canvas-dock" role="group" aria-label="Bühnenwerkzeuge">
@@ -689,6 +689,7 @@
               <li><strong>Bühnenbau aufgeräumt:</strong> Klarere Werkzeug-Tabs, großzügigere Eigenschaften und direkt auswählbare Elemente mit Maßangaben. Große Schalter für Raster und Equipment, eine ruhigere Planfläche und offen sichtbare Bühnenvorlagen vereinfachen die Bearbeitung – auch am Handy.</li>
               <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
+              <li><strong>Ruhigere mobile Bühne:</strong> Einheitliche Werkzeugleiste mit mittigen Beschriftungen, größere Bühnenansicht durch präziseres Einpassen und dezente Objektlabels. Die Bühne rückt näher an die Werkzeuge; Hinweise und die untere Bedienleiste bleiben kompakt.</li>
               <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Titel und Aktionen bleiben auch auf schmalen Bildschirmen nebeneinander lesbar; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
               <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Große echte Bühnenvorschauen im dunklen Rahmen, ein klarer Lime-Button zum Öffnen und kompakte direkte Aktionen setzen die Projekte in Szene. Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar – auf Handy und Desktop, auch bei freien Bühnenformen.</li>
               <li><strong>Routing am Handy:</strong> Kompakte Tabs, Suche und Kanalkarten geben der Liste mehr Platz. „+ Signal“ bleibt direkt erreichbar; Nummerierung, automatische Zuordnung, Rückgängig und Export sind unter „Aktionen“ gebündelt. Kanal, Instrument, Mikrofon und Stagebox-Anschluss stehen zusammen in jeder Karte.</li>
@@ -6143,13 +6144,14 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-stage-canvas { height:100%; min-height:0; padding:0; border:0; border-radius:0; }
   #sp-prototype #sp-editor-floor { position:absolute; inset:50px 0 var(--sp-mobile-actions-height); width:100%; height:auto; min-height:0; max-height:none; margin:0; padding:0; touch-action:none; }
   #sp-prototype #sp-canvas-tools .sp-history-controls { inset:4px auto auto 8px; gap:2px; padding:0; border:0; box-shadow:none; background:transparent; backdrop-filter:none; }
-  #sp-prototype #sp-canvas-tools .sp-focus-controls { inset:4px 8px auto auto; padding:0; border:0; box-shadow:none; background:transparent; backdrop-filter:none; }
+  #sp-prototype #sp-canvas-tools .sp-focus-controls { inset:4px 8px auto auto; gap:4px; padding:0; border:0; box-shadow:none; background:transparent; backdrop-filter:none; }
   #sp-prototype #sp-canvas-tools :is(.sp-history-controls,.sp-focus-controls) button { min-width:44px; width:44px; height:44px; min-height:44px; border-radius:12px; }
-  #sp-prototype #sp-canvas-tools #sp-venue-open { width:auto; padding:0 12px; font-size:12px; background:var(--sp-soft); }
-  #sp-prototype #sp-canvas-tools #sp-canvas-focus { width:auto; padding:0 10px; font-size:12px; background:var(--sp-soft); }
+  #sp-prototype #sp-canvas-tools #sp-venue-open { width:auto; padding:0 12px; font-size:12px; background:transparent; }
+  #sp-prototype #sp-canvas-tools #sp-canvas-focus { width:auto; padding:0 12px; font-size:12px; background:var(--sp-soft); }
   #sp-prototype .sp-mobile-editor-actions { position:absolute; inset:auto 0 0; z-index:50; display:grid; grid-template-columns:1fr 1.2fr 1fr; align-items:center; gap:6px; padding:7px 8px max(7px,env(safe-area-inset-bottom)); min-height:var(--sp-mobile-actions-height); background:var(--sp-panel); border-top:1px solid var(--sp-line); }
   #sp-prototype .sp-mobile-editor-actions :is(.sp-sidebar-edge-toggle,#sp-mobile-tools-open) { position:static; inset:auto; display:flex; justify-content:center; align-items:center; gap:5px; width:100%; max-width:none; height:46px; min-height:46px; min-width:0; margin:0; padding:4px; visibility:visible; transform:none; border:0; border-radius:12px; background:var(--sp-soft); color:var(--sp-ink); box-shadow:none; line-height:1.2; font-family:inherit; font-size:12px; font-weight:650; white-space:nowrap; }
-  #sp-prototype .sp-mobile-editor-actions #sp-library-open { background:var(--sp-primary); color:var(--sp-primary-ink); }
+  #sp-prototype .sp-mobile-editor-actions #sp-library-open { background:var(--sp-primary-soft); color:var(--sp-ink); }
+  #sp-prototype .sp-mobile-editor-actions button[aria-expanded="true"] { background:var(--sp-primary); color:var(--sp-primary-ink); }
   #sp-prototype .sp-mobile-editor-actions button[aria-expanded="true"] { outline:2px solid var(--sp-teal); outline-offset:-2px; }
   #sp-prototype .sp-mobile-editor-actions :is(svg,img) { width:20px; height:20px; flex:none; object-fit:contain; }
   #sp-prototype #sp-canvas-tools .sp-canvas-dock { display:none; }
@@ -6193,7 +6195,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-stage-canvas > #sp-stage-warning {
     inset:52px 8px auto; transform:none; width:fit-content;
     height:auto; min-height:0; max-width:calc(100% - 16px);
-    box-sizing:border-box; padding:7px 10px; font-size:11px; line-height:1.4;
+    box-sizing:border-box; padding:6px 9px; font-size:10px; line-height:1.4; border:0; border-left:2px solid #c7a453; border-radius:6px; background:light-dark(#faf6e9,#322e22); box-shadow:none;
   }
   #sp-prototype #sp-stage-popover, #sp-prototype #sp-stairs-popover { top:auto !important; bottom:calc(var(--sp-mobile-actions-height) + 8px); left:8px !important; max-width:calc(100% - 16px); }
 }
@@ -6388,6 +6390,19 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-dashboard .sp-empty-projects { order:3; }
   #sp-prototype #sp-dashboard .sp-plan-card { padding:12px; box-shadow:none; order:4; margin:4px 0 0; }
 }
+
+@media (max-width:760px) {
+  #sp-prototype[data-view="editor"] .sp-canvas-panel { background:var(--sp-panel); }
+  #sp-prototype #sp-canvas-tools .sp-focus-controls { border:0; border-left:1px solid var(--sp-line); padding-left:4px; border-radius:0; }
+  #sp-prototype #sp-editor-floor [data-mobile-editor="true"] [data-label-background] { fill:#ffffffed; stroke:#d6dbd3; stroke-width:.45px; rx:5px; }
+  #sp-prototype #sp-editor-floor [data-mobile-editor="true"] .sp-stage-label { fill:#30372f; font-weight:550; }
+  #sp-prototype #sp-editor-floor [data-mobile-editor="true"] .sp-stage-outs { fill:#687163; font-size:10px; font-weight:400; }
+  #sp-prototype #sp-editor-floor [data-mobile-editor="true"] .sp-orientation { font-size:9px; letter-spacing:.5px; }
+}
+
+@media (max-width:760px) and (hover:none) {
+  #sp-prototype #sp-canvas-tools [data-tooltip]::after { display:none; }
+}
 /* build-inline:end stageplot-mobile-v1.css */
 </style>
 <style>
@@ -6461,13 +6476,12 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-multi-bar { bottom:calc(var(--sp-mobile-actions-height) + 8px); gap:4px; padding:6px; }
   #sp-prototype .sp-multi-bar strong { font-size:11px; }
   #sp-prototype .sp-multi-bar button { padding:6px 8px; }
-  #sp-prototype #sp-canvas-tools #sp-multi-toggle { width:auto; padding:0 8px; font-size:0; }
-  #sp-prototype #sp-canvas-tools #sp-multi-toggle::after { content:"Mehrere"; font-size:12px; }
+  #sp-prototype #sp-canvas-tools #sp-multi-toggle { width:auto; padding:0 8px; font-size:12px; }
 }
 @media (max-width:400px) {
-  #sp-prototype #sp-canvas-tools #sp-venue-open { min-width:44px; font-size:0; padding:0 9px; }
-  #sp-prototype #sp-canvas-tools #sp-venue-open::after { content:'Form'; font-size:12px; }
-  #sp-prototype #sp-canvas-tools #sp-canvas-focus { padding:0 6px; }
+  #sp-prototype #sp-canvas-tools #sp-venue-open { min-width:44px; font-size:12px; padding:0 9px; }
+  #sp-prototype #sp-canvas-tools #sp-canvas-focus { padding:0 4px; }
+  #sp-prototype #sp-canvas-tools #sp-multi-toggle { padding:0 4px; }
 }
 @media (max-width:500px) {
   #sp-prototype .sp-library .sp-library-items { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -6501,6 +6515,14 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-library[data-searching="true"] .sp-library-item:has(.sp-library-model-count,.sp-library-lock-label) > span { grid-row:1; align-self:end; }
   #sp-prototype #sp-library[data-searching="true"] .sp-library-item > span:is(.sp-library-model-count,.sp-library-lock-label) { grid-row:2; align-self:start; font-size:10px; line-height:1.3; margin:2px 0 0; color:var(--sp-muted); }
   #sp-prototype #sp-library[data-searching="true"] .sp-library-favorite { right:5px; top:calc(50% - 22px); width:44px; height:44px; background:transparent; -webkit-tap-highlight-color:transparent; }
+}
+
+#sp-prototype .sp-tool-mobile-label { display:none; }
+@media (max-width:760px) {
+  #sp-prototype .sp-tool-desktop-label { display:none; }
+  #sp-prototype .sp-tool-mobile-label { display:inline; }
+  #sp-prototype #sp-canvas-tools :is(.sp-history-controls,.sp-focus-controls) button { display:flex; align-items:center; justify-content:center; flex-direction:row; gap:0; line-height:1; font-weight:600; }
+  #sp-prototype #sp-canvas-tools #sp-venue-open { min-width:54px; }
 }
 /* build-inline:end stageplot-qol-v1.css */
 </style>
@@ -8621,6 +8643,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     $('sp-inspector-toggle').setAttribute('aria-expanded',String(!inspectorCollapsed&&!canvasFocus));
     $('sp-canvas-focus').setAttribute('aria-pressed',String(canvasFocus));$('sp-canvas-focus').textContent=mobileWorkspace()?'Einpassen':canvasFocus?'↙':'↗';
     $('sp-canvas-focus').setAttribute('aria-label',mobileWorkspace()?'Gesamte Bühne einpassen':'Canvas-Fokus umschalten');
+    $('sp-canvas-focus').dataset.tooltip=mobileWorkspace()?'Gesamte Bühne einpassen':'Nur Canvas · F';
     $('sp-library-open').setAttribute('aria-expanded',String(!libraryCollapsed&&!canvasFocus));$('sp-inspector-open').setAttribute('aria-expanded',String(!inspectorCollapsed&&!canvasFocus));
     root.dataset.mobileTools=String(mobileToolsOpen&&mobileWorkspace());
     $('sp-mobile-tools-open').setAttribute('aria-expanded',String(mobileToolsOpen));
@@ -10209,7 +10232,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const include=(x,y,w,d)=>{box.minX=Math.min(box.minX,x);box.minY=Math.min(box.minY,y);box.maxX=Math.max(box.maxX,x+w);box.maxY=Math.max(box.maxY,y+d);};
     const iem=iemRect(s);if(iem)include(iem.x,iem.y,iem.w,iem.d);
     for(const record of stairStates(s)){const r=stairsGeometry(s,record.id);if(r)include(r.x,r.y,r.w,r.d);}
-    for(const o of list){const size=objectSize(o),r=Math.hypot(size.w,size.d)/2;include(o.x-r,o.y-r,r*2,r*2);}
+    for(const o of list){const size=objectSize(o),angle=(Number(o.angle)||0)*Math.PI/180,c=Math.abs(Math.cos(angle)),s=Math.abs(Math.sin(angle)),w=c*size.w+s*size.d,d=s*size.w+c*size.d;include(o.x-w/2,o.y-d/2,w,d);}
     return {minX:box.minX-.2,minY:box.minY-.2,maxX:box.maxX+.2,maxY:box.maxY+.2};
   }
   function editorWorkspaceBounds(s,list){
@@ -10473,11 +10496,12 @@ function createStageplotSymbolV3(type, options = {}) {
     const header=mobileEditor?30:43,bottom=(mobileEditor?26:mode==='editor'?36:47)+technicalHeight+editorFooter;
     const area=mode==='editor'?editorWorkspaceBounds(s,list):workspaceBounds(s,list);
     const height=mode==='editor'||mode==='print'?Math.floor(host.getBoundingClientRect().height):0;
-    const fit=fitFloor(W,height,area,mobileEditor?24:left,mobileEditor?12:right,mobileEditor?48:header,bottom,mode==='print'?'start':'center'),H=fixed?fixed.H:fit.H;
+    const fit=fitFloor(W,height,area,mobileEditor?24:left,mobileEditor?12:right,mobileEditor?74:header,bottom,mode==='print'||mobileEditor?'start':'center'),H=fixed?fixed.H:fit.H;
+    if(mobileEditor&&!fixed)fit.top+=Math.min(32,Math.max(0,height-74-bottom-(area.maxY-area.minY)*fit.scale)*.2);
     const {scale,mx,top}=fixed?fixed:(mode==='editor'?floorView(fit,W,H,camera):fit);
     renderedHeights.set(host.id,H);
     const blackStage=mode==='print'?$('sp-print-black-stage').checked:s.surface==='black',transparentPreview=mode==='print'&&$('sp-export-format').value!=='pdf'&&$('sp-export-background').value==='transparent',showPrintMeasures=mode!=='print'||$('sp-print-measures').checked,showPrintOuts=mode==='print'?$('sp-print-outs').checked:showOutsGlobal;
-    const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,width:W,height:H,class:'sp-floor',role:'img','data-stage-surface':blackStage?'black':'light','aria-label':'Bühnenplan: '+num(s.w)+' mal '+metres(s.d)+', '+(blackStage?'schwarze Bühne, ':'')+'2 mal 1 Meter Module, Publikum unten'});
+    const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,width:W,height:H,class:'sp-floor',role:'img','data-mobile-editor':String(mobileEditor),'data-stage-surface':blackStage?'black':'light','aria-label':'Bühnenplan: '+num(s.w)+' mal '+metres(s.d)+', '+(blackStage?'schwarze Bühne, ':'')+'2 mal 1 Meter Module, Publikum unten'});
     sEl('title',{},svg,'Bühne in Draufsicht mit Upstage, Downstage, Stage Left und Stage Right');
     host.replaceChildren(svg);
     sEl('rect',{width:W,height:H,fill:transparentPreview?'transparent':'var(--sp-paper)','pointer-events':'none','data-canvas-background':'true'},svg);
@@ -10994,8 +11018,8 @@ function createStageplotSymbolV3(type, options = {}) {
     if(placement)queuePlacementPreview();
     const outsideCount=objects.filter(o=>outside(o,stage)).length,iemCount=objects.filter(o=>iemOverlap(o,stage)).length;
     const messages=[];
-    if(outsideCount)messages.push(outsideCount+' Baustein(e) ragen über den Bühnenrand.');
-    if(iemCount)messages.push(iemCount+' Baustein(e) berühren die IEM-Stellfläche.');
+    if(outsideCount)messages.push(outsideCount===1?'1 Baustein ragt über den Bühnenrand.':outsideCount+' Bausteine ragen über den Bühnenrand.');
+    if(iemCount)messages.push('IEM-Fläche berührt: '+iemCount+(iemCount===1?' Baustein.':' Bausteine.'));
     $('sp-stage-warning').hidden=!messages.length;$('sp-stage-warning').textContent=messages.join(' ');
 
   }
