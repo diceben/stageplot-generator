@@ -42,22 +42,21 @@ assert.throws(()=>ctx.createCatalogProject('at-wien-muth'),/aktuellen Entwurf lo
 // The shared project dialog stays available in Standard, with entry modes preserving field values.
 const buttons=['custom','catalog','templates'].map(source=>({dataset:{npSource:source},setAttribute(name,value){this[name]=value;}}));
 const panels=['custom','catalog','templates'].map(source=>({dataset:{npPanel:source},hidden:false}));
-const locationLabel={hidden:false};ctx.$('sp-np-location').closest=()=>locationLabel;
 ctx.root={querySelectorAll:selector=>selector==='[data-np-source]'?buttons:selector==='[data-np-panel]'?panels:[],querySelector:()=>({open:false})};
-ctx.renderNewProjectDialog=()=>{};
+ctx.renderNewProjectDialog=()=>{};ctx.stopNewProjectRepeat=()=>{};ctx.$('sp-newproject-dialog').dataset={};
 for(const [dim,max] of [['width',30],['depth',20]])Object.assign(ctx.$('sp-np-'+dim),{dataset:{max},setAttribute(key,value){this[key]=value;},focus(){}});ctx.esc=String;ctx.venueSizeText=s=>s.w+' × '+s.d+' m';ctx.setTimeout=()=>{};ctx.accountPlan='free';ctx.dashboardProjects=()=>[{}];ctx.npStageSource='custom';ctx.npSize={width:8,depth:5};
 ctx.$('sp-newproject-dialog').showModal=function(){this.open=true;};ctx.$('sp-upgrade-dialog').showModal=function(){this.open=true;};
 vm.runInContext(['readNewProjectDimensions','npProjectName','setNewProjectSource','openNewProjectDialog','createProjectFromDialog','createProjectFromTemplate','newVenueEvent','normalizeStageTemplate'].map(extract).join('\n'),ctx);
 ctx.openNewProjectDialog();assert.equal(ctx.$('sp-newproject-dialog').open,true);assert.equal(ctx.$('sp-upgrade-dialog').open,false,'Der kostenlose Katalog bleibt über Neues Projekt erreichbar.');
-ctx.$('sp-np-band').value='Testband';ctx.$('sp-np-location').value='Testsaal';ctx.npSize.width=9;ctx.$('sp-np-width').value='9';
-ctx.setNewProjectSource('catalog');assert.equal(locationLabel.hidden,true);assert.equal(ctx.$('sp-np-create').hidden,true);assert.equal(ctx.npProjectName(),'Testband');
-ctx.setNewProjectSource('custom');assert.equal(locationLabel.hidden,false);assert.equal(ctx.$('sp-np-create').hidden,false);assert.equal(ctx.npProjectName(),'Testband – Testsaal');assert.equal(ctx.npSize.width,9);
+ctx.$('sp-np-band').value='Testband';ctx.npSize.width=9;ctx.$('sp-np-width').value='9';
+ctx.setNewProjectSource('catalog');assert.equal(ctx.$('sp-np-create').hidden,true);assert.equal(ctx.npProjectName(),'Testband');
+ctx.setNewProjectSource('custom');assert.equal(ctx.$('sp-np-create').hidden,false);assert.equal(ctx.npProjectName(),'Testband');assert.equal(ctx.npSize.width,9);
 ctx.createProjectFromDialog();assert.equal(ctx.$('sp-upgrade-dialog').open,true);assert.equal(ctx.snapshot(),previous,'Der bestehende Plan bleibt beim Projektlimit erhalten.');
 ctx.accountPlan='pro';ctx.stageSurfaceDefault='light';ctx.defaultProjectInfo=name=>ctx.normalizeProjectInfo({},name);ctx.defaultRouting=()=>({inputs:[],outputs:[],generatedAt:0});
 ctx.stage.geometry.notes='Alte Hausnotiz';ctx.stage.extraStairs=[{id:'old-stair'}];ctx.stage.cables=[{id:'old-cable'}];
 ctx.stage.venueRef={templateId:'old-house',name:'Alt',revision:3};
 ctx.createProjectFromDialog();assert.equal(ctx.stage.w,9);assert.equal(ctx.stage.d,5);assert.equal(ctx.stage.geometry,undefined);assert.equal(ctx.stage.venueRef,undefined);assert.equal(ctx.objects.length,0);
-assert.equal(ctx.stage.project.artist,'Testband');assert.equal(ctx.stage.project.venue,'Testsaal');assert.equal(ctx.stage.extraStairs.length,0);assert.equal(ctx.stage.cables.length,0);
+assert.equal(ctx.stage.project.artist,'Testband');assert.equal(ctx.stage.project.venue,'');assert.equal(ctx.stage.stairs,'none');assert.equal(ctx.stage.iem,'none');assert.equal(ctx.stage.extraStairs.length,0);assert.equal(ctx.stage.cables.length,0);
 const dimensionsBefore=ctx.snapshot();
 for(const invalid of ['', '0', '-3', '31', '8.555', 'NaN', 'Infinity', '8x']){
   ctx.$('sp-np-width').value=invalid;ctx.createProjectFromDialog();assert.equal(ctx.snapshot(),dimensionsBefore);assert.equal(ctx.$('sp-np-error').hidden,false);
@@ -68,7 +67,7 @@ ctx.$('sp-np-depth').value='20';assert(ctx.readNewProjectDimensions());
 const fresh=json(ctx.stage);assert.equal(ctx.$('sp-newproject-dialog').open,false);assert.equal(ctx.$('sp-np-error').hidden,true);
 const template={id:'stage-template-demo',name:'Vorlagensaal',savedAt:1,...catalog.createDocument('at-wien-muth')};
 ctx.readStageTemplates=()=>[json(template)];ctx.setNewProjectSource('templates');assert.ok(ctx.$('sp-np-templates').innerHTML.includes('Vorlagensaal'));
-ctx.createProjectFromTemplate(template.id);assert.equal(ctx.stage.w,16);assert.equal(ctx.stage.project.artist,'Testband');assert.equal(ctx.stage.project.venue,'Testsaal');assert.equal(ctx.stage.title,'Testband – Testsaal');
+ctx.createProjectFromTemplate(template.id);assert.equal(ctx.stage.w,16);assert.equal(ctx.stage.project.artist,'Testband');assert.equal(ctx.stage.project.venue,template.name);assert.equal(ctx.stage.title,'Testband');
 assert.equal(ctx.stage.venueRef.templateId,template.id);ctx.stage.geometry.parts[0].w=20;assert.equal(template.stage.geometry.parts[0].w,16);
 assert.ok(ctx.readDraftLibrary(storage).entries.some(entry=>JSON.stringify(entry.document.stage)===JSON.stringify(fresh)),'Der manuell erstellte Vorgänger ist gespeichert.');
 ctx.readStageTemplates=()=>[];ctx.setNewProjectSource('templates');assert.ok(ctx.$('sp-np-templates').innerHTML.includes('Noch keine Bühnenvorlagen'));const beforeMissing=ctx.snapshot();ctx.createProjectFromTemplate('missing');assert.equal(ctx.snapshot(),beforeMissing);assert.match(ctx.$('sp-np-error').textContent,/inzwischen entfernt/);
