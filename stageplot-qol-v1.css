@@ -71,7 +71,8 @@
 }
 @media (max-width:400px) {
   #sp-prototype #sp-canvas-tools #sp-venue-open { min-width:44px; font-size:12px; padding:0 9px; }
-  #sp-prototype #sp-canvas-tools #sp-canvas-focus { padding:0 6px; }
+  #sp-prototype #sp-canvas-tools #sp-canvas-focus { padding:0 4px; }
+  #sp-prototype #sp-canvas-tools #sp-multi-toggle { padding:0 4px; }
 }
 @media (max-width:500px) {
   #sp-prototype .sp-library .sp-library-items { grid-template-columns:repeat(2,minmax(0,1fr)); }
