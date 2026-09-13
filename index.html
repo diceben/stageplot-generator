@@ -581,59 +581,46 @@
   <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title"><div class="sp-dialog-heading"><h2 id="sp-share-title">Ansichtslink teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div><p>Empfänger sehen Bühnenplan und Projektdaten, können sie aber nicht bearbeiten. Der Link enthält den aktuellen Stand; für spätere Änderungen einen neuen Link erstellen.</p><label class="sp-field">Link<textarea id="sp-share-link" rows="4" readonly></textarea></label><div class="sp-actions"><button class="sp-button" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button sp-primary" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div><p id="sp-share-status" class="sp-muted" role="status"></p></dialog>
   <dialog id="sp-upgrade-dialog" class="sp-clear-dialog sp-upgrade-dialog" aria-labelledby="sp-upgrade-title"><div class="sp-dialog-heading"><div><span class="sp-eyebrow">KOSTENLOSE PRO-BETA</span><h2 id="sp-upgrade-title">Pro-Funktionen kostenlos aktivieren</h2></div><button class="sp-button" type="button" id="sp-upgrade-close" aria-label="Pro-Beta schließen">×</button></div><p>Während der öffentlichen Beta kannst du Pro auf diesem Gerät kostenlos nutzen:</p><ul><li>Unbegrenzte Projekte</li><li>Complete-PDF mit Routing und Kontakten</li><li>XLSX-Export der Kanalliste</li></ul><p class="sp-muted">Keine Zahlung, kein Abo. Die Freischaltung wird nur lokal gespeichert und lässt sich jederzeit wieder auf „Standard“ stellen.</p><button class="sp-button sp-primary sp-upgrade-button" type="button" id="sp-upgrade-demo">Pro-Beta kostenlos aktivieren</button></dialog>
   <dialog id="sp-newproject-dialog" class="sp-clear-dialog sp-newproject-dialog" aria-labelledby="sp-np-heading">
-    <div class="sp-dialog-heading"><div><h2 id="sp-np-heading" tabindex="-1" autofocus>Projekt anlegen</h2></div><button class="sp-button" type="button" id="sp-np-close" aria-label="Schließen">×</button></div>
+    <div class="sp-dialog-heading"><h2 id="sp-np-heading" tabindex="-1" autofocus>Neues Projekt</h2><button class="sp-button" type="button" id="sp-np-close" aria-label="Schließen">×</button></div>
     <div class="sp-np-body">
-      <div class="sp-np-identity">
-        <label class="sp-field"><span>Band / Act</span><input id="sp-np-band" maxlength="80" placeholder="z. B. The Sonics" autocomplete="off"></label>
-        <label class="sp-field"><span>Location</span><input id="sp-np-location" maxlength="100" placeholder="z. B. Arena Wien" autocomplete="off"></label>
-      </div>
+      <label class="sp-field sp-np-identity"><span>Projektname</span><input id="sp-np-band" maxlength="80" placeholder="z. B. The Sonics" autocomplete="off"></label>
       <div class="sp-np-source-options" role="group" aria-label="Bühne für das neue Projekt">
         <button type="button" data-np-source="custom" aria-pressed="true">Eigene Bühne</button>
         <button type="button" data-np-source="catalog" aria-pressed="false">Location</button>
-        <button type="button" data-np-source="templates" aria-pressed="false">Meine Vorlagen</button>
+        <button type="button" data-np-source="templates" aria-pressed="false">Vorlagen</button>
       </div>
       <div class="sp-np-source-panel" data-np-panel="catalog" hidden>
-        <h3>Bühne einer Location verwenden</h3><p>Suche einen Club oder ein Theater und übernimm die vorhandene Bühnenvorlage für dein Projekt.</p>
-        <button type="button" class="sp-button sp-primary" id="sp-np-venue-catalog">Location suchen</button><small>In der Beta kostenlos und ohne Account.</small>
+        <h3>Location suchen</h3><p>Eine vorhandene Bühne für dein Projekt verwenden.</p>
+        <button type="button" class="sp-button sp-primary" id="sp-np-venue-catalog">Locations durchsuchen →</button>
       </div>
       <div class="sp-np-source-panel" data-np-panel="templates" hidden>
-        <h3>Meine Bühnenvorlagen</h3><p>Mit einer gespeicherten Bühne ein neues Projekt starten.</p><div id="sp-np-templates"></div>
+        <h3>Meine Bühnenvorlagen</h3><div id="sp-np-templates"></div>
       </div>
       <div class="sp-np-custom" data-np-panel="custom">
-      <p class="sp-np-source-hint">Zuerst die Größe. Form und Anbauten gestaltest du danach auf der Bühne.</p>
-      <div class="sp-np-stage">
+        <div class="sp-np-preview"><svg id="sp-np-preview-stage" viewBox="0 0 360 220" aria-hidden="true"></svg></div>
         <div class="sp-np-dims">
-          <div class="sp-np-dim">
-            <label class="sp-np-dim-head" for="sp-np-width">Breite <span>in Metern</span></label>
+          <div class="sp-np-dim" role="group" aria-labelledby="sp-np-width-label">
+            <span class="sp-np-dim-head" id="sp-np-width-label">Breite (m)</span>
             <div class="sp-np-dim-row">
-              <button type="button" class="sp-np-step" data-dim="width" data-np-step="-1" aria-label="Breite minus 1 Meter">−</button>
-              <input id="sp-np-width" class="sp-np-measure" type="text" inputmode="decimal" value="8" aria-label="Breite in Metern" aria-describedby="sp-np-error" autocomplete="off" spellcheck="false" data-np-dimension="width" data-max="30">
-              <button type="button" class="sp-np-step" data-dim="width" data-np-step="1" aria-label="Breite plus 1 Meter">+</button>
+              <button type="button" class="sp-np-step" data-dim="width" data-np-step="-.5" aria-label="Breite minus 50 Zentimeter">−</button>
+              <output id="sp-np-width" class="sp-np-measure" aria-label="Breite in Metern" data-max="30">8</output>
+              <button type="button" class="sp-np-step" data-dim="width" data-np-step=".5" aria-label="Breite plus 50 Zentimeter">+</button>
             </div>
           </div>
-          <div class="sp-np-dim">
-            <label class="sp-np-dim-head" for="sp-np-depth">Tiefe <span>in Metern</span></label>
+          <div class="sp-np-dim" role="group" aria-labelledby="sp-np-depth-label">
+            <span class="sp-np-dim-head" id="sp-np-depth-label">Tiefe (m)</span>
             <div class="sp-np-dim-row">
-              <button type="button" class="sp-np-step" data-dim="depth" data-np-step="-1" aria-label="Tiefe minus 1 Meter">−</button>
-              <input id="sp-np-depth" class="sp-np-measure" type="text" inputmode="decimal" value="5" aria-label="Tiefe in Metern" aria-describedby="sp-np-error" autocomplete="off" spellcheck="false" data-np-dimension="depth" data-max="20">
-              <button type="button" class="sp-np-step" data-dim="depth" data-np-step="1" aria-label="Tiefe plus 1 Meter">+</button>
+              <button type="button" class="sp-np-step" data-dim="depth" data-np-step="-.5" aria-label="Tiefe minus 50 Zentimeter">−</button>
+              <output id="sp-np-depth" class="sp-np-measure" aria-label="Tiefe in Metern" data-max="20">5</output>
+              <button type="button" class="sp-np-step" data-dim="depth" data-np-step=".5" aria-label="Tiefe plus 50 Zentimeter">+</button>
             </div>
           </div>
         </div>
-        <div class="sp-np-preview" aria-hidden="true"><div class="sp-np-preview-stage" id="sp-np-preview-stage"></div><span class="sp-np-preview-audience">PUBLIKUM</span></div>
-      </div>
-      <section class="sp-np-advanced" aria-labelledby="sp-np-setup-heading">
-        <h3 id="sp-np-setup-heading">Aufbau <span>später änderbar</span></h3>
-        <div class="sp-np-advanced-body">
-          <label class="sp-field"><span>Treppe</span><select id="sp-np-stairs"><option value="left">Vorne links</option><option value="right">Vorne rechts</option><option value="side-left">Seitlich links</option><option value="side-right">Seitlich rechts</option><option value="back">Hinten mittig</option><option value="none">Keine Treppe</option><option value="unknown">Noch offen</option></select></label>
-          <label class="sp-field"><span>IEM-Fläche</span><select id="sp-np-iem"><option value="right">Rechts</option><option value="left">Links</option><option value="free">Auf der Bühne</option><option value="none">Keine Fläche</option><option value="unknown">Noch offen</option></select></label>
-          <label class="sp-field"><span>Bühnenform</span><select id="sp-np-stage-mode"><option value="standard">Rechteck</option><option value="complex">Freie Bühnenform</option></select></label>
-        </div>
-      </section>
+        <p class="sp-np-source-hint">Form, Treppen und Technik: im Bühneneditor.</p>
       </div>
       <p id="sp-np-error" class="sp-error" role="alert" hidden></p>
     </div>
-    <div class="sp-actions"><button class="sp-button" type="button" id="sp-np-cancel">Abbrechen</button><button class="sp-button sp-primary" type="button" id="sp-np-create">Projekt erstellen <span aria-hidden="true">→</span></button></div>
+    <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-np-create">Projekt erstellen <span aria-hidden="true">→</span></button></div>
   </dialog>
   <dialog id="sp-drum-dialog" class="sp-clear-dialog sp-drum-dialog" aria-labelledby="sp-drum-title" data-palette-collapsed="false" data-inspector-collapsed="false">
     <div class="sp-dialog-heading sp-drum-topbar"><div class="sp-drum-brand"><b aria-hidden="true">S</b><h2 id="sp-drum-title">STAGEPLOT <span>/</span> DRUM DESIGNER</h2></div><span class="sp-drum-progress">BAUTEILE / AUFBAU</span><div class="sp-drum-history-actions"><button class="sp-button" type="button" id="sp-drum-undo" aria-label="Drum-Designer rückgängig" disabled>↶</button><button class="sp-button" type="button" id="sp-drum-redo" aria-label="Drum-Designer wiederholen" disabled>↷</button><button class="sp-button sp-danger-quiet sp-drum-clear-all" type="button" id="sp-drum-reset-layout">Alle Teile löschen</button></div><button class="sp-button" type="button" id="sp-drum-close" aria-label="Drumset-Konfiguration schließen">×</button></div>
@@ -701,6 +688,7 @@
               <li><strong>Bühnenbau aufgeräumt:</strong> Klarere Werkzeug-Tabs, großzügigere Eigenschaften und direkt auswählbare Elemente mit Maßangaben. Große Schalter für Raster und Equipment, eine ruhigere Planfläche und offen sichtbare Bühnenvorlagen vereinfachen die Bearbeitung – auch am Handy.</li>
               <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
+              <li><strong>Projekt anlegen:</strong> Ein Projektname, eine Bühnenvorschau und Breite/Tiefe mit −/+. Tippen ändert 50 cm, Gedrückthalten zählt weiter. Treppen und IEM-Flächen werden erst im Bühneneditor ergänzt.</li>
               <li><strong>Ruhigere mobile Bühne:</strong> Einheitliche Werkzeugleiste mit mittigen Beschriftungen, größere Bühnenansicht durch präziseres Einpassen und dezente Objektlabels. Die Bühne rückt näher an die Werkzeuge; Hinweise und die untere Bedienleiste bleiben kompakt. Überlappungen mit der IEM-Fläche erzeugen keine Warnung mehr.</li>
               <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Titel und Aktionen bleiben auch auf schmalen Bildschirmen nebeneinander lesbar; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
               <li><strong>Aufgeräumte Projektübersicht:</strong> Am Handy steht „Projekt hinzufügen“ vor Suche und Projekten. Große echte Bühnenvorschauen im dunklen Rahmen, ein klarer Lime-Button zum Öffnen und kompakte direkte Aktionen setzen die Projekte in Szene. Maße, Bausteinanzahl, Speicherstatus und kopierbare ID bleiben sichtbar – auf Handy und Desktop, auch bei freien Bühnenformen.</li>
@@ -3571,42 +3559,6 @@
 #sp-prototype .sp-brand-word { display:inline-flex; flex-direction:column; align-items:flex-end; line-height:1; }
 #sp-prototype .sp-pro-flag { display:none; font-size:.4em; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:var(--sp-lime,#9dbc2c); margin-top:2px; }
 #sp-prototype[data-plan="pro"] .sp-pro-flag { display:block; }
-#sp-prototype .sp-newproject-dialog { width:min(700px,94vw); max-width:94vw; }
-
-#sp-prototype .sp-np-source-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; padding:5px; background:var(--sp-accent-bg); border-radius:12px; }
-#sp-prototype .sp-np-source-options button { min-height:46px; padding:10px 8px; border:1px solid transparent; border-radius:8px; background:transparent; color:var(--sp-art); font:inherit; font-size:12px; line-height:1.4; cursor:pointer; }
-#sp-prototype .sp-np-source-options [aria-pressed="true"] { background:var(--sp-paper); border-color:var(--sp-teal); font-weight:650; }
-#sp-prototype .sp-np-source-options button:focus-visible { outline:2px solid var(--sp-teal); outline-offset:2px; }
-#sp-prototype .sp-newproject-dialog > .sp-actions { margin-top:18px; }
-#sp-prototype .sp-np-custom { display:grid; grid-template-columns:minmax(0,1fr); gap:18px; }
-#sp-prototype .sp-np-source-hint { margin:0; font-size:12px; line-height:1.6; color:var(--sp-muted); }
-#sp-prototype .sp-np-source-panel { padding:22px; border:1px solid var(--sp-line); border-radius:12px; }
-#sp-prototype .sp-np-source-panel h3 { margin:0; font-size:17px; }
-#sp-prototype .sp-np-source-panel p { font-size:13px; line-height:1.6; color:var(--sp-muted); }
-#sp-prototype .sp-np-source-panel>small { display:block; margin-top:12px; font-size:11px; color:var(--sp-muted); }
-#sp-prototype #sp-np-templates { display:grid; gap:8px; }
-#sp-prototype .sp-np-template { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:64px; padding:12px; border:1px solid var(--sp-line); border-radius:10px; background:var(--sp-paper); color:var(--sp-art); font:inherit; font-size:12px; text-align:left; cursor:pointer; }
-#sp-prototype .sp-np-template:hover { border-color:var(--sp-teal); }
-#sp-prototype .sp-np-template strong { display:block; overflow-wrap:anywhere; }
-#sp-prototype .sp-np-template small { display:block; margin-top:4px; color:var(--sp-muted); }
-#sp-prototype .sp-newproject-dialog [hidden] { display:none !important; }
-@media (max-width:420px) { #sp-prototype .sp-np-source-options { grid-template-columns:1fr; } #sp-prototype .sp-np-source-options button { min-height:40px; padding:7px; } #sp-prototype .sp-np-source-panel { padding:16px; } }
-#sp-prototype .sp-np-body { display:grid; grid-template-columns:minmax(0,1fr); gap:18px; margin-top:8px; }
-#sp-prototype .sp-np-identity { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-#sp-prototype .sp-np-identity .sp-field span, #sp-prototype .sp-np-advanced-body .sp-field span { display:block; font-size:11px; font-weight:600; margin-bottom:5px; color:var(--sp-muted); text-transform:uppercase; letter-spacing:.4px; }
-#sp-prototype .sp-np-identity input { width:100%; min-height:42px; }
-#sp-prototype .sp-np-stage { display:grid; grid-template-columns:minmax(0,1fr) 168px; gap:20px; align-items:center; }
-#sp-prototype .sp-np-dims { display:grid; min-width:0; gap:16px; }
-#sp-prototype .sp-np-dim-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; font-size:12px; font-weight:600; }
-#sp-prototype .sp-np-dim-head strong { color:var(--sp-lime,#9dbc2c); font-size:15px; }
-#sp-prototype .sp-np-dim-row { display:flex; align-items:stretch; gap:6px; }
-#sp-prototype .sp-np-step { flex:0 0 42px; font-size:20px; line-height:1; }
-#sp-prototype .sp-np-preview { position:relative; display:flex; align-items:center; justify-content:center; padding:16px 12px 22px; background:light-dark(#eef1ea,#1c2320); border-radius:14px; min-height:150px; }
-#sp-prototype .sp-np-preview-stage { border:1.5px solid var(--sp-ink); border-bottom-width:3px; border-radius:2px; background:repeating-linear-gradient(0deg,transparent,transparent 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 12px),repeating-linear-gradient(90deg,transparent,transparent 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 11px,color-mix(in srgb,var(--sp-ink) 8%,transparent) 12px); transition:width .16s ease,height .16s ease; }
-#sp-prototype .sp-np-preview-audience { position:absolute; left:0; right:0; bottom:7px; text-align:center; font-size:8px; letter-spacing:1.5px; color:var(--sp-muted); }
-#sp-prototype .sp-np-advanced-body { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-top:8px; }
-#sp-prototype .sp-np-advanced-body select { width:100%; min-height:40px; }
-@media (max-width:560px){ #sp-prototype .sp-np-stage{ grid-template-columns:minmax(0,1fr); } #sp-prototype .sp-np-dim-row { align-items:center; } #sp-prototype .sp-np-identity, #sp-prototype .sp-np-advanced-body{ grid-template-columns:1fr; } }
 #sp-prototype #sp-canvas-tools .sp-stage-divide { margin-left:5px; border-left:1px solid var(--sp-line); padding-left:7px; }
 #sp-prototype .sp-zone-remove { margin-top:12px; width:100%; }
 #sp-prototype .sp-context-menu { position:fixed; z-index:120; min-width:158px; background:var(--sp-panel); border:1px solid var(--sp-line); border-radius:9px; box-shadow:0 10px 28px rgb(0 0 0 / 20%); padding:5px; display:flex; flex-direction:column; gap:1px; }
@@ -6022,59 +5974,43 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-iem-set-save-status[data-state="error"] { color:#c52c51; font-weight:700; }
 /* build-inline:end stageplot-iem-editor-v1.css */
 /* build-inline:start stageplot-mobile-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
-/* Project creation: one scroll area between an always reachable title and actions. */
+/* Project creation: stage preview and touch steppers, no setup form. */
 #sp-prototype .sp-nav-label { font:inherit; }
-#sp-prototype .sp-newproject-dialog[open] {
-  display:flex; flex-direction:column; overflow:hidden; padding:0;
-  width:min(700px,calc(100vw - 32px)); max-width:none;
-  max-height:calc(100dvh - 32px); border-radius:20px;
-}
-#sp-prototype .sp-newproject-dialog > .sp-dialog-heading {
-  flex:none; align-items:center; gap:12px; margin:0; padding:20px 24px;
-  border-bottom:1px solid var(--sp-line);
-}
-#sp-prototype .sp-newproject-dialog .sp-dialog-heading > div { min-width:0; }
-#sp-prototype #sp-np-heading { font-size:23px; line-height:1.2; letter-spacing:-.035em; outline:none; }
-#sp-prototype #sp-np-close { width:44px; min-width:44px; height:44px; padding:0; border-radius:12px; font-size:24px; }
-#sp-prototype .sp-np-body {
-  flex:1 1 auto; display:flex; flex-direction:column; min-height:0; gap:20px;
-  margin:0; padding:24px; overflow:auto; overscroll-behavior:contain; scroll-padding:18px;
-}
+#sp-prototype .sp-newproject-dialog[open] { display:flex; flex-direction:column; overflow:hidden; padding:0; width:min(520px,calc(100vw - 32px)); max-width:none; max-height:calc(100dvh - 32px); border:1px solid var(--sp-line); border-radius:24px; background:var(--sp-panel); }
+#sp-prototype .sp-newproject-dialog [hidden] { display:none !important; }
+#sp-prototype .sp-newproject-dialog > .sp-dialog-heading { flex:none; align-items:center; justify-content:space-between; gap:12px; margin:0; padding:22px 24px 12px; border:0; }
+#sp-prototype #sp-np-heading { margin:0; font-size:29px; line-height:1.2; letter-spacing:-.04em; outline:none; }
+#sp-prototype #sp-np-close { width:44px; min-width:44px; height:44px; padding:0; border:0; border-radius:50%; background:var(--sp-soft); font-size:26px; }
+#sp-prototype .sp-np-body { flex:1 1 auto; display:flex; flex-direction:column; min-height:0; gap:18px; margin:0; padding:14px 24px; overflow:auto; overscroll-behavior:contain; }
 #sp-prototype .sp-np-body > * { flex:none; }
-#sp-prototype .sp-np-identity { gap:14px; }
-#sp-prototype .sp-np-identity .sp-field { margin:0; }
-#sp-prototype .sp-np-identity .sp-field > span,
-#sp-prototype .sp-np-advanced-body .sp-field > span { font-size:12px; text-transform:none; letter-spacing:0; color:var(--sp-ink); margin:0 0 6px; }
-#sp-prototype .sp-np-identity input { min-height:46px; font-size:16px; border-radius:12px; }
-#sp-prototype .sp-np-source-options { grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; padding:4px; border-radius:14px; background:var(--sp-soft); }
-#sp-prototype .sp-np-source-options button { min-height:48px; padding:8px 6px; border-radius:10px; font-size:13px; line-height:1.2; }
-#sp-prototype .sp-np-source-options button[aria-pressed="true"] { border-color:var(--sp-teal); background:var(--sp-paper); box-shadow:0 2px 5px #0000000d; }
-#sp-prototype .sp-np-custom { gap:16px; }
-#sp-prototype .sp-np-source-hint { font-size:13px; line-height:1.5; }
-#sp-prototype .sp-np-stage { grid-template-columns:minmax(0,1fr) 150px; gap:20px; }
-#sp-prototype .sp-np-dims { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-#sp-prototype .sp-np-dim-head { gap:4px; font-size:13px; margin:0 0 8px; flex-wrap:wrap; }
-#sp-prototype .sp-np-dim-head span { font-size:11px; color:var(--sp-muted); font-weight:400; }
-#sp-prototype .sp-np-dim-row { display:flex; gap:0; border:1px solid var(--sp-line); border-radius:12px; background:var(--sp-paper); overflow:hidden; }
-#sp-prototype .sp-np-step { flex:0 0 40px; min-width:40px; min-height:48px; border:0; border-radius:0; background:transparent; font-size:22px; font-weight:500; }
-#sp-prototype .sp-np-step:hover { background:var(--sp-accent-bg); }
-#sp-prototype input.sp-np-measure { width:0; flex:1; min-width:0; min-height:48px; padding:6px 0; border:0; border-radius:0; background:transparent; text-align:center; font-size:18px; font-weight:700; box-shadow:none; }
-#sp-prototype input.sp-np-measure[aria-invalid="true"] { color:var(--sp-danger,#c63d55); background:light-dark(#fff0f2,#3a242a); }
-#sp-prototype .sp-np-dim-row:focus-within { outline:2px solid var(--sp-teal); outline-offset:2px; }
-#sp-prototype .sp-np-preview { min-height:116px; }
-#sp-prototype .sp-np-advanced { padding-top:16px; border-top:1px solid var(--sp-line); }
-#sp-prototype .sp-np-advanced h3 { display:flex; align-items:baseline; justify-content:space-between; gap:8px; font-size:13px; }
-#sp-prototype .sp-np-advanced h3 span { font-size:11px; color:var(--sp-muted); font-weight:400; }
-#sp-prototype .sp-np-advanced-body { grid-template-columns:repeat(2,minmax(0,1fr)); padding-top:12px; gap:12px; }
-#sp-prototype .sp-np-advanced-body > :last-child { grid-column:1 / -1; }
-#sp-prototype .sp-np-advanced-body .sp-field { margin:0; }
-#sp-prototype .sp-np-advanced-body select { min-height:44px; padding:8px; border-radius:10px; font-size:14px; }
-#sp-prototype .sp-newproject-dialog > .sp-actions {
-  display:flex; flex:none; justify-content:space-between; gap:12px; margin:0;
-  padding:16px 24px; border-top:1px solid var(--sp-line); background:var(--sp-panel);
-}
-#sp-prototype .sp-newproject-dialog > .sp-actions .sp-button { min-height:48px; border-radius:12px; padding:10px 18px; font-size:14px; }
-#sp-prototype #sp-np-create { flex:1; max-width:320px; }
+#sp-prototype .sp-np-identity { display:grid; gap:7px; margin:0; }
+#sp-prototype .sp-np-identity > span { font-size:12px; font-weight:500; color:var(--sp-muted); }
+#sp-prototype #sp-newproject-dialog .sp-np-identity input { width:100%; min-height:48px; padding:10px 14px; font-size:16px; font-weight:400; border-radius:12px; background:transparent; }
+#sp-prototype .sp-np-source-options { display:grid; grid-template-columns:1.25fr 1fr 1fr; gap:3px; padding:4px; border-radius:24px; background:var(--sp-soft); }
+#sp-prototype .sp-np-source-options button { min-width:0; min-height:44px; padding:8px 4px; border:0; border-radius:20px; background:transparent; color:var(--sp-muted); font:inherit; font-size:12px; font-weight:600; cursor:pointer; }
+#sp-prototype .sp-np-source-options button[aria-pressed="true"] { background:var(--sp-primary-soft); color:var(--sp-ink); }
+#sp-prototype .sp-np-custom { display:grid; gap:18px; }
+#sp-prototype .sp-np-preview { overflow:hidden; border-radius:18px; background:#222a23; }
+#sp-prototype #sp-np-preview-stage { display:block; width:100%; height:auto; max-height:258px; }
+#sp-prototype .sp-np-dims { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+#sp-prototype .sp-np-dim { min-width:0; }
+#sp-prototype .sp-np-dim-head { display:block; text-align:center; font-size:12px; color:var(--sp-muted); margin:0 0 7px; }
+#sp-prototype .sp-np-dim-row { display:flex; gap:0; align-items:center; min-width:0; }
+#sp-prototype .sp-np-step { flex:0 0 44px; width:44px; min-width:44px; height:44px; min-height:44px; padding:0; border:0; border-radius:13px; background:var(--sp-soft); color:var(--sp-ink); font:inherit; font-size:24px; line-height:1; cursor:pointer; touch-action:none; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
+#sp-prototype .sp-np-step:active { background:var(--sp-primary); color:var(--sp-primary-ink); }
+#sp-prototype .sp-np-step:disabled { opacity:.3; cursor:default; }
+#sp-prototype .sp-np-measure { flex:1; min-width:0; text-align:center; font-size:27px; font-weight:700; font-variant-numeric:tabular-nums; letter-spacing:-.04em; }
+#sp-prototype .sp-np-source-hint { margin:0; font-size:11px; color:var(--sp-muted); text-align:center; line-height:1.4; }
+#sp-prototype .sp-newproject-dialog > .sp-actions { display:flex; flex:none; margin:0; padding:12px 24px 22px; border:0; }
+#sp-prototype .sp-newproject-dialog[data-source]:not([data-source="custom"]) > .sp-actions { display:none; }
+#sp-prototype #sp-np-create { display:flex; align-items:center; justify-content:space-between; width:100%; min-height:52px; padding:12px 20px; border:0; border-radius:16px; font-size:15px; font-weight:700; }
+#sp-prototype #sp-np-create span { font-size:24px; }
+#sp-prototype .sp-np-source-panel h3 { margin:0 0 12px; font-size:17px; }
+#sp-prototype .sp-np-source-panel p { font-size:13px; line-height:1.5; color:var(--sp-muted); }
+#sp-prototype #sp-np-templates { display:grid; gap:8px; }
+#sp-prototype .sp-np-template { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:64px; padding:12px; border:1px solid var(--sp-line); border-radius:12px; background:var(--sp-paper); color:var(--sp-ink); font:inherit; font-size:12px; text-align:left; cursor:pointer; }
+#sp-prototype .sp-np-template strong { display:block; overflow-wrap:anywhere; }
+#sp-prototype .sp-np-template small { display:block; margin-top:4px; color:var(--sp-muted); }
 
 @media (max-width:760px) {
   /* Five destinations fit without sideways scrolling or truncated words. */
@@ -6109,31 +6045,28 @@ html,body { height:100%; overflow:hidden; }
 
   #sp-prototype .sp-newproject-dialog[open] {
     position:fixed; inset:calc(var(--sp-visible-top,0px) + 8px) 0 auto;
-    width:calc(100vw - 16px); height:auto;
-    max-height:calc(var(--sp-visible-height,100dvh) - 16px); margin:0 auto; border-radius:18px;
+    width:calc(100vw - 16px); height:auto; max-height:calc(var(--sp-visible-height,100dvh) - 16px); margin:0 auto; border-radius:22px;
   }
-  #sp-prototype .sp-newproject-dialog > .sp-dialog-heading { padding:12px 16px; }
-  #sp-prototype #sp-np-heading { font-size:22px; }
-  #sp-prototype .sp-np-body { padding:16px; gap:14px; }
-  #sp-prototype .sp-np-custom { gap:12px; }
-  #sp-prototype .sp-np-advanced { padding-top:12px; }
-  #sp-prototype .sp-np-identity { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-  #sp-prototype .sp-np-stage { grid-template-columns:1fr; }
-  #sp-prototype .sp-np-preview { display:none; }
+  #sp-prototype .sp-newproject-dialog > .sp-dialog-heading { padding:16px 16px 6px; }
+  #sp-prototype #sp-np-heading { font-size:27px; }
+  #sp-prototype .sp-np-body { padding:12px 16px; gap:14px; }
+  #sp-prototype .sp-np-custom { gap:14px; }
   #sp-prototype .sp-np-dims { gap:12px; }
-  #sp-prototype .sp-np-dim-head { display:flex; }
-  #sp-prototype .sp-np-dim-head span { font-size:10px; }
-  #sp-prototype .sp-np-step { flex-basis:42px; min-width:42px; }
-  #sp-prototype .sp-np-advanced-body select { font-size:16px; }
-  #sp-prototype .sp-np-source-options button { font-size:12px; }
-  #sp-prototype .sp-newproject-dialog > .sp-actions { padding:12px 16px max(12px,env(safe-area-inset-bottom)); gap:8px; }
-  #sp-prototype .sp-newproject-dialog > .sp-actions .sp-button { padding:10px 12px; font-size:13px; }
-  #sp-prototype #sp-np-create { max-width:none; }
+  #sp-prototype .sp-newproject-dialog > .sp-actions { padding:8px 16px max(16px,env(safe-area-inset-bottom)); }
 }
 @media (max-width:359px) {
-  #sp-prototype .sp-np-identity { grid-template-columns:1fr; }
-  #sp-prototype .sp-np-step { flex-basis:36px; min-width:36px; }
-  #sp-prototype .sp-np-advanced-body { grid-template-columns:1fr; }
+  #sp-prototype .sp-np-measure { font-size:22px; }
+  #sp-prototype .sp-np-dims { gap:8px; }
+  #sp-prototype .sp-np-source-options button { font-size:11px; }
+}
+
+@media (max-width:760px) and (max-height:620px) {
+  #sp-prototype .sp-newproject-dialog > .sp-dialog-heading { padding:10px 16px 2px; }
+  #sp-prototype .sp-np-body { padding:8px 16px; gap:10px; }
+  #sp-prototype .sp-np-custom { gap:10px; }
+  #sp-prototype #sp-newproject-dialog .sp-np-identity input { min-height:44px; }
+  #sp-prototype .sp-np-dim-head { margin-bottom:4px; }
+  #sp-prototype .sp-newproject-dialog > .sp-actions { padding:6px 16px 12px; }
 }
 
 /* Mobile editor: a clear canvas, explicit sheets and one stable action row. */
@@ -11588,22 +11521,22 @@ function createStageplotSymbolV3(type, options = {}) {
   const npSize={width:8,depth:5};
   const npClampDim=(dim,v)=>Math.max(2,Math.min(dim==='width'?30:20,Math.round(v*100)/100));
   function npProjectName(){
-    const b=$('sp-np-band').value.trim(),l=npStageSource==='catalog'?'':$('sp-np-location').value.trim();
-    return (b&&l?b+' – '+l:b||l||'Neues Projekt').slice(0,60);
+    return ($('sp-np-band').value.trim()||'Neues Projekt').slice(0,60);
   }
   function renderNewProjectDialog(){
     for(const dim of ['width','depth']){
       const input=$('sp-np-'+dim);
       root.querySelectorAll('.sp-np-step[data-dim="'+dim+'"]').forEach(button=>button.disabled=Number(button.dataset.npStep)<0?npSize[dim]<=2:npSize[dim]>=Number(input.dataset.max));
     }
-    const box=$('sp-np-preview-stage'),maxW=138,maxH=104,ratio=npSize.width/npSize.depth;
-    let w=maxW,h=maxW/ratio;if(h>maxH){h=maxH;w=maxH*ratio;}
-    box.style.width=Math.round(w)+'px';box.style.height=Math.round(h)+'px';
+    const scale=Math.min(266/npSize.width,140/npSize.depth),w=npSize.width*scale,h=npSize.depth*scale,x=(360-w)/2,y=110-h/2;
+    const box=$('sp-np-preview-stage');
+    box.innerHTML='<defs><pattern id="sp-np-grid" width="'+scale+'" height="'+scale+'" patternUnits="userSpaceOnUse"><path d="M '+scale+' 0 H 0 V '+scale+'" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width=".6"/></pattern></defs><rect width="360" height="220" fill="url(#sp-np-grid)"/><rect data-np-stage x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="#b8ccb2" fill-opacity=".25" stroke="#c5f524" stroke-width="1.5"/><path d="M '+x+' '+(y-20)+' v 8 m 0 -4 h '+w+' m 0 -4 v 8 M '+(x-20)+' '+y+' h 8 m -4 0 v '+h+' m -4 0 h 8" fill="none" stroke="#a5afa5" stroke-width=".8"/><g fill="#e1e7dc" font-size="11" font-family="inherit" text-anchor="middle"><text x="180" y="'+(y-24)+'">'+num(npSize.width)+' m</text><text transform="translate('+(x-23)+' 110) rotate(-90)">'+num(npSize.depth)+' m</text></g><text x="180" y="207" fill="#9ca89b" font-size="9" letter-spacing="2" text-anchor="middle">PUBLIKUM</text>';
   }
+
   function openNewProjectDialog(){
     if(sharedReadOnly)return;
-    $('sp-np-band').value='';$('sp-np-location').value='';npSize.width=8;npSize.depth=5;
-    $('sp-np-stairs').value='left';$('sp-np-iem').value='right';$('sp-np-stage-mode').value='standard';$('sp-np-error').hidden=true;
+    stopNewProjectRepeat();$('sp-np-band').value='';npSize.width=8;npSize.depth=5;
+    $('sp-np-error').hidden=true;
     for(const dim of ['width','depth']){$('sp-np-'+dim).value=String(npSize[dim]);$('sp-np-'+dim).setAttribute('aria-invalid','false');}
     setNewProjectSource('custom');$('sp-newproject-dialog').showModal();
     root.querySelector('.sp-np-body').scrollTop=0;
@@ -11629,9 +11562,9 @@ function createStageplotSymbolV3(type, options = {}) {
     if(sharedReadOnly||npStageSource!=='custom')return;
     if(!readNewProjectDimensions(true))return;
     if(accountPlan!=='pro'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}
-    const band=$('sp-np-band').value.trim(),location=$('sp-np-location').value.trim(),name=npProjectName();
+    const band=$('sp-np-band').value.trim(),name=npProjectName();
     try{
-      const value=normalizeSetupDocument({stage:{title:name,w:npSize.width,d:npSize.depth,surface:stageSurfaceDefault,complex:$('sp-np-stage-mode').value==='complex',stairs:$('sp-np-stairs').value,stairsOffset:.5,stairsWidth:1.2,stairsDepth:.9,extraStairs:[],iem:$('sp-np-iem').value,iemLength:2,iemDepth:.8,iemX:Math.max(0,npSize.width-.8),iemY:0,project:{...defaultProjectInfo(name),artist:band,venue:location},routing:defaultRouting(),cables:[]},objects:[]});
+      const value=normalizeSetupDocument({stage:{title:name,w:npSize.width,d:npSize.depth,surface:stageSurfaceDefault,complex:false,stairs:'none',stairsOffset:.5,stairsWidth:1.2,stairsDepth:.9,extraStairs:[],iem:'none',iemLength:2,iemDepth:.8,iemX:Math.max(0,npSize.width-.8),iemY:0,project:{...defaultProjectInfo(name),artist:band,venue:''},routing:defaultRouting(),cables:[]},objects:[]});
       finishEdit();if(stage&&!isSampleProject()&&!persistDraft(true))throw new Error('Bitte zuerst den aktuellen Entwurf lokal sichern.');
       activateSetupDocument(value,null,{persist:true,message:'Projekt „'+name+'“ angelegt'});
       $('sp-newproject-dialog').close();
@@ -11639,11 +11572,11 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   let npStageSource='custom';
   function setNewProjectSource(source){
-    if(!['custom','catalog','templates'].includes(source))return;npStageSource=source;
+    if(!['custom','catalog','templates'].includes(source))return;stopNewProjectRepeat();npStageSource=source;
     root.querySelectorAll('[data-np-source]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.npSource===source)));
     root.querySelectorAll('[data-np-panel]').forEach(panel=>panel.hidden=panel.dataset.npPanel!==source);
     $('sp-np-create').hidden=source!=='custom';$('sp-np-error').hidden=true;
-    $('sp-np-location').closest('label').hidden=source==='catalog';renderNewProjectDialog();
+    $('sp-newproject-dialog').dataset.source=source;renderNewProjectDialog();
     if(source==='templates'){
       try{const templates=readStageTemplates();$('sp-np-templates').innerHTML=templates.length?templates.slice().sort((a,b)=>b.savedAt-a.savedAt).map(t=>'<button type="button" class="sp-np-template" data-np-template="'+t.id+'"><span><strong>'+esc(t.name)+'</strong><small>'+esc(t.stage.geometry?venueSizeText(t.stage):num(t.stage.w)+' × '+metres(t.stage.d))+'</small></span><span>Verwenden →</span></button>').join(''):'<p class="sp-muted">Noch keine Bühnenvorlagen gespeichert. Du kannst deine Bühne im Editor unter „Bühnenform → Vorlage“ speichern und später wiederverwenden.</p>';}
       catch(error){$('sp-np-templates').textContent='Bühnenvorlagen konnten nicht geladen werden. Deine gespeicherten Vorlagen bleiben erhalten.';}
@@ -11654,24 +11587,37 @@ function createStageplotSymbolV3(type, options = {}) {
     try{
       const template=readStageTemplates().find(t=>t.id===id);if(!template)throw new Error('Diese Bühnenvorlage wurde inzwischen entfernt.');
       finishEdit();if(stage&&!isSampleProject()&&!persistDraft(true))throw new Error('Bitte zuerst den aktuellen Entwurf lokal sichern.');
-      newVenueEvent(template,{artist:$('sp-np-band').value,venue:$('sp-np-location').value,title:$('sp-np-band').value.trim()||$('sp-np-location').value.trim()?npProjectName():''});$('sp-newproject-dialog').close();
+      newVenueEvent(template,{artist:$('sp-np-band').value,title:$('sp-np-band').value.trim()?npProjectName():''});$('sp-newproject-dialog').close();
     }catch(error){$('sp-np-error').hidden=false;$('sp-np-error').textContent=error.message;}
   }
   root.querySelectorAll('[data-np-source]').forEach(button=>button.addEventListener('click',()=>setNewProjectSource(button.dataset.npSource)));
   $('sp-np-templates').addEventListener('click',event=>{const button=event.target.closest('[data-np-template]');if(button)createProjectFromTemplate(button.dataset.npTemplate);});
   $('sp-project-new').addEventListener('click',openNewProjectDialog);
   $('sp-np-close').addEventListener('click',()=>$('sp-newproject-dialog').close());
-  $('sp-np-cancel').addEventListener('click',()=>$('sp-newproject-dialog').close());
   $('sp-np-create').addEventListener('click',createProjectFromDialog);
-  $('sp-np-band').addEventListener('input',renderNewProjectDialog);
-  $('sp-np-location').addEventListener('input',renderNewProjectDialog);
-  $('sp-np-stage-mode').addEventListener('change',()=>{if($('sp-np-stage-mode').value==='complex'&&!isObjectUnlocked('stage-module')){$('sp-np-stage-mode').value='standard';openPackDialog('stage-builder');}});
-  root.querySelectorAll('[data-np-dimension]').forEach(input=>{
-    input.addEventListener('input',()=>{if(readNewProjectDimensions())renderNewProjectDialog();});
-    input.addEventListener('blur',()=>{if(readNewProjectDimensions()){input.value=String(npSize[input.dataset.npDimension]).replace('.',',');renderNewProjectDialog();}});
-    input.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();createProjectFromDialog();}});
+  let npRepeatTimer=null,npRepeatButton=null;
+  function stopNewProjectRepeat(){clearTimeout(npRepeatTimer);npRepeatTimer=null;npRepeatButton=null;}
+  function stepNewProjectSize(button){
+    const dim=button.dataset.dim;npSize[dim]=npClampDim(dim,npSize[dim]+Number(button.dataset.npStep));
+    $('sp-np-'+dim).value=String(npSize[dim]).replace('.',',');renderNewProjectDialog();
+    if(button.disabled)stopNewProjectRepeat();
+  }
+  root.querySelectorAll('.sp-np-step').forEach(button=>{
+    let pointerClick=false;
+    button.addEventListener('pointerdown',event=>{
+      if(event.button!==0||!event.isPrimary||button.disabled)return;
+      event.preventDefault();stopNewProjectRepeat();pointerClick=true;button.setPointerCapture(event.pointerId);button.focus({preventScroll:true});npRepeatButton=button;
+      stepNewProjectSize(button);
+      const repeat=()=>{if(npRepeatButton!==button||!$('sp-newproject-dialog').open)return;stepNewProjectSize(button);if(npRepeatButton===button)npRepeatTimer=setTimeout(repeat,110);};
+      if(npRepeatButton===button)npRepeatTimer=setTimeout(repeat,400);
+    });
+    for(const name of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(name,stopNewProjectRepeat);
+    button.addEventListener('click',event=>{if(event.detail&&pointerClick){pointerClick=false;return;}stepNewProjectSize(button);});
+    button.addEventListener('contextmenu',event=>event.preventDefault());
   });
-  root.querySelectorAll('.sp-np-step').forEach(b=>b.addEventListener('click',()=>{const dim=b.dataset.dim;npSize[dim]=npClampDim(dim,npSize[dim]+Number(b.dataset.npStep));$('sp-np-'+dim).value=String(npSize[dim]).replace('.',',');readNewProjectDimensions();renderNewProjectDialog();}));
+  $('sp-newproject-dialog').addEventListener('close',stopNewProjectRepeat);
+  window.addEventListener('blur',stopNewProjectRepeat);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stopNewProjectRepeat();});
   $('sp-project-import').addEventListener('click',()=>{if(accountPlan!=='pro'&&dashboardProjects().length>=1){$('sp-upgrade-dialog').showModal();return;}dashboardImport=true;$('sp-setup-file').click();});
   $('sp-upgrade-open').addEventListener('click',()=>{const nextPlan=accountPlan==='pro'?'free':'pro';saveAccountPlan(nextPlan);say(nextPlan==='pro'?'Pro-Beta kostenlos aktiviert':'Standard-Modus aktiviert');});
   $('sp-upgrade-close').addEventListener('click',()=>$('sp-upgrade-dialog').close());

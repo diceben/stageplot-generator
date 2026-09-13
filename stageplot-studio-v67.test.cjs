@@ -65,7 +65,7 @@ for(const marker of [
   'function beginProjectRename(',
   'function finishProjectRename(',
   'id="sp-stage-popover"',
-  'id="sp-np-stage-mode"',
+  'id="sp-np-preview-stage"',
   "{id:'stage-module'",
   'function snapStageModule(',
   'function addStageExtensionModule(',

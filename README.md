@@ -16,6 +16,8 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Projekt anlegen:** Projektname, Bühnenwahl und maßstäbliche Vorschau. Breite und Tiefe werden mit −/+ in 50-cm-Schritten eingestellt; Gedrückthalten wiederholt. Neue eigene Bühnen starten ohne Treppen und IEM-Flächen. Diese werden im Editor ergänzt.
+
 - **Feste Mikrofonrichtung:** In den Eigenschaften „Mikrofonkopf ausrichten“ auf oben/rechts/unten/links setzen. Stativ und Boom drehen weiter, der Kopf behält seine Richtung zur Bühne. „Mitdrehen“ bleibt Standard. Gilt auch für Tellerboden, gespeicherte Projekte, Vorschauen und Export. Stativfüße liegen unter dem Equipment, Arm und Mikrofonkopf darüber; beide Ebenen gehören zum selben beweglichen Objekt.
 
 - **Bühnenbau:** Ruhige Werkzeug-Tabs, breitere Eigenschaften mit hervorgehobenen Maßen und direkt auswählbaren Elementen. Große Schalter für Raster und Equipment; Bühnenvorlagen bleiben offen sichtbar. Responsive Planansicht mit bewusst geöffneten Details.

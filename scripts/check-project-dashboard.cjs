@@ -25,7 +25,7 @@ const {engine,launchBrowser,artifactPath,assertNoOverflow}=require('./browser-qa
  for(const width of [320,430,760,1440]){await p.setViewportSize({width,height:900});await assertNoOverflow(p,'#sp-dashboard','Project dashboard at '+width);}
  await p.setViewportSize({width:390,height:670});await p.locator('#sp-dashboard').evaluate(el=>el.scrollTop=0);
  await p.locator('#sp-prototype').evaluate(el=>el.dataset.theme='dark');await p.screenshot({path:artifactPath('project-dashboard-dark-'+engine+'.png')});
- await p.locator('[data-project-add]').tap();await p.locator('#sp-np-band').fill('Symphonie-Orchester mit einem sehr langen Projektnamen');await p.locator('#sp-np-location').fill('Großer Saal – Generalprobe');await p.locator('#sp-np-create').tap();
+ await p.locator('[data-project-add]').tap();await p.locator('#sp-np-band').fill('Symphonie-Orchester mit einem sehr langen Projektnamen');await p.locator('#sp-np-create').tap();
  await p.locator('.sp-steps [data-view="dashboard"]').tap();assert.equal(await p.locator('[data-project-open-card]').count(),2);
  await p.reload();assert.equal(await p.locator('[data-project-open-card]').count(),2,'Both projects survive reload');
  for(const width of [320,390,1440]){await p.setViewportSize({width,height:740});await assertNoOverflow(p,'#sp-dashboard','Long project name at '+width);}
