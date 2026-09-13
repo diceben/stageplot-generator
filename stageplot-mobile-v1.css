@@ -319,13 +319,33 @@
   #sp-prototype #sp-routing .sp-routing-table-wrap { flex:none; overflow:visible; }
 }
 
-/* Project library: one primary action and compact, calm project cards. */
-#sp-prototype #sp-dashboard .sp-project-card { border-style:solid; background:var(--sp-panel); box-shadow:0 4px 18px #17211908; }
-#sp-prototype #sp-dashboard .sp-project-card[data-current="true"] { border-color:color-mix(in srgb,var(--sp-teal) 32%,var(--sp-line)); box-shadow:0 4px 18px #17211908; }
-#sp-prototype #sp-dashboard .sp-project-card-preview { opacity:1; }
-#sp-prototype #sp-dashboard .sp-project-identity { border:0; background:transparent; padding-inline:0; font-size:10px; }
+/* Project cards: live stage preview, one primary action and a quiet utility row. */
+#sp-prototype #sp-dashboard .sp-project-card { min-height:0; gap:12px; padding:20px; border:1px solid var(--sp-line); border-radius:22px; background:var(--sp-panel); box-shadow:0 8px 28px #1721190b; }
+#sp-prototype #sp-dashboard .sp-project-card[data-current="true"] { border-color:var(--sp-line); box-shadow:0 8px 28px #1721190b; }
+#sp-prototype #sp-dashboard .sp-project-card-head { align-items:center; min-height:24px; gap:12px; }
+#sp-prototype #sp-dashboard .sp-project-card-kicker { color:var(--sp-muted); font-size:10px; letter-spacing:.16em; }
+#sp-prototype #sp-dashboard .sp-project-card-head .sp-pro-badge { padding:4px 10px; border-radius:999px; font-size:10px; letter-spacing:.08em; background:var(--sp-primary); color:var(--sp-primary-ink); }
+#sp-prototype #sp-dashboard .sp-project-card h3 { font-size:25px; font-weight:800; line-height:1.12; letter-spacing:-.04em; }
+#sp-prototype #sp-dashboard .sp-project-card :is(.sp-project-storage,.sp-project-context) { flex:none; margin:-4px 0 0; color:var(--sp-muted); font-size:11px; line-height:1.5; overflow-wrap:anywhere; }
+#sp-prototype #sp-dashboard .sp-project-card .sp-project-storage[data-state="error"] { color:light-dark(#b22549,#ffadc1); }
+#sp-prototype #sp-dashboard .sp-project-card-stage { overflow:hidden; border-radius:14px; background:#242725; color:#f3f5ee; padding:10px 10px 0; }
+#sp-prototype #sp-dashboard .sp-project-card-preview { opacity:1; width:100%; height:auto; aspect-ratio:2.3; min-height:0; border:0; border-radius:0; background-color:transparent; background-image:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff09 1px,transparent 1px); background-size:24px 24px; }
+#sp-prototype #sp-dashboard .sp-project-card-preview::after { content:""; position:absolute; top:3px; left:3px; width:6px; height:6px; border-radius:50%; background:#ed2284; }
+#sp-prototype #sp-dashboard .sp-project-card-preview > svg > rect:first-child { fill:transparent; }
+#sp-prototype #sp-dashboard .sp-project-card-preview > span { display:none; }
+#sp-prototype #sp-dashboard .sp-project-card-meta { margin:0; padding:10px 2px 12px; gap:8px; }
+#sp-prototype #sp-dashboard .sp-project-card-meta span { padding:0; background:none; color:#e4e9e1; font-size:11px; border-radius:0; }
+#sp-prototype #sp-dashboard .sp-project-card-meta span+span::before { content:"·"; margin-right:8px; color:#aeb7ab; }
+#sp-prototype #sp-dashboard .sp-project-card-open { min-height:48px; width:100%; padding:10px 12px; border:0; border-radius:12px; gap:12px; font-size:15px; font-weight:750; background:var(--sp-primary); color:var(--sp-primary-ink); }
+#sp-prototype #sp-dashboard .sp-project-card-open span { font-size:23px; line-height:1; }
+#sp-prototype #sp-dashboard .sp-project-card-actions { display:grid; grid-template-columns:1.2fr .8fr 1fr 44px; gap:0; padding:6px 0; border-block:1px solid var(--sp-line); }
+#sp-prototype #sp-dashboard .sp-project-card-actions .sp-button { min-width:0; min-height:44px; margin:0; padding:6px 3px; border:0; border-radius:8px; background:transparent; color:var(--sp-ink); font-size:11px; }
+#sp-prototype #sp-dashboard .sp-project-card-actions .sp-button:hover { background:var(--sp-soft); }
+#sp-prototype #sp-dashboard .sp-project-card-actions [data-project-delete] { color:light-dark(#be285e,#ff87b3); }
+#sp-prototype #sp-dashboard .sp-project-card-actions svg { width:19px; height:19px; }
+#sp-prototype #sp-dashboard .sp-project-identity { min-height:44px; width:100%; gap:6px; margin:-8px 0 -8px; padding:4px 0; border:0; background:transparent; color:var(--sp-muted); font-size:10px; }
 #sp-prototype #sp-dashboard .sp-project-identity code { font-size:10px; }
-#sp-prototype #sp-dashboard .sp-project-card-head small { display:block; margin-top:4px; color:var(--sp-muted); font-size:11px; }
+#sp-prototype #sp-dashboard .sp-project-identity svg { margin-left:auto; flex:none; width:16px; height:16px; }
 #sp-prototype #sp-dashboard button { -webkit-tap-highlight-color:transparent; }
 @media (max-width:760px) {
   #sp-prototype .sp-dashboard-intro { align-items:center; }
@@ -352,23 +372,8 @@
   #sp-prototype #sp-dashboard .sp-dashboard-section-head > div { display:flex; align-items:baseline; justify-content:space-between; gap:8px; order:1; }
   #sp-prototype #sp-dashboard #sp-project-count { font-size:11px; padding-left:3px; }
   #sp-prototype #sp-dashboard .sp-dashboard-section-head .sp-search { width:100%; border:0; border-bottom:1px solid var(--sp-line); background:transparent; border-radius:0; min-height:44px; padding:0 3px; }
-  #sp-prototype #sp-dashboard .sp-project-card { order:3; flex:none; display:grid; grid-template-columns:104px minmax(0,1fr); gap:9px 12px; min-height:0; padding:12px; border-radius:19px; }
+  #sp-prototype #sp-dashboard .sp-project-card { order:3; flex:none; display:flex; min-width:0; gap:10px; padding:16px; }
   #sp-prototype #sp-dashboard .sp-project-card:hover { transform:none; }
-  #sp-prototype #sp-dashboard .sp-project-card-preview { grid-column:1; grid-row:1; width:104px; height:86px; min-height:0; border:0; border-radius:11px; }
-  #sp-prototype #sp-dashboard .sp-project-card-preview > span { display:none; }
-  #sp-prototype #sp-dashboard .sp-project-card-body { display:contents; }
-  #sp-prototype #sp-dashboard .sp-project-card-head { grid-column:2; grid-row:1; flex-direction:column; justify-content:center; gap:5px; min-width:0; }
-  #sp-prototype #sp-dashboard .sp-project-card-head h3 { font-size:18px; line-height:1.15; letter-spacing:-.4px; }
-  #sp-prototype #sp-dashboard .sp-project-card-head .sp-pro-badge { order:-1; padding:3px 6px; border-radius:5px; font-size:8px; letter-spacing:.08em; }
-  #sp-prototype #sp-dashboard .sp-project-card-meta { grid-column:1/-1; margin:0; gap:5px; }
-  #sp-prototype #sp-dashboard .sp-project-card-meta span { padding:3px 6px; font-size:10px; }
-  #sp-prototype #sp-dashboard .sp-project-identity { grid-column:1/-1; min-height:44px; gap:5px; margin:-6px 0; }
-  #sp-prototype #sp-dashboard .sp-project-identity svg { margin-left:auto; flex:none; width:16px; height:16px; }
-  #sp-prototype #sp-dashboard .sp-project-storage { grid-column:1/-1; margin:0; font-size:10px; line-height:1.4; }
-  #sp-prototype #sp-dashboard .sp-project-card-actions { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; padding-top:9px; }
-  #sp-prototype #sp-dashboard .sp-project-card-actions .sp-button { min-height:44px; padding:6px 3px; border-radius:10px; font-size:10px; background:var(--sp-soft); border:0; margin:0; }
-  #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-open] { background:var(--sp-ink); color:var(--sp-panel); font-weight:700; }
-  #sp-prototype #sp-dashboard .sp-project-card-actions [data-project-delete] { color:light-dark(#a83a43,#ff9ba7); background:transparent; }
   #sp-prototype #sp-dashboard .sp-empty-projects { order:3; }
   #sp-prototype #sp-dashboard .sp-plan-card { padding:12px; box-shadow:none; order:4; margin:4px 0 0; }
 }
