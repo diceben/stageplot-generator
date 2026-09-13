@@ -39,6 +39,7 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 - **Stagebox-View und Bühnenkabel**: fullscreenfähiges dunkles Patch Overview mit echten XLR- beziehungsweise XLR/Klinke-Kombibuchsen, einer breiten nach Instrumenten gruppierten Channel-Suche, permanentem Info-Sidepanel und sofortigem Patchen samt Sprung zum nächsten freien Port; die Auswahl bleibt dabei geöffnet. Dieselbe Ansicht öffnet sich direkt an der Stagebox auf der Bühne. Einzelne Instrument-Inputs/-Outputs oder Stereo-Links lassen sich als schwarze, weich verlegte Kabel mit silbernen Enden an Stagebox-Ports ziehen.
 - **Komplexe Bühnen** aus magnetisch anklippbaren 2 × 1-m-Modulen sowie maßstäbliche Treppen mit Breite, Tiefe und verankerter Skalierung.
 - **Technische Topviews** für Teleprompter, Wedges, Licht, Effekte, Nebelmaschine und Flightcases.
+- **40 illustrierte Zusatzobjekte** für Percussion, Tasten, DJ, Backline, PA, Orchester und Video, mit lokal gespeicherten Bildgenerierungs-Assets in Draufsicht. Alle vier Etappen und die Asset-Pflege: [ILLUSTRATED_OBJECTS.md](ILLUSTRATED_OBJECTS.md).
 - **Object Packs** mit Shop-Vorschau, lokalen Offline-Freischaltungen, signierten Codes, Beta Crew Pass und Crew Rewards.
 - **Projektverwaltung** mit Karten-Vorschau, direktem Umbenennen, portablem Download und abgesichertem Löschen.
 - **Dauerhafte Projekt-ID** auf jeder Projektkarte und in den Projektdaten, per Klick kopierbar und über die Projektsuche auffindbar. Bestehende lokale Projekte erhalten automatisch eine ID; Umbenennen, normales Speichern und Gerätesync behalten sie bei. „Projekt duplizieren“, importierte Kopien und Konfliktkopien erhalten eigene IDs. Der Speicherstatus unterscheidet lokale Speicherung, offene Änderungen und tatsächlich bestätigten Sync.
@@ -140,7 +141,7 @@ Optional kann mit `--expires 2027-09-02` ein Ablaufdatum gesetzt werden. Verkauf
 npm test
 ```
 
-23 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar, Katalogkopien mit Quellenangaben und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
+28 Testgruppen prüfen unter anderem lokale Wiederherstellung, identische Einstiegspunkte, Drumlogik, 10-cm-Resize, simulierte Touch-Gesten, Produktionsdaten, Inventar, illustrierte Objekt-Assets und Export, Katalogkopien mit Quellenangaben und Gerätesync mit einem simulierten RPC-Server. Ein echter Supabase- und Touch-Hardware-Test steht noch aus.
 
 ## Daten und Geheimnisse
 

@@ -1,0 +1,755 @@
+{
+  "version": 1,
+  "generator": "built-in image_gen",
+  "style": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. ",
+  "dimensions": "Generic approximate plan dimensions in metres; not manufacturer specifications. Acoustic handheld instruments use schematic laid-flat plan symbols.",
+  "objects": [
+    {
+      "id": "music-stand",
+      "name": "Notenständer",
+      "category": "tech",
+      "w": 0.55,
+      "d": 0.55,
+      "defaultAngle": 0,
+      "keywords": "noten music stand zubehör",
+      "phase": 1,
+      "asset": "music-stand-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: A music stand as a perfectly vertical 90-degree overhead floor-plan symbol. The music tray is a broad shallow horizontal rectangular dark-gray plate centered at the image center; its physical tilt foreshortens the tray depth. The tray lies visually ON TOP OF AND CENTERED ON a Y-shaped floor base. Three thin tripod feet extend radially behind its edges at upper left, upper right and bottom. The central hub and entire vertical mast are hidden under the center of the tray. There is absolutely no visible upright shaft, no offset between tray center and tripod hub, no oblique camera, no perspective, no sheet music.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "musician-chair",
+      "name": "Musikerstuhl",
+      "category": "tech",
+      "w": 0.5,
+      "d": 0.55,
+      "defaultAngle": 0,
+      "keywords": "stuhl chair sitz orchester",
+      "phase": 1,
+      "asset": "musician-chair-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One armless padded orchestral chair. Strict overhead plan: square gray seat fully visible, curved narrow backrest along the top edge, feet barely peeking beyond seat.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "tablet-stand",
+      "name": "Tablet-Halter",
+      "category": "tech",
+      "w": 0.5,
+      "d": 0.5,
+      "defaultAngle": 0,
+      "keywords": "tablet ipad halter ständer",
+      "phase": 1,
+      "asset": "tablet-stand-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: A landscape tablet on a tripod holder as a perfectly vertical 90-degree overhead floor-plan symbol. The blank screen is a perfect rectangle centered at the image center, resting almost horizontally. It lies visually ON TOP OF AND CENTERED ON a Y-shaped floor base. Three thin tripod feet extend radially behind its edges at upper left, upper right and bottom, all equally distant from image center. The central hub, vertical mast and all vertical mounting hardware are completely hidden under the tablet. Absolutely no visible upright shaft, no offset between tablet center and tripod hub, no oblique camera, no perspective.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "standing-stool",
+      "name": "Stehhocker",
+      "category": "tech",
+      "w": 0.45,
+      "d": 0.5,
+      "defaultAngle": 0,
+      "keywords": "stehhilfe hocker stool sitz",
+      "phase": 1,
+      "asset": "standing-stool-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One musician standing stool with compact oval gray padded saddle seat, H-shaped metal floor base. Strict overhead: top of seat and short footrest visible, upright shaft occluded.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "equipment-table",
+      "name": "Equipment-Tisch",
+      "category": "tech",
+      "w": 1.2,
+      "d": 0.6,
+      "defaultAngle": 0,
+      "keywords": "equipment table tisch ablage",
+      "phase": 1,
+      "asset": "equipment-table-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One empty rectangular folding equipment table, pale gray worktop with fine charcoal edge. Exact overhead plan, horizontal long edge, four tiny feet just visible at corners.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "congas",
+      "name": "Conga-Paar",
+      "category": "percussion",
+      "w": 0.8,
+      "d": 0.45,
+      "defaultAngle": 0,
+      "keywords": "conga congas percussion perkussion",
+      "phase": 1,
+      "asset": "congas-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: Two conga drums as one paired setup, circular pale ivory skin heads side by side, left drum slightly smaller, metal tuning lugs, tiny rim of gray wood shell. Strict overhead plan, no side walls, no stands or other percussion.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "bongos",
+      "name": "Bongos",
+      "category": "percussion",
+      "w": 0.48,
+      "d": 0.25,
+      "defaultAngle": 0,
+      "keywords": "bongo bongos percussion perkussion",
+      "phase": 1,
+      "asset": "bongos-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One connected bongo pair, two circular pale skin heads side by side, left slightly smaller, dark charcoal wooden connector and bright metal tuning rims. Strict overhead.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "djembe",
+      "name": "Djembe",
+      "category": "percussion",
+      "w": 0.36,
+      "d": 0.36,
+      "defaultAngle": 0,
+      "keywords": "djembe handtrommel percussion",
+      "phase": 1,
+      "asset": "djembe-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One djembe drum from directly overhead, a perfect circular pale hide head surrounded by fine black rope lacing knots; narrow gray wooden rim; no visible vertical shell.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "timbales",
+      "name": "Timbales",
+      "category": "percussion",
+      "w": 0.85,
+      "d": 0.5,
+      "defaultAngle": 0,
+      "keywords": "timbales latin percussion",
+      "phase": 1,
+      "asset": "timbales-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One pair of timbales, two thin circular pale drum heads with polished metal rims side by side, one small dark cowbell attached centered above them. Strict overhead.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "percussion-table",
+      "name": "Percussion-Tisch",
+      "category": "percussion",
+      "w": 0.8,
+      "d": 0.5,
+      "defaultAngle": 0,
+      "keywords": "percussion table perkussion tisch shaker tamburin",
+      "phase": 1,
+      "asset": "percussion-table-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One shallow rectangular percussion tray on a stand viewed exactly overhead, gray felt surface holding two wooden shakers, one tambourine and a pair of claves, arranged neatly with gaps. No drum.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "grand-piano",
+      "name": "Flügel",
+      "category": "keys",
+      "w": 1.55,
+      "d": 2.1,
+      "defaultAngle": 180,
+      "keywords": "flügel fluegel piano grand klavier",
+      "phase": 2,
+      "asset": "grand-piano-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One acoustic grand piano with lid removed so pale gray soundboard, harp frame and strings are visible. Strict overhead plan, full distinctive curved piano outline, keyboard horizontally across bottom edge, tail pointing up. No stool or player. Crucial: exact plan view like an architectural floor plan. Every upright shaft and vertical front face is hidden. Only the object's horizontal top surfaces are visible; rectangles stay parallel and circles stay circular.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "upright-piano",
+      "name": "Aufrechtes Klavier",
+      "category": "keys",
+      "w": 1.5,
+      "d": 0.6,
+      "defaultAngle": 180,
+      "keywords": "klavier upright piano pianino",
+      "phase": 2,
+      "asset": "upright-piano-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One upright acoustic piano from directly overhead. Wide shallow rectangular cabinet with closed top lid, open key cover and full keyboard visible along bottom edge. Only top surfaces, no vertical front face, no stool. Crucial: exact plan view like an architectural floor plan. Every upright shaft and vertical front face is hidden. Only the object's horizontal top surfaces are visible; rectangles stay parallel and circles stay circular.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "leslie",
+      "name": "Leslie-Kabinett",
+      "category": "amps",
+      "w": 0.75,
+      "d": 0.55,
+      "defaultAngle": 0,
+      "keywords": "leslie rotary hammond orgel kabinet",
+      "phase": 2,
+      "asset": "leslie-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One vintage rotary organ speaker cabinet seen exactly overhead: rectangular light gray wood top with narrow rounded trim, subtle wood grain, a small rear connection recess along upper edge. Closed top, no visible front speaker grilles, no logo. Crucial: exact plan view like an architectural floor plan. Every upright shaft and vertical front face is hidden. Only the object's horizontal top surfaces are visible; rectangles stay parallel and circles stay circular.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "dj-controller",
+      "name": "DJ-Controller",
+      "category": "tech",
+      "w": 0.72,
+      "d": 0.4,
+      "defaultAngle": 180,
+      "keywords": "dj controller deck elektronik",
+      "phase": 2,
+      "asset": "dj-controller-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One two-deck DJ controller, overhead plan: two large round jog wheels left and right, central mixer with faders, small light screens and rectangular performance pads along bottom. Gray-black with ivory markings, no readable text. Crucial: exact plan view like an architectural floor plan. Every upright shaft and vertical front face is hidden. Only the object's horizontal top surfaces are visible; rectangles stay parallel and circles stay circular.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "Klinke",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "dj-player",
+      "name": "CDJ-Player",
+      "category": "tech",
+      "w": 0.32,
+      "d": 0.45,
+      "defaultAngle": 180,
+      "keywords": "cdj dj player media deck",
+      "phase": 2,
+      "asset": "dj-player-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One standalone tabletop digital DJ media player. Strict overhead: screen at top, one large circular jog wheel in lower half, narrow pitch fader at right, transport buttons at bottom, grayscale unbranded. Crucial: exact plan view like an architectural floor plan. Every upright shaft and vertical front face is hidden. Only the object's horizontal top surfaces are visible; rectangles stay parallel and circles stay circular.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "Klinke",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "turntable",
+      "name": "Plattenspieler",
+      "category": "tech",
+      "w": 0.45,
+      "d": 0.36,
+      "defaultAngle": 180,
+      "keywords": "plattenspieler turntable dj vinyl",
+      "phase": 2,
+      "asset": "turntable-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One direct-drive turntable seen vertically from above, large circular black vinyl record and pale center label at left, slender curved tonearm at right, rectangular light-gray plinth. No logo or text. Crucial: exact plan view like an architectural floor plan. Every upright shaft and vertical front face is hidden. Only the object's horizontal top surfaces are visible; rectangles stay parallel and circles stay circular.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "Klinke",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "dj-mixer",
+      "name": "DJ-Mixer",
+      "category": "tech",
+      "w": 0.32,
+      "d": 0.4,
+      "defaultAngle": 180,
+      "keywords": "dj mixer mischpult elektronik",
+      "phase": 2,
+      "asset": "dj-mixer-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One four-channel DJ mixer exactly from above, four vertical strips of knobs and faders, crossfader along bottom, gray and ivory controls. No decks, no turntables, no text.",
+      "ioDefaults": {
+        "inputs": 8,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "Klinke",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "sampler",
+      "name": "Sampler",
+      "category": "tech",
+      "w": 0.35,
+      "d": 0.3,
+      "defaultAngle": 180,
+      "keywords": "sampler sample pads mpc elektronik",
+      "phase": 2,
+      "asset": "sampler-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One desktop music sampler viewed directly from above, four by four square ivory rubber pad grid, small display in top left, several knobs, gray rectangular housing. No readable text or logo.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "Klinke",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "drum-machine",
+      "name": "Drumcomputer",
+      "category": "tech",
+      "w": 0.38,
+      "d": 0.22,
+      "defaultAngle": 180,
+      "keywords": "drumcomputer drum machine sequencer elektronik",
+      "phase": 2,
+      "asset": "drum-machine-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One compact drum machine viewed directly from above, sixteen narrow step buttons along bottom edge, orderly rows of rotary knobs above, small display, shallow wide gray case. No readable text.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "Klinke",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "pedalboard",
+      "name": "Pedalboard",
+      "category": "amps",
+      "w": 0.65,
+      "d": 0.35,
+      "defaultAngle": 0,
+      "keywords": "pedalboard effekt gitarre pedal",
+      "phase": 2,
+      "asset": "pedalboard-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One guitarist pedalboard, exact top-down plan, six distinct small gray effects pedals on a black slatted rectangular board with short patch cables, footswitches, a treadle pedal at right. No brands or readable text.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "Klinke",
+        "outputConnector": "Klinke"
+      }
+    },
+    {
+      "id": "amp-head",
+      "name": "Amp-Topteil",
+      "category": "amps",
+      "w": 0.65,
+      "d": 0.27,
+      "defaultAngle": 0,
+      "keywords": "amp topteil head verstärker",
+      "phase": 2,
+      "asset": "amp-head-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One guitar amplifier head seen from straight above, shallow wide rectangular gray textured cabinet with central carry handle, metal top vent slots and narrow control edge along bottom. No front-face elevation, no speaker cabinet.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "Klinke",
+        "outputConnector": "Klinke"
+      }
+    },
+    {
+      "id": "cabinet-112",
+      "name": "Gitarrenbox · 1×12",
+      "category": "amps",
+      "w": 0.5,
+      "d": 0.3,
+      "defaultAngle": 0,
+      "keywords": "box cabinet gitarre 1x12 backline",
+      "phase": 2,
+      "asset": "cabinet-112-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One small guitar speaker cabinet viewed EXACTLY vertically downward. Only its horizontal rectangular top surface is visible, width to depth ratio 5:3. Gray textured tolex, central black handle, four metal corner protectors. Flat technical overhead sprite. All four outline edges parallel in matching pairs. NO front grille whatsoever, NO front face or side face whatsoever, no sloped extrusion at lower edge.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "cabinet-212",
+      "name": "Gitarrenbox · 2×12",
+      "category": "amps",
+      "w": 0.75,
+      "d": 0.32,
+      "defaultAngle": 0,
+      "keywords": "box cabinet gitarre 2x12 backline",
+      "phase": 2,
+      "asset": "cabinet-212-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One wide horizontal guitar speaker cabinet viewed EXACTLY vertically downward. Only its horizontal rectangular top surface is visible, width to depth ratio 7:3. Gray textured tolex, central black handle, four metal corner protectors. Flat overhead sprite. NO front grille or front face or side face whatsoever, no sloped extrusion at any edge.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "cabinet-412",
+      "name": "Gitarrenbox · 4×12",
+      "category": "amps",
+      "w": 0.76,
+      "d": 0.37,
+      "defaultAngle": 0,
+      "keywords": "box cabinet gitarre 4x12 backline",
+      "phase": 2,
+      "asset": "cabinet-412-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One large guitar speaker cabinet viewed EXACTLY vertically downward. Only its horizontal rectangular top surface is visible, width to depth ratio 2:1. Gray textured tolex, small carry handle on TOP center, reinforced black corners. Flat overhead sprite, no side handles on top, NO front grille or front face or side face, no sloped extrusion.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "pa-top",
+      "name": "PA-Topteil auf Stativ",
+      "category": "tech",
+      "w": 1,
+      "d": 1,
+      "defaultAngle": 0,
+      "keywords": "pa lautsprecher topteil stativ speaker",
+      "phase": 3,
+      "asset": "pa-top-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: A PA loudspeaker standing upright on tripod, rendered as an EXACT VERTICAL overhead floor plan. A trapezoidal gray horizontal speaker TOP panel is exactly centered over and occludes the entire tripod hub and vertical pole. Only three thin radial floor feet project beyond cabinet silhouette, equally around its center. Top panel includes carry handle. NO visible vertical pole length, speaker front face, grille or driver. Only horizontal top surface visible, not a side or front elevation.",
+      "ioDefaults": {
+        "inputs": 1,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "subwoofer",
+      "name": "Subwoofer",
+      "category": "tech",
+      "w": 0.7,
+      "d": 0.75,
+      "defaultAngle": 0,
+      "keywords": "subwoofer sub bass pa lautsprecher",
+      "phase": 3,
+      "asset": "subwoofer-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: A touring subwoofer rendered as an EXACT VERTICAL overhead floor plan: only one nearly square horizontal textured gray TOP panel, a small circular recessed pole socket at its exact center, small corner guards. No front grille at all, no exposed driver, no front or side elevation, no lower extrusion; simple parallel outlines with fine pencil texture.",
+      "ioDefaults": {
+        "inputs": 1,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "sidefill",
+      "name": "Sidefill",
+      "category": "tech",
+      "w": 0.75,
+      "d": 0.85,
+      "defaultAngle": 0,
+      "keywords": "sidefill monitor pa lautsprecher",
+      "phase": 3,
+      "asset": "sidefill-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: A sidefill PA stack rendered as an EXACT VERTICAL overhead floor plan. The gray trapezoidal horizontal TOP panel of an upright loudspeaker is centered above a slightly bigger rectangular subwoofer TOP footprint. These are flat nested outlines, no visible vertical cabinet faces. Carry handle on speaker top. NO grilles, drivers, front faces, side faces or upright poles.",
+      "ioDefaults": {
+        "inputs": 1,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "drumfill",
+      "name": "Drumfill",
+      "category": "tech",
+      "w": 0.65,
+      "d": 0.75,
+      "defaultAngle": 0,
+      "keywords": "drumfill schlagzeug monitor pa",
+      "phase": 3,
+      "asset": "drumfill-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: A drumfill setup rendered as an EXACT VERTICAL overhead floor plan: one compact wedge monitor whose sloping perforated top grille is visible from above, centered over a rectangular subwoofer TOP panel behind it. Rectangular parallel floor-plan outline. No subwoofer front grille, no visible vertical walls or cabinet height, no drums or person.",
+      "ioDefaults": {
+        "inputs": 1,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "violin",
+      "name": "Violine",
+      "category": "strings",
+      "w": 0.22,
+      "d": 0.6,
+      "defaultAngle": 0,
+      "keywords": "violine geige violin streicher orchester",
+      "phase": 3,
+      "asset": "violin-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One acoustic violin lying flat viewed perpendicularly from above, pale gray wood hourglass body with two dark f holes, bridge, four strings, dark fingerboard and scroll pointing up, chinrest at lower left. No bow.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "viola",
+      "name": "Bratsche",
+      "category": "strings",
+      "w": 0.26,
+      "d": 0.68,
+      "defaultAngle": 0,
+      "keywords": "bratsche viola streicher orchester",
+      "phase": 3,
+      "asset": "viola-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One acoustic viola lying flat in exact overhead view, broad rounded pale gray wood body larger in proportion than violin, dark f holes and chinrest, four strings and dark fingerboard, scroll pointing up. No bow.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "cello",
+      "name": "Cello",
+      "category": "strings",
+      "w": 0.48,
+      "d": 1.35,
+      "defaultAngle": 0,
+      "keywords": "cello violoncello streicher orchester",
+      "phase": 3,
+      "asset": "cello-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One cello laid flat seen perpendicularly from above, large pale gray wood hourglass body, black f holes, four strings and long dark fingerboard, scroll pointing up, slender extended endpin below. No bow.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "harp",
+      "name": "Harfe",
+      "category": "strings",
+      "w": 0.85,
+      "d": 1.25,
+      "defaultAngle": 0,
+      "keywords": "harfe harp orchester akustik",
+      "phase": 3,
+      "asset": "harp-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects.  Single concert harp standing normally on the floor, architectural FLOOR PLAN seen EXACTLY VERTICALLY DOWN from a ceiling camera, orthographic 90 degrees. Its vertical front pillar projects to ONE ROUND CIRCULAR CAP near the upper end of the footprint, absolutely NO visible vertical shaft length. Behind this cap a thin gently curved TOP EDGE of the neck connects toward a wider tapered soundbox top footprint at the lower end, about 2.2 times as long as wide overall. Seven tiny pedals peek radially from the bottom base. The vertical strings collapse to a single thin line in the center. No broad triangular strings plane, no floral front face, no full vertical column, no side/front elevation. Physically believable plan view, uppermost surfaces only, a compact teardrop shaped footprint with round column cap. No 3D perspective. Transparent background with real alpha, isolated single asset. Restrained warm ivory, graphite gray and lightly hand-drawn edges matching a technical drum-kit sprite. No text, no labels, no logo, no cast shadow.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "accordion",
+      "name": "Akkordeon",
+      "category": "keys",
+      "w": 0.65,
+      "d": 0.4,
+      "defaultAngle": 0,
+      "keywords": "akkordeon accordion ziehharmonika",
+      "phase": 3,
+      "asset": "accordion-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One piano accordion resting flat viewed exactly from above: piano keyboard vertically along right edge, button board on left, corrugated bellows partially extended horizontally between them, pale gray and charcoal. No player or straps outside footprint.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 2,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR",
+        "stereoPairs": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "clarinet",
+      "name": "Klarinette",
+      "category": "winds",
+      "w": 0.09,
+      "d": 0.67,
+      "defaultAngle": 0,
+      "keywords": "klarinette clarinet holzbläser",
+      "phase": 3,
+      "asset": "clarinet-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One straight B-flat clarinet lying flat in exact overhead view, long thin black body with fine silver keywork, mouthpiece at top, gently flared bell at bottom, full instrument uncropped.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "french-horn",
+      "name": "Waldhorn",
+      "category": "winds",
+      "w": 0.55,
+      "d": 0.4,
+      "defaultAngle": 0,
+      "keywords": "waldhorn horn french horn blechbläser",
+      "phase": 3,
+      "asset": "french-horn-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: One French horn lying flat viewed exactly from above: coiled pale silver-gray tubing in circular loops, central rotary valves, large flared bell extending toward lower right, short mouthpipe upper left. Precise fine metal linework, no player.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 1,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "drum-shield",
+      "name": "Drumshield",
+      "category": "tech",
+      "w": 2.4,
+      "d": 1.1,
+      "defaultAngle": 0,
+      "keywords": "drumshield drums shield schallschutz acryl",
+      "phase": 4,
+      "asset": "drum-shield-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: Draw an overhead FLOOR PLAN of a five-panel drum shield. The five vertical acrylic panels are seen EDGE-ON from the ceiling, so they appear as FIVE THIN DOUBLE LINES joined end to end in a shallow polygonal U shape, open toward top of image. Small hinge circles at the four joints, short stabilizer feet across lines. Empty transparent interior. No full rectangular sheet faces, no visible panel height, no 3D walls, no perspective.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "wireless-antenna",
+      "name": "Funkantenne auf Stativ",
+      "category": "tech",
+      "w": 0.65,
+      "d": 0.65,
+      "defaultAngle": 0,
+      "keywords": "funkantenne antenne wireless rf paddel stativ",
+      "phase": 4,
+      "asset": "wireless-antenna-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: Draw an overhead FLOOR PLAN of a vertical paddle RF antenna on tripod. A thin narrow horizontal antenna top edge centered EXACTLY ON the hub of three radial thin tripod feet. The antenna surface is vertical, so from above it is seen as a narrow flat gray strip, NOT a triangular frontal paddle. Hub seen at exact center, vertical mast has ZERO visible length. Three radial feet evenly arranged, no perspective.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "camera-tripod",
+      "name": "Kamera mit Stativ",
+      "category": "tech",
+      "w": 0.85,
+      "d": 0.85,
+      "defaultAngle": 0,
+      "keywords": "kamera camera video tripod stativ",
+      "phase": 4,
+      "asset": "camera-tripod-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects.  A compact video camera on a tripod, architectural FLOOR PLAN seen EXACTLY VERTICALLY DOWN from a ceiling camera. A dark rectangular camera body with its top handle and top controls sits over the EXACT CENTER of three equally spaced radial tripod feet in a Y pattern. The lens barrel points toward the bottom of image, showing ONLY THE TOP OF THE BARREL AND THE SOLID TOP OF THE RECTANGULAR HOOD. The lens glass and front aperture are COMPLETELY INVISIBLE because they face horizontally. No front lens opening, no oval glass, no front or side walls. The upright mast is entirely occluded beneath the camera. The three radial feet extend from the hidden hub. Flat orthographic plan, no perspective tilt. Transparent background with real alpha, isolated single asset. Restrained warm ivory, graphite gray and lightly hand-drawn edges matching a technical drum-kit sprite. No text, no labels, no logo, no cast shadow.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "led-wall",
+      "name": "LED-Wand",
+      "category": "tech",
+      "w": 3,
+      "d": 0.65,
+      "defaultAngle": 0,
+      "keywords": "led wand wall video display bildschirm",
+      "phase": 4,
+      "asset": "led-wall-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: Draw an overhead FLOOR PLAN of a freestanding LED video wall. The vertical wall is seen EDGE-ON from the ceiling: three shallow rectangular module TOP panels joined horizontally into one long thin strip, width/depth ratio about 12:1. Two slim stabilizer outriggers project perpendicularly behind the strip, with triangular braces hidden edge-on over the outriggers. Small rear electronic housings along strip. No visible screen FRONT face, no image content, no visible wall height, no perspective.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    },
+    {
+      "id": "projection-screen",
+      "name": "Leinwand",
+      "category": "tech",
+      "w": 2.4,
+      "d": 0.6,
+      "defaultAngle": 0,
+      "keywords": "leinwand screen projektion video",
+      "phase": 4,
+      "asset": "projection-screen-v1.webp",
+      "prompt": "Use case: stylized-concept. Asset type: a single isolated 2D stageplot equipment sprite. Camera: strict vertical overhead orthographic plan, camera looking straight down, no isometric perspective. Style: lightly hand-drawn technical illustration matching a drum kit drawn in fine charcoal outlines with soft light-gray pencil shading, ivory highlights, modest material detail, clear silhouette at small size. Monochrome grayscale. Full object centered and uncropped, narrow even transparent margin. Background: genuinely transparent alpha, no drawn checkerboard, no white rectangle, no floor, no cast shadow. No text, logos, dimensions, watermarks, people or unrelated objects. Subject: Draw an overhead FLOOR PLAN of a freestanding projection screen. The vertical fabric is seen EDGE-ON: a long thin horizontal ivory line between two tiny end caps. Two short T-shaped metal support feet extend perpendicular to the line at left and right. Width/overall footprint depth ratio about 4:1. The fabric face and upright poles are entirely invisible from ceiling; NO big white rectangular screen FRONT, no visible screen height, no perspective.",
+      "ioDefaults": {
+        "inputs": 0,
+        "outputs": 0,
+        "inputConnector": "XLR",
+        "outputConnector": "XLR"
+      }
+    }
+  ]
+}

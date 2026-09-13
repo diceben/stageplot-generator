@@ -63,6 +63,7 @@
   #sp-prototype[data-preview-kind="pdf"] #sp-print-floor { width:1047px; height:610px; min-height:0; }
   #sp-prototype[data-preview-kind="pdf"] #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
   #sp-prototype[data-preview-kind="image"] #sp-print-floor { height:auto; aspect-ratio:1047/610; min-height:0; }
+  #sp-prototype[data-preview-kind="image"] #sp-print-floor[data-stage-look="live"] { aspect-ratio:4/3; }
 }
 @container sp-frame (max-width:760px) {
   #sp-prototype .sp-export-controls { padding:16px; }

@@ -136,7 +136,7 @@
               <label class="sp-button sp-iconbutton sp-snap-toggle" data-tooltip="Am Raster einrasten"><input id="sp-snap" class="sp-visually-hidden" type="checkbox" aria-label="Am Raster einrasten" checked><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3v7a5 5 0 0 0 10 0V3M5 6h4m2 0h4" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"/><path d="M3.5 3h3M13.5 3h3" stroke="currentColor" stroke-width="2.2"/></svg></label>
               <button class="sp-button sp-iconbutton sp-toggle" id="sp-grid-visible" type="button" aria-label="Raster ein- oder ausblenden" data-tooltip="Raster ein-/ausblenden" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h14v14H3zM3 8h14M3 13h14M8 3v14M13 3v14" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></button>
               <button class="sp-button sp-iconbutton sp-toggle" id="sp-labels-visible" type="button" aria-label="Beschriftungen ausblenden" data-tooltip="Beschriftungen ausblenden" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 5.5h8.8l4.2 4.5-4.2 4.5H3.5z" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/><circle cx="6.4" cy="10" r="1" fill="currentColor" stroke="none"/><path d="m4 16 12-12" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg></button>
-              <button class="sp-button sp-iconbutton sp-toggle" id="sp-stage-surface-toggle" type="button" aria-label="Bühne schwarz darstellen" data-tooltip="Bühne schwarz" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="1.8" fill="currentColor" stroke="currentColor" stroke-width="1.25"/><path d="M3 10h14M10 4v12" fill="none" stroke="var(--sp-panel,#fff)" stroke-width="1" opacity=".72"/></svg></button>
+              <button class="sp-button sp-iconbutton sp-toggle" id="sp-stage-surface-toggle" type="button" aria-label="Live-Look aktivieren" data-tooltip="Live-Look: dunkle Bühne" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="1.8" fill="currentColor" stroke="currentColor" stroke-width="1.25"/><path d="M3 10h14M10 4v12" fill="none" stroke="var(--sp-panel,#fff)" stroke-width="1" opacity=".72"/></svg><span>Live</span></button>
               <button class="sp-button sp-iconbutton sp-toggle" id="sp-outs-global-toggle" type="button" aria-label="Outs am Symbol anzeigen" data-tooltip="Outs anzeigen" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4H5v12h5" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 10h8m0 0-3-3m3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               <button class="sp-button sp-toggle sp-cable-view-tab" id="sp-cable-view-toggle" type="button" aria-label="Verkabelung ausblenden" data-tooltip="Verkabelung ausblenden" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5.5h2.3a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2H13" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"/><path d="M3 3.5h2v4H3zm12 9h2v4h-2z" fill="none" stroke="currentColor" stroke-width="1.35"/><circle cx="11.5" cy="9" r="1.2" fill="currentColor"/></svg><span>Kabel</span></button>
               <button class="sp-button sp-iconbutton sp-stage-action sp-stage-divide" id="sp-stage-edit" type="button" aria-label="Bühne bearbeiten" data-tooltip="Bühne bearbeiten"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="11" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M13 8.5 8 13.5l-2.2.6.6-2.2 5-5a1 1 0 0 1 1.4 1.4Z" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg></button>
@@ -328,7 +328,7 @@
           <label class="sp-export-toggle"><input id="sp-print-outs" type="checkbox" checked><span>Inputs &amp; Outs</span></label>
           <label class="sp-export-toggle"><input id="sp-print-cables" type="checkbox" checked><span>Kabel</span></label>
           <label class="sp-export-toggle"><input id="sp-print-measures" type="checkbox" checked><span>Maße</span></label>
-          <label class="sp-export-toggle"><input id="sp-print-black-stage" type="checkbox"><span>Schwarze Bühne</span></label>
+          <label class="sp-export-toggle"><input id="sp-print-black-stage" type="checkbox"><span>Live-Look · dunkle Bühne</span></label>
         </div></section>
         <section class="sp-export-control-group" id="sp-export-paper-options" hidden><h2>PDF-Inhalte</h2><div class="sp-export-toggle-grid">
           <label class="sp-export-toggle"><input id="sp-print-legend-toggle" type="checkbox"><span>Legende</span></label>
@@ -3457,6 +3457,11 @@
 #sp-prototype .sp-context-menu button.sp-danger { color:light-dark(#b23b2b,#ff9d8c); }
 #sp-prototype :is(#sp-labels-visible,#sp-stage-surface-toggle)[aria-pressed="true"] { border-color:#b6d83c; background:#d2f553; color:#22291d; }
 #sp-prototype #sp-stage-surface-toggle[aria-pressed="true"] svg { color:#20221f; }
+#sp-prototype #sp-canvas-tools #sp-stage-surface-toggle { width:auto; grid-template-columns:19px auto; gap:5px; font-size:10px; font-weight:800; }
+#sp-prototype .sp-stage-canvas:has(.sp-floor[data-stage-look="live"]) :is(.sp-canvas-cluster,#sp-library-open,#sp-inspector-open,#sp-canvas-focus) { background:#252d31; border-color:#495257; color:#e7e7da; box-shadow:0 3px 14px #080d1026; }
+#sp-prototype .sp-stage-canvas:has(.sp-floor[data-stage-look="live"]) #sp-canvas-tools .sp-button { color:#dce0d5; }
+#sp-prototype .sp-stage-canvas:has(.sp-floor[data-stage-look="live"]) #sp-canvas-tools .sp-button[aria-pressed="true"] { background:#d4f15b; color:#22291d; }
+
 
 @container sp-frame (min-width:1051px) {
   #sp-prototype .sp-drum-studio { --sp-drum-palette-width:165px; --sp-drum-inspector-width:330px; grid-template-columns:var(--sp-drum-palette-width) minmax(700px,1fr) var(--sp-drum-inspector-width); }
@@ -4902,6 +4907,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype[data-preview-kind="pdf"] #sp-print-floor { width:1047px; height:610px; min-height:0; }
   #sp-prototype[data-preview-kind="pdf"] #sp-export-paper :is(.sp-paper-header,#sp-print-paper-sections) { display:none; }
   #sp-prototype[data-preview-kind="image"] #sp-print-floor { height:auto; aspect-ratio:1047/610; min-height:0; }
+  #sp-prototype[data-preview-kind="image"] #sp-print-floor[data-stage-look="live"] { aspect-ratio:4/3; }
 }
 @container sp-frame (max-width:760px) {
   #sp-prototype .sp-export-controls { padding:16px; }
@@ -5799,6 +5805,118 @@ const StageplotPrint = (() => {
 </script>
 <script>
 // Embedded verbatim for the single-file offline app; the separate module remains the tested source.
+/* build-inline:start stageplot-look-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+// Shared Live look for the editable SVG and its offline image/PDF exports.
+// Geometry, routing, hit targets and project data remain owned by the stage renderer.
+(function(root,factory){
+  const api=factory();
+  if(typeof module==='object'&&module.exports)module.exports=api;
+  else root.StageplotLook=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const palette=Object.freeze({canvas:'#1c2226',stage:'#282f33',grid:'#343d41',module:'#485155',border:'#b7bab2',ink:'#f4efdf',muted:'#aeb6b4',label:'#191f23',labelBorder:'#485155',lime:'#d4f15b',violet:'#b5a0e3',coral:'#ee9285',riser:'#30343c'});
+  const sans='-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  const mono='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+  const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
+  function frame(width,mode){return {left:width<500?46:70,right:width<500?31:45,header:mode==='editor'&&width<620?120:clamp(width*.084,70,116),bottom:46};}
+  function labelMetrics(lines,nameLines,scale,context,riser=false){
+    const unit=clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
+    const fonts=lines.map((_,i)=>`${i<nameLines?650:400} ${i<nameLines?fontSize:detailSize}px ${i<nameLines?sans:mono}`);
+    const previous=context?.font;
+    const widths=lines.map((line,i)=>{if(!context)return line.length*(i<nameLines?fontSize:detailSize)*.65;context.font=fonts[i];return context.measureText(line).width;});
+    if(context)context.font=previous;
+    return {unit,fontSize,detailSize,lineHeight,padX,padY,fonts,width:Math.ceil(Math.max(...widths)+padX*2),height:Math.ceil(lines.length*lineHeight+padY*2)};
+  }
+  function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,text=false,id}={}){
+    const p=palette,{unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
+    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:3*unit,fill:p.label,stroke:riser?p.violet:p.labelBorder,'stroke-width':riser?1.1:.65},parent);
+    if(!riser)add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:p.lime,'data-label-accent':'true'},parent);
+    lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${riser?p.violet:text?p.lime:i<nameLines?p.ink:'#d4d9d5'}`,'data-label-line':i},parent,line));
+  }
+  function paint({svg,add,stage,bounds,scale,mx,top,W,H,mode,downstageY,showMeasures,transparent}){
+    const p=palette,defs=svg.querySelector('defs'),width=bounds?bounds.maxX-bounds.minX:stage.w,depth=bounds?bounds.maxY-bounds.minY:stage.d,rectW=width*scale,rectH=depth*scale;
+    if(bounds){mx+=bounds.minX*scale;top+=bounds.minY*scale;}
+    svg.dataset.stageLook='live';
+    svg.style.setProperty('--sp-ink',p.ink);svg.style.setProperty('--sp-muted',p.muted);svg.style.setProperty('--sp-line',p.module);svg.style.setProperty('--sp-teal',p.lime);
+    const apply=(selector,attrs)=>svg.querySelectorAll(selector).forEach(node=>Object.entries(attrs).forEach(([name,value])=>node.setAttribute(name,value)));
+    apply('[data-canvas-background]',{fill:transparent?'transparent':p.canvas});
+    apply('[data-stage-deck]',{fill:p.stage});
+    apply('[data-stage-module]',{fill:'none',stroke:p.module,'stroke-width':.65});
+    apply('[data-stage-modules] path',{stroke:p.module,'stroke-width':.65});
+    apply('[data-stage-boundary]',{stroke:p.border,'stroke-width':1.1});
+    apply('[data-stage-extension] rect',{fill:p.stage,stroke:p.module});
+    apply('[data-stage-extension] line',{stroke:p.module});
+    apply('[data-stage-grid]',{opacity:.7});
+    apply('[data-grid-metres] path',{stroke:p.grid,'stroke-width':.55});
+    apply('[data-grid-scale-label]',{fill:p.label,stroke:p.labelBorder,opacity:.8});
+    // The real deck modules remain visible in export; editing snap subdivisions are optional.
+    const filterId='sp-live-instrument-'+mode,filter=add('filter',{id:filterId,x:'-20%',y:'-20%',width:'140%',height:'145%','color-interpolation-filters':'sRGB'},defs);
+    add('feColorMatrix',{type:'saturate',values:0},filter);
+    const tone=add('feComponentTransfer',{},filter);
+    for(const [channel,values] of [['R','0.045 0.96'],['G','0.055 0.935'],['B','0.06 0.86']])add('feFunc'+channel,{type:'table',tableValues:values},tone);
+    add('feDropShadow',{dx:0,dy:1.5,stdDeviation:1.15,'flood-color':'#080c0f','flood-opacity':.55},filter);
+    svg.querySelectorAll('[data-object-visual]').forEach(visual=>{
+      if(visual.querySelector('[data-equipment="riser"],[data-stage-extension]'))return;
+      visual.setAttribute('filter','url(#'+filterId+')');
+    });
+    svg.querySelectorAll('[data-equipment="riser"]').forEach(deck=>{
+      const rects=deck.querySelectorAll(':scope > rect');
+      if(rects[0]){rects[0].setAttribute('fill',p.riser);rects[0].setAttribute('stroke',p.violet);rects[0].setAttribute('stroke-width',1.8);}
+      if(rects[1]){rects[1].setAttribute('stroke',p.violet);rects[1].setAttribute('opacity',.45);}
+      deck.querySelectorAll(':scope > line').forEach(n=>n.setAttribute('stroke','#555361'));
+      deck.querySelectorAll(':scope > circle').forEach(n=>n.setAttribute('fill',p.violet));
+      deck.querySelectorAll('[data-riser-edge]').forEach(n=>{n.setAttribute('fill',p.violet);n.setAttribute('opacity',.65);});
+      deck.querySelectorAll('[data-riser-caption] rect').forEach(n=>{n.setAttribute('fill',p.label);});
+      deck.querySelectorAll('[data-riser-height]').forEach(n=>{n.setAttribute('fill',p.violet);});
+    });
+    apply('[data-stair-body]',{fill:'#747971',stroke:p.border});
+    ['#e4e2d3','#d5d7ca','#c5cbbf'].forEach((fill,i)=>apply('[data-stair-step="'+i+'"]',{fill}));
+    apply('[data-stair-rail]',{fill:'#444c45',stroke:p.border});
+    apply('[data-stair-tread]',{stroke:'#737b70'});
+    apply('[data-stair-anti-slip]',{stroke:'#919a8a'});
+    apply('[data-stair-nosing]',{stroke:'#edf0df'});
+    // Keep routing semantics: digital traces stay blue/orange; the lime is a label accent.
+    apply('[data-cable-visual]',{stroke:'#0c1115'});
+    apply('[data-production-summary] rect',{fill:p.label,stroke:p.labelBorder});
+    apply('[data-production-summary] text',{fill:p.ink});
+    // Replace the old orientation chrome with the same editorial frame in every output.
+    apply('.sp-orientation,[data-stage-measure],[data-stage-measure-tick],[data-dim-width],[data-stage-side]',{display:'none'});
+    const chrome=add('g',{'data-live-frame':'true','pointer-events':'none'},svg),margin=W<500?24:W*.045,titleX=mode==='editor'&&W>=620?205:margin;
+    const titleSize=clamp(W*(mode==='editor'?.039:.052),30,72),titleY=frame(W,mode).header-23;
+    if(mode!=='editor'||W>=620){
+    add('text',{x:titleX,y:Math.max(16,titleY-titleSize*.86),style:`font-family:${mono};font-size:${clamp(W*.008,7,11)}px;font-weight:500;letter-spacing:3px;fill:${p.ink}`},chrome,'LIVE SETUP');
+    add('text',{x:titleX-2,y:titleY,style:`font-family:${sans};font-size:${titleSize}px;font-weight:850;letter-spacing:-2px;fill:${p.ink}`},chrome,'Stageplot');
+    }
+    if(W>=620){
+      const x=W-margin-42,y=titleY-24,maxLength=Math.floor(W/30),title=String(stage.title||'').slice(0,maxLength);
+      add('text',{x,y,'text-anchor':'end',style:`font-family:${mono};font-size:9px;letter-spacing:1px;fill:${p.muted}`},chrome,title);
+      if(showMeasures)add('text',{x,y:y+16,'text-anchor':'end',style:`font-family:${mono};font-size:9px;letter-spacing:1.3px;fill:${p.ink}`},chrome,`${width.toLocaleString('de-AT')} × ${depth.toLocaleString('de-AT')} m`);
+      add('rect',{x:W-margin-28,y:titleY-40,width:28,height:28,fill:'none',stroke:p.violet},chrome);
+      add('text',{x:W-margin-14,y:titleY-20,'text-anchor':'middle',style:`font-family:${sans};font-size:16px;fill:${p.violet}`},chrome,'2D');
+    }
+    // Directions follow the stage while panning/zooming; the heading stays on the sheet.
+    const directionSize=clamp(scale*.1,7,11),center=top+rectH/2;
+    for(const [x,angle,label] of [[mx-14,-90,'STAGE RIGHT'],[mx+rectW+14,90,'STAGE LEFT']]){
+      add('text',{x,y:center,'text-anchor':'middle',transform:`rotate(${angle} ${x} ${center})`,style:`font-family:${sans};font-size:${directionSize}px;font-weight:650;letter-spacing:2px;fill:${p.ink}`},chrome,label);
+    }
+    if(showMeasures){
+      const x=Math.max(12,mx-42),y=top+rectH/2;
+      apply('[data-dim-depth]',{x,y,transform:`rotate(-90 ${x} ${y})`,style:`font-family:${mono};font-size:11px;fill:${p.muted}`});
+      for(const [a,b] of [[top,center-24],[center+24,top+rectH]])add('line',{x1:x,y1:a,x2:x,y2:b,stroke:p.muted,'stroke-width':.65},chrome);
+      for(const yy of [top,top+rectH])add('line',{x1:x-4,y1:yy,x2:x+4,y2:yy,stroke:p.muted,'stroke-width':.65},chrome);
+    }
+    const audienceX=mx+rectW/2,y=Math.min(H-12,downstageY);
+    const gridBadge=svg.querySelector('[data-grid-scale-label]');
+    if(gridBadge){const note=gridBadge.nextElementSibling,badgeY=Math.min(H-24,y+14),badgeX=W<500?12:mx;gridBadge.setAttribute('x',badgeX);gridBadge.setAttribute('y',badgeY);if(note?.tagName.toLowerCase()==='text'){note.setAttribute('x',badgeX+7);note.setAttribute('y',badgeY+12);note.setAttribute('font-size',8);note.setAttribute('fill',p.muted);}}
+    add('path',{d:`M${audienceX-5} ${y-20}h10l-5 7Z`,fill:p.coral},chrome);
+    add('text',{x:audienceX,y,'text-anchor':'middle',style:`font-family:${sans};font-size:10px;font-weight:700;letter-spacing:2.8px;fill:${p.coral}`},chrome,'PUBLIKUM');
+    for(const sign of [-1,1])add('line',{x1:audienceX+sign*63,y1:y-3,x2:audienceX+sign*84,y2:y-3,stroke:p.coral,'stroke-width':.8},chrome);
+    if(transparent){chrome.querySelectorAll('text').forEach(node=>{node.style.fill=node.textContent==='PUBLIKUM'?'#a84e42':'#343d41';});apply('[data-dim-depth]',{style:`font-family:${mono};font-size:11px;fill:#596267`});}
+  }
+  return {palette,frame,labelMetrics,drawLabel,paint};
+});
+/* build-inline:end stageplot-look-v1.js */
+
 /* build-inline:start stageplot-export-v42.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Pure offline export helpers: no DOM, network, storage or mutable app state.
 function createStageplotExportV42() {
@@ -6101,6 +6219,48 @@ function createStageplotExportV42() {
     {id:'light-wave-bar',name:'Moving Head Wave Bar · Beam & Wash',short:'Wave Bar · Beam/Wash',family:'lights',category:'tech',w:1.12,d:.24,vb:[336,72],keywords:'licht moving head wave bar beam wash matrix galaxyjet shehds'},
     {id:'light-bar',name:'LED Bar',short:'LED Bar',family:'lights',category:'tech',w:1,d:.12,vb:[300,36],keywords:'licht led bar strip leiste rampe'},
     {id:'di',name:'DI-Box',short:'DI-Box',category:'tech',w:.24,d:.16,detail:'Vergrößertes Planmaß · 24 × 16 cm'},
+    // illustrated-catalog:start
+    {"id":"music-stand","name":"Notenständer","short":"Notenständer","category":"tech","w":0.55,"d":0.55,"vb":[55,55],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"noten music stand zubehör","detail":"Generisches Planmaß · 55 × 55 cm"},
+    {"id":"musician-chair","name":"Musikerstuhl","short":"Musikerstuhl","category":"tech","w":0.5,"d":0.55,"vb":[50,55],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"stuhl chair sitz orchester","detail":"Generisches Planmaß · 50 × 55 cm"},
+    {"id":"tablet-stand","name":"Tablet-Halter","short":"Tablet-Halter","category":"tech","w":0.5,"d":0.5,"vb":[50,50],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"tablet ipad halter ständer","detail":"Generisches Planmaß · 50 × 50 cm"},
+    {"id":"standing-stool","name":"Stehhocker","short":"Stehhocker","category":"tech","w":0.45,"d":0.5,"vb":[45,50],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"stehhilfe hocker stool sitz","detail":"Generisches Planmaß · 45 × 50 cm"},
+    {"id":"equipment-table","name":"Equipment-Tisch","short":"Equipment-Tisch","category":"tech","w":1.2,"d":0.6,"vb":[120,60],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"equipment table tisch ablage","detail":"Generisches Planmaß · 120 × 60 cm","underlay":true},
+    {"id":"congas","name":"Conga-Paar","short":"Conga-Paar","category":"percussion","w":0.8,"d":0.45,"vb":[80,45],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"conga congas percussion perkussion","detail":"Generisches Planmaß · 80 × 45 cm · Abnahme editierbar"},
+    {"id":"bongos","name":"Bongos","short":"Bongos","category":"percussion","w":0.48,"d":0.25,"vb":[48,25],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"bongo bongos percussion perkussion","detail":"Generisches Planmaß · 48 × 25 cm · Abnahme editierbar"},
+    {"id":"djembe","name":"Djembe","short":"Djembe","category":"percussion","w":0.36,"d":0.36,"vb":[36,36],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"djembe handtrommel percussion","detail":"Generisches Planmaß · 36 × 36 cm · Abnahme editierbar"},
+    {"id":"timbales","name":"Timbales","short":"Timbales","category":"percussion","w":0.85,"d":0.5,"vb":[85,50],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"timbales latin percussion","detail":"Generisches Planmaß · 85 × 50 cm · Abnahme editierbar"},
+    {"id":"percussion-table","name":"Percussion-Tisch","short":"Percussion-Tisch","category":"percussion","w":0.8,"d":0.5,"vb":[80,50],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"percussion table perkussion tisch shaker tamburin","detail":"Generisches Planmaß · 80 × 50 cm · Abnahme editierbar","underlay":true},
+    {"id":"grand-piano","name":"Flügel","short":"Flügel","category":"keys","w":1.55,"d":2.1,"vb":[155,210],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR","stereoPairs":[1]},"signalType":"Mic","keywords":"flügel fluegel piano grand klavier","detail":"Generisches Planmaß · 155 × 210 cm · Abnahme editierbar"},
+    {"id":"upright-piano","name":"Aufrechtes Klavier","short":"Aufrechtes Klavier","category":"keys","w":1.5,"d":0.6,"vb":[150,60],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR","stereoPairs":[1]},"signalType":"Mic","keywords":"klavier upright piano pianino","detail":"Generisches Planmaß · 150 × 60 cm · Abnahme editierbar"},
+    {"id":"leslie","name":"Leslie-Kabinett","short":"Leslie-Kabinett","category":"amps","w":0.75,"d":0.55,"vb":[75,55],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"leslie rotary hammond orgel kabinet","detail":"Generisches Planmaß · 75 × 55 cm · Abnahme editierbar"},
+    {"id":"dj-controller","name":"DJ-Controller","short":"DJ-Controller","category":"tech","w":0.72,"d":0.4,"vb":[72,40],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"dj controller deck elektronik","detail":"Generisches Planmaß · 72 × 40 cm"},
+    {"id":"dj-player","name":"CDJ-Player","short":"CDJ-Player","category":"tech","w":0.32,"d":0.45,"vb":[32,45],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"cdj dj player media deck","detail":"Generisches Planmaß · 32 × 45 cm"},
+    {"id":"turntable","name":"Plattenspieler","short":"Plattenspieler","category":"tech","w":0.45,"d":0.36,"vb":[45,36],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"plattenspieler turntable dj vinyl","detail":"Generisches Planmaß · 45 × 36 cm"},
+    {"id":"dj-mixer","name":"DJ-Mixer","short":"DJ-Mixer","category":"tech","w":0.32,"d":0.4,"vb":[32,40],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":8,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"dj mixer mischpult elektronik","detail":"Generisches Planmaß · 32 × 40 cm"},
+    {"id":"sampler","name":"Sampler","short":"Sampler","category":"tech","w":0.35,"d":0.3,"vb":[35,30],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"sampler sample pads mpc elektronik","detail":"Generisches Planmaß · 35 × 30 cm"},
+    {"id":"drum-machine","name":"Drumcomputer","short":"Drumcomputer","category":"tech","w":0.38,"d":0.22,"vb":[38,22],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"drumcomputer drum machine sequencer elektronik","detail":"Generisches Planmaß · 38 × 22 cm"},
+    {"id":"pedalboard","name":"Pedalboard","short":"Pedalboard","category":"amps","w":0.65,"d":0.35,"vb":[65,35],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"Klinke","outputConnector":"Klinke"},"signalType":"Instrument","keywords":"pedalboard effekt gitarre pedal","detail":"Generisches Planmaß · 65 × 35 cm"},
+    {"id":"amp-head","name":"Amp-Topteil","short":"Amp-Topteil","category":"amps","w":0.65,"d":0.27,"vb":[65,27],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"Klinke","outputConnector":"Klinke"},"signalType":"Line","keywords":"amp topteil head verstärker","detail":"Generisches Planmaß · 65 × 27 cm"},
+    {"id":"cabinet-112","name":"Gitarrenbox · 1×12","short":"Gitarrenbox · 1×12","category":"amps","w":0.5,"d":0.3,"vb":[50,30],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"box cabinet gitarre 1x12 backline","detail":"Generisches Planmaß · 50 × 30 cm · Abnahme editierbar"},
+    {"id":"cabinet-212","name":"Gitarrenbox · 2×12","short":"Gitarrenbox · 2×12","category":"amps","w":0.75,"d":0.32,"vb":[75,32],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"box cabinet gitarre 2x12 backline","detail":"Generisches Planmaß · 75 × 32 cm · Abnahme editierbar"},
+    {"id":"cabinet-412","name":"Gitarrenbox · 4×12","short":"Gitarrenbox · 4×12","category":"amps","w":0.76,"d":0.37,"vb":[76,37],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"box cabinet gitarre 4x12 backline","detail":"Generisches Planmaß · 76 × 37 cm · Abnahme editierbar"},
+    {"id":"pa-top","name":"PA-Topteil auf Stativ","short":"PA-Topteil auf Stativ","category":"tech","w":1,"d":1,"vb":[100,100],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"pa lautsprecher topteil stativ speaker","detail":"Generisches Planmaß · 100 × 100 cm"},
+    {"id":"subwoofer","name":"Subwoofer","short":"Subwoofer","category":"tech","w":0.7,"d":0.75,"vb":[70,75],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"subwoofer sub bass pa lautsprecher","detail":"Generisches Planmaß · 70 × 75 cm"},
+    {"id":"sidefill","name":"Sidefill","short":"Sidefill","category":"tech","w":0.75,"d":0.85,"vb":[75,85],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"sidefill monitor pa lautsprecher","detail":"Generisches Planmaß · 75 × 85 cm"},
+    {"id":"drumfill","name":"Drumfill","short":"Drumfill","category":"tech","w":0.65,"d":0.75,"vb":[65,75],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"drumfill schlagzeug monitor pa","detail":"Generisches Planmaß · 65 × 75 cm"},
+    {"id":"violin","name":"Violine","short":"Violine","category":"strings","w":0.22,"d":0.6,"vb":[22,60],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"violine geige violin streicher orchester","detail":"Schematisches Plansymbol · 22 × 60 cm · Abnahme editierbar"},
+    {"id":"viola","name":"Bratsche","short":"Bratsche","category":"strings","w":0.26,"d":0.68,"vb":[26,68],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"bratsche viola streicher orchester","detail":"Schematisches Plansymbol · 26 × 68 cm · Abnahme editierbar"},
+    {"id":"cello","name":"Cello","short":"Cello","category":"strings","w":0.48,"d":1.35,"vb":[48,135],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"cello violoncello streicher orchester","detail":"Schematisches Plansymbol · 48 × 135 cm · Abnahme editierbar"},
+    {"id":"harp","name":"Harfe","short":"Harfe","category":"strings","w":0.85,"d":1.25,"vb":[85,125],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"harfe harp orchester akustik","detail":"Schematisches Plansymbol · 85 × 125 cm · Abnahme editierbar"},
+    {"id":"accordion","name":"Akkordeon","short":"Akkordeon","category":"keys","w":0.65,"d":0.4,"vb":[65,40],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR","stereoPairs":[1]},"signalType":"Mic","keywords":"akkordeon accordion ziehharmonika","detail":"Schematisches Plansymbol · 65 × 40 cm · Abnahme editierbar"},
+    {"id":"clarinet","name":"Klarinette","short":"Klarinette","category":"winds","w":0.09,"d":0.67,"vb":[9,67],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"klarinette clarinet holzbläser","detail":"Schematisches Plansymbol · 9 × 67 cm · Abnahme editierbar"},
+    {"id":"french-horn","name":"Waldhorn","short":"Waldhorn","category":"winds","w":0.55,"d":0.4,"vb":[55,40],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"waldhorn horn french horn blechbläser","detail":"Schematisches Plansymbol · 55 × 40 cm · Abnahme editierbar"},
+    {"id":"drum-shield","name":"Drumshield","short":"Drumshield","category":"tech","w":2.4,"d":1.1,"vb":[240,110],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"drumshield drums shield schallschutz acryl","detail":"Generisches Planmaß · 240 × 110 cm"},
+    {"id":"wireless-antenna","name":"Funkantenne auf Stativ","short":"Funkantenne auf Stativ","category":"tech","w":0.65,"d":0.65,"vb":[65,65],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"funkantenne antenne wireless rf paddel stativ","detail":"Generisches Planmaß · 65 × 65 cm"},
+    {"id":"camera-tripod","name":"Kamera mit Stativ","short":"Kamera mit Stativ","category":"tech","w":0.85,"d":0.85,"vb":[85,85],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"kamera camera video tripod stativ","detail":"Generisches Planmaß · 85 × 85 cm"},
+    {"id":"led-wall","name":"LED-Wand","short":"LED-Wand","category":"tech","w":3,"d":0.65,"vb":[300,65],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"led wand wall video display bildschirm","detail":"Generisches Planmaß · 300 × 65 cm"},
+    {"id":"projection-screen","name":"Leinwand","short":"Leinwand","category":"tech","w":2.4,"d":0.6,"vb":[240,60],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"leinwand screen projektion video","detail":"Generisches Planmaß · 240 × 60 cm"},
+    // illustrated-catalog:end
     {id:'text',name:'Freie Beschriftung',short:'Text',category:'tech',w:.8,d:.35}
   ].map(c=>({...c,defaultAngle:c.defaultAngle??(c.category==='keys'?180:['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic','double-bass'].includes(c.id)?65:0),art:c.art||c.id,vb:c.vb||[100,100],instrument:c.instrument??(['drums','keys','strings','winds','mics','amps'].includes(c.category)||c.id==='laptop')}));
   const byId = Object.fromEntries(catalog.map(c => [c.id, c]));
@@ -6125,7 +6285,7 @@ function createStageplotExportV42() {
   const packLicensePublicKey={key_ops:['verify'],ext:true,kty:'EC',x:'f9PxV8hP83InwZHNOEkV1aDwhjR_xqmHNhbvy8UHktE',y:'OQKzbhsR4eQKB_WQTjOjtzKhV9joOmVZqOPjHgGEL7Y',crv:'P-256'};
   const packStorageKey='stageplot-studio:object-packs:v1';
   const stationIds = ['drums','keys-stage4','keys-bassstation2','keys-moog-sub37','mic','guitar','bass','acoustic','double-bass','laptop','rack','iem-earphones','wedge','teleprompter','amp','quad-cortex','bass-stack','riser','riser-2','riser-3'];
-  const instrumentLibraryCategories = new Set(['drums','keys','strings','winds']);
+  const instrumentLibraryCategories = new Set(['drums','percussion','keys','strings','winds']);
   const stageLibraryIds = new Set(['riser','riser-2','riser-3','stage-module','stage-ramp','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier','rug']);
   function libraryGroupFor(c){
     if(c.family==='lights')return 'lights';
@@ -6436,6 +6596,13 @@ function createStageplotDrumModel() {
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
 // Relative positions checked against real overhead photos (see stageplot-referenzen.md).
 function createStageplotSymbolV3(type, options = {}) {
+  // illustrated-assets:start
+  const illustratedAssets = {"music-stand":[55,55],"musician-chair":[50,55],"tablet-stand":[50,50],"standing-stool":[45,50],"equipment-table":[120,60],"congas":[80,45],"bongos":[48,25],"djembe":[36,36],"timbales":[85,50],"percussion-table":[80,50],"grand-piano":[155,210],"upright-piano":[150,60],"leslie":[75,55],"dj-controller":[72,40],"dj-player":[32,45],"turntable":[45,36],"dj-mixer":[32,40],"sampler":[35,30],"drum-machine":[38,22],"pedalboard":[65,35],"amp-head":[65,27],"cabinet-112":[50,30],"cabinet-212":[75,32],"cabinet-412":[76,37],"pa-top":[100,100],"subwoofer":[70,75],"sidefill":[75,85],"drumfill":[65,75],"violin":[22,60],"viola":[26,68],"cello":[48,135],"harp":[85,125],"accordion":[65,40],"clarinet":[9,67],"french-horn":[55,40],"drum-shield":[240,110],"wireless-antenna":[65,65],"camera-tripod":[85,85],"led-wall":[300,65],"projection-screen":[240,60]};
+  if(Object.hasOwn(illustratedAssets,type)){
+    const [width,height]=illustratedAssets[type];
+    return `<image href="stageplot-assets/objects/${type}-v1.webp" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet" data-rendered-object-asset="${type}"/>`;
+  }
+  // illustrated-assets:end
   let out = '';
   const f = n => Math.round(n * 100) / 100;
   const drumMicParts=new Set(Array.isArray(options.drumMicParts)?options.drumMicParts:[]);
@@ -7794,7 +7961,15 @@ function createStageplotSymbolV3(type, options = {}) {
     const step=()=>{if(run!==stairsAnim)return;i++;const k=i/frames,e=1-Math.pow(1-k,3);record.stairsWidth=start+(target-start)*e;updateStairsWidthNode(svg,stage,id);if(i<frames)requestAnimationFrame(step);else{record.stairsWidth=target;keepHistory(before);renderEditor();say('Treppe auf Standardbreite');}};
     requestAnimationFrame(step);
   }
-  function workspaceBounds(s,list){
+  function workspaceBounds(s,list,compact=false){
+    if(compact){
+      const bounds=s.geometry?compiledVenue(s,list).bounds:{minX:0,minY:0,maxX:s.w,maxY:s.d},box={...bounds};
+      const include=(x,y,w,d)=>{box.minX=Math.min(box.minX,x);box.minY=Math.min(box.minY,y);box.maxX=Math.max(box.maxX,x+w);box.maxY=Math.max(box.maxY,y+d);};
+      for(const entry of stairStates(s)){const stair=stairsGeometry(s,entry.id);include(stair.x,stair.y,stair.w,stair.d);}
+      const zone=iemRect(s);if(zone)include(zone.x,zone.y,zone.w,zone.d);
+      for(const o of list){const size=objectSize(o),angle=o.angle*Math.PI/180,w=Math.abs(Math.cos(angle))*size.w+Math.abs(Math.sin(angle))*size.d,d=Math.abs(Math.sin(angle))*size.w+Math.abs(Math.cos(angle))*size.d;include(o.x-w/2,o.y-d/2,w,d);}
+      return {minX:box.minX-.2,minY:box.minY-.2,maxX:box.maxX+.2,maxY:box.maxY+.2};
+    }
     const box={minX:-.65,minY:-.65,maxX:s.w+.65,maxY:s.d+.65};
     if(s.geometry){const b=compiledVenue(s,list).bounds;Object.assign(box,{minX:b.minX-.8,minY:b.minY-.8,maxX:b.maxX+.8,maxY:b.maxY+1});}
     const zone=iemRect(s);if(zone){box.minX=Math.min(box.minX,zone.x-.5);box.minY=Math.min(box.minY,zone.y-.5);box.maxX=Math.max(box.maxX,zone.x+zone.w+.5);box.maxY=Math.max(box.maxY,zone.y+zone.d+.5);}
@@ -7812,11 +7987,11 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const key of ['maxX','maxY'])box[key]=Math.ceil(box[key]*4)/4;
     return box;
   }
-  function editorWorkspaceBounds(s,list){
+  function editorWorkspaceBounds(s,list,compact=false){
     // Object edits must never refit the view. Capture bounds only for a new stage
     // or after an explicit "Einpassen"; keep them through moves, rotations and undo.
-    if(!editorFit||editorFit.w!==s.w||editorFit.d!==s.d){
-      editorFit={w:s.w,d:s.d,area:workspaceBounds(s,list)};
+    if(!editorFit||editorFit.w!==s.w||editorFit.d!==s.d||editorFit.compact!==compact){
+      editorFit={w:s.w,d:s.d,compact,area:workspaceBounds(s,list,compact)};
     }
     return editorFit.area;
   }
@@ -8012,8 +8187,8 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-labels-visible').setAttribute('aria-label',labels?'Beschriftungen ausblenden':'Beschriftungen einblenden');
     $('sp-labels-visible').dataset.tooltip=labels?'Beschriftungen ausblenden':'Beschriftungen einblenden';
     $('sp-stage-surface-toggle').setAttribute('aria-pressed',String(black));
-    $('sp-stage-surface-toggle').setAttribute('aria-label',black?'Bühne hell darstellen':'Bühne schwarz darstellen');
-    $('sp-stage-surface-toggle').dataset.tooltip=black?'Bühne hell':'Bühne schwarz';
+    $('sp-stage-surface-toggle').setAttribute('aria-label',black?'Live-Look deaktivieren':'Live-Look aktivieren');
+    $('sp-stage-surface-toggle').dataset.tooltip=black?'Helle Bühne':'Live-Look: dunkle Bühne';
     if(view!=='print')$('sp-print-black-stage').checked=black;
     $('sp-setting-labels').checked=labels;
     $('sp-setting-black-stage').checked=black;
@@ -8069,13 +8244,14 @@ function createStageplotSymbolV3(type, options = {}) {
     const W=Math.floor(host.getBoundingClientRect().width);
     if(W<80||!s) return;
     renderedWidths.set(host.id,W);
-    const left=W<340?31:40,right=23,coarse=window.matchMedia('(pointer: coarse)').matches;
+    const liveLook=mode==='print'?$('sp-print-black-stage').checked:s.surface==='black',lookFrame=liveLook?StageplotLook.frame(W,mode):null;
+    const left=lookFrame?.left||(W<340?31:40),right=lookFrame?.right||23,coarse=window.matchMedia('(pointer: coarse)').matches;
     const technicalLines=(mode==='print'&&$('sp-export-format').value==='pdf'?[]:productionLines(s)).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
     const editorFooter=mode==='editor'?56:0;
-    const header=43,bottom=(mode==='editor'?36:47)+technicalHeight+editorFooter;
-    const area=mode==='editor'?editorWorkspaceBounds(s,list):workspaceBounds(s,list);
+    const header=lookFrame?.header||43,bottom=(lookFrame?.bottom||(mode==='editor'?36:47))+technicalHeight+editorFooter;
+    const area=mode==='editor'?editorWorkspaceBounds(s,list,liveLook):workspaceBounds(s,list,liveLook);
     const height=mode==='editor'||mode==='print'?Math.floor(host.getBoundingClientRect().height):0;
-    const fit=fitFloor(W,height,area,left,right,header,bottom,mode==='print'?'start':'center'),H=fixed?fixed.H:fit.H;
+    const fit=fitFloor(W,height,area,left,right,header,bottom,liveLook||mode==='print'?'start':'center'),H=fixed?fixed.H:fit.H;
     const {scale,mx,top}=fixed?fixed:(mode==='editor'?floorView(fit,W,H,camera):fit);
     renderedHeights.set(host.id,H);
     const blackStage=mode==='print'?$('sp-print-black-stage').checked:s.surface==='black',transparentPreview=mode==='print'&&$('sp-export-format').value!=='pdf'&&$('sp-export-background').value==='transparent',showPrintMeasures=mode!=='print'||$('sp-print-measures').checked,showPrintOuts=mode==='print'?$('sp-print-outs').checked:showOutsGlobal;
@@ -8176,7 +8352,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(active){const text=metres(cable.length),labelW=measureLabel(text)+12;sEl('rect',{x:geometry.mid.x-labelW/2,y:geometry.mid.y-11,width:labelW,height:20,rx:6,fill:'#161916',stroke:'#c3c8c3','stroke-width':1,'pointer-events':'none'},cableLayer);sEl('text',{x:geometry.mid.x,y:geometry.mid.y+3,'text-anchor':'middle',fill:'#fff','font-size':9,'font-weight':750,'pointer-events':'none'},cableLayer,text);}
     });
     if(mode==='editor'&&cablesVisible&&cableDrag?.point){const source=objects.find(o=>o.id===cableDrag.sourceId),target=objects.find(o=>o.id===cableDrag.targetId);if(source)cableDrag.rows.forEach((row,index)=>{const geometry=cablePreviewGeometry(source,cableDrag.point,target,scale,mx,top,index,cableDrag.rows.length);sEl('path',{d:geometry.path,fill:'none',stroke:'#c4c9c4','stroke-width':4.6,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.55,'pointer-events':'none'},cableLayer);sEl('path',{d:geometry.path,fill:'none',stroke:'#111311','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.94,'pointer-events':'none','data-cable-preview':row.sourceKey},cableLayer);drawCableConnector(cableLayer,geometry.points[0],geometry.points[1],cableSilverId,true);drawCableConnector(cableLayer,geometry.points.at(-1),geometry.points.at(-2),cableSilverId,true);});}
-    const downstageY=mode==='print'?Math.min(H-technicalHeight-editorFooter-12,top+area.maxY*scale+24):H-technicalHeight-editorFooter-12;
+    const downstageY=liveLook||mode==='print'?Math.min(H-technicalHeight-editorFooter-12,top+area.maxY*scale+24):H-technicalHeight-editorFooter-12;
     sEl('text',{x:mx+rectW/2,y:downstageY,'text-anchor':'middle',class:'sp-orientation'},svg,'DOWNSTAGE · VORNE · PUBLIKUM');
     if(mode==='editor'&&!list.length&&!venue) {
       sEl('text',{x:mx+rectW/2,y:top+rectH*.5,'text-anchor':'middle',fill:blackStage?'#eceee8':'#666','font-size':W<350?12:14},svg,'Deine Bühne ist bereit.');
@@ -8184,6 +8360,7 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     const occupiedLabels=technicalHeight||editorFooter?[{left:0,right:W,top:H-technicalHeight-editorFooter,bottom:H}]:[],covered=coveredRisers(list),labelsLayer=sEl('g',{'data-label-layer':mode});
     occupiedLabels.push({left:mx+rectW/2-115,right:mx+rectW/2+115,top:downstageY-12,bottom:downstageY+5});
+    if(liveLook)for(const x of [mx-14,mx+rectW+14])occupiedLabels.push({left:x-7,right:x+7,top:top+rectH/2-57,bottom:top+rectH/2+57});
     if(zone){const cx=mx+(zone.x+zone.w/2)*scale,cy=top+zone.y*scale;occupiedLabels.push({left:cx-14,right:cx+14,top:cy+2,bottom:cy+18});}
     if(mode==='editor'){
       positionRotationToolbar(svg);
@@ -8278,7 +8455,7 @@ function createStageplotSymbolV3(type, options = {}) {
       }
       if($('sp-print-labels').checked){
         const t=(labelVisible(o)?labelText(o):'')+(o.type==='riser'&&showPrintMeasures?' · '+riserDescription(o):'');
-        const maxChars=W<360?17:25, lines=[];
+        const maxChars=liveLook?(o.type==='riser'?42:W<500?22:30):(W<360?17:25), lines=[];
         let remaining=t;
         while(remaining.length>maxChars){const split=remaining.lastIndexOf(' ',maxChars),cut=split>5?split:maxChars;lines.push(remaining.slice(0,cut));remaining=remaining.slice(cut).trim();}
         if(remaining)lines.push(remaining);
@@ -8292,13 +8469,17 @@ function createStageplotSymbolV3(type, options = {}) {
         if(!lines.length)return;
         const labelGroup=sEl('g',{'data-label-for':o.id,'pointer-events':'none'},labelsLayer);
         if(o.type==='riser'){labelGroup.dataset.riserCaption=o.id;labelGroup.style.display='';}
-        const labelWidth=Math.max(...lines.map(measureLabel))+8,labelHeight=lines.length*12+5;
+        const metrics=liveLook?StageplotLook.labelMetrics(lines,nameLineCount,scale,textContext,o.type==='riser'):null;
+        const labelWidth=metrics?.width||(Math.max(...lines.map(measureLabel))+8),labelHeight=metrics?.height||(lines.length*12+5);
         const owner=ownerBoxes.get(o.id),freeView=mode==='editor';
         const placement=placeObjectLabel(owner,labelWidth,labelHeight,labelViewport(owner,labelWidth,labelHeight,W,H-technicalHeight-editorFooter,header,freeView&&(owner.left<0||owner.right>W||owner.top<0||owner.bottom>H-technicalHeight-editorFooter)),occupiedLabels,artworkBoxes,c.art==='text'),box=placement.box;
         if(freeView&&(owner.right<0||owner.left>W||owner.bottom<0||owner.top>H))labelGroup.style.display='none';
         labelGroup.dataset.labelSide=placement.side;
+        if(liveLook)StageplotLook.drawLabel(sEl,labelGroup,box,lines,nameLineCount,metrics,{riser:o.type==='riser',text:o.type==='text',id:o.id});
+        else {
         sEl('rect',{'data-label-background':o.id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,fill:'#fff',stroke:'#aeb5ae','stroke-width':.7,rx:3.5},labelGroup);
         lines.forEach((line,i)=>sEl('text',{x:(box.left+box.right)/2,y:box.top+12+i*12,'text-anchor':'middle',class:'sp-stage-label'+(i>=nameLineCount?' sp-stage-outs':'')},labelGroup,line));
+        }
         occupiedLabels.push(box);
       }
     });
@@ -8314,6 +8495,7 @@ function createStageplotSymbolV3(type, options = {}) {
       for(const [dir,hx,hy,cursor] of grips)sEl('rect',{x:hx-6,y:hy-6,width:12,height:12,rx:2.5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':1.8,'data-stage-resize':dir,style:'cursor:'+cursor},hg);
     }
     if(venue)positionVenueDimensions(svg,venue,scale,mx,top);
+    if(liveLook)StageplotLook.paint({svg,add:sEl,stage:s,bounds:venue?.floorBounds,scale,mx,top,W,H,mode,downstageY,showMeasures:showPrintMeasures,transparent:transparentPreview});
     if(mode==='editor'){
       svg.dataset.interactive='true';svg.dataset.originX=mx;svg.dataset.originY=top;svg.dataset.scale=scale;
       svg.addEventListener('pointerdown',startObjectDrag);
@@ -8549,7 +8731,7 @@ function createStageplotSymbolV3(type, options = {}) {
   const normalizeIoAliasList=(value,count)=>Array.from({length:count},(_,index)=>ioAliasText(Array.isArray(value)?value[index]:''));
   function defaultObjectIo(o){
     const c=byId[o?.type]||{},stereoPairs=[],inputs={count:0,connector:'XLR'},outputs={count:0,connector:'XLR'},aliases={inputs:[],outputs:[]};
-    if(c.ioDefaults){inputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.inputs)||0));outputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.outputs)||0));inputs.connector=normalizeIoConnector(c.ioDefaults.inputConnector,'XLR');outputs.connector=normalizeIoConnector(c.ioDefaults.outputConnector,'XLR');return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
+    if(c.ioDefaults){inputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.inputs)||0));outputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.outputs)||0));inputs.connector=normalizeIoConnector(c.ioDefaults.inputConnector,'XLR');outputs.connector=normalizeIoConnector(c.ioDefaults.outputConnector,'XLR');stereoPairs.push(...(c.ioDefaults.stereoPairs||[]).filter(start=>Number.isInteger(start)&&start>0&&start%2===1&&start<outputs.count));return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(drumModel.isDrums(o?.type)){outputs.count=drumModel.drumChannels(o.type,o.drums).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(o?.type==='cajon')outputs.count=2;
     else if(c.category==='keys'){outputs.count=o.type==='keys-stage4'?4:['keys-bassstation2','keys-moog-sub37'].includes(o.type)?1:2;outputs.connector='Klinke';if(outputs.count>=2)stereoPairs.push(1);}
@@ -9248,6 +9430,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function objectOutputSignal(o,connector){
     if(['USB','Digital','MADI','Dante'].includes(connector))return'Digital';
+    if(byId[o.type].signalType)return byId[o.type].signalType;
     if(o.type==='mic'||o.type==='double-bass'||o.type==='cajon'||byId[o.type].category==='winds'||['amp','bass-stack'].includes(o.type))return'Mic';
     if(['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic'].includes(o.type))return'Instrument';
     return'Line';
@@ -9512,6 +9695,8 @@ function createStageplotSymbolV3(type, options = {}) {
     if(objects.some(o=>outside(o,stage)))warnings.push('Aufbau ragt über die Bühne');
     if(objects.some(o=>iemOverlap(o,stage)))warnings.push('IEM-Stellfläche prüfen');
     $('sp-print-status').textContent=warnings.join(' · ');
+    $('sp-print-floor').dataset.stageLook=$('sp-print-black-stage').checked?'live':'light';
+    root.querySelector('[data-export-background="white"]').textContent=$('sp-print-black-stage').checked?'Design':'Weiß';
     drawFloor($('sp-print-floor'),stage,objects,'print');
     if(exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);}}
 
@@ -9603,11 +9788,17 @@ function createStageplotSymbolV3(type, options = {}) {
   const exportImageCache=new Map();
   function localImageDataUrl(url){
     const key=String(url);if(exportImageCache.has(key))return exportImageCache.get(key);
-    const promise=new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);resolve(canvas.toDataURL('image/png'));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Schlagzeugbild konnte nicht geladen werden.'));image.src=key;});
+    const source=new URL(key,window.location.href),webp=source.pathname.endsWith('.webp');
+    // Keep compressed local assets intact; expanding every WebP to PNG can exceed
+    // the SVG export budget even though the original object library is small.
+    const promise=webp&&['http:','https:'].includes(source.protocol)&&source.origin===window.location.origin
+      ? fetch(source).then(response=>{if(!response.ok)throw new Error('Ein Objektbild konnte nicht geladen werden.');return response.blob();}).then(blobDataUrl)
+      : new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);resolve(webp?canvas.toDataURL('image/webp',.94):canvas.toDataURL('image/png'));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Objektbild konnte nicht geladen werden.'));image.src=key;});
     exportImageCache.set(key,promise);return promise;
   }
   function exportArtworkBounds(svg,padding=4){
     const view=svg.viewBox.baseVal,boxes=[];
+    if(svg.dataset?.stageLook==='live')return {x:view.x,y:view.y,width:view.width,height:view.height};
     for(const node of svg.children){if(['defs','title'].includes(node.tagName.toLowerCase())||node.matches('[data-canvas-background]'))continue;try{const box=node.getBBox(),matrix=node.transform.baseVal.consolidate()?.matrix;if(box.width||box.height){if(matrix){const points=[[box.x,box.y],[box.x+box.width,box.y],[box.x,box.y+box.height],[box.x+box.width,box.y+box.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix)),xs=points.map(p=>p.x),ys=points.map(p=>p.y);boxes.push({x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)});}else boxes.push(box);}}catch(error){}}
     if(!boxes.length)return null;const left=Math.max(view.x,Math.min(...boxes.map(box=>box.x))-padding),top=Math.max(view.y,Math.min(...boxes.map(box=>box.y))-padding),right=Math.min(view.x+view.width,Math.max(...boxes.map(box=>box.x+box.width))+padding),bottom=Math.min(view.y+view.height,Math.max(...boxes.map(box=>box.y+box.height))+padding);
     return {x:left,y:top,width:Math.max(1,right-left),height:Math.max(1,bottom-top)};
@@ -11445,9 +11636,9 @@ function createStageplotSymbolV3(type, options = {}) {
   ];
   nextId=9;selected='station-1';cableViewEnabled=restoreCableViewPreference();loadThemePreference();loadAccountPlan();loadPackState();renderStageTemplates();
   let sharedDocument=null;try{sharedDocument=decodeShareDocument();}catch(error){say('Freigabelink konnte nicht geöffnet werden: '+error.message);}
-  if(sharedDocument){stage=sharedDocument.stage;objects=sharedDocument.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';$('sp-title').value=stage.title;setLibraryMode('objects');show('print');}
+  if(sharedDocument){stage=sharedDocument.stage;$('sp-print-black-stage').checked=stage.surface==='black';objects=sharedDocument.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';$('sp-title').value=stage.title;setLibraryMode('objects');show('print');}
   else {
-    restoreLatestDraft();setLibraryMode('objects');const restoredView=restoredAppView();
+    restoreLatestDraft();$('sp-print-black-stage').checked=stage?.surface==='black';setLibraryMode('objects');const restoredView=restoredAppView();
     if(restoredView==='setup'&&stage)openStageSettings();else show(!stage&&!['dashboard','setup'].includes(restoredView)?'dashboard':restoredView);
   }
   refreshPackUi();

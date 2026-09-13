@@ -3,6 +3,13 @@
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
 // Relative positions checked against real overhead photos (see stageplot-referenzen.md).
 function createStageplotSymbolV3(type, options = {}) {
+  // illustrated-assets:start
+  const illustratedAssets = {"music-stand":[55,55],"musician-chair":[50,55],"tablet-stand":[50,50],"standing-stool":[45,50],"equipment-table":[120,60],"congas":[80,45],"bongos":[48,25],"djembe":[36,36],"timbales":[85,50],"percussion-table":[80,50],"grand-piano":[155,210],"upright-piano":[150,60],"leslie":[75,55],"dj-controller":[72,40],"dj-player":[32,45],"turntable":[45,36],"dj-mixer":[32,40],"sampler":[35,30],"drum-machine":[38,22],"pedalboard":[65,35],"amp-head":[65,27],"cabinet-112":[50,30],"cabinet-212":[75,32],"cabinet-412":[76,37],"pa-top":[100,100],"subwoofer":[70,75],"sidefill":[75,85],"drumfill":[65,75],"violin":[22,60],"viola":[26,68],"cello":[48,135],"harp":[85,125],"accordion":[65,40],"clarinet":[9,67],"french-horn":[55,40],"drum-shield":[240,110],"wireless-antenna":[65,65],"camera-tripod":[85,85],"led-wall":[300,65],"projection-screen":[240,60]};
+  if(Object.hasOwn(illustratedAssets,type)){
+    const [width,height]=illustratedAssets[type];
+    return `<image href="stageplot-assets/objects/${type}-v1.webp" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet" data-rendered-object-asset="${type}"/>`;
+  }
+  // illustrated-assets:end
   let out = '';
   const f = n => Math.round(n * 100) / 100;
   const drumMicParts=new Set(Array.isArray(options.drumMicParts)?options.drumMicParts:[]);

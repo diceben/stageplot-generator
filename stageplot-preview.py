@@ -35,8 +35,9 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
-        if route.path.startswith("/stageplot-assets/drums/"):
-            asset_root = (root / "stageplot-assets" / "drums").resolve()
+        if route.path.startswith(("/stageplot-assets/drums/", "/stageplot-assets/objects/")):
+            folder = "objects" if route.path.startswith("/stageplot-assets/objects/") else "drums"
+            asset_root = (root / "stageplot-assets" / folder).resolve()
             asset = (root / route.path.lstrip("/")).resolve()
             if asset.parent != asset_root or asset.suffix not in (".png", ".webp", ".svg") or not asset.is_file():
                 self.send_error(404)
@@ -119,7 +120,8 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Encoding", "gzip")
         config = (root / "stageplot-cloud-config.js").read_text(encoding="utf-8")
         match = re.search(r'https://[a-z0-9-]+\.supabase\.co', config)
-        connect = "'none'" if not match else match.group(0)
+        # PNG export embeds local WebP bytes without expanding them to PNG first.
+        connect = "'self'" + (" " + match.group(0) if match else "")
         self.send_header("Content-Security-Policy", "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src " + connect + "; base-uri 'none'; form-action 'none'; frame-ancestors 'self'")
         self.end_headers()
         self.wfile.write(body)
