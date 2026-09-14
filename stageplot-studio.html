@@ -680,13 +680,14 @@
             </ul>
           </article>
           <article class="sp-release-card">
-            <header><div><strong>v0.1.0-beta.7</strong></div><time datetime="2026-09-13">13. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.7</strong></div><time datetime="2026-09-14">14. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
               <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung. „Mikrofon · Tellerboden“ steht zusätzlich direkt als Baustein bereit – mit rundem Fuß, Mikrofonkopf und denselben Routing-Einstellungen. Der Kopf kann beim Drehen des Stativs optional fest nach oben, rechts, unten oder links ausgerichtet bleiben – auch in Vorschau und Export. Stativfüße und Tellerboden liegen unter dem Equipment, Boom-Arm und Mikrofonkopf darüber; beide Ebenen bleiben gemeinsam bedienbar. Kompakte Eigenschaften mit direkten Stativoptionen, einer Richtungszeile und klarer Rückmeldung zur Kopfausrichtung.</li>
               <li><strong>Bühnenbau aufgeräumt:</strong> Klarere Werkzeug-Tabs, großzügigere Eigenschaften und direkt auswählbare Elemente mit Maßangaben. Große Schalter für Raster und Equipment, eine ruhigere Planfläche und offen sichtbare Bühnenvorlagen vereinfachen die Bearbeitung – auch am Handy.</li>
               <li><strong>Neue Bausteinleiste:</strong> Kompakte Tabs, ruhige Kategorien mit Bild-Icons und übersichtliche Objektkarten schaffen mehr Platz für Instrumente und Technik. Inventar ist direkt im Kopf erreichbar; Favoriten, zuletzt benutzte Bausteine und die kompakte Handy-Suche bleiben erhalten.</li>
               <li><strong>Eindeutige Auswahl:</strong> Eckgriffe erscheinen nur noch bei tatsächlich skalierbaren Flächen wie Risern, FOH, Treppen und Rampen. Instrumente und Geräte mit fester Größe bleiben mit einem schlichten Auswahlrahmen markiert.</li>
+              <li><strong>Dunkelmodus:</strong> Hell, Dunkel und System werden beim Antippen sofort angewendet und gespeichert. Die Auswahl bleibt beim Neuladen erhalten und wird zwischen offenen Tabs abgeglichen. Projekte, Routing und Dialoge folgen dem Farbschema. Im Bühneneditor sind auch die Fläche außerhalb der Bühne und die Werkzeugleiste dunkel; „Einpassen“ und Maßangaben bleiben lesbar. Das Druckpapier bleibt weiß.</li>
               <li><strong>Projekt anlegen:</strong> Ein Projektname, eine Bühnenvorschau und Breite/Tiefe mit −/+. Tippen ändert 50 cm, Gedrückthalten zählt weiter. Treppen und IEM-Flächen werden erst im Bühneneditor ergänzt.</li>
               <li><strong>Ruhigere mobile Bühne:</strong> Einheitliche Werkzeugleiste mit mittigen Beschriftungen, größere Bühnenansicht durch präziseres Einpassen und dezente Objektlabels. Die Bühne rückt näher an die Werkzeuge; Hinweise und die untere Bedienleiste bleiben kompakt. Überlappungen mit der IEM-Fläche erzeugen keine Warnung mehr.</li>
               <li><strong>Stabilere Bedienung:</strong> Einstellungen und „Bühne leeren“ geben den Tastaturfokus nach dem Schließen wieder an den Ausgangspunkt zurück. Die mobile Projektübersicht ist intern bereinigt; Titel und Aktionen bleiben auch auf schmalen Bildschirmen nebeneinander lesbar; Projektaktionen, Suche und Routing werden künftig vor Veröffentlichungen zusätzlich in zwei Browser-Engines geprüft.</li>
@@ -723,7 +724,7 @@
               <li>Die Audioplanung erfolgt über Signal, Stagebox und Buchse. Kabelzeichnen und die separate Kabelansicht entfallen.</li>
               <li>Keyboard, Gitarre und Bass erscheinen links jeweils nur einmal; derselbe große Modell-Picker dient zum Platzieren und zum späteren Modellwechsel.</li>
               <li>Das Patch Overview unterstützt IEM-Ausgänge, rote 48-V-Schaltung, automatische Kanalnummern sowie MADI und Dante; Quellen werden sofort verbunden und nach Instrument gruppiert.</li>
-              <li>Hell, Dunkel und System werden beim Antippen sofort angewendet und gespeichert. Die Auswahl bleibt beim Neuladen erhalten und wird zwischen offenen Tabs abgeglichen. Projekte, Routing und Dialoge folgen dem Farbschema; das Druckpapier bleibt weiß.</li>
+              <li>Der allgemeine System-/Hell-/Dunkel-Schalter gilt nun auch für Projekte, Routing, Projektdaten und die Export-Bedienoberfläche; das Druckpapier bleibt bewusst weiß.</li>
               <li>Neue Produktionsobjekte umfassen Korg KRONOS 3, Korg SV-1, Hammond B-3, EW-D, SM57, XR18, WING Compact/Rack, Hocker und zusätzliche Bühnenbauteile.</li>
               <li>CM14-Wedge, Quad Cortex und Blechbläser besitzen detailliertere technische Draufsichten; Handmikrofone sind als gut lesbare 2×-Plansymbole mit dokumentiertem Originalmaß verfügbar.</li>
               <li>Treppen sind realistischer gezeichnet, ihre Bearbeitungsbox liegt außerhalb der Stufen und die Ziehlogik bleibt auch an oberer und rechter Bühnenkante korrekt verankert.</li>
@@ -994,6 +995,9 @@
   #sp-prototype .sp-dimension { fill: var(--sp-muted); font-size: 11px; }
   #sp-prototype .sp-stage-label { fill: var(--sp-ink); font-size: 11px; }
   #sp-prototype .sp-orientation { fill: var(--sp-muted); font-size: 10px; letter-spacing: .8px; }
+  /* Exterior measures follow the workspace theme; the stage keeps its paper colors. */
+  #sp-prototype #sp-editor-floor > .sp-floor > :is(.sp-orientation,.sp-dimension) { fill:light-dark(#737373,#b7c0b8); }
+  #sp-prototype #sp-editor-floor > .sp-floor > :is([data-stage-measure],[data-stage-measure-tick]) { stroke:light-dark(#b4bbb4,#768077); }
   #sp-prototype .sp-symbol { stroke: var(--sp-art); stroke-width: 1.2; fill: var(--sp-symbol); stroke-linecap: round; stroke-linejoin: round; }
   #sp-prototype .sp-symbol * { vector-effect: non-scaling-stroke; }
   #sp-prototype .sp-object { cursor: grab; }
@@ -1210,7 +1214,7 @@
   #sp-prototype .sp-library-item > span { min-height:18px; }
   #sp-prototype .sp-library-item:hover, #sp-prototype .sp-library-item[data-active="true"] { background:#f1f8df; border-color:#9fc730; }
   #sp-prototype .sp-library-hint { margin-top:7px; font-size:10px; }
-  #sp-prototype .sp-canvas-panel { padding:0; background:#fff; }
+  #sp-prototype .sp-canvas-panel { padding:0; background:var(--sp-panel); }
   #sp-prototype .sp-stage-canvas { order:0; min-width:0; overflow:hidden; isolation:isolate; }
   #sp-prototype .sp-canvas-toolbar { order:1; justify-content:center; gap:5px 10px; margin:0; padding:5px 7px; border-top:1px solid var(--sp-line); background:var(--sp-panel); }
   #sp-prototype .sp-toolbar-group { display:flex; align-items:center; gap:4px; flex-shrink:0; }
@@ -2027,7 +2031,7 @@
 
 #sp-prototype .sp-stage-canvas {
   min-height: 0;
-  background: #fff;
+  background: var(--sp-panel);
 }
 
 #sp-prototype #sp-canvas-tools {
@@ -2855,9 +2859,9 @@
   gap:2px;
   min-width:0;
   padding:3px;
-  border:1px solid rgb(177 183 174 / 72%);
+  border:1px solid var(--sp-line);
   border-radius:11px;
-  background:rgb(250 251 248 / 91%);
+  background:light-dark(rgb(250 251 248 / 91%),rgb(33 36 38 / 94%));
   box-shadow:0 5px 18px rgb(31 39 30 / 13%);
   backdrop-filter:blur(9px) saturate(1.08);
   -webkit-backdrop-filter:blur(9px) saturate(1.08);
@@ -2865,7 +2869,7 @@
 }
 #sp-prototype #sp-canvas-tools .sp-toolbar-group + .sp-toolbar-group {
   padding-left:3px;
-  border-left:1px solid rgb(177 183 174 / 72%);
+  border-left:1px solid var(--sp-line);
 }
 #sp-prototype #sp-canvas-tools .sp-history-controls { top:10px; left:10px; }
 #sp-prototype #sp-canvas-tools .sp-focus-controls { top:10px; right:10px; }
@@ -2884,17 +2888,17 @@
   border:0;
   border-radius:8px;
   background:transparent;
-  color:#4d554d;
+  color:var(--sp-ink);
   cursor:pointer;
 }
 #sp-prototype #sp-canvas-tools .sp-button:hover,
-#sp-prototype #sp-canvas-tools .sp-snap-toggle:hover { background:#edf0e9; color:#20251f; }
+#sp-prototype #sp-canvas-tools .sp-snap-toggle:hover { background:var(--sp-soft); color:var(--sp-ink); }
 #sp-prototype #sp-canvas-tools .sp-button:focus-visible,
 #sp-prototype #sp-canvas-tools .sp-snap-toggle:has(input:focus-visible) { outline:2px solid #9dbc2c; outline-offset:1px; }
 #sp-prototype #sp-canvas-tools .sp-button:disabled { opacity:.3; cursor:default; }
 #sp-prototype #sp-canvas-tools :is(.sp-button[aria-pressed="true"],.sp-snap-toggle:has(input:checked)) {
-  background:#e9f6c8;
-  color:#384d18;
+  background:var(--sp-primary-soft);
+  color:var(--sp-ink);
 }
 #sp-prototype #sp-canvas-tools svg { display:block; width:19px; height:19px; }
 #sp-prototype #sp-canvas-tools #sp-zoom-label {
@@ -2902,7 +2906,7 @@
   min-width:48px;
   height:28px;
   place-items:center;
-  color:#626a61;
+  color:var(--sp-muted);
   font-size:10px;
   font-variant-numeric:tabular-nums;
 }
@@ -5681,7 +5685,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-canvas-tools .sp-canvas-dock > .sp-canvas-cluster { position:static; flex-shrink:0; }
 #sp-prototype #sp-canvas-tools .sp-view-controls {
   flex-wrap:wrap; justify-content:center; max-width:100%; gap:2px; padding:5px;
-  border-radius:16px; background:rgb(250 251 248 / 96%);
+  border-radius:16px; background:light-dark(rgb(250 251 248 / 96%),rgb(33 36 38 / 96%));
 }
 #sp-prototype #sp-canvas-tools .sp-view-controls :is(.sp-button,.sp-snap-toggle) {
   position:relative; display:flex; flex-direction:column; justify-content:center;
@@ -5701,7 +5705,7 @@ html,body { height:100%; overflow:hidden; }
   margin-left:7px; box-shadow:-5px 0 0 -4px #cdd3c7;
 }
 #sp-prototype #sp-canvas-tools .sp-view-controls :is(.sp-button[aria-pressed="true"],.sp-snap-toggle:has(input:checked)) {
-  background:#e9f6c8; color:#334514;
+  background:var(--sp-primary-soft); color:var(--sp-ink);
 }
 #sp-prototype #sp-canvas-tools .sp-view-controls :is(.sp-button[aria-pressed="true"],.sp-snap-toggle:has(input:checked))::before {
   content:"✓"; position:absolute; top:3px; right:3px; display:grid; place-items:center;
@@ -10613,7 +10617,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,width:W,height:H,class:'sp-floor',role:'img','data-mobile-editor':String(mobileEditor),'data-stage-surface':blackStage?'black':'light','aria-label':'Bühnenplan: '+num(s.w)+' mal '+metres(s.d)+', '+(blackStage?'schwarze Bühne, ':'')+'2 mal 1 Meter Module, Publikum unten'});
     sEl('title',{},svg,'Bühne in Draufsicht mit Upstage, Downstage, Stage Left und Stage Right');
     host.replaceChildren(svg);
-    sEl('rect',{width:W,height:H,fill:transparentPreview?'transparent':'var(--sp-paper)','pointer-events':'none','data-canvas-background':'true'},svg);
+    sEl('rect',{width:W,height:H,fill:transparentPreview?'transparent':mode==='editor'?'var(--sp-panel)':'var(--sp-paper)','pointer-events':'none','data-canvas-background':'true'},svg);
     svg.dataset.originX=mx;svg.dataset.originY=top;svg.dataset.scale=scale;
     svg.dataset.baseScale=fit.scale;svg.dataset.baseX=fit.mx;svg.dataset.baseY=fit.top;svg.dataset.zoom=mode==='editor'?camera.zoom:1;
     const rectW=s.w*scale,rectH=s.d*scale;
