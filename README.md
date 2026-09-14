@@ -16,6 +16,8 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Funktionen
 
+- **Lichtgeräte:** Neun neu generierte, leicht gezeichnete Bild-Assets mit erkennbaren Fronten, Linsen und Bügeln. Das Flightcase bleibt in Draufsicht. Transparente lokale WebP-Dateien erscheinen in Bibliothek, Bühne und Export; Stellmaße und gespeicherte Pläne bleiben erhalten. [Assets und Bildgenerierungs-Prompts](stageplot-assets/lights/manifest.json).
+
 - **Instrumentgruppen:** Blech, Holz und Streicher erscheinen als je eine Bibliothekskarte. Antippen öffnet die Instrumentauswahl; die Suche findet auch einzelne Instrumentnamen. Klassische Streicher umfassen Violine, Viola, Cello und Kontrabass; Saxophon und Englischhorn gehören zu Holz.
 
 - **Projekt anlegen:** Projektname, Bühnenwahl und maßstäbliche Vorschau. Breite und Tiefe werden mit −/+ in 50-cm-Schritten eingestellt; Gedrückthalten wiederholt. Neue eigene Bühnen starten ohne Treppen und IEM-Flächen. Diese werden im Editor ergänzt.
