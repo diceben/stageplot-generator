@@ -466,7 +466,7 @@
           <label class="sp-export-toggle"><input id="sp-print-labels" type="checkbox" checked><span>Objektbezeichnungen</span></label>
           <label class="sp-export-toggle"><input id="sp-print-outs" type="checkbox" checked><span>Kanalnummern am Objekt</span></label>
           <label class="sp-export-toggle"><input id="sp-print-measures" type="checkbox" checked><span>Maße</span></label>
-          <label class="sp-export-toggle"><input id="sp-print-black-stage" type="checkbox"><span>Schwarze Bühne</span></label>
+          <label class="sp-export-toggle"><input id="sp-print-black-stage" type="checkbox"><span>Live-Look · dunkle Bühne</span></label>
         </div></section>
         <section class="sp-export-control-group" id="sp-export-paper-options" hidden><h2>Inhalte</h2><div class="sp-export-toggle-grid">
           <label class="sp-export-toggle"><input id="sp-print-legend-toggle" type="checkbox"><span>Legende</span></label>
@@ -666,10 +666,21 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.7">v0.1.0-beta.7</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.8">v0.1.0-beta.8</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.7</strong><span>Aktuell</span></div><time datetime="2026-09-14">14. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.8</strong><span>Aktuell</span></div><time datetime="2026-09-14">14. September 2026</time></header>
+            <h4>Illustrierte Bausteine und dunkle Bühnenansicht</h4>
+            <ul>
+              <li><strong>35 zusätzliche Bausteine:</strong> Zubehör, Percussion, Tasten, DJ, Backline, PA und Video erweitern die Bibliothek. Alle Grafiken wurden einzeln in leicht gezeichnetem Stil aus der Draufsicht erstellt – einschließlich des korrigierten iPad-Ständers.</li>
+              <li><strong>Fünf Orchesterinstrumente aktualisiert:</strong> Violine, Viola, Cello, Harfe und Klarinette verwenden die neuen Grafiken auch im Orchester-Editor. Bestehende Aufstellungen, Maße und Audiokanäle bleiben erhalten.</li>
+              <li><strong>Lokal nutzbar:</strong> Die 40 neuen Bildassets werden mitgeliefert und bleiben in Entwürfen und Projektdateien verwendbar. Passende Abnahmen, Stereo-Paare und PA-Eingänge sind vorbelegt; eigene Objektbilder werden nicht importiert.</li>
+              <li><strong>Dunkle Bühne:</strong> Abgestimmte Grautöne, klare Beschriftungen und kompakte mobile Labels gelten auch in Vorschau und Export. PDF und Bild verwenden weiterhin dieselben Seiten.</li>
+              <li><strong>Kompakter Bildexport:</strong> Lokale Bilddaten bleiben bei der Einbettung komprimiert, damit auch Pläne mit vielen illustrierten Bausteinen exportiert werden können.</li>
+            </ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.7</strong></div><time datetime="2026-09-14">14. September 2026</time></header>
             <h4>Freie Bühnenformen, klarer Audioplan und neue Instrumente</h4>
             <ul>
               <li><strong>Mikrofone präziser auswählen:</strong> Auswahlrahmen, Klickbereich und Beschriftung folgen dem sichtbaren Mikrofonständer samt Boom-Arm. Der große leere Schwenkbereich entfällt. Beim nach oben gerichteten Boom liegt der Mikrofonkopf in der Draufsicht nur knapp vor den Stativfüßen; seitliche Arme behalten ihre Ausladung. „Mikrofon · Tellerboden“ steht zusätzlich direkt als Baustein bereit – mit rundem Fuß, Mikrofonkopf und denselben Routing-Einstellungen. Der Kopf kann beim Drehen des Stativs optional fest nach oben, rechts, unten oder links ausgerichtet bleiben – auch in Vorschau und Export. Stativfüße und Tellerboden liegen unter dem Equipment, Boom-Arm und Mikrofonkopf darüber; beide Ebenen bleiben gemeinsam bedienbar. Kompakte Eigenschaften mit direkten Stativoptionen, einer Richtungszeile und klarer Rückmeldung zur Kopfausrichtung.</li>
@@ -799,7 +810,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.7 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.8 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -3560,6 +3571,12 @@
 #sp-prototype .sp-context-menu button.sp-danger { color:light-dark(#b23b2b,#ff9d8c); }
 #sp-prototype :is(#sp-labels-visible,#sp-stage-surface-toggle)[aria-pressed="true"] { border-color:#b6d83c; background:#d2f553; color:#22291d; }
 #sp-prototype #sp-stage-surface-toggle[aria-pressed="true"] svg { color:#20221f; }
+#sp-prototype #sp-canvas-tools #sp-stage-surface-toggle { width:auto; grid-template-columns:19px auto; gap:5px; font-size:10px; font-weight:800; }
+#sp-prototype .sp-stage-canvas:has(.sp-floor[data-stage-look="live"]) :is(.sp-canvas-cluster,#sp-library-open,#sp-inspector-open,#sp-canvas-focus) { background:#252d31; border-color:#495257; color:#e7e7da; box-shadow:0 3px 14px #080d1026; }
+#sp-prototype .sp-stage-canvas:has(.sp-floor[data-stage-look="live"]) #sp-canvas-tools .sp-button { background:transparent; color:#dce0d5; }
+#sp-prototype .sp-stage-canvas:has(.sp-floor[data-stage-look="live"]) #sp-canvas-tools .sp-button[aria-pressed="true"] { background:#d4f15b; color:#22291d; }
+#sp-prototype .sp-stage-canvas:has(.sp-floor[data-stage-look="live"]) #sp-canvas-tools #sp-canvas-focus { background:#252d31; color:#e7e7da; }
+
 
 @container sp-frame (min-width:1051px) {
   #sp-prototype .sp-drum-studio { --sp-drum-palette-width:165px; --sp-drum-inspector-width:330px; grid-template-columns:var(--sp-drum-palette-width) minmax(700px,1fr) var(--sp-drum-inspector-width); }
@@ -6331,7 +6348,7 @@ html,body { height:100%; overflow:hidden; }
 @media (max-width:760px) {
   #sp-prototype[data-view="editor"] .sp-canvas-panel { background:var(--sp-panel); }
   #sp-prototype #sp-canvas-tools .sp-focus-controls { border:0; border-left:1px solid var(--sp-line); padding-left:4px; border-radius:0; }
-  #sp-prototype #sp-editor-floor [data-mobile-editor="true"] [data-label-background] { fill:#ffffffed; stroke:#d6dbd3; stroke-width:.45px; rx:5px; }
+  #sp-prototype #sp-editor-floor [data-mobile-editor="true"]:not([data-stage-look="live"]) [data-label-background] { fill:#ffffffed; stroke:#d6dbd3; stroke-width:.45px; rx:5px; }
   #sp-prototype #sp-editor-floor [data-mobile-editor="true"] .sp-stage-label { fill:#30372f; font-weight:550; }
   #sp-prototype #sp-editor-floor [data-mobile-editor="true"] .sp-stage-outs { fill:#687163; font-size:10px; font-weight:400; }
   #sp-prototype #sp-editor-floor [data-mobile-editor="true"] .sp-orientation { font-size:9px; letter-spacing:.5px; }
@@ -7937,6 +7954,117 @@ const StageplotPrint = (() => {
 </script>
 <script>
 // Embedded verbatim for the single-file offline app; the separate module remains the tested source.
+/* build-inline:start stageplot-look-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+// Shared Live look for the editable SVG and its offline image/PDF exports.
+// Geometry, routing, hit targets and project data remain owned by the stage renderer.
+(function(root,factory){
+  const api=factory();
+  if(typeof module==='object'&&module.exports)module.exports=api;
+  else root.StageplotLook=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const palette=Object.freeze({canvas:'#1c2226',stage:'#282f33',grid:'#343d41',module:'#485155',border:'#b7bab2',ink:'#f4efdf',muted:'#aeb6b4',label:'#191f23',labelBorder:'#485155',lime:'#d4f15b',violet:'#b5a0e3',coral:'#ee9285',riser:'#30343c'});
+  const sans='-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  const mono='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+  const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
+  function frame(width,mode){return {left:width<500?46:70,right:width<500?31:45,header:mode==='editor'&&width<620?120:clamp(width*.084,70,116),bottom:46};}
+  function labelMetrics(lines,nameLines,scale,context,riser=false){
+    const unit=clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
+    const fonts=lines.map((_,i)=>`${i<nameLines?650:400} ${i<nameLines?fontSize:detailSize}px ${i<nameLines?sans:mono}`);
+    const previous=context?.font;
+    const widths=lines.map((line,i)=>{if(!context)return line.length*(i<nameLines?fontSize:detailSize)*.65;context.font=fonts[i];return context.measureText(line).width;});
+    if(context)context.font=previous;
+    return {unit,fontSize,detailSize,lineHeight,padX,padY,fonts,width:Math.ceil(Math.max(...widths)+padX*2),height:Math.ceil(lines.length*lineHeight+padY*2)};
+  }
+  function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,text=false,id}={}){
+    const p=palette,{unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
+    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:3*unit,fill:p.label,stroke:riser?p.violet:p.labelBorder,'stroke-width':riser?1.1:.65},parent);
+    if(!riser)add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:p.lime,'data-label-accent':'true'},parent);
+    lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${riser?p.violet:text?p.lime:i<nameLines?p.ink:'#d4d9d5'}`,'data-label-line':i},parent,line));
+  }
+  function paint({svg,add,stage,bounds,scale,mx,top,W,H,mode,downstageY,showMeasures,transparent}){
+    const p=palette,defs=svg.querySelector('defs'),width=bounds?bounds.maxX-bounds.minX:stage.w,depth=bounds?bounds.maxY-bounds.minY:stage.d,rectW=width*scale,rectH=depth*scale;
+    if(bounds){mx+=bounds.minX*scale;top+=bounds.minY*scale;}
+    svg.dataset.stageLook='live';
+    svg.style.setProperty('--sp-ink',p.ink);svg.style.setProperty('--sp-muted',p.muted);svg.style.setProperty('--sp-line',p.module);svg.style.setProperty('--sp-teal',p.lime);
+    const apply=(selector,attrs)=>svg.querySelectorAll(selector).forEach(node=>Object.entries(attrs).forEach(([name,value])=>node.setAttribute(name,value)));
+    apply('[data-canvas-background]',{fill:transparent?'transparent':p.canvas});
+    apply('[data-stage-deck]',{fill:p.stage});
+    apply('[data-stage-module]',{fill:'none',stroke:p.module,'stroke-width':.65});
+    apply('[data-stage-modules] path',{stroke:p.module,'stroke-width':.65});
+    apply('[data-stage-boundary]',{stroke:p.border,'stroke-width':1.1});
+    apply('[data-stage-extension] rect',{fill:p.stage,stroke:p.module});
+    apply('[data-stage-extension] line',{stroke:p.module});
+    apply('[data-stage-grid]',{opacity:.7});
+    apply('[data-grid-metres] path',{stroke:p.grid,'stroke-width':.55});
+    apply('[data-grid-scale-label]',{fill:p.label,stroke:p.labelBorder,opacity:.8});
+    // The real deck modules remain visible in export; editing snap subdivisions are optional.
+    const filterId='sp-live-instrument-'+mode,filter=add('filter',{id:filterId,x:'-20%',y:'-20%',width:'140%',height:'145%','color-interpolation-filters':'sRGB'},defs);
+    add('feColorMatrix',{type:'saturate',values:0},filter);
+    const tone=add('feComponentTransfer',{},filter);
+    for(const [channel,values] of [['R','0.045 0.96'],['G','0.055 0.935'],['B','0.06 0.86']])add('feFunc'+channel,{type:'table',tableValues:values},tone);
+    add('feDropShadow',{dx:0,dy:1.5,stdDeviation:1.15,'flood-color':'#080c0f','flood-opacity':.55},filter);
+    svg.querySelectorAll('[data-object-visual]').forEach(visual=>{
+      if(visual.querySelector('[data-equipment="riser"],[data-stage-extension]'))return;
+      visual.setAttribute('filter','url(#'+filterId+')');
+    });
+    svg.querySelectorAll('[data-equipment="riser"]').forEach(deck=>{
+      const rects=deck.querySelectorAll(':scope > rect');
+      if(rects[0]){rects[0].setAttribute('fill',p.riser);rects[0].setAttribute('stroke',p.violet);rects[0].setAttribute('stroke-width',1.8);}
+      if(rects[1]){rects[1].setAttribute('stroke',p.violet);rects[1].setAttribute('opacity',.45);}
+      deck.querySelectorAll(':scope > line').forEach(n=>n.setAttribute('stroke','#555361'));
+      deck.querySelectorAll(':scope > circle').forEach(n=>n.setAttribute('fill',p.violet));
+      deck.querySelectorAll('[data-riser-edge]').forEach(n=>{n.setAttribute('fill',p.violet);n.setAttribute('opacity',.65);});
+      deck.querySelectorAll('[data-riser-height]').forEach(n=>{n.setAttribute('fill',p.violet);});
+    });
+    apply('[data-stair-body]',{fill:'#747971',stroke:p.border});
+    ['#e4e2d3','#d5d7ca','#c5cbbf'].forEach((fill,i)=>apply('[data-stair-step="'+i+'"]',{fill}));
+    apply('[data-stair-rail]',{fill:'#444c45',stroke:p.border});
+    apply('[data-stair-tread]',{stroke:'#737b70'});
+    apply('[data-stair-anti-slip]',{stroke:'#919a8a'});
+    apply('[data-stair-nosing]',{stroke:'#edf0df'});
+    // Keep routing semantics: digital traces stay blue/orange; the lime is a label accent.
+    apply('[data-cable-visual]',{stroke:'#0c1115'});
+    apply('[data-production-summary] rect',{fill:p.label,stroke:p.labelBorder});
+    apply('[data-production-summary] text',{fill:p.ink});
+    // Replace the old orientation chrome with the same editorial frame in every output.
+    apply('.sp-orientation,[data-stage-measure],[data-stage-measure-tick],[data-dim-width],[data-stage-side]',{display:'none'});
+    const chrome=add('g',{'data-live-frame':'true','pointer-events':'none'},svg),margin=W<500?24:W*.045,titleX=mode==='editor'&&W>=620?205:margin;
+    const titleSize=clamp(W*(mode==='editor'?.039:.052),30,72),titleY=frame(W,mode).header-23;
+    if(mode!=='editor'||W>=620){
+    add('text',{x:titleX,y:Math.max(16,titleY-titleSize*.86),style:`font-family:${mono};font-size:${clamp(W*.008,7,11)}px;font-weight:500;letter-spacing:3px;fill:${p.ink}`},chrome,'LIVE SETUP');
+    add('text',{x:titleX-2,y:titleY,style:`font-family:${sans};font-size:${titleSize}px;font-weight:850;letter-spacing:-2px;fill:${p.ink}`},chrome,'Stageplot');
+    }
+    if(W>=620){
+      const x=W-margin-42,y=titleY-24,maxLength=Math.floor(W/30),title=String(stage.title||'').slice(0,maxLength);
+      add('text',{x,y,'text-anchor':'end',style:`font-family:${mono};font-size:9px;letter-spacing:1px;fill:${p.muted}`},chrome,title);
+      if(showMeasures)add('text',{x,y:y+16,'text-anchor':'end',style:`font-family:${mono};font-size:9px;letter-spacing:1.3px;fill:${p.ink}`},chrome,`${width.toLocaleString('de-AT')} × ${depth.toLocaleString('de-AT')} m`);
+      add('rect',{x:W-margin-28,y:titleY-40,width:28,height:28,fill:'none',stroke:p.violet},chrome);
+      add('text',{x:W-margin-14,y:titleY-20,'text-anchor':'middle',style:`font-family:${sans};font-size:16px;fill:${p.violet}`},chrome,'2D');
+    }
+    // Directions follow the stage while panning/zooming; the heading stays on the sheet.
+    const directionSize=clamp(scale*.1,7,11),center=top+rectH/2;
+    for(const [x,angle,label] of (W<500?[]:[[mx-14,-90,'STAGE RIGHT'],[mx+rectW+14,90,'STAGE LEFT']])){
+      add('text',{x,y:center,'text-anchor':'middle',transform:`rotate(${angle} ${x} ${center})`,style:`font-family:${sans};font-size:${directionSize}px;font-weight:650;letter-spacing:2px;fill:${p.ink}`},chrome,label);
+    }
+    if(showMeasures){
+      const x=Math.max(12,mx-42),y=top+rectH/2;
+      apply('[data-dim-depth]',{x,y,transform:`rotate(-90 ${x} ${y})`,style:`font-family:${mono};font-size:11px;fill:${p.muted}`});
+      for(const [a,b] of [[top,center-24],[center+24,top+rectH]])add('line',{x1:x,y1:a,x2:x,y2:b,stroke:p.muted,'stroke-width':.65},chrome);
+      for(const yy of [top,top+rectH])add('line',{x1:x-4,y1:yy,x2:x+4,y2:yy,stroke:p.muted,'stroke-width':.65},chrome);
+    }
+    const audienceX=mx+rectW/2,y=Math.min(H-12,downstageY);
+    const gridBadge=svg.querySelector('[data-grid-scale-label]');
+    if(gridBadge){const note=gridBadge.nextElementSibling,badgeY=Math.min(H-24,y+14),badgeX=W<500?12:mx;gridBadge.setAttribute('x',badgeX);gridBadge.setAttribute('y',badgeY);if(note?.tagName.toLowerCase()==='text'){note.setAttribute('x',badgeX+7);note.setAttribute('y',badgeY+12);note.setAttribute('font-size',8);note.setAttribute('fill',p.muted);}}
+    add('path',{d:`M${audienceX-5} ${y-20}h10l-5 7Z`,fill:p.coral},chrome);
+    add('text',{x:audienceX,y,'text-anchor':'middle',style:`font-family:${sans};font-size:10px;font-weight:700;letter-spacing:2.8px;fill:${p.coral}`},chrome,'PUBLIKUM');
+    for(const sign of [-1,1])add('line',{x1:audienceX+sign*63,y1:y-3,x2:audienceX+sign*84,y2:y-3,stroke:p.coral,'stroke-width':.8},chrome);
+    if(transparent){chrome.querySelectorAll('text').forEach(node=>{node.style.fill=node.textContent==='PUBLIKUM'?'#a84e42':'#343d41';});apply('[data-dim-depth]',{style:`font-family:${mono};font-size:11px;fill:#596267`});}
+  }
+  return {palette,frame,labelMetrics,drawLabel,paint};
+});
+/* build-inline:end stageplot-look-v1.js */
+
 /* build-inline:start stageplot-export-v42.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Pure offline export helpers: no DOM, network, storage or mutable app state.
 function createStageplotExportV42() {
@@ -8333,7 +8461,8 @@ function createStageplotOrchestraModel() {
   }
   function imageMarkup(p,unit=100){
     const {w,d}=dimensions(p),c=byId[p.type];
-    return '<image data-orchestra-image="'+c.id+'" href="./stageplot-assets/orchestra/'+c.asset+'.webp" x="'+(-w*unit/2)+'" y="'+(-d*unit/2)+'" width="'+w*unit+'" height="'+d*unit+'" preserveAspectRatio="none" style="filter:grayscale(1)"/>';
+    const illustrated=['violin','viola','cello','harp','clarinet'].includes(c.id),asset=illustrated?'./stageplot-assets/objects/'+c.id+'-v1.webp':'./stageplot-assets/orchestra/'+c.asset+'.webp';
+    return '<image data-orchestra-image="'+c.id+'" href="'+asset+'" x="'+(-w*unit/2)+'" y="'+(-d*unit/2)+'" width="'+w*unit+'" height="'+d*unit+'" preserveAspectRatio="'+(illustrated?'xMidYMid meet':'none')+'" style="filter:grayscale(1)"/>';
   }
   function furnitureMarkup(p){
     if(!['strings','woodwinds','brass'].includes(byId[p.type].family))return '';
@@ -8354,12 +8483,12 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'drums',name:'Schlagzeug',short:'Schlagzeug',category:'drums',w:2.88,d:2.04,vb:[144,102],keywords:'drumset drums kit schlagzeug'},
     {id:'percussion',name:'Percussion-Set',short:'Percussion-Set',category:'drums',w:1,d:.8,vb:[100,80],keywords:'percussion conga bongos timbales cowbell tamburin chimes becken crash splash ride china hihat editor',detail:'Instrumente frei zusammenstellen · Percussion-Editor'},
     {id:'orchestra',name:'Symphonie-Orchester',short:'Symphonie-Orchester',category:'classical',w:20.1137,d:13.85,vb:[2011.37,1385],instrument:true,keywords:'klassik symphonie sinfonie orchester streicher bläser schlagwerk ensemble editor',detail:'Komplettes Orchester · Instrumentengruppen ein- und ausschalten'},
-    {id:'violin',orchestraPart:'violin',name:"Violine",short:"Violine",category:'classical',w:0.207,d:0.59,vb:[20.7,59.0],instrument:true,keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
-    {id:'viola',orchestraPart:'viola',name:"Viola",short:"Viola",category:'classical',w:0.25,d:0.68,vb:[25.0,68.0],instrument:true,keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
-    {id:'cello',orchestraPart:'cello',name:"Cello",short:"Cello",category:'classical',w:0.44,d:1.25,vb:[44.0,125.0],instrument:true,keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
-    {id:'harp',orchestraPart:'harp',name:"Konzertharfe",short:"Konzertharfe",category:'classical',w:0.55,d:1,vb:[55.00000000000001,100],instrument:true,keywords:'klassik orchester harps',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'violin',orchestraPart:'violin',name:"Violine",short:"Violine",category:'classical',w:0.207,d:0.59,vb:[20.7,59.0],instrument:true,defaultAngle:0,ioDefaults:{inputs:0,outputs:0},signalType:'Mic',keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'viola',orchestraPart:'viola',name:"Viola",short:"Viola",category:'classical',w:0.25,d:0.68,vb:[25.0,68.0],instrument:true,defaultAngle:0,ioDefaults:{inputs:0,outputs:0},signalType:'Mic',keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'cello',orchestraPart:'cello',name:"Cello",short:"Cello",category:'classical',w:0.44,d:1.25,vb:[44.0,125.0],instrument:true,defaultAngle:0,ioDefaults:{inputs:0,outputs:0},signalType:'Mic',keywords:'klassik orchester strings',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'harp',orchestraPart:'harp',name:"Konzertharfe",short:"Konzertharfe",category:'classical',w:0.55,d:1,vb:[55.00000000000001,100],instrument:true,defaultAngle:0,ioDefaults:{inputs:0,outputs:0},signalType:'Mic',keywords:'klassik orchester harps',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
     {id:'oboe',orchestraPart:'oboe',name:"Oboe",short:"Oboe",category:'classical',w:0.07,d:0.65,vb:[7.000000000000001,65.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
-    {id:'clarinet',orchestraPart:'clarinet',name:"Klarinette",short:"Klarinette",category:'classical',w:0.08,d:0.67,vb:[8.0,67.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
+    {id:'clarinet',orchestraPart:'clarinet',name:"Klarinette",short:"Klarinette",category:'classical',w:0.08,d:0.67,vb:[8.0,67.0],instrument:true,defaultAngle:0,ioDefaults:{inputs:0,outputs:0},signalType:'Mic',keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
     {id:'bassoon',orchestraPart:'bassoon',name:"Fagott",short:"Fagott",category:'classical',w:0.24,d:1.35,vb:[24.0,135.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
     {id:'piccolo',orchestraPart:'piccolo',name:"Piccolo",short:"Piccolo",category:'classical',w:0.32,d:0.035,vb:[32.0,3.5000000000000004],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
     {id:'english-horn',orchestraPart:'english-horn',name:"Englischhorn",short:"Englischhorn",category:'classical',w:0.09,d:0.9,vb:[9.0,90.0],instrument:true,keywords:'klassik orchester woodwinds',detail:'Realistisches Bildasset · Maße im Orchester-Editor anpassen'},
@@ -8455,6 +8584,43 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'light-wave-bar',name:'Moving Head Wave Bar · Beam & Wash',short:'Wave Bar · Beam/Wash',family:'lights',category:'tech',w:1.12,d:.24,vb:[336,72],keywords:'licht moving head wave bar beam wash matrix galaxyjet shehds'},
     {id:'light-bar',name:'LED Bar',short:'LED Bar',family:'lights',category:'tech',w:1,d:.12,vb:[300,36],keywords:'licht led bar strip leiste rampe'},
     {id:'di',name:'DI-Box',short:'DI-Box',category:'tech',w:.127,d:.084,detail:'Referenz: Radial J48 · 12,7 × 8,4 cm'},
+    // illustrated-catalog:start
+    {"id":"music-stand","name":"Notenständer","short":"Notenständer","category":"tech","w":0.55,"d":0.55,"vb":[55,55],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"noten music stand zubehör","detail":"Generisches Planmaß · 55 × 55 cm"},
+    {"id":"musician-chair","name":"Musikerstuhl","short":"Musikerstuhl","category":"tech","w":0.5,"d":0.55,"vb":[50,55],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"stuhl chair sitz orchester","detail":"Generisches Planmaß · 50 × 55 cm"},
+    {"id":"tablet-stand","name":"Tablet-Halter","short":"Tablet-Halter","category":"tech","w":0.5,"d":0.5,"vb":[50,50],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"tablet ipad halter ständer","detail":"Generisches Planmaß · 50 × 50 cm"},
+    {"id":"standing-stool","name":"Stehhocker","short":"Stehhocker","category":"tech","w":0.45,"d":0.5,"vb":[45,50],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"stehhilfe hocker stool sitz","detail":"Generisches Planmaß · 45 × 50 cm"},
+    {"id":"equipment-table","name":"Equipment-Tisch","short":"Equipment-Tisch","category":"tech","w":1.2,"d":0.6,"vb":[120,60],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"equipment table tisch ablage","detail":"Generisches Planmaß · 120 × 60 cm","underlay":true},
+    {"id":"congas","name":"Conga-Paar","short":"Conga-Paar","category":"percussion","w":0.8,"d":0.45,"vb":[80,45],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"conga congas percussion perkussion","detail":"Generisches Planmaß · 80 × 45 cm · Abnahme editierbar"},
+    {"id":"bongos","name":"Bongos","short":"Bongos","category":"percussion","w":0.48,"d":0.25,"vb":[48,25],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"bongo bongos percussion perkussion","detail":"Generisches Planmaß · 48 × 25 cm · Abnahme editierbar"},
+    {"id":"djembe","name":"Djembe","short":"Djembe","category":"percussion","w":0.36,"d":0.36,"vb":[36,36],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"djembe handtrommel percussion","detail":"Generisches Planmaß · 36 × 36 cm · Abnahme editierbar"},
+    {"id":"timbales","name":"Timbales","short":"Timbales","category":"percussion","w":0.85,"d":0.5,"vb":[85,50],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"timbales latin percussion","detail":"Generisches Planmaß · 85 × 50 cm · Abnahme editierbar"},
+    {"id":"percussion-table","name":"Percussion-Tisch","short":"Percussion-Tisch","category":"percussion","w":0.8,"d":0.5,"vb":[80,50],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"percussion table perkussion tisch shaker tamburin","detail":"Generisches Planmaß · 80 × 50 cm · Abnahme editierbar","underlay":true},
+    {"id":"grand-piano","name":"Flügel","short":"Flügel","category":"keys","w":1.55,"d":2.1,"vb":[155,210],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR","stereoPairs":[1]},"signalType":"Mic","keywords":"flügel fluegel piano grand klavier","detail":"Generisches Planmaß · 155 × 210 cm · Abnahme editierbar"},
+    {"id":"upright-piano","name":"Aufrechtes Klavier","short":"Aufrechtes Klavier","category":"keys","w":1.5,"d":0.6,"vb":[150,60],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR","stereoPairs":[1]},"signalType":"Mic","keywords":"klavier upright piano pianino","detail":"Generisches Planmaß · 150 × 60 cm · Abnahme editierbar"},
+    {"id":"leslie","name":"Leslie-Kabinett","short":"Leslie-Kabinett","category":"amps","w":0.75,"d":0.55,"vb":[75,55],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"leslie rotary hammond orgel kabinet","detail":"Generisches Planmaß · 75 × 55 cm · Abnahme editierbar"},
+    {"id":"dj-controller","name":"DJ-Controller","short":"DJ-Controller","category":"tech","w":0.72,"d":0.4,"vb":[72,40],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"dj controller deck elektronik","detail":"Generisches Planmaß · 72 × 40 cm"},
+    {"id":"dj-player","name":"CDJ-Player","short":"CDJ-Player","category":"tech","w":0.32,"d":0.45,"vb":[32,45],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"cdj dj player media deck","detail":"Generisches Planmaß · 32 × 45 cm"},
+    {"id":"turntable","name":"Plattenspieler","short":"Plattenspieler","category":"tech","w":0.45,"d":0.36,"vb":[45,36],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"plattenspieler turntable dj vinyl","detail":"Generisches Planmaß · 45 × 36 cm"},
+    {"id":"dj-mixer","name":"DJ-Mixer","short":"DJ-Mixer","category":"tech","w":0.32,"d":0.4,"vb":[32,40],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":8,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"dj mixer mischpult elektronik","detail":"Generisches Planmaß · 32 × 40 cm"},
+    {"id":"sampler","name":"Sampler","short":"Sampler","category":"tech","w":0.35,"d":0.3,"vb":[35,30],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"sampler sample pads mpc elektronik","detail":"Generisches Planmaß · 35 × 30 cm"},
+    {"id":"drum-machine","name":"Drumcomputer","short":"Drumcomputer","category":"tech","w":0.38,"d":0.22,"vb":[38,22],"defaultAngle":180,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"Klinke","stereoPairs":[1]},"signalType":"Line","keywords":"drumcomputer drum machine sequencer elektronik","detail":"Generisches Planmaß · 38 × 22 cm"},
+    {"id":"pedalboard","name":"Pedalboard","short":"Pedalboard","category":"amps","w":0.65,"d":0.35,"vb":[65,35],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"Klinke","outputConnector":"Klinke"},"signalType":"Instrument","keywords":"pedalboard effekt gitarre pedal","detail":"Generisches Planmaß · 65 × 35 cm"},
+    {"id":"amp-head","name":"Amp-Topteil","short":"Amp-Topteil","category":"amps","w":0.65,"d":0.27,"vb":[65,27],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"Klinke","outputConnector":"Klinke"},"signalType":"Line","keywords":"amp topteil head verstärker","detail":"Generisches Planmaß · 65 × 27 cm"},
+    {"id":"cabinet-112","name":"Gitarrenbox · 1×12","short":"Gitarrenbox · 1×12","category":"amps","w":0.5,"d":0.3,"vb":[50,30],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"box cabinet gitarre 1x12 backline","detail":"Generisches Planmaß · 50 × 30 cm · Abnahme editierbar"},
+    {"id":"cabinet-212","name":"Gitarrenbox · 2×12","short":"Gitarrenbox · 2×12","category":"amps","w":0.75,"d":0.32,"vb":[75,32],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"box cabinet gitarre 2x12 backline","detail":"Generisches Planmaß · 75 × 32 cm · Abnahme editierbar"},
+    {"id":"cabinet-412","name":"Gitarrenbox · 4×12","short":"Gitarrenbox · 4×12","category":"amps","w":0.76,"d":0.37,"vb":[76,37],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"box cabinet gitarre 4x12 backline","detail":"Generisches Planmaß · 76 × 37 cm · Abnahme editierbar"},
+    {"id":"pa-top","name":"PA-Topteil auf Stativ","short":"PA-Topteil auf Stativ","category":"tech","w":1,"d":1,"vb":[100,100],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"pa lautsprecher topteil stativ speaker","detail":"Generisches Planmaß · 100 × 100 cm"},
+    {"id":"subwoofer","name":"Subwoofer","short":"Subwoofer","category":"tech","w":0.7,"d":0.75,"vb":[70,75],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"subwoofer sub bass pa lautsprecher","detail":"Generisches Planmaß · 70 × 75 cm"},
+    {"id":"sidefill","name":"Sidefill","short":"Sidefill","category":"tech","w":0.75,"d":0.85,"vb":[75,85],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"sidefill monitor pa lautsprecher","detail":"Generisches Planmaß · 75 × 85 cm"},
+    {"id":"drumfill","name":"Drumfill","short":"Drumfill","category":"tech","w":0.65,"d":0.75,"vb":[65,75],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":1,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"drumfill schlagzeug monitor pa","detail":"Generisches Planmaß · 65 × 75 cm"},
+    {"id":"accordion","name":"Akkordeon","short":"Akkordeon","category":"keys","w":0.65,"d":0.4,"vb":[65,40],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":2,"inputConnector":"XLR","outputConnector":"XLR","stereoPairs":[1]},"signalType":"Mic","keywords":"akkordeon accordion ziehharmonika","detail":"Schematisches Plansymbol · 65 × 40 cm · Abnahme editierbar"},
+    {"id":"french-horn","name":"Waldhorn","short":"Waldhorn","category":"winds","w":0.55,"d":0.4,"vb":[55,40],"defaultAngle":0,"instrument":true,"ioDefaults":{"inputs":0,"outputs":1,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Mic","keywords":"waldhorn horn french horn blechbläser","detail":"Schematisches Plansymbol · 55 × 40 cm · Abnahme editierbar"},
+    {"id":"drum-shield","name":"Drumshield","short":"Drumshield","category":"tech","w":2.4,"d":1.1,"vb":[240,110],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"drumshield drums shield schallschutz acryl","detail":"Generisches Planmaß · 240 × 110 cm"},
+    {"id":"wireless-antenna","name":"Funkantenne auf Stativ","short":"Funkantenne auf Stativ","category":"tech","w":0.65,"d":0.65,"vb":[65,65],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"funkantenne antenne wireless rf paddel stativ","detail":"Generisches Planmaß · 65 × 65 cm"},
+    {"id":"camera-tripod","name":"Kamera mit Stativ","short":"Kamera mit Stativ","category":"tech","w":0.85,"d":0.85,"vb":[85,85],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"kamera camera video tripod stativ","detail":"Generisches Planmaß · 85 × 85 cm"},
+    {"id":"led-wall","name":"LED-Wand","short":"LED-Wand","category":"tech","w":3,"d":0.65,"vb":[300,65],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"led wand wall video display bildschirm","detail":"Generisches Planmaß · 300 × 65 cm"},
+    {"id":"projection-screen","name":"Leinwand","short":"Leinwand","category":"tech","w":2.4,"d":0.6,"vb":[240,60],"defaultAngle":0,"instrument":false,"ioDefaults":{"inputs":0,"outputs":0,"inputConnector":"XLR","outputConnector":"XLR"},"signalType":"Line","keywords":"leinwand screen projektion video","detail":"Generisches Planmaß · 240 × 60 cm"},
+    // illustrated-catalog:end
     {id:'text',name:'Freie Beschriftung',short:'Text',category:'tech',w:.8,d:.35}
   ].map(c=>({...c,defaultAngle:c.defaultAngle??(c.category==='keys'?180:['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic','double-bass'].includes(c.id)?65:0),art:c.art||c.id,vb:c.vb||[100,100],instrument:c.instrument??(['drums','keys','strings','winds','mics','amps'].includes(c.category)||c.id==='laptop')}));
   const byId = Object.fromEntries(catalog.map(c => [c.id, c]));
@@ -8479,7 +8645,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   const packLicensePublicKey={key_ops:['verify'],ext:true,kty:'EC',x:'f9PxV8hP83InwZHNOEkV1aDwhjR_xqmHNhbvy8UHktE',y:'OQKzbhsR4eQKB_WQTjOjtzKhV9joOmVZqOPjHgGEL7Y',crv:'P-256'};
   const packStorageKey='stageplot-studio:object-packs:v1';
   const stationIds = ['drums','keys-stage4','keys-bassstation2','keys-moog-sub37','mic','guitar','bass','acoustic','double-bass','laptop','rack','iem-earphones','wedge','teleprompter','amp','quad-cortex','bass-stack','riser','riser-2','riser-3'];
-  const instrumentLibraryCategories = new Set(['drums','keys','strings','winds','classical']);
+  const instrumentLibraryCategories = new Set(['drums','percussion','keys','strings','winds','classical']);
   const stageLibraryIds = new Set(['riser','riser-2','riser-3','stage-module','stage-stairs','stage-ramp','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier','rug']);
   function libraryGroupFor(c){
     if(c.family==='lights')return 'lights';
@@ -8901,6 +9067,13 @@ function stageplotTechArtwork(type,options={}) {
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
 // Relative positions checked against real overhead photos (see stageplot-referenzen.md).
 function createStageplotSymbolV3(type, options = {}) {
+  // illustrated-assets:start
+  const illustratedAssets = {"music-stand":[55.0,55.0],"musician-chair":[50.0,55.0],"tablet-stand":[50.0,50.0],"standing-stool":[45.0,50.0],"equipment-table":[120.0,60.0],"congas":[80.0,45.0],"bongos":[48.0,25.0],"djembe":[36.0,36.0],"timbales":[85.0,50.0],"percussion-table":[80.0,50.0],"grand-piano":[155.0,210.0],"upright-piano":[150.0,60.0],"leslie":[75.0,55.0],"dj-controller":[72.0,40.0],"dj-player":[32.0,45.0],"turntable":[45.0,36.0],"dj-mixer":[32.0,40.0],"sampler":[35.0,30.0],"drum-machine":[38.0,22.0],"pedalboard":[65.0,35.0],"amp-head":[65.0,27.0],"cabinet-112":[50.0,30.0],"cabinet-212":[75.0,32.0],"cabinet-412":[76.0,37.0],"pa-top":[100,100],"subwoofer":[70.0,75.0],"sidefill":[75.0,85.0],"drumfill":[65.0,75.0],"violin":[20.7,59.0],"viola":[25.0,68.0],"cello":[44.0,125.0],"harp":[55.0,100.0],"accordion":[65.0,40.0],"clarinet":[8.0,67.0],"french-horn":[55.0,40.0],"drum-shield":[240.0,110.0],"wireless-antenna":[65.0,65.0],"camera-tripod":[85.0,85.0],"led-wall":[300,65.0],"projection-screen":[240.0,60.0]};
+  if(Object.hasOwn(illustratedAssets,type)){
+    const [width,height]=illustratedAssets[type];
+    return `<image href="stageplot-assets/objects/${type}-v1.webp" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet" data-rendered-object-asset="${type}"/>`;
+  }
+  // illustrated-assets:end
   const techArtwork=stageplotTechArtwork(type,options);if(techArtwork)return techArtwork;
   let out = '';
   const f = n => Math.round(n * 100) / 100;
@@ -10146,7 +10319,15 @@ function createStageplotSymbolV3(type, options = {}) {
     const step=()=>{if(run!==stairsAnim)return;i++;const k=i/frames,e=1-Math.pow(1-k,3);record.stairsWidth=start+(target-start)*e;updateStairsWidthNode(svg,stage,id);if(i<frames)requestAnimationFrame(step);else{record.stairsWidth=target;keepHistory(before);renderEditor();say('Treppe auf Standardbreite');}};
     requestAnimationFrame(step);
   }
-  function workspaceBounds(s,list){
+  function workspaceBounds(s,list,compact=false){
+    if(compact){
+      const bounds=s.geometry?compiledVenue(s,list).bounds:{minX:0,minY:0,maxX:s.w,maxY:s.d},box={...bounds};
+      const include=(x,y,w,d)=>{box.minX=Math.min(box.minX,x);box.minY=Math.min(box.minY,y);box.maxX=Math.max(box.maxX,x+w);box.maxY=Math.max(box.maxY,y+d);};
+      for(const entry of stairStates(s)){const stair=stairsGeometry(s,entry.id);include(stair.x,stair.y,stair.w,stair.d);}
+      const zone=iemRect(s);if(zone)include(zone.x,zone.y,zone.w,zone.d);
+      for(const o of list){const size=objectSize(o),angle=o.angle*Math.PI/180,w=Math.abs(Math.cos(angle))*size.w+Math.abs(Math.sin(angle))*size.d,d=Math.abs(Math.sin(angle))*size.w+Math.abs(Math.cos(angle))*size.d;include(o.x-w/2,o.y-d/2,w,d);}
+      return {minX:box.minX-.2,minY:box.minY-.2,maxX:box.maxX+.2,maxY:box.maxY+.2};
+    }
     const box={minX:-.65,minY:-.65,maxX:s.w+.65,maxY:s.d+.65};
     if(s.geometry){const b=compiledVenue(s,list).bounds;Object.assign(box,{minX:b.minX-.8,minY:b.minY-.8,maxX:b.maxX+.8,maxY:b.maxY+1});}
     const zone=iemRect(s);if(zone){box.minX=Math.min(box.minX,zone.x-.5);box.minY=Math.min(box.minY,zone.y-.5);box.maxX=Math.max(box.maxX,zone.x+zone.w+.5);box.maxY=Math.max(box.maxY,zone.y+zone.d+.5);}
@@ -10172,12 +10353,12 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const o of list){const size=objectSize(o),angle=(Number(o.angle)||0)*Math.PI/180,c=Math.abs(Math.cos(angle)),s=Math.abs(Math.sin(angle)),w=c*size.w+s*size.d,d=s*size.w+c*size.d;include(o.x-w/2,o.y-d/2,w,d);}
     return {minX:box.minX-.2,minY:box.minY-.2,maxX:box.maxX+.2,maxY:box.maxY+.2};
   }
-  function editorWorkspaceBounds(s,list){
+  function editorWorkspaceBounds(s,list,compact=false){
     // Object edits must never refit the view. Capture bounds only for a new stage
     // or after an explicit "Einpassen"; keep them through moves, rotations and undo.
     const mobile=mobileWorkspace();
-    if(!editorFit||editorFit.w!==s.w||editorFit.d!==s.d||editorFit.mobile!==mobile){
-      editorFit={w:s.w,d:s.d,mobile,area:mobile?mobileEditorBounds(s,list):workspaceBounds(s,list)};
+    if(!editorFit||editorFit.w!==s.w||editorFit.d!==s.d||editorFit.mobile!==mobile||editorFit.compact!==compact){
+      editorFit={w:s.w,d:s.d,mobile,compact,area:mobile?mobileEditorBounds(s,list):workspaceBounds(s,list,compact)};
     }
     return editorFit.area;
   }
@@ -10362,8 +10543,8 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-outs-global-toggle').setAttribute('aria-label',outsAction);
     $('sp-outs-global-toggle').dataset.tooltip=outsAction;
     $('sp-stage-surface-toggle').setAttribute('aria-pressed',String(black));
-    $('sp-stage-surface-toggle').setAttribute('aria-label',black?'Bühne hell darstellen':'Bühne schwarz darstellen');
-    $('sp-stage-surface-toggle').dataset.tooltip=black?'Bühne hell':'Bühne schwarz';
+    $('sp-stage-surface-toggle').setAttribute('aria-label',black?'Live-Look deaktivieren':'Live-Look aktivieren');
+    $('sp-stage-surface-toggle').dataset.tooltip=black?'Helle Bühne':'Live-Look: dunkle Bühne';
     if(view!=='print')$('sp-print-black-stage').checked=black;
     $('sp-setting-labels').checked=labels;
     $('sp-setting-black-stage').checked=black;
@@ -10420,14 +10601,15 @@ function createStageplotSymbolV3(type, options = {}) {
     const W=Math.floor(host.getBoundingClientRect().width);
     if(W<80||!s) return;
     renderedWidths.set(host.id,W);
-    const left=W<340?31:40,right=23,coarse=window.matchMedia('(pointer: coarse)').matches;
+    const liveLook=mode==='print'?$('sp-print-black-stage').checked:s.surface==='black',lookFrame=liveLook?StageplotLook.frame(W,mode):null;
+    const left=lookFrame?.left||(W<340?31:40),right=lookFrame?.right||23,coarse=window.matchMedia('(pointer: coarse)').matches;
     const technicalLines=(mode==='print'?[]:productionLines(s)).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
     const mobileEditor=mode==='editor'&&mobileWorkspace();
     const editorFooter=mode==='editor'&&!mobileEditor?56:0;
-    const header=mobileEditor?30:43,bottom=(mobileEditor?26:mode==='editor'?36:47)+technicalHeight+editorFooter;
-    const area=mode==='editor'?editorWorkspaceBounds(s,list):workspaceBounds(s,list);
+    const header=mobileEditor?30:lookFrame?.header||43,bottom=(mobileEditor?26:lookFrame?.bottom||(mode==='editor'?36:47))+technicalHeight+editorFooter;
+    const area=mode==='editor'?editorWorkspaceBounds(s,list,liveLook):workspaceBounds(s,list,liveLook);
     const height=mode==='editor'||mode==='print'?Math.floor(host.getBoundingClientRect().height):0;
-    const fit=fitFloor(W,height,area,mobileEditor?24:left,mobileEditor?12:right,mobileEditor?74:header,bottom,mode==='print'||mobileEditor?'start':'center'),H=fixed?fixed.H:fit.H;
+    const fit=fitFloor(W,height,area,mobileEditor?24:left,mobileEditor?12:right,mobileEditor?74:header,bottom,liveLook||mode==='print'||mobileEditor?'start':'center'),H=fixed?fixed.H:fit.H;
     if(mobileEditor&&!fixed)fit.top+=Math.min(32,Math.max(0,height-74-bottom-(area.maxY-area.minY)*fit.scale)*.2);
     const {scale,mx,top}=fixed?fixed:(mode==='editor'?floorView(fit,W,H,camera):fit);
     renderedHeights.set(host.id,H);
@@ -10527,6 +10709,7 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     const occupiedLabels=technicalHeight||editorFooter?[{left:0,right:W,top:H-technicalHeight-editorFooter,bottom:H}]:[],labelsLayer=sEl('g',{'data-label-layer':mode});
     occupiedLabels.push({left:mx+rectW/2-115,right:mx+rectW/2+115,top:downstageY-12,bottom:downstageY+5});
+    if(liveLook)for(const x of [mx-14,mx+rectW+14])occupiedLabels.push({left:x-7,right:x+7,top:top+rectH/2-57,bottom:top+rectH/2+57});
     if(zone){const cx=mx+(zone.x+zone.w/2)*scale,cy=top+zone.y*scale;occupiedLabels.push({left:cx-14,right:cx+14,top:cy+2,bottom:cy+18});}
     if(mode==='editor'){
       positionRotationToolbar(svg);
@@ -10622,7 +10805,7 @@ function createStageplotSymbolV3(type, options = {}) {
       }
       if($('sp-print-labels').checked){
         const t=o.type==='riser'?'':labelVisible(o)?labelText(o):'';
-        const maxChars=W<360?17:25, lines=[];
+        const maxChars=liveLook?(W<500?22:30):(W<360?17:25), lines=[];
         let remaining=t;
         while(remaining.length>maxChars){const split=remaining.lastIndexOf(' ',maxChars),cut=split>5?split:maxChars;lines.push(remaining.slice(0,cut));remaining=remaining.slice(cut).trim();}
         if(remaining)lines.push(remaining);
@@ -10635,13 +10818,17 @@ function createStageplotSymbolV3(type, options = {}) {
         for(const value of objectProductionLines(o).filter(line=>mode!=='print'||!line.startsWith('Funk: '))){let rest=value;while(rest.length>maxChars){const space=rest.lastIndexOf(' ',maxChars),cut=space>5?space:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}if(rest)lines.push(rest);}
         if(!lines.length)return;
         const labelGroup=sEl('g',{'data-label-for':o.id,'pointer-events':'none'},labelsLayer);
-        const labelWidth=Math.max(...lines.map(measureLabel))+8,labelHeight=lines.length*12+5;
+        const metrics=liveLook?StageplotLook.labelMetrics(lines,nameLineCount,scale,textContext,o.type==='riser'):null;
+        const labelWidth=metrics?.width||(Math.max(...lines.map(measureLabel))+8),labelHeight=metrics?.height||(lines.length*12+5);
         const owner=ownerBoxes.get(o.id),freeView=mode==='editor';
         const placement=placeObjectLabel(owner,labelWidth,labelHeight,labelViewport(owner,labelWidth,labelHeight,W,H-technicalHeight-editorFooter,header,freeView&&(owner.left<0||owner.right>W||owner.top<0||owner.bottom>H-technicalHeight-editorFooter)),occupiedLabels,artworkBoxes,c.art==='text'),box=placement.box;
         if(freeView&&(owner.right<0||owner.left>W||owner.bottom<0||owner.top>H))labelGroup.style.display='none';
         labelGroup.dataset.labelSide=placement.side;
+        if(liveLook)StageplotLook.drawLabel(sEl,labelGroup,box,lines,nameLineCount,metrics,{riser:o.type==='riser',text:o.type==='text',id:o.id});
+        else {
         sEl('rect',{'data-label-background':o.id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,fill:'#fff',stroke:'#aeb5ae','stroke-width':.7,rx:3.5},labelGroup);
         lines.forEach((line,i)=>sEl('text',{x:(box.left+box.right)/2,y:box.top+12+i*12,'text-anchor':'middle',class:'sp-stage-label'+(i>=nameLineCount?' sp-stage-outs':'')},labelGroup,line));
+        }
         occupiedLabels.push(box);
       }
     });
@@ -10657,7 +10844,8 @@ function createStageplotSymbolV3(type, options = {}) {
       for(const [dir,hx,hy,cursor] of grips)sEl('rect',{x:hx-6,y:hy-6,width:12,height:12,rx:2.5,fill:'var(--sp-paper)',stroke:'var(--sp-teal)','stroke-width':1.8,'data-stage-resize':dir,style:'cursor:'+cursor},hg);
     }
     if(venue)positionVenueDimensions(svg,venue,scale,mx,top);
-    if(mode==='print')positionPrintDimensions(svg,venue?venue.floorBounds:{minX:0,minY:0,maxX:s.w,maxY:s.d},scale,mx,top,venue);
+    if(liveLook)StageplotLook.paint({svg,add:sEl,stage:s,bounds:venue?.floorBounds,scale,mx,top,W,H,mode,downstageY,showMeasures:showPrintMeasures,transparent:transparentPreview});
+    if(mode==='print'&&!liveLook)positionPrintDimensions(svg,venue?venue.floorBounds:{minX:0,minY:0,maxX:s.w,maxY:s.d},scale,mx,top,venue);
     if(mode==='editor'){
       svg.dataset.interactive='true';svg.dataset.originX=mx;svg.dataset.originY=top;svg.dataset.scale=scale;
       svg.addEventListener('pointerdown',startObjectDrag);
@@ -10984,7 +11172,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const c=byId[o?.type]||{},stereoPairs=[],inputs={count:0,connector:'XLR'},outputs={count:0,connector:'XLR'},aliases={inputs:[],outputs:[]};
     if(o?.type==='orchestra'&&typeof orchestraModel!=='undefined'){outputs.count=orchestraModel.channels(o.orchestra).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(o?.type==='percussion'&&typeof percussionModel!=='undefined'){outputs.count=percussionModel.channels(o.percussion).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
-    if(c.ioDefaults){inputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.inputs)||0));outputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.outputs)||0));inputs.connector=normalizeIoConnector(c.ioDefaults.inputConnector,'XLR');outputs.connector=normalizeIoConnector(c.ioDefaults.outputConnector,'XLR');return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
+    if(c.ioDefaults){inputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.inputs)||0));outputs.count=Math.max(0,Math.min(64,Number(c.ioDefaults.outputs)||0));inputs.connector=normalizeIoConnector(c.ioDefaults.inputConnector,'XLR');outputs.connector=normalizeIoConnector(c.ioDefaults.outputConnector,'XLR');stereoPairs.push(...(c.ioDefaults.stereoPairs||[]).filter(start=>Number.isInteger(start)&&start>0&&start%2===1&&start<outputs.count));return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(drumModel.isDrums(o?.type)){outputs.count=drumModel.drumChannels(o.type,o.drums).length;return {inputs,outputs,stereoPairs,aliases,outputKeyStyle:'native'};}
     if(o?.type==='cajon')outputs.count=2;
     else if(c.category==='keys'){outputs.count=o.type==='keys-stage4'?4:['keys-bassstation2','keys-moog-sub37'].includes(o.type)?1:2;outputs.connector='Klinke';if(outputs.count>=2)stereoPairs.push(1);}
@@ -11742,6 +11930,7 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function objectOutputSignal(o,connector){
     if(['USB','Digital','MADI','Dante'].includes(connector))return'Digital';
+    if(byId[o.type].signalType)return byId[o.type].signalType;
     if(o.type==='mic'||o.type==='double-bass'||o.type==='cajon'||byId[o.type].category==='winds'||['amp','bass-stack'].includes(o.type))return'Mic';
     if(['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic'].includes(o.type))return'Instrument';
     return'Line';
@@ -12762,6 +12951,8 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const warnings=stageMeta(stage);
     if(objects.some(o=>outside(o,stage)))warnings.push('Aufbau ragt über die Bühne');
     $('sp-print-status').textContent=warnings.join(' · ');
+    $('sp-print-floor').dataset.stageLook=$('sp-print-black-stage').checked?'live':'light';
+    root.querySelector('[data-export-background="white"]').textContent=$('sp-print-black-stage').checked?'Design':'Weiß';
     drawFloor($('sp-print-floor'),stage,objects,'print');
     if(!pdf&&exportIntent==='share')layoutPrintSummary($('sp-print-floor').querySelector('svg'),productionLines(stage));
     if(pdf||exportIntent!=='share'){const svg=$('sp-print-floor').querySelector('svg'),crop=svg&&exportArtworkBounds(svg);if(crop){svg.setAttribute('viewBox',[crop.x,crop.y,crop.width,crop.height].join(' '));svg.setAttribute('width',crop.width);svg.setAttribute('height',crop.height);const background=svg.querySelector('[data-canvas-background]');if(background)for(const [key,value] of Object.entries(crop))background.setAttribute(key,value);}}
@@ -12859,14 +13050,22 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   root.querySelector('.sp-export-background-pills').addEventListener('click',event=>{const button=event.target.closest('[data-export-background]');if(!button)return;$('sp-export-background').value=button.dataset.exportBackground;root.querySelectorAll('[data-export-background]').forEach(choice=>choice.setAttribute('aria-pressed',String(choice===button)));renderPrint();});
   ['sp-print-patch','sp-print-outs','sp-print-measures','sp-print-legend-toggle','sp-print-inputs','sp-print-routing'].forEach(id=>$(id).addEventListener('change',renderPrint));
   const exportImageCache=new Map();
+  function blobDataUrl(blob){
+    return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Bilddaten konnten nicht gelesen werden.'));reader.readAsDataURL(blob);});
+  }
   function localImageDataUrl(url,monochrome=false){
     const source=String(url),key=source+(monochrome?'#monochrome':'');if(exportImageCache.has(key))return exportImageCache.get(key);
     const webp=/\.webp(?:[?#]|$)/i.test(key);
-    const promise=new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);if(monochrome){const pixels=context.getImageData(0,0,canvas.width,canvas.height),data=pixels.data;for(let i=0;i<data.length;i+=4){const grey=Math.round(.2126*data[i]+.7152*data[i+1]+.0722*data[i+2]);data[i]=data[i+1]=data[i+2]=grey;}context.putImageData(pixels,0,0);}resolve(canvas.toDataURL(webp&&!monochrome?'image/webp':'image/png',.92));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Instrumentenbild konnte nicht geladen werden.'));image.src=source;});
+    const assetUrl=new URL(source,window.location.href);
+    // Preserve compressed same-origin assets; retain grayscale conversion for orchestra exports.
+    const promise=webp&&!monochrome&&['http:','https:'].includes(assetUrl.protocol)&&assetUrl.origin===window.location.origin
+      ? fetch(assetUrl).then(response=>{if(!response.ok)throw new Error('Ein Objektbild konnte nicht geladen werden.');return response.blob();}).then(blobDataUrl)
+      : new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=image.naturalWidth||image.width;canvas.height=image.naturalHeight||image.height;const context=canvas.getContext('2d');if(!context||!canvas.width||!canvas.height)throw new Error('Lokales Symbol hat keine gültige Größe.');context.drawImage(image,0,0);if(monochrome){const pixels=context.getImageData(0,0,canvas.width,canvas.height),data=pixels.data;for(let i=0;i<data.length;i+=4){const grey=Math.round(.2126*data[i]+.7152*data[i+1]+.0722*data[i+2]);data[i]=data[i+1]=data[i+2]=grey;}context.putImageData(pixels,0,0);}resolve(canvas.toDataURL(webp&&!monochrome?'image/webp':'image/png',.92));}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Ein Objektbild konnte nicht geladen werden.'));image.src=source;});
     exportImageCache.set(key,promise);promise.catch(()=>exportImageCache.delete(key));return promise;
   }
   function exportArtworkBounds(svg,padding=4){
-    const boxes=[];
+    const view=svg.viewBox.baseVal,boxes=[];
+    if(svg.dataset?.stageLook==='live')return {x:view.x,y:view.y,width:view.width,height:view.height};
     for(const node of svg.children){if(['defs','title'].includes(node.tagName.toLowerCase())||node.matches('[data-canvas-background]'))continue;try{const box=node.getBBox(),matrix=node.transform.baseVal.consolidate()?.matrix;if(box.width||box.height){if(matrix){const points=[[box.x,box.y],[box.x+box.width,box.y],[box.x,box.y+box.height],[box.x+box.width,box.y+box.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix)),xs=points.map(p=>p.x),ys=points.map(p=>p.y);boxes.push({x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)});}else boxes.push(box);}}catch(error){}}
     if(!boxes.length)return null;const left=Math.min(...boxes.map(box=>box.x))-padding,top=Math.min(...boxes.map(box=>box.y))-padding,right=Math.max(...boxes.map(box=>box.x+box.width))+padding,bottom=Math.max(...boxes.map(box=>box.y+box.height))+padding;
     return {x:left,y:top,width:Math.max(1,right-left),height:Math.max(1,bottom-top)};
@@ -14928,9 +15127,9 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   loadThemePreference();loadAccountPlan();loadPackState();renderStageTemplates();
   setLibraryMode('objects');refreshPackUi();
   let sharedDocument=null;try{sharedDocument=decodeShareDocument();}catch(error){say('Freigabelink konnte nicht geöffnet werden: '+error.message);}
-  if(sharedDocument){stage=sharedDocument.stage;objects=sharedDocument.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';$('sp-title').value=stage.title;show('print');}
+  if(sharedDocument){stage=sharedDocument.stage;$('sp-print-black-stage').checked=stage.surface==='black';objects=sharedDocument.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';$('sp-title').value=stage.title;show('print');}
   else {
-    restoreLatestDraft();const restoredView=restoredAppView();
+    restoreLatestDraft();$('sp-print-black-stage').checked=stage?.surface==='black';const restoredView=restoredAppView();
     if(restoredView==='setup'&&stage)openStageSettings();else show(!stage&&!['dashboard','setup'].includes(restoredView)?'dashboard':restoredView);
   }
   syncResponsiveWorkspace(true);
