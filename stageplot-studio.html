@@ -673,6 +673,7 @@
             <header><div><strong>v0.1.0-beta.8</strong><span>Aktuell</span></div><time datetime="2026-09-14">14. September 2026</time></header>
             <h4>Illustrierte Bausteine und dunkle Bühnenansicht</h4>
             <ul>
+              <li><strong>Instrumentgruppen:</strong> Blech, Holz und Streicher stehen jeweils als eine Karte in der Bibliothek. Antippen öffnet die Auswahl der vorhandenen Instrumente; einzelne Favoriten und die Suche nach Instrumentnamen bleiben erhalten.</li>
               <li><strong>Kompaktere Bausteinauswahl:</strong> Am Handy stehen Objekte/Packs, Inventar und Schließen in einer gemeinsamen Kopfzeile. Kleinere Abstände bringen die Kategorien und Bausteine weiter nach oben; die Bausteinanzahl entfällt.</li>
               <li><strong>35 zusätzliche Bausteine:</strong> Zubehör, Percussion, Tasten, DJ, Backline, PA und Video erweitern die Bibliothek. Alle Grafiken wurden einzeln in leicht gezeichnetem Stil aus der Draufsicht erstellt – einschließlich des korrigierten iPad-Ständers.</li>
               <li><strong>Fünf Orchesterinstrumente aktualisiert:</strong> Violine, Viola, Cello, Harfe und Klarinette verwenden die neuen Grafiken auch im Orchester-Editor. Bestehende Aufstellungen, Maße und Audiokanäle bleiben erhalten.</li>
@@ -1397,11 +1398,12 @@
   #sp-prototype .sp-model-change-button:disabled { cursor:not-allowed; opacity:.5; }
   #sp-prototype .sp-model-change-button svg { width:100%; height:100%; max-width:42px; max-height:42px; }
   #sp-prototype .sp-model-dialog { width:min(820px,calc(100% - 28px)); max-height:min(720px,calc(100dvh - 28px)); padding:0; overflow:hidden; }
+  #sp-prototype .sp-model-dialog > .sp-dialog-heading { padding:14px 16px 10px; margin:0; border-bottom:1px solid var(--sp-line); }
   #sp-prototype .sp-model-dialog-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; max-height:min(590px,calc(100dvh - 150px)); padding:14px; overflow:auto; }
-  #sp-prototype .sp-model-dialog-option { min-width:0; min-height:128px; display:grid; grid-template-rows:minmax(70px,1fr) auto auto; place-items:center; gap:5px; padding:10px; border:1px solid var(--sp-line); border-radius:12px; background:#fff; color:var(--sp-ink); text-align:center; cursor:pointer; }
-  #sp-prototype .sp-model-dialog-option:hover { border-color:#ed2f87; background:#fff7fb; transform:translateY(-1px); box-shadow:0 7px 18px rgb(237 47 135 / 10%); }
+  #sp-prototype .sp-model-dialog-option { min-width:0; min-height:128px; display:grid; grid-template-rows:minmax(70px,1fr) auto auto; place-items:center; gap:5px; padding:10px; border:1px solid var(--sp-line); border-radius:12px; background:var(--sp-soft); color:var(--sp-ink); text-align:center; cursor:pointer; }
+  #sp-prototype .sp-model-dialog-option:hover { border-color:#ed2f87; background:var(--sp-panel); transform:translateY(-1px); box-shadow:0 7px 18px rgb(237 47 135 / 10%); }
   #sp-prototype .sp-model-dialog-option[aria-selected="true"] { border-color:#262c25; background:#262c25; color:#d6fa59; box-shadow:0 0 0 1px #262c25; }
-  #sp-prototype .sp-model-dialog-option > svg { width:100%; height:72px; max-width:170px; }
+  #sp-prototype .sp-model-dialog-option > svg { width:100%; height:72px; max-width:170px; padding:4px; border-radius:8px; background:light-dark(transparent,#e4e7df); }
   #sp-prototype .sp-model-dialog-option strong { font-size:11px; }
   #sp-prototype .sp-model-dialog-option small { color:var(--sp-muted); font-size:9px; }
   #sp-prototype .sp-model-dialog-option[aria-selected="true"] small { color:#c7cfc3; }
@@ -8636,8 +8638,19 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   const libraryModelFamilyCards={
     keys:{label:'Keyboard',representative:'keys-stage4'},
     'electric-guitars':{label:'Gitarre',representative:'guitar'},
-    'electric-basses':{label:'Bass',representative:'bass'}
+    'electric-basses':{label:'Bass',representative:'bass'},
+    brass:{label:'Blech',representative:'trumpet',members:['trumpet','trombone','tuba','flugelhorn','horn','french-horn'],keywords:'blech blechbläser brass'},
+    woodwinds:{label:'Holz',representative:'saxophone',members:['saxophone','flute','oboe','clarinet','bassoon','piccolo','english-horn','bass-clarinet','contrabassoon'],keywords:'holz holzbläser woodwind woodwinds'},
+    'orchestral-strings':{label:'Streicher',representative:'violin',members:['violin','viola','cello','double-bass'],keywords:'streicher streichinstrumente streichinstrument geige geigen violine viola bratsche cello kontrabass'}
   };
+  function libraryFamilyFor(c){
+    if(!c)return null;
+    return Object.keys(libraryModelFamilyCards).find(family=>libraryModelFamilyCards[family].members?.includes(c.id))||c.family;
+  }
+  function libraryFamilyVariants(family){
+    const members=libraryModelFamilyCards[family]?.members;
+    return members?members.map(id=>byId[id]).filter(Boolean):catalog.filter(c=>c.family===family);
+  }
   const objectPacks=[
     {id:'core',name:'Core',kicker:'KOSTENLOS',price:'Kostenlos',description:'Die Grundausstattung für vollständige Stageplots, Routing und technische Übergaben.',objectIds:['drums','keys-stage4','guitar','mic','mic-round','stagebox-16','amp','stage-stairs','stage-ramp'],free:true},
     {id:'light-lab',name:'Light Lab',kicker:'LICHT & FX',price:'6,90 €',description:'Technische Draufsichten für moderne Lichtshows und Bühneneffekte.',objectIds:['light-moving-spot','light-moving-wash','light-spark','light-fog','light-wave-bar','light-flightcase']},
@@ -11009,9 +11022,9 @@ function createStageplotSymbolV3(type, options = {}) {
       else if(!(category==='stations'?stationIds.includes(c.id):c.category===category))return false;
     }
     const normalize=value=>String(value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss');
-    const terms={classical:'klassik orchester streicher violin viola cello harfe symphonie',drums:'schlagzeug drums percussion',keys:'keyboard keys klavier piano orgel',strings:'gitarre guitar bass saiten',winds:'blaser blaeser blasinstrument wind brass woodwind',mics:'mikrofon mic boom gesang vocals talkback teller',amps:'amp verstarker modeler',tech:'buhne technik'};
+    const terms={classical:'klassik orchester symphonie',drums:'schlagzeug drums percussion',keys:'keyboard keys klavier piano orgel',strings:'gitarre guitar bass saiten',winds:'blaser blaeser blasinstrument wind brass woodwind',mics:'mikrofon mic boom gesang vocals talkback teller',amps:'amp verstarker modeler',tech:'buhne technik'};
     const groupTerms={instruments:'instrument instrumente',stage:'bühne bühnenelemente podest rigging',lights:'licht scheinwerfer effekt',tech:'technik backline equipment sonstige'};
-    const text=normalize([c.name,c.short,c.keywords||'',c.detail||'',terms[c.category]||'',groupTerms[libraryGroupFor(c)]||'',c.id.startsWith('guitar-tree-')?'tanne baum dreier stander triple':c.id==='guitar-stand-single'?'einzeln einzel einfacher ein gitarren bass stander single stand':c.id.startsWith('guitar-stand-')?'dreier stander rack':''].join(' '));
+    const text=normalize([c.name,c.short,c.keywords||'',c.detail||'',libraryModelFamilyCards[libraryFamilyFor(c)]?.keywords||'',terms[c.category]||'',groupTerms[libraryGroupFor(c)]||'',c.id.startsWith('guitar-tree-')?'tanne baum dreier stander triple':c.id==='guitar-stand-single'?'einzeln einzel einfacher ein gitarren bass stander single stand':c.id.startsWith('guitar-stand-')?'dreier stander rack':''].join(' '));
     return normalize(query).trim().split(/\s+/).filter(Boolean).every(word=>text.includes(word));
   }
   function selectedObjects(){
@@ -11071,7 +11084,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function saveLibraryPreferences(){
     return StageplotQol.writePreferences(window.localStorage,libraryPreferences);
   }
-  const libraryTypeForObject=o=>o.type==='mic'&&o.stand==='round'?'mic-round':o.type;
+  const libraryTypeForObject=o=>o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts?.length===1&&byId[o.orchestra.parts[0].type]?o.orchestra.parts[0].type:o.type==='mic'&&o.stand==='round'?'mic-round':o.type;
   function toggleLibraryFavorite(id){
     const scroll=$('sp-library-items').scrollTop,fromInspector=document.activeElement===$('sp-object-favorite');
     libraryPreferences=StageplotQol.favorite(libraryPreferences,id,libraryPreferenceIds);
@@ -11089,11 +11102,12 @@ function createStageplotSymbolV3(type, options = {}) {
     if(view!=='editor'||libraryMode!=='objects')return;
     const query=$('sp-library-search').value.trim();syncLibrarySearchUi();
     const visible=[],seenFamilies=new Set();
-    const familyEntry=family=>{const card=libraryModelFamilyCards[family];if(!card)return null;return {c:{...byId[card.representative],name:card.label,short:card.label},family,variants:catalog.filter(c=>c.family===family),key:'family:'+family};};
+    const familyEntry=family=>{const card=libraryModelFamilyCards[family];if(!card)return null;return {c:{...byId[card.representative],name:card.label,short:card.label},family,variants:libraryFamilyVariants(family),key:'family:'+family};};
     if(libraryScope==='all'){
       for(const c of catalog.filter(c=>libraryMatches(c,query?'all':libraryCategory,query))){
-        if(!libraryModelFamilyCards[c.family])visible.push({c,key:c.id});
-        else if(!seenFamilies.has(c.family)){seenFamilies.add(c.family);visible.push(familyEntry(c.family));}
+        const family=libraryFamilyFor(c);
+        if(!libraryModelFamilyCards[family])visible.push({c,key:c.id});
+        else if(!seenFamilies.has(family)){seenFamilies.add(family);visible.push(familyEntry(family));}
       }
     }else{
       for(const key of libraryPreferences[libraryScope==='favorites'?'favorites':'recent']){
@@ -11106,8 +11120,8 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-category-tabs').hidden=libraryScope!=='all';
     $('sp-library-items').innerHTML=visible.map(entry=>{
       const c=entry.c,favorite=libraryPreferences.favorites.includes(entry.key);let card;
-      if(entry.family){const active=objects.some(o=>byId[o.type]?.family===entry.family),count=entry.variants.length;
-        card='<button class="sp-library-item sp-library-model-family" type="button" data-library-model-family="'+entry.family+'" data-active="'+active+'" aria-haspopup="dialog" aria-controls="sp-model-dialog" aria-label="'+esc(c.name+' auswählen · '+count+' Modelle')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span><span class="sp-library-model-count">'+count+' Modelle</span></button>';
+      if(entry.family){const active=objects.some(o=>libraryFamilyFor(byId[libraryTypeForObject(o)])===entry.family),count=entry.variants.length,kind=libraryModelFamilyCards[entry.family].members?'Instrumente':'Modelle';
+        card='<button class="sp-library-item sp-library-model-family" type="button" data-library-model-family="'+entry.family+'" data-active="'+active+'" aria-haspopup="dialog" aria-controls="sp-model-dialog" aria-label="'+esc(c.name+' auswählen · '+count+' '+kind)+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span><span class="sp-library-model-count">'+count+' '+kind+'</span></button>';
       }else{const unlocked=isObjectUnlocked(c.id),pack=objectPackById[objectPackForType.get(c.id)];
         card='<button class="sp-library-item" type="button" '+(unlocked?'data-add="'+c.id+'" data-pending="'+(placement?.type===c.id)+'"':'data-pack-open="'+pack.id+'" data-pack-locked="true"')+' aria-label="'+esc(unlocked?c.name+' zum Platzieren auswählen':c.name+' ist im '+pack.name+' Pack · Pack ansehen')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span>'+(unlocked?'':'<span class="sp-library-lock-label">'+esc(pack.name)+'</span>')+'</button>';
       }
@@ -11118,9 +11132,9 @@ function createStageplotSymbolV3(type, options = {}) {
   function updateList(){
     const cableCount=stage?.cables?.length||0;
     $('sp-item-count').textContent=objects.length?objects.length+' Baustein'+(objects.length===1?'':'e')+(cableCount?' · '+cableCount+' Kabel':''):'Noch keine Bausteine';
-    const active=objects.find(o=>o.id===selected)?.type;
+    const activeObject=objects.find(o=>o.id===selected),active=activeObject?.type,activeFamily=libraryFamilyFor(byId[libraryTypeForObject(activeObject||{})]);
     root.querySelectorAll('[data-add]').forEach(b=>{b.dataset.active=String(b.dataset.add===active);b.dataset.pending=String(b.dataset.add===placement?.type);});
-    root.querySelectorAll('[data-library-model-family]').forEach(b=>{b.dataset.active=String(byId[active]?.family===b.dataset.libraryModelFamily);});
+    root.querySelectorAll('[data-library-model-family]').forEach(b=>{b.dataset.active=String(activeFamily===b.dataset.libraryModelFamily);});
     const list=$('sp-object-list'),scroll=list.scrollTop,focused=list.contains(document.activeElement)?document.activeElement:null;
     const focusSelect=focused?.dataset.select,focusLock=focused?.dataset.layerLock;
     // Topmost artwork first; underlays and the IEM zone remain at the bottom.
@@ -14518,10 +14532,12 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     change(()=>{delete o.dimensions;o.type=nextType;o.angle=(o.angle-(prior.defaultAngle||0)+(next.defaultAngle||0)+360)%360;if(o.label===prior.short)o.label=next.short;constrain(o,false);},'Variante geändert');
   }
   function showCompactModelDialog(family,currentType='',action='change'){
-    if(!compactModelFamilies.has(family))return;
-    const variants=catalog.filter(item=>item.family===family),current=byId[currentType];modelDialogContext={family,currentType,action};
-    $('sp-model-dialog-title').textContent=visualVariantFamilies[family]||'Modell auswählen';
-    $('sp-model-dialog-summary').textContent=action==='place'?variants.length+' Modelle · Modell zum Platzieren wählen':variants.length+' Modelle · aktuell '+(current?.name||'');
+    const group=action==='place'&&libraryModelFamilyCards[family]?.members?libraryModelFamilyCards[family]:null;
+    if(!group&&!compactModelFamilies.has(family))return;
+    const variants=libraryFamilyVariants(family),current=byId[currentType];modelDialogContext={family,currentType,action};
+    $('sp-model-dialog-title').textContent=group?.label||visualVariantFamilies[family]||'Modell auswählen';
+    $('sp-model-dialog').querySelector('.sp-eyebrow').textContent=group?'INSTRUMENT AUSWÄHLEN':'MODELLWECHSEL';
+    $('sp-model-dialog-summary').textContent=group?'Instrument zum Platzieren wählen':action==='place'?variants.length+' Modelle · Modell zum Platzieren wählen':variants.length+' Modelle · aktuell '+(current?.name||'');
     $('sp-model-dialog-options').innerHTML=variants.map(item=>{const unlocked=isObjectUnlocked(item.id),chosen=item.id===currentType;return '<button class="sp-model-dialog-option" type="button" role="option" data-dialog-model="'+item.id+'" data-model-unlocked="'+unlocked+'" aria-selected="'+String(chosen)+'" aria-label="'+esc(item.name+(chosen?' · ausgewählt':'')+(!unlocked?' · Pack erforderlich':''))+'">'+icon(item)+'<strong>'+esc(item.short)+'</strong><small>'+esc(item.detail||item.name)+(unlocked?'':' · Pack erforderlich')+'</small></button>';}).join('');
     $('sp-model-dialog').showModal();requestAnimationFrame(()=>($('sp-model-dialog-options').querySelector('[aria-selected="true"]')||$('sp-model-dialog-options').querySelector('[data-dialog-model]'))?.focus({preventScroll:true}));
   }
