@@ -93,17 +93,17 @@ assert.match(packIssuerSource,/webcrypto\.subtle\.sign\(\{name:'ECDSA',hash:'SHA
 const equipment={
   wedge:'cm14-wedge-top-view',
   teleprompter:'stage-teleprompter-top-view',
-  'light-moving-spot':'spot-moving-head-top-view',
-  'light-spark':'spark-effect-top-view',
-  'light-moving-wash':'moving-head-top-view',
-  'light-flightcase':'lighting-flightcase-top-view',
-  'light-fog':'fog-machine-top-view',
-  'light-wave-bar':'moving-wave-bar-top-view'
+  'light-moving-spot':'data-rendered-lighting-asset="light-moving-spot"',
+  'light-spark':'data-rendered-lighting-asset="light-spark"',
+  'light-moving-wash':'data-rendered-lighting-asset="light-moving-wash"',
+  'light-flightcase':'data-rendered-lighting-asset="light-flightcase"',
+  'light-fog':'data-rendered-lighting-asset="light-fog"',
+  'light-wave-bar':'data-rendered-lighting-asset="light-wave-bar"'
 };
 for(const [type,part] of Object.entries(equipment)){
   const markup=symbolContext.render(type);
   assert.ok(markup.includes('data-equipment="'+type+'"'),type+' wird nicht als Bühnensymbol gerendert.');
-  assert.ok(markup.includes(part),type+' besitzt keine erkennbare Topview-Geometrie.');
+  assert.ok(markup.includes(part),type+' besitzt keine erkennbare Geräteansicht.');
   assert.ok(html.includes("{id:'"+type+"'"),type+' fehlt im Objektkatalog.');
 }
 

@@ -1,0 +1,270 @@
+{
+  "version": 1,
+  "created": "2026-09-14",
+  "generator": "OpenAI built-in image_gen; one generation per asset",
+  "style": "Lightly drawn monochrome equipment illustrations; front and elevated views emphasize lenses, yokes and nozzles. The flightcase retains an overhead support surface.",
+  "normalization": "Alpha silhouette crop with 3 px margin, grayscale WebP, proportional resize to max 768 px, generated alpha preserved. Physical footprints and saved custom dimensions are unchanged; perspective drawings fit uniformly inside those frames and do not represent measured top silhouettes.",
+  "assets": [
+    {
+      "id": "wash",
+      "name": "LED Washer",
+      "file": "wash-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 752,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 143870,
+      "sha256": "ffc44ef6482cd5e702b630cb620ca614be23ceaec00396a6b261a3bf53c948df",
+      "footprintMeters": {
+        "width": 0.35,
+        "depth": 0.35
+      },
+      "source": {
+        "file": "exec-2448352b-5b13-40d6-8fae-54d3056ecbe6.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "5285aa13762254aef55d118a41c7d7140043bb6c6e3960ce41d60f45ee6d5c79"
+      },
+      "crop": {
+        "left": 97,
+        "top": 77,
+        "width": 1058,
+        "height": 1081
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE compact LED wash uplighter with a round shallow circular face holding exactly seven large individual glass LED lenses (one center, six around), squat cylindrical ribbed housing, and a simple U-shaped floor yoke. No motorized moving-head base. Camera: elevated front view looking down about 40 degrees; lens face tilted upward toward camera, the round lens array is fully recognizable, both yoke arms visible. A nearly square overall silhouette. Fine drawn edges like a softly shaded drum-kit illustration."
+    },
+    {
+      "id": "light-par",
+      "name": "LED PAR",
+      "file": "light-par-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 697,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 127518,
+      "sha256": "012d8db22267a64405d62ba72c8abd30ceedad66302559b2c22b18132247cd55",
+      "footprintMeters": {
+        "width": 0.3,
+        "depth": 0.3
+      },
+      "source": {
+        "file": "exec-7fcd8f3d-1f78-48a2-9a8e-5fe24836a8e9.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "5efc4e0601df78cb5e2121e7873ecc09fdded008548841ebd7d1529931df6ba6"
+      },
+      "crop": {
+        "left": 117,
+        "top": 74,
+        "width": 1017,
+        "height": 1120
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE traditional compact LED PAR can spotlight, recognizable short cylindrical can with flared circular rim, a dense round array of nineteen small glass LED lenses (unlike a seven-lens wash light), metal U-shaped yoke with two side pivot knobs and compact floor foot. Camera: three-quarter elevated front view, about 40 degrees down, front turned slightly to the left, clearly show lens array and short ribbed cylinder behind it. Nearly square silhouette."
+    },
+    {
+      "id": "light-moving-spot",
+      "name": "Spot Moving Head",
+      "file": "light-moving-spot-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 553,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 87090,
+      "sha256": "3de158c1a43184018553561f514953a454c99e2b7b2dd746818d764217a130a2",
+      "footprintMeters": {
+        "width": 0.35,
+        "depth": 0.28
+      },
+      "source": {
+        "file": "exec-075e204e-d2f5-4718-903a-967b83c899e1.png",
+        "width": 1293,
+        "height": 1217,
+        "sha256": "72060ae027218ab2fceba0d600c13c0797ca011202099cca83e494823f0036f8"
+      },
+      "crop": {
+        "left": 253,
+        "top": 54,
+        "width": 791,
+        "height": 1098
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE professional spot moving head, a single large clear convex circular projector lens in a chunky rounded rectangular head, visible mechanical U-shaped motorized yoke, squat wide rectangular base with tiny blank control screen. Head tilted upward to show the single lens fully. Camera: elevated front view about 45 degrees down with a slight three-quarter turn. Compact squat silhouette, base visible on both sides, overall image only slightly taller than wide. This is a single-lens spot, NOT a multi-lens LED wash."
+    },
+    {
+      "id": "light-spark",
+      "name": "Funkeneffekt",
+      "file": "light-spark-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 583,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 60630,
+      "sha256": "69708b318df0078ba09c5ecdca7e5cb13359f8962effe8873beb613353ef3a66",
+      "footprintMeters": {
+        "width": 0.25,
+        "depth": 0.21
+      },
+      "source": {
+        "file": "exec-1de9bb09-8119-47ff-8956-50a45154bc00.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "438b914723d2061b6a1dc43073672a69c8ba74e6fdb6d077a47199358aa96c5d"
+      },
+      "crop": {
+        "left": 210,
+        "top": 71,
+        "width": 847,
+        "height": 1115
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE cold-spark stage effect machine: compact upright cuboid metal box, square top with one clearly visible recessed round metallic spark outlet near the center and a small separate fill cap, side ventilation slots, two small flush carry handles, feet, a tiny blank control screen on its front. Camera: three-quarter view from high above, about 55 degrees down, emphasizing the distinctive upward-facing nozzle and visible front and side. Nearly square overall silhouette. The device is OFF: absolutely no sparks, smoke, particles or effects."
+    },
+    {
+      "id": "light-moving-wash",
+      "name": "Wash Moving Head",
+      "file": "light-moving-wash-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 620,
+      "height": 768,
+      "hasAlpha": true,
+      "bytes": 100456,
+      "sha256": "f496a3bd1fe80f7c40900c06d4fcac90d018c64faf1951a9fde0913c4a4e2d30",
+      "footprintMeters": {
+        "width": 0.42,
+        "depth": 0.32
+      },
+      "source": {
+        "file": "exec-499b1dfa-df90-4ccb-8ed1-3d1bdbeb37f0.png",
+        "width": 1230,
+        "height": 1278,
+        "sha256": "0a2237e8092bb7703f5ad5e517bf51bb71795577011d2407864f59aafb262076"
+      },
+      "crop": {
+        "left": 140,
+        "top": 50,
+        "width": 950,
+        "height": 1177
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE professional LED wash moving head, broad circular head with nineteen individual large round glass lenses packed in a hexagonal pattern, shallow ribbed back housing in a strong mechanical U-shaped motorized yoke, low wide rectangular base with blank control display. Camera: elevated nearly frontal view looking down about 45 degrees, head tilted toward camera so the many lenses are unmistakable, base visible underneath and to both sides. Squat compact silhouette. Clearly a motorized wash moving head, NOT a single-lens spot and NOT a simple PAR."
+    },
+    {
+      "id": "light-flightcase",
+      "name": "Licht-Flightcase · Topview",
+      "file": "light-flightcase-illustrated-v1.webp",
+      "view": "orthographic-top",
+      "width": 768,
+      "height": 486,
+      "hasAlpha": true,
+      "bytes": 64154,
+      "sha256": "959bbf881c8a8bd28062b346efd489393459a5a43f2b9f46f73a3f7a765fe69f",
+      "footprintMeters": {
+        "width": 0.8,
+        "depth": 0.6
+      },
+      "source": {
+        "file": "exec-41015ad3-f4be-4422-97d7-75842eaf478a.png",
+        "width": 1448,
+        "height": 1086,
+        "sha256": "33dd5f7c863606baff7c867187f47ea5c5e4c1e70ffa136fd08097f7944d51d8"
+      },
+      "crop": {
+        "left": 132,
+        "top": 162,
+        "width": 1183,
+        "height": 748
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE closed rectangular professional lighting flightcase / wheeled road case viewed in STRICT VERTICAL OVERHEAD orthographic plan, straight horizontal long edges and straight vertical short edges, no perspective. The top lid is a plain charcoal-gray rectangular laminated panel framed by silver aluminum edge extrusions, silver protective ball corners, small metal latches and recessed handles barely peeking at the perimeter. Width-to-depth ratio 4:3. No words or markings. No devices on top. Full rectangular lid provides a clear flat equipment support area. Wheels hidden beneath the case."
+    },
+    {
+      "id": "light-fog",
+      "name": "Nebelmaschine",
+      "file": "light-fog-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 768,
+      "height": 440,
+      "hasAlpha": true,
+      "bytes": 55032,
+      "sha256": "23cf908f88adb0c9a84789d947a2bed981a3351a49ff5f348ce9aa5f6d357075",
+      "footprintMeters": {
+        "width": 0.59,
+        "depth": 0.33
+      },
+      "source": {
+        "file": "exec-729c7cee-99a0-457c-b668-acbcd3d69855.png",
+        "width": 1536,
+        "height": 1024,
+        "sha256": "c95c690a8f81e9044051ac1cd622b3ec706317bb5097424a15bd05c1c793167f"
+      },
+      "crop": {
+        "left": 48,
+        "top": 96,
+        "width": 1447,
+        "height": 829
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE professional portable fog machine. Wide low rectangular metal housing, its long axis horizontal in the image, characteristic circular fog nozzle visible on the left-front end, ribbed ventilation slits, a raised rigid carry handle along the top and a small recessed fluid reservoir cap at the back right. Camera: three-quarter high front view about 50 degrees down, show top and nozzle-end so clearly recognizable. The machine is wide and low, not a cube. Overall silhouette about 1.8 times wider than high. No vapor, smoke or separate fluid bottles."
+    },
+    {
+      "id": "light-wave-bar",
+      "name": "Moving Head Wave Bar · Beam & Wash",
+      "file": "light-wave-bar-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 768,
+      "height": 132,
+      "hasAlpha": true,
+      "bytes": 30934,
+      "sha256": "9a0be9af7a259fd5a63678acb9d451e56dedb90dabcb5fc99659df031b2efcd8",
+      "footprintMeters": {
+        "width": 1.12,
+        "depth": 0.24
+      },
+      "source": {
+        "file": "exec-7f535ac8-8a28-4907-8d19-6f915cf9178f.png",
+        "width": 2172,
+        "height": 724,
+        "sha256": "efc03bb385f9da574c05404750fe31191bfad53a3a148ebf344490d36b8e3aeb"
+      },
+      "crop": {
+        "left": 34,
+        "top": 188,
+        "width": 2108,
+        "height": 363
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE motorized beam-and-wash wave bar stage fixture, horizontal long low rigid base with a row of eight small independently tilting round-lens lighting heads in individual miniature yokes, each distinct lens facing upward-front at subtly varying angles, mechanical pivots visible. Extra-wide compact silhouette about FIVE TIMES as wide as high, not a tower or curved truss. Camera: elevated nearly frontal view, about 50 degrees down, long axis exactly horizontal, minimal perspective convergence. The row of tilting heads makes it immediately different from a plain fixed LED strip."
+    },
+    {
+      "id": "light-bar",
+      "name": "LED Bar",
+      "file": "light-bar-illustrated-v1.webp",
+      "view": "elevated-front",
+      "width": 768,
+      "height": 81,
+      "hasAlpha": true,
+      "bytes": 14384,
+      "sha256": "1d4570fccdb336297fdb981e6b84a5786b619ca26e0ca8b2cb5d1f7829e14fe8",
+      "footprintMeters": {
+        "width": 1,
+        "depth": 0.12
+      },
+      "source": {
+        "file": "exec-f9cec782-1bad-4a70-a3b4-1b2010fabc67.png",
+        "width": 2172,
+        "height": 724,
+        "sha256": "658739f1c6651ec3dce67a1e6b3ee55b8b840a7fa093c919f4849e816165aa76"
+      },
+      "crop": {
+        "left": 36,
+        "top": 248,
+        "width": 2100,
+        "height": 222
+      },
+      "cropAlphaThreshold": 32,
+      "prompt": "Use case: stylized-concept. Asset type: one isolated stage-lighting equipment sprite for a 2D stageplot app. Style: refined lightly hand-drawn technical equipment illustration, thin crisp charcoal contours, soft pale-gray pencil shading, restrained material detail, readable silhouette at thumbnail size. Monochrome grayscale, silver highlights on dark-gray housing, balanced midtones (not solid black). Genuine transparent alpha background. Entire device centered, uncropped, generous transparent margin. No text, logos, watermark, people, environment, floor, cast shadow, light beam, glow or colored illumination. Subject: ONE slim straight professional fixed LED batten, very long low rectangular metal housing, twelve distinct circular LED lenses in a single horizontal row, shallow ribbed back and two tiny end brackets. Extra-wide horizontal silhouette about EIGHT TIMES as wide as high. Camera: elevated nearly frontal view, see the glass lenses clearly with just a narrow strip of housing depth. Long axis exactly horizontal, minimal perspective. Simple fixed LED bar, no moving heads or separate base. Landscape composition."
+    }
+  ]
+}

@@ -3,6 +3,27 @@ const manifest=JSON.parse(fs.readFileSync('stageplot-assets/tech/manifest.json')
 const prompts=JSON.parse(fs.readFileSync('stageplot-assets/tech/prompts.json'));
 const html=fs.readFileSync('stageplot-studio.html','utf8'),ctx={};vm.createContext(ctx);
 vm.runInContext(fs.readFileSync('stageplot-symbols-v3.js','utf8')+';this.render=createStageplotSymbolV3;this.frame=stageplotTechFrame;this.micLayout=stageplotMicLayout;',ctx);
+// Lighting is a separate illustrated family: perspective artwork must remain
+// local and proportional without changing old physical placement frames.
+const lights=JSON.parse(fs.readFileSync('stageplot-assets/lights/manifest.json'));
+assert.equal(lights.assets.length,9);assert.equal(new Set(lights.assets.map(a=>a.id)).size,9);
+assert.deepEqual(new Set(lights.assets.map(a=>a.id)),new Set([...html.matchAll(/\{id:'([^']+)'[^\n]+family:'lights'/g)].map(m=>m[1])));
+for(const asset of lights.assets){
+ const svg=ctx.render(asset.id),bytes=fs.readFileSync('stageplot-assets/lights/'+asset.file),frame=ctx.stageplotLightingFrame(asset.id);
+ assert.ok(svg.includes('href="stageplot-assets/lights/'+asset.file+'"'));
+ assert.equal((svg.match(/<image /g)||[]).length,1);assert.match(svg,/preserveAspectRatio="xMidYMid meet"/);
+ assert.match(svg,/data-metric-frame="true"/);assert.doesNotMatch(svg,/https?:|<path |<circle |preserveAspectRatio="none"/);
+ assert.equal(frame.width,asset.footprintMeters.width*1000);assert.equal(frame.height,asset.footprintMeters.depth*1000);
+ assert.equal(asset.view,asset.id==='light-flightcase'?'orthographic-top':'elevated-front');
+ assert.equal(asset.hasAlpha,true);assert.ok(asset.width<=768&&asset.height<=768);
+ assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');
+ assert.equal(bytes.toString('ascii',12,16),'VP8X');assert.ok(bytes[20]&16,'WebP must encode alpha');
+ assert.equal(bytes.length,asset.bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),asset.sha256);
+ assert.match(asset.prompt,/transparent alpha/i);
+}
+assert.ok(lights.assets.reduce((sum,a)=>sum+a.bytes,0)<1024*1024,'Nine lighting images must fit within 1 MiB');
+assert.equal(ctx.stageplotLightingFrame('constructor'),null);
+assert.ok(fs.readFileSync('stageplot-preview.py','utf8').includes('"/stageplot-assets/lights/"'));
 assert.equal(new Set(manifest.assets.map(a=>a.id)).size,30);
 for(const asset of manifest.assets){
  const svg=ctx.render(asset.id),file='stageplot-assets/tech/'+asset.file;

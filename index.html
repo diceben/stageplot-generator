@@ -685,6 +685,7 @@
             <header><div><strong>v0.1.0-beta.8</strong><span>Aktuell</span></div><time datetime="2026-09-14">14. September 2026</time></header>
             <h4>Illustrierte Bausteine und dunkle Bühnenansicht</h4>
             <ul>
+              <li><strong>Lichtgeräte neu illustriert:</strong> Neun gerenderte Bild-Assets zeigen Linsen, LED-Flächen, Bügel und Gerätefronten. Passende Front- und Schrägansichten verbessern die Erkennung; das Flightcase bleibt von oben sichtbar. Bibliothek, Bühne und Export verwenden dieselben lokalen Bilder.</li>
               <li><strong>Instrumentgruppen:</strong> Blech, Holz und Streicher stehen jeweils als eine Karte in der Bibliothek. Antippen öffnet die Auswahl der vorhandenen Instrumente; einzelne Favoriten und die Suche nach Instrumentnamen bleiben erhalten.</li>
               <li><strong>Kompaktere Bausteinauswahl:</strong> Am Handy stehen Objekte/Packs, Inventar und Schließen in einer gemeinsamen Kopfzeile. Kleinere Abstände bringen die Kategorien und Bausteine weiter nach oben; die Bausteinanzahl entfällt.</li>
               <li><strong>35 zusätzliche Bausteine:</strong> Zubehör, Percussion, Tasten, DJ, Backline, PA und Video erweitern die Bibliothek. Alle Grafiken wurden einzeln in leicht gezeichnetem Stil aus der Draufsicht erstellt – einschließlich des korrigierten iPad-Ständers.</li>
@@ -8665,7 +8666,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   }
   const objectPacks=[
     {id:'core',name:'Core',kicker:'KOSTENLOS',price:'Kostenlos',description:'Die Grundausstattung für vollständige Stageplots, Routing und technische Übergaben.',objectIds:['drums','keys-stage4','guitar','mic','mic-round','stagebox-16','amp','stage-stairs','stage-ramp'],free:true},
-    {id:'light-lab',name:'Light Lab',kicker:'LICHT & FX',price:'6,90 €',description:'Technische Draufsichten für moderne Lichtshows und Bühneneffekte.',objectIds:['light-moving-spot','light-moving-wash','light-spark','light-fog','light-wave-bar','light-flightcase']},
+    {id:'light-lab',name:'Light Lab',kicker:'LICHT & FX',price:'6,90 €',description:'Gezeichnete Lichtgeräte und Bühneneffekte mit erkennbaren Linsen, Bügeln und Gehäusen.',objectIds:['light-moving-spot','light-moving-wash','light-spark','light-fog','light-wave-bar','light-flightcase']},
     {id:'stage-builder',name:'Stage Builder',kicker:'BÜHNE & PODESTE',price:'5,90 €',description:'Flexible Bühnenmodule, Sicherungen und Produktionsflächen für komplexere Aufbauten.',objectIds:['stage-module','riser-2','riser-3','rug','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier']},
     {id:'pro-crew',name:'Pro Crew',kicker:'MONITORING & PRODUCTION',price:'5,90 €',description:'Spezialisierte Produktionsobjekte für professionelle Bühnenarbeitsplätze.',objectIds:['teleprompter','wedge','quad-cortex','stagebox-48']},
     {id:'crew-rewards',name:'Crew Rewards',kicker:'VERDIENEN STATT KAUFEN',price:'Kostenlos verdienen',description:'Bonusobjekte für hilfreiches Feedback und deine Newsletter-Vormerkung.',objectIds:['guitar-tree-empty','guitar-tree-full','iem-earphones','cajon'],reward:true},
@@ -9100,7 +9101,28 @@ function stageplotTechArtwork(type,options={}) {
 // Instrument geometry remains informed by the sources in stageplot-referenzen.md.
 // Right-handed kit in plan view: throne at the top, audience at the bottom.
 // Relative positions checked against real overhead photos (see stageplot-referenzen.md).
+// Perspective lighting drawings share the saved physical footprint, but keep
+// their native proportions. They are not measured overhead silhouettes.
+const STAGEPLOT_LIGHT_VIEWS=Object.freeze({
+  wash:{width:350,height:350},
+  'light-par':{width:300,height:300},
+  'light-moving-spot':{width:350,height:280},
+  'light-spark':{width:250,height:210},
+  'light-moving-wash':{width:420,height:320},
+  'light-flightcase':{width:800,height:600},
+  'light-fog':{width:590,height:330},
+  'light-wave-bar':{width:1120,height:240},
+  'light-bar':{width:1000,height:120}
+});
+function stageplotLightingFrame(type){
+  return Object.hasOwn(STAGEPLOT_LIGHT_VIEWS,type)?STAGEPLOT_LIGHT_VIEWS[type]:null;
+}
 function createStageplotSymbolV3(type, options = {}) {
+  const lighting=stageplotLightingFrame(type);
+  if(lighting){
+    const {width,height}=lighting;
+    return '<g data-equipment="'+type+'" data-lighting-view="'+(type==='light-flightcase'?'orthographic-top':'elevated-front')+'"><rect width="'+width+'" height="'+height+'" fill="none" stroke="none" pointer-events="none" data-metric-frame="true"/><image href="stageplot-assets/lights/'+type+'-illustrated-v1.webp" width="'+width+'" height="'+height+'" preserveAspectRatio="xMidYMid meet" data-rendered-lighting-asset="'+type+'"/></g>';
+  }
   // illustrated-assets:start
   const illustratedAssets = {"music-stand":[55.0,55.0],"musician-chair":[50.0,55.0],"tablet-stand":[50.0,50.0],"standing-stool":[45.0,50.0],"equipment-table":[120.0,60.0],"congas":[80.0,45.0],"bongos":[48.0,25.0],"djembe":[36.0,36.0],"timbales":[85.0,50.0],"percussion-table":[80.0,50.0],"grand-piano":[155.0,210.0],"upright-piano":[150.0,60.0],"leslie":[75.0,55.0],"dj-controller":[72.0,40.0],"dj-player":[32.0,45.0],"turntable":[45.0,36.0],"dj-mixer":[32.0,40.0],"sampler":[35.0,30.0],"drum-machine":[38.0,22.0],"pedalboard":[65.0,35.0],"amp-head":[65.0,27.0],"cabinet-112":[50.0,30.0],"cabinet-212":[75.0,32.0],"cabinet-412":[76.0,37.0],"pa-top":[100,100],"subwoofer":[70.0,75.0],"sidefill":[75.0,85.0],"drumfill":[65.0,75.0],"violin":[20.7,59.0],"viola":[25.0,68.0],"cello":[44.0,125.0],"harp":[55.0,100.0],"accordion":[65.0,40.0],"clarinet":[8.0,67.0],"french-horn":[55.0,40.0],"drum-shield":[240.0,110.0],"wireless-antenna":[65.0,65.0],"camera-tripod":[85.0,85.0],"led-wall":[300,65.0],"projection-screen":[240.0,60.0]};
   if(Object.hasOwn(illustratedAssets,type)){
@@ -9756,66 +9778,6 @@ function createStageplotSymbolV3(type, options = {}) {
     let weave='';for(let i=13;i<90;i+=3.5)weave+='M10 '+f(i)+'h80M'+f(i)+' 10v80';
     path(weave,'none',.2,'#bcbcbc');
     for(let i=10;i<93;i+=4){line(5,i,8,i,.3,'#999');line(92,i,95,i,.3,'#999');line(i,5,i,8,.3,'#999');line(i,92,i,95,.3,'#999');}
-  }else if(type==='wash'){
-    path('M13 27H7V75Q7 85 21 85H79Q93 85 93 75V27H87','none',4,'#555');
-    circle(50,49,34,'#777',.8);circle(50,49,30,'#c8c8c8',.6);circle(50,49,27.5,'#555',.6);
-    const lenses=[[50,49]];for(let i=0;i<6;i++)lenses.push([50+Math.cos(i*Math.PI/3)*16,49+Math.sin(i*Math.PI/3)*16]);
-    for(const [x,y] of lenses){circle(x,y,6.4,'#ddd',.45);circle(x,y,4.6,'#f6f6f6',.3);path('M'+f(x-3)+' '+f(y+1)+'q1-4 5-3','none',.35,'#aaa');}
-    for(let i=0;i<4;i++){const a=(i*90+45)*Math.PI/180;bolt(50+Math.cos(a)*30.8,49+Math.sin(a)*30.8,.8);}
-    rect(32,83,36,7,'#777',.6,1);
-  }else if(type==='light-par'){
-    group('','led-par-top-view');
-    path('M18 24Q50 7 82 24L76 78Q50 92 24 78Z','#575757',.9);
-    circle(50,49,29,'#8b8b8b',.8);circle(50,49,24,'#d2d2d2',.55);
-    const parLenses=[[50,49]];for(let i=0;i<8;i++)parLenses.push([50+Math.cos(i*Math.PI/4)*14.5,49+Math.sin(i*Math.PI/4)*14.5]);
-    for(const [x,y] of parLenses){circle(x,y,4.3,'#f4f4f2',.35);circle(x-1,y-1,1.1,'#fff',.15);}
-    rect(19,78,62,7,'#4c4c4c',.6,1);for(const x of [24,76])bolt(x,81.5,.65);end();
-  }else if(type==='light-moving-spot'){
-    group('','spot-moving-head-top-view');
-    rect(5,7,116,88,'#454545',.95,8);rect(11,13,104,76,'#696969',.45,6);
-    for(const [x,y] of [[15,17],[111,17],[15,85],[111,85]])bolt(x,y,.85);
-    path('M25 28V72M101 28V72','none',4.4,'#363636');
-    group('','spot-head');path('M34 25H92L98 35V67L91 76H35L28 67V35Z','#555',.8);ellipse(63,50,25,22,'#b7b7b5',.7);ellipse(63,50,18,16,'#343434',.6);circle(63,50,11,'#e7e7e5',.55);circle(60,47,3.2,'#fff',.25);circle(63,50,5.3,'none',.35,'#999');end();
-    rect(48,84,30,5,'#333',.35,1);end();
-  }else if(type==='light-spark'){
-    group('','spark-effect-top-view');
-    rect(4,4,92,76,'#4d4d4d',.9,5);rect(9,9,82,66,'#737373',.45,3);
-    group('','spark-nozzle');circle(50,37,22,'#252525',.75);circle(50,37,17,'#a9a9a7',.5);for(let ring=0;ring<2;ring++)for(let i=0;i<8;i++){const a=i*Math.PI/4+(ring?Math.PI/8:0),radius=ring?12:7;circle(50+Math.cos(a)*radius,37+Math.sin(a)*radius,1.35,'#333',.18);}circle(50,37,3,'#222',.3);end();
-    path('M18 65H82','none',5,'#d0d0cd');for(let x=20;x<82;x+=10)path('M'+x+' 62l7 6','none',2,'#555');
-    rect(15,12,12,6,'#292929',.35,1);rect(73,12,12,6,'#292929',.35,1);for(const [x,y] of [[10,10],[90,10],[10,74],[90,74]])bolt(x,y,.7);end();
-  }else if(type==='light-moving-wash'){
-    group('','moving-head-top-view');
-    rect(5,9,116,78,'#4d4d4d',.9,7);rect(11,15,104,66,'#777',.5,5);
-    for(const [x,y] of [[15,19],[111,19],[15,77],[111,77]])bolt(x,y,.85);
-    path('M25 28V68M101 28V68','none',4.2,'#3d3d3d');rect(27,23,72,50,'#555',.75,10);
-    ellipse(63,48,30,23,'#c7c7c5',.75);ellipse(63,48,24,18,'#555',.55);
-    const moverLenses=[[63,48]];for(let i=0;i<6;i++)moverLenses.push([63+Math.cos(i*Math.PI/3)*12.5,48+Math.sin(i*Math.PI/3)*9.5]);
-    for(const [x,y] of moverLenses)circle(x,y,4,'#ededeb',.35);end();
-  }else if(type==='light-flightcase'){
-    group('','lighting-flightcase-top-view');
-    rect(3,3,154,114,'#777',1,3);rect(9,9,142,102,'#dededc',.65,1.5);rect(14,14,132,92,'#bcbcbc',.38,1);
-    for(const x of [7,153])for(const y of [7,113]){circle(x,y,5.2,'#3d3d3d',.5);circle(x,y,2,'#aaa',.25);}
-    for(const x of [13,147])for(const y of [13,107]){path('M'+(x-7)+' '+y+'V'+(y-7)+'H'+x,'none',2.2,'#f2f2f0');bolt(x-2.5,y-2.5,.65);}
-    group('','case-lid-recess');rect(25,20,110,80,'#d2d2d0',.55,2);rect(31,26,98,68,'none',.4,1);path('M80 26V94M31 60H129','none',.35,'#aaa');end();
-    for(const [x,y,vertical] of [[8,60,true],[152,60,true],[80,8,false],[80,112,false]]){if(vertical){rect(x-3,y-13,6,26,'#555',.5,2);line(x,y-8,x,y+8,.8,'#ddd');}else{rect(x-13,y-3,26,6,'#555',.5,2);line(x-8,y,x+8,y,.8,'#ddd');}}
-    out+='<text x="80" y="64" text-anchor="middle" font-size="9" font-family="sans-serif" font-weight="700" fill="#666" stroke="none">LIGHT CASE</text>';end();
-  }else if(type==='light-fog'){
-    group('','fog-machine-top-view');
-    rect(5,8,167,83,'#4b4b4b',.9,5);rect(11,14,155,71,'#737373',.45,3);
-    group('','fog-nozzle');circle(35,49.5,24,'#292929',.75);circle(35,49.5,18,'#aaa',.5);circle(35,49.5,11,'#3c3c3c',.45);for(let i=0;i<8;i++){const a=i*Math.PI/4;line(35+Math.cos(a)*4,49.5+Math.sin(a)*4,35+Math.cos(a)*16,49.5+Math.sin(a)*16,.55,'#777');}end();
-    group('','fog-body-vents');for(let y=25;y<=72;y+=7)line(72,y,132,y,1,'#3f3f3f');end();
-    path('M63 17Q91 1 119 17','none',4,'#333');path('M66 17Q91 6 116 17','none',1,'#aaa');
-    rect(139,22,21,55,'#2f2f2f',.55,2);rect(144,28,11,18,'#a9a9a7',.35,1);circle(149.5,62,5.5,'#666',.45);for(const [x,y] of [[11,14],[166,14],[11,85],[166,85]])bolt(x,y,.7);end();
-  }else if(type==='light-wave-bar'){
-    group('','moving-wave-bar-top-view');rect(3,5,330,62,'#444',.85,6);rect(9,11,318,50,'#696969',.4,4);
-    for(let i=0;i<12;i++){const x=20+i*27;
-      group('','wave-cell');rect(x-9,17,18,38,'#3b3b3b',.45,4);path('M'+(x-7)+' 24V48M'+(x+7)+' 24V48','none',1.4,'#999');ellipse(x,36,6.6,11,'#d0d0ce',.4);circle(x,33,4.2,'#f5f5f3',.25);circle(x,43,4.2,'#e6e6e4',.25);end();
-    }
-    for(const x of [8,328])for(const y of [10,62])bolt(x,y,.65);rect(145,58,46,5,'#2d2d2d',.35,1);end();
-  }else if(type==='light-bar'){
-    group('','led-bar-top-view');rect(4,5,292,26,'#505050',.75,4);rect(10,9,280,18,'#777',.4,2);
-    for(let i=0;i<12;i++){const x=20+i*23.65;circle(x,18,7,'#d1d1cf',.4);circle(x,18,4.8,'#f5f5f3',.25);path('M'+f(x-2.6)+' '+f(19)+'q1-3.5 4.2-2.5','none',.3,'#aaa');}
-    for(const x of [8,292])bolt(x,18,.7);end();
   }else if(type==='di'||type.startsWith('di-')){
     const stereo=type.includes('-stereo-'),active=type.endsWith('-active'),width=stereo?180:120,height=stereo?90:80,bodyX=8,bodyY=8,bodyW=width-16,bodyH=height-16,channels=stereo?2:1;
     group('','di-box-top-view');
@@ -9908,10 +9870,11 @@ function createStageplotSymbolV3(type, options = {}) {
   function objectArtGeometry(c,o,w,h){
     const id=artId(c,o),metric=c.id==='orchestra'||c.orchestraPart||c.id==='percussion'||c.percussionPart||drumModel.isDrums(c.id);
     const tech=typeof stageplotTechFrame==='function'?stageplotTechFrame(c.art||c.id,o):null;
+    const raster=tech||(typeof stageplotLightingFrame==='function'?stageplotLightingFrame(c.art||c.id):null);
     // Raster equipment uses one scale for both axes, including saved custom frames.
     // Composite coordinates retain their metre calibration; flexible vector areas may stretch.
-    const b=tech?{x:0,y:0,width:tech.width,height:tech.height}:metric?{x:0,y:0,width:c.vb[0],height:c.vb[1]}:artBoundsCache.get(id)||{x:0,y:0,width:c.vb[0],height:c.vb[1]};
-    const sx=tech?Math.min(w/b.width,h/b.height):w/b.width,sy=tech?sx:h/b.height,tx=-(b.x+b.width/2)*sx,ty=-(b.y+b.height/2)*sy;
+    const b=raster?{x:0,y:0,width:raster.width,height:raster.height}:metric?{x:0,y:0,width:c.vb[0],height:c.vb[1]}:artBoundsCache.get(id)||{x:0,y:0,width:c.vb[0],height:c.vb[1]};
+    const sx=raster?Math.min(w/b.width,h/b.height):w/b.width,sy=raster?sx:h/b.height,tx=-(b.x+b.width/2)*sx,ty=-(b.y+b.height/2)*sy;
     const markup=c.art==='mic'&&(o.micLayer||['up','right','down','left'].includes(o.micHeadDirection))?createStageplotSymbolV3('mic',o):'<use href="#'+id+'"/>';
     return {id,sx,sy,tx,ty,markup,transform:'matrix('+[sx,0,0,sy,tx,ty].join(' ')+')'};
   }
