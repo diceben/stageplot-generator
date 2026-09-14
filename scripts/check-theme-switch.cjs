@@ -24,6 +24,24 @@ const {engine,launchBrowser,artifactPath}=require('./browser-qa.cjs');
     await page.locator('#sp-settings-close').tap();
     assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),savedBefore,'Theme changes do not modify projects');
     await page.reload();assert.equal(await page.locator('#sp-prototype').getAttribute('data-theme'),'dark');
+    // Workspace and toolbar must be dark independently of the white stage deck.
+    for(const [width,height] of [[390,800],[1440,900]]){
+      await page.setViewportSize({width,height});
+      await page.waitForFunction(()=>document.querySelector('#sp-editor-floor svg')?.clientWidth>0);
+      const colors=await page.evaluate(()=>{
+        const style=selector=>getComputedStyle(document.querySelector(selector));
+        return {outside:style('#sp-editor-floor [data-canvas-background]').fill,deck:style('#sp-editor-floor [data-stage-deck]').fill,panel:style('.sp-canvas-panel').backgroundColor,canvas:style('.sp-stage-canvas').backgroundColor,button:style('#sp-canvas-focus').color,buttonBackground:style('#sp-canvas-focus').backgroundColor,measure:style('#sp-editor-floor .sp-dimension').fill};
+      });
+      const luminance=color=>{const rgb=color.match(/[\d.]+/g).slice(0,3).map(Number).map(n=>{const v=n/255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;};
+      for(const key of ['outside','panel','canvas'])assert(luminance(colors[key])<.08,key+' is dark: '+colors[key]);
+      assert.equal(colors.deck,'rgb(255, 255, 255)','Stage deck remains white');
+      assert(luminance(colors.button)>.65,'Fit button text is light');
+      assert(luminance(colors.measure)>.4,'Exterior dimensions stay readable');
+      if(width>760){const dock=await page.locator('.sp-view-controls').evaluate(el=>getComputedStyle(el).backgroundColor);assert(luminance(dock)<.08,'Desktop tool dock is dark');}
+      await page.screenshot({path:artifactPath('dark-workspace-'+engine+'-'+width+'.png')});
+    }
+    await page.setViewportSize({width:390,height:700});
+
     await page.locator('#sp-settings-gear').tap();assert.equal(await page.locator('[data-theme-choice="dark"]').getAttribute('aria-pressed'),'true');
     await choose('light');await page.locator('#sp-settings-cancel').tap();await page.reload();
     assert.equal(await page.locator('#sp-prototype').getAttribute('data-theme'),'light','Immediate choice survives closing settings');
