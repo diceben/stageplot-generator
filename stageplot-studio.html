@@ -6501,6 +6501,10 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-dashboard button { -webkit-tap-highlight-color:transparent; }
 #sp-prototype .sp-storage-notice { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; min-width:0; max-width:1320px; margin:0 auto 20px; overflow-wrap:anywhere; }
 #sp-prototype .sp-storage-notice .sp-button { max-width:100%; white-space:normal; }
+@media (max-width:360px) {
+  #sp-prototype #sp-canvas-tools .sp-history-controls { display:grid; grid-template-columns:44px 54px; }
+  #sp-prototype #sp-editor-floor { top:96px; }
+}
 @media (max-width:480px) {
   #sp-prototype #sp-dashboard .sp-dashboard-hero { grid-template-columns:minmax(0,1fr) !important; }
   #sp-prototype #sp-dashboard .sp-dashboard-actions { justify-content:flex-start !important; }
