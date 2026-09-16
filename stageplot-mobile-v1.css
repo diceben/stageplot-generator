@@ -329,6 +329,12 @@
 #sp-prototype #sp-dashboard .sp-project-identity code { font-size:10px; }
 #sp-prototype #sp-dashboard .sp-project-identity svg { margin-left:auto; flex:none; width:16px; height:16px; }
 #sp-prototype #sp-dashboard button { -webkit-tap-highlight-color:transparent; }
+#sp-prototype .sp-storage-notice { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; min-width:0; max-width:1320px; margin:0 auto 20px; overflow-wrap:anywhere; }
+#sp-prototype .sp-storage-notice .sp-button { max-width:100%; white-space:normal; }
+@media (max-width:480px) {
+  #sp-prototype #sp-dashboard .sp-dashboard-hero { grid-template-columns:minmax(0,1fr) !important; }
+  #sp-prototype #sp-dashboard .sp-dashboard-actions { justify-content:flex-start !important; }
+}
 @media (max-width:760px) {
   #sp-prototype .sp-dashboard-intro { align-items:center; }
   #sp-prototype .sp-dashboard-logo { display:none; }
@@ -338,6 +344,7 @@
   #sp-prototype .sp-plan-switch { min-height:44px; }
   #sp-prototype > #sp-dashboard { display:flex; flex-direction:column; overflow:auto; padding:16px 14px 24px; gap:10px; }
   #sp-prototype #sp-dashboard .sp-dashboard-hero { display:grid; grid-template-columns:auto minmax(0,1fr); order:0; width:100%; margin:0; gap:8px; align-items:center; }
+  #sp-prototype #sp-dashboard .sp-storage-notice { width:100%; margin:0; font-size:12px; line-height:1.4; }
   #sp-prototype #sp-dashboard .sp-dashboard-intro h1 { margin:0; font-size:32px; letter-spacing:-1.3px; }
   #sp-prototype #sp-dashboard .sp-dashboard-actions { display:flex; min-width:0; justify-content:flex-end; flex-wrap:nowrap; gap:4px; }
   #sp-prototype #sp-dashboard #sp-account-open { flex:0 1 114px; min-width:0; max-width:114px; padding:6px 8px; white-space:normal; font-size:11px; }

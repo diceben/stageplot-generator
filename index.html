@@ -139,8 +139,9 @@
   <section id="sp-dashboard" class="sp-dashboard" hidden>
     <div class="sp-dashboard-hero">
       <div class="sp-dashboard-intro"><img loading="lazy" decoding="async" class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
-      <p class="sp-muted">Lokal in diesem Browser gespeichert · ohne garantierte Aufbewahrungsdauer. <button type="button" class="sp-button" data-storage-info>Speicherung &amp; Sicherung</button></p><div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-shared-open">Projekt-ID öffnen</button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
+      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-shared-open">Projekt-ID öffnen</button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
+    <p class="sp-muted sp-storage-notice">Lokal in diesem Browser gespeichert · ohne garantierte Aufbewahrungsdauer. <button type="button" class="sp-button" data-storage-info>Speicherung &amp; Sicherung</button></p>
     <div class="sp-plan-card" id="sp-plan-card">
       <div class="sp-plan-message"><span class="sp-plan-kicker" id="sp-plan-kicker">KOSTENLOSE PRO-BETA</span><details class="sp-beta-details"><summary>Was ist enthalten?</summary><strong id="sp-plan-usage"></strong><small id="sp-plan-copy"></small><small id="sp-plan-action-copy"></small></details></div>
       <div class="sp-plan-control"><button class="sp-plan-switch" type="button" id="sp-upgrade-open" role="switch" aria-checked="false" aria-label="Kostenlose Pro-Beta aktivieren"><span class="sp-plan-standard">Standard</span><span class="sp-plan-switch-track" aria-hidden="true"><span></span></span><span class="sp-plan-pro">Pro-Beta</span></button></div>
@@ -6510,6 +6511,12 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-dashboard .sp-project-identity code { font-size:10px; }
 #sp-prototype #sp-dashboard .sp-project-identity svg { margin-left:auto; flex:none; width:16px; height:16px; }
 #sp-prototype #sp-dashboard button { -webkit-tap-highlight-color:transparent; }
+#sp-prototype .sp-storage-notice { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; min-width:0; max-width:1320px; margin:0 auto 20px; overflow-wrap:anywhere; }
+#sp-prototype .sp-storage-notice .sp-button { max-width:100%; white-space:normal; }
+@media (max-width:480px) {
+  #sp-prototype #sp-dashboard .sp-dashboard-hero { grid-template-columns:minmax(0,1fr) !important; }
+  #sp-prototype #sp-dashboard .sp-dashboard-actions { justify-content:flex-start !important; }
+}
 @media (max-width:760px) {
   #sp-prototype .sp-dashboard-intro { align-items:center; }
   #sp-prototype .sp-dashboard-logo { display:none; }
@@ -6519,6 +6526,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .sp-plan-switch { min-height:44px; }
   #sp-prototype > #sp-dashboard { display:flex; flex-direction:column; overflow:auto; padding:16px 14px 24px; gap:10px; }
   #sp-prototype #sp-dashboard .sp-dashboard-hero { display:grid; grid-template-columns:auto minmax(0,1fr); order:0; width:100%; margin:0; gap:8px; align-items:center; }
+  #sp-prototype #sp-dashboard .sp-storage-notice { width:100%; margin:0; font-size:12px; line-height:1.4; }
   #sp-prototype #sp-dashboard .sp-dashboard-intro h1 { margin:0; font-size:32px; letter-spacing:-1.3px; }
   #sp-prototype #sp-dashboard .sp-dashboard-actions { display:flex; min-width:0; justify-content:flex-end; flex-wrap:nowrap; gap:4px; }
   #sp-prototype #sp-dashboard #sp-account-open { flex:0 1 114px; min-width:0; max-width:114px; padding:6px 8px; white-space:normal; font-size:11px; }
