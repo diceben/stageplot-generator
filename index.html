@@ -679,10 +679,18 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.8">v0.1.0-beta.8</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.9">v0.1.0-beta.9</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.8</strong><span>Aktuell</span></div><time datetime="2026-09-14">14. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.9</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <h4>Freigabelinks im offenen Browser-Tab</h4>
+            <ul>
+              <li><strong>Geteilte Pläne öffnen:</strong> Ein vollständiger Freigabelink wird auch dann eingelesen, wenn die App bereits im selben Tab geöffnet ist. Der Wechsel zwischen Freigabelinks und Zurück im Browser funktionieren ebenfalls.</li>
+              <li><strong>Eigene Entwürfe bleiben erhalten:</strong> Beim Verlassen einer geteilten Ansicht wird der lokale Plan wiederhergestellt. Noch ausstehende gültige Eingaben werden vor dem Wechsel gespeichert.</li>
+            </ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.8</strong></div><time datetime="2026-09-14">14. September 2026</time></header>
             <h4>Illustrierte Bausteine und dunkle Bühnenansicht</h4>
             <ul>
               <li><strong>Lichtgeräte neu illustriert:</strong> Neun gerenderte Bild-Assets zeigen Linsen, LED-Flächen, Bügel und Gerätefronten. Passende Front- und Schrägansichten verbessern die Erkennung; das Flightcase bleibt von oben sichtbar. Bibliothek, Bühne und Export verwenden dieselben lokalen Bilder.</li>
@@ -826,7 +834,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.8 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.9 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -13179,6 +13187,13 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   function decodeShareDocument(hash=window.location.hash){
     const match=String(hash).match(/^#share=([A-Za-z0-9_-]+)$/);if(!match)return null;let encoded=match[1].replaceAll('-','+').replaceAll('_','/');while(encoded.length%4)encoded+='=';const binary=atob(encoded),bytes=Uint8Array.from(binary,char=>char.charCodeAt(0)),payload=JSON.parse(new TextDecoder().decode(bytes));if(payload?.kind!=='stageplot-readonly'||![1,2].includes(payload.version))throw new Error('Ungültiger Freigabelink.');return normalizeSetupDocument(payload.document);
   }
+  // Pasting a share URL into this tab only changes the fragment. Re-enter the
+  // normal startup path so the shared snapshot is read and local drafts remain
+  // separate. Existing beforeunload/pagehide hooks flush pending local edits.
+  window.addEventListener('hashchange',event=>{
+    const previous=new URL(event.oldURL).hash,next=new URL(event.newURL).hash;
+    if(previous!==next&&(previous.startsWith('#share=')||next.startsWith('#share=')))window.location.reload();
+  });
   function openShareDialog(document={stage,objects}){
     try{const base=window.location.href.split('#')[0],link=base+'#share='+encodeShareDocument(document);$('sp-share-link').value=link;$('sp-share-status').textContent='Der Link enthält eine schreibgeschützte Momentaufnahme inklusive Kontaktdaten.';$('sp-share-dialog').showModal();}catch(error){say('Link nicht erstellt: '+error.message);}
   }
