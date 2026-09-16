@@ -57,8 +57,8 @@ assert.equal(ctx.projectStorageStatus(entry).state,'saved');ctx.draftState='pend
 ctx.draftState='saved';ctx.hasLinkedAccount=()=>true;ctx.cloudBridge={local:{confirmed:()=>true}};
 assert.match(ctx.projectStorageStatus(entry).text,/Sync ausstehend/);ctx.accountSession={user:{id:'owner'}};assert.equal(ctx.projectStorageStatus(entry).state,'synced');
 ctx.cloudBridge.local.confirmed=()=>false;assert.equal(ctx.projectStorageStatus(entry).state,'saved');ctx.sharedReadOnly=true;assert.equal(ctx.projectStorageStatus(entry,true).state,'readonly');
-(async()=>{let copied=null,message='';ctx.navigator={clipboard:{writeText:async value=>copied=value}};ctx.say=value=>message=value;
-  await ctx.copyProjectIdentity(identity,{});assert.equal(copied,identity);assert.match(message,/kopiert/);
-  await ctx.copyProjectIdentity('<invalid>',{});assert.equal(copied,identity);
-  console.log('PASS PROJECT IDENTITY: Legacy-Migration, Umbenennen, Speichern, Kopien, Export/Import, Konflikte, Cloud-Promotion und ehrlicher Speicherstatus.');
-})().catch(error=>{console.error(error);process.exitCode=1;});
+let shared=null;ctx.openShareDialog=(document,options)=>{shared={document,options};};ctx.view='dashboard';
+ctx.copyProjectIdentity(identity);assert.equal(shared.document.stage.projectId,identity);assert.equal(shared.options.copy,true);
+ctx.copyProjectIdentity('<invalid>');assert.equal(shared.document.stage.projectId,identity);
+ctx.view='project';ctx.copyProjectIdentity(ctx.stage.projectId);assert.equal(shared.document,undefined,'Current project uses the normal flush-and-save path before sharing.');assert.equal(shared.options.copy,true);
+console.log('PASS PROJECT IDENTITY: Legacy-Migration, Umbenennen, Speichern, Kopien, Export/Import, Konflikte, Cloud-Promotion und ehrlicher Speicherstatus.');

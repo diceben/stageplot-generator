@@ -2,10 +2,17 @@ const assert=require('node:assert/strict');
 const {engine,launchBrowser,artifactPath,assertNoOverflow}=require('./browser-qa.cjs');
 const base=(process.env.APP_URL||'http://127.0.0.1:8884/').split('#')[0],host='https://stageplot-qa.supabase.co';
 (async()=>{
- const browser=await launchBrowser(),stored=new Map(),calls=[],errors=[];let failRead=false;
+ const browser=await launchBrowser(),stored=new Map(),calls=[],errors=[];let failRead=false,failPublish=false;
  try{
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
-  await context.route('**/stageplot-cloud-config.js',route=>route.fulfill({contentType:'text/javascript',body:'window.StageplotCloudConfig='+JSON.stringify({url:host,publishableKey:'sb_publishable_test'})}));
+  await context.addInitScript(()=>{
+    window.qaCopiedLinks=[];window.qaClipboardGestures=[];
+    Object.defineProperty(navigator,'clipboard',{configurable:true,value:{
+      write:async items=>{window.qaClipboardGestures.push(navigator.userActivation?.isActive);if(window.qaDenyClipboard)throw new Error('Clipboard denied');const blob=await items[0].getType('text/plain');window.qaCopiedLinks.push(await blob.text());},
+      writeText:async value=>{if(window.qaDenyClipboard)throw new Error('Clipboard denied');window.qaCopiedLinks.push(value);}
+    }});
+  });
+  await context.route('**/stageplot-cloud-config.js' ,route=>route.fulfill({contentType:'text/javascript',body:'window.StageplotCloudConfig='+JSON.stringify({url:host,publishableKey:'sb_publishable_test'})}));
   await context.route('**/stageplot-assets/vendor/supabase.js',route=>route.fulfill({contentType:'text/javascript',body:`
     window.qaAnonymousCreations=0;
     window.StageplotSupabase={createClient:(_url,_key,options)=>{
@@ -17,7 +24,7 @@ const base=(process.env.APP_URL||'http://127.0.0.1:8884/').split('#')[0],host='h
   await context.route(base,async route=>{const response=await route.fetch();const headers={...response.headers()};if(headers['content-security-policy'])headers['content-security-policy']=headers['content-security-policy'].replace("connect-src 'self'","connect-src 'self' "+host);await route.fulfill({response,headers});});
   await context.route(host+'/rest/v1/rpc/**',async route=>{
    const request=route.request(),action=request.url().split('stageplot_share_')[1],body=request.postDataJSON(),id=body.p_project_id;calls.push({action,body,headers:request.headers()});
-   if(action==='get'&&failRead){await route.abort('internetdisconnected');return;}
+   if(action==='get'&&failRead||action==='publish'&&failPublish){await route.abort('internetdisconnected');return;}
    const token=request.headers().authorization;
    if(['publish','revoke'].includes(action))assert.equal(token,'Bearer browser-token');
    if(action==='get')assert.equal(token,undefined);
@@ -43,8 +50,9 @@ const base=(process.env.APP_URL||'http://127.0.0.1:8884/').split('#')[0],host='h
   await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.includes('Noch nicht freigegeben'));
   const id=await page.locator('#sp-share-id').inputValue();assert.ok(id.startsWith('SP-'));assert.equal(calls.filter(c=>c.action==='publish').length,0);assert.equal(await page.locator('#sp-share-result').isVisible(),false);
   assert.equal(await page.evaluate(()=>window.qaAnonymousCreations),0);assert.equal(await page.locator('#sp-share-login').count(),0);
-  await page.locator('#sp-share-publish').tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.startsWith('Freigegeben.'));
+  await page.locator('#sp-share-close').tap();await page.locator('[data-project-id-copy]').first().tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.startsWith('Link kopiert.'));
   assert.equal(await page.evaluate(()=>window.qaAnonymousCreations),1);assert.equal(stored.get(id).document.objects[0].type,'drums');const originalObjects=JSON.stringify(stored.get(id).document.objects);
+  assert.equal(await page.evaluate(()=>window.qaCopiedLinks.at(-1)),base+'#p/'+id);assert.notEqual(await page.evaluate(()=>window.qaClipboardGestures[0]),false,'Clipboard starts inside the tap before awaiting publication');assert.equal(await page.locator('#sp-share-copy-id').count(),0);
   assert.equal(await page.locator('#sp-share-link').inputValue(),base+'#p/'+id);await assertNoOverflow(page,'#sp-share-dialog','Share dialog mobile');
   await page.screenshot({path:artifactPath('project-sharing-'+engine+'.png')});await page.locator('#sp-share-close').tap();const before=await local();
   await page.locator('#sp-shared-open').tap();await page.locator('#sp-shared-id').fill(id.toLowerCase());await page.locator('#sp-shared-form button').tap();
@@ -57,13 +65,19 @@ const base=(process.env.APP_URL||'http://127.0.0.1:8884/').split('#')[0],host='h
   await page.locator('#sp-shared-return').tap();await ready();await page.waitForFunction(()=>document.querySelector('#sp-prototype')?.dataset.readonly!=='true');await dashboard();
   await page.locator('[data-project-share]').first().click();await page.locator('#sp-share-revoke').waitFor({state:'visible'});await page.locator('#sp-share-revoke').tap();await page.locator('#sp-setup-confirm-accept').tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.startsWith('Link gelöscht'));
   assert.equal(stored.has(id),false);assert.equal(await page.locator('#sp-share-result').isVisible(),false);
-  await page.locator('#sp-share-publish').tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.startsWith('Freigegeben.'));assert.equal(JSON.stringify(stored.get(id).document.objects),originalObjects);
+  // A failed publication never copies an unusable URL. Denied clipboard access exposes the complete link for manual copying.
+  failPublish=true;const copiesBefore=await page.evaluate(()=>window.qaCopiedLinks.length);
+  await page.locator('#sp-share-publish').tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.includes('Verbindung'));assert.equal(await page.evaluate(()=>window.qaCopiedLinks.length),copiesBefore);assert.equal(stored.has(id),false);
+  failPublish=false;await page.evaluate(()=>window.qaDenyClipboard=true);await page.locator('#sp-share-publish').tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.startsWith('Link bereit und markiert'));assert.equal(await page.locator('#sp-share-link').inputValue(),base+'#p/'+id);assert.equal(await page.evaluate(()=>window.qaCopiedLinks.length),copiesBefore);
+  await page.evaluate(()=>window.qaDenyClipboard=false);await page.locator('#sp-share-copy').tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent==='Ansichtslink kopiert.');assert.equal(await page.evaluate(()=>window.qaCopiedLinks.at(-1)),base+'#p/'+id);assert.equal(JSON.stringify(stored.get(id).document.objects),originalObjects);
+  // Project details use the same complete-link action and include the current saved document.
+  await page.locator('#sp-share-close').tap();await page.locator('[data-project-settings]').first().tap();await page.locator('#sp-project-id-copy').tap();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.startsWith('Link kopiert.'));assert.equal(await page.evaluate(()=>window.qaCopiedLinks.at(-1)),base+'#p/'+id);
   await page.locator('#sp-share-close').tap();
   await page.evaluate(()=>{for(const key of Object.keys(localStorage))if(key.startsWith('stageplot-share-owner-'))localStorage.removeItem(key);});
-  await page.reload();await ready();await page.locator('[data-project-share]').first().click();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.includes('bereits vergeben'));assert.equal(await page.locator('#sp-share-publish').isEnabled(),false);assert.equal(await page.locator('#sp-share-revoke').isVisible(),false);assert.equal(await page.evaluate(()=>window.qaAnonymousCreations),0);
+  await page.reload();await ready();await dashboard();await page.locator('[data-project-share]').first().click();await page.waitForFunction(()=>document.querySelector('#sp-share-status').textContent.includes('bereits vergeben'));assert.equal(await page.locator('#sp-share-publish').isEnabled(),false);assert.equal(await page.locator('#sp-share-revoke').isVisible(),false);assert.equal(await page.evaluate(()=>window.qaAnonymousCreations),0);
   // Readers do not load an account client or create sessions.
   const reader=await context.newPage();let authLoads=0;reader.on('request',request=>{if(request.url().includes('vendor/supabase.js'))authLoads++;});
   await reader.goto(base+'#p/'+id);await reader.waitForFunction(()=>document.querySelector('#sp-prototype')?.dataset.view==='print');assert.equal(authLoads,0);await reader.close();
-  assert.deepEqual(errors,[]);console.log('PASS '+engine+': publication without email, browser ownership, occupied IDs, deletion/reuse, anonymous readers, network retry and unchanged local drafts.');
+  assert.deepEqual(errors,[]);console.log('PASS '+engine+': one-tap full-link copy from cards/details, clipboard gesture, network/clipboard failure, browser ownership, occupied IDs, deletion/reuse, anonymous readers and unchanged local drafts.');
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
