@@ -581,13 +581,14 @@
     <div class="sp-model-dialog-options" id="sp-model-dialog-options" role="listbox" aria-labelledby="sp-model-dialog-title"></div>
   </dialog>
   <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title">
-    <div class="sp-dialog-heading"><h2 id="sp-share-title">Projekt teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div>
-    <p>Gib den aktuellen Bühnenplan samt Routing frei. Jeder mit der Projekt-ID kann diesen Stand ansehen. Änderungen übernimmst du mit „Freigabe aktualisieren“.</p>
+    <div class="sp-dialog-heading"><h2 id="sp-share-title">Link teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div>
+    <p>Erstelle einen Link zum aktuellen Bühnenplan samt Routing. Jeder mit dem Link kann diesen Stand ansehen – ohne Anmeldung.</p>
     <p class="sp-muted">Kontaktfelder, Autor und Notizen werden entfernt. Prüfe vor der Freigabe auch Projektnamen und Beschriftungen auf private Angaben.</p>
+    <p class="sp-muted">Aktualisieren und Löschen funktionieren in diesem Browser. Beim Löschen seiner Website-Daten geht diese Berechtigung verloren.</p>
     <label class="sp-field">Projekt-ID<input id="sp-share-id" readonly></label>
     <p id="sp-share-status" class="sp-muted" role="status" aria-live="polite"></p>
-    <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-publish">Jetzt freigeben</button><button class="sp-button" type="button" id="sp-share-login" hidden>Zum Freigeben anmelden</button><button class="sp-button sp-danger-quiet" type="button" id="sp-share-revoke" hidden>Freigabe widerrufen</button></div>
-    <div id="sp-share-result" hidden><label class="sp-field">Kurzer Ansichtslink<textarea id="sp-share-link" rows="2" readonly></textarea></label><div class="sp-actions"><button class="sp-button" type="button" id="sp-share-copy-id">ID kopieren</button><button class="sp-button" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div></div>
+    <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-publish">Jetzt freigeben</button><button class="sp-button sp-danger-quiet" type="button" id="sp-share-revoke" hidden>Link löschen</button></div>
+    <div id="sp-share-result" hidden><label class="sp-field">Kurzer Ansichtslink<textarea id="sp-share-link" rows="2" readonly></textarea></label><div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button" type="button" id="sp-share-copy-id">ID kopieren</button><button class="sp-button" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div></div>
     <details><summary>Ohne Online-Freigabe teilen</summary><p class="sp-muted">Ein vollständiger Offline-Link enthält den Plan und kann sehr lang sein. Er lässt sich nicht widerrufen. Für WhatsApp ist die Projekt-ID besser geeignet.</p><button class="sp-button" type="button" id="sp-share-offline">Offline-Link erstellen</button><label class="sp-field" id="sp-share-offline-field" hidden>Offline-Link<textarea id="sp-share-offline-link" rows="3" readonly></textarea></label><button class="sp-button" type="button" id="sp-share-offline-copy" hidden>Offline-Link kopieren</button></details>
   </dialog>
   <dialog id="sp-shared-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-shared-title">
@@ -697,10 +698,15 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.10">v0.1.0-beta.10</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.11">v0.1.0-beta.11</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.10</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.11</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <h4>Einfach per Link – ohne Anmeldung</h4>
+            <ul><li><strong>Link erstellen und teilen:</strong> Nach Einrichtung des Freigabedienstes brauchen auch Absender keine E-Mail und kein Passwort. Aktualisieren und Löschen sind im ursprünglichen Browser möglich.</li><li><strong>Eindeutige IDs:</strong> Jede aktive Freigabe hat genau eine ID. „Link löschen“ gibt sie wieder frei. Wird sie später erneut vergeben, können alte Links den neuen Plan öffnen.</li></ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.10</strong></div><time datetime="2026-09-16">16. September 2026</time></header>
             <h4>Pläne per Projekt-ID teilen</h4>
             <ul><li><strong>Kurze Freigabe:</strong> Nach Einrichtung des Online-Dienstes können angemeldete Absender einen Plan samt Routing bewusst freigeben, aktualisieren und widerrufen. Empfänger öffnen die Projekt-ID oder den kurzen Link ohne Anmeldung.</li><li><strong>Kontaktdaten bleiben privat:</strong> Kontaktfelder, Autor und freie Notizen sind nicht in der Freigabe enthalten. Eigene Entwürfe bleiben beim Öffnen unverändert; vollständige Offline-Links funktionieren weiterhin.</li></ul>
           </article>
@@ -857,7 +863,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.10 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.11 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -944,7 +950,7 @@
       <p id="sp-project-delete-description">Gib zur Bestätigung den vollständigen Projektnamen ein.</p>
       <div class="sp-project-delete-name" id="sp-project-delete-name"></div>
       <label class="sp-field">Projektname<input id="sp-project-delete-input" type="text" autocomplete="off" spellcheck="false" required></label>
-      <p class="sp-muted">Das gespeicherte Projekt und seine automatischen Entwürfe werden nur auf diesem Gerät entfernt.</p>
+      <p class="sp-muted">Das gespeicherte Projekt und seine automatischen Entwürfe werden nur auf diesem Gerät entfernt. Einen geteilten Link vorher unter „Teilen → Link löschen“ entfernen, damit auch seine ID wieder frei wird.</p>
       <div class="sp-actions sp-confirm-actions"><button class="sp-button" type="button" id="sp-project-delete-cancel">Abbrechen</button><button class="sp-button sp-danger" type="submit" id="sp-project-delete-accept" disabled>Projekt endgültig löschen</button></div>
     </form>
   </dialog>
@@ -13218,26 +13224,52 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const previous=new URL(event.oldURL).hash,next=new URL(event.newURL).hash;
     if(previous!==next&&(previous.startsWith('#share=')||next.startsWith('#share=')||previous.startsWith('#p/')||next.startsWith('#p/')))window.location.reload();
   });
-  let shareDocument=null,shareBusy=false,shareGeneration=0,shareActive=false;
-  const shareClient=window.StageplotShare.create({config:window.StageplotCloudConfig||{},token:async()=>{
-    if(!accountClient)return null;const {data,error}=await accountClient.auth.getSession();if(error)throw error;return data.session?.access_token||null;
-  }});
-  function shareControls(active=shareActive){
-    shareActive=active;
-    const enabled=window.StageplotShare.configured(window.StageplotCloudConfig),signedIn=!!accountSession?.user;
-    $('sp-share-publish').hidden=!enabled||!signedIn;$('sp-share-login').hidden=!enabled||signedIn;
-    $('sp-share-publish').textContent=active?'Freigabe aktualisieren':'Jetzt freigeben';$('sp-share-revoke').hidden=!active||!signedIn;
-    for(const id of ['sp-share-publish','sp-share-revoke','sp-share-login'])$(id).disabled=shareBusy;
+  let shareDocument=null,shareBusy=false,shareGeneration=0,shareActive=false,shareOwned=true;
+  let supabaseLibraryPromise=null,shareOwnerPromise=null;
+  function loadSupabaseLibrary(){
+    if(window.StageplotSupabase?.createClient)return Promise.resolve(window.StageplotSupabase);
+    if(!supabaseLibraryPromise)supabaseLibraryPromise=new Promise((resolve,reject)=>{
+      const script=document.createElement('script');script.src='./stageplot-assets/vendor/supabase.js';
+      script.onload=()=>resolve(window.StageplotSupabase);script.onerror=()=>{script.remove();supabaseLibraryPromise=null;reject(new Error('Der Freigabedienst konnte nicht geladen werden. Bitte erneut versuchen.'));};document.head.append(script);
+    });
+    return supabaseLibraryPromise;
+  }
+  async function shareOwnerToken(action){
+    if(!shareOwnerPromise)shareOwnerPromise=loadSupabaseLibrary().then(api=>{
+      const config=window.StageplotCloudConfig,key='stageplot-share-owner-'+new URL(config.url).hostname;
+      const client=api.createClient(config.url,config.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:key}});
+      return {client,key};
+    }).catch(error=>{shareOwnerPromise=null;throw error;});
+    const {client,key}=await shareOwnerPromise;
+    const {data,error}=await client.auth.getSession();if(error)throw new Error('Die Freigabeberechtigung konnte nicht gelesen werden. Bitte erneut versuchen.');
+    let session=data.session;
+    if(!session&&action==='publish'){
+      try{localStorage.setItem(key+'-check','1');localStorage.removeItem(key+'-check');}catch{throw new Error('Bitte Website-Daten in diesem Browser erlauben, damit du den Link später verwalten kannst.');}
+      const created=await client.auth.signInAnonymously();
+      if(created.error)throw new Error(/anonymous.*disabled/i.test(created.error.message)?'Teilen ohne Anmeldung ist noch nicht eingerichtet.':'Der Link konnte noch nicht erstellt werden. Bitte später erneut versuchen.');
+      session=created.data.session;
+    }
+    if(session&&!localStorage.getItem(key))throw new Error('Die Freigabeberechtigung konnte nicht gespeichert werden. Bitte Website-Daten in diesem Browser erlauben.');
+    return session?.access_token||null;
+  }
+  const shareClient=window.StageplotShare.create({config:window.StageplotCloudConfig||{},token:shareOwnerToken});
+  function shareControls(active=shareActive,owned=shareOwned){
+    shareActive=active;shareOwned=owned;
+    const enabled=window.StageplotShare.configured(window.StageplotCloudConfig);
+    $('sp-share-publish').hidden=!enabled;$('sp-share-publish').disabled=shareBusy||!owned;
+    $('sp-share-publish').textContent=active&&owned?'Freigabe aktualisieren':'Link erstellen';$('sp-share-revoke').hidden=!active||!owned;$('sp-share-revoke').disabled=shareBusy;
     $('sp-share-result').hidden=!active;$('sp-share-copy-id').disabled=!active;
   }
   async function refreshShareState(){
     if(!shareDocument||!$('sp-share-dialog').open||shareBusy)return;
-    const generation=++shareGeneration;shareControls(false);
+    const generation=++shareGeneration;shareControls(false,true);
     if(!window.StageplotShare.configured(window.StageplotCloudConfig)){$('sp-share-status').textContent='Teilen per Projekt-ID ist noch nicht eingerichtet. Ein Offline-Link ist weiterhin möglich.';return;}
-    if(!accountSession?.user){$('sp-share-status').textContent='Zum Freigeben einmal per E-Mail anmelden. Empfänger brauchen keinen Account. Gerätesync ist dafür nicht nötig.';return;}
     shareBusy=true;shareControls();$('sp-share-status').textContent='Freigabe wird geprüft …';
-    try{const result=await shareClient.status(shareDocument.stage.projectId);if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active);$('sp-share-status').textContent=result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. Erst „Jetzt freigeben“ lädt diesen Stand hoch.';}
-    catch(error){if(generation===shareGeneration){shareBusy=false;shareControls();$('sp-share-publish').disabled=true;$('sp-share-status').textContent=error.message;}}
+    try{
+      const result=await shareClient.status(shareDocument.stage.projectId);if(generation!==shareGeneration)return;shareBusy=false;
+      const mayManage=result.available||result.owned;shareControls(result.active,mayManage);
+      $('sp-share-status').textContent=!mayManage?'Diese ID ist bereits vergeben. Du kannst den vorhandenen Link ansehen. Für einen eigenen Link das Projekt duplizieren.':result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. Erst „Link erstellen“ lädt diesen Stand hoch.';
+    }catch(error){if(generation===shareGeneration){shareBusy=false;shareControls();$('sp-share-publish').disabled=true;$('sp-share-status').textContent=error.message;}}
   }
   function openShareDialog(document){
     try{
@@ -13251,7 +13283,6 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   $('sp-share-dialog').addEventListener('close',()=>{shareGeneration++;shareBusy=false;});
   $('sp-share-close').addEventListener('click',()=>$('sp-share-dialog').close());
   $('sp-share-open').addEventListener('click',()=>openShareDialog());
-  $('sp-share-login').addEventListener('click',()=>openAccount('account'));
   $('sp-account-dialog').addEventListener('close',refreshShareState);
   async function copyShareValue(field,message){try{await navigator.clipboard.writeText($(field).value);$('sp-share-status').textContent=message;}catch(error){$(field).focus();$(field).select();$('sp-share-status').textContent='Text markiert · bitte kopieren.';}}
   $('sp-share-copy').addEventListener('click',()=>copyShareValue('sp-share-link','Ansichtslink kopiert.'));
@@ -13260,12 +13291,12 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   $('sp-share-offline').addEventListener('click',()=>{try{$('sp-share-offline-link').value=window.location.href.split('#')[0]+'#share='+encodeShareDocument(shareDocument);$('sp-share-offline-field').hidden=false;$('sp-share-offline-copy').hidden=false;}catch(error){$('sp-share-status').textContent=error.message;}});
   $('sp-share-offline-copy').addEventListener('click',()=>copyShareValue('sp-share-offline-link','Offline-Link kopiert.'));
   async function updateShare(revoke=false){
-    if(shareBusy||!shareDocument)return;const generation=++shareGeneration,document=shareDocument;shareBusy=true;shareControls();$('sp-share-status').textContent=revoke?'Freigabe wird widerrufen …':'Plan wird freigegeben …';
-    try{const result=await (revoke?shareClient.revoke(document.stage.projectId):shareClient.publish(document));if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active);$('sp-share-status').textContent=revoke?'Freigabe widerrufen. Die ID öffnet diesen Plan nicht mehr. Bereits gespeicherte Kopien bleiben beim Empfänger.':'Freigegeben. Du kannst jetzt die Projekt-ID oder den kurzen Link teilen.';}
+    if(shareBusy||!shareDocument)return;const generation=++shareGeneration,document=shareDocument;shareBusy=true;shareControls();$('sp-share-status').textContent=revoke?'Link wird gelöscht …':'Plan wird freigegeben …';
+    try{const result=await (revoke?shareClient.revoke(document.stage.projectId):shareClient.publish(document));if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active,true);$('sp-share-status').textContent=revoke?'Link gelöscht. Die ID ist wieder frei und kann für einen anderen Plan vergeben werden.':'Freigegeben. Du kannst jetzt den Link kopieren und teilen.';}
     catch(error){if(generation!==shareGeneration)return;shareBusy=false;shareControls();$('sp-share-result').hidden=true;$('sp-share-status').textContent=error.message;}
   }
   $('sp-share-publish').addEventListener('click',()=>updateShare());
-  $('sp-share-revoke').addEventListener('click',()=>confirmSetupAction('Freigabe widerrufen?','Die Projekt-ID und der kurze Link öffnen diesen Plan danach nicht mehr. Bereits gespeicherte Kopien können nicht zurückgerufen werden.','Widerrufen',()=>updateShare(true)));
+  $('sp-share-revoke').addEventListener('click',()=>confirmSetupAction('Link löschen und ID freigeben?','Die Online-Freigabe wird gelöscht. Deine lokale Datei bleibt erhalten. Die ID darf danach neu vergeben werden; alte Links können dann einen anderen Plan öffnen.','Link löschen',()=>updateShare(true),true));
   $('sp-shared-open').addEventListener('click',()=>{$('sp-shared-status').textContent='';$('sp-shared-dialog').showModal();});
   $('sp-shared-close').addEventListener('click',()=>$('sp-shared-dialog').close());
   $('sp-shared-form').addEventListener('submit',event=>{
@@ -15174,14 +15205,16 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   function renderAccountState(){
     const user=accountSession?.user,binding=linkedAccount(),wrong=!!user&&!!binding&&(binding.ownerId!==user.id||binding.url!==accountConfig.url);
     $('sp-account-login').hidden=!accountClient||!!user;$('sp-account-verify').hidden=true;$('sp-account-signout').hidden=!user;$('sp-account-link').hidden=!user||!!binding;$('sp-account-link-hint').hidden=!user||!!binding;$('sp-account-sync').hidden=!hasLinkedAccount();
-    accountMessage(!accountClient?'Account-Sync ist noch nicht eingerichtet. Inventar und Projekte bleiben lokal verfügbar.':wrong?'Dieses Gerät ist mit einem anderen Account verbunden. Bitte wieder mit diesem Account anmelden.':user?(hasLinkedAccount()?'Angemeldet · Gerätesync aktiv':'Angemeldet als '+user.email+' · Gerät noch nicht verbunden'):'Melde dich an, um deine Projekte und dein Inventar auf weiteren Geräten zu nutzen.');
+    accountMessage(!accountClient?'Anmeldung und Gerätesync folgen später. Inventar und Projekte bleiben lokal verfügbar.':wrong?'Dieses Gerät ist mit einem anderen Account verbunden. Bitte wieder mit diesem Account anmelden.':user?(hasLinkedAccount()?'Angemeldet · Gerätesync aktiv':'Angemeldet als '+user.email+' · Gerät noch nicht verbunden'):'Melde dich an, um deine Projekte und dein Inventar auf weiteren Geräten zu nutzen.');
     refreshProjectIdentity();refreshProjectCardStatuses();
   }
   async function initializeAccount(){
-    if(sharedReadOnly)return;configureAccountBridge();renderAccountState();
+    if(sharedReadOnly)return;
+    if(accountConfig.accountsEnabled!==true){renderAccountState();return;}
+    configureAccountBridge();renderAccountState();
     if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(accountConfig.url||'')||!/^sb_publishable_[A-Za-z0-9_-]+$/.test(accountConfig.publishableKey||''))return;
     try{
-      await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='./stageplot-assets/vendor/supabase.js';script.onload=resolve;script.onerror=()=>reject(new Error('Account-Client konnte nicht geladen werden.'));document.head.append(script);});
+      await loadSupabaseLibrary();
       accountClient=window.StageplotSupabase.createClient(accountConfig.url,accountConfig.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:'stageplot-auth-'+new URL(accountConfig.url).hostname}});
       accountClient.auth.onAuthStateChange((_event,session)=>{accountSession=session;accountGeneration++;setTimeout(()=>{configureAccountBridge();renderAccountState();scheduleAccountSync();refreshShareState();},0);});
       const {data,error}=await accountClient.auth.getSession();if(error)throw error;accountSession=data.session;configureAccountBridge();renderAccountState();scheduleAccountSync();refreshShareState();

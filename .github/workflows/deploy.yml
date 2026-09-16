@@ -80,6 +80,7 @@ jobs:
 
       - run: npm run build:cloud-config
         env:
+          STAGEPLOT_ACCOUNTS_ENABLED: ${{ vars.STAGEPLOT_ACCOUNTS_ENABLED }}
           STAGEPLOT_SUPABASE_URL: ${{ vars.STAGEPLOT_SUPABASE_URL }}
           STAGEPLOT_SUPABASE_PUBLISHABLE_KEY: ${{ vars.STAGEPLOT_SUPABASE_PUBLISHABLE_KEY }}
 

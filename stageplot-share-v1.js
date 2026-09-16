@@ -45,7 +45,7 @@
       if(!configured(config))throw new Error('Teilen per Projekt-ID ist noch nicht eingerichtet.');
       const normalized=projectId(id);if(!normalized)throw new Error('Bitte eine gültige Projekt-ID eingeben (SP-…).');
       const headers={'Content-Type':'application/json',apikey:config.publishableKey},body={p_project_id:normalized};
-      if(action!=='get'){const access=await token();if(!access)throw new Error('Bitte zum Freigeben mit deinem E-Mail-Account anmelden.');headers.Authorization='Bearer '+access;}
+      if(action!=='get'){const access=await token(action);if(!access&&action!=='status')throw new Error('Dieser Browser hat keine Berechtigung für die Freigabe.');if(access)headers.Authorization='Bearer '+access;}
       if(document){body.p_document=clean(document);if(body.p_document.stage?.projectId!==normalized||!Array.isArray(document.objects))throw new Error('Projekt und ID passen nicht zusammen.');}
       const payload=JSON.stringify(body);if(new TextEncoder().encode(payload).length>1900000)throw new Error('Der Plan ist für eine Online-Freigabe zu groß. Bitte als Datei teilen.');
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeout);
@@ -54,9 +54,9 @@
         const data=await response.json();
         if(!response.ok){
           const message=String(data?.message||'');
-          if(message.includes('NOT_OWNER'))throw new Error('Diese ID gehört zu einer anderen Freigabe. Bitte das Projekt duplizieren und die Kopie teilen.');
-          if(message.includes('SHARE_LIMIT'))throw new Error('Es sind bereits 100 Pläne freigegeben. Bitte zuerst eine Freigabe widerrufen.');
-          if(response.status===401||message.includes('AUTH_REQUIRED'))throw new Error('Bitte erneut mit deinem E-Mail-Account anmelden.');
+          if(message.includes('NOT_OWNER'))throw new Error('Diese ID ist bereits vergeben. Bitte das Projekt duplizieren und die Kopie teilen.');
+          if(message.includes('SHARE_LIMIT'))throw new Error('Es sind bereits 100 Pläne freigegeben. Bitte zuerst eine Freigabe löschen.');
+          if(response.status===401||message.includes('AUTH_REQUIRED'))throw new Error('Die Freigabe kann in diesem Browser nicht verwaltet werden. Bitte die Seite neu laden.');
           if(response.status===404||data?.code==='PGRST202')throw new Error('Teilen per Projekt-ID ist auf dem Server noch nicht eingerichtet.');
           throw new Error('Die Freigabe konnte nicht verarbeitet werden. Bitte erneut versuchen.');
         }
