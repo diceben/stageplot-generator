@@ -639,7 +639,7 @@
       <div class="sp-np-source-panel" data-np-panel="templates" hidden>
         <h3>Meine Bühnenvorlagen</h3><div id="sp-np-templates"></div>
       </div>
-      <p class="sp-muted">Projekte werden in diesem Browserprofil gespeichert. Es gibt keine garantierte Aufbewahrungsdauer. Beim Löschen von Website-Daten oder des Browserprofils gehen lokale Projekte verloren. Im privaten Modus werden sie in der Regel beim Schließen gelöscht; auch automatische Browserbereinigung kann Daten entfernen. Regelmäßig eine Sicherungsdatei herunterladen.</p><div class="sp-np-custom" data-np-panel="custom">
+      <div class="sp-np-custom" data-np-panel="custom">
         <div class="sp-np-preview"><svg id="sp-np-preview-stage" viewBox="0 0 360 220" aria-hidden="true"></svg></div>
         <div class="sp-np-dims">
           <div class="sp-np-dim" role="group" aria-labelledby="sp-np-width-label">
@@ -661,6 +661,7 @@
         </div>
         <p class="sp-np-source-hint">Form, Treppen und Technik: im Bühneneditor.</p>
       </div>
+      <details class="sp-np-storage"><summary>Lokal im Browser gespeichert · keine feste Aufbewahrungsdauer</summary><p>Beim Löschen von Website-Daten oder des Browserprofils gehen lokale Projekte verloren. Im privaten Modus werden sie in der Regel beim Schließen gelöscht; auch automatische Browserbereinigung kann Daten entfernen. Regelmäßig eine Sicherungsdatei herunterladen.</p></details>
       <p id="sp-np-error" class="sp-error" role="alert" hidden></p>
     </div>
     <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-np-create">Projekt erstellen <span aria-hidden="true">→</span></button></div>
@@ -6195,6 +6196,9 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .sp-np-step:disabled { opacity:.3; cursor:default; }
 #sp-prototype .sp-np-measure { flex:1; min-width:0; text-align:center; font-size:27px; font-weight:700; font-variant-numeric:tabular-nums; letter-spacing:-.04em; }
 #sp-prototype .sp-np-source-hint { margin:0; font-size:11px; color:var(--sp-muted); text-align:center; line-height:1.4; }
+#sp-prototype .sp-np-storage { font-size:12px; line-height:1.45; color:var(--sp-muted); }
+#sp-prototype .sp-np-storage summary { cursor:pointer; }
+#sp-prototype .sp-np-storage p { margin:8px 0 0; }
 #sp-prototype .sp-newproject-dialog > .sp-actions { display:flex; flex:none; margin:0; padding:12px 24px 22px; border:0; }
 #sp-prototype .sp-newproject-dialog[data-source]:not([data-source="custom"]) > .sp-actions { display:none; }
 #sp-prototype #sp-np-create { display:flex; align-items:center; justify-content:space-between; width:100%; min-height:52px; padding:12px 20px; border:0; border-radius:16px; font-size:15px; font-weight:700; }
@@ -6255,6 +6259,7 @@ html,body { height:100%; overflow:hidden; }
 }
 
 @media (max-width:760px) and (max-height:620px) {
+  #sp-prototype #sp-np-preview-stage { max-height:120px; }
   #sp-prototype .sp-newproject-dialog > .sp-dialog-heading { padding:10px 16px 2px; }
   #sp-prototype .sp-np-body { padding:8px 16px; gap:10px; }
   #sp-prototype .sp-np-custom { gap:10px; }

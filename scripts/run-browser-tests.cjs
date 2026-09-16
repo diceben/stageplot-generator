@@ -26,7 +26,9 @@ function run(file,env){
         await new Promise(resolve=>setTimeout(resolve,100));
       }
     }
-    for(const file of checks)await run(file,env);
+    const failures=[];
+    for(const file of checks){try{await run(file,env);}catch(error){console.error(error);failures.push(file);}}
+    if(failures.length)throw new Error('Browser checks failed: '+failures.join(', '));
     console.log('PASS: '+checks.length+' browser flows ('+(env.BROWSER||'chromium')+').');
   }finally{if(server)server.kill();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

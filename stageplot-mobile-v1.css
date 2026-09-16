@@ -25,6 +25,9 @@
 #sp-prototype .sp-np-step:disabled { opacity:.3; cursor:default; }
 #sp-prototype .sp-np-measure { flex:1; min-width:0; text-align:center; font-size:27px; font-weight:700; font-variant-numeric:tabular-nums; letter-spacing:-.04em; }
 #sp-prototype .sp-np-source-hint { margin:0; font-size:11px; color:var(--sp-muted); text-align:center; line-height:1.4; }
+#sp-prototype .sp-np-storage { font-size:12px; line-height:1.45; color:var(--sp-muted); }
+#sp-prototype .sp-np-storage summary { cursor:pointer; }
+#sp-prototype .sp-np-storage p { margin:8px 0 0; }
 #sp-prototype .sp-newproject-dialog > .sp-actions { display:flex; flex:none; margin:0; padding:12px 24px 22px; border:0; }
 #sp-prototype .sp-newproject-dialog[data-source]:not([data-source="custom"]) > .sp-actions { display:none; }
 #sp-prototype #sp-np-create { display:flex; align-items:center; justify-content:space-between; width:100%; min-height:52px; padding:12px 20px; border:0; border-radius:16px; font-size:15px; font-weight:700; }
@@ -85,6 +88,7 @@
 }
 
 @media (max-width:760px) and (max-height:620px) {
+  #sp-prototype #sp-np-preview-stage { max-height:120px; }
   #sp-prototype .sp-newproject-dialog > .sp-dialog-heading { padding:10px 16px 2px; }
   #sp-prototype .sp-np-body { padding:8px 16px; gap:10px; }
   #sp-prototype .sp-np-custom { gap:10px; }
