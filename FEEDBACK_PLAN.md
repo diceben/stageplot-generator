@@ -46,7 +46,7 @@ Gut sichtbarer Einstieg „Drums & Percussion“ in der Bibliothek sowie „Aufb
 
 | Bereich | Umsetzung |
 | --- | --- |
-| Treppen | Stufenanzahl in den Eigenschaften und in der Zeichnung; für eingefügte Bühnentreppen, Randtreppen und Treppen im Bühnenform-Editor konsistent speichern. |
+| Treppen | Stufenanzahl direkt im Auswahl-Popup, in den Eigenschaften und in der Zeichnung; für eingefügte Bühnentreppen, Randtreppen und Treppen im Bühnenform-Editor konsistent speichern. |
 | Mikrofone | Sennheiser MD 421 Kompakt im gemeinsamen Mikrofonkatalog und bei passenden Drum-Abnahmen anbieten. |
 | Freie Notizen | Die vorhandene „Freie Beschriftung“ als gut auffindbares mehrzeiliges Textfeld anbieten; direkt bearbeiten, verschieben und in PDF/Bild ausgeben. Text sicher behandeln. Für Freigaben dieselben klaren Hinweise wie bei anderen sichtbaren Beschriftungen. |
 | Akkordeon | Standardausrichtung neuer Objekte um 180° ändern. Bereits bewusst platzierte Objekte nicht nachträglich drehen. |
@@ -63,6 +63,17 @@ Gut sichtbarer Einstieg „Drums & Percussion“ in der Bibliothek sowie „Aufb
 - Bestandsaufbauten behalten ihre bisherigen Datenmodelle. Der bisherige Percussion-Editor bleibt für solche Objekte zuständig und bietet zusätzlich Kick, Snare, Cajon, Vocal-Boom und Mikrofonwahl; der Drum-Designer enthält die Percussion-Teile ebenfalls. Beide heißen „Drums & Percussion“.
 
 **Noch offen vor Veröffentlichung:** tatsächlich erzeugte PDF auf Vollständigkeit und Seitenausgabe kontrollieren; den gemeldeten Auswahlfehler auf dem betroffenen Gerät nachvollziehen. Migration 0007 ist vorbereitet und lokal geprüft, aber noch nicht auf dem Freigabedienst angewandt. Die neue Version wurde weder gepusht noch veröffentlicht.
+
+## Ergänzungen und Prüfung vom 16. September
+
+- Die feste Bildregel steht in `CLAUDE.md`: neue und ersetzte Instrumentgrafiken über Bildgenerierung als lokale Rasterassets; Mikrofonkataloge ausschließlich mit echten Fotos.
+- Vocal-Boom als transparentes PNG aus dem eingebauten Bildgenerator, unverändert eingebunden. [Prompt und Herkunft](stageplot-assets/percussion/vocal-boom-top-v1.json).
+- 94 Katalogeinträge besitzen Fotos, darunter ausdrücklich gekennzeichnete Beispielfotos für fünf allgemeine Mikrofontypen. Eigene freie Modellnamen bleiben ohne automatische Bildzuordnung. [Quellen und Fotolizenzen](stageplot-assets/mics/ATTRIBUTION.md).
+- Drum-Positionen können weit außerhalb des alten 0–1-Rahmens liegen. Die Vorschau hat eine unabhängig zoombare und verschiebbare Kamera; gespeicherte Koordinaten behalten die bisherige Bezugsgröße. Der Bühnenumriss folgt den tatsächlich platzierten Teilen einschließlich Rotation und Riser.
+- Doppelklick auf Labels und freien Text öffnet und fokussiert das Beschriftungsfeld. Eine echte Ziehbewegung gilt nicht als erster Klick. Cmd-/Strg-Klick fügt Objekte zur Auswahl hinzu oder entfernt sie. Der Auswahlknopf wird auf Geräten mit Maus ausgeblendet; für Touch bleibt er verfügbar.
+- Dual Mono für Amps, Pedalboards und einzeln platzierte Orchesterinstrumente; Geräte mit mehr als zwei Ausgängen behalten die übrigen Ausgänge und Stereo-Paare. Bestehende Kanalnummern und Stagebox-Patches bleiben erhalten.
+- Automatisiert: 43 Testgruppen einschließlich großer Drum-Layouts und Koordinaten-Roundtrip, Doppelklick/Drag-Abgrenzung, Cmd-/Strg-Auswahl, Amp ohne bisherige Ausgänge, Vierkanal-Gerät, Orchester-Dual-Mono und Foto-Herkunft/Prüfsummen.
+- Browserprüfung auf separater lokaler Testadresse: Treppen-Popup 5→8 und 12 Stufen mit erhaltener Eingabefokussierung; Doppelklick fokussiert Instrument- und Textbeschriftung; Cmd-Klick selektiert zwei Objekte; Amp-DI/Mic getrennt, Amp-Topteil mit zunächst null Ausgängen nach Umschalten und Neuladen mit zwei erhaltenen Kanälen, echtes MD-421-Kompakt-Foto geladen und gewählt. Floor-Tom außerhalb der bisherigen Grenze bewegt, Nachbarposition bleibt stabil. Neuer Vocal-Boom sichtbar. Aufbau mit 3,77 × 3,78 m nach Neuladen erhalten, Zoom und Exportvorschau geprüft. Eine neu gespeicherte PDF-Datei wurde in dieser Ergänzung nicht geprüft.
 
 ## Quellen für Produktdaten und Speicherhinweis
 

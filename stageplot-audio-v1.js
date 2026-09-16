@@ -137,22 +137,38 @@ function audioObjectChannels(o){
   const rows=audioObjectRows(o);return ['inputs','outputs'].map(direction=>{const list=rows.filter(item=>item.direction===direction).map(item=>item.row.number||'—');return list.length?(direction==='inputs'?'CH ':o.type==='rack'?'AUX ':'OUT ')+[...new Set(list)].join(' / '):'';}).filter(Boolean).join(' · ');
 }
 
+function applyOrchestraPickupChanges(o,previous,next){
+  const before=new Map(orchestraModel.channels(previous).map(row=>[row.id,row.pickup||'Mic']));
+  for(const spec of orchestraModel.channels(next)){
+    const pickup=spec.pickup||'Mic';if(!before.has(spec.id)||before.get(spec.id)===pickup)continue;
+    const key=o.id+':orch-'+spec.id;
+    for(const row of stage.routing.inputs)for(const member of audioMembers(row))if(member.sourceKey===key)Object.assign(member,{pickup,signalType:pickup==='DI'?'Instrument':'Mic',mode:'Mono',stereoGroup:'',connector:'XLR',edited:true});
+  }
+}
 function audioSignalFormatControls(o){
-  const io=objectIo(o);if(!byId[o.type]?.instrument||['drums','percussion','orchestra','di','rack','laptop'].includes(o.type)||io.outputs.count>2)return '';
+  const io=objectIo(o),c=byId[o.type],solo=o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts?.length===1;if(!(c?.instrument||c?.category==='amps')||drumModel.isDrums(o.type)||c.percussionPart||['percussion','di','rack','laptop'].includes(o.type)||(o.type==='orchestra'&&!solo))return '';
+  if(io.outputs.count>2)return '<div class="sp-direct-field"><span>Signale · Ausgänge 1 und 2</span><button type="button" class="sp-button" data-object-format="dual"'+(o.locked?' disabled':'')+'>Dual Mono</button><small>Zwei unabhängige Abnahmen. Weitere Ausgänge bleiben erhalten.</small></div>';
   const format=io.stereoPairs.length?'stereo':io.outputs.count===2?'dual':'mono';
-  return '<div class="sp-direct-field"><span>Signale</span><div class="sp-choice-pills" role="group" aria-label="Signalformat">'+[['mono','Mono'],['stereo','Stereo'],['dual','Dual Mono']].map(([value,label])=>'<button type="button" data-object-format="'+value+'" aria-pressed="'+(value===format)+'"'+(o.locked?' disabled':'')+'>'+label+'</button>').join('')+'</div><small>Dual Mono: zwei getrennte Abnahmen, z. B. DI und Mikrofon.</small></div>';
+  return '<div class="sp-direct-field"><span>Signale</span><div class="sp-choice-pills" role="group" aria-label="Signalformat">'+(solo?[['mono','Mono'],['dual','Dual Mono']]:[['mono','Mono'],['stereo','Stereo'],['dual','Dual Mono']]).map(([value,label])=>'<button type="button" data-object-format="'+value+'" aria-pressed="'+(value===format)+'"'+(o.locked?' disabled':'')+'>'+label+'</button>').join('')+'</div><small>Dual Mono: zwei getrennte Abnahmen, z. B. DI und Mikrofon.</small></div>';
 }
 function setAudioObjectFormat(o,format){
   if(sharedReadOnly||!o||o.locked||!['mono','stereo','dual'].includes(format))return;
-  const current=objectIo(o);if((current.stereoPairs.length?'stereo':current.outputs.count===2?'dual':'mono')===format)return;
+  const current=objectIo(o),own=generatedInputSpecs().filter(row=>row.sourceKey.startsWith(o.id+':')).slice(0,2),used=own.filter(spec=>stage.routing.inputs.some(row=>audioMembers(row).some(member=>member.sourceKey===spec.sourceKey)));
+  if(format==='dual'&&current.outputs.count>=2&&!current.stereoPairs.includes(1)&&used.length===2&&current.aliases.outputs[0]==='DI'&&current.aliases.outputs[1]==='Mikrofon')return;
+  if(format==='mono'&&current.outputs.count===1&&used.length===1||format==='stereo'&&current.outputs.count===2&&current.stereoPairs.includes(1)&&used.length===2)return;
   change(()=>{
-    const io=objectIo(o);io.outputs.count=format==='mono'?1:2;io.stereoPairs=format==='stereo'?[1]:[];
-    io.aliases.outputs=format==='dual'?['DI','Mikrofon']:['',''];o.io=io;
-    for(const row of stage.routing.inputs.filter(row=>row.sourceKey.startsWith(o.id+':'))){row.edited=false;row.stereoGroup='';row.mode='Mono';}
+    if(o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts.length===1){const previous=clone(o.orchestra);o.orchestra.parts[0].pickup=format==='dual'?'dual':'mic';applyOrchestraPickupChanges(o,previous,o.orchestra);}
+    const io=objectIo(o),multi=io.outputs.count>2;
+    io.outputs.count=multi?io.outputs.count:format==='mono'?1:2;
+    io.stereoPairs=multi?io.stereoPairs.filter(start=>start!==1):format==='stereo'?[1]:[];
+    const aliases=[...(io.aliases.outputs||[])];aliases[0]=format==='dual'?'DI':'';aliases[1]=format==='dual'?'Mikrofon':'';io.aliases.outputs=aliases.slice(0,io.outputs.count);o.io=io;
+    const specs=generatedInputSpecs().filter(row=>row.sourceKey.startsWith(o.id+':')).slice(0,2),keys=new Set(specs.map(row=>row.sourceKey));
+    stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>!keys.has(key));
+    for(const row of stage.routing.inputs.filter(row=>keys.has(row.sourceKey))){row.edited=false;row.stereoGroup='';row.mode='Mono';}
     syncRoutingFromStage(false,false);
-    const specs=generatedInputSpecs().filter(row=>row.sourceKey.startsWith(o.id+':'));
     if(format==='dual')for(const [index,spec] of specs.entries()){
-      const row=stage.routing.inputs.find(row=>row.sourceKey===spec.sourceKey);if(!row)continue;
+      let row=stage.routing.inputs.find(row=>audioMembers(row).some(member=>member.sourceKey===spec.sourceKey));
+      if(!row){row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing.inputs.length,'inputs');stage.routing.inputs.push(row);}
       Object.assign(row,{edited:true,mode:'Mono',stereoGroup:'',pickup:index===0?'DI':'Mic',signalType:index===0?'Instrument':'Mic',connector:'XLR'});
       if(index===1&&(!row.microphone||row.microphone==='Direktausgang')){row.microphone='';row.phantom=false;}
     }
@@ -174,7 +190,7 @@ function linkAudioDi(o,targetId){
 
 function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
-  host.hidden=!all.length&&!rows.length&&o.type!=='laptop';if(host.hidden)return;
+  host.hidden=!all.length&&!rows.length&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
   const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),available=all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
   host.innerHTML=(o.type==='rack'?iemMonitorShortcut(o):o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4>'+audioSignalFormatControls(o)+audioDiControls(o)+'<p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }

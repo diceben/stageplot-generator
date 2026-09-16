@@ -20,3 +20,14 @@ let root;const doc={createElementNS:(ns,tag)=>new Node(tag),getElementById:id=>r
 const source=new Node('svg',{},[new Node('use',{href:'#kit'})]);root=new Node('root',{},[source,new Node('g',{id:'kit'},[new Node('use',{href:'#shell'}),new Node('rect',{fill:'url(#grain)'})]),new Node('g',{id:'shell'},[new Node('use',{href:'#kit'})]),new Node('pattern',{id:'grain'})]);
 const print=vm.runInNewContext(fs.readFileSync('stageplot-print-v1.js','utf8')+';StageplotPrint');const independent=print.copyArtwork(source);assert.deepEqual(independent.querySelectorAll('[id]').map(n=>n.id).sort(),['grain','kit','shell']);assert.equal(source.querySelectorAll('[id]').length,0,'Printing must not mutate the live drawing.');
 console.log('PASS INSTRUMENT FEEDBACK: hybrid and vocal signals, Cajon front/back IDs, empty builds, snapshot privacy/roundtrip, local artwork, stairs and self-contained print definitions.');
+
+// Extended drum workspace persists positions outside the old normalized 0..1 frame.
+const appHtml=fs.readFileSync('stageplot-studio.html','utf8'),extractFn=name=>appHtml.match(new RegExp('  function '+name+'\\([^]*?\\n  }'))[0];
+const moveCtx={drumDraft:D.normalizeDrums(old),drumClamp:(v,min,max)=>Math.max(min,Math.min(max,v))};vm.createContext(moveCtx);vm.runInContext(['drumStoredPoint','storeDrumPartPosition'].map(extractFn).join('\n'),moveCtx);
+const baseLayout=D.drumLayout(moveCtx.drumDraft),target={x:baseLayout.positionVb[0]*3-baseLayout.origin.x,y:baseLayout.positionVb[1]*-2-baseLayout.origin.y};moveCtx.storeDrumPartPosition('snare',target,baseLayout);
+const wide=D.normalizeDrums(moveCtx.drumDraft),wideLayout=D.drumLayout(wide),snare=wideLayout.parts.find(p=>p.id==='snare');
+assert.deepEqual(plain(wide.positions.snare),{x:3,y:-2});assert.equal(snare.x+wideLayout.origin.x,3*wideLayout.positionVb[0]);assert.equal(snare.y+wideLayout.origin.y,-2*wideLayout.positionVb[1]);assert(wideLayout.w>baseLayout.w+4);assert(wideLayout.d>baseLayout.d+2);
+assert.deepEqual(plain(moveCtx.drumStoredPoint(snare,wideLayout)),{x:3,y:-2},'Reopening an expanded layout must retain its original coordinate basis.');
+assert.equal(wideLayout.w,wideLayout.vb[0]*.02);assert.equal(wideLayout.d,wideLayout.vb[1]*.02);
+const compact=D.drumLayout({...empty,extras:{parts:[P.part('vocal-boom','p1')]}});assert(compact.w<1&&compact.d<1.1,'The stage footprint follows the assembly, not the editing camera.');
+assert.match(P.imageMarkup(P.part('vocal-boom','p1')),/vocal-boom-top-v1.png/);assert(!P.imageMarkup(P.part('vocal-boom','p1')).includes('<path'));

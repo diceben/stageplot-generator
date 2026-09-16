@@ -24,8 +24,9 @@ const captures=new Set(),nodes=new Map(),host={setPointerCapture:id=>captures.ad
 const label={dataset:{labelFor:object.id,labelOffsetX:'1.25',labelOffsetY:'-.5'},setAttribute(name,value){this[name]=value;}};
 const svg={dataset:{scale:100,originX:0,originY:0},getBoundingClientRect:()=>({left:0,top:0})};
 const ctx={objects:[{...object,labelOffset:undefined}],stage:{w:8,d:5},drag:null,selected:null,panMode:false,spaceHeld:false,placement:null,sharedReadOnly:false,
-  selectionMode:false,stageObjectTarget:()=>null,focusCanvas(){},finishEdit(){},updateList(){},inspector(){},positionRotationToolbar(){},renderEditor(){},say(){},history:[],future:[],persistDraft(){this.saves=(this.saves||0)+1;},
+  lastLabelTap:null,setTimeout(){},selectionMode:false,stageObjectTarget:()=>null,focusCanvas(){},finishEdit(){},updateList(){},inspector(){},positionRotationToolbar(){},renderEditor(){},say(){},history:[],future:[],persistDraft(){this.saves=(this.saves||0)+1;},
   $:id=>id==='sp-editor-floor'?host:(nodes.has(id)?nodes.get(id):(nodes.set(id,{}),nodes.get(id)))};
+ctx.editObjectLabel=id=>ctx.editedLabel=id;
 ctx.setSelection=ids=>ctx.selected=ids[0]||null;
 ctx.snapshot=()=>JSON.stringify({stage:ctx.stage,objects:ctx.objects});
 vm.createContext(ctx);vm.runInContext(['svgPoint','startObjectDrag','moveObjectDrag','endObjectDrag','cancelObjectDrag','keepHistory'].map(extract).join('\n'),ctx);
@@ -56,3 +57,11 @@ for(const W of [340,900,1400]){
   assert(box.left>=0&&box.right<=W&&box.top>=0&&box.bottom<=H,'Export clips a manually placed label.');
 }
 console.log('PASS LABELS: light/dark cards, scale-independent placement, touch drag, undo snapshot, cancellation, locking, legacy drafts, export roundtrip and offstage print fit.');
+
+// A double tap opens editing; an actual drag cannot become the first tap of a double tap.
+ctx.sharedReadOnly=false;ctx.lastLabelTap=null;ctx.objects[0].locked=false;ctx.editedLabel=null;
+ctx.startObjectDrag(event());ctx.endObjectDrag(event());ctx.startObjectDrag(event());assert.equal(ctx.editedLabel,object.id);assert.equal(ctx.drag,null);
+ctx.editedLabel=null;ctx.lastLabelTap=null;ctx.startObjectDrag(event());ctx.moveObjectDrag(event(650,260));ctx.endObjectDrag(event());ctx.startObjectDrag(event(650,260));assert.equal(ctx.editedLabel,null);assert.equal(ctx.drag.kind,'label');ctx.cancelObjectDrag();
+// Desktop Cmd/Ctrl-click toggles selection before label dragging.
+ctx.toggleSelection=id=>ctx.toggled=id;
+for(const modifier of ['metaKey','ctrlKey']){ctx.toggled=null;ctx.startObjectDrag({...event(),pointerType:'mouse',[modifier]:true});assert.equal(ctx.toggled,object.id);assert.equal(ctx.drag,null);}

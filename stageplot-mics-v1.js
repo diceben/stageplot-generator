@@ -54,6 +54,58 @@ function suggestions(name){
   }
   const normalize=value=>String(value||'').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ø/g,'o').replace(/[^a-z0-9]/g,'');
   const photos={
+  "Sennheiser MD 421 Kompakt": {
+    "file": "sennheiser-md421-kompakt-photo-v1.jpg",
+    "label": ""
+  },
+  "Shure KSM32": {
+    "file": "shure-ksm32-photo-v1.webp",
+    "label": ""
+  },
+  "DPA 4099 CORE": {
+    "file": "dpa-4099-core-photo-v1.jpg",
+    "label": "4099 CORE mit Zubehör · Foto: bonedo"
+  },
+  "Audio-Technica AT4051b": {
+    "file": "audio-technica-at4051b-photo-v1.png",
+    "label": ""
+  },
+  "Schoeps CMC 6 + MK 2": {
+    "file": "schoeps-cmc6-mk2-photo-v1.jpg",
+    "label": "CMC 6 + MK 2, Stereopaar · Foto: Thomann"
+  },
+  "AKG D12": {
+    "file": "akg-d12-photo-v1.jpg",
+    "label": "Vintage-Ausführung · Foto: SoundPure"
+  },
+  "Sennheiser MD 421": {
+    "file": "sennheiser-md421-vintage-photo-v1.jpg",
+    "label": "Ältere Ausführung · Foto: PJ, CC BY-SA 3.0"
+  },
+  "Sennheiser 421": {
+    "file": "sennheiser-md421-vintage-photo-v1.jpg",
+    "label": "Ältere Ausführung · Foto: PJ, CC BY-SA 3.0"
+  },
+  "Generisches Drum-Mikrofon": {
+    "file": "shuresm57-photo-v1.webp",
+    "label": "Beispielfoto: Shure SM57 · Modell offen"
+  },
+  "Grenzflächenmikrofon": {
+    "file": "shurebeta91a-photo-v1.webp",
+    "label": "Beispielfoto: Shure Beta 91A · Modell offen"
+  },
+  "Generisches Kick-Mikrofon": {
+    "file": "shurebeta52a-photo-v1.webp",
+    "label": "Beispielfoto: Shure Beta 52A · Modell offen"
+  },
+  "Generisches Kleinmembran-Mikrofon": {
+    "file": "neumannkm184-photo-v1.webp",
+    "label": "Beispielfoto: Neumann KM 184 · Modell offen"
+  },
+  "Generisches Kondensatormikrofon": {
+    "file": "neumannu87ai-photo-v1.webp",
+    "label": "Beispielfoto: Neumann U 87 Ai · Modell offen"
+  },
   "Shure SM57": {
     "file": "shuresm57-photo-v1.webp"
   },

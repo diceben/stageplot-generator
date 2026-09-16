@@ -1,0 +1,14 @@
+{
+  "prompt": "Use case: product-mockup. Asset type: transparent raster instrument sprite for a 2D stage plan. Generate ONE complete vocal microphone on a realistic black tripod boom microphone stand, viewed EXACTLY vertically from above in orthographic top-down plan view, no perspective and no side elevation. The floor footprint consists of three long slim tubular tripod legs radiating 120 degrees around one compact round centre hub; one leg points up and the other two diagonally down left and down right. Vertical shaft is seen end-on at the hub. A straight rigid cylindrical boom arm runs from the hub toward the top of the image, extending past the forward leg. Show a short counterweight behind the hub and a realistic adjustment knob at the pivot. At the far upper tip: a compact black handheld vocal microphone held horizontally, silver round mesh grille facing the top edge, body and clip visibly joined to boom; recognizable SM58-like proportions but no branding. Head and all feet fully visible and separate, no stray rods. Footprint approximately 65 cm wide and 90 cm long. Monochrome graphite-and-ink product rendering with soft realistic gray highlights, subtle metal and rubber texture and clear fine contours, matching detailed stage equipment renderings, not a flat vector or wireframe. Clean genuinely transparent alpha background, no white rectangle, no checkerboard, no floor, no cast shadow, no cables, no human, no extra stand, no lettering, no watermark. Center whole assembly with small empty transparent margin; enough contrast to see all parts on both a light and dark stage.",
+  "reference": "https://www.k-m.de/en/kmPdf/datasheet/ordernumber/21020-300-02",
+  "file": "vocal-boom-top-v1.png",
+  "mode": "Built-in image_gen",
+  "generated": "2026-09-16",
+  "processing": "Original generated PNG with transparent alpha; no raster edits.",
+  "viewBox": [
+    56,
+    10,
+    998,
+    1325
+  ]
+}

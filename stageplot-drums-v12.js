@@ -41,7 +41,7 @@ function createStageplotDrumModel(percussionModel=null) {
     if(percussionModel){c.extras=percussionModel.normalize(v.extras||{parts:[]});c.extras.parts=c.extras.parts.filter(p=>/^p(?:[1-9]|[1-3][0-9]|4[0-8])$/.test(p.id));for(const p of c.extras.parts)for(const suffix of ['1','2','l','r'])c.mics['extra-'+p.id+'-'+suffix]={enabled:true,model:p.type==='vocal-boom'?'Shure SM58':percussionModel.byId[p.type].electronic?'Direktausgang':'Generisches Drum-Mikrofon',phantom:false};}
     if(v.positions&&typeof v.positions==='object')for(const [id,p] of Object.entries(v.positions)){
       if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table|extra-p(?:[1-9]|[1-3][0-9]|4[0-8]))$/.test(id)&&p&&typeof p==='object')
-        c.positions[id]={x:clamp(p.x,.02,.98,.5),y:clamp(p.y,.02,.98,.5)};
+        c.positions[id]={x:clamp(p.x,-16,16,.5),y:clamp(p.y,-16,16,.5)};
     }
     if(v.rotations&&typeof v.rotations==='object')for(const [id,angle] of Object.entries(v.rotations)){
       if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table|extra-p(?:[1-9]|[1-3][0-9]|4[0-8]))$/.test(id)&&Number.isFinite(Number(angle)))
@@ -98,16 +98,23 @@ function createStageplotDrumModel(percussionModel=null) {
     if(c.pad)add('pad','pad',cx+37,15,9.1,{w:18.2,h:16.55});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
     if(percussionModel)for(const p of c.extras.parts){const size=percussionModel.dimensions(p);add('extra-'+p.id,'percussion',cx+p.x*50,vb[1]/2+p.y*50,Math.max(size.w,size.d)*25,{w:size.w*50,h:size.d*50,markup:percussionModel.imageMarkup(p,50)});}
     for(const p of parts){const art=drumImageGeometry(p);if(art)p.art=art;}
-    const placed=parts.map(p=>{const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5;return {...p,x:clamp(p.x,halfW,vb[0]-halfW,p.x),y:clamp(p.y,halfH,vb[1]-halfH,p.y)};});
-    for(const p of placed)if(c.positions[p.id]){
-      const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5,position=c.positions[p.id];
-      p.x=clamp(position.x*vb[0],halfW,vb[0]-halfW,p.x);p.y=clamp(position.y*vb[1],halfH,vb[1]-halfH,p.y);
-    }
+    const placed=parts.map(p=>({...p}));
+    for(const p of placed)if(c.positions[p.id]){p.x=c.positions[p.id].x*vb[0];p.y=c.positions[p.id].y*vb[1];}
     const order=new Map(c.zOrder.map((id,index)=>[id,index])),ordered=placed.map((part,index)=>({part,index})).sort((a,b)=>{
       const ai=order.has(a.part.id)?order.get(a.part.id):c.zOrder.length+a.index,bi=order.has(b.part.id)?order.get(b.part.id):c.zOrder.length+b.index;return ai-bi;
     }).map(entry=>entry.part);
     const riser=riserModules?{preset:c.riserPreset,modules:riserModules,moduleW:50,moduleH:100,x:(vb[0]-riserWidth)/2,y:(vb[1]-riserDepth)/2,w:riserWidth,h:riserDepth}:null;
-    return {parts:ordered,vb,w:vb[0]*.02,d:vb[1]*.02,pedal:c.pedal,leftHanded:c.leftHanded,showMics:c.showMics,overheadMount:c.overheadMount,riserPreset:c.riserPreset,riser};
+    const layout={parts:ordered,vb,pedal:c.pedal,leftHanded:c.leftHanded,showMics:c.showMics,overheadMount:c.overheadMount,riserPreset:c.riserPreset,riser};
+    // Storage retains the original coordinate basis; only the visible assembly is fitted.
+    const shapes=drumInteraction(layout).selectionShapes;
+    for(const p of ordered)if(p.kind==='cymbal'||p.kind==='hihat')shapes.push({x:p.x,y:p.y,w:36,h:41,angle:p.angle||0});
+    if(riser)shapes.push({x:riser.x+riser.w/2,y:riser.y+riser.h/2,w:riser.w,h:riser.h,angle:0});
+    let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+    for(const p of shapes){const r=(p.angle||0)*Math.PI/180,w=p.w||p.rx*2,h=p.h||p.ry*2,hx=(Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h)/2,hy=(Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h)/2;minX=Math.min(minX,p.x-hx-3);maxX=Math.max(maxX,p.x+hx+3);minY=Math.min(minY,p.y-hy-3);maxY=Math.max(maxY,p.y+hy+3);}
+    if(!shapes.length){minX=vb[0]/2-15;maxX=minX+30;minY=vb[1]/2-15;maxY=minY+30;}
+    for(const p of ordered){p.x-=minX;p.y-=minY;}
+    if(riser){riser.x-=minX;riser.y-=minY;}
+    return {...layout,positionVb:[...vb],origin:{x:minX,y:minY},vb:[maxX-minX,maxY-minY],w:(maxX-minX)*.02,d:(maxY-minY)*.02};
   }
   function drumInteraction(layout) {
     if(!layout||!Array.isArray(layout.parts)||!Array.isArray(layout.vb))return {hitParts:[],selectionShapes:[],hull:[],bounds:{minX:0,minY:0,maxX:0,maxY:0}};

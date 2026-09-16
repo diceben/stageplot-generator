@@ -24,6 +24,14 @@
 #sp-prototype .sp-object-label[data-dragging="true"] { cursor:grabbing; }
 #sp-prototype .sp-object-label[data-locked="true"] { cursor:not-allowed; }
 #sp-prototype .sp-object-label:is(:hover,:focus-visible) [data-label-background] { stroke:var(--sp-teal); stroke-width:1.5; }
+
+#sp-prototype .sp-object-stairs-control { display:flex; align-items:center; gap:6px; padding:0 8px; color:var(--sp-ink); font-size:12px; white-space:nowrap; }
+#sp-prototype .sp-object-stairs-control[hidden] { display:none; }
+#sp-prototype .sp-object-stairs-control input { width:54px; min-height:32px; padding:4px 6px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-paper); color:var(--sp-ink); }
+@media (hover:hover) and (pointer:fine) { #sp-prototype #sp-canvas-tools #sp-multi-toggle { display:none !important; } }
+#sp-prototype .sp-drum-view-tools { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:0 0 8px; }
+#sp-prototype .sp-drum-view-tools button { min-height:36px; padding:5px 10px; }
+#sp-prototype .sp-drum-view-tools span { color:var(--sp-muted); font-size:11px; }
 </style>
 <div id="sp-startup" role="status" aria-live="polite"><strong>Stageplotter</strong><p id="sp-startup-message">Wird geladen …</p><button id="sp-startup-retry" type="button" hidden>Erneut laden</button><noscript>Bitte aktiviere JavaScript, um Stageplotter zu verwenden.</noscript></div>
 <script>
@@ -264,6 +272,7 @@
             </div>
             <div class="sp-edit-controls" role="group" aria-label="Objektaktionen"><button class="sp-button sp-object-tool" type="button" id="sp-send-behind" aria-label="Unter das überlappende Objekt legen" data-tooltip="Nach hinten" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="4" width="12" height="10" rx="2"/><rect x="5" y="10" width="12" height="10" rx="2"/><path d="M12 7v8m-3-3 3 3 3-3"/></svg></button><button class="sp-button sp-object-tool" type="button" id="sp-lock" aria-label="Objekt sperren" aria-pressed="false" data-tooltip="Sperren"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10"/><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M12 14v3"/></svg></button><button class="sp-button sp-object-tool" type="button" id="sp-duplicate" aria-label="Duplizieren" data-tooltip="Duplizieren"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/></svg></button><button class="sp-button sp-object-tool sp-remove-tool" type="button" id="sp-remove" aria-label="Baustein entfernen" data-tooltip="Entfernen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7.5 7.5 9 9m0-9-9 9"/></svg></button></div>
           </div>
+          <label id="sp-object-stairs-control" class="sp-object-stairs-control" hidden>Stufen <input id="sp-object-stairs-steps" type="number" min="1" max="24" step="1" inputmode="numeric" aria-label="Stufenanzahl"></label>
           <button id="sp-drum-hover-open" class="sp-drum-hover-open" type="button" aria-label="Drumdesigner öffnen" hidden><span>Drums &amp; Percussion</span><strong>Aufbau bearbeiten</strong></button>
           <button id="sp-stagebox-hover-open" class="sp-drum-hover-open sp-stagebox-hover-open" type="button" aria-label="Stagebox Routing und I/O öffnen" hidden><span>Stagebox</span><strong>Routing / I/O</strong></button>
           <div id="sp-stairs-popover" class="sp-stairs-popover" role="group" aria-label="Bühnentreppe bearbeiten" hidden>
@@ -329,7 +338,7 @@
             <div class="sp-model-picker" id="sp-model-picker" role="group" aria-labelledby="sp-model-picker-label" hidden></div>
             <input id="sp-variant" type="hidden" value="">
           </div>
-          <div id="sp-orchestra-single" class="sp-inspector-section" hidden><h4>Instrument</h4><label class="sp-field">Modell<select id="sp-orchestra-model"></select></label><label class="sp-field">Abnahme<select id="sp-orchestra-pickup"><option value="none">Keine</option><option value="mic">Mikrofon</option></select></label></div>
+          <div id="sp-orchestra-single" class="sp-inspector-section" hidden><h4>Instrument</h4><label class="sp-field">Modell<select id="sp-orchestra-model"></select></label><label class="sp-field">Abnahme<select id="sp-orchestra-pickup"><option value="none">Keine</option><option value="mic">Mikrofon</option><option value="dual">Dual Mono · DI + Mic</option></select></label></div>
           <div id="sp-mic-fields" class="sp-special-fields sp-inspector-section" hidden><h4>Stativ &amp; Ausrichtung</h4>
             <input id="sp-mic-stand" type="hidden" value="boom"><input id="sp-boom-direction" type="hidden" value="up"><input id="sp-mic-purpose" type="hidden" value="vocals">
             <div class="sp-direct-field"><span>Stativ</span><div class="sp-choice-pills" id="sp-mic-stand-options" role="group" aria-label="Mikrofonständer"><button type="button" data-mic-stand="boom">Dreibein + Boom</button><button type="button" data-mic-stand="round">Tellerboden</button></div></div>
@@ -383,7 +392,7 @@
           <section class="sp-inspector-section">
             <div class="sp-inspector-section-heading"><h4>Beschriftung</h4><label class="sp-inspector-switch"><input id="sp-label-visible" type="checkbox" checked><span class="sp-switch-track" aria-hidden="true"></span><span>Sichtbar</span></label></div>
             <label class="sp-field"><span class="sp-visually-hidden">Beschriftung</span><textarea id="sp-label" rows="2" maxlength="240" placeholder="Beschriftung oder Notiz"></textarea></label>
-            <small class="sp-muted">Schild im Plan ziehen · fokussiert auch mit Pfeiltasten.</small>
+            <small class="sp-muted">Doppelklick zum Bearbeiten · ziehen zum Verschieben.</small>
             <button type="button" class="sp-button" id="sp-label-position-reset" disabled>Automatisch platzieren</button>
           </section>
           <section id="sp-audio-object" class="sp-special-fields sp-inspector-section" hidden></section>
@@ -695,7 +704,7 @@
           <button class="sp-drum-library-item" type="button" data-drum-add="laptop" aria-pressed="false"><span class="sp-drum-library-thumb"><img loading="lazy" decoding="async" src="stageplot-assets/drums/racktable-laptop-overhead-preview-v1.png" alt=""></span><span><strong>Racktisch · Laptop</strong><small>GEMS-Stand · Laptop</small></span></button>
         </aside>
         <section class="sp-drum-canvas" aria-label="Drumset-Aufbau">
-          <div id="sp-drum-preview" class="sp-drum-preview" role="group" aria-label="Schlagzeug in Draufsicht, aus Sicht des Drummers"></div>
+          <div class="sp-drum-view-tools" role="group" aria-label="Arbeitsfläche"><button type="button" class="sp-button" data-drum-view="out" aria-label="Drum-Arbeitsfläche verkleinern">−</button><button type="button" class="sp-button" data-drum-view="in" aria-label="Drum-Arbeitsfläche vergrößern">+</button><button type="button" class="sp-button" data-drum-view="fit">Aufbau einpassen</button><span>Freie Fläche ziehen · Mausrad zum Zoomen</span></div><div id="sp-drum-preview" class="sp-drum-preview" role="group" aria-label="Schlagzeug in Draufsicht, aus Sicht des Drummers"></div>
           <span id="sp-drum-selected-part" class="sp-visually-hidden" role="status" aria-live="polite"></span><button class="sp-visually-hidden" type="button" id="sp-drum-remove-part" disabled aria-label="Ausgewähltes Drummodul löschen">×</button><span id="sp-drum-count" class="sp-visually-hidden" role="status"></span>
         </section>
         <button class="sp-drum-edge-toggle sp-drum-inspector-toggle" type="button" id="sp-drum-inspector-toggle" aria-label="Eigenschaften einklappen" aria-expanded="true" aria-controls="sp-drum-inspector"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -720,7 +729,7 @@
       <section class="sp-help-section" aria-labelledby="sp-shortcuts-title">
         <h3 id="sp-shortcuts-title">Schneller arbeiten</h3>
         <p class="sp-muted">Die wichtigsten Befehle funktionieren direkt im Entwurf.</p>
-        <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
+        <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
         <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.14">v0.1.0-beta.14</span></div>
@@ -728,7 +737,7 @@
           <article class="sp-release-card" data-current="true">
             <header><div><strong>v0.1.0-beta.14</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
             <h4>Instrumente, Routing und Drum-/Percussion-Aufbauten</h4>
-            <ul><li><strong>Routing:</strong> Instrumentgruppen mit Abnahme, Stagebox und Pultkanal. DI-Boxen vorhandenen Signalen zuordnen; Dual Mono für zwei unabhängige Abnahmen. Sortieren erhält Kanalnummern.</li><li><strong>Drums &amp; Percussion:</strong> Cajon, Kick, Becken, Percussion und Vocal-Mikrofon mit Boom kombinieren. Neue Cajon-Draufsicht, Mikrofonwahl vorne und hinten sowie Crash links oder rechts.</li><li><strong>Instrumente:</strong> Treppen mit wählbarer Stufenanzahl, MD 421 Kompakt, generierte Bildassets für Dreadnought, Cutaway, Klassik, Gypsy, Jazzgitarre und Banjo, direkte Eigenschaften für einzelne Streicher, mehrzeilige Notizen und gedrehte Standardausrichtung neuer Akkordeons.</li><li><strong>Export und Speicherung:</strong> Druckgrafiken enthalten ihre eigenen Objektdefinitionen; Bilder laden vor dem Druck. Hinweise erklären lokale Speicherung, mögliche Löschung und Sicherungsdateien.</li></ul>
+            <ul><li><strong>Routing:</strong> Instrumentgruppen mit Abnahme, Stagebox und Pultkanal. DI-Boxen vorhandenen Signalen zuordnen; Dual Mono auch für Amps, Pedalboards und einzelne Streicher. Weitere Ausgänge und vorhandene Kanalnummern bleiben erhalten.</li><li><strong>Drums &amp; Percussion:</strong> Cajon, Kick, Becken, Percussion und Vocal-Mikrofon mit Boom kombinieren. Neue Bildassets für Cajon und Vocal-Boom. Größere, verschiebbare Arbeitsfläche mit Zoom; die Ausdehnung des Aufbaus bestimmt seine Größe auf der Bühne. Mikrofonwahl vorne und hinten sowie Crash links oder rechts.</li><li><strong>Instrumente:</strong> Stufenanzahl im Auswahl-Popup, echte Fotos für alle Katalogmikrofone einschließlich MD 421 Kompakt, generierte Bildassets für Dreadnought, Cutaway, Klassik, Gypsy, Jazzgitarre und Banjo, direkte Eigenschaften für einzelne Streicher, mehrzeilige Notizen und gedrehte Standardausrichtung neuer Akkordeons.</li><li><strong>Bedienung:</strong> Beschriftungen und freie Texte per Doppelklick bearbeiten. Mehrfachauswahl mit Cmd-Klick oder Strg-Klick.</li><li><strong>Export und Speicherung:</strong> Druckgrafiken enthalten ihre eigenen Objektdefinitionen; Bilder laden vor dem Druck. Hinweise erklären lokale Speicherung, mögliche Löschung und Sicherungsdateien.</li></ul>
           </article>
           <article class="sp-release-card">
             <header><div><strong>v0.1.0-beta.13</strong></div><time datetime="2026-09-16">16. September 2026</time></header>
@@ -6797,6 +6806,58 @@ function suggestions(name){
   }
   const normalize=value=>String(value||'').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ø/g,'o').replace(/[^a-z0-9]/g,'');
   const photos={
+  "Sennheiser MD 421 Kompakt": {
+    "file": "sennheiser-md421-kompakt-photo-v1.jpg",
+    "label": ""
+  },
+  "Shure KSM32": {
+    "file": "shure-ksm32-photo-v1.webp",
+    "label": ""
+  },
+  "DPA 4099 CORE": {
+    "file": "dpa-4099-core-photo-v1.jpg",
+    "label": "4099 CORE mit Zubehör · Foto: bonedo"
+  },
+  "Audio-Technica AT4051b": {
+    "file": "audio-technica-at4051b-photo-v1.png",
+    "label": ""
+  },
+  "Schoeps CMC 6 + MK 2": {
+    "file": "schoeps-cmc6-mk2-photo-v1.jpg",
+    "label": "CMC 6 + MK 2, Stereopaar · Foto: Thomann"
+  },
+  "AKG D12": {
+    "file": "akg-d12-photo-v1.jpg",
+    "label": "Vintage-Ausführung · Foto: SoundPure"
+  },
+  "Sennheiser MD 421": {
+    "file": "sennheiser-md421-vintage-photo-v1.jpg",
+    "label": "Ältere Ausführung · Foto: PJ, CC BY-SA 3.0"
+  },
+  "Sennheiser 421": {
+    "file": "sennheiser-md421-vintage-photo-v1.jpg",
+    "label": "Ältere Ausführung · Foto: PJ, CC BY-SA 3.0"
+  },
+  "Generisches Drum-Mikrofon": {
+    "file": "shuresm57-photo-v1.webp",
+    "label": "Beispielfoto: Shure SM57 · Modell offen"
+  },
+  "Grenzflächenmikrofon": {
+    "file": "shurebeta91a-photo-v1.webp",
+    "label": "Beispielfoto: Shure Beta 91A · Modell offen"
+  },
+  "Generisches Kick-Mikrofon": {
+    "file": "shurebeta52a-photo-v1.webp",
+    "label": "Beispielfoto: Shure Beta 52A · Modell offen"
+  },
+  "Generisches Kleinmembran-Mikrofon": {
+    "file": "neumannkm184-photo-v1.webp",
+    "label": "Beispielfoto: Neumann KM 184 · Modell offen"
+  },
+  "Generisches Kondensatormikrofon": {
+    "file": "neumannu87ai-photo-v1.webp",
+    "label": "Beispielfoto: Neumann U 87 Ai · Modell offen"
+  },
   "Shure SM57": {
     "file": "shuresm57-photo-v1.webp"
   },
@@ -7105,7 +7166,7 @@ const StageplotMicPicker=(()=>{
   function mount(host,options){
     const id='sp-mic-search-'+(++sequence);let opts=options,filter='Vorschläge',query='',custom=false;
     host.classList.add('sp-mic-picker');
-    host.innerHTML='<div class="sp-mic-current"></div><div class="sp-mic-custom" hidden><label>Eigenes Mikrofonmodell<input maxlength="80" placeholder="Hersteller und Modell"></label><button type="button" data-mic-custom-use>Modell verwenden</button></div><label class="sp-mic-search" for="'+id+'"><span>Mikrofon suchen</span><div><input id="'+id+'" type="search" placeholder="Modell, Hersteller oder Bauart …" autocomplete="off" spellcheck="false" aria-describedby="'+id+'-status"><button type="button" data-mic-search-clear aria-label="Mikrofonsuche leeren" hidden>×</button></div></label><div class="sp-mic-filters" role="group" aria-label="Mikrofon-Schnellzugriffe"></div><div class="sp-mic-manufacturers"><button type="button" data-mic-scroll="-1" aria-label="Vorherige Hersteller">‹</button><div class="sp-mic-brands" role="group" aria-label="Mikrofon-Hersteller"></div><button type="button" data-mic-scroll="1" aria-label="Weitere Hersteller">›</button></div><p class="sp-mic-status" id="'+id+'-status" role="status" aria-live="polite"></p><div class="sp-mic-results" role="group" aria-label="Mikrofonmodelle"></div>';
+    host.innerHTML='<div class="sp-mic-current"></div><div class="sp-mic-custom" hidden><label>Eigenes Mikrofonmodell<input maxlength="80" placeholder="Hersteller und Modell"></label><button type="button" data-mic-custom-use>Modell verwenden</button></div><label class="sp-mic-search" for="'+id+'"><span>Mikrofon suchen</span><div><input id="'+id+'" type="search" placeholder="Modell, Hersteller oder Bauart …" autocomplete="off" spellcheck="false" aria-describedby="'+id+'-status"><button type="button" data-mic-search-clear aria-label="Mikrofonsuche leeren" hidden>×</button></div></label><div class="sp-mic-filters" role="group" aria-label="Mikrofon-Schnellzugriffe"></div><div class="sp-mic-manufacturers"><button type="button" data-mic-scroll="-1" aria-label="Vorherige Hersteller">‹</button><div class="sp-mic-brands" role="group" aria-label="Mikrofon-Hersteller"></div><button type="button" data-mic-scroll="1" aria-label="Weitere Hersteller">›</button></div><p class="sp-mic-status" id="'+id+'-status" role="status" aria-live="polite"></p><div class="sp-mic-results" role="group" aria-label="Mikrofonmodelle"></div><small class="sp-mic-photo-credit"><a href="./stageplot-assets/mics/ATTRIBUTION.md" target="_blank" rel="noopener">Bildquellen</a></small>';
     const $=selector=>host.querySelector(selector),search=$('input[type="search"]'),results=$('.sp-mic-results');
     const chips=(list)=>list.map(name=>'<button type="button" data-mic-filter="'+esc(name)+'" aria-pressed="'+(!query&&filter===name)+'">'+esc(name)+'</button>').join('');
     function render(){
@@ -8616,7 +8677,7 @@ function createStageplotPercussionModel() {
     const physical=dimensions(p),width=physical.w*unit,height=physical.d*unit;
     if(p.type==='cajon')return '<svg x="'+(-width/2)+'" y="'+(-height/2)+'" width="'+width+'" height="'+height+'" viewBox="177 183 900 887" preserveAspectRatio="none"><image href="./stageplot-assets/percussion/cajon-top-v1.png" width="1254" height="1254" style="filter:grayscale(1)"/></svg>'+(['front','both'].includes(p.pickup)?'<path d="M0 '+height/2+'v'+unit*.06+'" stroke="#333" stroke-width="'+unit*.035+'" stroke-linecap="round"/>':'')+(['back','both'].includes(p.pickup)?'<path d="M0 '+(-height/2)+'v'+(-unit*.06)+'" stroke="#333" stroke-width="'+unit*.035+'" stroke-linecap="round"/>':'');
     if(['kick','snare','throne'].includes(p.type)){const file={kick:'kick-overhead-v3.png',snare:'snare.webp',throne:'throne.webp'}[p.type];return '<image href="./stageplot-assets/drums/'+file+'" x="'+(-width/2)+'" y="'+(-height/2)+'" width="'+width+'" height="'+height+'" preserveAspectRatio="xMidYMid meet" style="filter:grayscale(1)"/>';}
-    if(p.type==='vocal-boom')return '<svg x="'+(-width/2)+'" y="'+(-height/2)+'" width="'+width+'" height="'+height+'" viewBox="0 0 65 90"><g fill="none" stroke="#444" stroke-width="2" stroke-linecap="round"><path d="M32 52L5 83M32 52L59 83M32 52V27" stroke="#888"/><circle cx="32" cy="52" r="3" fill="#999"/><path d="M32 52L44 12" stroke-width="3"/><path d="M43 15L49 2" stroke-width="6"/></g></svg>';
+    if(p.type==='vocal-boom')return '<svg x="'+(-width/2)+'" y="'+(-height/2)+'" width="'+width+'" height="'+height+'" viewBox="56 10 998 1325" preserveAspectRatio="xMidYMid meet"><image href="./stageplot-assets/percussion/vocal-boom-top-v1.png" width="1115" height="1411"/></svg>';
 
     const c=byId[p.type],size=dimensions(p),w=size.w*unit,d=size.d*unit,[sw,sh]=assetSizes[c.asset];
     return '<svg x="'+(-w/2)+'" y="'+(-d/2)+'" width="'+w+'" height="'+d+'" viewBox="1 1 '+(sw-2)+' '+(sh-2)+'" preserveAspectRatio="none" overflow="hidden" data-percussion-image="'+c.id+'"><image href="./stageplot-assets/percussion/'+c.asset+'.webp" width="'+sw+'" height="'+sh+'" preserveAspectRatio="none" style="filter:grayscale(1)"/></svg>';
@@ -8691,7 +8752,7 @@ function createStageplotOrchestraModel() {
       if(!p||!Object.hasOwn(byId,p.type))continue;
       let id=/^[a-zA-Z0-9-]{1,60}$/.test(p.id||'')?p.id:'o'+(i+1),n=1,base=id;while(used.has(id))id=base.slice(0,48)+'-copy'+n++;used.add(id);
       const c=byId[p.type],section=Object.hasOwn(sectionById,p.section)?p.section:({piccolo:'flutes','english-horn':'oboes','bass-clarinet':'clarinets',contrabassoon:'bassoons'})[c.id]||sections.find(s=>s.type===c.id)?.id||'percussion';
-      parts.push({...part(c.id,id,0,0,section),x:round(finite(p.x,0,-25,25)),y:round(finite(p.y,0,-25,25)),angle:round((finite(p.angle,0,-36000,36000)%360+360)%360),label:clean(p.label??c.name),enabled:p.enabled!==false,pickup:p.pickup==='mic'?'mic':'none',...(Number.isFinite(p.width)?{width:round(finite(p.width,c.w,.02,5))}:{}),...(Number.isFinite(p.depth)?{depth:round(finite(p.depth,c.d,.02,5))}:{})});
+      parts.push({...part(c.id,id,0,0,section),x:round(finite(p.x,0,-25,25)),y:round(finite(p.y,0,-25,25)),angle:round((finite(p.angle,0,-36000,36000)%360+360)%360),label:clean(p.label??c.name),enabled:p.enabled!==false,pickup:['mic','dual'].includes(p.pickup)?p.pickup:'none',...(Number.isFinite(p.width)?{width:round(finite(p.width,c.w,.02,5))}:{}),...(Number.isFinite(p.depth)?{depth:round(finite(p.depth,c.d,.02,5))}:{})});
     }
     return {version:1,mode:value.mode==='single'?'single':'ensemble',seating:value.seating!==false,labels:value.labels!==false,groups:Object.fromEntries(sections.map(s=>[s.id,value.groups?.[s.id]!==false])),nextId:Math.max(Math.floor(finite(value.nextId,1,1,1e9)),...parts.map(p=>/^o\d+$/.test(p.id)?Number(p.id.slice(1))+1:1)),parts};
   }
@@ -8717,7 +8778,7 @@ function createStageplotOrchestraModel() {
   }
   function groupLabels(value){const l=layout(value);if(!l.config.labels||l.config.mode!=='ensemble')return '';return sections.map(s=>{const parts=l.parts.filter(p=>p.section===s.id);if(!parts.length)return '';const x=parts.reduce((a,p)=>a+p.x,0)/parts.length,y=Math.max(...parts.map(p=>p.y+Math.max(p.d,.7)/2))+.3;return '<text x="'+round(x*100)+'" y="'+round(y*100)+'" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="600" fill="#333" paint-order="stroke" stroke="#fff" stroke-width="5">'+escape(s.name)+' · '+parts.length+'</text>';}).join('');}
   function artwork(value){const l=layout(value);return '<g data-equipment="orchestra" transform="translate('+round(-l.minX*100)+' '+round(-l.minY*100)+')">'+l.parts.map(p=>'<g transform="translate('+round(p.x*100)+' '+round(p.y*100)+') rotate('+p.angle+')">'+(l.config.seating?furnitureMarkup(p):'')+imageMarkup(p)+'</g>').join('')+(l.config.mode==='ensemble'?'<g data-conductor="true"><rect x="-50" y="-40" width="100" height="80" rx="3" fill="#e5e5e5" stroke="#888"/><text x="0" y="65" text-anchor="middle" font-size="15" font-family="Arial,sans-serif" fill="#333">Dirigat · Publikum ↓</text></g>':'')+groupLabels(value)+'</g>';}
-  function channels(value){const l=layout(value);return l.parts.filter(p=>p.pickup==='mic').map(p=>({id:p.id,partId:p.id,name:p.label||byId[p.type].name,connector:'XLR'}));}
+  function channels(value){const l=layout(value);return l.parts.filter(p=>p.pickup!=='none').flatMap(p=>p.pickup==='dual'?[{id:p.id,partId:p.id,name:(p.label||byId[p.type].name)+' · DI',suffix:'DI',pickup:'DI',connector:'XLR'},{id:p.id+'-mic',partId:p.id,name:(p.label||byId[p.type].name)+' · Mikrofon',suffix:'Mikrofon',pickup:'Mic',connector:'XLR'}]:[{id:p.id,partId:p.id,name:p.label||byId[p.type].name,connector:'XLR'}]);}
   function familyEnabled(value,family){const c=normalize(value);return sections.filter(s=>s.family===family).some(s=>c.groups[s.id]&&c.parts.some(p=>p.section===s.id&&p.enabled));}
   return {families,catalog,byId,sections,sectionById,part,seat,preset,single,normalize,dimensions,layout,active,imageMarkup,furnitureMarkup,groupLabels,artwork,channels,familyEnabled,escape};
 }
@@ -9105,7 +9166,7 @@ function createStageplotDrumModel(percussionModel=null) {
     if(percussionModel){c.extras=percussionModel.normalize(v.extras||{parts:[]});c.extras.parts=c.extras.parts.filter(p=>/^p(?:[1-9]|[1-3][0-9]|4[0-8])$/.test(p.id));for(const p of c.extras.parts)for(const suffix of ['1','2','l','r'])c.mics['extra-'+p.id+'-'+suffix]={enabled:true,model:p.type==='vocal-boom'?'Shure SM58':percussionModel.byId[p.type].electronic?'Direktausgang':'Generisches Drum-Mikrofon',phantom:false};}
     if(v.positions&&typeof v.positions==='object')for(const [id,p] of Object.entries(v.positions)){
       if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table|extra-p(?:[1-9]|[1-3][0-9]|4[0-8]))$/.test(id)&&p&&typeof p==='object')
-        c.positions[id]={x:clamp(p.x,.02,.98,.5),y:clamp(p.y,.02,.98,.5)};
+        c.positions[id]={x:clamp(p.x,-16,16,.5),y:clamp(p.y,-16,16,.5)};
     }
     if(v.rotations&&typeof v.rotations==='object')for(const [id,angle] of Object.entries(v.rotations)){
       if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table|extra-p(?:[1-9]|[1-3][0-9]|4[0-8]))$/.test(id)&&Number.isFinite(Number(angle)))
@@ -9162,16 +9223,23 @@ function createStageplotDrumModel(percussionModel=null) {
     if(c.pad)add('pad','pad',cx+37,15,9.1,{w:18.2,h:16.55});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
     if(percussionModel)for(const p of c.extras.parts){const size=percussionModel.dimensions(p);add('extra-'+p.id,'percussion',cx+p.x*50,vb[1]/2+p.y*50,Math.max(size.w,size.d)*25,{w:size.w*50,h:size.d*50,markup:percussionModel.imageMarkup(p,50)});}
     for(const p of parts){const art=drumImageGeometry(p);if(art)p.art=art;}
-    const placed=parts.map(p=>{const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5;return {...p,x:clamp(p.x,halfW,vb[0]-halfW,p.x),y:clamp(p.y,halfH,vb[1]-halfH,p.y)};});
-    for(const p of placed)if(c.positions[p.id]){
-      const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5,position=c.positions[p.id];
-      p.x=clamp(position.x*vb[0],halfW,vb[0]-halfW,p.x);p.y=clamp(position.y*vb[1],halfH,vb[1]-halfH,p.y);
-    }
+    const placed=parts.map(p=>({...p}));
+    for(const p of placed)if(c.positions[p.id]){p.x=c.positions[p.id].x*vb[0];p.y=c.positions[p.id].y*vb[1];}
     const order=new Map(c.zOrder.map((id,index)=>[id,index])),ordered=placed.map((part,index)=>({part,index})).sort((a,b)=>{
       const ai=order.has(a.part.id)?order.get(a.part.id):c.zOrder.length+a.index,bi=order.has(b.part.id)?order.get(b.part.id):c.zOrder.length+b.index;return ai-bi;
     }).map(entry=>entry.part);
     const riser=riserModules?{preset:c.riserPreset,modules:riserModules,moduleW:50,moduleH:100,x:(vb[0]-riserWidth)/2,y:(vb[1]-riserDepth)/2,w:riserWidth,h:riserDepth}:null;
-    return {parts:ordered,vb,w:vb[0]*.02,d:vb[1]*.02,pedal:c.pedal,leftHanded:c.leftHanded,showMics:c.showMics,overheadMount:c.overheadMount,riserPreset:c.riserPreset,riser};
+    const layout={parts:ordered,vb,pedal:c.pedal,leftHanded:c.leftHanded,showMics:c.showMics,overheadMount:c.overheadMount,riserPreset:c.riserPreset,riser};
+    // Storage retains the original coordinate basis; only the visible assembly is fitted.
+    const shapes=drumInteraction(layout).selectionShapes;
+    for(const p of ordered)if(p.kind==='cymbal'||p.kind==='hihat')shapes.push({x:p.x,y:p.y,w:36,h:41,angle:p.angle||0});
+    if(riser)shapes.push({x:riser.x+riser.w/2,y:riser.y+riser.h/2,w:riser.w,h:riser.h,angle:0});
+    let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+    for(const p of shapes){const r=(p.angle||0)*Math.PI/180,w=p.w||p.rx*2,h=p.h||p.ry*2,hx=(Math.abs(Math.cos(r))*w+Math.abs(Math.sin(r))*h)/2,hy=(Math.abs(Math.sin(r))*w+Math.abs(Math.cos(r))*h)/2;minX=Math.min(minX,p.x-hx-3);maxX=Math.max(maxX,p.x+hx+3);minY=Math.min(minY,p.y-hy-3);maxY=Math.max(maxY,p.y+hy+3);}
+    if(!shapes.length){minX=vb[0]/2-15;maxX=minX+30;minY=vb[1]/2-15;maxY=minY+30;}
+    for(const p of ordered){p.x-=minX;p.y-=minY;}
+    if(riser){riser.x-=minX;riser.y-=minY;}
+    return {...layout,positionVb:[...vb],origin:{x:minX,y:minY},vb:[maxX-minX,maxY-minY],w:(maxX-minX)*.02,d:(maxY-minY)*.02};
   }
   function drumInteraction(layout) {
     if(!layout||!Array.isArray(layout.parts)||!Array.isArray(layout.vb))return {hitParts:[],selectionShapes:[],hull:[],bounds:{minX:0,minY:0,maxX:0,maxY:0}};
@@ -11057,7 +11125,7 @@ function createStageplotSymbolV3(type, options = {}) {
         if(!lines.length)return;
         const interactive=mode==='editor'&&!sharedReadOnly;
         const labelGroup=sEl('g',{'data-label-for':o.id,'data-locked':String(!!o.locked),'pointer-events':interactive?'all':'none',class:interactive?'sp-object-label':'',...(interactive?{tabindex:0,role:'button','aria-label':(o.label||c.name)+' · Beschriftung verschieben','aria-disabled':String(!!o.locked)}:{})},labelsLayer);
-        if(interactive)sEl('title',{},labelGroup,o.locked?'Objekt gesperrt':'Beschriftung ziehen · Pfeiltasten zum Verschieben · Pos1 für automatische Position');
+        if(interactive)sEl('title',{},labelGroup,o.locked?'Objekt gesperrt':'Doppelklick zum Bearbeiten · ziehen zum Verschieben · Pfeiltasten · Pos1 für automatische Position');
         const metrics=StageplotLook.labelMetrics(lines,nameLineCount,scale,textContext,o.type==='riser');
         const labelWidth=metrics.width,labelHeight=metrics.height,owner=ownerBoxes.get(o.id),freeView=mode==='editor';
         const manualBox=StageplotLook.manualLabelBox(o,labelWidth,labelHeight,scale,mx,top);
@@ -11109,6 +11177,8 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     stagePopover.hidden=selected!=='stage-zone'||!!placement||view!=='editor'||!svg;
     if(!stagePopover.hidden){const scale=Number(svg.dataset.scale),hostRect=$('sp-editor-floor').getBoundingClientRect(),box=stagePopover.getBoundingClientRect(),cx=Number(svg.dataset.originX)+stage.w*scale/2,top=Number(svg.dataset.originY);$('sp-stage-popover-size').textContent=num(stage.w)+' × '+metres(stage.d);stagePopover.style.left=Math.max(5,Math.min(hostRect.width-box.width-5,cx-box.width/2))+'px';stagePopover.style.top=Math.max(5,Math.min(hostRect.height-box.height-5,top+10))+'px';}
+    const stairControl=$('sp-object-stairs-control');stairControl.hidden=!o||o.type!=='stage-stairs'||!!placement||view!=='editor'||selectedObjects().length>1;
+    if(!stairControl.hidden){if(stairControl.parentNode!==$('sp-object-rotate'))$('sp-object-rotate').append(stairControl);$('sp-object-stairs-steps').disabled=!!o.locked;if(document.activeElement!==$('sp-object-stairs-steps'))$('sp-object-stairs-steps').value=o.steps||5;}
     const hidden=!o||selectionMode||selectedObjects().length>1||!!placement||view!=='editor'||!svg;
     toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&!['percussion','orchestra','laptop','rack'].includes(o.type));if(o){drumButton.setAttribute('aria-label',o.type==='rack'?'IEM-Monitore einrichten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester-Editor öffnen':o.type==='percussion'?'Drums & Percussion öffnen':'Drums & Percussion öffnen');drumButton.querySelector('strong').textContent=o.type==='rack'?'IEM-Monitore':o.type==='laptop'?'Playback-Ausgänge':o.type==='orchestra'?'Orchester-Editor':o.type==='percussion'?'Aufbau bearbeiten':'Aufbau bearbeiten';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
     drumButton.disabled=!!o.locked;stageboxButton.disabled=!!o.locked;if(!stageboxButton.hidden)stageboxButton.setAttribute('aria-label',(o.label||byId[o.type].short)+' Routing und I/O öffnen');
@@ -11617,7 +11687,7 @@ function createStageplotSymbolV3(type, options = {}) {
         const builtInPresets=new Set(['basic','standard','expanded','full','large','pro']);item.drumPresetId=builtInPresets.has(o.drumPresetId)?o.drumPresetId:(o.drumPresetId==='custom'?'custom':'');
         item.drumInputs=Array.isArray(o.drumInputs)?o.drumInputs.slice(0,40).map((name,index)=>({id:cleanText(name?.id||'input-'+(index+1),60),name:cleanText(name?.name||name,100),microphone:cleanText(name?.microphone,80),phantom:name?.phantom===true})).filter(row=>row.name):[];
       }
-      if(byId[type].instrument){item.io=normalizeObjectIo(o.io,{...o,type,drums:item.drums||o.drums,percussion:item.percussion||o.percussion,orchestra:item.orchestra||o.orchestra});item.outs=ioValueText(item.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
+      if(byId[type].instrument||byId[type].category==='amps'&&o.io){item.io=normalizeObjectIo(o.io,{...o,type,drums:item.drums||o.drums,percussion:item.percussion||o.percussion,orchestra:item.orchestra||o.orchestra});item.outs=ioValueText(item.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
       if(stageboxCapacity[type])item.comboJacks=o.comboJacks===true;
       if(type==='rack'){item.iem=normalizeIemConfig(o.iem,item.label);if(Array.isArray(o.iemMixes))item.iemMixes=StageplotIem.normalize(o.iemMixes,item.iem);}
       if(type==='laptop'&&o.playback)item.playback=normalizePlayback(o.playback);
@@ -12186,7 +12256,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function generatedInputSpecs(){
     const specs=[];
     for(const o of objects){const c=byId[o.type];
-      if(o.type==='orchestra'&&typeof orchestraModel!=='undefined'){orchestraModel.channels(o.orchestra).forEach((row,index)=>specs.push(routeSpec(o,'orch-'+row.id,o.orchestra?.mode==='single'?(o.label||row.name):(o.label||'Orchester')+' · '+row.name,'Mic','Mic',{connector:'XLR',portIndex:index+1})));continue;}
+      if(o.type==='orchestra'&&typeof orchestraModel!=='undefined'){orchestraModel.channels(o.orchestra).forEach((row,index)=>specs.push(routeSpec(o,'orch-'+row.id,o.orchestra?.mode==='single'?(o.label||row.name)+(row.suffix?' · '+row.suffix:''):(o.label||'Orchester')+' · '+row.name,row.pickup==='DI'?'DI':'Mic',row.pickup==='DI'?'Instrument':'Mic',{connector:'XLR',portIndex:index+1,pickup:row.pickup||'Mic'})));continue;}
       if(o.type==='percussion'&&typeof percussionModel!=='undefined'){
         percussionModel.channels(o.percussion).forEach((row,index)=>specs.push(routeSpec(o,'perc-'+row.id,(o.label||'Percussion')+' · '+row.name,row.side?'Stereo '+row.side:row.electronic?'Direct':'Mic',row.electronic?'Line':'Mic',{connector:row.connector,microphone:row.microphone||'',phantom:row.phantom===true,portIndex:index+1,stereoGroup:row.stereoGroup?o.id+':perc-'+row.stereoGroup:''})));continue;
       }
@@ -12194,7 +12264,7 @@ function createStageplotSymbolV3(type, options = {}) {
         const channels=drumModel.drumChannels(o.type,o.drums).map(row=>({id:row.id,name:row.name,method:row.method,microphone:row.model,phantom:row.phantom}));
         channels.forEach((row,index)=>{const direct=row.method==='di';specs.push(routeSpec(o,'drum-'+(row.id||index+1),'Drums · '+row.name,direct?'DI':'Mic',direct?'Line':'Mic',{connector:'XLR',portIndex:index+1,microphone:row.microphone||'',phantom:row.phantom===true}));});continue;
       }
-      if(!c.instrument)continue;const io=objectIo(o),base=objectOutputBaseName(o),signal=objectOutputSignal(o,io.outputs.connector);
+      if(!c.instrument&&!(c.category==='amps'&&o.io))continue;const io=objectIo(o),base=objectOutputBaseName(o),signal=objectOutputSignal(o,io.outputs.connector);
       for(let index=0;index<io.outputs.count;index++){const number=index+1,pairStart=io.stereoPairs.find(start=>number===start||number===start+1),linked=Number.isInteger(pairStart),side=linked?(number===pairStart?'L':'R'):'',alias=ioAliasAt(io,'outputs',number),namedBase=base+(alias?' · '+alias:''),suffix=linked?' · '+side:io.outputs.count>1&&!alias?' · Out '+number:'',mode=linked?(side==='L'?'Stereo L':'Stereo R'):signal==='Instrument'?'DI':signal==='Mic'?'Mic':io.outputs.count===1?'Mono':'Direct',stereoGroup=linked?o.id+':stereo-out-'+pairStart:'';specs.push(routeSpec(o,objectOutputPortKey(o,index),namedBase+suffix,mode,signal,{connector:io.outputs.connector,portIndex:number,stereoGroup}));}
     }
     return specs;
@@ -12527,22 +12597,38 @@ function audioObjectChannels(o){
   const rows=audioObjectRows(o);return ['inputs','outputs'].map(direction=>{const list=rows.filter(item=>item.direction===direction).map(item=>item.row.number||'—');return list.length?(direction==='inputs'?'CH ':o.type==='rack'?'AUX ':'OUT ')+[...new Set(list)].join(' / '):'';}).filter(Boolean).join(' · ');
 }
 
+function applyOrchestraPickupChanges(o,previous,next){
+  const before=new Map(orchestraModel.channels(previous).map(row=>[row.id,row.pickup||'Mic']));
+  for(const spec of orchestraModel.channels(next)){
+    const pickup=spec.pickup||'Mic';if(!before.has(spec.id)||before.get(spec.id)===pickup)continue;
+    const key=o.id+':orch-'+spec.id;
+    for(const row of stage.routing.inputs)for(const member of audioMembers(row))if(member.sourceKey===key)Object.assign(member,{pickup,signalType:pickup==='DI'?'Instrument':'Mic',mode:'Mono',stereoGroup:'',connector:'XLR',edited:true});
+  }
+}
 function audioSignalFormatControls(o){
-  const io=objectIo(o);if(!byId[o.type]?.instrument||['drums','percussion','orchestra','di','rack','laptop'].includes(o.type)||io.outputs.count>2)return '';
+  const io=objectIo(o),c=byId[o.type],solo=o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts?.length===1;if(!(c?.instrument||c?.category==='amps')||drumModel.isDrums(o.type)||c.percussionPart||['percussion','di','rack','laptop'].includes(o.type)||(o.type==='orchestra'&&!solo))return '';
+  if(io.outputs.count>2)return '<div class="sp-direct-field"><span>Signale · Ausgänge 1 und 2</span><button type="button" class="sp-button" data-object-format="dual"'+(o.locked?' disabled':'')+'>Dual Mono</button><small>Zwei unabhängige Abnahmen. Weitere Ausgänge bleiben erhalten.</small></div>';
   const format=io.stereoPairs.length?'stereo':io.outputs.count===2?'dual':'mono';
-  return '<div class="sp-direct-field"><span>Signale</span><div class="sp-choice-pills" role="group" aria-label="Signalformat">'+[['mono','Mono'],['stereo','Stereo'],['dual','Dual Mono']].map(([value,label])=>'<button type="button" data-object-format="'+value+'" aria-pressed="'+(value===format)+'"'+(o.locked?' disabled':'')+'>'+label+'</button>').join('')+'</div><small>Dual Mono: zwei getrennte Abnahmen, z. B. DI und Mikrofon.</small></div>';
+  return '<div class="sp-direct-field"><span>Signale</span><div class="sp-choice-pills" role="group" aria-label="Signalformat">'+(solo?[['mono','Mono'],['dual','Dual Mono']]:[['mono','Mono'],['stereo','Stereo'],['dual','Dual Mono']]).map(([value,label])=>'<button type="button" data-object-format="'+value+'" aria-pressed="'+(value===format)+'"'+(o.locked?' disabled':'')+'>'+label+'</button>').join('')+'</div><small>Dual Mono: zwei getrennte Abnahmen, z. B. DI und Mikrofon.</small></div>';
 }
 function setAudioObjectFormat(o,format){
   if(sharedReadOnly||!o||o.locked||!['mono','stereo','dual'].includes(format))return;
-  const current=objectIo(o);if((current.stereoPairs.length?'stereo':current.outputs.count===2?'dual':'mono')===format)return;
+  const current=objectIo(o),own=generatedInputSpecs().filter(row=>row.sourceKey.startsWith(o.id+':')).slice(0,2),used=own.filter(spec=>stage.routing.inputs.some(row=>audioMembers(row).some(member=>member.sourceKey===spec.sourceKey)));
+  if(format==='dual'&&current.outputs.count>=2&&!current.stereoPairs.includes(1)&&used.length===2&&current.aliases.outputs[0]==='DI'&&current.aliases.outputs[1]==='Mikrofon')return;
+  if(format==='mono'&&current.outputs.count===1&&used.length===1||format==='stereo'&&current.outputs.count===2&&current.stereoPairs.includes(1)&&used.length===2)return;
   change(()=>{
-    const io=objectIo(o);io.outputs.count=format==='mono'?1:2;io.stereoPairs=format==='stereo'?[1]:[];
-    io.aliases.outputs=format==='dual'?['DI','Mikrofon']:['',''];o.io=io;
-    for(const row of stage.routing.inputs.filter(row=>row.sourceKey.startsWith(o.id+':'))){row.edited=false;row.stereoGroup='';row.mode='Mono';}
+    if(o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts.length===1){const previous=clone(o.orchestra);o.orchestra.parts[0].pickup=format==='dual'?'dual':'mic';applyOrchestraPickupChanges(o,previous,o.orchestra);}
+    const io=objectIo(o),multi=io.outputs.count>2;
+    io.outputs.count=multi?io.outputs.count:format==='mono'?1:2;
+    io.stereoPairs=multi?io.stereoPairs.filter(start=>start!==1):format==='stereo'?[1]:[];
+    const aliases=[...(io.aliases.outputs||[])];aliases[0]=format==='dual'?'DI':'';aliases[1]=format==='dual'?'Mikrofon':'';io.aliases.outputs=aliases.slice(0,io.outputs.count);o.io=io;
+    const specs=generatedInputSpecs().filter(row=>row.sourceKey.startsWith(o.id+':')).slice(0,2),keys=new Set(specs.map(row=>row.sourceKey));
+    stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>!keys.has(key));
+    for(const row of stage.routing.inputs.filter(row=>keys.has(row.sourceKey))){row.edited=false;row.stereoGroup='';row.mode='Mono';}
     syncRoutingFromStage(false,false);
-    const specs=generatedInputSpecs().filter(row=>row.sourceKey.startsWith(o.id+':'));
     if(format==='dual')for(const [index,spec] of specs.entries()){
-      const row=stage.routing.inputs.find(row=>row.sourceKey===spec.sourceKey);if(!row)continue;
+      let row=stage.routing.inputs.find(row=>audioMembers(row).some(member=>member.sourceKey===spec.sourceKey));
+      if(!row){row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing.inputs.length,'inputs');stage.routing.inputs.push(row);}
       Object.assign(row,{edited:true,mode:'Mono',stereoGroup:'',pickup:index===0?'DI':'Mic',signalType:index===0?'Instrument':'Mic',connector:'XLR'});
       if(index===1&&(!row.microphone||row.microphone==='Direktausgang')){row.microphone='';row.phantom=false;}
     }
@@ -12564,7 +12650,7 @@ function linkAudioDi(o,targetId){
 
 function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
-  host.hidden=!all.length&&!rows.length&&o.type!=='laptop';if(host.hidden)return;
+  host.hidden=!all.length&&!rows.length&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
   const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),available=all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
   host.innerHTML=(o.type==='rack'?iemMonitorShortcut(o):o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4>'+audioSignalFormatControls(o)+audioDiControls(o)+'<p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }
@@ -13650,7 +13736,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     saveThemePreference($('sp-setting-theme').value);syncAppearanceControls();$('sp-settings-dialog').close();
     if(view==='print')renderPrint();else if(view==='editor')renderEditor();else queueDraw();say('Ansichtseinstellungen übernommen');
   });
-  $('sp-multi-toggle').addEventListener('click',()=>{finishEdit();cancelPlacement(false);selectionMode=!selectionMode;panMode=false;spaceHeld=false;selectedObjects();renderEditor();say(selectionMode?'Objekte antippen · Shift-Klick am Rechner fügt ebenfalls hinzu':'Auswahl zum gemeinsamen Verschieben bereit');});
+  $('sp-multi-toggle').addEventListener('click',()=>{finishEdit();cancelPlacement(false);selectionMode=!selectionMode;panMode=false;spaceHeld=false;selectedObjects();renderEditor();say(selectionMode?'Objekte antippen · Cmd-/Strg-Klick am Rechner fügt hinzu':'Auswahl zum gemeinsamen Verschieben bereit');});
   $('sp-multi-all').addEventListener('click',()=>{setSelection(objects.map(o=>o.id));renderEditor();});
   $('sp-multi-done').addEventListener('click',()=>{if(selectionMode)selectionMode=false;else setSelection([]);renderEditor();});
   $('sp-multi-edit').addEventListener('click',()=>{selectionMode=false;setInspectorTab('properties');setWorkspacePanel('inspector',true);renderEditor();});
@@ -13940,7 +14026,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const art={splash:'<circle cx="26" cy="26" r="17"/><circle cx="26" cy="26" r="4"/>',china:'<circle cx="26" cy="26" r="20"/><circle cx="26" cy="26" r="15"/><path d="M7 26q19-8 38 0"/>',clapstack:'<ellipse cx="25" cy="27" rx="21" ry="20" fill="#656a68"/><ellipse cx="27" cy="27" rx="18" ry="17" fill="#aeb2b0"/><ellipse cx="26" cy="25.5" rx="15" ry="14.5" fill="#e7e9e7"/><path d="M13 22q13-9 26 0M16 29q10 7 20 0" fill="none" stroke="#f7f8f6"/><circle cx="26" cy="26" r="3.1" fill="#242725"/><circle cx="26" cy="26" r=".8" fill="#ddd"/>'}[kind];
     return art?'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="#eee" stroke="#444" stroke-width="1">'+art+'</svg>'):'';
   };
-  const drumThumbSource=kind=>kind?.startsWith('extra-')?(kind==='extra-vocal-boom'?'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -60 120 120">'+percussionModel.imageMarkup(percussionModel.part('vocal-boom','p1'))+'</svg>'):({'extra-cajon':'../percussion/cajon-top-v1.png','extra-kick':'kick-overhead-v3.png','extra-snare':'snare.webp','extra-throne':'throne.webp'}[kind]||'../percussion/'+percussionModel.byId[kind.slice(6)].asset+'.webp')):['splash','china','clapstack'].includes(kind)?drumCymbalGhost(kind):({throne:'throne.webp',kick:'kick-overhead-v3.png',snare:'snare.webp',side:'snare.webp',rack:'rack-tom.webp',floor:'floor-tom.webp',hihat:'hihat-overhead-v2.png',ride:'ride.webp',crash:'crash.webp',pad:'spdsx-overhead-preview-v1.png',mixer:'racktable-mixer-overhead-preview-v1.png',laptop:'racktable-laptop-overhead-preview-v1.png'}[kind]||'rack-tom.webp');
+  const drumThumbSource=kind=>kind?.startsWith('extra-')?(kind==='extra-vocal-boom'?'../percussion/vocal-boom-top-v1.png':({'extra-cajon':'../percussion/cajon-top-v1.png','extra-kick':'kick-overhead-v3.png','extra-snare':'snare.webp','extra-throne':'throne.webp'}[kind]||'../percussion/'+percussionModel.byId[kind.slice(6)].asset+'.webp')):['splash','china','clapstack'].includes(kind)?drumCymbalGhost(kind):({throne:'throne.webp',kick:'kick-overhead-v3.png',snare:'snare.webp',side:'snare.webp',rack:'rack-tom.webp',floor:'floor-tom.webp',hihat:'hihat-overhead-v2.png',ride:'ride.webp',crash:'crash.webp',pad:'spdsx-overhead-preview-v1.png',mixer:'racktable-mixer-overhead-preview-v1.png',laptop:'racktable-laptop-overhead-preview-v1.png'}[kind]||'rack-tom.webp');
   function ensureDrumPlacementGhost(){
     const host=$('sp-drum-preview');let ghost=host.querySelector('.sp-drum-placement-ghost');
     if(!ghost){ghost=document.createElement('div');ghost.className='sp-drum-placement-ghost';ghost.hidden=true;ghost.innerHTML='<img alt="">';host.append(ghost);}
@@ -13956,12 +14042,20 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     drumPendingKind=drumPendingKind===kind?null:kind;drumSelectedPart=null;drumHoverPart=null;syncDrumPlacementState();syncDrumControlVisibility();
     if(drumPendingKind&&workspaceCompact())setDrumMobilePanel('canvas');
   }
+  let drumView=null,drumViewPan=null;
+  function fitDrumView(layout){const base=layout.positionVb||layout.vb,origin=layout.origin||{x:0,y:0};drumView={x:base[0]-origin.x-layout.vb[0]/2,y:base[1]-origin.y-layout.vb[1]/2,w:Math.max(240,layout.vb[0]+80),h:Math.max(180,layout.vb[1]+80)};}
+  function applyDrumView(layout=drumModel.drumLayout(drumDraftType,drumDraft)){
+    const svg=$('sp-drum-preview').querySelector('svg');if(!svg)return;if(!drumView)fitDrumView(layout);
+    const base=layout.positionVb||layout.vb,origin=layout.origin||{x:0,y:0},x=layout.vb[0]+origin.x-base[0],y=layout.vb[1]+origin.y-base[1];
+    svg.setAttribute('viewBox',[drumView.x+x-drumView.w/2,drumView.y+y-drumView.h/2,drumView.w,drumView.h].join(' '));
+  }
+  function drumStoredPoint(point,layout){const base=layout.positionVb||layout.vb,origin=layout.origin||{x:0,y:0};return {x:(point.x+origin.x)/base[0],y:(point.y+origin.y)/base[1]};}
   function renderDrumPreview(){
     const o=objects.find(v=>v.id===drumObjectId);if(!o)return;
     const layout=drumModel.drumLayout(drumDraftType,drumDraft);
     const drumMicParts=[...new Set(drumModel.drumChannels(drumDraftType,drumDraft).filter(row=>!row.overhead&&row.method!=='di').map(row=>row.part))],key=JSON.stringify([layout,drumMicParts]),host=$('sp-drum-preview'),cx=layout.vb[0]/2,cy=layout.vb[1]/2;
     if(host.dataset.geometry!==key){host.innerHTML='<svg viewBox="0 0 '+layout.vb.join(' ')+'"><g data-designer-rotation="180" transform="rotate(180 '+cx+' '+cy+')">'+createStageplotSymbolV3(drumDraftType,{drumLayout:layout,drumMicParts,idPrefix:'designer-'+(drumObjectId||'draft')})+'</g><g class="sp-drum-module-controls">'+drumRotationControls(layout)+'</g></svg>';host.dataset.geometry=key;host.dataset.stageRotation='180';}
-    ensureDrumPlacementGhost();
+    applyDrumView(layout);ensureDrumPlacementGhost();
     const svg=host.querySelector('svg');
     fitDrumToolbars(svg,layout);
     if(drumSelectedPart&&!layout.parts.some(p=>p.id===drumSelectedPart))drumSelectedPart=null;
@@ -13992,9 +14086,9 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   }
   function storeDrumPartPosition(id,point,layout){
     const part=layout.parts.find(p=>p.id===id);if(!part||!point)return null;
-    const halfW=(part.w||part.r*2)/2+5,halfH=(part.h||part.r*2)/2+5;
-    const placed={x:drumClamp(point.x,halfW,layout.vb[0]-halfW),y:drumClamp(point.y,halfH,layout.vb[1]-halfH)};
-    drumDraft.positions??={};drumDraft.positions[id]={x:placed.x/layout.vb[0],y:placed.y/layout.vb[1]};return placed;
+    const base=layout.positionVb||layout.vb,origin=layout.origin||{x:0,y:0},saved=drumStoredPoint(point,layout);
+    saved.x=drumClamp(saved.x,-16,16);saved.y=drumClamp(saved.y,-16,16);
+    drumDraft.positions??={};drumDraft.positions[id]=saved;return {x:saved.x*base[0]-origin.x,y:saved.y*base[1]-origin.y};
   }
   function addDrumPart(kind,position=null){
     if(!drumDraft)return;const before=drumStateSnapshot(),d=drumDraft;let id=null,limit='';
@@ -14015,7 +14109,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     else if(kind==='bongos'){d.bongos=true;id='bongos';}
     else if(kind==='mixer'||kind==='laptop'){d.table=kind;id='table';}
     if(!id)return;
-    if(position){d.positions??={};d.positions[id]={x:drumClamp(position.x,.02,.98),y:drumClamp(position.y,.02,.98)};}
+    if(position){d.positions??={};d.positions[id]={x:drumClamp(position.x,-16,16),y:drumClamp(position.y,-16,16)};}
     d.zOrder=(d.zOrder||[]).filter(partId=>partId!==id);d.zOrder.push(id);
     drumSelectedPart=id;refreshDrumDialog();recordDrumHistory(before);if(limit)$('sp-drum-selected-part').textContent=limit+' · '+drumPartLabel(id)+' ausgewählt';
   }
@@ -14047,7 +14141,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   const drumPreviewHost=$('sp-drum-preview'),drumPaletteHost=$('sp-drum-palette');
   drumPaletteHost.insertAdjacentHTML('beforeend','<h3>Percussion &amp; Gesang</h3>'+percussionModel.catalog.filter(c=>!['kick','snare','throne'].includes(c.id)).map(c=>'<button class="sp-drum-library-item" type="button" data-drum-add="extra-'+c.id+'"><svg viewBox="-50 -50 100 100" width="48" height="48" aria-hidden="true">'+percussionModel.imageMarkup(percussionModel.part(c.id,'p1'))+'</svg><span><strong>'+esc(c.name)+'</strong></span></button>').join(''));
   $('sp-drum-hardware').addEventListener('change',e=>{const key=e.target.dataset.drumExtraField,p=drumDraft?.extras?.parts.find(p=>'extra-'+p.id===drumSelectedPart);if(!p||!['label','width','depth'].includes(key)||!e.target.validity.valid)return;const before=drumStateSnapshot();p[key]=key==='label'?e.target.value:e.target.valueAsNumber/100;refreshDrumDialog();recordDrumHistory(before);});
-  $('sp-drum-hardware').addEventListener('click',e=>{const pickup=e.target.closest('[data-drum-cajon-pickup]'),crash=e.target.closest('[data-drum-cajon-crash]'),p=drumDraft?.extras?.parts.find(p=>'extra-'+p.id===drumSelectedPart);if(!p)return;if(pickup){const before=drumStateSnapshot();p.pickup=pickup.dataset.drumCajonPickup;refreshDrumDialog();recordDrumHistory(before);}if(crash){const layout=drumModel.drumLayout(drumDraftType,drumDraft),part=layout.parts.find(p=>p.id===drumSelectedPart);addDrumPart('crash',{x:(part.x+(crash.dataset.drumCajonCrash==='left'?25:-25))/layout.vb[0],y:(part.y+8)/layout.vb[1]});}});
+  $('sp-drum-hardware').addEventListener('click',e=>{const pickup=e.target.closest('[data-drum-cajon-pickup]'),crash=e.target.closest('[data-drum-cajon-crash]'),p=drumDraft?.extras?.parts.find(p=>'extra-'+p.id===drumSelectedPart);if(!p)return;if(pickup){const before=drumStateSnapshot();p.pickup=pickup.dataset.drumCajonPickup;refreshDrumDialog();recordDrumHistory(before);}if(crash){const layout=drumModel.drumLayout(drumDraftType,drumDraft),part=layout.parts.find(p=>p.id===drumSelectedPart);addDrumPart('crash',drumStoredPoint({x:part.x+(crash.dataset.drumCajonCrash==='left'?25:-25),y:part.y+8},layout));}});
   function rotateDrumPart(id,amount){
     if(!drumDraft||!id)return;const before=drumStateSnapshot();drumDraft.rotations??={};drumDraft.rotations[id]=((Number(drumDraft.rotations[id]||0)+amount)%360+360)%360;drumSelectedPart=id;renderDrumPreview();recordDrumHistory(before);
   }
@@ -14056,7 +14150,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     if(!drumDraft||!id||!target)return;const before=drumStateSnapshot(),layout=drumModel.drumLayout(drumDraftType,drumDraft),order=layout.parts.map(part=>part.id),from=order.indexOf(id),to=order.indexOf(target);if(from<0||to<0||from<=to)return;order.splice(from,1);order.splice(to,0,id);drumDraft.zOrder=order;drumSelectedPart=id;renderDrumPreview();recordDrumHistory(before);
   }
   function duplicateDrumPart(id){
-    const kind=drumDuplicateKind(id),layout=drumDraft&&drumModel.drumLayout(drumDraftType,drumDraft),part=layout?.parts.find(item=>item.id===id);if(!kind||!part)return;addDrumPart(kind,{x:drumClamp(part.x/layout.vb[0]+.045,.02,.98),y:drumClamp(part.y/layout.vb[1]+.045,.02,.98)});
+    const kind=drumDuplicateKind(id),layout=drumDraft&&drumModel.drumLayout(drumDraftType,drumDraft),part=layout?.parts.find(item=>item.id===id);if(!kind||!part)return;addDrumPart(kind,drumStoredPoint({x:part.x+7,y:part.y+7},layout));
   }
   function removeDrumPartById(id){if(!removableDrumPart(id))return;drumSelectedPart=id;removeSelectedDrumPart();}
   let drumRotateHold=null,suppressDrumToolbarClick=false;
@@ -14079,7 +14173,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     // pointerdown instead of treating it as a click on empty canvas.
     if(!drumPendingKind){if(drumPointerOnPart){drumPointerOnPart=false;return;}if(!e.target.closest?.('[data-drum-part]'))selectDrumPart(null);return;}
     const o=objects.find(v=>v.id===drumObjectId),layout=o&&drumModel.drumLayout(drumDraftType,drumDraft),point=layout&&drumSvgPoint(e,layout),kind=drumPendingKind;if(!point)return;
-    addDrumPart(kind,{x:point.x/layout.vb[0],y:point.y/layout.vb[1]});drumPendingKind=null;syncDrumPlacementState();e.preventDefault();
+    addDrumPart(kind,drumStoredPoint(point,layout));drumPendingKind=null;syncDrumPlacementState();e.preventDefault();
   });
   drumPreviewHost.addEventListener('keydown',e=>{
     const hold=e.target.closest?.('[data-drum-rotate-hold]'),zero=e.target.closest?.('[data-drum-zero]'),behind=e.target.closest?.('[data-drum-behind]'),duplicate=e.target.closest?.('[data-drum-duplicate]'),remove=e.target.closest?.('[data-drum-delete]'),action=hold||zero||behind||duplicate||remove;if(!['Enter',' '].includes(e.key)||!action)return;e.preventDefault();if(action.dataset.disabled==='true')return;
@@ -14096,12 +14190,14 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   drumPreviewHost.addEventListener('pointerdown',e=>{
     drumPointerOnPart=false;
     if(drumPendingKind||e.target.closest?.('[data-drum-rotate-controls]'))return;
-    const node=e.target.closest?.('[data-drum-part]'),o=objects.find(v=>v.id===drumObjectId);if(!node||!o||e.button!==0)return;
+    const node=e.target.closest?.('[data-drum-part]'),o=objects.find(v=>v.id===drumObjectId);if(!o||e.button!==0)return;
+    if(!node){const matrix=drumPreviewHost.querySelector('svg')?.getScreenCTM();if(!matrix)return;drumViewPan={pointer:e.pointerId,x:e.clientX,y:e.clientY,view:{...drumView},scale:matrix.a};drumPreviewHost.setPointerCapture(e.pointerId);e.preventDefault();return;}
     const layout=drumModel.drumLayout(drumDraftType,drumDraft),part=layout.parts.find(p=>p.id===node.dataset.drumPart),point=drumSvgPoint(e,layout);if(!part||!point)return;
     const nodes=[...drumPreviewHost.querySelectorAll('[data-drum-part="'+part.id+'"]')].map(node=>({node,transform:node.getAttribute('transform')||''}));selectDrumPart(part.id);drumPointerOnPart=true;drumPartDrag={pointer:e.pointerId,id:part.id,nodes,layout,part,start:point,original:drumDraft.positions?.[part.id]?clone(drumDraft.positions[part.id]):null,before:drumStateSnapshot(),moved:false};
     drumPreviewHost.setPointerCapture(e.pointerId);e.preventDefault();
   });
   drumPreviewHost.addEventListener('pointermove',e=>{
+    if(drumViewPan?.pointer===e.pointerId){drumView.x=drumViewPan.view.x-(e.clientX-drumViewPan.x)/drumViewPan.scale;drumView.y=drumViewPan.view.y-(e.clientY-drumViewPan.y)/drumViewPan.scale;applyDrumView();e.preventDefault();return;}
     const ghost=drumPreviewHost.querySelector('.sp-drum-placement-ghost');
     if(drumPendingKind){const rect=drumPreviewHost.getBoundingClientRect();ghost.hidden=false;ghost.style.left=(e.clientX-rect.left)+'px';ghost.style.top=(e.clientY-rect.top)+'px';return;}
     const drag=drumPartDrag;if(!drag||drag.pointer!==e.pointerId)return;const point=drumSvgPoint(e,drag.layout);if(!point)return;
@@ -14112,6 +14208,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   });
   drumPreviewHost.addEventListener('pointerleave',()=>{const ghost=drumPreviewHost.querySelector('.sp-drum-placement-ghost');if(ghost)ghost.hidden=true;});
   function finishDrumPartDrag(e,cancel=false){
+    if(drumViewPan?.pointer===e.pointerId){if(cancel)drumView=drumViewPan.view;drumViewPan=null;if(drumPreviewHost.hasPointerCapture(e.pointerId))drumPreviewHost.releasePointerCapture(e.pointerId);applyDrumView();return;}
     const drag=drumPartDrag;if(!drag||drag.pointer!==e.pointerId)return;
     if(cancel){if(drag.original){drumDraft.positions??={};drumDraft.positions[drag.id]=drag.original;}else delete drumDraft.positions?.[drag.id];}
     drumPartDrag=null;if(drumPreviewHost.hasPointerCapture(e.pointerId))drumPreviewHost.releasePointerCapture(e.pointerId);
@@ -14119,6 +14216,9 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   }
   drumPreviewHost.addEventListener('pointerup',e=>{if(drumRotateHold?.pointer===e.pointerId)stopDrumRotateHold(e.pointerId);else finishDrumPartDrag(e);});
   drumPreviewHost.addEventListener('pointercancel',e=>{if(drumRotateHold?.pointer===e.pointerId)stopDrumRotateHold(e.pointerId);else finishDrumPartDrag(e,true);});
+  function zoomDrumView(factor){if(!drumView||drumPartDrag)return;const next=drumClamp(drumView.w*factor,60,2400),ratio=next/drumView.w;drumView.w=next;drumView.h*=ratio;applyDrumView();}
+  drumPreviewHost.addEventListener('wheel',e=>{if(!drumDraft)return;e.preventDefault();zoomDrumView(e.deltaY>0?1.12:1/1.12);},{passive:false});
+  root.querySelector('.sp-drum-view-tools').addEventListener('click',e=>{const action=e.target.closest('[data-drum-view]')?.dataset.drumView;if(!action||!drumDraft)return;if(action==='fit'){fitDrumView(drumModel.drumLayout(drumDraftType,drumDraft));applyDrumView();}else zoomDrumView(action==='in'?1/1.3:1.3);});
   drumPaletteHost.addEventListener('click',e=>{const preset=e.target.closest('[data-hybrid-preset]');if(preset){const before=drumStateSnapshot(),name=preset.dataset.hybridPreset;drumDraft=drumModel.normalizeDrums({...(name==='drums'?drumModel.drumDefaults():{kickCount:0,snare:false,throne:false,hihat:false,ride:false,rackToms:[],floorToms:[],crashes:[],splash:0,china:0,clapstack:false,pad:false,bongos:false,table:'off',positions:{}}),extras:percussionModel.preset(name==='percussion'?'compact':name==='cajon'?'cajon':'empty')});drumSelectedPart=null;drumPendingKind=null;refreshDrumDialog();recordDrumHistory(before);return;}const button=e.target.closest('[data-drum-add]');if(!button)return;e.preventDefault();setDrumPending(button.dataset.drumAdd);});
   $('sp-drum-remove-part').addEventListener('click',removeSelectedDrumPart);
   $('sp-drum-reset-layout').addEventListener('click',()=>{if(!drumDraft)return;const before=drumStateSnapshot(),d=drumDraft,kickMics=Object.fromEntries(['kick1-in','kick1-out'].flatMap(id=>d.mics?.[id]?[[id,clone(d.mics[id])]]:[]));Object.assign(d,{extras:{parts:[]},kickCount:0,throne:false,snare:false,side:false,rackToms:[],floorToms:[],hihat:false,ride:false,crashes:[],splash:0,china:0,clapstack:false,pad:false,bongos:false,table:'off',riserPreset:'none',overheads:'off',room:'off'});d.positions={};d.rotations={};d.zOrder=[];d.overheadPickup={};d.mics=kickMics;drumSelectedPart=null;drumPendingKind=null;refreshDrumDialog();recordDrumHistory(before);say('Alle Teile gelöscht · Rückgängig ist möglich');});
@@ -14145,7 +14245,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const percussionObject=objects.find(o=>o.id===selected&&o.type==='percussion');if(percussionObject){if(!percussionObject.locked){cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();const copy=clone(percussionObject);copy.percussion=percussionModel.normalize(copy.percussion);for(const p of copy.percussion.parts)for(const row of percussionModel.channels({parts:[p]})){const route=stage.routing.inputs.find(r=>r.sourceKey===copy.id+':perc-'+row.id);if(route&&!row.electronic){p.mics??=[];p.mics[Number(row.id.split('-').at(-1))-1]={model:route.microphone,phantom:route.phantom};}}percussionEditor.open(copy,e?.currentTarget);}return;}
     const o=objects.find(v=>v.id===selected);if(!o||o.locked||!drumModel.isDrums(o.type))return;
     drumDialogReturnFocus=e?.currentTarget||$('sp-drums-open');
-    cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();drumObjectId=o.id;drumDraftType='drums';drumDraft=StageplotMics.hydrateDrums(drumModel.normalizeDrums(o.drums),o.id,stage.routing);drumMicBaseline=clone(drumDraft);drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;
+    cancelPlacement(false);finishEdit();spaceHeld=false;syncViewControls();drumView=null;drumViewPan=null;drumObjectId=o.id;drumDraftType='drums';drumDraft=StageplotMics.hydrateDrums(drumModel.normalizeDrums(o.drums),o.id,stage.routing);drumMicBaseline=clone(drumDraft);drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;
     $('sp-drum-design-name').value=o.label&&o.label!==byId[o.type].short?o.label:'Mein Drumset';$('sp-drum-design-save').textContent='Speichern';$('sp-drum-hardware').replaceChildren();loadDrumDesignLibrary();drumDesignStatus('');refreshDrumDialog();setDrumMobilePanel('canvas');syncDrumHistory();$('sp-drum-dialog').showModal();
   }
   for(const id of ['sp-drums-open','sp-drum-hover-open'])$(id).addEventListener('click',openSelectedDrumDesigner);
@@ -14192,7 +14292,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   $('sp-drum-design-load-list').addEventListener('click',e=>{const load=e.target.closest('[data-drum-design-load-id]'),remove=e.target.closest('[data-drum-design-remove-id]');if(load){const entry=drumDesigns.find(item=>item.id===load.dataset.drumDesignLoadId);if(entry){applyDrumDesign(entry.document,entry.id);$('sp-drum-design-load-dialog').close();}}else if(remove)requestDeleteDrumDesign(remove.dataset.drumDesignRemoveId);});
   $('sp-drum-design-delete').addEventListener('click',()=>requestDeleteDrumDesign($('sp-drum-design-library').value));
   for(const id of ['sp-drum-close','sp-drum-cancel'])$(id).addEventListener('click',()=>$('sp-drum-dialog').close());
-  $('sp-drum-dialog').addEventListener('close',()=>{closeDrumMicPopup();drumMicPopupChannel=null;drumMicPopupReturnFocus=null;drumDraft=null;drumObjectId=null;drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;drumPreviewHost.replaceChildren();delete drumPreviewHost.dataset.geometry;delete drumPreviewHost.dataset.stageRotation;delete drumPreviewHost.dataset.placeKind;const returnFocus=drumDialogReturnFocus;drumDialogReturnFocus=null;(returnFocus&&!returnFocus.hidden?returnFocus:$('sp-drums-open')).focus({preventScroll:true});});
+  $('sp-drum-dialog').addEventListener('close',()=>{closeDrumMicPopup();drumMicPopupChannel=null;drumMicPopupReturnFocus=null;drumDraft=null;drumView=null;drumViewPan=null;drumObjectId=null;drumSelectedPart=null;drumPartDrag=null;drumPendingKind=null;drumHoverPart=null;activeDrumDesignId=null;drumDesignOverwriteId=null;drumHistory=[];drumFuture=[];drumEditBefore=null;drumPreviewHost.replaceChildren();delete drumPreviewHost.dataset.geometry;delete drumPreviewHost.dataset.stageRotation;delete drumPreviewHost.dataset.placeKind;const returnFocus=drumDialogReturnFocus;drumDialogReturnFocus=null;(returnFocus&&!returnFocus.hidden?returnFocus:$('sp-drums-open')).focus({preventScroll:true});});
   $('sp-drum-form').addEventListener('submit',e=>{
     e.preventDefault();if(!$('sp-drum-form').reportValidity())return;
     const o=objects.find(v=>v.id===drumObjectId);if(!o||o.locked)return;
@@ -14368,7 +14468,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
  function renderProperties(){const p=selectedPart();
   if(!p){properties.innerHTML='<span class="sp-orch-eyebrow">DEIN AUFBAU</span><h3>'+ (draft.mode==='ensemble'?'Symphonie-Orchester':'Klassische Instrumente')+'</h3><p>Gruppen oben ein- und ausschalten. Besetzung links mit −/+ ändern. Jedes Instrument im Plan auswählen und verschieben.</p><p>Positionen bleiben beim Ausschalten erhalten.</p><h4>Aufstellung</h4><p>'+(draft.mode==='ensemble'?'Gegenüberliegende Violinen, Celli innen links, Violen innen rechts. Bläser dahinter, Schlagwerk hinten.':'Instrumente werden mit ihren eingetragenen Maßen dargestellt.')+'</p><p class="sp-orch-source-note">Die Konzertbesetzung variiert je nach Werk. Diese anpassbare Planungsvorlage enthält alle regulären Orchestergruppen.</p>';return;}
   const c=model.byId[p.type],size=model.dimensions(p);
-  properties.innerHTML='<span class="sp-orch-eyebrow">'+esc(model.sectionById[p.section].name)+'</span><h3>'+esc(p.label)+'</h3><div class="sp-orch-selected-image"><img src="./stageplot-assets/orchestra/'+c.asset+'.webp" alt="'+c.name+'"></div><label>Bezeichnung<input data-field="label" maxlength="60" value="'+esc(p.label)+'"></label><div class="sp-orch-actions"><button data-action="rotate-left">↶ 15°</button><button data-action="rotate-right">15° ↷</button><button data-action="rotate-reset">0°</button></div><div class="sp-orch-fields"><label>X (m)<input type="number" data-field="x" value="'+p.x+'" step=".1" min="-25" max="25"></label><label>Y (m)<input type="number" data-field="y" value="'+p.y+'" step=".1" min="-25" max="25"></label></div><div class="sp-orch-fields"><label>Breite (cm)<input type="number" data-field="width" value="'+num(size.w*100).replace(',','.')+'" step=".1" min="2" max="500"></label><label>Länge / Tiefe (cm)<input type="number" data-field="depth" value="'+num(size.d*100).replace(',','.')+'" step=".1" min="2" max="500"></label></div><p>Maße des abgebildeten Instruments. Bei Streichern ist das die Ansicht auf die Saiten; der Spielraum benötigt zusätzlich Platz. Maße an dein Modell anpassen.</p><h4>Abnahme</h4><div class="sp-orch-pickup"><button data-pickup="none" aria-pressed="'+(p.pickup==='none')+'">Akustisch · kein Signal</button><button data-pickup="mic" aria-pressed="'+(p.pickup==='mic')+'">Eigenes Mikrofon</button></div><p>Mikrofon, Kanal und Stagebox danach im gemeinsamen Audio-Plan wählen.</p><div class="sp-orch-actions"><button data-action="duplicate">Duplizieren</button><button data-action="remove">Entfernen</button></div><h4>Instrumente dieser Gruppe</h4>'+draft.parts.filter(i=>i.section===p.section&&i.enabled).map(i=>'<button class="sp-orch-list-item" data-select="'+esc(i.id)+'" aria-pressed="'+(i.id===selected)+'">'+esc(i.label)+'</button>').join('');
+  properties.innerHTML='<span class="sp-orch-eyebrow">'+esc(model.sectionById[p.section].name)+'</span><h3>'+esc(p.label)+'</h3><div class="sp-orch-selected-image"><img src="./stageplot-assets/orchestra/'+c.asset+'.webp" alt="'+c.name+'"></div><label>Bezeichnung<input data-field="label" maxlength="60" value="'+esc(p.label)+'"></label><div class="sp-orch-actions"><button data-action="rotate-left">↶ 15°</button><button data-action="rotate-right">15° ↷</button><button data-action="rotate-reset">0°</button></div><div class="sp-orch-fields"><label>X (m)<input type="number" data-field="x" value="'+p.x+'" step=".1" min="-25" max="25"></label><label>Y (m)<input type="number" data-field="y" value="'+p.y+'" step=".1" min="-25" max="25"></label></div><div class="sp-orch-fields"><label>Breite (cm)<input type="number" data-field="width" value="'+num(size.w*100).replace(',','.')+'" step=".1" min="2" max="500"></label><label>Länge / Tiefe (cm)<input type="number" data-field="depth" value="'+num(size.d*100).replace(',','.')+'" step=".1" min="2" max="500"></label></div><p>Maße des abgebildeten Instruments. Bei Streichern ist das die Ansicht auf die Saiten; der Spielraum benötigt zusätzlich Platz. Maße an dein Modell anpassen.</p><h4>Abnahme</h4><div class="sp-orch-pickup"><button data-pickup="none" aria-pressed="'+(p.pickup==='none')+'">Akustisch · kein Signal</button><button data-pickup="mic" aria-pressed="'+(p.pickup==='mic')+'">Eigenes Mikrofon</button><button data-pickup="dual" aria-pressed="'+(p.pickup==='dual')+'">Dual Mono · DI + Mic</button></div><p>Mikrofon, Kanal und Stagebox danach im gemeinsamen Audio-Plan wählen.</p><div class="sp-orch-actions"><button data-action="duplicate">Duplizieren</button><button data-action="remove">Entfernen</button></div><h4>Instrumente dieser Gruppe</h4>'+draft.parts.filter(i=>i.section===p.section&&i.enabled).map(i=>'<button class="sp-orch-list-item" data-select="'+esc(i.id)+'" aria-pressed="'+(i.id===selected)+'">'+esc(i.label)+'</button>').join('');
  }
  function render(){renderFamilies();renderCatalog();renderCanvas();renderProperties();}
  function add(type){if(draft.parts.length>=180){$('.sp-orch-status').textContent='Maximal 180 Instrumente je Aufbau.';return;}mutate(()=>{const p=model.part(type,freshId(),Math.round((view.x+view.w/2)*10)/10,Math.round((view.y+view.h/2)*10)/10);while(draft.parts.some(o=>Math.hypot(o.x-p.x,o.y-p.y)<.5)&&p.x<24)p.x+=.5;draft.parts.push(p);draft.groups[p.section]=true;selected=p.id;});setPane('canvas');}
@@ -14398,7 +14498,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
  return {open(object,focus,size){if(object.locked)return;objectId=object.id;returnFocus=focus;stageSize=size;draft=model.normalize(object.orchestra);selected=draft.mode==='single'?draft.parts[0]?.id:null;tab=draft.mode==='single'?'instruments':'sections';history=[];future=[];fit();setPane('canvas');render();dialog.showModal();}};
 }
 /* build-inline:end stageplot-orchestra-editor-v1.js */
-  const orchestraEditor=createStageplotOrchestraEditor(root,orchestraModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.orchestra=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Orchester-Aufbau übernommen');});
+  const orchestraEditor=createStageplotOrchestraEditor(root,orchestraModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{applyOrchestraPickupChanges(object,object.orchestra,config);object.orchestra=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Orchester-Aufbau übernommen');});
   const percussionEditor=createStageplotPercussionEditor(root,percussionModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.percussion=config;for(const ch of percussionModel.channels(config)){const row=stage.routing.inputs.find(r=>r.sourceKey===object.id+':perc-'+ch.id);if(row&&!ch.electronic){row.microphone=ch.microphone;row.phantom=ch.phantom;}}object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Percussion-Setup übernommen');});
   function queueDraw(){
     if(frameQueued||!['setup','editor','print'].includes(view))return;frameQueued=true;
@@ -14521,6 +14621,12 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   function redrawFootprintDrag(d){
     drawFloor($('sp-editor-floor'),stage,objects,'editor',d.fixed);d.svg=$('sp-editor-floor').querySelector('svg');inspector();
   }
+  let lastLabelTap=null;
+  function editObjectLabel(id){
+    const o=objects.find(item=>item.id===id);if(sharedReadOnly||!o||o.locked)return;
+    finishEdit();setSelection([id]);setInspectorTab('properties');setWorkspacePanel('inspector',true);inspector();
+    requestAnimationFrame(()=>{$('sp-label').focus();$('sp-label').select();});
+  }
   function startObjectDrag(e){
     focusCanvas();
     const labelTarget=e.target.closest('[data-label-for]'),id=labelTarget?.dataset.labelFor||stageObjectTarget(e.target),stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
@@ -14533,18 +14639,25 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(e.button!==0||drag||sharedReadOnly)return;
     if(placement){commitPlacement(e.currentTarget,e);return;}
     finishEdit();
-    if(id&&(selectionMode||e.shiftKey)){
+    if(id&&(selectionMode||e.shiftKey||e.metaKey||e.ctrlKey)){
+      lastLabelTap=null;
       if(e.pointerType==='touch'){const p=svgPoint(e.currentTarget,e);drag={kind:'select',id,x:p.x,y:p.y,before:snapshot(),moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};drag.capture.setPointerCapture(e.pointerId);}
       else {toggleSelection(id);renderEditor();}
       e.preventDefault();return;
     }
     if(!id&&selectionMode){startViewPan(e);return;}
+    const textTarget=labelTarget||objects.find(o=>o.id===id&&o.type==='text');
+    if(textTarget&&!e.shiftKey&&!e.metaKey&&!e.ctrlKey){
+      const now=Date.now(),again=lastLabelTap?.id===id&&now-lastLabelTap.time<400&&Math.hypot(e.clientX-lastLabelTap.x,e.clientY-lastLabelTap.y)<8;
+      lastLabelTap={id,time:now,x:e.clientX,y:e.clientY};
+      if(again){lastLabelTap=null;e.preventDefault();editObjectLabel(id);return;}
+    }else lastLabelTap=null;
     if(labelTarget){
       const o=objects.find(o=>o.id===id);if(!o)return;setSelection([id]);
       if(o.locked){e.preventDefault();renderEditor();say('Objekt gesperrt · zum Verschieben erst entsperren');return;}
       const p=svgPoint(e.currentTarget,e);
       drag={kind:'label',id,before:snapshot(),x:p.x,y:p.y,ox:Number(labelTarget.dataset.labelOffsetX),oy:Number(labelTarget.dataset.labelOffsetY),originalOffset:o.labelOffset?{...o.labelOffset}:null,label:labelTarget,moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
-      labelTarget.dataset.dragging='true';drag.capture.setPointerCapture(e.pointerId);e.preventDefault();updateList();inspector();positionRotationToolbar(e.currentTarget);return;
+      labelTarget.dataset.dragging='true';drag.capture.setPointerCapture(e.pointerId);e.preventDefault();return;
     }
     const footprintHandle=e.target.closest('[data-footprint-resize]');
     if(footprintHandle){
@@ -14586,13 +14699,13 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     drag={id,before:snapshot(),x:p.x,y:p.y,ox:o.x,oy:o.y,moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
 
     // Capture on the stable canvas host, including moves across the floating toolbar.
-    drag.capture.setPointerCapture(e.pointerId);e.preventDefault();updateList();inspector();positionRotationToolbar(e.currentTarget);
+    drag.capture.setPointerCapture(e.pointerId);e.preventDefault();if(o.type!=='text'){updateList();inspector();positionRotationToolbar(e.currentTarget);}
   }
   function moveObjectDrag(e){
     if(!drag||drag.pointer!==e.pointerId)return;
     const p=svgPoint(drag.svg,e);
     if(Math.hypot(p.x-drag.x,p.y-drag.y)<.04&&!drag.moved)return;
-    drag.moved=true;
+    drag.moved=true;lastLabelTap=null;
     if(drag.kind==='label'){
       const o=objects.find(o=>o.id===drag.id);if(!o||o.locked)return;
       o.labelOffset={x:Math.max(-10000,Math.min(10000,drag.ox+p.x-drag.x)),y:Math.max(-10000,Math.min(10000,drag.oy+p.y-drag.y))};
@@ -14651,11 +14764,14 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(!drag||drag.pointer!==e.pointerId)return;
     const d=drag;drag=null;if(d.capture.hasPointerCapture(e.pointerId))d.capture.releasePointerCapture(e.pointerId);
     if(d.kind==='select'){if(!d.moved)toggleSelection(d.id);renderEditor();return;}
-    keepHistory(d.before);renderEditor();if(d.moved)say(d.kind==='label'?'Beschriftung verschoben':d.kind==='stage-resize'?'Bühne '+num(stage.w)+' × '+metres(stage.d):d.kind==='stairs-width'?'Treppe '+metres(stairState(stage,d.stairId)?.stairsWidth||1.2)+' breit':'Position angepasst');
+    keepHistory(d.before);
+    // Keep the same DOM hit target until a possible second click; automatic labels may move during redraw.
+    if(!d.moved&&(d.kind==='label'||objects.find(o=>o.id===d.id)?.type==='text')){const tap=lastLabelTap;setTimeout(()=>{if(tap&&lastLabelTap===tap&&!drag)renderEditor();},450);return;}
+    renderEditor();if(d.moved)say(d.kind==='label'?'Beschriftung verschoben':d.kind==='stage-resize'?'Bühne '+num(stage.w)+' × '+metres(stage.d):d.kind==='stairs-width'?'Treppe '+metres(stairState(stage,d.stairId)?.stairsWidth||1.2)+' breit':'Position angepasst');
   }
   function cancelObjectDrag(){
     if(!drag)return;
-    const d=drag;drag=null;
+    const d=drag;drag=null;lastLabelTap=null;
     if(d.kind==='label'){const o=objects.find(o=>o.id===d.id);if(o){if(d.originalOffset)o.labelOffset=d.originalOffset;else delete o.labelOffset;}}
     else if(d.kind==='select'){/* A cancelled tap never changes the selection. */}
     else if(d.kind==='footprint'||d.kind==='multi'){const old=JSON.parse(d.before);stage=old.stage;objects=old.objects;}
@@ -14720,7 +14836,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-object-list').addEventListener('click',e=>{
     const lock=e.target.closest('[data-layer-lock]');
     if(lock){e.preventDefault();e.stopPropagation();cancelPlacement(false);finishEdit();const o=objects.find(o=>o.id===lock.dataset.layerLock);if(o){const before=snapshot(),activeTab=inspectorTab;o.locked=!o.locked;keepHistory(before);renderEditor();setInspectorTab(activeTab);requestAnimationFrame(()=>root.querySelector('[data-layer-lock="'+o.id+'"]')?.focus({preventScroll:true}));say(o.locked?'Objekt gesperrt':'Objekt entsperrt');}return;}
-    const b=e.target.closest('[data-select]');if(b){cancelPlacement(false);finishEdit();if((selectionMode||e.shiftKey)&&objects.some(o=>o.id===b.dataset.select))toggleSelection(b.dataset.select);else setSelection([b.dataset.select]);renderEditor();}
+    const b=e.target.closest('[data-select]');if(b){cancelPlacement(false);finishEdit();if((selectionMode||e.shiftKey||e.metaKey||e.ctrlKey)&&objects.some(o=>o.id===b.dataset.select))toggleSelection(b.dataset.select);else setSelection([b.dataset.select]);renderEditor();}
   });
   $('sp-category-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(b){libraryCategory=b.dataset.category;library();}});
   $('sp-library-search').addEventListener('input',library);
@@ -14911,6 +15027,10 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-print-black-stage').addEventListener('change',renderPrint);
   $('sp-print-notes').addEventListener('change',renderPrint);
   $('sp-print-production').addEventListener('change',renderPrint);
+  $('sp-editor-floor').addEventListener('dblclick',e=>{const label=e.target.closest('[data-label-for]'),id=label?.dataset.labelFor||stageObjectTarget(e.target);if(label||objects.find(o=>o.id===id&&o.type==='text')){e.preventDefault();editObjectLabel(id);}});
+  $('sp-object-stairs-steps').addEventListener('focus',()=>{editBefore=snapshot();});
+  $('sp-object-stairs-steps').addEventListener('input',()=>{const o=objects.find(o=>o.id===selected),v=Number($('sp-object-stairs-steps').value);if(!o||o.type!=='stage-stairs'||o.locked||!Number.isFinite(v)||v<1)return;if(!editBefore)editBefore=snapshot();o.steps=Math.max(1,Math.min(24,Math.round(v)));queueDraw();queueDraftSave();});
+  for(const event of ['change','blur'])$('sp-object-stairs-steps').addEventListener(event,()=>{const o=objects.find(o=>o.id===selected);if(o?.type==='stage-stairs')$('sp-object-stairs-steps').value=o.steps||5;finishEdit();});
   ['sp-label','sp-note','sp-outs'].forEach(id=>{
     $(id).addEventListener('focus',()=>{editBefore=snapshot();});
     $(id).addEventListener('input',()=>{
@@ -15050,7 +15170,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     $(id).addEventListener('change',finishEdit);$(id).addEventListener('blur',()=>{finishEdit();inspector();});
   }
   $('sp-object-size-reset').addEventListener('click',()=>{const o=objects.find(item=>item.id===selected);if(o&&!o.locked&&editableObjectSize(o)){finishEdit();change(()=>{const solo=singleOrchestraPart(o);if(solo){delete solo.width;delete solo.depth;}else delete o.dimensions;},'Standardmaße wiederhergestellt');}});
-  for(const [id,key] of [['sp-orchestra-model','type'],['sp-orchestra-pickup','pickup']])$(id).addEventListener('change',()=>{const o=objects.find(o=>o.id===selected),part=singleOrchestraPart(o);if(!part||o.locked)return;change(()=>{if(key==='type'){const old=orchestraModel.byId[part.type];if(o.label===old.name)o.label=orchestraModel.byId[$(id).value].name;if(part.label===old.name)part.label=orchestraModel.byId[$(id).value].name;delete part.width;delete part.depth;}part[key]=$(id).value;syncRoutingFromStage(false);},'Instrument geändert');});
+  for(const [id,key] of [['sp-orchestra-model','type'],['sp-orchestra-pickup','pickup']])$(id).addEventListener('change',()=>{const o=objects.find(o=>o.id===selected),part=singleOrchestraPart(o);if(!part||o.locked)return;change(()=>{const previous=clone(o.orchestra);if(key==='type'){const old=orchestraModel.byId[part.type];if(o.label===old.name)o.label=orchestraModel.byId[$(id).value].name;if(part.label===old.name)part.label=orchestraModel.byId[$(id).value].name;delete part.width;delete part.depth;}part[key]=$(id).value;applyOrchestraPickupChanges(o,previous,o.orchestra);syncRoutingFromStage(false);},'Instrument geändert');});
   function writeIoFromDirectControls(kind){
     const o=objects.find(item=>item.id===selected);if(!o||o.locked||drumModel.isDrums(o.type)||!byId[o.type].instrument)return;const input=$(kind==='inputs'?'sp-ins-count':'sp-outs-count'),options=$(kind==='inputs'?'sp-ins-connector-options':'sp-outs-connector-options'),count=Math.max(0,Math.min(64,Math.round(Number(input.value)||0))),pressed=options.querySelector('[aria-pressed="true"]'),connector=normalizeIoConnector(kind==='inputs'?pressed?.dataset.insConnector:pressed?.dataset.outsConnector,'XLR');
     change(()=>{const io=objectIo(o);io[kind]={count,connector};io.aliases[kind]=normalizeIoAliasList(io.aliases[kind],count);io.stereoPairs=io.stereoPairs.filter(start=>start<io.outputs.count);o.io=io;o.outs=ioValueText(io.outputs,'outputs').replace(/^Keine Outs$/,'');syncRoutingFromStage(false);},(kind==='inputs'?'Inputs':'Outs')+' definiert · '+count+' × '+connector);
