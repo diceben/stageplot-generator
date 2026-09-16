@@ -16,6 +16,7 @@ Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SET
 
 ## Funktionen
 
+- **E-Gitarren und weitere Saiteninstrumente:** Vier bestehende E-Gitarrenbilder ersetzt; elf Modelle unter „Gitarre“: Strat, Telecaster, Jazzmaster, Jaguar, Les Paul, SG, ES-335, Explorer, Flying V, King V und Superstrat. Mandoline, Lap Steel und Ukulele sind eigene Bausteine. Alle 14 Bilder wurden einzeln mit imagegen erstellt und lokal als transparente PNGs eingebunden. [Dateien, Prompts und Herstellerreferenzen](stageplot-assets/objects/electric-instruments-v1.json).
 - **Gitarren und Banjo als Bildassets:** Dreadnought, Cutaway, Klassik, Gypsy, Jazzgitarre und Banjo verwenden sechs separat generierte, transparente PNGs. Gemeinsame Auswahl unter „Akustik & Banjo“; bestehende Typen, Winkel und Routingdaten bleiben erhalten. [Assets, Prompts und Herstellerreferenzen](stageplot-assets/objects/acoustic-instruments-v1.json).
 - **Bedienung:** Stufenanzahl direkt im Auswahl-Popup; Beschriftungen und freie Texte per Doppelklick bearbeiten. Cmd-/Strg-Klick für Mehrfachauswahl, zusätzlicher Auswahlmodus für Touch-Geräte.
 - **Mikrofonfotos:** Alle Katalogeinträge zeigen echte Fotos. Allgemeine Typen haben gekennzeichnete Beispielfotos. [Bildquellen](stageplot-assets/mics/ATTRIBUTION.md).
