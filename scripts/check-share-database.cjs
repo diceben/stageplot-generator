@@ -8,12 +8,12 @@ const S=require('../stageplot-share-v1.js');
   await db.exec("create role anon; create role authenticated; create schema auth; create table auth.users(id uuid primary key); create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$; create function auth.jwt() returns jsonb language sql stable as $$ select jsonb_build_object('is_anonymous',coalesce(nullif(current_setting('request.jwt.claim.is_anonymous',true),''),'true')::boolean) $$; grant usage on schema auth to anon,authenticated; grant usage on schema public to anon,authenticated;");
   const first='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222';
   await db.query('insert into auth.users values ($1),($2)',[first,other]);
-  for(const file of ['0001_stageplot_documents.sql','0002_inventory.sql','0003_project_shares.sql','0004_reusable_share_ids.sql','0005_share_only_guest_access.sql'])await db.exec(fs.readFileSync('supabase/migrations/'+file,'utf8'));
+  for(const file of ['0001_stageplot_documents.sql','0002_inventory.sql','0003_project_shares.sql','0004_reusable_share_ids.sql','0005_share_only_guest_access.sql','0006_share_label_positions.sql'])await db.exec(fs.readFileSync('supabase/migrations/'+file,'utf8'));
   // Sharing migration may safely be applied again.
   await db.exec(fs.readFileSync('supabase/migrations/0004_reusable_share_ids.sql','utf8'));
   const role=async(name,user='',anonymous=true)=>{await db.exec('reset role');await db.query("select set_config('request.jwt.claim.sub',$1,false)",[user]);await db.query("select set_config('request.jwt.claim.is_anonymous',$1,false)",[String(anonymous)]);await db.exec('set role '+name);};
   const call=async(action,id,document)=>{const args=document===undefined?[id]:[id,JSON.stringify(document)];return (await db.query('select public.stageplot_share_'+action+'($1'+(args.length===2?',$2::jsonb':'')+') as value',args)).rows[0].value;};
-  const doc=id=>({stage:{projectId:id,title:'Test',w:8,d:6,project:{contacts:{foh:{contact:'PRIVATE'}},author:'PRIVATE'},routing:{inputs:[{number:1,instrument:'Mic',notes:'PRIVATE'}]}},objects:[{id:'one',type:'mic',note:'PRIVATE',io:{outputs:{count:1,connector:'XLR'}}}],secret:'PRIVATE'});
+  const doc=id=>({stage:{projectId:id,title:'Test',w:8,d:6,project:{contacts:{foh:{contact:'PRIVATE'}},author:'PRIVATE'},routing:{inputs:[{number:1,instrument:'Mic',notes:'PRIVATE'}]}},objects:[{id:'one',type:'mic',labelOffset:{x:-1.25,y:0.45,secret:'PRIVATE'},note:'PRIVATE',io:{outputs:{count:1,connector:'XLR'}}}],secret:'PRIVATE'});
   // Guest identities share plans only; future permanent accounts retain owner-only sync.
   await role('authenticated',first,false);
   await db.query("select public.stageplot_sync_push('project','setup-private',0,'Private',0,'{}',false)");

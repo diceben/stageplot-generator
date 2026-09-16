@@ -12,18 +12,24 @@
   const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
   function frame(width,mode){return {left:width<500?46:70,right:width<500?31:45,header:mode==='editor'&&width<620?120:clamp(width*.084,70,116),bottom:46};}
   function labelMetrics(lines,nameLines,scale,context,riser=false){
-    const unit=clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
+    const unit=.8*clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
     const fonts=lines.map((_,i)=>`${i<nameLines?650:400} ${i<nameLines?fontSize:detailSize}px ${i<nameLines?sans:mono}`);
     const previous=context?.font;
     const widths=lines.map((line,i)=>{if(!context)return line.length*(i<nameLines?fontSize:detailSize)*.65;context.font=fonts[i];return context.measureText(line).width;});
     if(context)context.font=previous;
     return {unit,fontSize,detailSize,lineHeight,padX,padY,fonts,width:Math.ceil(Math.max(...widths)+padX*2),height:Math.ceil(lines.length*lineHeight+padY*2)};
   }
-  function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,text=false,id}={}){
-    const p=palette,{unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
-    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:3*unit,fill:p.label,stroke:riser?p.violet:p.labelBorder,'stroke-width':riser?1.1:.65},parent);
-    if(!riser)add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:p.lime,'data-label-accent':'true'},parent);
-    lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${riser?p.violet:text?p.lime:i<nameLines?p.ink:'#d4d9d5'}`,'data-label-line':i},parent,line));
+  function manualLabelBox(object,width,height,scale,mx,top){
+    const offset=object.labelOffset;
+    if(!offset||!Number.isFinite(offset.x)||!Number.isFinite(offset.y))return null;
+    const x=mx+(object.x+offset.x)*scale,y=top+(object.y+offset.y)*scale;
+    return {left:x-width/2,right:x+width/2,top:y-height/2,bottom:y+height/2};
+  }
+  function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,dark=true,id}={}){
+    const p=dark?palette:{label:'#f7f8f2',labelBorder:'#b9c1bb',ink:'#191f23',muted:'#485155',lime:'#819c23',violet:'#786094'}, {unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
+    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:1.5*unit,fill:p.label,stroke:p.labelBorder,'stroke-width':.75,style:`filter:drop-shadow(0 ${2*unit}px ${2*unit}px ${dark?'#0006':'#0003'})`},parent);
+    add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:riser?p.violet:p.lime,'data-label-accent':'true','pointer-events':'none'},parent);
+    lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start','pointer-events':'none',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${i<nameLines?p.ink:dark?'#d4d9d5':p.muted}`,'data-label-line':i},parent,line));
   }
   function paint({svg,add,stage,bounds,scale,mx,top,W,H,mode,downstageY,showMeasures,transparent}){
     const p=palette,defs=svg.querySelector('defs'),width=bounds?bounds.maxX-bounds.minX:stage.w,depth=bounds?bounds.maxY-bounds.minY:stage.d,rectW=width*scale,rectH=depth*scale;
@@ -104,5 +110,5 @@
     for(const sign of [-1,1])add('line',{x1:audienceX+sign*63,y1:y-3,x2:audienceX+sign*84,y2:y-3,stroke:p.coral,'stroke-width':.8},chrome);
     if(transparent){chrome.querySelectorAll('text').forEach(node=>{node.style.fill=node.textContent==='PUBLIKUM'?'#a84e42':'#343d41';});apply('[data-dim-depth]',{style:`font-family:${mono};font-size:11px;fill:#596267`});}
   }
-  return {palette,frame,labelMetrics,drawLabel,paint};
+  return {palette,frame,labelMetrics,manualLabelBox,drawLabel,paint};
 });

@@ -20,6 +20,10 @@
 #sp-startup p { margin:0; }
 #sp-startup button { min-height:44px; padding:10px 18px; border:1px solid currentColor; border-radius:10px; background:transparent; color:inherit; font:inherit; cursor:pointer; }
 #sp-startup[hidden],#sp-startup [hidden] { display:none !important; }
+#sp-prototype .sp-object-label { cursor:grab; touch-action:none; outline:none; }
+#sp-prototype .sp-object-label[data-dragging="true"] { cursor:grabbing; }
+#sp-prototype .sp-object-label[data-locked="true"] { cursor:not-allowed; }
+#sp-prototype .sp-object-label:is(:hover,:focus-visible) [data-label-background] { stroke:var(--sp-teal); stroke-width:1.5; }
 </style>
 <div id="sp-startup" role="status" aria-live="polite"><strong>Stageplotter</strong><p id="sp-startup-message">Wird geladen …</p><button id="sp-startup-retry" type="button" hidden>Erneut laden</button><noscript>Bitte aktiviere JavaScript, um Stageplotter zu verwenden.</noscript></div>
 <script>
@@ -378,6 +382,8 @@
           <section class="sp-inspector-section">
             <div class="sp-inspector-section-heading"><h4>Beschriftung</h4><label class="sp-inspector-switch"><input id="sp-label-visible" type="checkbox" checked><span class="sp-switch-track" aria-hidden="true"></span><span>Sichtbar</span></label></div>
             <label class="sp-field"><span class="sp-visually-hidden">Beschriftung</span><input id="sp-label" maxlength="42" placeholder="Name im Bühnenplan"></label>
+            <small class="sp-muted">Schild im Plan ziehen · fokussiert auch mit Pfeiltasten.</small>
+            <button type="button" class="sp-button" id="sp-label-position-reset" disabled>Automatisch platzieren</button>
           </section>
           <section id="sp-audio-object" class="sp-special-fields sp-inspector-section" hidden></section>
           <div id="sp-outs-display-field" class="sp-inspector-output-visibility" hidden><label class="sp-inspector-switch"><span>Ausgänge im Plan anzeigen</span><input id="sp-outs-visible" type="checkbox" checked><span class="sp-switch-track" aria-hidden="true"></span></label></div>
@@ -580,16 +586,33 @@
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">MODELLWECHSEL</span><h2 id="sp-model-dialog-title">Modell auswählen</h2><p id="sp-model-dialog-summary" class="sp-muted"></p></div><button class="sp-stagebox-close-button" type="button" id="sp-model-dialog-close" aria-label="Modellauswahl schließen">×</button></div>
     <div class="sp-model-dialog-options" id="sp-model-dialog-options" role="listbox" aria-labelledby="sp-model-dialog-title"></div>
   </dialog>
-  <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title">
-    <div class="sp-dialog-heading"><h2 id="sp-share-title">Link teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div>
-    <p>Kopiere den vollständigen Link zum aktuellen Bühnenplan samt Routing. Der Empfänger öffnet ihn direkt – ohne Anmeldung und ohne eine ID einzufügen.</p>
-    <p class="sp-muted">Kontaktfelder, Autor und Notizen werden entfernt. Prüfe vor der Freigabe auch Projektnamen und Beschriftungen auf private Angaben.</p>
-    <p class="sp-muted">Aktualisieren und Löschen funktionieren in diesem Browser. Beim Löschen seiner Website-Daten geht diese Berechtigung verloren.</p>
-    <input id="sp-share-id" type="hidden">
-    <p id="sp-share-status" class="sp-muted" role="status" aria-live="polite"></p>
-    <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-publish">Link erstellen &amp; kopieren</button><button class="sp-button sp-danger-quiet" type="button" id="sp-share-revoke" hidden>Link löschen</button></div>
-    <div id="sp-share-result" hidden><label class="sp-field">Kurzer Ansichtslink<textarea id="sp-share-link" rows="2" readonly></textarea></label><div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div></div>
-    <details><summary>Ohne Online-Freigabe teilen</summary><p class="sp-muted">Ein vollständiger Offline-Link enthält den Plan und kann sehr lang sein. Er lässt sich nicht widerrufen. Für WhatsApp ist der kurze Ansichtslink besser geeignet.</p><button class="sp-button" type="button" id="sp-share-offline">Offline-Link erstellen</button><label class="sp-field" id="sp-share-offline-field" hidden>Offline-Link<textarea id="sp-share-offline-link" rows="3" readonly></textarea></label><button class="sp-button" type="button" id="sp-share-offline-copy" hidden>Offline-Link kopieren</button></details>
+  <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title" aria-describedby="sp-share-description">
+    <header class="sp-share-heading">
+      <span class="sp-share-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.1 0l3-3A5 5 0 0 0 13 2.9l-1.7 1.7M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.7-1.7"/></svg></span>
+      <button type="button" class="sp-share-close" id="sp-share-close" aria-label="Teilen schließen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
+      <h2 id="sp-share-title">Link teilen</h2>
+      <p id="sp-share-description">Bühnenplan und Routing als schreibgeschützten Link freigeben. Keine Anmeldung erforderlich.</p>
+    </header>
+    <div class="sp-share-body">
+      <section class="sp-share-card" id="sp-share-card" aria-label="Freigabe">
+        <div class="sp-share-project">
+          <span class="sp-share-plan-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 9h34v26H7zM7 22h34M24 9v26M20 41h8"/><rect x="12" y="15" width="8" height="4" rx="1"/><circle cx="31" cy="27" r="3"/></svg></span>
+          <div class="sp-share-project-info"><strong id="sp-share-project-name"></strong><span id="sp-share-project-meta"></span></div>
+          <span class="sp-share-state" id="sp-share-state">Noch nicht geteilt</span>
+        </div>
+        <div class="sp-share-permissions"><span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-5 8-5 8 5 8 5-3 5-8 5-8-5-8-5Z"/><circle cx="10" cy="10" r="2"/></svg>Nur ansehen</span><span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 6 3v5c0 4-6 7-6 7s-6-3-6-7V5Z"/><path d="m7 9 2 2 4-4"/></svg>Ohne Kontaktdaten</span></div>
+        <input id="sp-share-id" type="hidden">
+        <div id="sp-share-result" hidden>
+          <label class="sp-field" for="sp-share-link">Ansichtslink</label>
+          <div class="sp-share-link-row"><textarea id="sp-share-link" rows="2" readonly spellcheck="false" aria-label="Ansichtslink"></textarea><button class="sp-button sp-primary" type="button" id="sp-share-copy">Link kopieren</button></div>
+          <button class="sp-share-preview" type="button" id="sp-share-preview">Ansicht öffnen <span aria-hidden="true">↗</span></button>
+        </div>
+        <p id="sp-share-status" class="sp-share-status" role="status" aria-live="polite"></p>
+        <div class="sp-share-actions"><button class="sp-button sp-primary" type="button" id="sp-share-publish">Link erstellen &amp; kopieren</button><button class="sp-button sp-danger-quiet" type="button" id="sp-share-revoke" hidden>Link löschen</button></div>
+      </section>
+      <details class="sp-share-details" id="sp-share-privacy"><summary><span>Was wird geteilt?</span><span class="sp-share-chevron" aria-hidden="true">⌄</span></summary><div class="sp-share-details-body"><p>Bühnenplan und Routing sind für alle mit dem Link sichtbar. Kontaktfelder, Autor und Notizen werden entfernt. Prüfe Projektnamen und Beschriftungen auf private Angaben.</p><p>Aktualisieren und Löschen sind in diesem Browser möglich. Wenn du seine Website-Daten löschst, geht diese Berechtigung verloren.</p></div></details>
+      <details class="sp-share-details" id="sp-share-offline-details"><summary><span>Ohne Online-Freigabe teilen</span><span class="sp-share-chevron" aria-hidden="true">⌄</span></summary><div class="sp-share-details-body"><p>Der Offline-Link enthält den gesamten Plan. Er ist länger und lässt sich nach dem Versenden nicht zurücknehmen.</p><button class="sp-button" type="button" id="sp-share-offline">Offline-Link erstellen</button><label class="sp-field" id="sp-share-offline-field" hidden>Offline-Link<textarea id="sp-share-offline-link" rows="3" readonly spellcheck="false"></textarea></label><button class="sp-button" type="button" id="sp-share-offline-copy" hidden>Offline-Link kopieren</button></div></details>
+    </div>
   </dialog>
   <dialog id="sp-shared-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-shared-title">
     <div class="sp-dialog-heading"><h2 id="sp-shared-title">Projekt-ID öffnen</h2><button class="sp-button" type="button" id="sp-shared-close" aria-label="Projekt-ID öffnen schließen">×</button></div>
@@ -698,10 +721,15 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.12">v0.1.0-beta.12</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.13">v0.1.0-beta.13</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.12</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.13</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <h4>Verschiebbare Beschriftungen und Teilen-Dialog</h4>
+            <ul><li><strong>Bewegliche Beschriftungen:</strong> Schilder direkt im Plan ziehen, mit Pfeiltasten fein verschieben oder in den Eigenschaften automatisch platzieren. Positionen bleiben beim Speichern und im Export erhalten.</li><li><strong>Darstellung:</strong> Kleinere, linksbündige Beschriftungen mit grünem Akzent und dezentem Schatten. Dunkle Karten auf schwarzer Bühne, helle Karten auf weißer Bühne.</li><li><strong>Neuer Teilen-Dialog:</strong> Projektkarte, Freigabestatus und sachliche Beschriftungen. Datenschutz und Offline-Link sind aufklappbar; die Ansicht passt sich Hell-/Dunkelmodus und Handybildschirmen an.</li></ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.12</strong></div><time datetime="2026-09-16">16. September 2026</time></header>
             <h4>Vollständigen Projektlink direkt kopieren</h4>
             <ul><li><strong>Ein Klick zum Verschicken:</strong> „Link kopieren“ auf der Projektkarte und in den Projektdaten stellt den aktuellen Plan bereit und kopiert die vollständige Adresse mit ID. Empfänger öffnen den Link direkt.</li><li><strong>Klarer Teilen-Dialog:</strong> Die separate Aktion zum Kopieren der nackten ID entfällt. Falls der Browser die Zwischenablage blockiert, steht der vollständige Link zum manuellen Kopieren bereit.</li></ul>
           </article>
@@ -868,7 +896,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.12 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.13 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -3128,6 +3156,71 @@
 #sp-prototype .sp-spacer { flex:1; }
 #sp-prototype .sp-share-dialog { width:min(620px,calc(100% - 24px)); }
 #sp-prototype .sp-share-dialog textarea { font:10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; }
+
+/* Share dialog: one clear action, with project context and secondary details. */
+#sp-prototype #sp-share-dialog { width:min(560px,calc(100% - 28px)); max-height:calc(100dvh - 32px); padding:0; border:1px solid var(--sp-line); border-radius:24px; background:var(--sp-panel); box-shadow:0 28px 100px #0005; overflow:auto; }
+#sp-prototype #sp-share-dialog::backdrop { background:#10171488; backdrop-filter:blur(5px); }
+#sp-prototype .sp-share-heading { position:relative; padding:28px 30px 22px; background:linear-gradient(140deg,light-dark(#f8fbe9,#293321),var(--sp-panel) 72%); }
+#sp-prototype .sp-share-symbol { display:grid; place-items:center; width:42px; height:42px; margin-bottom:22px; border:1px solid #a3c337; border-radius:13px; background:#d6f571; color:#253014; box-shadow:0 3px 0 #95ad3b22; }
+#sp-prototype .sp-share-symbol svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.65; stroke-linecap:round; }
+#sp-prototype .sp-share-close { position:absolute; top:20px; right:20px; display:grid; place-items:center; width:36px; height:36px; padding:0; border:1px solid var(--sp-line); border-radius:50%; background:var(--sp-panel); color:var(--sp-muted); cursor:pointer; }
+#sp-prototype .sp-share-close svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; }
+#sp-prototype .sp-share-close:hover { background:var(--sp-soft); color:var(--sp-ink); }
+#sp-prototype #sp-share-title { margin:0 0 11px; color:var(--sp-ink); font-size:32px; font-weight:760; letter-spacing:-1.25px; line-height:1.12; }
+#sp-prototype #sp-share-description { margin:0; color:var(--sp-muted); font-size:13px; line-height:1.55; }
+#sp-prototype .sp-share-body { padding:0 22px 16px; }
+#sp-prototype .sp-share-card { padding:18px; border:1px solid var(--sp-line); border-radius:16px; background:light-dark(#f9faf6,#242927); }
+#sp-prototype .sp-share-project { display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+#sp-prototype .sp-share-plan-icon { display:grid; place-items:center; width:46px; height:46px; flex-shrink:0; border-radius:10px; background:#222a26; color:#dae4c4; }
+#sp-prototype .sp-share-plan-icon svg { width:36px; height:36px; fill:none; stroke:currentColor; stroke-width:1.2; }
+#sp-prototype .sp-share-plan-icon rect,#sp-prototype .sp-share-plan-icon circle { fill:#cbeb66; stroke:none; }
+#sp-prototype .sp-share-project-info { flex:1; min-width:110px; display:grid; gap:5px; }
+#sp-prototype #sp-share-project-name { color:var(--sp-ink); font-size:14px; line-height:1.35; overflow-wrap:anywhere; }
+#sp-prototype #sp-share-project-meta { color:var(--sp-muted); font-size:10px; line-height:1.4; }
+#sp-prototype .sp-share-state { display:inline-flex; align-items:center; gap:5px; padding:5px 8px; border:1px solid var(--sp-line); border-radius:99px; background:var(--sp-panel); color:var(--sp-muted); font-size:9px; white-space:nowrap; }
+#sp-prototype .sp-share-state::before { content:""; width:5px; height:5px; border-radius:50%; background:currentColor; }
+#sp-prototype #sp-share-dialog[data-share-state="active"] .sp-share-state { color:light-dark(#4d7016,#c8ed7b); border-color:light-dark(#ccddaa,#596b3f); background:light-dark(#eff6e2,#303e27); }
+#sp-prototype .sp-share-permissions { display:flex; flex-wrap:wrap; gap:8px 14px; margin:16px 0 0; color:var(--sp-muted); font-size:10px; }
+#sp-prototype .sp-share-permissions span { display:inline-flex; align-items:center; gap:5px; }
+#sp-prototype .sp-share-permissions svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+#sp-prototype #sp-share-result { margin-top:18px; padding-top:16px; border-top:1px solid var(--sp-line); }
+#sp-prototype #sp-share-result > label { margin:0 0 7px; color:var(--sp-muted); font-size:10px; }
+#sp-prototype .sp-share-link-row { display:flex; align-items:stretch; gap:7px; }
+#sp-prototype #sp-share-link { display:block; flex:1; min-width:0; width:100%; min-height:46px; max-height:90px; padding:9px 11px; resize:none; border:1px solid var(--sp-line); border-radius:9px; background:var(--sp-panel); color:var(--sp-ink); font:10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; overflow-wrap:anywhere; }
+#sp-prototype #sp-share-copy { flex-shrink:0; padding:10px 13px; font-size:11px; }
+#sp-prototype .sp-share-preview { display:flex; align-items:center; gap:5px; margin:9px 0 0 auto; padding:4px 0; border:0; background:transparent; color:var(--sp-muted); font:inherit; font-size:10px; cursor:pointer; }
+#sp-prototype .sp-share-preview:hover { color:var(--sp-ink); }
+#sp-prototype .sp-share-status { margin:15px 0 0; color:var(--sp-muted); font-size:11px; line-height:1.55; }
+#sp-prototype .sp-share-status:empty { display:none; }
+#sp-prototype .sp-share-actions { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:15px; }
+#sp-prototype #sp-share-publish { flex:1; min-height:46px; padding:12px 15px; border-radius:10px; font-size:12px; font-weight:700; }
+#sp-prototype #sp-share-dialog[data-share-state="active"] #sp-share-publish { min-height:36px; padding:8px 9px; border:1px solid var(--sp-line); background:var(--sp-panel); color:var(--sp-ink); font-size:10px; }
+#sp-prototype #sp-share-revoke { min-height:36px; padding:8px 10px; border-color:transparent; background:transparent; color:light-dark(#944840,#e1a297); font-size:10px; }
+#sp-prototype .sp-share-details { margin:0 8px; border-bottom:1px solid var(--sp-line); }
+#sp-prototype .sp-share-details:last-child { border-bottom:0; }
+#sp-prototype .sp-share-details summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:46px; padding:12px 0; list-style:none; color:var(--sp-muted); font-size:11px; cursor:pointer; }
+#sp-prototype .sp-share-details summary::-webkit-details-marker { display:none; }
+#sp-prototype .sp-share-details summary:hover,#sp-prototype .sp-share-details[open] summary { color:var(--sp-ink); }
+#sp-prototype .sp-share-chevron { font-size:17px; line-height:1; transition:transform .15s; }
+#sp-prototype .sp-share-details[open] .sp-share-chevron { transform:rotate(180deg); }
+#sp-prototype .sp-share-details-body { display:grid; justify-items:start; gap:10px; padding:0 0 16px; }
+#sp-prototype .sp-share-details-body p { margin:0; color:var(--sp-muted); font-size:11px; line-height:1.6; }
+#sp-prototype .sp-share-details-body .sp-button { min-height:36px; font-size:11px; }
+#sp-prototype #sp-share-offline-field { width:100%; margin:4px 0 0; font-size:10px; }
+#sp-prototype #sp-share-dialog [hidden] { display:none!important; }
+#sp-prototype #sp-share-dialog :is(button,summary,textarea):focus-visible { outline:2px solid var(--sp-teal); outline-offset:3px; }
+@media(max-width:480px) {
+  #sp-prototype #sp-share-dialog { width:calc(100% - 20px); max-height:calc(100dvh - 20px); border-radius:20px; }
+  #sp-prototype .sp-share-heading { padding:22px 22px 20px; }
+  #sp-prototype .sp-share-symbol { margin-bottom:18px; }
+  #sp-prototype #sp-share-title { font-size:29px; }
+  #sp-prototype .sp-share-body { padding:0 12px 10px; }
+  #sp-prototype .sp-share-card { padding:14px; }
+  #sp-prototype .sp-share-project-info { min-width:140px; }
+  #sp-prototype .sp-share-link-row { flex-direction:column; }
+  #sp-prototype #sp-share-copy { min-height:42px; }
+}
+
 #sp-prototype .sp-upgrade-dialog { width:min(540px,calc(100% - 24px)); }
 #sp-prototype .sp-upgrade-dialog li { margin:8px 0; }
 #sp-prototype .sp-upgrade-button { width:100%; margin-top:10px; }
@@ -8036,18 +8129,24 @@ const StageplotPrint = (() => {
   const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
   function frame(width,mode){return {left:width<500?46:70,right:width<500?31:45,header:mode==='editor'&&width<620?120:clamp(width*.084,70,116),bottom:46};}
   function labelMetrics(lines,nameLines,scale,context,riser=false){
-    const unit=clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
+    const unit=.8*clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
     const fonts=lines.map((_,i)=>`${i<nameLines?650:400} ${i<nameLines?fontSize:detailSize}px ${i<nameLines?sans:mono}`);
     const previous=context?.font;
     const widths=lines.map((line,i)=>{if(!context)return line.length*(i<nameLines?fontSize:detailSize)*.65;context.font=fonts[i];return context.measureText(line).width;});
     if(context)context.font=previous;
     return {unit,fontSize,detailSize,lineHeight,padX,padY,fonts,width:Math.ceil(Math.max(...widths)+padX*2),height:Math.ceil(lines.length*lineHeight+padY*2)};
   }
-  function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,text=false,id}={}){
-    const p=palette,{unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
-    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:3*unit,fill:p.label,stroke:riser?p.violet:p.labelBorder,'stroke-width':riser?1.1:.65},parent);
-    if(!riser)add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:p.lime,'data-label-accent':'true'},parent);
-    lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${riser?p.violet:text?p.lime:i<nameLines?p.ink:'#d4d9d5'}`,'data-label-line':i},parent,line));
+  function manualLabelBox(object,width,height,scale,mx,top){
+    const offset=object.labelOffset;
+    if(!offset||!Number.isFinite(offset.x)||!Number.isFinite(offset.y))return null;
+    const x=mx+(object.x+offset.x)*scale,y=top+(object.y+offset.y)*scale;
+    return {left:x-width/2,right:x+width/2,top:y-height/2,bottom:y+height/2};
+  }
+  function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,dark=true,id}={}){
+    const p=dark?palette:{label:'#f7f8f2',labelBorder:'#b9c1bb',ink:'#191f23',muted:'#485155',lime:'#819c23',violet:'#786094'}, {unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
+    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:1.5*unit,fill:p.label,stroke:p.labelBorder,'stroke-width':.75,style:`filter:drop-shadow(0 ${2*unit}px ${2*unit}px ${dark?'#0006':'#0003'})`},parent);
+    add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:riser?p.violet:p.lime,'data-label-accent':'true','pointer-events':'none'},parent);
+    lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start','pointer-events':'none',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${i<nameLines?p.ink:dark?'#d4d9d5':p.muted}`,'data-label-line':i},parent,line));
   }
   function paint({svg,add,stage,bounds,scale,mx,top,W,H,mode,downstageY,showMeasures,transparent}){
     const p=palette,defs=svg.querySelector('defs'),width=bounds?bounds.maxX-bounds.minX:stage.w,depth=bounds?bounds.maxY-bounds.minY:stage.d,rectW=width*scale,rectH=depth*scale;
@@ -8128,7 +8227,7 @@ const StageplotPrint = (() => {
     for(const sign of [-1,1])add('line',{x1:audienceX+sign*63,y1:y-3,x2:audienceX+sign*84,y2:y-3,stroke:p.coral,'stroke-width':.8},chrome);
     if(transparent){chrome.querySelectorAll('text').forEach(node=>{node.style.fill=node.textContent==='PUBLIKUM'?'#a84e42':'#343d41';});apply('[data-dim-depth]',{style:`font-family:${mono};font-size:11px;fill:#596267`});}
   }
-  return {palette,frame,labelMetrics,drawLabel,paint};
+  return {palette,frame,labelMetrics,manualLabelBox,drawLabel,paint};
 });
 /* build-inline:end stageplot-look-v1.js */
 
@@ -10365,7 +10464,7 @@ function createStageplotSymbolV3(type, options = {}) {
       const include=(x,y,w,d)=>{box.minX=Math.min(box.minX,x);box.minY=Math.min(box.minY,y);box.maxX=Math.max(box.maxX,x+w);box.maxY=Math.max(box.maxY,y+d);};
       for(const entry of stairStates(s)){const stair=stairsGeometry(s,entry.id);include(stair.x,stair.y,stair.w,stair.d);}
       const zone=iemRect(s);if(zone)include(zone.x,zone.y,zone.w,zone.d);
-      for(const o of list){const size=objectSize(o),angle=o.angle*Math.PI/180,w=Math.abs(Math.cos(angle))*size.w+Math.abs(Math.sin(angle))*size.d,d=Math.abs(Math.sin(angle))*size.w+Math.abs(Math.cos(angle))*size.d;include(o.x-w/2,o.y-d/2,w,d);}
+      for(const o of list){const size=objectSize(o),angle=o.angle*Math.PI/180,w=Math.abs(Math.cos(angle))*size.w+Math.abs(Math.sin(angle))*size.d,d=Math.abs(Math.sin(angle))*size.w+Math.abs(Math.cos(angle))*size.d;include(o.x-w/2,o.y-d/2,w,d);if(o.labelOffset)include(o.x+o.labelOffset.x-1.5,o.y+o.labelOffset.y-.5,3,1);}
       return {minX:box.minX-.2,minY:box.minY-.2,maxX:box.maxX+.2,maxY:box.maxY+.2};
     }
     const box={minX:-.65,minY:-.65,maxX:s.w+.65,maxY:s.d+.65};
@@ -10380,6 +10479,7 @@ function createStageplotSymbolV3(type, options = {}) {
       // Rotation-invariant extents prevent viewport and action bar jumps while turning.
       box.minX=Math.min(box.minX,o.x-radius);box.maxX=Math.max(box.maxX,o.x+radius);
       box.minY=Math.min(box.minY,o.y-radius);box.maxY=Math.max(box.maxY,o.y+radius);
+      if(o.labelOffset){const x=o.x+o.labelOffset.x,y=o.y+o.labelOffset.y;box.minX=Math.min(box.minX,x-1.5);box.maxX=Math.max(box.maxX,x+1.5);box.minY=Math.min(box.minY,y-.5);box.maxY=Math.max(box.maxY,y+.5);}
     }
     for(const key of ['minX','minY'])box[key]=Math.floor(box[key]*4)/4;
     for(const key of ['maxX','maxY'])box[key]=Math.ceil(box[key]*4)/4;
@@ -10636,6 +10736,31 @@ function createStageplotSymbolV3(type, options = {}) {
     const top=header+(height&&align==='center'?Math.max(0,(height-header-bottom-spanY*scale)/2):0)-area.minY*scale;
     return {scale,mx,top,H:height||Math.ceil(header+spanY*scale+bottom)};
   }
+  function objectLabelLines(o,W,showMeasures,showOuts,mode){
+    const text=o.type==='riser'?'':labelVisible(o)?labelText(o):'';
+    const maxChars=o.type==='riser'?42:W<500?22:30,lines=[];
+    const append=value=>{let rest=value;while(rest.length>maxChars){const space=rest.lastIndexOf(' ',maxChars),cut=space>5?space:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}if(rest)lines.push(rest);};
+    append(text);const nameLineCount=lines.length,outs=mode==='print'?audioObjectChannels(o):outsText(o);
+    if(outs&&o.showOuts!==false&&showOuts)append(outs);
+    objectProductionLines(o).filter(line=>mode!=='print'||!line.startsWith('Funk: ')).forEach(append);
+    return {lines,nameLineCount};
+  }
+  function fitManualLabels(fit,area,list,W,height,left,right,header,bottom,align,showMeasures,showOuts,mode){
+    // Measure at the actual output scale so even small exports include offstage labels.
+    const expanded={...area};
+    for(let pass=0;pass<8;pass++){
+      for(const o of list){
+        if(!o.labelOffset)continue;
+        const {lines,nameLineCount}=objectLabelLines(o,W,showMeasures,showOuts,mode);if(!lines.length)continue;
+        const metrics=StageplotLook.labelMetrics(lines,nameLineCount,fit.scale,textContext,o.type==='riser');
+        const box=StageplotLook.manualLabelBox(o,metrics.width,metrics.height,fit.scale,0,0);if(!box)continue;
+        expanded.minX=Math.min(expanded.minX,box.left/fit.scale-.15);expanded.maxX=Math.max(expanded.maxX,box.right/fit.scale+.15);
+        expanded.minY=Math.min(expanded.minY,box.top/fit.scale-.15);expanded.maxY=Math.max(expanded.maxY,box.bottom/fit.scale+.15);
+      }
+      fit=fitFloor(W,height,expanded,left,right,header,bottom,align);
+    }
+    return fit;
+  }
   function drawFloor(host,s,list,mode,fixed) {
     const activeSelection=new Set(mode==='editor'?selectedObjects().map(o=>o.id):[]);
     const W=Math.floor(host.getBoundingClientRect().width);
@@ -10649,12 +10774,14 @@ function createStageplotSymbolV3(type, options = {}) {
     const header=mobileEditor?30:lookFrame?.header||43,bottom=(mobileEditor?26:lookFrame?.bottom||(mode==='editor'?36:47))+technicalHeight+editorFooter;
     const area=mode==='editor'?editorWorkspaceBounds(s,list,liveLook):workspaceBounds(s,list,liveLook);
     const height=mode==='editor'||mode==='print'?Math.floor(host.getBoundingClientRect().height):0;
-    const fit=fitFloor(W,height,area,mobileEditor?24:left,mobileEditor?12:right,mobileEditor?74:header,bottom,liveLook||mode==='print'||mobileEditor?'start':'center'),H=fixed?fixed.H:fit.H;
+    let fit=fitFloor(W,height,area,mobileEditor?24:left,mobileEditor?12:right,mobileEditor?74:header,bottom,liveLook||mode==='print'||mobileEditor?'start':'center');
+    if(mode!=='editor'&&$('sp-print-labels').checked&&list.some(o=>o.labelOffset))fit=fitManualLabels(fit,area,list,W,height,left,right,header,bottom,liveLook||mode==='print'?'start':'center',mode!=='print'||$('sp-print-measures').checked,mode==='print'?$('sp-print-outs').checked:showOutsGlobal,mode);
+    const H=fixed?fixed.H:fit.H;
     if(mobileEditor&&!fixed)fit.top+=Math.min(32,Math.max(0,height-74-bottom-(area.maxY-area.minY)*fit.scale)*.2);
     const {scale,mx,top}=fixed?fixed:(mode==='editor'?floorView(fit,W,H,camera):fit);
     renderedHeights.set(host.id,H);
     const blackStage=mode==='print'?$('sp-print-black-stage').checked:s.surface==='black',transparentPreview=mode==='print'&&$('sp-export-format').value!=='pdf'&&$('sp-export-background').value==='transparent',showPrintMeasures=mode!=='print'||$('sp-print-measures').checked,showPrintOuts=mode==='print'?$('sp-print-outs').checked:showOutsGlobal;
-    const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,width:W,height:H,class:'sp-floor',role:'img','data-mobile-editor':String(mobileEditor),'data-stage-surface':blackStage?'black':'light','aria-label':'Bühnenplan: '+num(s.w)+' mal '+metres(s.d)+', '+(blackStage?'schwarze Bühne, ':'')+'2 mal 1 Meter Module, Publikum unten'});
+    const svg=sEl('svg',{viewBox:'0 0 '+W+' '+H,width:W,height:H,class:'sp-floor',role:mode==='editor'?'group':'img','data-mobile-editor':String(mobileEditor),'data-stage-surface':blackStage?'black':'light','aria-label':'Bühnenplan: '+num(s.w)+' mal '+metres(s.d)+', '+(blackStage?'schwarze Bühne, ':'')+'2 mal 1 Meter Module, Publikum unten'});
     sEl('title',{},svg,'Bühne in Draufsicht mit Upstage, Downstage, Stage Left und Stage Right');
     host.replaceChildren(svg);
     sEl('rect',{width:W,height:H,fill:transparentPreview?'transparent':mode==='editor'?'var(--sp-panel)':'var(--sp-paper)','pointer-events':'none','data-canvas-background':'true'},svg);
@@ -10844,31 +10971,21 @@ function createStageplotSymbolV3(type, options = {}) {
         }
       }
       if($('sp-print-labels').checked){
-        const t=o.type==='riser'?'':labelVisible(o)?labelText(o):'';
-        const maxChars=liveLook?(W<500?22:30):(W<360?17:25), lines=[];
-        let remaining=t;
-        while(remaining.length>maxChars){const split=remaining.lastIndexOf(' ',maxChars),cut=split>5?split:maxChars;lines.push(remaining.slice(0,cut));remaining=remaining.slice(cut).trim();}
-        if(remaining)lines.push(remaining);
-        const outs=mode==='print'?audioObjectChannels(o):outsText(o),nameLineCount=lines.length;
-        if(outs&&o.showOuts!==false&&showPrintOuts){
-          let rest=outs;
-          while(rest.length>maxChars){const split=rest.lastIndexOf(' ',maxChars),cut=split>5?split:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}
-          if(rest)lines.push(rest);
-        }
-        for(const value of objectProductionLines(o).filter(line=>mode!=='print'||!line.startsWith('Funk: '))){let rest=value;while(rest.length>maxChars){const space=rest.lastIndexOf(' ',maxChars),cut=space>5?space:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}if(rest)lines.push(rest);}
+        const {lines,nameLineCount}=objectLabelLines(o,W,showPrintMeasures,showPrintOuts,mode);
         if(!lines.length)return;
-        const labelGroup=sEl('g',{'data-label-for':o.id,'pointer-events':'none'},labelsLayer);
-        const metrics=liveLook?StageplotLook.labelMetrics(lines,nameLineCount,scale,textContext,o.type==='riser'):null;
-        const labelWidth=metrics?.width||(Math.max(...lines.map(measureLabel))+8),labelHeight=metrics?.height||(lines.length*12+5);
-        const owner=ownerBoxes.get(o.id),freeView=mode==='editor';
-        const placement=placeObjectLabel(owner,labelWidth,labelHeight,labelViewport(owner,labelWidth,labelHeight,W,H-technicalHeight-editorFooter,header,freeView&&(owner.left<0||owner.right>W||owner.top<0||owner.bottom>H-technicalHeight-editorFooter)),occupiedLabels,artworkBoxes,c.art==='text'),box=placement.box;
-        if(freeView&&(owner.right<0||owner.left>W||owner.bottom<0||owner.top>H))labelGroup.style.display='none';
+        const interactive=mode==='editor'&&!sharedReadOnly;
+        const labelGroup=sEl('g',{'data-label-for':o.id,'data-locked':String(!!o.locked),'pointer-events':interactive?'all':'none',class:interactive?'sp-object-label':'',...(interactive?{tabindex:0,role:'button','aria-label':(o.label||c.name)+' · Beschriftung verschieben','aria-disabled':String(!!o.locked)}:{})},labelsLayer);
+        if(interactive)sEl('title',{},labelGroup,o.locked?'Objekt gesperrt':'Beschriftung ziehen · Pfeiltasten zum Verschieben · Pos1 für automatische Position');
+        const metrics=StageplotLook.labelMetrics(lines,nameLineCount,scale,textContext,o.type==='riser');
+        const labelWidth=metrics.width,labelHeight=metrics.height,owner=ownerBoxes.get(o.id),freeView=mode==='editor';
+        const manualBox=StageplotLook.manualLabelBox(o,labelWidth,labelHeight,scale,mx,top);
+        const placement=manualBox?{box:manualBox,side:'manual'}:placeObjectLabel(owner,labelWidth,labelHeight,labelViewport(owner,labelWidth,labelHeight,W,H-technicalHeight-editorFooter,header,freeView&&(owner.left<0||owner.right>W||owner.top<0||owner.bottom>H-technicalHeight-editorFooter)),occupiedLabels,artworkBoxes,c.art==='text'),box=placement.box;
+        const visibleBox=manualBox||owner;
+        if(freeView&&(visibleBox.right<0||visibleBox.left>W||visibleBox.bottom<0||visibleBox.top>H))labelGroup.style.display='none';
         labelGroup.dataset.labelSide=placement.side;
-        if(liveLook)StageplotLook.drawLabel(sEl,labelGroup,box,lines,nameLineCount,metrics,{riser:o.type==='riser',text:o.type==='text',id:o.id});
-        else {
-        sEl('rect',{'data-label-background':o.id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,fill:'#fff',stroke:'#aeb5ae','stroke-width':.7,rx:3.5},labelGroup);
-        lines.forEach((line,i)=>sEl('text',{x:(box.left+box.right)/2,y:box.top+12+i*12,'text-anchor':'middle',class:'sp-stage-label'+(i>=nameLineCount?' sp-stage-outs':'')},labelGroup,line));
-        }
+        labelGroup.dataset.labelOffsetX=((box.left+box.right)/2-x)/scale;
+        labelGroup.dataset.labelOffsetY=((box.top+box.bottom)/2-y)/scale;
+        StageplotLook.drawLabel(sEl,labelGroup,box,lines,nameLineCount,metrics,{riser:o.type==='riser',dark:liveLook,id:o.id});
         occupiedLabels.push(box);
       }
     });
@@ -11295,6 +11412,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const c=byId[o.type];
     updateInspectorIdentity(o);$('sp-selected-icon').innerHTML=o.type==='riser'?'<img src="./stageplot-assets/categories/stage-v1.webp" alt="" width="86" height="80" decoding="async">':icon(c,{...o,angle:c.defaultAngle});
     $('sp-label').value=o.label;$('sp-label-visible').checked=o.showLabel!==false;$('sp-note').value=o.note;$('sp-pos-x').value=o.x;$('sp-pos-y').value=o.y;
+    $('sp-label-position-reset').disabled=locked||!o.labelOffset;
     renderObjectAudio(o);$('sp-audio-device').hidden=!c.instrument||drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type)||(o.type==='laptop'&&playbackMode(o)!=='custom');$('sp-outs-fields').hidden=!c.instrument;$('sp-outs-display-field').hidden=!c.instrument;$('sp-outs-visible').checked=o.showOuts!==false;if(c.instrument&&!$('sp-audio-device').hidden)syncObjectIoControls(o,locked);
     $('sp-drums-open').hidden=!drumModel.isDrums(o.type)&&!['percussion','orchestra'].includes(o.type);$('sp-drums-open').disabled=locked;$('sp-drums-open').textContent=o.type==='orchestra'?'Orchester-Editor …':o.type==='percussion'?'Percussion-Editor …':'Drum Designer …';
     // Position fields deliberately allow overhang and off-stage centres.
@@ -11402,6 +11520,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(!o||!Object.hasOwn(byId,type)||!finite(o.x,-10000,10000)||!finite(o.y,-10000,10000)||!finite(o.angle,-36000,36000))throw new Error('Ungültiger Baustein.');
       const item={id:'station-'+(i+1),type,x:o.x,y:o.y,angle:((o.angle%360)+360)%360,label:String(o.label??'').slice(0,42),showLabel:o.showLabel!==false,note:String(o.note??'').slice(0,160),power:cleanText(o.power,100),wireless:cleanText(o.wireless,100),inventoryId:cleanText(o.inventoryId,100),outs:String(o.outs??'').slice(0,48),showOuts:o.showOuts!==false,locked:o.locked===true};
       const dimensions=normalizedObjectDimensions(o.dimensions);if(dimensions&&editableObjectSize({type}))item.dimensions=dimensions;
+      if(o.labelOffset&&finite(o.labelOffset.x,-10000,10000)&&finite(o.labelOffset.y,-10000,10000))item.labelOffset={x:o.labelOffset.x,y:o.labelOffset.y};
       if(o.house===true)item.house=true;
       if(typeof o.id==='string')idMap.set(o.id,item.id);
       if(type==='orchestra'&&typeof orchestraModel!=='undefined')item.orchestra=orchestraModel.normalize(o.orchestra);
@@ -13032,7 +13151,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     $('sp-export-paper-options').hidden=share;$('sp-export-presets').hidden=share;
     $('sp-export-image-options').hidden=pdf||share;$('sp-export-background-group').hidden=pdf||share;
     $('sp-export-details').hidden=share;$('sp-export-print-help').hidden=!pdf||share;$('sp-preview-zoom').hidden=share;
-    root.querySelector('.sp-preview-caption').textContent=share?'Schreibgeschützte Momentaufnahme · inklusive Projektdaten':'Gleiches Layout für PDF und Bild · lokal und offline';
+    root.querySelector('.sp-preview-caption').textContent=share?'Bühnenplan & Routing · nur ansehen':'Gleiches Layout für PDF und Bild · lokal und offline';
     $('sp-export-preview-title').textContent=share?'Geteilter Bühnenplan':pdf?'Druckvorschau':'Bildvorschau';
     $('sp-export-png').textContent=share?'Ansichtslink erstellen':pdf?'PDF erstellen / drucken':'Bild herunterladen';
     $('sp-export-beta-hint').hidden=share||!technicalExportNeedsPro()||accountPlan==='pro';
@@ -13042,7 +13161,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   function setExportIntent(intent){
     exportIntent=['image','technical','share'].includes(intent)?intent:'technical';root.dataset.exportIntent=exportIntent;
     root.querySelectorAll('[data-export-intent]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.exportIntent===exportIntent)));
-    $('sp-export-purpose').textContent=exportIntent==='technical'?'Druckfertiges PDF im A4-Querformat.':exportIntent==='share'?'Ein Link zum Ansehen, inklusive Kontaktdaten. Für spätere Änderungen erstellst du einen neuen Link.':'Dieselben Seiten wie im PDF, als PNG. Mehrere Seiten erhältst du gemeinsam als ZIP.';
+    $('sp-export-purpose').textContent=exportIntent==='technical'?'Druckfertiges PDF im A4-Querformat.':exportIntent==='share'?'Bühnenplan und Routing per Link teilen. Ohne Kontaktdaten und jederzeit im selben Browser aktualisierbar.':'Dieselben Seiten wie im PDF, als PNG. Mehrere Seiten erhältst du gemeinsam als ZIP.';
     setExportFormat(exportIntent==='technical'?'pdf':exportIntent==='image'?imageExportFormat:'png-normal');
   }
   function setPdfPreset(preset){
@@ -13265,16 +13384,19 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     $('sp-share-publish').hidden=!enabled;$('sp-share-publish').disabled=shareBusy||!owned;
     $('sp-share-publish').textContent=active&&owned?'Aktualisieren & Link kopieren':'Link erstellen & kopieren';$('sp-share-revoke').hidden=!active||!owned;$('sp-share-revoke').disabled=shareBusy;
     $('sp-share-result').hidden=!active;$('sp-share-copy').disabled=shareBusy;
+    $('sp-share-dialog').dataset.shareState=active?'active':enabled?'draft':'offline';
+    $('sp-share-state').textContent=shareBusy?'Wird vorbereitet':active?'Freigegeben':enabled?'Noch nicht geteilt':'Offline verfügbar';
+    $('sp-share-card')?.setAttribute('aria-busy',String(shareBusy));
   }
   async function refreshShareState(){
     if(!shareDocument||!$('sp-share-dialog').open||shareBusy)return;
     const generation=++shareGeneration;shareControls(false,true);
-    if(!window.StageplotShare.configured(window.StageplotCloudConfig)){$('sp-share-status').textContent='Teilen per Projekt-ID ist noch nicht eingerichtet. Ein Offline-Link ist weiterhin möglich.';return;}
+    if(!window.StageplotShare.configured(window.StageplotCloudConfig)){$('sp-share-status').textContent='Online-Freigabe ist hier noch nicht eingerichtet. Ein Offline-Link kann unten erstellt werden.';return;}
     shareBusy=true;shareControls();$('sp-share-status').textContent='Freigabe wird geprüft …';
     try{
       const result=await shareClient.status(shareDocument.stage.projectId);if(generation!==shareGeneration)return;shareBusy=false;
       const mayManage=result.available||result.owned;shareControls(result.active,mayManage);
-      $('sp-share-status').textContent=!mayManage?'Diese ID ist bereits vergeben. Du kannst den vorhandenen Link ansehen. Für einen eigenen Link das Projekt duplizieren.':result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. „Link erstellen & kopieren“ stellt diesen Stand bereit und kopiert die vollständige Adresse.';
+      $('sp-share-status').textContent=!mayManage?'Diese ID ist bereits vergeben. Du kannst den vorhandenen Link ansehen. Für einen eigenen Link das Projekt duplizieren.':result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. Beim Erstellen des Links wird der aktuelle Plan hochgeladen.';
     }catch(error){if(generation===shareGeneration){shareBusy=false;shareControls();$('sp-share-publish').disabled=true;$('sp-share-status').textContent=error.message;}}
   }
   function openShareDialog(document,{copy=false}={}){
@@ -13282,6 +13404,9 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
       if(!document){if(!flushProjectForm(true))return;finishEdit();if(!stage)throw new Error('Bitte zuerst ein Projekt anlegen.');if(!stage.projectId&&!persistDraft(true))return;document={stage,objects};}
       shareDocument=window.StageplotShare.clean(normalizeSetupDocument(document));
       if(!projectIdentity(shareDocument.stage.projectId))throw new Error('Bitte das Projekt zuerst lokal speichern.');
+      $('sp-share-project-name').textContent=shareDocument.stage.title;
+      $('sp-share-project-meta').textContent=num(shareDocument.stage.w)+' × '+metres(shareDocument.stage.d)+' · '+shareDocument.objects.length+(shareDocument.objects.length===1?' Baustein':' Bausteine');
+      $('sp-share-privacy').open=false;$('sp-share-offline-details').open=false;
       shareGeneration++;shareBusy=false;$('sp-share-id').value=shareDocument.stage.projectId;$('sp-share-link').value=window.location.href.split('#')[0]+'#p/'+shareDocument.stage.projectId;
       $('sp-share-offline-field').hidden=true;$('sp-share-offline-copy').hidden=true;$('sp-share-dialog').showModal();shareControls(false,true);if(copy&&window.StageplotShare.configured(window.StageplotCloudConfig))updateShare(false,true);else refreshShareState();
     }catch(error){say('Freigabe nicht geöffnet: '+error.message);}
@@ -13312,7 +13437,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const clipboard=copy?copyPublishedLink(publication,link):Promise.resolve(false);
     try{
       const result=await publication,copied=await clipboard;if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active,true);
-      $('sp-share-status').textContent=revoke?'Link gelöscht. Die ID ist wieder frei und kann für einen anderen Plan vergeben werden.':copied?'Link kopiert. Du kannst ihn direkt verschicken.':'Freigegeben. Du kannst jetzt den vollständigen Link kopieren und teilen.';
+      $('sp-share-status').textContent=revoke?'Link gelöscht. Die ID ist wieder frei und kann für einen anderen Plan vergeben werden.':copied?'Link kopiert.':'Freigegeben. Der Link kann kopiert werden.';
       if(copy&&!copied){$('sp-share-link').focus();$('sp-share-link').select();$('sp-share-status').textContent='Link bereit und markiert · bitte kopieren.';}
     }catch(error){if(generation!==shareGeneration)return;shareBusy=false;shareControls();$('sp-share-result').hidden=true;$('sp-share-status').textContent=error.message;}
   }
@@ -14240,14 +14365,14 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   }
   function startObjectDrag(e){
     focusCanvas();
-    const id=stageObjectTarget(e.target),stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
+    const labelTarget=e.target.closest('[data-label-for]'),id=labelTarget?.dataset.labelFor||stageObjectTarget(e.target),stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
     if(e.button===1||panMode||spaceHeld||e.altKey){
       const blankPrimary=e.button===0&&!id&&!stairsTarget&&!iemTarget;
       startViewPan(e);
       if(blankPrimary&&selected!==null){finishEdit();selected=null;renderEditor();}
       return;
     }
-    if(e.button!==0)return;
+    if(e.button!==0||drag||sharedReadOnly)return;
     if(placement){commitPlacement(e.currentTarget,e);return;}
     finishEdit();
     if(id&&(selectionMode||e.shiftKey)){
@@ -14256,6 +14381,13 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       e.preventDefault();return;
     }
     if(!id&&selectionMode){startViewPan(e);return;}
+    if(labelTarget){
+      const o=objects.find(o=>o.id===id);if(!o)return;setSelection([id]);
+      if(o.locked){e.preventDefault();renderEditor();say('Objekt gesperrt · zum Verschieben erst entsperren');return;}
+      const p=svgPoint(e.currentTarget,e);
+      drag={kind:'label',id,before:snapshot(),x:p.x,y:p.y,ox:Number(labelTarget.dataset.labelOffsetX),oy:Number(labelTarget.dataset.labelOffsetY),originalOffset:o.labelOffset?{...o.labelOffset}:null,label:labelTarget,moved:false,svg:e.currentTarget,capture:$('sp-editor-floor'),pointer:e.pointerId};
+      labelTarget.dataset.dragging='true';drag.capture.setPointerCapture(e.pointerId);e.preventDefault();updateList();inspector();positionRotationToolbar(e.currentTarget);return;
+    }
     const footprintHandle=e.target.closest('[data-footprint-resize]');
     if(footprintHandle){
       const id=footprintHandle.dataset.footprintId,base=selectedFootprint(id);if(!base)return;const svg=e.currentTarget,p=svgPoint(svg,e);selected=id;
@@ -14303,6 +14435,13 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     const p=svgPoint(drag.svg,e);
     if(Math.hypot(p.x-drag.x,p.y-drag.y)<.04&&!drag.moved)return;
     drag.moved=true;
+    if(drag.kind==='label'){
+      const o=objects.find(o=>o.id===drag.id);if(!o||o.locked)return;
+      o.labelOffset={x:Math.max(-10000,Math.min(10000,drag.ox+p.x-drag.x)),y:Math.max(-10000,Math.min(10000,drag.oy+p.y-drag.y))};
+      const scale=Number(drag.svg.dataset.scale);
+      drag.label.setAttribute('transform','translate('+((o.labelOffset.x-drag.ox)*scale)+' '+((o.labelOffset.y-drag.oy)*scale)+')');
+      $('sp-label-position-reset').disabled=false;return;
+    }
     if(drag.kind==='select')return;
     if(drag.kind==='multi'){
       const anchor=drag.items.find(o=>o.id===drag.id),q=$('sp-snap').checked?gridStep():.001;
@@ -14354,12 +14493,13 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(!drag||drag.pointer!==e.pointerId)return;
     const d=drag;drag=null;if(d.capture.hasPointerCapture(e.pointerId))d.capture.releasePointerCapture(e.pointerId);
     if(d.kind==='select'){if(!d.moved)toggleSelection(d.id);renderEditor();return;}
-    keepHistory(d.before);renderEditor();if(d.moved)say(d.kind==='stage-resize'?'Bühne '+num(stage.w)+' × '+metres(stage.d):d.kind==='stairs-width'?'Treppe '+metres(stairState(stage,d.stairId)?.stairsWidth||1.2)+' breit':'Position angepasst');
+    keepHistory(d.before);renderEditor();if(d.moved)say(d.kind==='label'?'Beschriftung verschoben':d.kind==='stage-resize'?'Bühne '+num(stage.w)+' × '+metres(stage.d):d.kind==='stairs-width'?'Treppe '+metres(stairState(stage,d.stairId)?.stairsWidth||1.2)+' breit':'Position angepasst');
   }
   function cancelObjectDrag(){
     if(!drag)return;
     const d=drag;drag=null;
-    if(d.kind==='select'){/* A cancelled tap never changes the selection. */}
+    if(d.kind==='label'){const o=objects.find(o=>o.id===d.id);if(o){if(d.originalOffset)o.labelOffset=d.originalOffset;else delete o.labelOffset;}}
+    else if(d.kind==='select'){/* A cancelled tap never changes the selection. */}
     else if(d.kind==='footprint'||d.kind==='multi'){const old=JSON.parse(d.before);stage=old.stage;objects=old.objects;}
     else if(d.kind==='iem'||d.kind==='stairs'||d.kind==='stage-resize'||d.kind==='stairs-width')stage=JSON.parse(d.before).stage;
     else {const o=objects.find(o=>o.id===d.id);if(o){o.x=d.ox;o.y=d.oy;}}
@@ -14643,6 +14783,9 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   });
   $('sp-label-visible').addEventListener('change',()=>{
     const o=objects.find(o=>o.id===selected);if(o)change(()=>{o.showLabel=$('sp-label-visible').checked;},'Beschriftung angepasst');
+  });
+  $('sp-label-position-reset').addEventListener('click',()=>{
+    const o=objects.find(o=>o.id===selected);if(o&&!o.locked)change(()=>{delete o.labelOffset;},'Beschriftung automatisch platziert');
   });
   ['sp-pos-x','sp-pos-y'].forEach(id=>{
     $(id).addEventListener('focus',()=>{editBefore=snapshot();});
@@ -15092,7 +15235,15 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     }
     if(['+','=','-','0'].includes(e.key)){e.preventDefault();if(e.key==='0')fitView();else setZoom(camera.zoom+(e.key==='-'?-.25:.25));return;}
     const o=objects.find(o=>o.id===selected);
-    if(e.key==='Escape'){setSelection([]);selectionMode=false;renderEditor();return;}
+    if(e.key==='Escape'){if(drag){cancelObjectDrag();e.preventDefault();return;}setSelection([]);selectionMode=false;renderEditor();return;}
+    const labelTarget=e.target.closest('[data-label-for]'),labelObject=labelTarget&&objects.find(o=>o.id===labelTarget.dataset.labelFor);
+    if(labelObject&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home'].includes(e.key)){
+      e.preventDefault();if(labelObject.locked)return;
+      const q=e.shiftKey?.1:.02,delta={ArrowLeft:[-q,0],ArrowRight:[q,0],ArrowUp:[0,-q],ArrowDown:[0,q]}[e.key];
+      setSelection([labelObject.id]);
+      change(()=>{if(e.key==='Home')delete labelObject.labelOffset;else labelObject.labelOffset={x:Number(labelTarget.dataset.labelOffsetX)+delta[0],y:Number(labelTarget.dataset.labelOffsetY)+delta[1]};});
+      $('sp-editor-floor').querySelector('[data-label-for="'+labelObject.id+'"]')?.focus();return;
+    }
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='a'){e.preventDefault();setSelection(objects.map(o=>o.id));renderEditor();return;}
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='d'){e.preventDefault();duplicateSelectedObject();return;}
     if(selectedObjects().length>1){

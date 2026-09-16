@@ -29,6 +29,7 @@ const tests=[
   'stageplot-usability.test.cjs',
   'stageplot-print-v1.test.cjs',
   'stageplot-look-v1.test.cjs',
+  'stageplot-labels.test.cjs',
   'stageplot-illustrated-objects.test.cjs',
   'stageplot-feedback.test.cjs',
   'stageplot-studio-v60.test.cjs',

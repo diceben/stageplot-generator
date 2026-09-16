@@ -18,7 +18,7 @@
     routing:{version:true,disabledSources:[true],inputs:[routingRow],outputs:[routingRow],generatedAt:true},
     cables:[{...fields('id direction sourceKey sourceId targetId targetPort length bundleId'),route:[point]}],
     geometry:{...fields('version height clearance showModules name measured revision'),parts:[{...fields('id name kind shape x y w d angle height role locked rise target'),points:[[true]],anchor:fields('partId edge t')}]}
-  },objects:[{...fields('id type x y angle label showLabel power wireless outs showOuts locked house drumPresetId comboJacks stand purpose boomDirection micHeadDirection micFrameVersion width depth height'),dimensions:size,
+  },objects:[{...fields('id type x y angle label showLabel power wireless outs showOuts locked house drumPresetId comboJacks stand purpose boomDirection micHeadDirection micFrameVersion width depth height'),dimensions:size,labelOffset:point,
     foh:fields('table barrier sun rain'),iem:mix,iemMixes:[mix],playback:fields('version mode target'),
     io:{inputs:port,outputs:port,stereoPairs:[true],aliases:{inputs:[true],outputs:[true]},outputKeyStyle:true},
     drumInputs:[fields('id name microphone phantom')],
