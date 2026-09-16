@@ -1,0 +1,172 @@
+{
+  "generator": "built-in image_gen",
+  "mode": "generate",
+  "created": "2026-09-16",
+  "camera": "Orthographic front face, instrument laid flat, neck up; schematic plan symbol, not a standing instrument footprint.",
+  "dimensions": "Generic approximate plan dimensions in metres. Existing acoustic, classical and gypsy dimensions remain unchanged; not manufacturer measurements.",
+  "processing": "Original RGBA PNG files copied without pixel edits. SVG viewBox clips only near-transparent outer packaging margins; image aspect ratio is preserved.",
+  "assets": [
+    {
+      "id": "acoustic",
+      "label": "Dreadnought",
+      "asset": "acoustic-illustrated-v1.png",
+      "w": 0.41,
+      "d": 1.04,
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        202,
+        4,
+        620,
+        1509
+      ],
+      "alphaBounds": [
+        206,
+        8,
+        818,
+        1509
+      ],
+      "sha256": "1c59b4e2a55d7531bebdd4c3bd1e0fedc8c8f290a98ece5152c1644ab892c78d",
+      "sourceFile": "exec-9809c79d-276a-4f3a-93fe-c406c3e757b0.png",
+      "reference": "https://www.martinguitar.com/10Y25D28.html",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument, lying flat on its back, soundboard facing the camera, neck pointing straight up. Camera exactly perpendicular to the front face, orthographic, no perspective, no side walls visible. Portrait composition, centered, entire headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal details; polished and legible at small size, not a flat vector icon. Neutral grayscale only, no color. Background genuinely transparent alpha, no floor, no cast shadow, no white rectangle, no checkerboard drawing. No lettering, branding, logo, watermark, labels, people, hands, case, stand, cable, microphone, or additional instruments. Anatomically coherent strings, bridge, frets and tuning pegs. Subject: a traditional six steel-string DREADNOUGHT acoustic guitar. Broad square shoulders, large full rounded lower bout, relatively shallow waist, symmetrical body without any cutaway. Small circular soundhole with delicate ring rosette, dark teardrop pickguard on viewer's right of soundhole, dark pin bridge with six pins and light saddle, narrow dark fretboard joining body at 14th fret, solid squared paddle headstock with three separate chrome tuning machines on each side. Body shape visually comparable to a classic D-28, but no branding. Approximate overall width to length ratio 0.394."
+    },
+    {
+      "id": "acoustic-cutaway",
+      "label": "Cutaway",
+      "asset": "acoustic-cutaway-illustrated-v1.png",
+      "w": 0.406,
+      "d": 1.04,
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        201,
+        5,
+        623,
+        1521
+      ],
+      "alphaBounds": [
+        205,
+        9,
+        820,
+        1522
+      ],
+      "sha256": "3dda6d8575a8661c4f770202e3bb6e33b50fc945049bbcb0df6a4a0c906ef68e",
+      "sourceFile": "exec-cb6e070b-f2f6-44d8-adf5-accf7935e598.png",
+      "reference": "https://www.taylorguitars.com/guitars/acoustic/214ce",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument, lying flat on its back, soundboard facing the camera, neck pointing straight up. Camera exactly perpendicular to the front face, orthographic, no perspective, no side walls visible. Portrait composition, centered, entire headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal details; polished and legible at small size, not a flat vector icon. Neutral grayscale only, no color. Background genuinely transparent alpha, no floor, no cast shadow, no white rectangle, no checkerboard drawing. No lettering, branding, logo, watermark, labels, people, hands, case, stand, cable, microphone, or additional instruments. Anatomically coherent strings, bridge, frets and tuning pegs. Subject: a six steel-string acoustic guitar in GRAND AUDITORIUM shape with a pronounced rounded VENETIAN CUTAWAY on the viewer's upper right shoulder. Clearly curved narrow waist, rounded lower bout, upper left shoulder intact. Circular soundhole with understated rings, dark teardrop pickguard on viewer's right, dark pin bridge and light saddle, slender dark fretboard, solid gently tapered headstock with three chrome tuning machines on each side. Distinct from a dreadnought: narrower waist and clearly visible scooped cutaway. Approximate overall width to length ratio 0.39."
+    },
+    {
+      "id": "acoustic-classical",
+      "label": "Klassik",
+      "asset": "acoustic-classical-illustrated-v1.png",
+      "w": 0.38,
+      "d": 1.0,
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        209,
+        5,
+        607,
+        1524
+      ],
+      "alphaBounds": [
+        213,
+        9,
+        812,
+        1525
+      ],
+      "sha256": "21d00ba0cb26f3ca8d60b1aa31255e3792f808d727637328ab47fd48b22a8eb8",
+      "sourceFile": "exec-32877d1c-0fad-4855-99fe-bf079aa7a8e7.png",
+      "reference": "https://cordobaguitars.com/iberia/c5-sp/",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument, lying flat on its back, soundboard facing the camera, neck pointing straight up. Camera exactly perpendicular to the front face, orthographic, no perspective, no side walls visible. Portrait composition, centered, entire headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal details; polished and legible at small size, not a flat vector icon. Neutral grayscale only, no color. Background genuinely transparent alpha, no floor, no cast shadow, no white rectangle, no checkerboard drawing. No lettering, branding, logo, watermark, labels, people, hands, case, stand, cable, microphone, or additional instruments. Anatomically coherent strings, bridge, frets and tuning pegs. Subject: a traditional Spanish six NYLON-STRING CLASSICAL GUITAR. Graceful compact symmetrical figure-eight body, rounded shoulders, clearly pinched waist, no cutaway. Round soundhole with tasteful detailed wood rosette. Wide flat dark fingerboard meeting the body at 12th fret. Slotted headstock with two long open slots and three sideways tuning rollers on each side. Traditional rectangular tie-block wooden bridge, tied strings, NO bridge pins. No pickguard, no pickup, no controls. Lighter matte soundboard and dark edges. Approximate overall width to length ratio 0.38."
+    },
+    {
+      "id": "acoustic-gypsy",
+      "label": "Gypsy",
+      "asset": "acoustic-gypsy-illustrated-v1.png",
+      "w": 0.4,
+      "d": 1.02,
+      "size": [
+        1026,
+        1533
+      ],
+      "viewBox": [
+        210,
+        3,
+        607,
+        1514
+      ],
+      "alphaBounds": [
+        214,
+        7,
+        813,
+        1513
+      ],
+      "sha256": "ac4ed8536d881ad9f125c4b4fefbfe29332a78bb2c474b519a76e2f0bc8041e4",
+      "sourceFile": "exec-8bd3e87a-b4c3-40d2-8a98-86e4421f65de.png",
+      "reference": "https://www.eastmanguitars.com/dm1",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument, lying flat on its back, soundboard facing the camera, neck pointing straight up. Camera exactly perpendicular to the front face, orthographic, no perspective, no side walls visible. Portrait composition, centered, entire headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal details; polished and legible at small size, not a flat vector icon. Neutral grayscale only, no color. Background genuinely transparent alpha, no floor, no cast shadow, no white rectangle, no checkerboard drawing. No lettering, branding, logo, watermark, labels, people, hands, case, stand, cable, microphone, or additional instruments. Anatomically coherent strings, bridge, frets and tuning pegs. Subject: a six steel-string Selmer-style GYPSY JAZZ GUITAR with its authentic distinctive anatomy: large rounded lower bout, noticeably narrow waist, asymmetric sharply scooped single cutaway on the viewer's upper right; small HORIZONTALLY OVAL petite-bouche soundhole, wider than tall; long dark fretboard with small dot inlays meeting the body at the 14th fret; SLOTTED headstock with two open slots and side-mounted tuning rollers, three on each side. Dark floating wooden mustache bridge low on the soundboard, clearly separate polished silver metal trapeze tailpiece anchored at the bottom rim. Strings extend from bridge to that tailpiece. No electric pickup, no pickguard, no central round soundhole, no f-holes. A light wood soundboard in grayscale with dark fine binding. Approximate overall width to length ratio 0.392."
+    },
+    {
+      "id": "acoustic-jazz",
+      "label": "Jazzgitarre",
+      "asset": "acoustic-jazz-illustrated-v1.png",
+      "w": 0.41,
+      "d": 1.02,
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        185,
+        11,
+        652,
+        1494
+      ],
+      "alphaBounds": [
+        189,
+        15,
+        833,
+        1501
+      ],
+      "sha256": "65b0528986a9d01b77eabdcc0dc42875fcc41ac95c9cc599307de1b9e38f3d91",
+      "sourceFile": "exec-b5f7a67a-6e16-4f23-b08d-c419c01aa81a.png",
+      "reference": "https://www.eastmanguitars.com/ar503CE/",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument, lying flat on its back, soundboard facing the camera, neck pointing straight up. Camera exactly perpendicular to the front face, orthographic, no perspective, no side walls visible. Portrait composition, centered, entire headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal details; polished and legible at small size, not a flat vector icon. Neutral grayscale only, no color. Background genuinely transparent alpha, no floor, no cast shadow, no white rectangle, no checkerboard drawing. No lettering, branding, logo, watermark, labels, people, hands, case, stand, cable, microphone, or additional instruments. Anatomically coherent strings, bridge, frets and tuning pegs. Subject: a full hollowbody six-string JAZZ ARCHTOP GUITAR. Broad rounded arched top, pronounced waist, one soft Venetian cutaway on the viewer's upper right, two elegant f-shaped soundholes on either side of the strings, NO central round soundhole. One small nickel neck humbucker at end of fretboard, floating dark pickguard on viewer's right, dark height-adjustable floating bridge, separate slender metal trapeze tailpiece anchored at bottom edge. Three tuners each side of solid art-deco-shaped headstock, dark fretboard with restrained rectangular inlays. Grayscale sunburst: light silver-gray middle smoothly shading to dark charcoal around body perimeter, cream binding. Recognizably a jazz box rather than a solid-body or double-cutaway guitar. Approximate overall width to length ratio 0.41."
+    },
+    {
+      "id": "banjo",
+      "label": "Banjo",
+      "asset": "banjo-illustrated-v1.png",
+      "w": 0.32,
+      "d": 0.96,
+      "size": [
+        1067,
+        1474
+      ],
+      "viewBox": [
+        271,
+        10,
+        525,
+        1437
+      ],
+      "alphaBounds": [
+        275,
+        14,
+        792,
+        1443
+      ],
+      "sha256": "07f4f683a7af6b2838d26ab12a2fc28f212cac1475e136270a8d7d50fc452eca",
+      "sourceFile": "exec-0549a8a0-b93b-49a9-bb69-c798bdc4191b.png",
+      "reference": "https://www.deeringbanjos.com/collections/5-string-banjos/products/goodtime-banjo",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument, lying flat on its back, soundboard facing the camera, neck pointing straight up. Camera exactly perpendicular to the front face, orthographic, no perspective, no side walls visible. Portrait composition, centered, entire headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal details; polished and legible at small size, not a flat vector icon. Neutral grayscale only, no color. Background genuinely transparent alpha, no floor, no cast shadow, no white rectangle, no checkerboard drawing. No lettering, branding, logo, watermark, labels, people, hands, case, stand, cable, microphone, or additional instruments. Anatomically coherent strings, bridge, frets and tuning pegs. Subject: an authentic FIVE-STRING OPEN-BACK BANJO, entire instrument seen perpendicular to its front. Perfectly circular white-gray stretched drum head in a thin metallic tension hoop, evenly spaced shiny hooks and brackets around rim, small slender three-foot wooden bridge across skin, short metal tailpiece at bottom. A long narrow dark fretted neck, four long strings from bridge to FOUR tuning pegs on the headstock (two per side), plus a fifth short drone string that starts at a clearly visible SINGLE SIDE TUNER protruding from the viewer's LEFT side of the neck near the fifth fret. Exactly four tuners on headstock plus fifth on neck; not a six-string guitar banjo. Subtle maple and metal shading in grayscale, no soundhole and no guitar-shaped body. Approximate overall width to length ratio 0.315."
+    }
+  ]
+}

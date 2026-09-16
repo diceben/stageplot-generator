@@ -50,7 +50,7 @@ Gut sichtbarer Einstieg „Drums & Percussion“ in der Bibliothek sowie „Aufb
 | Mikrofone | Sennheiser MD 421 Kompakt im gemeinsamen Mikrofonkatalog und bei passenden Drum-Abnahmen anbieten. |
 | Freie Notizen | Die vorhandene „Freie Beschriftung“ als gut auffindbares mehrzeiliges Textfeld anbieten; direkt bearbeiten, verschieben und in PDF/Bild ausgeben. Text sicher behandeln. Für Freigaben dieselben klaren Hinweise wie bei anderen sichtbaren Beschriftungen. |
 | Akkordeon | Standardausrichtung neuer Objekte um 180° ändern. Bereits bewusst platzierte Objekte nicht nachträglich drehen. |
-| Akustikgitarren | Gemeinsamer Modell-Picker, zunächst Dreadnought, klassische Gitarre und Gypsy-/Selmer-Bauform. Abnahme unabhängig vom Modell einstellen. |
+| Akustikgitarren und Banjo | Gemeinsame Auswahl „Akustik & Banjo“ mit Dreadnought, Cutaway, Klassik, Gypsy, Jazzgitarre und Banjo. Sechs separat generierte transparente PNG-Assets nach Herstellerreferenzen; Abnahme unabhängig vom Modell einstellen. |
 | Streicher | Einzeln platzierte Streicher direkt in den Bühnen-Eigenschaften bearbeiten. Der Orchester-Editor bleibt für gemeinsame Aufstellungen und Gruppen. |
 
 ## Prüfstand
@@ -59,6 +59,7 @@ Gut sichtbarer Einstieg „Drums & Percussion“ in der Bibliothek sowie „Aufb
 - `npm run check`: 25 Laufzeitmodule und acht eingebettete Skripte erfolgreich geprüft; Build und erzeugte HTML-Dateien sind abgeglichen.
 - PostgreSQL/PGlite: alle Migrationen einschließlich 0007 sowie Datenbereinigung, Eigentümerrechte und Freigabeabläufe erfolgreich geprüft. Neue Instrumentfelder werden zwischen Browser- und Datenbankfilter identisch behandelt.
 - Browser: DI an Gitarre CH 16 verknüpft und neu geladen; Dual Mono behält ersten Kanal und Patch; Cajon vorne/hinten mit MD 421 Kompakt, zusätzliches Crash und Vocal-Boom mit SM58 gespeichert und erneut geladen. Direkte Violine-Eigenschaften, Gypsy-Gitarre, sieben Treppenstufen, zweizeilige Notiz und Speicherhinweis geprüft. Instrumentgruppen verschieben sich ohne Öffnen eines Dialogs. Mobile Routingansicht visuell geprüft. Keine JavaScript-Fehler in diesen Abläufen.
+- Gitarren-Bildassets: alle sechs Modelle in der Auswahl visuell geprüft. Banjo auf der Bühne platziert und zu Cutaway gewechselt; Position, Drehung und CH 24 bleiben erhalten. Bestehende Gypsy-Gitarre lädt das neue Bild. Transparenz auf heller Auswahl und dunkler Bühne sowie Cutaway nach erneutem Laden in der Exportvorschau geprüft; keine Konsolenfehler. [Dateien, Prompts und Referenzen](stageplot-assets/objects/acoustic-instruments-v1.json).
 - Bestandsaufbauten behalten ihre bisherigen Datenmodelle. Der bisherige Percussion-Editor bleibt für solche Objekte zuständig und bietet zusätzlich Kick, Snare, Cajon, Vocal-Boom und Mikrofonwahl; der Drum-Designer enthält die Percussion-Teile ebenfalls. Beide heißen „Drums & Percussion“.
 
 **Noch offen vor Veröffentlichung:** tatsächlich erzeugte PDF auf Vollständigkeit und Seitenausgabe kontrollieren; den gemeldeten Auswahlfehler auf dem betroffenen Gerät nachvollziehen. Migration 0007 ist vorbereitet und lokal geprüft, aber noch nicht auf dem Freigabedienst angewandt. Die neue Version wurde weder gepusht noch veröffentlicht.

@@ -14,7 +14,7 @@ for(const c of ctx.catalog.filter(c=>!c.orchestraPart&&!c.percussionPart&&!['orc
  const box={x:-7.3,y:13.7,width:c.vb[0]*.72,height:c.vb[1]*.58};ctx.artBoundsCache.set(c.id,box);
  for(const scale of [2,37,180]){
   const g=ctx.objectArtGeometry(c,{type:c.id},c.w*scale,c.d*scale);
-  const frame=ctx.stageplotTechFrame(c.art||c.id,{type:c.id})||ctx.stageplotLightingFrame(c.art||c.id);
+  const frame=ctx.stageplotTechFrame(c.art||c.id,{type:c.id})||ctx.stageplotLightingFrame(c.art||c.id)||ctx.stageplotAcousticFrame(c.art||c.id);
   if(frame){
    near(g.sx,g.sy,c.id+' isotropic scale');near(frame.width*g.sx,c.w*scale,c.id+' metric frame width');near(frame.height*g.sy,c.d*scale,c.id+' metric frame depth');
    near(frame.width/2*g.sx+g.tx,0,c.id+' frame centre');

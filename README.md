@@ -16,6 +16,7 @@ Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SET
 
 ## Funktionen
 
+- **Gitarren und Banjo als Bildassets:** Dreadnought, Cutaway, Klassik, Gypsy, Jazzgitarre und Banjo verwenden sechs separat generierte, transparente PNGs. Gemeinsame Auswahl unter „Akustik & Banjo“; bestehende Typen, Winkel und Routingdaten bleiben erhalten. [Assets, Prompts und Herstellerreferenzen](stageplot-assets/objects/acoustic-instruments-v1.json).
 - **Instrumente und Routing:** Wählbare Treppenstufen, MD 421 Kompakt, mehrzeilige freie Notizen, Akustikgitarrenmodelle und direkte Eigenschaften einzelner Streicher. Dual Mono erzeugt zwei unabhängige Abnahmen; eine DI-Box lässt sich einem vorhandenen Signal zuordnen. Die Routingliste zeigt Instrument, Abnahme, Stagebox und Pultkanal; Sortieren ändert keine Kanalnummern.
 - **Drums & Percussion:** Gemeinsame Vorlagen und frei kombinierbare Teile einschließlich Vocal-Mikrofon mit Boom und Cajon/Kick/Crash. Cajon-Abnahme vorne, hinten oder beidseitig mit eigener Mikrofonwahl. [Cajon-Asset und Prompt](stageplot-assets/percussion/cajon-top-v1.json).
 - **Druck und lokale Daten:** Eigenständige SVG-Definitionen und Bildvorbereitung für den Ausdruck; Speicherhinweise und direkter Sicherungsdownload. Neue Instrumentdetails in Online-Freigaben benötigen zusätzlich [Migration 0007](supabase/migrations/0007_instrument_details.sql). Prüfstand und offene Gegenproben stehen in [FEEDBACK_PLAN.md](FEEDBACK_PLAN.md).
