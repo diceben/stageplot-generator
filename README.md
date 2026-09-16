@@ -6,13 +6,13 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in einer Kopfzeile. Kompaktere Abstände und der entfernte Bausteinzähler lassen mehr Platz für die Objekte. Die Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
 
-**Aktuelle Version:** v0.1.0-beta.14 · Lokaler Entwicklungsstand, noch nicht veröffentlicht. Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.14 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
 
 Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Entwicklung und Prüfungen
 
-`npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 43 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
+`npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 44 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots und die PDF-Gegenprobe mit Schlagzeug und Jazzmaster liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
 
 ## Funktionen
 

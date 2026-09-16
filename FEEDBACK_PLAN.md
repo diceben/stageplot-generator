@@ -1,6 +1,6 @@
 # Instrumente, Routing und Export
 
-Stand: 16. September 2026 · v0.1.0-beta.14. Lokal umgesetzt, noch nicht veröffentlicht. Die folgenden Abschnitte beschreiben den implementierten Umfang; Prüfgrenzen stehen am Ende.
+Stand: 17. September 2026 · v0.1.0-beta.14. Die folgenden Abschnitte beschreiben den implementierten Umfang; Prüfgrenzen stehen am Ende.
 
 ## 1. Fehler und Datensicherheit zuerst
 
@@ -64,7 +64,7 @@ Gut sichtbarer Einstieg „Drums & Percussion“ in der Bibliothek sowie „Aufb
 - Neue E-Gitarren: alle elf Bilder in der Modellauswahl visuell geprüft. Jazzmaster, Mandoline, Lap Steel und Ukulele über die Oberfläche platziert, Signalanschlüsse geprüft und Projekt erneut geladen. Transparenz auf dunkler Bühne und alle vier Instrumente in der Exportvorschau geprüft; keine Konsolenfehler. PNG-Alpha und Prüfsummen aller 14 Assets kontrolliert. [Dateien, Prompts, Korrektur der Flying-V-Kopfplatte und Herstellerreferenzen](stageplot-assets/objects/electric-instruments-v1.json). Die tatsächliche PDF-Dateiausgabe wurde für diese Änderung nicht erneut geprüft.
 - Bestandsaufbauten behalten ihre bisherigen Datenmodelle. Der bisherige Percussion-Editor bleibt für solche Objekte zuständig und bietet zusätzlich Kick, Snare, Cajon, Vocal-Boom und Mikrofonwahl; der Drum-Designer enthält die Percussion-Teile ebenfalls. Beide heißen „Drums & Percussion“.
 
-**Noch offen vor Veröffentlichung:** tatsächlich erzeugte PDF auf Vollständigkeit und Seitenausgabe kontrollieren; den gemeldeten Auswahlfehler auf dem betroffenen Gerät nachvollziehen. Migration 0007 ist vorbereitet und lokal geprüft, aber noch nicht auf dem Freigabedienst angewandt. Die neue Version wurde weder gepusht noch veröffentlicht.
+Migration 0007 wurde am 17. September auf dem Freigabedienst angewandt. Eine Abfrage mit künstlichen Testdaten bestätigt erhaltene Treppenstufen, Hybrid-Percussion, Mikrofonwahl und Labelpositionen sowie weiterhin entfernte private Felder. Die Browserprüfung erzeugt zusätzlich eine echte zweiseitige PDF mit Schlagzeug, Jazzmaster und Kanalliste als Release-Artefakt. Der ursprünglich gemeldete Auswahlfehler bleibt auf dem betroffenen Gerät noch gegenzuprüfen; die lokal geprüften Abläufe sind oben dokumentiert.
 
 ## Ergänzungen und Prüfung vom 16. September
 
