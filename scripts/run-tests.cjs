@@ -25,6 +25,7 @@ const tests=[
   'stageplot-account-v1.test.cjs',
   'stageplot-sync-v2.test.cjs',
   'stageplot-project-identity.test.cjs',
+  'stageplot-share-v1.test.cjs',
   'stageplot-usability.test.cjs',
   'stageplot-print-v1.test.cjs',
   'stageplot-look-v1.test.cjs',

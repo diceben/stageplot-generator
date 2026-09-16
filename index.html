@@ -127,7 +127,7 @@
   <section id="sp-dashboard" class="sp-dashboard" hidden>
     <div class="sp-dashboard-hero">
       <div class="sp-dashboard-intro"><img loading="lazy" decoding="async" class="sp-dashboard-logo" src="./stageplot-assets/branding/stageplotter-logo-transparent-v2.png" alt="Stageplotter"><div><span class="sp-eyebrow">DEINE PRODUKTIONEN</span><h1>Projekte</h1><p>Stageplot, Routing und Produktionsdaten an einem Ort.</p></div></div>
-      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
+      <div class="sp-dashboard-actions"><button type="button" class="sp-button" id="sp-account-open">Account &amp; Inventar</button><button class="sp-button sp-primary sp-new-project-cta" type="button" id="sp-project-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span><strong>Neues Projekt</strong><small>Stageplot anlegen</small></span></button><button class="sp-button" type="button" id="sp-shared-open">Projekt-ID öffnen</button><button class="sp-button" type="button" id="sp-project-import">Import</button></div>
     </div>
     <div class="sp-plan-card" id="sp-plan-card">
       <div class="sp-plan-message"><span class="sp-plan-kicker" id="sp-plan-kicker">KOSTENLOSE PRO-BETA</span><details class="sp-beta-details"><summary>Was ist enthalten?</summary><strong id="sp-plan-usage"></strong><small id="sp-plan-copy"></small><small id="sp-plan-action-copy"></small></details></div>
@@ -466,6 +466,7 @@
   </section>
 
   <section id="sp-print" class="sp-print" hidden>
+    <div id="sp-shared-banner" class="sp-actions" hidden><span class="sp-muted">Geteilter Plan · nur ansehen</span><button class="sp-button" type="button" id="sp-shared-return">Zu meinen Projekten</button></div>
     <div class="sp-export-wizard">
       <aside class="sp-export-controls" aria-label="Export-Einstellungen">
         <header><span class="sp-eyebrow">EXPORT &amp; TEILEN</span><h1>Exportieren &amp; teilen</h1></header>
@@ -579,7 +580,24 @@
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">MODELLWECHSEL</span><h2 id="sp-model-dialog-title">Modell auswählen</h2><p id="sp-model-dialog-summary" class="sp-muted"></p></div><button class="sp-stagebox-close-button" type="button" id="sp-model-dialog-close" aria-label="Modellauswahl schließen">×</button></div>
     <div class="sp-model-dialog-options" id="sp-model-dialog-options" role="listbox" aria-labelledby="sp-model-dialog-title"></div>
   </dialog>
-  <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title"><div class="sp-dialog-heading"><h2 id="sp-share-title">Ansichtslink teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div><p>Empfänger sehen Bühnenplan und Projektdaten, können sie aber nicht bearbeiten. Der Link enthält den aktuellen Stand; für spätere Änderungen einen neuen Link erstellen.</p><label class="sp-field">Link<textarea id="sp-share-link" rows="4" readonly></textarea></label><div class="sp-actions"><button class="sp-button" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button sp-primary" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div><p id="sp-share-status" class="sp-muted" role="status"></p></dialog>
+  <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title">
+    <div class="sp-dialog-heading"><h2 id="sp-share-title">Projekt teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div>
+    <p>Gib den aktuellen Bühnenplan samt Routing frei. Jeder mit der Projekt-ID kann diesen Stand ansehen. Änderungen übernimmst du mit „Freigabe aktualisieren“.</p>
+    <p class="sp-muted">Kontaktfelder, Autor und Notizen werden entfernt. Prüfe vor der Freigabe auch Projektnamen und Beschriftungen auf private Angaben.</p>
+    <label class="sp-field">Projekt-ID<input id="sp-share-id" readonly></label>
+    <p id="sp-share-status" class="sp-muted" role="status" aria-live="polite"></p>
+    <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-publish">Jetzt freigeben</button><button class="sp-button" type="button" id="sp-share-login" hidden>Zum Freigeben anmelden</button><button class="sp-button sp-danger-quiet" type="button" id="sp-share-revoke" hidden>Freigabe widerrufen</button></div>
+    <div id="sp-share-result" hidden><label class="sp-field">Kurzer Ansichtslink<textarea id="sp-share-link" rows="2" readonly></textarea></label><div class="sp-actions"><button class="sp-button" type="button" id="sp-share-copy-id">ID kopieren</button><button class="sp-button" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div></div>
+    <details><summary>Ohne Online-Freigabe teilen</summary><p class="sp-muted">Ein vollständiger Offline-Link enthält den Plan und kann sehr lang sein. Er lässt sich nicht widerrufen. Für WhatsApp ist die Projekt-ID besser geeignet.</p><button class="sp-button" type="button" id="sp-share-offline">Offline-Link erstellen</button><label class="sp-field" id="sp-share-offline-field" hidden>Offline-Link<textarea id="sp-share-offline-link" rows="3" readonly></textarea></label><button class="sp-button" type="button" id="sp-share-offline-copy" hidden>Offline-Link kopieren</button></details>
+  </dialog>
+  <dialog id="sp-shared-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-shared-title">
+    <div class="sp-dialog-heading"><h2 id="sp-shared-title">Projekt-ID öffnen</h2><button class="sp-button" type="button" id="sp-shared-close" aria-label="Projekt-ID öffnen schließen">×</button></div>
+    <p>Empfangene Projekt-ID oder kurzen Ansichtslink einfügen. Der Plan öffnet sich schreibgeschützt.</p>
+    <form id="sp-shared-form"><label class="sp-field">Projekt-ID oder Link<input id="sp-shared-id" placeholder="SP-…" autocomplete="off" autocapitalize="characters" spellcheck="false" required maxlength="500"></label><button class="sp-button sp-primary" type="submit">Plan öffnen</button></form>
+    <p id="sp-shared-status" class="sp-muted" role="status" aria-live="polite"></p>
+  </dialog>
+  <dialog id="sp-shared-load-dialog" class="sp-clear-dialog" aria-labelledby="sp-shared-load-title"><h2 id="sp-shared-load-title">Geteilter Bühnenplan</h2><p id="sp-shared-load-status" role="status" aria-live="polite">Plan wird geladen …</p><div class="sp-actions"><button class="sp-button" type="button" id="sp-shared-retry" hidden>Erneut versuchen</button><button class="sp-button" type="button" id="sp-shared-back">Zu meinen Projekten</button></div></dialog>
+
   <dialog id="sp-upgrade-dialog" class="sp-clear-dialog sp-upgrade-dialog" aria-labelledby="sp-upgrade-title"><div class="sp-dialog-heading"><div><span class="sp-eyebrow">KOSTENLOSE PRO-BETA</span><h2 id="sp-upgrade-title">Pro-Funktionen kostenlos aktivieren</h2></div><button class="sp-button" type="button" id="sp-upgrade-close" aria-label="Pro-Beta schließen">×</button></div><p>Während der öffentlichen Beta kannst du Pro auf diesem Gerät kostenlos nutzen:</p><ul><li>Unbegrenzte Projekte</li><li>Complete-PDF mit Routing und Kontakten</li><li>XLSX-Export der Kanalliste</li></ul><p class="sp-muted">Keine Zahlung, kein Abo. Die Freischaltung wird nur lokal gespeichert und lässt sich jederzeit wieder auf „Standard“ stellen.</p><button class="sp-button sp-primary sp-upgrade-button" type="button" id="sp-upgrade-demo">Pro-Beta kostenlos aktivieren</button></dialog>
   <dialog id="sp-newproject-dialog" class="sp-clear-dialog sp-newproject-dialog" aria-labelledby="sp-np-heading">
     <div class="sp-dialog-heading"><h2 id="sp-np-heading" tabindex="-1" autofocus>Neues Projekt</h2><button class="sp-button" type="button" id="sp-np-close" aria-label="Schließen">×</button></div>
@@ -679,10 +697,15 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.9">v0.1.0-beta.9</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.10">v0.1.0-beta.10</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.9</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.10</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <h4>Pläne per Projekt-ID teilen</h4>
+            <ul><li><strong>Kurze Freigabe:</strong> Nach Einrichtung des Online-Dienstes können angemeldete Absender einen Plan samt Routing bewusst freigeben, aktualisieren und widerrufen. Empfänger öffnen die Projekt-ID oder den kurzen Link ohne Anmeldung.</li><li><strong>Kontaktdaten bleiben privat:</strong> Kontaktfelder, Autor und freie Notizen sind nicht in der Freigabe enthalten. Eigene Entwürfe bleiben beim Öffnen unverändert; vollständige Offline-Links funktionieren weiterhin.</li></ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.9</strong></div><time datetime="2026-09-16">16. September 2026</time></header>
             <h4>Freigabelinks im offenen Browser-Tab</h4>
             <ul>
               <li><strong>Geteilte Pläne öffnen:</strong> Ein vollständiger Freigabelink wird auch dann eingelesen, wenn die App bereits im selben Tab geöffnet ist. Der Wechsel zwischen Freigabelinks und Zurück im Browser funktionieren ebenfalls.</li>
@@ -834,7 +857,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.9 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.10 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -6515,6 +6538,7 @@ html,body { height:100%; overflow:hidden; }
 
 <script src="./stageplot-account-v1.js"></script>
 <script src="./stageplot-cloud-config.js"></script>
+<script src="./stageplot-share-v1.js"></script>
 <script src="./stageplot-sync-v2.js"></script>
 <script src="./stageplot-inventory-v1.js"></script>
 
@@ -10414,7 +10438,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const previousView=view;
     if(which!=='editor'){selectionMode=false;selectionIds.clear();}
     finishEdit();cancelPlacement(false);mobileToolsOpen=false;view=which;root.dataset.view=which;syncWorkspaceUi();
-    try{window.sessionStorage.setItem(viewStorageKey,which);}catch(error){}
+    if(!sharedReadOnly)try{window.sessionStorage.setItem(viewStorageKey,which);}catch(error){}
     ['dashboard','setup','editor','routing','print','project'].forEach(name=>{$('sp-'+name).hidden=name!==which;});
     root.querySelectorAll('[data-editor-actions]').forEach(el=>{el.hidden=which!=='editor';});
     root.querySelectorAll('[data-step]').forEach(el=>{if(el.dataset.step===which)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');const unavailable=!stage&&!['setup','dashboard'].includes(el.dataset.step),button=el.querySelector('button');button.disabled=false;button.setAttribute('aria-disabled',String(unavailable));});
@@ -13192,15 +13216,77 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   // separate. Existing beforeunload/pagehide hooks flush pending local edits.
   window.addEventListener('hashchange',event=>{
     const previous=new URL(event.oldURL).hash,next=new URL(event.newURL).hash;
-    if(previous!==next&&(previous.startsWith('#share=')||next.startsWith('#share=')))window.location.reload();
+    if(previous!==next&&(previous.startsWith('#share=')||next.startsWith('#share=')||previous.startsWith('#p/')||next.startsWith('#p/')))window.location.reload();
   });
-  function openShareDialog(document={stage,objects}){
-    try{const base=window.location.href.split('#')[0],link=base+'#share='+encodeShareDocument(document);$('sp-share-link').value=link;$('sp-share-status').textContent='Der Link enthält eine schreibgeschützte Momentaufnahme inklusive Kontaktdaten.';$('sp-share-dialog').showModal();}catch(error){say('Link nicht erstellt: '+error.message);}
+  let shareDocument=null,shareBusy=false,shareGeneration=0,shareActive=false;
+  const shareClient=window.StageplotShare.create({config:window.StageplotCloudConfig||{},token:async()=>{
+    if(!accountClient)return null;const {data,error}=await accountClient.auth.getSession();if(error)throw error;return data.session?.access_token||null;
+  }});
+  function shareControls(active=shareActive){
+    shareActive=active;
+    const enabled=window.StageplotShare.configured(window.StageplotCloudConfig),signedIn=!!accountSession?.user;
+    $('sp-share-publish').hidden=!enabled||!signedIn;$('sp-share-login').hidden=!enabled||signedIn;
+    $('sp-share-publish').textContent=active?'Freigabe aktualisieren':'Jetzt freigeben';$('sp-share-revoke').hidden=!active||!signedIn;
+    for(const id of ['sp-share-publish','sp-share-revoke','sp-share-login'])$(id).disabled=shareBusy;
+    $('sp-share-result').hidden=!active;$('sp-share-copy-id').disabled=!active;
   }
+  async function refreshShareState(){
+    if(!shareDocument||!$('sp-share-dialog').open||shareBusy)return;
+    const generation=++shareGeneration;shareControls(false);
+    if(!window.StageplotShare.configured(window.StageplotCloudConfig)){$('sp-share-status').textContent='Teilen per Projekt-ID ist noch nicht eingerichtet. Ein Offline-Link ist weiterhin möglich.';return;}
+    if(!accountSession?.user){$('sp-share-status').textContent='Zum Freigeben einmal per E-Mail anmelden. Empfänger brauchen keinen Account. Gerätesync ist dafür nicht nötig.';return;}
+    shareBusy=true;shareControls();$('sp-share-status').textContent='Freigabe wird geprüft …';
+    try{const result=await shareClient.status(shareDocument.stage.projectId);if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active);$('sp-share-status').textContent=result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. Erst „Jetzt freigeben“ lädt diesen Stand hoch.';}
+    catch(error){if(generation===shareGeneration){shareBusy=false;shareControls();$('sp-share-publish').disabled=true;$('sp-share-status').textContent=error.message;}}
+  }
+  function openShareDialog(document){
+    try{
+      if(!document){if(!flushProjectForm(true))return;finishEdit();if(!stage)throw new Error('Bitte zuerst ein Projekt anlegen.');if(!stage.projectId&&!persistDraft(true))return;document={stage,objects};}
+      shareDocument=window.StageplotShare.clean(normalizeSetupDocument(document));
+      if(!projectIdentity(shareDocument.stage.projectId))throw new Error('Bitte das Projekt zuerst lokal speichern.');
+      shareGeneration++;shareBusy=false;$('sp-share-id').value=shareDocument.stage.projectId;$('sp-share-link').value=window.location.href.split('#')[0]+'#p/'+shareDocument.stage.projectId;
+      $('sp-share-offline-field').hidden=true;$('sp-share-offline-copy').hidden=true;$('sp-share-dialog').showModal();refreshShareState();
+    }catch(error){say('Freigabe nicht geöffnet: '+error.message);}
+  }
+  $('sp-share-dialog').addEventListener('close',()=>{shareGeneration++;shareBusy=false;});
   $('sp-share-close').addEventListener('click',()=>$('sp-share-dialog').close());
   $('sp-share-open').addEventListener('click',()=>openShareDialog());
-  $('sp-share-copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('sp-share-link').value);$('sp-share-status').textContent='Ansichtslink kopiert.';}catch(error){$('sp-share-link').focus();$('sp-share-link').select();$('sp-share-status').textContent='Link markiert · bitte kopieren.';}});
+  $('sp-share-login').addEventListener('click',()=>openAccount('account'));
+  $('sp-account-dialog').addEventListener('close',refreshShareState);
+  async function copyShareValue(field,message){try{await navigator.clipboard.writeText($(field).value);$('sp-share-status').textContent=message;}catch(error){$(field).focus();$(field).select();$('sp-share-status').textContent='Text markiert · bitte kopieren.';}}
+  $('sp-share-copy').addEventListener('click',()=>copyShareValue('sp-share-link','Ansichtslink kopiert.'));
+  $('sp-share-copy-id').addEventListener('click',()=>copyShareValue('sp-share-id','Projekt-ID kopiert.'));
   $('sp-share-preview').addEventListener('click',()=>{const link=$('sp-share-link').value;if(link)window.open(link,'_blank','noopener');});
+  $('sp-share-offline').addEventListener('click',()=>{try{$('sp-share-offline-link').value=window.location.href.split('#')[0]+'#share='+encodeShareDocument(shareDocument);$('sp-share-offline-field').hidden=false;$('sp-share-offline-copy').hidden=false;}catch(error){$('sp-share-status').textContent=error.message;}});
+  $('sp-share-offline-copy').addEventListener('click',()=>copyShareValue('sp-share-offline-link','Offline-Link kopiert.'));
+  async function updateShare(revoke=false){
+    if(shareBusy||!shareDocument)return;const generation=++shareGeneration,document=shareDocument;shareBusy=true;shareControls();$('sp-share-status').textContent=revoke?'Freigabe wird widerrufen …':'Plan wird freigegeben …';
+    try{const result=await (revoke?shareClient.revoke(document.stage.projectId):shareClient.publish(document));if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active);$('sp-share-status').textContent=revoke?'Freigabe widerrufen. Die ID öffnet diesen Plan nicht mehr. Bereits gespeicherte Kopien bleiben beim Empfänger.':'Freigegeben. Du kannst jetzt die Projekt-ID oder den kurzen Link teilen.';}
+    catch(error){if(generation!==shareGeneration)return;shareBusy=false;shareControls();$('sp-share-result').hidden=true;$('sp-share-status').textContent=error.message;}
+  }
+  $('sp-share-publish').addEventListener('click',()=>updateShare());
+  $('sp-share-revoke').addEventListener('click',()=>confirmSetupAction('Freigabe widerrufen?','Die Projekt-ID und der kurze Link öffnen diesen Plan danach nicht mehr. Bereits gespeicherte Kopien können nicht zurückgerufen werden.','Widerrufen',()=>updateShare(true)));
+  $('sp-shared-open').addEventListener('click',()=>{$('sp-shared-status').textContent='';$('sp-shared-dialog').showModal();});
+  $('sp-shared-close').addEventListener('click',()=>$('sp-shared-dialog').close());
+  $('sp-shared-form').addEventListener('submit',event=>{
+    event.preventDefault();const id=window.StageplotShare.projectId($('sp-shared-id').value);
+    if(!id){$('sp-shared-status').textContent='Bitte eine gültige Projekt-ID eingeben (SP-…).';return;}
+    if(!window.StageplotShare.configured(window.StageplotCloudConfig)){$('sp-shared-status').textContent='Teilen per Projekt-ID ist noch nicht eingerichtet.';return;}
+    if(!flushProjectForm(true))return;finishEdit();flushDraft();window.location.hash='p/'+id;
+  });
+  function showSharedDocument(document){
+    stage=document.stage;objects=document.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';
+    $('sp-print-black-stage').checked=stage.surface==='black';$('sp-title').value=stage.title;$('sp-shared-banner').hidden=false;show('print');
+  }
+  async function loadSharedProject(){
+    $('sp-shared-retry').hidden=true;$('sp-shared-load-status').textContent='Plan wird geladen …';
+    try{const id=window.StageplotShare.projectId(window.location.hash);if(!id)throw new Error('Diese Projekt-ID ist ungültig.');const result=await shareClient.get(id);showSharedDocument(normalizeSetupDocument(result.document));$('sp-shared-load-dialog').close();}
+    catch(error){$('sp-shared-load-status').textContent=error.message;$('sp-shared-retry').hidden=false;}
+  }
+  $('sp-shared-retry').addEventListener('click',loadSharedProject);
+  $('sp-shared-back').addEventListener('click',()=>{window.location.hash='';});
+  $('sp-shared-return').addEventListener('click',()=>{window.location.hash='';});
+  $('sp-shared-load-dialog').addEventListener('cancel',event=>{event.preventDefault();window.location.hash='';});
   $('sp-print-page').addEventListener('click',()=>printReport('stage'));
   $('sp-print-complete').addEventListener('click',()=>printReport('complete'));
   $('sp-routing-pdf').addEventListener('click',()=>{show('print');setExportIntent('technical');setPdfPreset('plan');$('sp-print-inputs').checked=true;$('sp-print-routing').checked=true;renderPrint();});
@@ -14824,7 +14910,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   }
   function persistDraft(force=false){
     if(draftTimer!==null)clearTimeout(draftTimer);draftTimer=null;
-    if(!stage||drag)return false;
+    if(sharedReadOnly||!stage||drag)return false;
     const current=snapshot();
     if(!force&&current===draftBaseline){if(draftState==='pending')draftStatus(activeDraftId?'saved':'idle',activeDraftId?'Entwurf lokal gespeichert':'Entwurf ab der ersten Änderung · lokal');return true;}
     try{
@@ -14848,7 +14934,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     }catch(error){draftFailure(error);return false;}
   }
   function queueDraftSave(){
-    if(!stage)return;
+    if(sharedReadOnly||!stage)return;
     if(snapshot()===draftBaseline){if(draftTimer!==null)persistDraft();return;}
     if(!activeDraftId&&draftState!=='error'){persistDraft();return;}
     if(draftTimer!==null)clearTimeout(draftTimer);
@@ -15097,8 +15183,8 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     try{
       await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='./stageplot-assets/vendor/supabase.js';script.onload=resolve;script.onerror=()=>reject(new Error('Account-Client konnte nicht geladen werden.'));document.head.append(script);});
       accountClient=window.StageplotSupabase.createClient(accountConfig.url,accountConfig.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:'stageplot-auth-'+new URL(accountConfig.url).hostname}});
-      accountClient.auth.onAuthStateChange((_event,session)=>{accountSession=session;accountGeneration++;setTimeout(()=>{configureAccountBridge();renderAccountState();scheduleAccountSync();},0);});
-      const {data,error}=await accountClient.auth.getSession();if(error)throw error;accountSession=data.session;configureAccountBridge();renderAccountState();scheduleAccountSync();
+      accountClient.auth.onAuthStateChange((_event,session)=>{accountSession=session;accountGeneration++;setTimeout(()=>{configureAccountBridge();renderAccountState();scheduleAccountSync();refreshShareState();},0);});
+      const {data,error}=await accountClient.auth.getSession();if(error)throw error;accountSession=data.session;configureAccountBridge();renderAccountState();scheduleAccountSync();refreshShareState();
     }catch(error){accountMessage(error.message);}
   }
   $('sp-account-open').addEventListener('click',()=>openAccount());$('sp-inventory-open').addEventListener('click',()=>openAccount());
@@ -15139,14 +15225,19 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   // Restore actual local work before building any project-dependent views.
   loadThemePreference();loadAccountPlan();loadPackState();renderStageTemplates();
   setLibraryMode('objects');refreshPackUi();
+  const sharedIdRequest=window.location.hash.startsWith('#p/');
   let sharedDocument=null;try{sharedDocument=decodeShareDocument();}catch(error){say('Freigabelink konnte nicht geöffnet werden: '+error.message);}
-  if(sharedDocument){stage=sharedDocument.stage;$('sp-print-black-stage').checked=stage.surface==='black';objects=sharedDocument.objects;nextId=objects.length+1;selected=null;sharedReadOnly=true;root.dataset.readonly='true';$('sp-title').value=stage.title;show('print');}
+  if(sharedIdRequest){
+    sharedReadOnly=true;root.dataset.readonly='true';root.dataset.view='shared';
+    ['dashboard','setup','editor','routing','print','project'].forEach(name=>{$('sp-'+name).hidden=true;});
+  }else if(sharedDocument)showSharedDocument(sharedDocument);
   else {
     restoreLatestDraft();$('sp-print-black-stage').checked=stage?.surface==='black';const restoredView=restoredAppView();
     if(restoredView==='setup'&&stage)openStageSettings();else show(!stage&&!['dashboard','setup'].includes(restoredView)?'dashboard':restoredView);
   }
   syncResponsiveWorkspace(true);
   window.StageplotStartup.ready();
+  if(sharedIdRequest){$('sp-shared-load-dialog').showModal();loadSharedProject();}
   initializeAccount();
 })();
 </script>

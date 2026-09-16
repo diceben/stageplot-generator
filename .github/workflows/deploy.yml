@@ -50,6 +50,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run test:database
+        if: matrix.browser == 'chromium'
       - run: npx playwright install --with-deps ${{ matrix.browser }}
       - run: npm run test:browser
         env:
@@ -89,7 +91,7 @@ jobs:
       # Upload only runtime files and local assets; no sources, tests or documents.
       - run: |
           mkdir -p _site
-          cp index.html stageplot-account-v1.js stageplot-cloud-config.js stageplot-sync-v2.js stageplot-inventory-v1.js _site/
+          cp index.html stageplot-account-v1.js stageplot-cloud-config.js stageplot-sync-v2.js stageplot-inventory-v1.js stageplot-share-v1.js _site/
           cp -R stageplot-assets _site/stageplot-assets
 
       - uses: actions/upload-pages-artifact@v3
