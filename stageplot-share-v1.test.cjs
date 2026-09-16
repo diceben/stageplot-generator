@@ -16,10 +16,11 @@ assert.equal(S.configured(config),true);assert.equal(S.configured({...config,pub
  const client=S.create({config,token:async()=>'test-token',fetch:async(url,init)=>{requests.push({url,init});return {ok:true,json:async()=>url.endsWith('_get')?{project_id:'SP-TEST-123',document}: {active:true}};}});
  await client.publish(document);let request=requests.at(-1);assert.ok(!request.init.body.includes('PRIVATE'));assert.equal(request.init.headers.Authorization,'Bearer test-token');assert.equal(request.init.cache,'no-store');
  const received=await client.get('sp-test-123');assert.ok(!JSON.stringify(received).includes('PRIVATE'));assert.equal(requests.at(-1).init.headers.Authorization,undefined);
+ await S.create({config,fetch:async(_url,init)=>{assert.equal(init.headers.Authorization,undefined);return {ok:true,json:async()=>({active:false,owned:false,available:true})};}}).status('SP-TEST-123');
  await client.revoke('SP-TEST-123');assert.equal(JSON.parse(requests.at(-1).init.body).p_project_id,'SP-TEST-123');
- await assert.rejects(S.create({config,fetch:()=>{throw Error('must not fetch');}}).publish(document),/anmelden/);
+ await assert.rejects(S.create({config,fetch:()=>{throw Error('must not fetch');}}).publish(document),/Berechtigung/);
  await assert.rejects(S.create({config:{},fetch:()=>{throw Error('must not fetch');}}).get('SP-TEST-123'),/nicht eingerichtet/);
- for(const [response,pattern] of [[{ok:true,json:async()=>null},/widerrufen/],[{ok:false,status:404,json:async()=>({})},/nicht eingerichtet/],[{ok:false,status:400,json:async()=>({message:'NOT_OWNER'})},/andere/],[{ok:false,status:400,json:async()=>({message:'SHARE_LIMIT'})},/100/],[{ok:true,json:async()=>({project_id:'SP-WRONG',document})},/falsche/]]){
+ for(const [response,pattern] of [[{ok:true,json:async()=>null},/widerrufen/],[{ok:false,status:404,json:async()=>({})},/nicht eingerichtet/],[{ok:false,status:400,json:async()=>({message:'NOT_OWNER'})},/vergeben/],[{ok:false,status:400,json:async()=>({message:'SHARE_LIMIT'})},/100/],[{ok:true,json:async()=>({project_id:'SP-WRONG',document})},/falsche/]]){
   await assert.rejects(S.create({config,fetch:async()=>response}).get('SP-TEST-123'),pattern);
  }
  const abort=S.create({config,timeout:5,fetch:async(_url,{signal})=>new Promise((_,reject)=>signal.addEventListener('abort',()=>reject(Object.assign(new Error('timeout'),{name:'AbortError'}))))});
