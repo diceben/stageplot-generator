@@ -12,7 +12,7 @@
   const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
   function frame(width,mode){return {left:width<500?46:70,right:width<500?31:45,header:mode==='editor'&&width<620?120:clamp(width*.084,70,116),bottom:46};}
   function labelMetrics(lines,nameLines,scale,context,riser=false){
-    const unit=clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
+    const unit=.8*clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
     const fonts=lines.map((_,i)=>`${i<nameLines?650:400} ${i<nameLines?fontSize:detailSize}px ${i<nameLines?sans:mono}`);
     const previous=context?.font;
     const widths=lines.map((line,i)=>{if(!context)return line.length*(i<nameLines?fontSize:detailSize)*.65;context.font=fonts[i];return context.measureText(line).width;});
@@ -27,7 +27,7 @@
   }
   function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,dark=true,id}={}){
     const p=dark?palette:{label:'#f7f8f2',labelBorder:'#b9c1bb',ink:'#191f23',muted:'#485155',lime:'#819c23',violet:'#786094'}, {unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
-    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:1.5*unit,fill:p.label,stroke:p.labelBorder,'stroke-width':.75},parent);
+    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:1.5*unit,fill:p.label,stroke:p.labelBorder,'stroke-width':.75,style:`filter:drop-shadow(0 ${2*unit}px ${2*unit}px ${dark?'#0006':'#0003'})`},parent);
     add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:riser?p.violet:p.lime,'data-label-accent':'true','pointer-events':'none'},parent);
     lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start','pointer-events':'none',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${i<nameLines?p.ink:dark?'#d4d9d5':p.muted}`,'data-label-line':i},parent,line));
   }

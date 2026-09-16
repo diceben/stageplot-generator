@@ -578,9 +578,8 @@
     <header class="sp-share-heading">
       <span class="sp-share-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.1 0l3-3A5 5 0 0 0 13 2.9l-1.7 1.7M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.7-1.7"/></svg></span>
       <button type="button" class="sp-share-close" id="sp-share-close" aria-label="Teilen schließen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
-      <span class="sp-share-eyebrow">FÜR DEINE CREW</span>
-      <h2 id="sp-share-title">Ein Plan. Ein Link.</h2>
-      <p id="sp-share-description">Bühnenplan und Routing teilen.<br>Direkt öffnen, ohne Anmeldung.</p>
+      <h2 id="sp-share-title">Link teilen</h2>
+      <p id="sp-share-description">Bühnenplan und Routing als schreibgeschützten Link freigeben. Keine Anmeldung erforderlich.</p>
     </header>
     <div class="sp-share-body">
       <section class="sp-share-card" id="sp-share-card" aria-label="Freigabe">
@@ -592,8 +591,8 @@
         <div class="sp-share-permissions"><span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-5 8-5 8 5 8 5-3 5-8 5-8-5-8-5Z"/><circle cx="10" cy="10" r="2"/></svg>Nur ansehen</span><span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 6 3v5c0 4-6 7-6 7s-6-3-6-7V5Z"/><path d="m7 9 2 2 4-4"/></svg>Ohne Kontaktdaten</span></div>
         <input id="sp-share-id" type="hidden">
         <div id="sp-share-result" hidden>
-          <label class="sp-field" for="sp-share-link">Dein Ansichtslink</label>
-          <div class="sp-share-link-row"><textarea id="sp-share-link" rows="2" readonly spellcheck="false" aria-label="Dein Ansichtslink"></textarea><button class="sp-button sp-primary" type="button" id="sp-share-copy">Link kopieren</button></div>
+          <label class="sp-field" for="sp-share-link">Ansichtslink</label>
+          <div class="sp-share-link-row"><textarea id="sp-share-link" rows="2" readonly spellcheck="false" aria-label="Ansichtslink"></textarea><button class="sp-button sp-primary" type="button" id="sp-share-copy">Link kopieren</button></div>
           <button class="sp-share-preview" type="button" id="sp-share-preview">Ansicht öffnen <span aria-hidden="true">↗</span></button>
         </div>
         <p id="sp-share-status" class="sp-share-status" role="status" aria-live="polite"></p>
@@ -714,8 +713,8 @@
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
             <header><div><strong>v0.1.0-beta.13</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
-            <h4>Beschriftungen frei platzieren &amp; klarer teilen</h4>
-            <ul><li><strong>Bewegliche Beschriftungen:</strong> Schilder direkt im Plan ziehen, mit Pfeiltasten fein verschieben oder in den Eigenschaften automatisch platzieren. Positionen bleiben beim Speichern und im Export erhalten.</li><li><strong>Einheitlicher Look:</strong> Kompakte, linksbündige Karten mit grünem Akzent – dunkel auf schwarzer Bühne, hell auf weißer Bühne.</li><li><strong>Neuer Teilen-Dialog:</strong> Projektkarte, Freigabestatus und eine klare Hauptaktion. Datenschutz und Offline-Link sind aufklappbar; die Ansicht passt sich Hell-/Dunkelmodus und Handybildschirmen an.</li></ul>
+            <h4>Verschiebbare Beschriftungen und Teilen-Dialog</h4>
+            <ul><li><strong>Bewegliche Beschriftungen:</strong> Schilder direkt im Plan ziehen, mit Pfeiltasten fein verschieben oder in den Eigenschaften automatisch platzieren. Positionen bleiben beim Speichern und im Export erhalten.</li><li><strong>Darstellung:</strong> Kleinere, linksbündige Beschriftungen mit grünem Akzent und dezentem Schatten. Dunkle Karten auf schwarzer Bühne, helle Karten auf weißer Bühne.</li><li><strong>Neuer Teilen-Dialog:</strong> Projektkarte, Freigabestatus und sachliche Beschriftungen. Datenschutz und Offline-Link sind aufklappbar; die Ansicht passt sich Hell-/Dunkelmodus und Handybildschirmen an.</li></ul>
           </article>
           <article class="sp-release-card">
             <header><div><strong>v0.1.0-beta.12</strong></div><time datetime="2026-09-16">16. September 2026</time></header>
@@ -3155,7 +3154,6 @@
 #sp-prototype .sp-share-close { position:absolute; top:20px; right:20px; display:grid; place-items:center; width:36px; height:36px; padding:0; border:1px solid var(--sp-line); border-radius:50%; background:var(--sp-panel); color:var(--sp-muted); cursor:pointer; }
 #sp-prototype .sp-share-close svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; }
 #sp-prototype .sp-share-close:hover { background:var(--sp-soft); color:var(--sp-ink); }
-#sp-prototype .sp-share-eyebrow { display:block; margin-bottom:8px; color:var(--sp-muted); font:700 9px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.14em; }
 #sp-prototype #sp-share-title { margin:0 0 11px; color:var(--sp-ink); font-size:32px; font-weight:760; letter-spacing:-1.25px; line-height:1.12; }
 #sp-prototype #sp-share-description { margin:0; color:var(--sp-muted); font-size:13px; line-height:1.55; }
 #sp-prototype .sp-share-body { padding:0 22px 16px; }
@@ -8119,7 +8117,7 @@ const StageplotPrint = (() => {
   const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
   function frame(width,mode){return {left:width<500?46:70,right:width<500?31:45,header:mode==='editor'&&width<620?120:clamp(width*.084,70,116),bottom:46};}
   function labelMetrics(lines,nameLines,scale,context,riser=false){
-    const unit=clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
+    const unit=.8*clamp(scale/95,.55,1.35),fontSize=(riser?11:13)*unit,detailSize=11.5*unit,lineHeight=15*unit,padX=11*unit,padY=5*unit;
     const fonts=lines.map((_,i)=>`${i<nameLines?650:400} ${i<nameLines?fontSize:detailSize}px ${i<nameLines?sans:mono}`);
     const previous=context?.font;
     const widths=lines.map((line,i)=>{if(!context)return line.length*(i<nameLines?fontSize:detailSize)*.65;context.font=fonts[i];return context.measureText(line).width;});
@@ -8134,7 +8132,7 @@ const StageplotPrint = (() => {
   }
   function drawLabel(add,parent,box,lines,nameLines,metrics,{riser=false,dark=true,id}={}){
     const p=dark?palette:{label:'#f7f8f2',labelBorder:'#b9c1bb',ink:'#191f23',muted:'#485155',lime:'#819c23',violet:'#786094'}, {unit,padX,padY,lineHeight,fontSize,detailSize}=metrics;
-    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:1.5*unit,fill:p.label,stroke:p.labelBorder,'stroke-width':.75},parent);
+    add('rect',{'data-label-background':id,x:box.left,y:box.top,width:box.right-box.left,height:box.bottom-box.top,rx:1.5*unit,fill:p.label,stroke:p.labelBorder,'stroke-width':.75,style:`filter:drop-shadow(0 ${2*unit}px ${2*unit}px ${dark?'#0006':'#0003'})`},parent);
     add('rect',{x:box.left+3*unit,y:box.top+4*unit,width:3*unit,height:box.bottom-box.top-8*unit,rx:.5,fill:riser?p.violet:p.lime,'data-label-accent':'true','pointer-events':'none'},parent);
     lines.forEach((line,i)=>add('text',{x:box.left+padX,y:box.top+padY+fontSize+i*lineHeight,'text-anchor':'start','pointer-events':'none',style:`font-family:${i<nameLines?sans:mono};font-size:${i<nameLines?fontSize:detailSize}px;font-weight:${i<nameLines?650:400};fill:${i<nameLines?p.ink:dark?'#d4d9d5':p.muted}`,'data-label-line':i},parent,line));
   }
@@ -13381,12 +13379,12 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   async function refreshShareState(){
     if(!shareDocument||!$('sp-share-dialog').open||shareBusy)return;
     const generation=++shareGeneration;shareControls(false,true);
-    if(!window.StageplotShare.configured(window.StageplotCloudConfig)){$('sp-share-status').textContent='Online-Freigabe ist hier noch nicht eingerichtet. Du kannst unten einen Offline-Link erstellen.';return;}
+    if(!window.StageplotShare.configured(window.StageplotCloudConfig)){$('sp-share-status').textContent='Online-Freigabe ist hier noch nicht eingerichtet. Ein Offline-Link kann unten erstellt werden.';return;}
     shareBusy=true;shareControls();$('sp-share-status').textContent='Freigabe wird geprüft …';
     try{
       const result=await shareClient.status(shareDocument.stage.projectId);if(generation!==shareGeneration)return;shareBusy=false;
       const mayManage=result.available||result.owned;shareControls(result.active,mayManage);
-      $('sp-share-status').textContent=!mayManage?'Diese ID ist bereits vergeben. Du kannst den vorhandenen Link ansehen. Für einen eigenen Link das Projekt duplizieren.':result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. Erstelle den Link und schicke ihn direkt weiter.';
+      $('sp-share-status').textContent=!mayManage?'Diese ID ist bereits vergeben. Du kannst den vorhandenen Link ansehen. Für einen eigenen Link das Projekt duplizieren.':result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. Beim Erstellen des Links wird der aktuelle Plan hochgeladen.';
     }catch(error){if(generation===shareGeneration){shareBusy=false;shareControls();$('sp-share-publish').disabled=true;$('sp-share-status').textContent=error.message;}}
   }
   function openShareDialog(document,{copy=false}={}){
@@ -13427,7 +13425,7 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     const clipboard=copy?copyPublishedLink(publication,link):Promise.resolve(false);
     try{
       const result=await publication,copied=await clipboard;if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active,true);
-      $('sp-share-status').textContent=revoke?'Link gelöscht. Die ID ist wieder frei und kann für einen anderen Plan vergeben werden.':copied?'Link kopiert. Du kannst ihn direkt verschicken.':'Freigegeben. Du kannst jetzt den vollständigen Link kopieren und teilen.';
+      $('sp-share-status').textContent=revoke?'Link gelöscht. Die ID ist wieder frei und kann für einen anderen Plan vergeben werden.':copied?'Link kopiert.':'Freigegeben. Der Link kann kopiert werden.';
       if(copy&&!copied){$('sp-share-link').focus();$('sp-share-link').select();$('sp-share-status').textContent='Link bereit und markiert · bitte kopieren.';}
     }catch(error){if(generation!==shareGeneration)return;shareBusy=false;shareControls();$('sp-share-result').hidden=true;$('sp-share-status').textContent=error.message;}
   }
