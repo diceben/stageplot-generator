@@ -1,13 +1,14 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const S=require('./stageplot-share-v1.js');
 const drums=require('node:vm').runInNewContext(fs.readFileSync('stageplot-drums-v12.js','utf8')+';createStageplotDrumModel()');
-const document={stage:{title:'Testplan',projectId:'SP-TEST-123',w:8,d:6,project:{name:'Testplan',author:'PRIVATE',contacts:{foh:{name:'PRIVATE',contact:'PRIVATE'}},notes:'PRIVATE'},geometry:{version:1,notes:'PRIVATE',parts:[{id:'floor',w:8,d:6,note:'PRIVATE'}]},routing:{version:2,inputs:[{id:'route-1',number:12,instrument:'Keys',phantom:true,notes:'PRIVATE',linkedSources:[{id:'route-2',notes:'PRIVATE'}]}]}},objects:[{id:'one',type:'drums',x:1,y:2,angle:90,note:'PRIVATE',inventoryId:'PRIVATE',secret:'PRIVATE',drums:JSON.parse(JSON.stringify(drums.normalizeDrums({})))},{id:'two',type:'orchestra',orchestra:require('./stageplot-orchestra-v1.js')().preset()}],secret:'PRIVATE'};
+const document={stage:{title:'Testplan',projectId:'SP-TEST-123',w:8,d:6,project:{name:'Testplan',author:'PRIVATE',contacts:{foh:{name:'PRIVATE',contact:'PRIVATE'}},notes:'PRIVATE'},geometry:{version:1,notes:'PRIVATE',parts:[{id:'floor',w:8,d:6,note:'PRIVATE'}]},routing:{version:2,inputs:[{id:'route-1',number:12,instrument:'Keys',phantom:true,notes:'PRIVATE',linkedSources:[{id:'route-2',notes:'PRIVATE'}]}]}},objects:[{id:'one',type:'drums',x:1,y:2,angle:90,labelOffset:{x:-1.25,y:0.45,secret:'PRIVATE'},note:'PRIVATE',inventoryId:'PRIVATE',secret:'PRIVATE',drums:JSON.parse(JSON.stringify(drums.normalizeDrums({})))},{id:'two',type:'orchestra',orchestra:require('./stageplot-orchestra-v1.js')().preset()}],secret:'PRIVATE'};
 const before=JSON.stringify(document),clean=S.clean(document);
 assert.equal(JSON.stringify(document),before);assert.ok(!JSON.stringify(clean).includes('PRIVATE'));
+assert.deepEqual(clean.objects[0].labelOffset,{x:-1.25,y:0.45});
 assert.deepEqual(clean.objects[0].drums,document.objects[0].drums);
 assert.deepEqual(clean.objects[1].orchestra,document.objects[1].orchestra);
 assert.equal(clean.stage.routing.inputs[0].number,12);assert.equal(clean.stage.routing.inputs[0].phantom,true);
-const sql=fs.readFileSync('supabase/migrations/0003_project_shares.sql','utf8'),schema=sql.match(/share-schema:start[^\n]*\n\s*'([^']+)'::jsonb/)[1];assert.deepEqual(JSON.parse(schema),S.schema,'Client and server must enforce the same allowlist.');
+const sql=fs.readFileSync('supabase/migrations/0006_share_label_positions.sql','utf8'),schema=sql.match(/share-schema:start[^\n]*\n\s*'([^']+)'::jsonb/)[1];assert.deepEqual(JSON.parse(schema),S.schema,'Client and server must enforce the same allowlist.');
 for(const value of ['sp-test-123','  SP-TEST-123  ','https://example.org/#p/SP-TEST-123','#p/SP-TEST-123'])assert.equal(S.projectId(value),'SP-TEST-123');
 for(const value of ['SP-','hello','https://example.org/?id=SP-X','#p/%ZZ','SP-X\nY','SP-'+'X'.repeat(80)])assert.equal(S.projectId(value),'');
 const config={url:'https://stageplot-qa.supabase.co',publishableKey:'sb_publishable_test'},requests=[];

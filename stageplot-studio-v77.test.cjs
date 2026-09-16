@@ -58,7 +58,7 @@ for(const marker of [
   "['instruments','stage','lights','tech'].includes(category)",
   'sp-pack-pink-sparkle',
   "const gap=2,cx=",
-  "stroke:'#aeb5ae','stroke-width':.7",
+  "StageplotLook.drawLabel(sEl,labelGroup,box,lines,nameLineCount,metrics",
   "fill:stageFill,stroke"
 ])assert.ok(html.includes(marker),marker+' fehlt im Bibliotheks-/Darstellungsworkflow.');
 

@@ -6,15 +6,18 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in einer Kopfzeile. Kompaktere Abstände und der entfernte Bausteinzähler lassen mehr Platz für die Objekte. Die Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
 
-**Aktuelle Version:** v0.1.0-beta.12 · Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.13 · Release Notes sind in der App über `?` erreichbar.
 
 Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Entwicklung und Prüfungen
 
-`npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 41 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
+`npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 42 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
 
 ## Funktionen
+
+- **Bewegliche Beschriftungen:** Kompakte, linksbündige Karten mit grünem Akzent in heller und dunkler Darstellung. Direkt am Schild ziehen, fokussiert mit Pfeiltasten um 2 cm (Shift: 10 cm) verschieben und mit Pos1 oder „Automatisch platzieren“ zurücksetzen. Objekte bleiben dabei an ihrem Platz. Relative Positionen bleiben in lokalen Entwürfen, Projektdateien, Offline-Links und Exporten erhalten; Online-Freigaben benötigen Migration 0006.
+- **Neuer Teilen-Dialog:** Projektkarte und Freigabestatus, klarer Button zum Erstellen bzw. Kopieren des Links, aufklappbare Datenschutz- und Offline-Optionen. Für Hell-/Dunkelmodus und schmale Bildschirme angepasst.
 
 - **Teilen per Link ohne Anmeldung:** Nach Einrichtung des Online-Dienstes geben Absender einzelne Pläne samt Routing frei, ohne E-Mail oder Passwort. „Link kopieren“ auf der Projektkarte oder in den Projektdaten stellt den aktuellen Stand bereit und kopiert die vollständige Adresse mit ID. Empfänger öffnen den Link direkt. Aktualisieren und Löschen sind im ursprünglichen Browser möglich. Jede aktive ID ist weltweit eindeutig; „Link löschen“ gibt sie zur Wiederverwendung frei. Kontakte, Autor und freie Notizen bleiben ausgeschlossen. [Einrichtung](ACCOUNT_SETUP.md).
 
