@@ -1,6 +1,6 @@
 {
   "name": "stageplot-generator",
-  "version": "0.1.0-beta.9",
+  "version": "0.1.0-beta.10",
   "private": true,
   "description": "Offline-first Stageplot-Designer mit Routing und Drum-Designer",
   "scripts": {
@@ -11,12 +11,14 @@
     "check": "node scripts/check-syntax.cjs",
     "build:vendor": "node scripts/build-vendor.cjs",
     "build:cloud-config": "node scripts/build-cloud-config.cjs",
-    "test:browser": "node scripts/run-browser-tests.cjs"
+    "test:browser": "node scripts/run-browser-tests.cjs",
+    "test:database": "node scripts/check-share-database.cjs"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
     "@supabase/supabase-js": "2.116.0",
     "esbuild": "0.28.2",
     "playwright": "1.62.1",

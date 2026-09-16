@@ -1,6 +1,6 @@
 # Accounts und Gerätesync einrichten
 
-Der Editor und das Inventar funktionieren mit lokalem Browserspeicher. Der Account-Dienst ist optional und im Repository standardmäßig deaktiviert. Anmeldung, Gerätesync und SQL-Migrationen sind vorbereitet; ein produktives Supabase-Projekt ist noch nicht eingerichtet oder getestet.
+Der Editor und das Inventar funktionieren mit lokalem Browserspeicher. Der Account-Dienst ist optional und im Repository standardmäßig deaktiviert. Anmeldung, Gerätesync und Freigabe per Projekt-ID benötigen die folgende Einrichtung. Lokale Tests ersetzen nicht die Prüfung von E-Mail-Zustellung und Zugriff auf dem eingerichteten Dienst.
 
 ## 1. Eigenes Supabase-Projekt
 
@@ -10,12 +10,26 @@ Im SQL Editor die Migrationen in dieser Reihenfolge ausführen:
 
 1. [0001_stageplot_documents.sql](supabase/migrations/0001_stageplot_documents.sql)
 2. [0002_inventory.sql](supabase/migrations/0002_inventory.sql)
+3. [0003_project_shares.sql](supabase/migrations/0003_project_shares.sql)
 
-Wenn Migration 0001 bereits ausgeführt wurde, nur 0002 ergänzen. Die Tabelle speichert Projekte, Drumvorlagen, Bühnenvorlagen und Inventareinträge als versionierte Dokumente. Row Level Security begrenzt den Zugriff auf den angemeldeten Eigentümer. Der Browser verwendet ausschließlich die Funktionen `stageplot_sync_push` und `stageplot_sync_pull`.
+Nur noch fehlende Migrationen ergänzen. Die private Dokumenttabelle speichert Projekte, Drumvorlagen, Bühnenvorlagen und Inventareinträge. Row Level Security begrenzt den Zugriff auf den angemeldeten Eigentümer. Der Geräteabgleich verwendet ausschließlich `stageplot_sync_push` und `stageplot_sync_pull`.
+
+Migration 0003 ergänzt eine getrennte Tabelle für bewusst veröffentlichte Bühnenpläne. Direkter Tabellenzugriff und Auflisten sind gesperrt. `stageplot_share_get` liefert ohne Anmeldung genau eine aktive Freigabe zur angegebenen ID. Veröffentlichen, Status prüfen und Widerrufen benötigen den Account des Absenders. Client und Server übernehmen nur ausdrücklich erlaubte Plan- und Routingfelder: keine Kontakte, Autorenangaben, freien Notizen oder Inventarverweise. Projekttitel, Objektbeschriftungen und technische Bezeichnungen bleiben enthalten und müssen vor dem Freigeben auf private Inhalte geprüft werden. Die ID ist ein Zugang zur Ansicht, kein Ersatz für personenbezogene Berechtigungen.
+
+Ein Widerruf entfernt den Snapshot und reserviert die ID beim Eigentümer. Bereits heruntergeladene Kopien oder alte Offline-Links kann er nicht zurückrufen. Höchstens 100 aktive Freigaben pro Account und 2 MB pro Snapshot; Änderungen am lokalen Plan werden erst durch „Freigabe aktualisieren“ veröffentlicht. Ein Account darf diese Freigaben nutzen, ohne sein Gerät für den privaten Sync zu verbinden.
 
 ## 2. Anmeldung per E-Mail-Code
 
-E-Mail-Anmeldung und Registrierungen im Supabase-Projekt aktivieren. In der E-Mail-Vorlage **Magic Link** einen Code mit `{{ .Token }}` ausgeben. Die App verwendet `signInWithOtp` und `verifyOtp` mit `type: 'email'`; sie verarbeitet keine Magic Links aus der URL. Sie akzeptiert Codes mit sechs bis zehn Ziffern.
+E-Mail-Anmeldung und Registrierungen im Supabase-Projekt aktivieren. Unter Authentication → URL Configuration als Site URL die veröffentlichte App-Adresse eintragen. In der E-Mail-Vorlage **Magic Link** einen Code mit `{{ .Token }}` ausgeben, beispielsweise Betreff „Dein Stageplotter-Anmeldecode“ und Inhalt:
+
+```html
+<h2>Dein Anmeldecode</h2>
+<p>Gib diesen Code im Stageplotter ein:</p>
+<p><strong>{{ .Token }}</strong></p>
+<p>Wenn du keinen Code angefordert hast, kannst du diese E-Mail ignorieren.</p>
+```
+
+Die App verwendet `signInWithOtp` und `verifyOtp` mit `type: 'email'`; sie verarbeitet keine Magic Links aus der URL. Sie akzeptiert Codes mit sechs bis zehn Ziffern. Anonyme Anmeldung ist für Projektfreigaben nicht erforderlich.
 
 Für externe Nutzer einen eigenen SMTP-Versand einrichten und den Versand an eine Testadresse prüfen. Die Standardeinstellungen des E-Mail-Dienstes sind für einen öffentlichen Betrieb nicht ausreichend. Details: [Supabase: Passwordless E-Mail Login](https://supabase.com/docs/guides/auth/auth-email-passwordless) und [SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
 
@@ -46,7 +60,7 @@ Ein Browserprofil bleibt an den zuerst verbundenen Account gebunden. Ein anderer
 
 ## 5. Prüfung vor Freigabe
 
-Die automatisierten Tests verwenden einen simulierten RPC-Server. Nach der Einrichtung zusätzlich mit zwei Browserprofilen prüfen:
+`npm test` prüft die Freigabedaten und RPC-Fehlerbehandlung. `npm run test:database` führt alle Migrationen in einer isolierten PostgreSQL-Testdatenbank (PGlite) aus und prüft Rollen, Eigentümergrenzen, Entfernen privater Felder, Widerruf, ID-Reservierung und Größen-/Anzahlgrenzen. Browserprüfungen verwenden simulierte RPC-Antworten. Nach der Einrichtung zusätzlich mit zwei Browserprofilen prüfen:
 
 - E-Mail-Code empfangen, anmelden, Gerät verbinden und später erneut anmelden.
 - Projekt samt FOH, IEM-Fläche, Strombedarf, Frequenzen und Inventar auf dem zweiten Gerät öffnen.
@@ -54,6 +68,9 @@ Die automatisierten Tests verwenden einen simulierten RPC-Server. Nach der Einri
 - Auf beiden Geräten dasselbe Projekt ändern: Original und Konfliktkopie müssen erhalten bleiben.
 - Ein Projekt beziehungsweise Inventarobjekt löschen und den Abgleich prüfen.
 - Mit einem zweiten Account prüfen, dass er keine Datensätze des ersten lesen oder verändern kann.
+- Einen künstlichen Testplan freigeben und ohne Anmeldung über ID sowie Kurzlink öffnen; anschließend aktualisieren und widerrufen. Die ID muss danach unzugänglich sein. Ein zweiter Account darf die ID nicht überschreiben oder widerrufen. Eigene lokale Entwürfe dürfen beim Lesen nicht verändert werden.
+
+Eine bloß lokal kopierte Projekt-ID ist ohne vorherige Freigabe nicht abrufbar. Ohne Online-Konfiguration bietet die App weiterhin vollständige Offline-Links an und erklärt, dass die ID-Funktion noch nicht eingerichtet ist. Alte `#share=`-Links bleiben lesbar; kurze Online-Links verwenden `#p/SP-…`.
 
 Echte Zwei-Finger-Bedienung zusätzlich auf iOS und Android prüfen. Die Pointer-Tests simulieren die Gestenlogik; sie ersetzen keinen Test auf Touch-Hardware.
 

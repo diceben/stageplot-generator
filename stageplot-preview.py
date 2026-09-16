@@ -21,7 +21,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(204)
             self.end_headers()
             return
-        if route.path in ("/stageplot-account-v1.js", "/stageplot-cloud-config.js", "/stageplot-sync-v2.js", "/stageplot-inventory-v1.js", "/stageplot-assets/vendor/supabase.js"):
+        if route.path in ("/stageplot-account-v1.js", "/stageplot-cloud-config.js", "/stageplot-sync-v2.js", "/stageplot-share-v1.js", "/stageplot-inventory-v1.js", "/stageplot-assets/vendor/supabase.js"):
             asset = root / route.path.lstrip("/")
             if not asset.is_file():
                 self.send_error(404)
