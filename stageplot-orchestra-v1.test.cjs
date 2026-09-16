@@ -32,3 +32,7 @@ vm.runInContext(['projectIdentity','iemRect','validStage','normalizeProductionIn
 const valid={stage:{w:24,d:16,title:'Orchestra QA',stairs:'none',iem:'none',iemLength:2,iemDepth:1,iemX:0,iemY:0},objects:[{...ctx.objects[0],x:12,y:8,angle:0}]};
 assert.deepEqual(plain(ctx.normalizeSetupDocument(valid).objects[0].orchestra),custom);
 console.log('PASS ORCHESTRA: all groups, stable hidden seats, exact metre geometry, acoustic defaults, input identities, import/export, immutable previews and 25 verified image assets.');
+
+const solo=model.single('double-bass');solo.parts[0].pickup='dual';const two=model.normalize(solo);assert.equal(two.parts[0].pickup,'dual');assert.deepEqual(model.channels(two).map(r=>[r.id,r.pickup]),[['o1','DI'],['o1-mic','Mic']]);
+ctx.objects=[{id:'bass',type:'orchestra',label:'Kontrabass',orchestra:two}];const signals=ctx.generatedInputSpecs();assert.deepEqual(plain(signals.map(r=>[r.sourceKey,r.pickup,r.instrument])),[['bass:orch-o1','DI','Kontrabass · DI'],['bass:orch-o1-mic','Mic','Kontrabass · Mikrofon']]);
+assert.deepEqual(model.normalize(require('./stageplot-share-v1.js').clean({objects:ctx.objects}).objects[0].orchestra),two);

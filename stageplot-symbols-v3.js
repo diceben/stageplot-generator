@@ -97,7 +97,19 @@ const STAGEPLOT_LIGHT_VIEWS=Object.freeze({
 function stageplotLightingFrame(type){
   return Object.hasOwn(STAGEPLOT_LIGHT_VIEWS,type)?STAGEPLOT_LIGHT_VIEWS[type]:null;
 }
+// Generated instrument sprites; provenance and reference shapes are in acoustic-instruments-v1.json.
+const STAGEPLOT_ACOUSTIC_ASSETS=Object.freeze({"acoustic":{"width":410,"height":1040,"imageWidth":1024,"imageHeight":1536,"viewBox":[202,4,620,1509],"asset":"acoustic-illustrated-v1.png"},"acoustic-cutaway":{"width":406,"height":1040,"imageWidth":1024,"imageHeight":1536,"viewBox":[201,5,623,1521],"asset":"acoustic-cutaway-illustrated-v1.png"},"acoustic-classical":{"width":380,"height":1000,"imageWidth":1024,"imageHeight":1536,"viewBox":[209,5,607,1524],"asset":"acoustic-classical-illustrated-v1.png"},"acoustic-gypsy":{"width":400,"height":1020,"imageWidth":1026,"imageHeight":1533,"viewBox":[210,3,607,1514],"asset":"acoustic-gypsy-illustrated-v1.png"},"acoustic-jazz":{"width":410,"height":1020,"imageWidth":1024,"imageHeight":1536,"viewBox":[185,11,652,1494],"asset":"acoustic-jazz-illustrated-v1.png"},"banjo":{"width":320,"height":960,"imageWidth":1067,"imageHeight":1474,"viewBox":[271,10,525,1437],"asset":"banjo-illustrated-v1.png"}});
+function stageplotAcousticFrame(type){return Object.hasOwn(STAGEPLOT_ACOUSTIC_ASSETS,type)?STAGEPLOT_ACOUSTIC_ASSETS[type]:null;}
+// Generated electric guitars and additional strings; prompts/references: electric-instruments-v1.json.
+const STAGEPLOT_STRING_ASSETS=Object.freeze({"guitar":{"width":340,"height":1000,"imageWidth":730,"imageHeight":2155,"viewBox":[8,20,716,2121],"asset":"guitar-illustrated-v1.png"},"guitar-tele":{"width":350,"height":1000,"imageWidth":1024,"imageHeight":1536,"viewBox":[243,6,536,1525],"asset":"guitar-tele-illustrated-v1.png"},"guitar-jazzmaster":{"width":360,"height":1040,"imageWidth":953,"imageHeight":1650,"viewBox":[182,8,587,1631],"asset":"guitar-jazzmaster-illustrated-v1.png"},"guitar-jaguar":{"width":360,"height":1020,"imageWidth":1024,"imageHeight":1536,"viewBox":[244,8,539,1516],"asset":"guitar-jaguar-illustrated-v1.png"},"guitar-les-paul":{"width":340,"height":990,"imageWidth":994,"imageHeight":1582,"viewBox":[218,8,557,1560],"asset":"guitar-les-paul-illustrated-v1.png"},"guitar-sg":{"width":330,"height":1010,"imageWidth":928,"imageHeight":1695,"viewBox":[179,9,574,1682],"asset":"guitar-sg-illustrated-v1.png"},"guitar-es":{"width":420,"height":1040,"imageWidth":1024,"imageHeight":1536,"viewBox":[205,18,613,1494],"asset":"guitar-es-illustrated-v1.png"},"guitar-explorer":{"width":480,"height":1100,"imageWidth":1070,"imageHeight":1470,"viewBox":[301,12,593,1442],"asset":"guitar-explorer-illustrated-v1.png"},"guitar-flying-v":{"width":460,"height":1100,"imageWidth":1024,"imageHeight":1536,"viewBox":[193,8,639,1514],"asset":"guitar-flying-v-illustrated-v1.png"},"guitar-king-v":{"width":450,"height":1120,"imageWidth":1024,"imageHeight":1536,"viewBox":[159,5,707,1515],"asset":"guitar-king-v-illustrated-v1.png"},"guitar-superstrat":{"width":330,"height":1010,"imageWidth":1024,"imageHeight":1536,"viewBox":[263,7,498,1515],"asset":"guitar-superstrat-illustrated-v1.png"},"mandolin":{"width":270,"height":700,"imageWidth":986,"imageHeight":1595,"viewBox":[197,9,602,1557],"asset":"mandolin-illustrated-v1.png"},"lap-steel":{"width":220,"height":850,"imageWidth":1024,"imageHeight":1536,"viewBox":[305,11,414,1510],"asset":"lap-steel-illustrated-v1.png"},"ukulele":{"width":175,"height":530,"imageWidth":1024,"imageHeight":1536,"viewBox":[251,23,522,1492],"asset":"ukulele-illustrated-v1.png"}});
+function stageplotStringFrame(type){return Object.hasOwn(STAGEPLOT_STRING_ASSETS,type)?STAGEPLOT_STRING_ASSETS[type]:null;}
 function createStageplotSymbolV3(type, options = {}) {
+  const stringAsset=stageplotStringFrame(type);
+  if(stringAsset){const a=stringAsset;return '<g data-equipment="'+type+'" data-generated-string="true"><svg width="'+a.width+'" height="'+a.height+'" viewBox="'+a.viewBox.join(' ')+'" preserveAspectRatio="xMidYMid meet"><image href="stageplot-assets/objects/'+a.asset+'" width="'+a.imageWidth+'" height="'+a.imageHeight+'" data-rendered-string-asset="'+type+'"/></svg></g>';}
+
+  const acousticAsset=stageplotAcousticFrame(type);
+  if(acousticAsset){const a=acousticAsset;return '<g data-equipment="'+type+'" data-generated-acoustic="true"><svg width="'+a.width+'" height="'+a.height+'" viewBox="'+a.viewBox.join(' ')+'" preserveAspectRatio="xMidYMid meet"><image href="stageplot-assets/objects/'+a.asset+'" width="'+a.imageWidth+'" height="'+a.imageHeight+'" data-rendered-acoustic-asset="'+type+'"/></svg></g>';}
+
   const lighting=stageplotLightingFrame(type);
   if(lighting){
     const {width,height}=lighting;
@@ -375,7 +387,8 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     for(const p of layout.parts){
       group(p.angle?'rotate('+f(p.angle)+' '+f(p.x)+' '+f(p.y)+')':'',p.id);
-      if(p.kind==='throne')out+='<g transform="translate('+f(p.x-10.75)+' '+f(p.y-10.75)+') scale(.05)">'+stageplotTechThrone()+'</g>';
+      if(p.kind==='percussion')out+='<g transform="translate('+f(p.x)+' '+f(p.y)+')">'+p.markup+'</g>';
+      else if(p.kind==='throne')out+='<g transform="translate('+f(p.x-10.75)+' '+f(p.y-10.75)+') scale(.05)">'+stageplotTechThrone()+'</g>';
       else if(p.kind==='kick'){
         const shellWidth=p.w,shellCropHeight=320,shellHeight=p.h;
         const shellY=p.y+shellHeight*2.5/320,pedalCrop={x:166,y:290,w:180,h:253};
@@ -506,8 +519,8 @@ function createStageplotSymbolV3(type, options = {}) {
     path('M55 14Q60 6 65 14Q67 20 60 25Q54 29 57 35Q60 39 64 34','none',1.2,'#555');
     for(const [x,y,side] of [[51,24,-1],[50,39,-1],[69,24,1],[70,39,1]]){line(x,y,x+side*7,y,.8);ellipse(x+side*9,y,3,2,'#ccc',.4);}end();
     group('','double-bass-endpin');rod(60,300,60,324,1.7);circle(60,325,2.2,'#555',.4);end();
-  }else if(['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic'].includes(type)){
-    const pBass=type==='bass',jBass=type==='bass-j',bass=pBass||jBass,acoustic=type==='acoustic';
+  }else if(['bass','bass-j'].includes(type)){
+    const pBass=type==='bass',jBass=type==='bass-j',bass=pBass||jBass;
     const tele=type==='guitar-tele',lesPaul=type==='guitar-les-paul',es=type==='guitar-es',gibson=lesPaul||es;
     // Fresh V29 silhouettes traced from orthogonal manufacturer product photography.
     // The outer contour is kept model-specific all the way from the strap pin to the tuners.
@@ -519,17 +532,7 @@ function createStageplotSymbolV3(type, options = {}) {
       bass:'M49.2 280L48.7 279.4L49.8 278.1L49 277.5L31.5 276.2L25.4 274.2L20.6 271.3L16.7 267.3L13.4 261.3L11.7 254.6L11.3 247.3L14 236.9L20.9 222.1L23.1 214.4L23.1 205.5L17.3 184.6L16.5 172.3L18.6 163L22.1 158.4L25.8 156.5L25 154.6L28.3 155.1L26.9 156.7L29.8 160.1L31.3 170.5L34 177.5L38.1 180.2L40.6 180L42.7 178.2L45 55.7L43.8 53.9L39.6 52.6L38.3 51.1L38.6 44.3L32.1 47.4L30.6 46.4L29 42L29.8 40.3L33.3 37.6L35.8 38.7L36.5 41.1L38.5 43L39.4 41.1L40.8 33.2L38.3 33.9L36.1 36.1L34.2 36.2L32.7 35.1L31.3 30.5L34.4 26.8L36.1 26.4L38.1 27.6L39.2 30.5L41.3 31.6L43.1 22L40.2 23L38.5 24.9L36.1 24.9L34.8 23.5L33.6 19.1L36.7 15.7L38.5 15.3L40.2 16.2L41 18.5L43.5 20.7L45.4 10.7L42.3 11.8L40.6 13.7L38.5 13.7L36 9.7L36.1 7.2L38.8 4.3L40.6 3.9L42.3 4.7L43.3 7.4L45.8 9.5L48.5 4.1L51.9 2.2L55 2L58.7 3.5L61.7 8.5L61.2 14.3L57.5 18.4L56.9 20.9L57.3 24.9L60.6 35.5L61.4 45.3L57.7 47L54.8 51.6L57.3 190.3L58.7 192.8L60.6 194L63.9 193.8L67.1 192.3L70 188.4L71.9 180.7L74.6 178.4L78.5 179.2L81.7 183.2L82.9 189.4L82.5 195.3L81 201.7L77.5 210L76.9 215.2L78.5 220.6L86.9 239.6L88.5 246.7L88.7 253.8L87.7 260L86 264.2L82.1 269.6L77.9 273.1L67.3 276.7L51.7 277.5L51 278.5L51.9 279.8Z',
       'bass-j':'M48.7 280L47.1 279.2L47.9 277.5L29.6 272.9L20.6 267.7L15.9 262.9L11.7 255.4L9.8 248.3L9.6 241.7L12.3 231.3L20.6 214.2L22.5 208.4L22.3 201.3L17.3 184L16.5 172.8L19 162.6L21.7 158.4L25.8 156.3L25.2 154.4L28.3 154.9L27.1 156.7L30.6 160.3L32.1 172.5L34 177.5L36.9 179.6L40 179.4L41.9 177.8L44.6 56.6L43.3 53.9L37.7 51.3L38.1 44.1L31.5 47.2L29.8 46.1L28.5 41.4L31.3 38L33.6 37.6L35.2 38.7L36 41.1L38.6 42.8L40.4 33L37.5 33.7L35.2 35.9L33.1 35.9L31.7 34.3L30.8 29.9L33.6 26.6L35.8 26.2L37.1 27L38.1 29.7L40.8 31.6L42.7 21.8L39.4 22.6L37.5 24.5L35.2 24.5L32.9 20.5L32.9 18.5L35.6 15.5L38.3 15.1L40.2 18.4L43.1 20.3L44.8 10.3L41.7 11.2L39.6 13.4L37.7 13.4L35.2 9.1L35.4 6.6L38.3 3.7L40.2 3.5L41.9 4.9L42.7 7.2L45.2 8.9L48.7 3.5L51.3 2.2L54.6 2L59.2 4.5L61.4 10.1L60 15.5L55.6 19.9L56 25.5L59.2 36.1L60 44.1L55.8 47L53.5 52.8L56.2 188.6L58.1 191.9L60.4 193.6L66.4 193L70 188.4L71.9 180L74.2 178.4L78.1 179.4L81.6 184L83.5 192.3L83.3 200.7L81 211.5L77.3 221.3L77.1 227.5L80 235.4L85.4 243.3L88.9 250.4L90.2 256.1L90.4 262.5L87.3 270.8L83.3 275L79.4 277.3L70.8 279L50.2 278.1L50.8 279.8Z'
     })[type];
-    if(acoustic){
-      group('','dreadnought-body');
-      // Martin D-28 proportions: square shoulder, shallow waist and broad lower bout.
-      path('M43 136C31 136 22 139 16 146C9 154 9 168 12 181C15 192 20 199 18 208C16 219 7 227 4 239C0 252 3 263 12 271C21 279 36 282 50 282C64 282 79 279 88 271C97 263 100 252 96 239C93 227 84 219 82 208C80 199 85 192 88 181C91 168 91 154 84 146C78 139 69 136 57 136Z','#e4e4e4',1);
-      group('','dreadnought-binding');
-      path('M43 139C33 139 24 142 19 148C13 155 13 168 15 180C18 192 23 199 21 209C19 220 10 229 8 240C5 251 8 261 16 268C24 275 37 278 50 278C63 278 76 275 84 268C92 261 95 251 92 240C90 229 81 220 79 209C77 199 82 192 85 180C87 168 87 155 81 148C76 142 67 139 57 139','none',.45,'#fafafa');end();
-      group('','dreadnought-rosette');circle(50,178,15.4,'none',.45,'#4e4e4e');circle(50,178,13.5,'#bcbcbc',.55);circle(50,178,11.2,'#303030',.55);circle(50,178,16.8,'none',.3,'#777');end();
-      group('','dreadnought-pickguard');path('M62 169C72 170 80 176 81 187C83 200 78 211 68 217C62 218 58 213 58 205C58 198 61 192 61 185C61 178 59 174 62 169Z','#5a5a5a',.55);path('M65 173C72 175 77 180 77 188C78 198 74 206 68 211','none',.35,'#aaa');end();
-      group('','dreadnought-bridge');path('M29 229Q36 226 41 228H59Q64 226 71 229L69 240Q61 237 50 238Q39 237 31 240Z','#454545',.65);rect(37,230,26,2.2,'#eee',.25,.5);for(let i=0;i<6;i++)circle(39.5+i*4.2,235.2,1.15,'#eee',.25);end();
-      end();
-    }else if(pBass){
+    if(pBass){
       group('','precision-body');
       path(guitarSilhouette,'#dadada',1);
       group('','precision-body-contour');path('M21 165C18 178 22 192 25 204C28 215 23 227 18 238M80 185C84 195 79 207 77 215C75 224 83 238 86 249','none',.4,'#f8f8f8');end();
@@ -564,17 +567,11 @@ function createStageplotSymbolV3(type, options = {}) {
       path(guitarSilhouette,'#d0d0d0',1);
       group('','stratocaster-pickguard');path('M42 154C34 161 34 177 30 192C27 207 20 222 22 240C24 255 37 264 52 261C61 259 69 268 78 263C86 255 79 239 76 225C73 211 80 195 76 181C73 170 65 162 57 169L56 154Z','#f8f8f8',.55);end();end();
     }
-    const nut=acoustic?42:bass?56:gibson?47:52;
-    const heel=acoustic?166:bass?194:lesPaul?165:es?162:tele?183:181;
-    const heelHalf=acoustic?10:bass?7:gibson?7:6.5;
+    const nut=bass?56:gibson?47:52;
+    const heel=bass?194:lesPaul?165:es?162:tele?183:181;
+    const heelHalf=bass?7:gibson?7:6.5;
     path('M44 '+nut+'H56L'+(50+heelHalf)+' '+heel+'H'+(50-heelHalf)+'Z','#aaa',.65);
-    if(acoustic){
-      group('','martin-headstock');
-      path('M43 42L40.5 8Q40.3 4 44 4L56 4Q59.7 4 59.5 8L57 42Z','#8f8f8f',.8);
-      path('M45 8Q50 5.5 55 8M47 12Q50 10 53 12','none',.38,'#dedede');
-      for(let i=0;i<3;i++)for(const side of [-1,1]){const yy=13+i*9;group('','tuning-machine');line(side<0?41:59,yy,side<0?35:65,yy,.75);ellipse(side<0?32.5:67.5,yy,3.2,2.1,'#d6d6d6',.4);circle(side<0?43:57,yy,1.7,'#ededed',.35);end();}end();
-    }
-    else if(bass){
+    if(bass){
       group('',jBass?'jazz-headstock':'precision-headstock');
       path(jBass?'M44 56L43 51L44 14Q44.5 7 50 3Q56.5 0 60.5 5Q64 10 61 15Q59 18 55.5 20Q53.5 22 55.5 29L59.5 42Q61.5 48 57 51L56 56Z':'M44 56L43 51L44 13Q44.5 7 51 3Q58 0 62 6Q65.5 11 62.5 16Q60.5 19 56.5 21Q54.5 23 56.5 29L61 41Q63 47 58 51L56 56Z','#c8c8c8',.85);
       path(jBass?'M47 47L47.5 16Q48 9 52 6Q56 3 58 6':'M47 47L47.7 15Q48 8 52.5 5Q57 2.5 59.5 6','none',.35,'#f4f4f4');
@@ -598,13 +595,13 @@ function createStageplotSymbolV3(type, options = {}) {
       group('','stratocaster-headstock');path('M44 52L43 46Q42 41 45 34L52 12Q55 4 60 2Q65 2 66 8Q68 14 60 19Q57 22 58 28L63 41Q63 46 58 48L56 52Z','#bcbcbc',.85);
       for(let i=0;i<6;i++){const yy=9+i*6;group('','tuning-machine');line(44,yy,37,yy-.3,.75);ellipse(34,yy-.3,2.8,1.75,'#ccc',.4);circle(45,yy,1.4,'#eee',.35);end();}end();
     }
-    const frets=bass?20:acoustic?20:22;
+    const frets=bass?20:22;
     for(let i=1;i<=frets;i++){
       const yy=nut+(heel-nut)*(1-Math.pow(2,-i/12))/(1-Math.pow(2,-frets/12)),half=3+(yy-nut)/(heel-nut)*3;line(50-half,yy,50+half,yy,.4,'#555');
       if(gibson&&[3,5,7,9,12,15,17,19,21].includes(i)){const iw=i===12?7:5.4;group('','trapezoid-inlay');path('M'+(50-iw/2)+' '+(yy-3)+'L'+(50+iw/2)+' '+(yy-3)+'L'+(50+iw*.38)+' '+(yy+1)+'L'+(50-iw*.38)+' '+(yy+1)+'Z','#ececec',.25);end();}
       else {if([3,5,7,9,15,17,19].includes(i))circle(50,yy-2,1,'#eee',.2);if(i===12){circle(47,yy-2,.85,'#eee',.2);circle(53,yy-2,.85,'#eee',.2);}}
     }
-    if(!acoustic){
+    {
       if(pBass){
         group('','precision-split-pickup');
         group('translate(50 226) rotate(-6)');rect(-17,-6,17,8,'#343434',.45,1.4);rect(0,-2,17,8,'#343434',.45,1.4);for(const [x,y] of [[-14,-2],[-4,-2],[4,2],[14,2]])circle(x,y,.75,'#ccc',.2);end();end();
@@ -624,9 +621,9 @@ function createStageplotSymbolV3(type, options = {}) {
       for(const [x,y] of bass?[]:gibson?[]:tele?[[75,213],[75,238]]:[[72,213],[79,226],[85,239]]){circle(x,y,3,'#eee',.5);circle(x,y,1,'#bbb',.2);}
       if(!bass&&!gibson){group('translate(74 247) rotate(-25)');rect(-1,-6,2,12,'#555',.3,.7);end();}
     }
-    const strings=bass?4:6,bridge=acoustic?235:bass?277:gibson?252:252;
+    const strings=bass?4:6,bridge=bass?277:gibson?252:252;
     for(let i=0;i<strings;i++)line(46+i*8/(strings-1),nut-5,41+i*18/(strings-1),bridge,.26,'#555');
-    if(!acoustic){
+    {
       if(gibson)for(let i=0;i<6;i++)line(46+i*8/5,nut-5,i<3?42-i:58+(i-3),12+(i%3)*10,.22,'#666');
       else if(bass)for(let i=0;i<strings;i++)line(46+i*8/(strings-1),nut-5,53-i*1.8,12+i*12,.22,'#666');
       else for(let i=0;i<strings;i++)line(46+i*8/(strings-1),nut-5,tele?46:45,9+i*6,.22,'#666');
@@ -731,7 +728,7 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
   }else if(type==='stage-stairs'){
     group('','stage-stairs-top-view');rect(2,2,116,96,'#f3f4f1',.85,.5,'#4a504a');
-    for(const y of [20,40,60,80])line(2,y,118,y,.65,'#858c85');
+    const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));for(let i=1;i<steps;i++)line(2,2+i*96/steps,118,2+i*96/steps,.65,'#858c85');
     const arrow='M60 85V18M49 30L60 18L71 30';path(arrow,'none',3.5,'#f3f4f1');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-ramp'){
     group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');

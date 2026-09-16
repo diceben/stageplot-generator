@@ -1,0 +1,33 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const P=require('./stageplot-percussion-v1.js')(),S=require('./stageplot-share-v1.js'),M=require('./stageplot-mics-v1.js');
+const context={percussion:P};vm.createContext(context);vm.runInContext(fs.readFileSync('stageplot-drums-v12.js','utf8')+';this.D=createStageplotDrumModel(percussion);'+fs.readFileSync('stageplot-symbols-v3.js','utf8'),context);const D=context.D,plain=v=>JSON.parse(JSON.stringify(v));
+const old=D.normalizeDrums(D.drumDefaults()),hybrid=D.normalizeDrums({...old,extras:P.preset('cajon')});
+assert.deepEqual(plain(D.drumChannels(old).map(r=>r.id)),plain(D.drumChannels(hybrid).filter(r=>!r.id.startsWith('extra-')).map(r=>r.id)),'Adding percussion must retain original drum signal identities.');
+hybrid.extras.parts[0].pickup='both';hybrid.extras.parts.push(P.part('vocal-boom','p4',-.7,.2));hybrid.positions['extra-p1']={x:.35,y:.48};hybrid.rotations['extra-p1']=35;
+hybrid.mics['extra-p1-1']={enabled:true,model:'Sennheiser MD 421 Kompakt',phantom:false};hybrid.mics['extra-p1-2']={enabled:true,model:'Shure Beta 91A',phantom:true};
+const portable=S.clean({stage:{title:'Hybrid',stairsSteps:7,extraStairs:[{id:'s',stairsSteps:9}]},objects:[{id:'kit',type:'drums',drums:hybrid,note:'PRIVATE'},{id:'stairs',type:'stage-stairs',steps:8}]});
+const restored=D.normalizeDrums(portable.objects[0].drums),channels=D.drumChannels(restored);
+assert.deepEqual(plain(restored),plain(D.normalizeDrums(hybrid)));assert.equal(channels.find(r=>r.id==='extra-p1-1').model,'Sennheiser MD 421 Kompakt');assert.equal(channels.find(r=>r.id==='extra-p1-2').phantom,true);assert(channels.some(r=>r.name.includes('Vocal')));assert(!JSON.stringify(portable).includes('PRIVATE'));assert.equal(portable.stage.stairsSteps,7);assert.equal(portable.objects[1].steps,8);
+const kitMarkup=context.createStageplotSymbolV3('drums',{drumLayout:D.drumLayout(restored)});assert.match(kitMarkup,/cajon-top-v1\.png/);assert.match(kitMarkup,/data-part="extra-p4"/);
+const cajon=P.part('cajon','p1');cajon.pickup='front';assert.equal(P.channels({parts:[cajon]})[0].id,'p1-1');cajon.pickup='back';assert.equal(P.channels({parts:[cajon]})[0].id,'p1-2');cajon.pickup='both';assert.equal(P.channels({parts:[cajon]}).length,2);cajon.pickup='none';assert.equal(P.channels({parts:[cajon]}).length,0);
+for(const p of ['kick','snare','throne','vocal-boom','cajon']){const markup=P.imageMarkup(P.part(p,'p1'));assert(!/NaN|undefined/.test(markup));for(const [,url] of markup.matchAll(/href="([^"#]+)"/g))assert(fs.existsSync(url),url);}
+const empty=D.normalizeDrums({...old,kickCount:0,snare:false,throne:false,hihat:false,ride:false,rackToms:[],floorToms:[],crashes:[],splash:0,china:0,clapstack:false,pad:false,bongos:false,table:'off',extras:{parts:[]}});assert.equal(D.drumLayout(empty).parts.length,0);assert.equal(D.drumChannels(empty).length,0);
+const stairs=n=>context.createStageplotSymbolV3('stage-stairs',{steps:n});assert.equal((stairs(8).match(/stroke="#858c85"/g)||[]).length,7);assert.equal((stairs(1).match(/stroke="#858c85"/g)||[]).length,0);assert.notEqual(context.createStageplotSymbolV3('acoustic-classical'),context.createStageplotSymbolV3('acoustic-gypsy'));
+assert.equal(M.find('Sennheiser MD 421 Kompakt').phantom,false);
+// Browser print must own every referenced definition, including nested references and cycles.
+class Node {constructor(tag,attrs={},children=[]){this.tag=tag;this.attrs=attrs;this.children=children;this.ownerDocument=doc;}get id(){return this.attrs.id;}get attributes(){return Object.entries(this.attrs).map(([name,value])=>({name,value}));}querySelectorAll(selector){return this.children.flatMap(c=>[...(selector==='*'||selector==='[id]'&&c.id||selector===c.tag?[c]:[]),...c.querySelectorAll(selector)]);}querySelector(s){return this.querySelectorAll(s)[0]||null;}cloneNode(){return new Node(this.tag,{...this.attrs},this.children.map(c=>c.cloneNode()));}prepend(c){this.children.unshift(c);}append(c){this.children.push(c);}}
+let root;const doc={createElementNS:(ns,tag)=>new Node(tag),getElementById:id=>root.querySelectorAll('[id]').find(n=>n.id===id)};
+const source=new Node('svg',{},[new Node('use',{href:'#kit'})]);root=new Node('root',{},[source,new Node('g',{id:'kit'},[new Node('use',{href:'#shell'}),new Node('rect',{fill:'url(#grain)'})]),new Node('g',{id:'shell'},[new Node('use',{href:'#kit'})]),new Node('pattern',{id:'grain'})]);
+const print=vm.runInNewContext(fs.readFileSync('stageplot-print-v1.js','utf8')+';StageplotPrint');const independent=print.copyArtwork(source);assert.deepEqual(independent.querySelectorAll('[id]').map(n=>n.id).sort(),['grain','kit','shell']);assert.equal(source.querySelectorAll('[id]').length,0,'Printing must not mutate the live drawing.');
+console.log('PASS INSTRUMENT FEEDBACK: hybrid and vocal signals, Cajon front/back IDs, empty builds, snapshot privacy/roundtrip, local artwork, stairs and self-contained print definitions.');
+
+// Extended drum workspace persists positions outside the old normalized 0..1 frame.
+const appHtml=fs.readFileSync('stageplot-studio.html','utf8'),extractFn=name=>appHtml.match(new RegExp('  function '+name+'\\([^]*?\\n  }'))[0];
+const moveCtx={drumDraft:D.normalizeDrums(old),drumClamp:(v,min,max)=>Math.max(min,Math.min(max,v))};vm.createContext(moveCtx);vm.runInContext(['drumStoredPoint','storeDrumPartPosition'].map(extractFn).join('\n'),moveCtx);
+const baseLayout=D.drumLayout(moveCtx.drumDraft),target={x:baseLayout.positionVb[0]*3-baseLayout.origin.x,y:baseLayout.positionVb[1]*-2-baseLayout.origin.y};moveCtx.storeDrumPartPosition('snare',target,baseLayout);
+const wide=D.normalizeDrums(moveCtx.drumDraft),wideLayout=D.drumLayout(wide),snare=wideLayout.parts.find(p=>p.id==='snare');
+assert.deepEqual(plain(wide.positions.snare),{x:3,y:-2});assert.equal(snare.x+wideLayout.origin.x,3*wideLayout.positionVb[0]);assert.equal(snare.y+wideLayout.origin.y,-2*wideLayout.positionVb[1]);assert(wideLayout.w>baseLayout.w+4);assert(wideLayout.d>baseLayout.d+2);
+assert.deepEqual(plain(moveCtx.drumStoredPoint(snare,wideLayout)),{x:3,y:-2},'Reopening an expanded layout must retain its original coordinate basis.');
+assert.equal(wideLayout.w,wideLayout.vb[0]*.02);assert.equal(wideLayout.d,wideLayout.vb[1]*.02);
+const compact=D.drumLayout({...empty,extras:{parts:[P.part('vocal-boom','p1')]}});assert(compact.w<1&&compact.d<1.1,'The stage footprint follows the assembly, not the editing camera.');
+assert.match(P.imageMarkup(P.part('vocal-boom','p1')),/vocal-boom-top-v1.png/);assert(!P.imageMarkup(P.part('vocal-boom','p1')).includes('<path'));

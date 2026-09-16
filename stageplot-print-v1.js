@@ -7,6 +7,40 @@ const StageplotPrint = (() => {
     return node;
   };
 
+  function copyArtwork(source) {
+    const svg = source.cloneNode(true), doc = source.ownerDocument;
+    let defs = svg.querySelector('defs');
+    if (!defs) { defs = doc.createElementNS('http://www.w3.org/2000/svg', 'defs'); svg.prepend(defs); }
+    const included = new Set([...svg.querySelectorAll('[id]')].map(node => node.id));
+    const pending = [];
+    function references(node) {
+      for (const item of [node, ...node.querySelectorAll('*')]) for (const attr of [...item.attributes]) {
+        if (/^(?:xlink:)?href$/.test(attr.name) && attr.value.startsWith('#')) pending.push(attr.value.slice(1));
+        for (const match of attr.value.matchAll(/url\(['"]?#([^)'"\s]+)['"]?\)/g)) pending.push(match[1]);
+      }
+    }
+    references(svg);
+    while (pending.length) {
+      const id = pending.shift(); if (included.has(id)) continue;
+      const original = doc.getElementById(id); if (!original) continue;
+      const copy = original.cloneNode(true); included.add(id);
+      for (const node of copy.querySelectorAll('[id]')) included.add(node.id);
+      defs.append(copy); references(copy);
+    }
+    return svg;
+  }
+
+  async function prepareImages(host) {
+    const urls = new Set([...host.querySelectorAll('image')].map(node => node.getAttribute('href') || node.getAttributeNS('http://www.w3.org/1999/xlink','href')).filter(url => url && !url.startsWith('#')));
+    await Promise.all([...urls].map(url => new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => image.decode ? image.decode().then(resolve, reject) : resolve();
+      image.onerror = () => reject(new Error('Ein Bild für die PDF-Ausgabe konnte nicht geladen werden. Bitte erneut versuchen.'));
+      image.src = url;
+    })));
+    if (document.fonts?.ready) await document.fonts.ready;
+  }
+
   function arrangePlan(layout, figure, sources) {
     const box = figure.firstElementChild.viewBox.baseVal;
     const eligible = sources.filter(source => {
@@ -79,14 +113,14 @@ const StageplotPrint = (() => {
     const plan = page('BÜHNENPLAN');
     const layout = element('div', 'sp-report-plan');
     const figure = element('div', 'sp-report-figure');
-    const svg = report.svg.cloneNode(true);
+    const svg = copyArtwork(report.svg);
     // Keep local clip paths, hatches and gradients independent of the source SVG.
     const ids = new Map([...svg.querySelectorAll('[id]')].map(node => [node.id, node.id + '-report']));
     for (const node of [svg, ...svg.querySelectorAll('*')]) {
       if (ids.has(node.id)) node.id = ids.get(node.id);
       for (const attr of [...node.attributes]) {
-        let value = attr.value.replace(/url\(#([^)]*)\)/g, (match, id) => ids.has(id) ? 'url(#' + ids.get(id) + ')' : match);
-        if (attr.name === 'href' && ids.has(value.slice(1))) value = '#' + ids.get(value.slice(1));
+        let value = attr.value.replace(/url\(['"]?#([^)'"\s]+)['"]?\)/g, (match, id) => ids.has(id) ? 'url(#' + ids.get(id) + ')' : match);
+        if (/^(?:xlink:)?href$/.test(attr.name) && ids.has(value.slice(1))) value = '#' + ids.get(value.slice(1));
         if (value !== attr.value) node.setAttribute(attr.name, value);
       }
     }
@@ -232,5 +266,5 @@ const StageplotPrint = (() => {
     });
     return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '"><foreignObject width="100%" height="100%">' + new XMLSerializer().serializeToString(copy) + '</foreignObject></svg>';
   }
-  return { render, fit, pageSvg };
+  return { render, fit, pageSvg, copyArtwork, prepareImages };
 })();

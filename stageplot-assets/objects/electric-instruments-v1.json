@@ -1,0 +1,391 @@
+{
+  "generator": "built-in image_gen",
+  "mode": "generate",
+  "created": "2026-09-16",
+  "camera": "Orthographic front face, instrument laid flat, neck up; recognizable plan symbol, not a standing instrument footprint.",
+  "dimensions": "Approximate generic plan dimensions in metres; the four existing electric guitar sizes are preserved. Not manufacturer measurements.",
+  "processing": "Original RGBA PNG outputs copied without pixel edits. SVG viewBox removes transparent margins while preserving aspect ratio.",
+  "assets": [
+    {
+      "id": "guitar",
+      "label": "Strat",
+      "w": 0.34,
+      "d": 1,
+      "reference": "https://www.fender.com/articles/instruments/stratocaster-or-telecaster-understanding-the-differences",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed STRATOCASTER electric guitar. Smooth contoured asymmetrical double-cutaway solid body with longer rounded upper horn on viewer left and shorter rounded horn on right, light silver-gray body, white contoured pickguard, three slender single-coil pickups with bridge pickup slanted, six-saddle synchronized tremolo bridge and thin tremolo arm, three pale control knobs, blade switch and recessed oval output jack on lower right. Narrow maple fretboard with small black dots, recognizable curved compact Strat paddle headstock and exactly six tuners all on viewer left side. Six strings. Full width/length ratio about 0.34.",
+      "asset": "guitar-illustrated-v1.png",
+      "size": [
+        730,
+        2155
+      ],
+      "viewBox": [
+        8,
+        20,
+        716,
+        2121
+      ],
+      "alphaBounds": [
+        12,
+        24,
+        720,
+        2137
+      ],
+      "sha256": "724720ea570d193285025300211897f5dd6150001b1ca2b7056c4b381bc4c5e6",
+      "sourceFile": "exec-2b74728c-5eac-4234-991a-dfe6005e0a7b.png"
+    },
+    {
+      "id": "guitar-tele",
+      "label": "Telecaster",
+      "w": 0.35,
+      "d": 1,
+      "reference": "https://www.fender.com/articles/instruments/stratocaster-or-telecaster-understanding-the-differences",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed TELECASTER electric guitar. Slab single-cutaway solid body: intact rounded shoulder on viewer left and deep rounded cutaway on viewer right, broad rounded lower bout, pale gray woodgrain body, dark compact pickguard around neck pickup. Small chrome-covered neck pickup, slanted single-coil bridge pickup within rectangular metal bridge plate with three brass-style barrel saddles. Slim chrome control plate on right with two knobs and blade selector. Maple fretboard with dots, narrow Telecaster paddle headstock with exactly six tuners along viewer left side. Six strings. No tremolo, no double cutaway. Full width/length ratio about 0.35.",
+      "asset": "guitar-tele-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        243,
+        6,
+        536,
+        1525
+      ],
+      "alphaBounds": [
+        247,
+        10,
+        775,
+        1527
+      ],
+      "sha256": "e61c6fdab5fdbe5c8b72c65d20ad5ac503e43f8b7c1faccd7e005edf69c764a0",
+      "sourceFile": "exec-b5721aeb-b5fe-42b9-8397-94fb81f7ddce.png"
+    },
+    {
+      "id": "guitar-jazzmaster",
+      "label": "Jazzmaster",
+      "w": 0.36,
+      "d": 1.04,
+      "reference": "https://www.fender.com/articles/behind-the-scenes/jazz-bomb-surf-staple-indie-icon-a-jazzmaster-history",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed JAZZMASTER electric guitar. Large smoothly contoured OFFSET-waist body with asymmetric rounded horns, longer on viewer left, diagonal waist and subtly skewed broad lower bout. Silver-gray body and pale sweeping pickguard. Exactly TWO wide flat soapbar Jazzmaster single-coil pickups, separate narrow bridge and large chrome floating vibrato tailpiece farther below it, thin vibrato arm. Two main knobs and small upper rhythm controls. Dark dot-inlay fretboard and large curved six-in-line Fender-style headstock, six tuners on viewer left. Six strings. No f-holes, no narrow Strat pickups. Full width/length ratio about 0.346.",
+      "asset": "guitar-jazzmaster-illustrated-v1.png",
+      "size": [
+        953,
+        1650
+      ],
+      "viewBox": [
+        182,
+        8,
+        587,
+        1631
+      ],
+      "alphaBounds": [
+        186,
+        12,
+        765,
+        1635
+      ],
+      "sha256": "ce866af1e5cd940d8b323c0aac603086ed7e7e94bbbb89d97a3de4c9d73c4815",
+      "sourceFile": "exec-6e7f1adb-633c-47a9-9fc8-d30b6045afaf.png"
+    },
+    {
+      "id": "guitar-jaguar",
+      "label": "Jaguar",
+      "w": 0.36,
+      "d": 1.02,
+      "reference": "https://www.fender.com/articles/instruments/60-anniversary-jaguar",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed JAGUAR electric guitar with offset-waist double-cutaway body, gray body and white pickguard. Exactly two NARROW single-coil pickups with visible metal claw surrounds, three distinct chrome switch/control plates around pickguard, two main knobs. Separate bridge and large chrome floating vibrato tailpiece with arm. Shorter 24-inch-scale dark dot-inlay neck, large curved Fender-style headstock with six tuners all on viewer left. Six strings. Clearly different from Jazzmaster: slender claw pickups and separate metal switch plates. Full width/length ratio about 0.35.",
+      "asset": "guitar-jaguar-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        244,
+        8,
+        539,
+        1516
+      ],
+      "alphaBounds": [
+        248,
+        12,
+        779,
+        1520
+      ],
+      "sha256": "7703601bd5da37f6c4cf34e2078279e8a147fecdd66f2c01e9a1846a3e2a300d",
+      "sourceFile": "exec-27a470f9-ec06-4dda-8375-ef56988b59a5.png"
+    },
+    {
+      "id": "guitar-les-paul",
+      "label": "Les Paul",
+      "w": 0.34,
+      "d": 0.99,
+      "reference": "https://www.gibson.com/blogs/gibson-gazette/gibson-les-paul-vs-gibson-sg-whats-the-difference",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed GIBSON LES PAUL STANDARD electric guitar, compact carved arched maple top, rounded single-cutaway body with cutaway on viewer right, rounded intact left shoulder. Soft grayscale sunburst from light silver center to dark charcoal edge with pale binding. TWO chrome-covered humbuckers, tune-o-matic bridge and separate stopbar tailpiece, small pale raised pickguard at right, four control knobs in diamond layout on lower right, selector switch on upper left. Dark fretboard with trapezoid inlays, open-book headstock with exactly three tuners on each side. Six strings. No f-holes. Full width/length ratio about 0.343.",
+      "asset": "guitar-les-paul-illustrated-v1.png",
+      "size": [
+        994,
+        1582
+      ],
+      "viewBox": [
+        218,
+        8,
+        557,
+        1560
+      ],
+      "alphaBounds": [
+        222,
+        12,
+        771,
+        1564
+      ],
+      "sha256": "4b6f4d23b8f06b93bff5f9008c94d54f7ede32ce3523e23a9c5123f1a9245329",
+      "sourceFile": "exec-78c2a2ec-2c7d-492b-b64c-c2ea3e59146c.png"
+    },
+    {
+      "id": "guitar-sg",
+      "label": "SG",
+      "w": 0.33,
+      "d": 1.01,
+      "reference": "https://www.gibson.com/blogs/gibson-gazette/gibson-les-paul-vs-gibson-sg-whats-the-difference",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed GIBSON SG STANDARD electric guitar, thin beveled solid mahogany double-cutaway body with two distinctive sharp devil-horn points, long horn on viewer left. Medium gray woodgrain body and black batwing pickguard, TWO chrome humbuckers, tune-o-matic bridge and stopbar tailpiece, four knobs and toggle on lower right. Long exposed dark neck with trapezoid inlays and open-book headstock, three tuning pegs on each side, six strings. No round Les Paul single-cut body, no f-holes. Full width/length ratio about 0.327.",
+      "asset": "guitar-sg-illustrated-v1.png",
+      "size": [
+        928,
+        1695
+      ],
+      "viewBox": [
+        179,
+        9,
+        574,
+        1682
+      ],
+      "alphaBounds": [
+        183,
+        13,
+        749,
+        1687
+      ],
+      "sha256": "f2af632e5f637a9f721859e88c420b9e192eb4a4328a437870ea3bed323d08d0",
+      "sourceFile": "exec-4f76493f-9218-44be-b078-96e6f8e892ec.png"
+    },
+    {
+      "id": "guitar-es",
+      "label": "ES-335",
+      "w": 0.42,
+      "d": 1.04,
+      "reference": "https://www.gibson.com/en-gb/products/gibson-es-335-vintage-ebony",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed GIBSON ES-335 semi-hollow electric guitar. Broad thin hollowbody silhouette with TWO rounded symmetrical Mickey-Mouse-ear cutaway horns, graceful waist, large rounded lower bout, two clear F-HOLES flanking the strings. Subtle grayscale sunburst maple top, pale edge binding. TWO nickel-covered humbuckers, tune-o-matic bridge and stopbar tailpiece, dark raised pickguard to right, four knobs and selector on lower right. Dark neck with dot inlays and open-book headstock with three tuners on each side. Six strings. No center circular soundhole. Full width/length ratio about 0.40.",
+      "asset": "guitar-es-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        205,
+        18,
+        613,
+        1494
+      ],
+      "alphaBounds": [
+        209,
+        22,
+        814,
+        1508
+      ],
+      "sha256": "afe0bbee742600a903d28c05fd0d7912b52bcaa2078d759e3ff63bbd1ddcd4e5",
+      "sourceFile": "exec-e0e69f2e-df6c-47a6-99a6-2803e6eada6d.png"
+    },
+    {
+      "id": "guitar-explorer",
+      "label": "Explorer",
+      "w": 0.48,
+      "d": 1.1,
+      "reference": "https://www.gibson.com/products/gibson-explorer-antique-natural",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed GIBSON EXPLORER electric guitar with instantly recognizable angular offset lightning-bolt polygonal body, long rear wing extending down to viewer right and shorter forward horn on viewer left. Light gray woodgrain, angular white pickguard, two chrome-covered humbuckers, tune-o-matic bridge and separate stopbar, three control knobs arranged diagonally on lower right. Dark dot-inlay fretboard and sharply swept hockey-stick headstock with six inline tuners. Six strings. No V-shaped body, no rounded Strat body. Whole angular wings visible. Full width/length ratio about 0.436.",
+      "asset": "guitar-explorer-illustrated-v1.png",
+      "size": [
+        1070,
+        1470
+      ],
+      "viewBox": [
+        301,
+        12,
+        593,
+        1442
+      ],
+      "alphaBounds": [
+        305,
+        16,
+        890,
+        1450
+      ],
+      "sha256": "99ea99af0e44f105e956be2c92d350a7c25354ba18edbc89f09bfe9306aca1f2",
+      "sourceFile": "exec-76514a8f-4b35-4884-96cb-b820be09156d.png"
+    },
+    {
+      "id": "guitar-flying-v",
+      "label": "Flying V",
+      "w": 0.46,
+      "d": 1.1,
+      "reference": "https://www.gibson.com/products/gibson-flying-v-antique-natural",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a classic right-handed GIBSON FLYING V electric guitar. Symmetrical broad V body with two equal straight wings opening downwards, softly rounded outer tips, deep open V gap at bottom. Light gray woodgrain body and large white V-shaped pickguard, two covered humbuckers, tune-o-matic bridge and separate short stopbar, three round controls on viewer right wing. Dark dot-inlay fingerboard, symmetrical arrowhead headstock with THREE tuners on EACH side. Six strings. Classic rounded-tip Flying V, NOT sharp Jackson King V and not asymmetrical Rhoads. Full width/length ratio about 0.418.",
+      "asset": "guitar-flying-v-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        193,
+        8,
+        639,
+        1514
+      ],
+      "alphaBounds": [
+        197,
+        12,
+        828,
+        1518
+      ],
+      "sha256": "58b4809d4dcc76037af7b376a5877a4ca35c40cb9234618793e8ddcbc583a356",
+      "sourceFile": "exec-5788ceb1-060d-4d0e-b513-65f40b03cfff.png",
+      "mode": "generate, then precise-object-edit",
+      "editPrompt": "Use case: precise-object-edit. Correct ONLY the headstock of this monochrome Flying V guitar illustration. Replace the incorrect open-book / notched top headstock silhouette with the authentic symmetrical pointed ARROWHEAD Flying V headstock: a single central upward point, straight slanting edges widening from the narrow nut, triangular spear outline, exactly three tuning machines along EACH side. Keep six strings connected to those tuners. Preserve all other body, pickups, bridge, gray woodgrain, neck, layout and scale details unchanged. Output one whole uncropped full-length instrument, front face orthographic, neck up, on genuine transparent alpha background. No glow, no floor, no cast shadow, no labels, no logo. Six tuners total.",
+      "editInput": "exec-cc5ab358-f053-49e6-82b5-11cd95bde95b.png"
+    },
+    {
+      "id": "guitar-king-v",
+      "label": "King V",
+      "w": 0.45,
+      "d": 1.12,
+      "reference": "https://www.jacksonguitars.com/products/js-series-king-v-js32",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a JACKSON KING V electric guitar, symmetrical aggressive V-shaped solid body with TWO equal long wings ending in razor-sharp pointed tips, deep triangular open gap at bottom, beveled body edges. Medium charcoal gray face with pale gray bevels, no pickguard. Two uncovered black humbuckers, Floyd-Rose-style double-locking tremolo with arm, two knobs and toggle. Long dark 24-fret fingerboard with bright SHARKFIN triangular inlays, sharply pointed six-in-line hockey-stick Jackson headstock and six tuners on one side. Six strings. Equal wings, not offset Rhoads; sharp wing tips, not rounded Gibson Flying V. Full width/length ratio about 0.402.",
+      "asset": "guitar-king-v-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        159,
+        5,
+        707,
+        1515
+      ],
+      "alphaBounds": [
+        163,
+        9,
+        862,
+        1516
+      ],
+      "sha256": "14c45a74ebf5253bd18ddc5914f8c5b93ad55b49bfe5087ba97ebd833640f5b7",
+      "sourceFile": "exec-3ade6729-95e5-481b-a077-2640bb641937.png"
+    },
+    {
+      "id": "guitar-superstrat",
+      "label": "Superstrat",
+      "w": 0.33,
+      "d": 1.01,
+      "reference": "https://www.ibanez.com/usa/products/detail/rg550_00_04.html",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: an Ibanez RG-style SUPERSTRAT electric guitar. Sleek contoured double-cutaway solid body with two sharply pointed slim horns, long on viewer left, narrow waist, light medium-gray body with dark pickguard. HSH pickup configuration: neck humbucker, narrow middle single-coil, bridge humbucker. Double-locking tremolo bridge and arm, two knobs and blade selector. Very slender long dark 24-fret neck with dots and sharply swept pointed headstock with SIX inline tuners. Six strings. More angular horns and pointed headstock than a rounded Stratocaster. Full width/length ratio about 0.327.",
+      "asset": "guitar-superstrat-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        263,
+        7,
+        498,
+        1515
+      ],
+      "alphaBounds": [
+        267,
+        11,
+        757,
+        1518
+      ],
+      "sha256": "74698a0ed73d1e08d45f6b663a556d082712ba16938779d53cbfc4b374e78c72",
+      "sourceFile": "exec-33622342-d5bc-4cd8-ae57-4a27eab2c11b.png"
+    },
+    {
+      "id": "mandolin",
+      "label": "Mandoline",
+      "w": 0.27,
+      "d": 0.7,
+      "reference": "https://www.eastmanguitars.com/md315",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a traditional acoustic F-STYLE MANDOLIN, compact pear-shaped carved body with ornate curled SCROLL on the viewer upper-left shoulder, pointed body corner on lower-right, two slender f-shaped soundholes, small dark floating pickguard on right. Gray woodgrain sunburst, narrow dark neck, floating wooden bridge and engraved silver tailpiece at bottom. Exactly EIGHT strings arranged in FOUR close pairs, ornate headstock with FOUR separate tuning machines on EACH side, eight tuners total. Not a six-string guitar, no large circular soundhole, no electric pickups. Full width/length ratio about 0.386.",
+      "asset": "mandolin-illustrated-v1.png",
+      "size": [
+        986,
+        1595
+      ],
+      "viewBox": [
+        197,
+        9,
+        602,
+        1557
+      ],
+      "alphaBounds": [
+        201,
+        13,
+        795,
+        1562
+      ],
+      "sha256": "8fad4611870bca9948e18f8518ec1b3834825f87b4c71e8a2bcbbc64d538b545",
+      "sourceFile": "exec-af35123b-201b-45a7-aad8-1726c39e8c63.png"
+    },
+    {
+      "id": "lap-steel",
+      "label": "Lap Steel",
+      "w": 0.22,
+      "d": 0.85,
+      "reference": "https://www.goldtonemusicgroup.com/goldtone/instruments/ls-6",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a six-string vintage electric LAP STEEL guitar inspired by Oahu Tonemaster / Gold Tone LS-6. A single compact elongated solid slab instrument played horizontally, narrow softly waisted body with rounded lower end, broad flat rectangular neck flowing almost continuously into body, dark printed fretboard with dot position marks, high raised nut, six parallel strings, compact single soapbar magnetic pickup near bridge, chrome bridge cover, TWO round knobs on body side. Solid headstock with three tuning machines on each side. Medium gray woodgrain and fine pale edge binding. No hollow soundbox, no soundhole, no ordinary long thin guitar neck, no legs, no pedals, no steel slide bar accessory. Full width/length ratio about 0.259.",
+      "asset": "lap-steel-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        305,
+        11,
+        414,
+        1510
+      ],
+      "alphaBounds": [
+        309,
+        15,
+        715,
+        1517
+      ],
+      "sha256": "035f759b5282eb6a0e7bbd64036de61c4a327ab1aded27b1da9c207a1f57f4b4",
+      "sourceFile": "exec-a37ae4cf-e58e-4be7-8570-7a573a65dd9b.png"
+    },
+    {
+      "id": "ukulele",
+      "label": "Ukulele",
+      "w": 0.175,
+      "d": 0.53,
+      "reference": "https://kalabrand.com/products/ka-s",
+      "prompt": "Use case: product-mockup. Asset type: one isolated instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, frets, pickups and tuning pegs. Subject: a traditional SOPRANO UKULELE with tiny symmetrical figure-eight mahogany body, rounded shoulders, round soundhole with simple rosette, no cutaway, NO pickguard. Neutral medium-light gray woodgrain with thin pale binding, short broad dark 12-fret neck joining at 12th fret, simple rectangular tie bridge and pale saddle. Exactly FOUR nylon strings and FOUR tuning pegs, TWO on EACH side of a small rectangular headstock. Compact child-size proportions distinct from full-size guitar: large body relative to short neck. No electronics. Full width/length ratio about 0.33.",
+      "asset": "ukulele-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "viewBox": [
+        251,
+        23,
+        522,
+        1492
+      ],
+      "alphaBounds": [
+        255,
+        27,
+        769,
+        1511
+      ],
+      "sha256": "8d81c5bd8b0b9e7b35600ede247d7ce0a8d150558d67a245060512af224aee23",
+      "sourceFile": "exec-cb7d1bfa-f6ee-4df7-8d91-5b09b5b74b32.png"
+    }
+  ]
+}

@@ -3,26 +3,27 @@
   'use strict';
   const fields=names=>Object.fromEntries(names.split(' ').map(key=>[key,true]));
   const point=fields('x y'),size=fields('w d'),port=fields('count connector');
-  const stair=fields('id stairs stairsOffset stairsAlong stairsWidth stairsDepth');
-  const part=fields('id type section x y angle scale label enabled pickup width depth');
-  const drumIds='throne kick1 kick2 snare side rack1 rack2 rack3 rack4 floor1 floor2 floor3 hihat ride crash1 crash2 crash3 crash4 splash1 splash2 splash3 splash4 china1 china2 clapstack pad bongos table';
-  const micIds='kick1-in kick1-out kick2-in kick2-out snare-up snare-down side-up side-down rack1 rack2 rack3 rack4 floor1 floor2 floor3 hihat ride crash1 crash2 crash3 crash4 splash1 splash2 splash3 splash4 china1 china2 clapstack oh-mono oh-l oh-r room-mono room-l room-r pad-l pad-r bongos';
+  const stair=fields('id stairs stairsOffset stairsAlong stairsWidth stairsDepth stairsSteps');
+  const part={...fields('id type section x y angle scale label enabled pickup width depth'),mics:[fields('model phantom')]};
+  const extraIds=Array.from({length:48},(_,i)=>'extra-p'+(i+1));
+  const drumIds='throne kick1 kick2 snare side rack1 rack2 rack3 rack4 floor1 floor2 floor3 hihat ride crash1 crash2 crash3 crash4 splash1 splash2 splash3 splash4 china1 china2 clapstack pad bongos table '+extraIds.join(' ');
+  const micIds='kick1-in kick1-out kick2-in kick2-out snare-up snare-down side-up side-down rack1 rack2 rack3 rack4 floor1 floor2 floor3 hihat ride crash1 crash2 crash3 crash4 splash1 splash2 splash3 splash4 china1 china2 clapstack oh-mono oh-l oh-r room-mono room-l room-r pad-l pad-r bongos '+extraIds.flatMap(id=>['1','2','l','r'].map(side=>id+'-'+side)).join(' ');
   const map=(names,schema)=>Object.fromEntries(names.split(' ').map(key=>[key,schema]));
   const mix={...fields('id name mode transport frequencyBand'),ports:[true]};
   const route=fields('id adoptedSource edited pickup outputKind iemName iemMode iemTransport iemGroup frequencyBand sourceKey number instrument generatedInstrument mode signalType connector portIndex stereoGroup microphone phantom stagebox stageboxPort manual');
   const routingRow={...route,linkedSources:[route]};
   // This explicit schema is also embedded in the SQL migration and checked by tests.
   // Contacts, author, free notes, inventory references and unknown fields are absent.
-  const schema={stage:{...fields('title projectId w d estimated surface complex stairs stairsOffset stairsAlong stairsWidth stairsDepth iem iemLength iemDepth iemX iemY'),
+  const schema={stage:{...fields('title projectId w d estimated surface complex stairs stairsOffset stairsAlong stairsWidth stairsDepth stairsSteps iem iemLength iemDepth iemX iemY'),
     project:fields('name unit'),extraStairs:[stair],
     routing:{version:true,disabledSources:[true],inputs:[routingRow],outputs:[routingRow],generatedAt:true},
     cables:[{...fields('id direction sourceKey sourceId targetId targetPort length bundleId'),route:[point]}],
-    geometry:{...fields('version height clearance showModules name measured revision'),parts:[{...fields('id name kind shape x y w d angle height role locked rise target'),points:[[true]],anchor:fields('partId edge t')}]}
-  },objects:[{...fields('id type x y angle label showLabel power wireless outs showOuts locked house drumPresetId comboJacks stand purpose boomDirection micHeadDirection micFrameVersion width depth height'),dimensions:size,labelOffset:point,
+    geometry:{...fields('version height clearance showModules name measured revision'),parts:[{...fields('id name kind shape x y w d angle height role locked rise target steps'),points:[[true]],anchor:fields('partId edge t')}]}
+  },objects:[{...fields('id type x y angle label showLabel power wireless outs showOuts locked house drumPresetId comboJacks stand purpose boomDirection micHeadDirection micFrameVersion width depth height steps'),dimensions:size,labelOffset:point,
     foh:fields('table barrier sun rain'),iem:mix,iemMixes:[mix],playback:fields('version mode target'),
     io:{inputs:port,outputs:port,stereoPairs:[true],aliases:{inputs:[true],outputs:[true]},outputKeyStyle:true},
     drumInputs:[fields('id name microphone phantom')],
-    drums:{...fields('kickCount kickDiameter kickDepth pedal snare snareModel snareDiameter snareDepth snareMaterial side sideModel sideDiameter sideDepth riserPreset throne hihat hatSize ride rideSize splash china clapstack clapSize pad bongos table leftHanded showMics overheads overheadMount room'),
+    drums:{extras:{version:true,nextId:true,parts:[part]},...fields('kickCount kickDiameter kickDepth pedal snare snareModel snareDiameter snareDepth snareMaterial side sideModel sideDiameter sideDepth riserPreset throne hihat hatSize ride rideSize splash china clapstack clapSize pad bongos table leftHanded showMics overheads overheadMount room'),
       rackToms:[fields('diameter depth mount')],floorToms:[fields('diameter depth')],crashes:[true],positions:map(drumIds,point),rotations:fields(drumIds),overheadPickup:fields(drumIds),mics:map(micIds,fields('enabled model phantom')),zOrder:[true]},
     percussion:{version:true,nextId:true,parts:[part]},
     orchestra:{...fields('version mode seating labels nextId'),groups:fields('violin1 violin2 violas cellos basses flutes oboes clarinets bassoons horns trumpets trombones tubas harps timpani percussion'),parts:[part]}

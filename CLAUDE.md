@@ -10,6 +10,13 @@ This repository is the standalone 2D Stageplot Generator. Never mix it with Gigb
 - Do not replace local-first persistence with cloud-only writes.
 - Do not commit exported user projects, credentials or personal contact data.
 
+## Instrument and equipment illustrations
+
+- Fixed user rule: always use image generation for new or replacement instrument/equipment illustrations and save the resulting raster assets locally. Do not substitute hand-coded SVG paths or CSS drawings for these images.
+- Research the characteristic anatomy of new instrument variants first. Keep an asset manifest with prompts, reference sources and generation provenance. SVG may position the raster image without redrawing the instrument.
+
+- Microphone catalog pictures are an explicit exception: use only real photographs of the correct product. Never generate catalog photos; label representative photos for generic types. Keep source/credit metadata with the local files.
+
 ## After changing code
 
 - When editing `stageplot-drums-v12.js`, `stageplot-symbols-v3.js`, `stageplot-export-v42.js`, `stageplot-geometry-v1.js` or `stageplot-venue-v1.js` / `.css`, run `npm run build` to regenerate the embedded copies in `stageplot-studio.html`. These `.js` files are the single source; never hand-edit the embedded blocks (between the `build-inline:start/end` markers).

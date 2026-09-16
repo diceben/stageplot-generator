@@ -1,7 +1,7 @@
 const {spawn}=require('node:child_process');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const checks=['check-project-dashboard.cjs','check-mobile-library.cjs','check-mobile-routing.cjs','check-project-actions.cjs','check-share-navigation.cjs','check-project-sharing.cjs','check-venue-editor.cjs','check-mic-head-direction.cjs','check-mic-layers.cjs','check-mobile-stage.cjs','check-new-project.cjs','check-theme-switch.cjs'];
+const checks=['check-project-dashboard.cjs','check-mobile-library.cjs','check-mobile-routing.cjs','check-project-actions.cjs','check-share-navigation.cjs','check-project-sharing.cjs','check-venue-editor.cjs','check-mic-head-direction.cjs','check-mic-layers.cjs','check-mobile-stage.cjs','check-new-project.cjs','check-theme-switch.cjs','check-print-assets.cjs'];
 function run(file,env){
   return new Promise((resolve,reject)=>{
     const child=spawn(process.execPath,[path.join(__dirname,file)],{cwd:root,env,stdio:'inherit'});
@@ -26,7 +26,9 @@ function run(file,env){
         await new Promise(resolve=>setTimeout(resolve,100));
       }
     }
-    for(const file of checks)await run(file,env);
+    const failures=[];
+    for(const file of checks){try{await run(file,env);}catch(error){console.error(error);failures.push(file);}}
+    if(failures.length)throw new Error('Browser checks failed: '+failures.join(', '));
     console.log('PASS: '+checks.length+' browser flows ('+(env.BROWSER||'chromium')+').');
   }finally{if(server)server.kill();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

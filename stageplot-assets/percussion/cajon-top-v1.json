@@ -1,0 +1,20 @@
+{
+  "asset": "cajon-top-v1.png",
+  "created": "2026-09-16",
+  "generator": "image_gen",
+  "mode": "generate",
+  "prompt": "Use case: product-mockup. Asset type: a single isolated instrument sprite for an existing 2D stage plot editor. Generate ONE wooden cajon viewed from EXACTLY overhead, orthographic top-down, no perspective, no visible side walls. A realistic but lightly illustrated, clean technical grayscale rendering that stays legible at small size, subtle wood grain and fine dark outlines, top surface a nearly square 30 x 30 cm box. The front playing face is at the bottom of the image; a discreet dark seam at this edge distinguishes it. The rear sound hole is on the rear vertical face and must NOT be incorrectly drawn through the top surface. No person, no seat cushion, no microphone, no stands, no pedals, no cables, no cymbals, no labels, no text, no logo, no watermark, no surrounding scene. The entire object is centered with a small clear margin, genuine transparent background and alpha channel, no floor plane or cast shadow.",
+  "size": [
+    1254,
+    1254
+  ],
+  "alpha": true,
+  "opaqueBounds": [
+    177,
+    183,
+    1077,
+    1070
+  ],
+  "sha256": "c21293b1679fcc418c35591d04043159e48571edfe5e69e55918f8c3ad3993fd",
+  "display": "Local sprite, cropped to opaque bounds; stage artwork uses grayscale."
+}

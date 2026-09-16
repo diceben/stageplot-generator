@@ -130,18 +130,18 @@ const crypto=require('node:crypto'),photoSources=JSON.parse(fs.readFileSync('sta
 for(const photo of photoSources){
   const bytes=fs.readFileSync('stageplot-assets/mics/'+photo.file);
   assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),photo.sha256,photo.model+' must match the shipped photo checksum.');
-  assert.equal(photo.originalManufacturerPhoto,true);assert.equal(bytes.length,photo.bytes);
+  assert(photo.originalManufacturerPhoto||photo.realProductPhoto);assert.equal(bytes.length,photo.bytes);
   assert.equal(ctx.audioMicPhoto(photo.model),'stageplot-assets/mics/'+photo.file);
-  assert.match(new URL(photo.productPage).hostname,/(^|\.)(shure\.com|telefunken-elektroakustik\.com|beyerdynamic\.com|neumann\.com|seelectronics\.com|audixusa\.com|sennheiser\.com|akg\.com|audio-technica\.co\.jp|electrovoice\.com|lewitt-audio\.com|dpamicrophones\.com|royerlabs\.com|yamaha\.com|solomonmics\.com|earthworksaudio\.com|josephson\.com|schoeps\.de|rode\.com|coleselectroacoustics\.com|aearibbonmics\.com|austrian\.audio)$/);
-  assert.match(photo.sourceSha256,/^[a-f0-9]{64}$/);assert(photo.sourceBytes>0);assert(photo.width>0&&photo.width<=640);assert(photo.height>0&&photo.height<=640);
-  assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');
+  assert.match(new URL(photo.productPage).hostname,/(^|\.)(shure\.com|telefunken-elektroakustik\.com|beyerdynamic\.com|neumann\.com|seelectronics\.com|audixusa\.com|sennheiser\.com|akg\.com|audio-technica\.co\.jp|electrovoice\.com|lewitt-audio\.com|dpamicrophones\.com|royerlabs\.com|yamaha\.com|solomonmics\.com|earthworksaudio\.com|josephson\.com|schoeps\.de|rode\.com|coleselectroacoustics\.com|aearibbonmics\.com|austrian\.audio|ggvideo\.com|thomann\.co\.uk|soundpure\.com|commons\.wikimedia\.org)$/);
+  assert.match(photo.sourceSha256,/^[a-f0-9]{64}$/);assert(photo.sourceBytes>0);assert(photo.width>0&&photo.width<=4000);assert(photo.height>0&&photo.height<=4000);
+  assert(bytes.subarray(0,3).equals(Buffer.from([255,216,255]))||bytes.subarray(1,4).toString()==='PNG'||bytes.subarray(0,4).toString()==='RIFF'&&bytes.subarray(8,12).toString()==='WEBP',photo.file+' must be a raster photo');
   assert(photo.processing.includes('no crop'));
   const model=ctx.StageplotMics.catalog.find(m=>m.name===photo.model);assert.equal(model.photoLabel,photo.photoLabel||'');
 }
-assert.equal(photoSources.length,81);assert.equal(ctx.StageplotMics.catalog.filter(m=>m.photo).length,81);
-const photoFiles=[...new Set(photoSources.map(p=>p.file))];assert.equal(photoFiles.length,78);assert(photoFiles.reduce((sum,file)=>sum+fs.statSync('stageplot-assets/mics/'+file).size,0)<2500000,'All photo downloads together stay below 2.5 MB.');
+assert.equal(ctx.StageplotMics.catalog.filter(m=>m.photo).length,ctx.StageplotMics.catalog.length);
+const photoFiles=[...new Set(photoSources.map(p=>p.file))];assert.equal(photoFiles.length,new Set(ctx.StageplotMics.catalog.map(m=>m.photo)).size);assert(photoFiles.reduce((sum,file)=>sum+fs.statSync('stageplot-assets/mics/'+file).size,0)<2500000,'All photo downloads together stay below 2.5 MB.');
 assert.notEqual(ctx.audioMicPhoto('Telefunken M80-SH'),ctx.audioMicPhoto('Telefunken M80'),'Short and full-length versions have their own original photos.');
-assert.equal(ctx.audioMicPhoto('Sennheiser MD 421'),'','A legacy model must not silently receive a different revision’s product photo.');
+assert.notEqual(ctx.audioMicPhoto('Sennheiser MD 421'),ctx.audioMicPhoto('Sennheiser MD 421 II'),'Legacy models have their own photo.');
 const micCatalog=ctx.StageplotMics.catalog;assert(micCatalog.some(mic=>mic.name==='Shure SM58'));assert.equal(ctx.audioMicBrand('sE Electronics V7'),'sE Electronics');assert.equal(ctx.audioMicBrand('Audio-Technica ATM230'),'Audio-Technica');
 for(const name of ['Snare Top','Kick In','Hi-Hat','Drums · OH L','Congas','Gitarre','Lead Vocals'])for(const model of ctx.audioMicSuggestions(name))assert(micCatalog.some(mic=>mic.name===model),model+' is selectable for '+name);
 assert(ctx.audioMicSuggestions('Snare Top').includes('Shure SM57'));assert(ctx.audioMicSuggestions('Lead Vocals').includes('sE Electronics V7'));
@@ -194,3 +194,41 @@ const productionNodes=new Map(),productionCtx={byId:{wash:{category:'tech'},powe
 vm.createContext(productionCtx);vm.runInContext(extract('fillProductionObject'),productionCtx);
 for(const type of ['wash','power']){productionCtx.fillProductionObject({type});assert.equal(Boolean(productionCtx.$('sp-production-object').hidden),false,'Non-audio equipment still accepts power requirements.');}
 productionCtx.fillProductionObject({type:'riser'});assert(productionCtx.$('sp-production-object').hidden);productionCtx.fillProductionObject({type:'riser',power:'1 × Schuko'});assert.equal(productionCtx.$('sp-production-object').hidden,false,'Existing requirements on structural objects remain editable.');
+
+{
+// DI chaining and dual mono use existing identities; no channel renumbering.
+ctx.clone=clone;ctx.change=fn=>fn();ctx.byId.di={instrument:true,category:'tech',signalType:'Instrument',name:'DI',short:'DI'};
+ctx.objects=[fixture('instrument','guitar'),fixture('box','di')];
+ctx.stage.routing={inputs:[ctx.normalizeRouteChannel({id:'route-a',sourceKey:'instrument:main',number:17,instrument:'Guitar',microphone:'JDI',pickup:'DI',stagebox:'stagebox',stageboxPort:5},0,'inputs'),ctx.normalizeRouteChannel({id:'route-di',sourceKey:'box:io-out-1',number:19,instrument:'DI',pickup:'DI',microphone:'J48',phantom:true},1,'inputs')],outputs:[],disabledSources:[]};
+ctx.sharedReadOnly=false;ctx.linkAudioDi(ctx.objects[1],'route-a');assert.equal(ctx.stage.routing.inputs.length,1);assert.equal(ctx.stage.routing.inputs[0].number,17);assert.equal(ctx.stage.routing.inputs[0].stageboxPort,5);assert.equal(ctx.stage.routing.inputs[0].pickup,'DI');assert.equal(ctx.audioObjectRows(ctx.objects[1])[0].row.id,'route-a');ctx.syncRoutingFromStage(false,false);assert.equal(ctx.stage.routing.inputs.length,1,'Sync must not recreate the linked DI as another channel.');
+ctx.objects=[fixture('guitar','guitar')];ctx.stage.routing={inputs:[ctx.normalizeRouteChannel({id:'route-first',sourceKey:'guitar:main',number:8,instrument:'Guitar',pickup:'DI',microphone:'JDI',stagebox:'stagebox',stageboxPort:3},0,'inputs')],outputs:[],disabledSources:[]};
+ctx.setAudioObjectFormat(ctx.objects[0],'dual');assert.equal(ctx.stage.routing.inputs.length,2);assert.deepEqual(clone(ctx.stage.routing.inputs.map(r=>r.pickup)),['DI','Mic']);assert(ctx.stage.routing.inputs.every(r=>!r.stereoGroup));assert.equal(ctx.stage.routing.inputs[0].number,8);assert.equal(ctx.stage.routing.inputs[0].stageboxPort,3);ctx.stage.routing.inputs[1].number=22;ctx.stage.routing.inputs[1].microphone='SM57';ctx.syncRoutingFromStage(false,false);assert.deepEqual(clone(ctx.stage.routing.inputs.map(r=>[r.number,r.microphone])),[[8,'JDI'],[22,'SM57']]);
+const ordered=[{id:'a',sourceKey:'guitar:main',number:19},{id:'b',sourceKey:'voice:mic',number:4},{id:'c',sourceKey:'guitar:io-out-2',number:25}];const moved=ctx.moveAudioInstrument(ordered,'a','down');assert.deepEqual(clone(moved.map(r=>r.id)),['b','a','c']);assert.deepEqual(clone(moved.map(r=>r.number)),[4,19,25]);assert.deepEqual(ordered.map(r=>r.id),['a','b','c']);
+console.log('PASS DI / DUAL MONO: one shared channel, no duplicate after reconciliation, independent pickup/model/number and instrument group ordering.');
+
+}
+
+const beforeRepeatedFormat=clone(ctx.stage.routing.inputs);ctx.setAudioObjectFormat(ctx.objects[0],'dual');assert.deepEqual(clone(ctx.stage.routing.inputs),beforeRepeatedFormat,'Reselecting the active signal format must preserve custom names and microphones.');
+ctx.sharedReadOnly=true;ctx.setAudioObjectFormat(ctx.objects[0],'mono');assert.deepEqual(clone(ctx.stage.routing.inputs),beforeRepeatedFormat,'A shared view cannot change the signal format.');
+
+// Zero-output amps and multi-output devices can opt into two independent signals.
+ctx.sharedReadOnly=false;
+ctx.byId['amp-head']={instrument:false,category:'amps',short:'Amp head',ioDefaults:{inputs:0,outputs:0}};
+ctx.byId.pedalboard={instrument:true,category:'amps',short:'Pedalboard',ioDefaults:{inputs:2,outputs:2}};
+for(const [type,count] of [['amp-head',0],['amp',1],['pedalboard',2],['guitar',1],['keys-stage4',4]]){
+ const object=fixture('dual-test',type,count);object.io.stereoPairs=count===4?[1,3]:[];object.io.aliases.outputs=['','','Aux L','Aux R'];ctx.objects=[object];ctx.stage.routing={inputs:[],outputs:[],disabledSources:[]};ctx.syncRoutingFromStage(false,false);
+ if(count===4)ctx.stage.routing.inputs=ctx.generatedInputSpecs().map((spec,i)=>ctx.normalizeRouteChannel({...spec,generatedInstrument:spec.instrument,id:'existing-'+i,number:20+i,stagebox:'box',stageboxPort:i+1},i,'inputs'));
+ const other=clone(ctx.stage.routing.inputs.slice(2));assert.match(ctx.audioSignalFormatControls(object),/Dual Mono/);ctx.setAudioObjectFormat(object,'dual');
+ assert.equal(object.io.outputs.count,Math.max(2,count));assert.equal(ctx.stage.routing.inputs.length,Math.max(2,count));assert.deepEqual(clone(ctx.stage.routing.inputs.slice(0,2).map(r=>r.pickup)),['DI','Mic']);assert(ctx.stage.routing.inputs.slice(0,2).every(r=>!r.stereoGroup));
+ assert.deepEqual(clone(ctx.stage.routing.inputs.slice(2)),other,'Other output channels keep their identities, stereo group and patches.');
+ const before=clone(ctx.stage.routing.inputs);ctx.setAudioObjectFormat(object,'dual');assert.deepEqual(clone(ctx.stage.routing.inputs),before);ctx.syncRoutingFromStage(false,false);assert.deepEqual(clone(ctx.stage.routing.inputs),before);
+}
+
+// Changing a string instrument's pickup in its own editor retains its existing patch.
+ctx.orchestraModel=require('./stageplot-orchestra-v1.js')();ctx.byId.orchestra={instrument:true,short:'Orchestra'};
+const soloBass=fixture('solo-bass','orchestra');soloBass.orchestra=ctx.orchestraModel.single('double-bass');soloBass.orchestra.parts[0].pickup='mic';ctx.objects=[soloBass];ctx.stage.routing={inputs:[],outputs:[],disabledSources:[]};ctx.syncRoutingFromStage(false,false);
+Object.assign(ctx.stage.routing.inputs[0],{number:18,stagebox:'box',stageboxPort:7,microphone:'Shure SM57'});
+const pairedBass=clone(soloBass.orchestra);pairedBass.parts[0].pickup='dual';ctx.applyOrchestraPickupChanges(soloBass,soloBass.orchestra,pairedBass);soloBass.orchestra=pairedBass;ctx.syncRoutingFromStage(false,false);
+assert.deepEqual(clone(ctx.stage.routing.inputs.map(r=>r.pickup)),['DI','Mic']);assert.equal(ctx.stage.routing.inputs[0].number,18);assert.equal(ctx.stage.routing.inputs[0].stageboxPort,7);
+const singleBass=clone(pairedBass);singleBass.parts[0].pickup='mic';ctx.applyOrchestraPickupChanges(soloBass,pairedBass,singleBass);soloBass.orchestra=singleBass;ctx.syncRoutingFromStage(false,false);
+assert.equal(ctx.stage.routing.inputs.length,1);assert.equal(ctx.stage.routing.inputs[0].pickup,'Mic');assert.equal(ctx.stage.routing.inputs[0].number,18);

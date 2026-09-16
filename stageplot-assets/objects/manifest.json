@@ -614,7 +614,7 @@
       "category": "keys",
       "w": 0.65,
       "d": 0.4,
-      "defaultAngle": 0,
+      "defaultAngle": 180,
       "keywords": "akkordeon accordion ziehharmonika",
       "phase": 3,
       "asset": "accordion-v1.webp",

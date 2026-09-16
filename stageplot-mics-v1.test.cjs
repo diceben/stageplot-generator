@@ -7,7 +7,7 @@ assert(M.search('sE v kick').some(m=>m.name==='sE Electronics V KICK'));
 assert(M.search('rode').some(m=>m.name==='RØDE NT5'));
 assert(M.search('48v').every(m=>m.phantom));
 assert.equal(M.lookup('Mein eigenes Mikrofon').name,'Mein eigenes Mikrofon');assert.equal(M.lookup('Mein eigenes Mikrofon').photo,'');
-assert.equal(M.photo('Sennheiser MD 421'),'');assert.notEqual(M.photo('Telefunken M80'),M.photo('Telefunken M80-SH'));
+assert(M.photo('Sennheiser MD 421'));assert.notEqual(M.photo('Sennheiser MD 421'),M.photo('Sennheiser MD 421 II')); assert.notEqual(M.photo('Telefunken M80'),M.photo('Telefunken M80-SH'));
 const data=new Map(),storage={getItem:key=>data.get(key),setItem:(key,value)=>data.set(key,value)},prefs=M.preferences(storage);
 prefs.toggle('Shure SM57');prefs.use('Audix D6');prefs.use('Shure SM57');prefs.use('Audix D6');
 assert.deepEqual(M.preferences(storage).get(),{favorites:[M.find('Shure SM57').id],recent:[M.find('Audix D6').id,M.find('Shure SM57').id]});
@@ -42,5 +42,7 @@ assert(M.find('Earthworks SR25mp').photoLabel.includes('Stereopaar'));
 const missingPhotos=JSON.parse(fs.readFileSync('stageplot-assets/mics/missing-photos.json','utf8'));
 assert.deepEqual(M.catalog.filter(m=>!m.photo).map(m=>m.name).sort(),missingPhotos.map(m=>m.model).sort());
 assert(missingPhotos.every(m=>m.reason));
-for(const m of M.catalog.filter(m=>m.brand==='Allgemein'))assert.equal(m.photo,'','Generic microphone types have no fictitious model photo.');
+for(const m of M.catalog.filter(m=>m.brand==='Allgemein'))assert.match(m.photoLabel,/Beispielfoto:.*Modell offen/,'Generic types must not claim a specific model.');
+for(const m of M.catalog){assert(m.photo,m.name);assert(fs.existsSync(m.photo),m.photo);}
+const originals=JSON.parse(fs.readFileSync('stageplot-assets/mics/original-sources.json'));for(const m of M.catalog)assert(originals.some(p=>m.photo.endsWith('/'+p.file)),m.name+' has no photo provenance');
 assert.match(fs.readFileSync('stageplot-mic-picker-v1.js','utf8'),/decoding="async"/);

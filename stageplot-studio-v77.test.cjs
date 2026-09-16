@@ -52,7 +52,7 @@ assert.match(html,/id:'mixer-wing-rack'[^\n]*inputs:24,outputs:8/,'WING Rack kee
 
 for(const marker of [
   "mixers:'Mixermodell'",
-  "compactModelFamilies=new Set(['keys','electric-guitars','electric-basses','stageboxes','mixers'])",
+  "compactModelFamilies=new Set(['keys','electric-guitars','acoustic-guitars','electric-basses','stageboxes','mixers'])",
   "if(c.ioDefaults)",
   "objectIds:['stage-module','riser-2','riser-3','rug','stage-railing','stage-truss-tower','stage-cable-ramp','stage-barrier']",
   "['instruments','stage','lights','tech'].includes(category)",

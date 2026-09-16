@@ -107,7 +107,7 @@
       else if(p.kind==='line')svgEl('path',{...attrs,fill:muted,stroke:muted},group);
       else if(p.kind==='stairs'||p.kind==='ramp'){
         svgEl('path',{...attrs,fill:'var(--sp-paper)'},group);
-        if(p.kind==='stairs')for(let i=1;i<5;i++){const a=G.transform(p,[0,p.d*i/5]),b=G.transform(p,[p.w,p.d*i/5]);svgEl('line',{x1:x+a[0]*scale,y1:y+a[1]*scale,x2:x+b[0]*scale,y2:y+b[1]*scale,stroke:muted,'stroke-width':.8},group);}
+        if(p.kind==='stairs')for(let i=1;i<(p.steps||5);i++){const a=G.transform(p,[0,p.d*i/(p.steps||5)]),b=G.transform(p,[p.w,p.d*i/(p.steps||5)]);svgEl('line',{x1:x+a[0]*scale,y1:y+a[1]*scale,x2:x+b[0]*scale,y2:y+b[1]*scale,stroke:muted,'stroke-width':.8},group);}
         const a=G.transform(p,[p.w/2,p.d*.8]),b=G.transform(p,[p.w/2,p.d*.2]),l=G.transform(p,[p.w/2-.12,p.d*.2+.18]),r=G.transform(p,[p.w/2+.12,p.d*.2+.18]);
         svgEl('path',{d:'M'+(x+a[0]*scale)+' '+(y+a[1]*scale)+'L'+(x+b[0]*scale)+' '+(y+b[1]*scale)+'M'+(x+l[0]*scale)+' '+(y+l[1]*scale)+'L'+(x+b[0]*scale)+' '+(y+b[1]*scale)+'L'+(x+r[0]*scale)+' '+(y+r[1]*scale),fill:'none',stroke:ink,'stroke-width':1},group);
       }
@@ -178,7 +178,7 @@
         return '<button type="button" data-select="'+q.id+'" aria-pressed="'+(q.id===selected)+'"><svg viewBox="0 0 40 32" aria-hidden="true"><path d="'+toolIcons[icon]+'"/></svg><span><strong>'+esc(q.name)+'</strong><small>'+num(q.w)+' × '+num(q.shape==='segment'?q.rise:q.d)+' m'+(q.locked?' · gesperrt':'')+'</small></span><span aria-hidden="true">›</span></button>';
       }).join('');
       $('.sv-all-parts').innerHTML=partChoices;
-      $('.sv-selection').innerHTML=p?'<div class="sv-selection-heading"><span class="sv-eyebrow">Ausgewähltes Element</span><h3>'+esc(p.name)+'</h3></div><div class="sv-fields">'+field('Name','name',p.name,'text')+field('Breite (m)','w',p.w)+field('Tiefe (m)','d',p.shape==='segment'?p.rise:p.d)+field('Position X (m)','x',p.x)+field('Position Y (m)','y',p.y)+field('Drehung (°)','angle',p.angle)+field('Höhe (m, optional)','height',p.height)+field('Hinweis','note',p.note,'text')+
+      $('.sv-selection').innerHTML=p?'<div class="sv-selection-heading"><span class="sv-eyebrow">Ausgewähltes Element</span><h3>'+esc(p.name)+'</h3></div><div class="sv-fields">'+field('Name','name',p.name,'text')+field('Breite (m)','w',p.w)+field('Tiefe (m)','d',p.shape==='segment'?p.rise:p.d)+field('Position X (m)','x',p.x)+field('Position Y (m)','y',p.y)+field('Drehung (°)','angle',p.angle)+field('Höhe (m, optional)','height',p.height)+field('Hinweis','note',p.note,'text')+(p.kind==='stairs'?field('Stufen','steps',p.steps||5,'number','min="1" max="24"'):'')+
         (p.shape==='segment'?field('Ausladung (m)','rise',p.rise):'')+'</div>'+(p.kind==='opening'&&p.shape==='ellipse'?'<p class="sv-hint">Gleiche Breite und Tiefe ergeben einen Kreis, unterschiedliche Maße ein Oval.</p>':'')+'<label class="sv-check"><input type="checkbox" data-prop="locked" '+(p.locked?'checked':'')+'> Element sperren</label>'+
         (p.kind==='floor'?'<label>Nutzung<select data-prop="role">'+[['stage','Spielfläche'],['side','Seitenbühne'],['backstage','Backstage']].map(([v,t])=>'<option value="'+v+'" '+(p.role===v?'selected':'')+'>'+t+'</option>').join('')+'</select></label>':'')+
         (p.kind==='opening'?'<label>Ausschnitt betrifft<select data-prop="target"><option value="">Alle Bühnenflächen</option>'+g.parts.filter(q=>q.kind==='floor').map(q=>'<option value="'+q.id+'" '+(p.target===q.id?'selected':'')+'>'+esc(q.name)+'</option>').join('')+'</select></label>':'')+

@@ -27,7 +27,7 @@ assert.equal(withoutMic.includes('data-part="mic-indicator"'),false,'Mic-Markier
 assert.equal((withMic.match(/data-part="mic-indicator"/g)||[]).length,1,'Der Drum-Designer markiert abgenommene Teile nicht eindeutig.');
 assert.ok(withMic.includes('#d62f47'),'Die Mic-Markierung ist nicht rot.');
 
-for(const marker of ['Alle Teile löschen','Object.assign(d,{kickCount:1,throne:false,snare:false','drumMicParts,idPrefix:',"draft?.splash<4?'splash':''","d.snare=true;id='snare'","d.throne=true;id='throne'"])assert.ok(html.includes(marker),marker+' fehlt im Drum-Designer-Workflow.');
+for(const marker of ['Alle Teile löschen','Object.assign(d,{extras:{parts:[]},kickCount:0,throne:false,snare:false','drumMicParts,idPrefix:',"draft?.splash<4?'splash':''","d.snare=true;id='snare'","d.throne=true;id='throne'"])assert.ok(html.includes(marker),marker+' fehlt im Drum-Designer-Workflow.');
 assert.equal(html.includes("drumChoicePills('Montage'"),false,'Die entfernte Montageart wird noch im Drum-Designer angeboten.');
 assert.match(html,/\(enabled\?drumMicIcon\(choice\):''\).*Mic wählen/,'Nach „kein Mic“ bleibt die Mic-Grafik sichtbar.');
 assert.match(html,/const before=snapshot\(\),activeTab=inspectorTab;o\.locked=!o\.locked;keepHistory\(before\);renderEditor\(\);setInspectorTab\(activeTab\)/,'Das Ebenen-Schloss bewahrt den aktiven Inspector-Tab nicht.');
