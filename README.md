@@ -6,7 +6,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in einer Kopfzeile. Kompaktere Abstände und der entfernte Bausteinzähler lassen mehr Platz für die Objekte. Die Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
 
-**Aktuelle Version:** v0.1.0-beta.8 · Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.9 · Release Notes sind in der App über `?` erreichbar.
 
 Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
@@ -15,6 +15,8 @@ Accounts benötigen die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 `npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 40 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
 
 ## Funktionen
+
+- **Freigabelinks im selben Tab:** Vollständige Ansichtslinks öffnen auch in einer bereits laufenden App. Wechsel zwischen Links und Browser-Zurück funktionieren; eigene Entwürfe und ausstehende gültige Eingaben bleiben beim Wechsel erhalten.
 
 - **Lichtgeräte:** Neun neu generierte, leicht gezeichnete Bild-Assets mit erkennbaren Fronten, Linsen und Bügeln. Das Flightcase bleibt in Draufsicht. Transparente lokale WebP-Dateien erscheinen in Bibliothek, Bühne und Export; Stellmaße und gespeicherte Pläne bleiben erhalten. [Assets und Bildgenerierungs-Prompts](stageplot-assets/lights/manifest.json).
 
