@@ -6,7 +6,7 @@ const html=fs.readFileSync('stageplot-studio.html','utf8');
 const mics=require('./stageplot-mics-v1.js'),catalog=mics.catalog,typical=mics.typical;
 const names=catalog.map(item=>item.name),byName=Object.fromEntries(catalog.map(item=>[item.name,item]));
 
-assert.equal(catalog.length,93,'Der Mikrofonkatalog ist unvollständig.');
+assert.equal(catalog.length,94,'Der Mikrofonkatalog ist unvollständig.');
 assert.equal(new Set(names).size,names.length,'Der Mikrofonkatalog enthält doppelte Modelle.');
 
 const expected={
@@ -14,8 +14,8 @@ const expected={
   kickOut:['Neumann U 47 fet','AKG D12','AKG D112 MkII','Sennheiser e 902','Electro-Voice RE20','Sennheiser MD 421','Shure Beta 52A','beyerdynamic M 88','AKG C414','Neumann TLM 102','Shure KSM32','Audio-Technica AT4047/SV','Royer R-121','Yamaha SKRM-100 SubKick','Solomon LoFReQ'],
   snareTop:['Shure SM57','Shure Beta 57A','Audix i5','beyerdynamic M 201','Sennheiser MD 441-U','Sennheiser e 904','Telefunken M80-SH','AKG C451 B','Neumann KM 84','Shure Beta 98AMP/C','Earthworks DM20','Josephson e22S','DPA 4099 CORE','Audio-Technica ATM230','sE Electronics V BEAT'],
   snareBottom:['Shure SM57','AKG C451 B','Neumann KM 84','Sennheiser MD 441-U','Shure KSM137','Shure SM81','Shure Beta 181/S','Audix ADX51','Telefunken M81-SH','DPA 4011A','Sennheiser e 904','beyerdynamic M 201','Shure Beta 57A','Audix D2','Electro-Voice ND44'],
-  rackTom:['Sennheiser MD 421','Sennheiser e 604','Sennheiser e 904','Audix D2','Shure SM57','Shure Beta 56A','Shure Beta 98AMP/C','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','Electro-Voice ND44','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','beyerdynamic M 201'],
-  floorTom:['Audix D4','Sennheiser MD 421','Sennheiser e 904','Sennheiser e 604','Shure SM57','beyerdynamic M 88','Electro-Voice RE20','Shure Beta 56A','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','DPA 4099 CORE'],
+  rackTom:['Sennheiser MD 421','Sennheiser MD 421 Kompakt','Sennheiser e 604','Sennheiser e 904','Audix D2','Shure SM57','Shure Beta 56A','Shure Beta 98AMP/C','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','Electro-Voice ND44','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','beyerdynamic M 201'],
+  floorTom:['Audix D4','Sennheiser MD 421','Sennheiser MD 421 Kompakt','Sennheiser e 904','Sennheiser e 604','Shure SM57','beyerdynamic M 88','Electro-Voice RE20','Shure Beta 56A','Audio-Technica ATM230','AKG D40','Telefunken M81-SH','sE Electronics V BEAT','LEWITT DTP 340 TT','Earthworks DM20','DPA 4099 CORE'],
   hihat:['AKG C451 B','Neumann KM 184','Neumann KM 84','Shure SM81','Shure KSM137','Shure KSM141','Audio-Technica AT4041','Audix SCX1HC','Audix ADX51','Sennheiser e 614','beyerdynamic MC 930','Telefunken M60 FET','Schoeps CMC 6 + MK 4','RØDE NT5','LEWITT LCT 140 AIR'],
   ride:['AKG C451 B','Neumann KM 184','Shure SM81','Shure KSM137','Shure KSM141','Audio-Technica AT4041','Audio-Technica AT4051b','Audix SCX1/SCX1HC','Sennheiser e 614','beyerdynamic MC 930','Telefunken M60 FET','Schoeps CMC 6 + MK 4','DPA 4011A','Earthworks SR25','Royer R-121'],
   overhead:['AKG C414 XLS/XLII','AKG C451 B','Neumann KM 184','Neumann KM 84','Shure SM81','Neumann U 87 Ai','Schoeps CMC 6 + MK 4','DPA 4011A','Shure KSM44A','Audio-Technica AT4041','RØDE NT5','Earthworks SR25mp','Coles 4038','beyerdynamic M 160','Royer SF-24'],

@@ -375,7 +375,8 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     for(const p of layout.parts){
       group(p.angle?'rotate('+f(p.angle)+' '+f(p.x)+' '+f(p.y)+')':'',p.id);
-      if(p.kind==='throne')out+='<g transform="translate('+f(p.x-10.75)+' '+f(p.y-10.75)+') scale(.05)">'+stageplotTechThrone()+'</g>';
+      if(p.kind==='percussion')out+='<g transform="translate('+f(p.x)+' '+f(p.y)+')">'+p.markup+'</g>';
+      else if(p.kind==='throne')out+='<g transform="translate('+f(p.x-10.75)+' '+f(p.y-10.75)+') scale(.05)">'+stageplotTechThrone()+'</g>';
       else if(p.kind==='kick'){
         const shellWidth=p.w,shellCropHeight=320,shellHeight=p.h;
         const shellY=p.y+shellHeight*2.5/320,pedalCrop={x:166,y:290,w:180,h:253};
@@ -506,7 +507,16 @@ function createStageplotSymbolV3(type, options = {}) {
     path('M55 14Q60 6 65 14Q67 20 60 25Q54 29 57 35Q60 39 64 34','none',1.2,'#555');
     for(const [x,y,side] of [[51,24,-1],[50,39,-1],[69,24,1],[70,39,1]]){line(x,y,x+side*7,y,.8);ellipse(x+side*9,y,3,2,'#ccc',.4);}end();
     group('','double-bass-endpin');rod(60,300,60,324,1.7);circle(60,325,2.2,'#555',.4);end();
-  }else if(['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic'].includes(type)){
+  }else if(['acoustic-classical','acoustic-gypsy'].includes(type)){
+    const gypsy=type==='acoustic-gypsy';group('',gypsy?'gypsy-body':'classical-body');
+    path(gypsy?'M42 139C20 131 8 150 13 172C17 186 28 195 19 214C4 233 0 252 15 269C30 285 74 286 89 270C104 252 95 233 82 216C73 205 77 194 84 181C71 185 59 177 58 142Z':'M42 139C21 133 9 148 12 165C14 183 31 191 24 207C20 221 5 229 4 248C4 270 24 282 50 282C76 282 96 270 96 248C95 229 80 221 76 207C69 191 86 183 88 165C91 148 79 133 58 139Z','#deded9',1.3,'#454744');
+    if(gypsy){out+='<ellipse cx="50" cy="197" rx="8" ry="15" fill="#353733" stroke="#aaa" stroke-width="2"/>';path('M42 267L58 267L55 279H45Z','#858783',.6);}
+    else{circle(50,192,17,'#aeb0a9',.6);circle(50,192,14,'#343631',.8);}
+    rect(40,42,20,126,'#454743',.8,1);path('M40 42L38 7Q50 1 62 7L60 42Z','#a0a29c',1);rect(42,10,4,25,'#383a36',.5,1);rect(54,10,4,25,'#383a36',.5,1);
+    for(let i=0;i<3;i++){circle(35,13+i*10,2.5,'#bbb',.6);circle(65,13+i*10,2.5,'#bbb',.6);}
+    rect(30,236,40,7,'#50524c',.6,1);for(let i=1;i<19;i++){const y=42+126*(1-Math.pow(2,-i/12))/(1-Math.pow(2,-19/12));line(40,y,60,y,.6,'#aaa');}
+    for(let i=0;i<6;i++)line(43+i*2.8,42,42+i*3.2,240,.45,'#e9e9e5');end();
+  }else if(['guitar','guitar-tele' ,'guitar-les-paul','guitar-es','bass','bass-j','acoustic'].includes(type)){
     const pBass=type==='bass',jBass=type==='bass-j',bass=pBass||jBass,acoustic=type==='acoustic';
     const tele=type==='guitar-tele',lesPaul=type==='guitar-les-paul',es=type==='guitar-es',gibson=lesPaul||es;
     // Fresh V29 silhouettes traced from orthogonal manufacturer product photography.
@@ -731,7 +741,7 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
   }else if(type==='stage-stairs'){
     group('','stage-stairs-top-view');rect(2,2,116,96,'#f3f4f1',.85,.5,'#4a504a');
-    for(const y of [20,40,60,80])line(2,y,118,y,.65,'#858c85');
+    const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));for(let i=1;i<steps;i++)line(2,2+i*96/steps,118,2+i*96/steps,.65,'#858c85');
     const arrow='M60 85V18M49 30L60 18L71 30';path(arrow,'none',3.5,'#f3f4f1');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-ramp'){
     group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');

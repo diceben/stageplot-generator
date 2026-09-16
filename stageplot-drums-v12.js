@@ -1,5 +1,5 @@
 // Pure offline drum configuration: no DOM, network or mutable app state.
-function createStageplotDrumModel() {
+function createStageplotDrumModel(percussionModel=null) {
   const clamp=(v,min,max,fallback)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Number(v))):fallback;
   const integer=(v,min,max,fallback)=>Math.round(clamp(v,min,max,fallback));
   const allowedSize=(v,options,fallback)=>{const n=Number(v);if(!Number.isFinite(n))return fallback;return options.reduce((best,current)=>Math.abs(current-n)<Math.abs(best-n)?current:best,options.includes(n)?n:fallback);};
@@ -30,7 +30,7 @@ function createStageplotDrumModel() {
   function normalizeDrums(type,value) {
     const base=drumDefaults(),candidate=value===undefined&&type&&typeof type==='object'?type:value,v=candidate&&typeof candidate==='object'?candidate:{};
     const list=(key,max)=>Array.isArray(v[key])?v[key].slice(0,max).map((t,i)=>({diameter:allowedSize(t?.diameter,key==='floorToms'?[14,16,18]:[8,10,12,13,14],base[key][i]?.diameter||12),depth:clamp(t?.depth,3,20,base[key][i]?.depth||10),...(key==='rackToms'?{mount:['kick','cymbal-clamp','basket'].includes(t?.mount)?t.mount:i<2?'kick':'cymbal-clamp'}:{})})):base[key];
-    const c={kickCount:integer(v.kickCount,1,2,1),kickDiameter:allowedSize(v.kickDiameter,[16,18,20,22,24],22),kickDepth:clamp(v.kickDepth,10,24,18),
+    const c={kickCount:integer(v.kickCount,0,2,1),kickDiameter:allowedSize(v.kickDiameter,[16,18,20,22,24],22),kickDepth:clamp(v.kickDepth,10,24,18),
       pedal:v.pedal==='double'?'double':'single',snare:typeof v.snare==='boolean'?v.snare:true,snareModel:short(v.snareModel),snareDiameter:allowedSize(v.snareDiameter,[10,12,13,14],14),snareDepth:clamp(v.snareDepth,3,10,6.5),
       snareMaterial:['Holz','Stahl','Messing','Aluminium','Bronze','Andere'].includes(v.snareMaterial)?v.snareMaterial:base.snareMaterial,
       side:typeof v.side==='boolean'?v.side:base.side,sideModel:short(v.sideModel),sideDiameter:allowedSize(v.sideDiameter,[6,8],8),sideDepth:clamp(v.sideDepth,3,10,5),riserPreset:['none','2x','3x'].includes(v.riserPreset)?v.riserPreset:'none',
@@ -38,21 +38,22 @@ function createStageplotDrumModel() {
       crashes:Array.isArray(v.crashes)?v.crashes.slice(0,4).map(n=>allowedSize(n,[14,16,17,18,19,20],18)):base.crashes,splash:integer(v.splash,0,4,0),china:integer(v.china,0,2,0),clapstack:typeof v.clapstack==='boolean'?v.clapstack:base.clapstack,clapSize:allowedSize(v.clapSize,[8,10,12,14,16],12),
       pad:typeof v.pad==='boolean'?v.pad:base.pad,bongos:typeof v.bongos==='boolean'?v.bongos:base.bongos,table:['off','mixer','laptop'].includes(v.table)?v.table:base.table,leftHanded:v.leftHanded===true,positions:{},rotations:{},showMics:typeof v.showMics==='boolean'?v.showMics:base.showMics,overheads:['off','mono','stereo'].includes(v.overheads)?v.overheads:base.overheads,overheadMount:['boom','clamp'].includes(v.overheadMount)?v.overheadMount:base.overheadMount,
       room:['off','mono','stereo'].includes(v.room)?v.room:'off',overheadPickup:{...base.overheadPickup},mics:Object.fromEntries(Object.entries(base.mics).map(([id,m])=>[id,{...m}])),zOrder:[]};
+    if(percussionModel){c.extras=percussionModel.normalize(v.extras||{parts:[]});c.extras.parts=c.extras.parts.filter(p=>/^p(?:[1-9]|[1-3][0-9]|4[0-8])$/.test(p.id));for(const p of c.extras.parts)for(const suffix of ['1','2','l','r'])c.mics['extra-'+p.id+'-'+suffix]={enabled:true,model:p.type==='vocal-boom'?'Shure SM58':percussionModel.byId[p.type].electronic?'Direktausgang':'Generisches Drum-Mikrofon',phantom:false};}
     if(v.positions&&typeof v.positions==='object')for(const [id,p] of Object.entries(v.positions)){
-      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&p&&typeof p==='object')
+      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table|extra-p(?:[1-9]|[1-3][0-9]|4[0-8]))$/.test(id)&&p&&typeof p==='object')
         c.positions[id]={x:clamp(p.x,.02,.98,.5),y:clamp(p.y,.02,.98,.5)};
     }
     if(v.rotations&&typeof v.rotations==='object')for(const [id,angle] of Object.entries(v.rotations)){
-      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&Number.isFinite(Number(angle)))
+      if(/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table|extra-p(?:[1-9]|[1-3][0-9]|4[0-8]))$/.test(id)&&Number.isFinite(Number(angle)))
         c.rotations[id]=((Number(angle)%360)+360)%360;
     }
     if(Array.isArray(v.zOrder)){
       const seen=new Set();
-      c.zOrder=v.zOrder.slice(0,40).map(short).filter(id=>/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table)$/.test(id)&&!seen.has(id)&&seen.add(id));
+      c.zOrder=v.zOrder.slice(0,100).map(short).filter(id=>/^(throne|kick[12]|snare|side|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|pad|bongos|table|extra-p(?:[1-9]|[1-3][0-9]|4[0-8]))$/.test(id)&&!seen.has(id)&&seen.add(id));
     }
     for(const id of ['splash3','splash4']){c.overheadPickup[id]=true;c.mics[id]={enabled:false,model:'Generisches Kleinmembran-Mikrofon',phantom:true};}
     if(v.mics&&typeof v.mics==='object')for(const [id,m] of Object.entries(v.mics)){
-      if(/^(kick[12]-(in|out)|snare-(up|down)|side-(up|down)|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|oh-(mono|l|r)|room-(mono|l|r)|pad-[lr]|bongos)$/.test(id)&&m&&typeof m==='object')
+      if(/^(kick[12]-(in|out)|snare-(up|down)|side-(up|down)|rack[1-4]|floor[1-3]|hihat|ride|crash[1-4]|splash[1-4]|china[12]|clapstack|oh-(mono|l|r)|room-(mono|l|r)|pad-[lr]|bongos|extra-p(?:[1-9]|[1-3][0-9]|4[0-8])-[12lr])$/.test(id)&&m&&typeof m==='object')
         c.mics[id]={enabled:m.enabled!==false,model:typeof m.model==='string'?m.model.slice(0,80).trim():base.mics[id]?.model||c.mics[id]?.model||'',phantom:m.phantom===true};
     }
     if(v.overheadPickup&&typeof v.overheadPickup==='object')for(const id of allCymbalPartIds)if(typeof v.overheadPickup[id]==='boolean')c.overheadPickup[id]=v.overheadPickup[id];
@@ -95,6 +96,7 @@ function createStageplotDrumModel() {
     for(let i=0;i<c.china;i++)add('china'+(i+1),'cymbal',...[[cx-24,84],[cx+53,80]][i],18*.635,{variant:'china'});
     if(c.clapstack)add('clapstack','cymbal',cx-23,62,c.clapSize*.635,{variant:'clapstack'});
     if(c.pad)add('pad','pad',cx+37,15,9.1,{w:18.2,h:16.55});if(c.bongos)add('bongos','bongos',cx+18,17,9,{w:19,h:11});if(c.table!=='off'){const mixer=c.table==='mixer';add('table','table',cx-35,16,15,{w:30,h:mixer?17:20,variant:c.table});}if(c.leftHanded)for(const p of parts)p.x=vb[0]-p.x;
+    if(percussionModel)for(const p of c.extras.parts){const size=percussionModel.dimensions(p);add('extra-'+p.id,'percussion',cx+p.x*50,vb[1]/2+p.y*50,Math.max(size.w,size.d)*25,{w:size.w*50,h:size.d*50,markup:percussionModel.imageMarkup(p,50)});}
     for(const p of parts){const art=drumImageGeometry(p);if(art)p.art=art;}
     const placed=parts.map(p=>{const halfW=(p.w||p.r*2)/2+5,halfH=(p.h||p.r*2)/2+5;return {...p,x:clamp(p.x,halfW,vb[0]-halfW,p.x),y:clamp(p.y,halfH,vb[1]-halfH,p.y)};});
     for(const p of placed)if(c.positions[p.id]){
@@ -111,7 +113,7 @@ function createStageplotDrumModel() {
     if(!layout||!Array.isArray(layout.parts)||!Array.isArray(layout.vb))return {hitParts:[],selectionShapes:[],hull:[],bounds:{minX:0,minY:0,maxX:0,maxY:0}};
     const hitParts=layout.parts.map(p=>{
       if(p.kind==='kick')return {id:p.id,shape:'rect',x:p.x,y:p.y,w:p.w+3,h:p.h+9,rx:2};
-      if(['pad','table','bongos'].includes(p.kind))return {id:p.id,shape:'rect',x:p.x,y:p.y,w:(p.w||18)+3,h:(p.h||22)+3,rx:2};
+      if(['pad','table','bongos','percussion'].includes(p.kind))return {id:p.id,shape:'rect',x:p.x,y:p.y,w:(p.w||18)+3,h:(p.h||22)+3,rx:2};
       const radius=(p.kind==='throne'?10:p.r)+1.5;
       return {id:p.id,shape:'ellipse',x:p.x,y:p.y,rx:radius,ry:radius};
     });
@@ -134,7 +136,7 @@ function createStageplotDrumModel() {
         selectionEllipse(p,'cymbal',p.x,p.y,p.r,p.r);
         const standWidth=19.4,standHeight=standWidth*512/313,pedalWidth=10.7,pedalHeight=17.7,rawPedalY=p.y-standHeight/2+standHeight*315/512+pedalHeight/2;
         selectionRect(p,'pedal',p.x,2*p.y-rawPedalY,pedalWidth,pedalHeight,1.5);
-      }else if(['pad','table','bongos'].includes(p.kind))selectionRect(p,'body',p.x,p.y,p.w||18,p.h||22,1.5);
+      }else if(['pad','table','bongos','percussion'].includes(p.kind))selectionRect(p,'body',p.x,p.y,p.w||18,p.h||22,1.5);
       else if(p.kind==='throne')selectionEllipse(p,'seat',p.x,p.y,10.75,10.75);
       else if(p.kind==='snare')selectionEllipse(p,'shell',p.x+p.art.dx,p.y+p.art.dy,p.art.w/2,p.art.h/2);
       else if(p.kind==='tom'){
@@ -158,7 +160,7 @@ function createStageplotDrumModel() {
   }
   function drumChannels(type,value,includeDisabled=false) {
     const c=normalizeDrums(type,value),layout=drumLayout(type,c),rows=[],parts=new Map(layout.parts.map(p=>[p.id,p]));
-    const row=(id,name,part,extra={})=>{const m=c.mics[id]||{enabled:true,model:'',phantom:false},p=parts.get(part)||parts.get('snare')||parts.values().next().value,enabled=m.enabled!==false;
+    const row=(id,name,part,extra={})=>{const m=c.mics[id]||{enabled:true,model:'',phantom:false},p=parts.get(part)||parts.get('snare')||parts.values().next().value||{x:0,y:0},enabled=m.enabled!==false;
       if(enabled||includeDisabled)rows.push({id,name,part,model:m.model,phantom:m.phantom,enabled,method:'xlr',x:p.x,y:p.y,...extra});};
     for(let i=1;i<=c.kickCount;i++){const prefix=c.kickCount>1?'Kick '+i:'Kick';row('kick'+i+'-in',prefix+' In','kick'+i);row('kick'+i+'-out',prefix+' Out','kick'+i);}
     if(c.snare){row('snare-up','Snare Top','snare');row('snare-down','Snare Bottom','snare');}
@@ -170,6 +172,7 @@ function createStageplotDrumModel() {
     if(overheadParts.length){row('oh-l','OH L',c.ride?'ride':c.snare?'snare':overheadParts[0],{x:layout.vb[0]*.2,y:layout.vb[1]*.45,overhead:true,overheadParts});row('oh-r','OH R',c.hihat?'hihat':c.snare?'snare':overheadParts.at(-1),{x:layout.vb[0]*.8,y:layout.vb[1]*.45,overhead:true,overheadParts});}
     if(c.pad){row('pad-l','SPD-SX L','pad',{method:'di'});row('pad-r','SPD-SX R','pad',{method:'di'});}
     if(c.bongos)row('bongos','Bongos','bongos');
+    if(percussionModel)for(const channel of percussionModel.channels(c.extras))row('extra-'+channel.id,channel.name,'extra-'+channel.partId,{method:channel.electronic?'di':'xlr'});
     return rows;
   }
   function rotatePoint(layout,point,angle=0){

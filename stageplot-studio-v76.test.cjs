@@ -34,7 +34,7 @@ assert.ok((hammond.match(/data-part="keybed"/g)||[]).length>=2,'Hammond B-3 zeig
 for(const marker of [
   'id="sp-model-change"',
   'id="sp-model-dialog"',
-  "compactModelFamilies=new Set(['keys','electric-guitars','electric-basses','stageboxes','mixers'])",
+  "compactModelFamilies=new Set(['keys','electric-guitars','acoustic-guitars','electric-basses','stageboxes','mixers'])",
   'function openCompactModelDialog()',
   "$('sp-model-picker').hidden=compact"
 ])assert.ok(html.includes(marker),marker+' fehlt in der kompakten Modellauswahl.');

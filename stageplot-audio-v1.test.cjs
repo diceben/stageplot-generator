@@ -194,3 +194,19 @@ const productionNodes=new Map(),productionCtx={byId:{wash:{category:'tech'},powe
 vm.createContext(productionCtx);vm.runInContext(extract('fillProductionObject'),productionCtx);
 for(const type of ['wash','power']){productionCtx.fillProductionObject({type});assert.equal(Boolean(productionCtx.$('sp-production-object').hidden),false,'Non-audio equipment still accepts power requirements.');}
 productionCtx.fillProductionObject({type:'riser'});assert(productionCtx.$('sp-production-object').hidden);productionCtx.fillProductionObject({type:'riser',power:'1 × Schuko'});assert.equal(productionCtx.$('sp-production-object').hidden,false,'Existing requirements on structural objects remain editable.');
+
+{
+// DI chaining and dual mono use existing identities; no channel renumbering.
+ctx.clone=clone;ctx.change=fn=>fn();ctx.byId.di={instrument:true,category:'tech',signalType:'Instrument',name:'DI',short:'DI'};
+ctx.objects=[fixture('instrument','guitar'),fixture('box','di')];
+ctx.stage.routing={inputs:[ctx.normalizeRouteChannel({id:'route-a',sourceKey:'instrument:main',number:17,instrument:'Guitar',microphone:'JDI',pickup:'DI',stagebox:'stagebox',stageboxPort:5},0,'inputs'),ctx.normalizeRouteChannel({id:'route-di',sourceKey:'box:io-out-1',number:19,instrument:'DI',pickup:'DI',microphone:'J48',phantom:true},1,'inputs')],outputs:[],disabledSources:[]};
+ctx.sharedReadOnly=false;ctx.linkAudioDi(ctx.objects[1],'route-a');assert.equal(ctx.stage.routing.inputs.length,1);assert.equal(ctx.stage.routing.inputs[0].number,17);assert.equal(ctx.stage.routing.inputs[0].stageboxPort,5);assert.equal(ctx.stage.routing.inputs[0].pickup,'DI');assert.equal(ctx.audioObjectRows(ctx.objects[1])[0].row.id,'route-a');ctx.syncRoutingFromStage(false,false);assert.equal(ctx.stage.routing.inputs.length,1,'Sync must not recreate the linked DI as another channel.');
+ctx.objects=[fixture('guitar','guitar')];ctx.stage.routing={inputs:[ctx.normalizeRouteChannel({id:'route-first',sourceKey:'guitar:main',number:8,instrument:'Guitar',pickup:'DI',microphone:'JDI',stagebox:'stagebox',stageboxPort:3},0,'inputs')],outputs:[],disabledSources:[]};
+ctx.setAudioObjectFormat(ctx.objects[0],'dual');assert.equal(ctx.stage.routing.inputs.length,2);assert.deepEqual(clone(ctx.stage.routing.inputs.map(r=>r.pickup)),['DI','Mic']);assert(ctx.stage.routing.inputs.every(r=>!r.stereoGroup));assert.equal(ctx.stage.routing.inputs[0].number,8);assert.equal(ctx.stage.routing.inputs[0].stageboxPort,3);ctx.stage.routing.inputs[1].number=22;ctx.stage.routing.inputs[1].microphone='SM57';ctx.syncRoutingFromStage(false,false);assert.deepEqual(clone(ctx.stage.routing.inputs.map(r=>[r.number,r.microphone])),[[8,'JDI'],[22,'SM57']]);
+const ordered=[{id:'a',sourceKey:'guitar:main',number:19},{id:'b',sourceKey:'voice:mic',number:4},{id:'c',sourceKey:'guitar:io-out-2',number:25}];const moved=ctx.moveAudioInstrument(ordered,'a','down');assert.deepEqual(clone(moved.map(r=>r.id)),['b','a','c']);assert.deepEqual(clone(moved.map(r=>r.number)),[4,19,25]);assert.deepEqual(ordered.map(r=>r.id),['a','b','c']);
+console.log('PASS DI / DUAL MONO: one shared channel, no duplicate after reconciliation, independent pickup/model/number and instrument group ordering.');
+
+}
+
+const beforeRepeatedFormat=clone(ctx.stage.routing.inputs);ctx.setAudioObjectFormat(ctx.objects[0],'dual');assert.deepEqual(clone(ctx.stage.routing.inputs),beforeRepeatedFormat,'Reselecting the active signal format must preserve custom names and microphones.');
+ctx.sharedReadOnly=true;ctx.setAudioObjectFormat(ctx.objects[0],'mono');assert.deepEqual(clone(ctx.stage.routing.inputs),beforeRepeatedFormat,'A shared view cannot change the signal format.');

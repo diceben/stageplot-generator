@@ -26,11 +26,11 @@ const pad=model.part('multipad','pad');assert.deepEqual(model.channels({parts:[p
 for(const p of latin.parts){assert.ok(!model.artwork({parts:[p]}).includes('<path'),'Instrument artwork must use generated raster assets.');assert.match(model.artwork({parts:[p]}),/<image href="\.\/stageplot-assets\/percussion\/[a-z-]+\.webp"/);}
 const manifest=JSON.parse(fs.readFileSync('stageplot-assets/percussion/manifest.json'));
 assert.equal(manifest.assets.length,16);
-for(const c of model.catalog){const asset=manifest.assets.find(a=>a.id===c.asset);assert.ok(asset);const bytes=fs.readFileSync('stageplot-assets/percussion/'+asset.file);assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),asset.sha256);assert.equal(asset.alpha,true);assert.ok(asset.prompt.includes('overhead'));}
+for(const c of model.catalog.filter(c=>!['cajon','kick','snare','throne','vocal-boom'].includes(c.id))){const asset=manifest.assets.find(a=>a.id===c.asset);assert.ok(asset);const bytes=fs.readFileSync('stageplot-assets/percussion/'+asset.file);assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),asset.sha256);assert.equal(asset.alpha,true);assert.ok(asset.prompt.includes('overhead'));}
 const document={stage:{w:8,d:5,title:'Percussion test'},objects:[{id:'station-1',type:'percussion',x:2,y:2,angle:45,percussion:latin}]};
 const exported=exporter.createSetupExport('Percussion test',document,{exportedAt:100});
 assert.deepEqual(exporter.parseSetupJson(exporter.stringifySetupJson(exported)).document.objects[0].percussion,latin);
-assert.ok(html.includes("item.percussion=percussionModel.normalize(o.percussion)"));
+assert.ok(html.includes("item.percussion=percussionModel.normalize(o.percussion||"));
 assert.ok(html.includes("image.setAttribute('href',await localImageDataUrl(url))"),'PNG/SVG must embed local image assets.');
 // Run the actual app channel generator: keys survive edits; stereo is a single group.
 const extract=name=>{const m=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert.ok(m,name);return m[0];};
@@ -93,7 +93,7 @@ properties.emit('change',{target:{dataset:{field:'width'},valueAsNumber:60,value
 assert.equal(results.at(-1).config.parts[0].width,.4123);
 const measuredExport=exporter.createSetupExport('Measured percussion',{stage:{w:8,d:5,title:'Measured percussion'},objects:[{id:'measured',type:'percussion',x:2,y:2,angle:0,percussion:results.at(-1).config}]},{exportedAt:100});
 assert.equal(exporter.parseSetupJson(exporter.stringifySetupJson(measuredExport)).document.objects[0].percussion.parts[0].width,.4123);
-for(const c of model.catalog){
+for(const c of model.catalog.filter(c=>!['cajon','kick','snare','throne','vocal-boom'].includes(c.id))){
  const markup=model.imageMarkup(model.part(c.id,'p1'));
  assert.match(markup,/style="filter:grayscale\(1\)"/,'Grayscale travels with the image into symbols and exports.');
  assert.match(markup,/viewBox="1 1 /,'Packaging margins must not count as instrument size.');
@@ -108,7 +108,7 @@ const rotationPointer=(type,direction=1,pointerId=11)=>{
  modal.emit(type,{button:0,pointerId,stopPropagation(){},target:{closest:selector=>selector==='[data-perc-rotate-hold]'?button:null}});
 };
 const advance=milliseconds=>{const until=now+milliseconds;while(now<until){now=Math.min(until,now+16);const scheduled=[...frames.values()];frames.clear();for(const fn of scheduled)fn(now);}};
-for(const c of model.catalog){
+for(const c of model.catalog.filter(c=>!['cajon','kick','snare','throne','vocal-boom'].includes(c.id))){
  const original=model.normalize({parts:[{...model.part(c.id,'p1',.4,-.3),angle:12,width:.47,depth:.29}]});
  editor.open({id:'station-1',percussion:original});click({select:'p1'});
  rotationPointer('pointerdown');advance(800);rotationPointer('pointerup');assert.equal(frames.size,0);

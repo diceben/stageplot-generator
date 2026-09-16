@@ -43,3 +43,14 @@ const invalid=ctx.normalizeSetupDocument({stage,objects:[{...original,dimensions
 const techManifest=JSON.parse(fs.readFileSync('stageplot-assets/tech/manifest.json'));
 assert.deepEqual(techManifest.assets.find(a=>a.id==='laptop').footprintMeters,{width:.3557,depth:.2481},'Rendered laptop uses only its own physical footprint.');
 console.log('PASS OBJECT SCALE: complete static catalogue, original equipment dimensions, asymmetric artwork bounds, metric composite preservation, reference reset and custom-size local/import roundtrip.');
+
+// Legacy Cajon input identities, multiline notes and user-set orientations survive migration.
+ctx.percussionModel=require('./stageplot-percussion-v1.js')();ctx.orchestraModel=require('./stageplot-orchestra-v1.js')();
+delete ctx.normalizeRouting;ctx.normalizeIoConnector=value=>value||'XLR';
+const oldCajon={id:'old-cajon',type:'cajon',x:2,y:2,angle:35,label:'Cajon'};
+const note='Aufbau ab 16:00\n'+('Notiz '.repeat(20));
+const migrated=ctx.normalizeSetupDocument({stage:{...stage,stairsSteps:7,routing:{inputs:[{id:'route-front',sourceKey:'old-cajon:front',number:12,microphone:'SM57',stagebox:'box',stageboxPort:4,linkedSources:[{sourceKey:'old-cajon:rear',number:13}]}],outputs:[],disabledSources:['old-cajon:rear']}},objects:[oldCajon,{id:'note',type:'text',label:note,x:1,y:1,angle:0},{id:'stair',type:'stage-stairs',steps:9,x:1,y:2,angle:0},{id:'accordion',type:'accordion',angle:47,x:3,y:2}]});
+assert.equal(migrated.objects[0].type,'percussion');assert.equal(migrated.objects[0].angle,35);assert.equal(migrated.objects[0].percussion.parts[0].pickup,'both');
+assert.equal(migrated.stage.routing.inputs[0].sourceKey,'station-1:perc-p1-1');assert.equal(migrated.stage.routing.inputs[0].linkedSources[0].sourceKey,'station-1:perc-p1-2');assert.equal(migrated.stage.routing.disabledSources[0],'station-1:perc-p1-2');assert.equal(migrated.stage.routing.inputs[0].number,12);assert.equal(migrated.stage.routing.inputs[0].stageboxPort,4);
+assert.equal(migrated.objects[1].label,note);assert.equal(migrated.objects[2].steps,9);assert.equal(migrated.stage.stairsSteps,7);assert.equal(migrated.objects[3].angle,47);assert.deepEqual(plain(ctx.normalizeSetupDocument(migrated)),plain(migrated));
+console.log('PASS legacy Cajon routing migration, multiline text, stair count and preserved existing accordion orientation.');

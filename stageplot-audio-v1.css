@@ -391,3 +391,31 @@
   #sp-prototype #sp-audio-connect-source { margin:0 16px; }
   #sp-prototype #sp-audio-connect-dialog { max-height:calc(var(--sp-visible-height,100dvh) - 8px); }
 }
+
+/* Signal path: source, pickup, physical socket, console channel. Secondary fields stay in the editor. */
+#sp-prototype #sp-routing .sp-signal-table { display:table; table-layout:auto; min-width:0; width:100%; }
+#sp-prototype #sp-routing .sp-signal-table tr { display:grid; grid-template-columns:32px minmax(180px,2fr) minmax(150px,1.2fr) minmax(150px,1.2fr) 70px 90px; align-items:center; gap:8px; padding:8px; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td) { grid-row:1; min-width:0; width:auto; position:static; padding:6px; border:0; white-space:normal; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td):nth-child(1) { display:block; grid-column:1; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td):nth-child(3) { display:block; grid-column:2; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td):nth-child(6) { display:block; grid-column:3; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td):nth-child(8) { display:block; grid-column:4; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td):nth-child(2) { display:block; grid-column:5; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td):nth-child(10) { display:block; grid-column:6; }
+#sp-prototype #sp-routing .sp-signal-table :is(th,td):is(:nth-child(4),:nth-child(5),:nth-child(7),:nth-child(9)) { display:none; }
+#sp-prototype .sp-route-instrument { display:flex; align-items:center; gap:5px; margin-bottom:7px; font-size:11px; color:var(--sp-muted); }
+#sp-prototype .sp-route-instrument span { flex:1; }
+#sp-prototype .sp-route-instrument button { min-width:32px; min-height:32px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); cursor:pointer; }
+@media(max-width:800px){
+ #sp-prototype #sp-routing .sp-signal-table thead { display:none; }
+ #sp-prototype #sp-routing .sp-signal-table tr { grid-template-columns:40px minmax(0,1fr) 76px; gap:3px; padding:10px; }
+ #sp-prototype #sp-routing .sp-signal-table td:nth-child(1) { grid-column:1;grid-row:1; }
+ #sp-prototype #sp-routing .sp-signal-table td:nth-child(3) { grid-column:2 / 4;grid-row:1; }
+ #sp-prototype #sp-routing .sp-signal-table td:nth-child(6) { grid-column:2 / 4;grid-row:2; }
+ #sp-prototype #sp-routing .sp-signal-table td:nth-child(8) { grid-column:2;grid-row:3; }
+ #sp-prototype #sp-routing .sp-signal-table td:nth-child(2) { grid-column:1;grid-row:2 / 4; }
+ #sp-prototype #sp-routing .sp-signal-table td:nth-child(10) { grid-column:3;grid-row:3; }
+ #sp-prototype #sp-routing .sp-signal-table .sp-route-mobile-meta { display:none; }
+}
+
+@media(min-width:801px){#sp-prototype #sp-routing .sp-signal-table tr { padding:4px 8px; }#sp-prototype #sp-routing .sp-signal-table :is(td,th) { padding:3px 6px; }}

@@ -8,7 +8,7 @@ assert.deepEqual(clean.objects[0].labelOffset,{x:-1.25,y:0.45});
 assert.deepEqual(clean.objects[0].drums,document.objects[0].drums);
 assert.deepEqual(clean.objects[1].orchestra,document.objects[1].orchestra);
 assert.equal(clean.stage.routing.inputs[0].number,12);assert.equal(clean.stage.routing.inputs[0].phantom,true);
-const sql=fs.readFileSync('supabase/migrations/0006_share_label_positions.sql','utf8'),schema=sql.match(/share-schema:start[^\n]*\n\s*'([^']+)'::jsonb/)[1];assert.deepEqual(JSON.parse(schema),S.schema,'Client and server must enforce the same allowlist.');
+const sql=fs.readFileSync('supabase/migrations/0007_instrument_details.sql','utf8'),schema=sql.match(/share-schema:start[^\n]*\n\s*'([^']+)'::jsonb/)[1];assert.deepEqual(JSON.parse(schema),S.schema,'Client and server must enforce the same allowlist.');
 for(const value of ['sp-test-123','  SP-TEST-123  ','https://example.org/#p/SP-TEST-123','#p/SP-TEST-123'])assert.equal(S.projectId(value),'SP-TEST-123');
 for(const value of ['SP-','hello','https://example.org/?id=SP-X','#p/%ZZ','SP-X\nY','SP-'+'X'.repeat(80)])assert.equal(S.projectId(value),'');
 const config={url:'https://stageplot-qa.supabase.co',publishableKey:'sb_publishable_test'},requests=[];

@@ -23,6 +23,7 @@
       height: input.height ?? null, role: clean(input.role || 'stage', 30), locked: input.locked === true, note: clean(input.note, 500) };
     if (p.shape === 'polygon') p.points = copy(input.points || [[0, 0], [p.w, 0], [p.w, p.d], [0, p.d]]);
     if (p.shape === 'segment') p.rise = input.rise ?? Math.min(p.w / 2, p.d);
+    if(p.kind==='stairs')p.steps=Math.max(1,Math.min(24,Math.round(Number(input.steps)||5)));
     if (input.target) p.target = clean(input.target, 100);
     if (input.anchor) p.anchor = copy(input.anchor);
     return p;
