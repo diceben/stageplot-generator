@@ -20,7 +20,7 @@ Migration 0003 ergänzt eine getrennte Tabelle für bewusst veröffentlichte Bü
 
 Der Primärschlüssel und eine Transaktionssperre garantieren genau eine aktive Freigabe pro ID, auch bei gleichzeitigen Anfragen. „Link löschen“ entfernt den Datensatz und gibt die ID wieder frei. Auch alte Widerrufsreservierungen werden durch Migration 0004 freigegeben. Der nächste erfolgreiche Absender erhält die ID; der frühere Absender kann dessen Plan weder überschreiben noch löschen. Alte Links können nach einer Neuvergabe auf den neuen Plan zeigen.
 
-Das Löschen eines lokalen Projekts entfernt keine Online-Freigabe. Den Link bei Bedarf vorher im Teilen-Dialog löschen. Heruntergeladene Kopien und vollständige Offline-Links bleiben bestehen. Höchstens 100 aktive Freigaben pro Browser-Identität und 2 MB pro Snapshot; Änderungen am lokalen Plan werden erst durch „Freigabe aktualisieren“ veröffentlicht. Lokal erzeugte Projekt-IDs sind erst mit erfolgreicher Online-Freigabe global belegt.
+Das Löschen eines lokalen Projekts entfernt keine Online-Freigabe. Den Link bei Bedarf vorher im Teilen-Dialog löschen. Heruntergeladene Kopien und vollständige Offline-Links bleiben bestehen. Höchstens 100 aktive Freigaben pro Browser-Identität und 2 MB pro Snapshot; „Link kopieren“ auf Projektkarten und in den Projektdaten stellt den aktuellen Stand bereit und kopiert einen vollständigen Link. Im Teilen-Dialog heißt die Aktion „Aktualisieren & Link kopieren“. Erst nach erfolgreicher Veröffentlichung wird die Adresse in die Zwischenablage geschrieben. Bei verweigertem Zugriff bleibt sie zum manuellen Kopieren sichtbar. Lokal erzeugte Projekt-IDs sind erst mit erfolgreicher Online-Freigabe global belegt.
 
 ## 2. Teilen ohne Anmeldeformular aktivieren
 

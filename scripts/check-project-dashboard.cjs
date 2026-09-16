@@ -20,7 +20,8 @@ const {engine,launchBrowser,artifactPath,assertNoOverflow}=require('./browser-qa
  await p.locator('#sp-project-search').fill('');await p.locator('#sp-project-search').blur();
  await card.locator('[data-project-settings]').tap();assert(await p.locator('#sp-project').isVisible());await p.locator('.sp-steps [data-view="dashboard"]').tap();
  await card.locator('[data-project-open]').tap();assert(await p.locator('#sp-editor').isVisible());await p.locator('.sp-steps [data-view="dashboard"]').tap();
- await card.locator('[data-project-id-copy]').tap();assert(await p.locator('#sp-dashboard').isVisible(),'ID copy does not open the editor');
+ await card.locator('[data-project-id-copy]').tap();assert(await p.locator('#sp-dashboard').isVisible(),'Link action does not open the editor');
+ await p.locator('#sp-share-close').tap();
  const download=p.waitForEvent('download');await card.locator('[data-project-download]').tap();assert.match((await download).suggestedFilename(),/json$/);
  for(const width of [320,430,760,1440]){await p.setViewportSize({width,height:900});await assertNoOverflow(p,'#sp-dashboard','Project dashboard at '+width);}
  await p.setViewportSize({width:390,height:670});await p.locator('#sp-dashboard').evaluate(el=>el.scrollTop=0);
@@ -31,5 +32,5 @@ const {engine,launchBrowser,artifactPath,assertNoOverflow}=require('./browser-qa
  for(const width of [320,390,1440]){await p.setViewportSize({width,height:740});await assertNoOverflow(p,'#sp-dashboard','Long project name at '+width);}
  await p.setViewportSize({width:390,height:670});await p.locator('#sp-project-search').fill('Symphonie');assert.equal(await p.locator('[data-project-open-card]').count(),1);await p.locator('#sp-project-search').blur();
  await p.screenshot({path:artifactPath('project-dashboard-long-'+engine+'.png')});
- assert.deepEqual(errors,[]);console.log('PASS '+engine+': mobile card visibility, new-project ordering, search/empty state, settings/open, ID copy, backup and 320–1440px layout.');
+ assert.deepEqual(errors,[]);console.log('PASS '+engine+': mobile card visibility, new-project ordering, search/empty state, settings/open, link action, backup and 320–1440px layout.');
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1);});

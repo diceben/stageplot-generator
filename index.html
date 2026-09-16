@@ -438,7 +438,7 @@
     <div class="sp-project-tabs" role="tablist" aria-label="Projekteinstellungen"><button type="button" role="tab" aria-selected="true" aria-controls="sp-project-panel-general" data-project-tab="general"><span>01</span> Projekt</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-contacts" data-project-tab="contacts"><span>02</span> Kontakte</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-notes" data-project-tab="notes"><span>03</span> Notizen</button><button type="button" role="tab" aria-selected="false" aria-controls="sp-project-panel-production" data-project-tab="production"><span>04</span> Technik &amp; FOH</button></div>
     <form id="sp-project-form" class="sp-project-form">
       <section id="sp-project-panel-general" class="sp-settings-card" role="tabpanel" data-project-panel="general"><div class="sp-settings-card-title"><div><h2>Projektinformationen</h2><p>Gig, Produktion und Bühnenmaße</p></div></div><div class="sp-settings-fields">
-        <div class="sp-project-identity-summary"><button type="button" class="sp-project-identity" id="sp-project-id-copy" aria-label="Projekt-ID kopieren"><span>Projekt-ID</span><code id="sp-project-id"></code><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 4V3H3v9h1"/></svg></button><p id="sp-project-storage" class="sp-project-storage" role="status" aria-live="polite"></p></div>
+        <div class="sp-project-identity-summary"><button type="button" class="sp-project-identity" id="sp-project-id-copy" aria-label="Projektlink kopieren" title="Aktuellen Plan freigeben und vollständigen Link kopieren"><span>Link kopieren</span><code id="sp-project-id"></code><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 4V3H3v9h1"/></svg></button><p id="sp-project-storage" class="sp-project-storage" role="status" aria-live="polite"></p></div>
         <label class="sp-field sp-project-name-field">Projektname<input id="sp-project-name" maxlength="60" required></label>
         <label class="sp-field sp-project-date-field">Datum<input id="sp-project-date" type="date"></label><label class="sp-field">Band / Act<input id="sp-project-artist" maxlength="80"></label>
         <label class="sp-field">Location<input id="sp-project-venue" maxlength="100"></label><label class="sp-field">Autor / Engineer<input id="sp-project-author" maxlength="80"></label>
@@ -582,14 +582,14 @@
   </dialog>
   <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title">
     <div class="sp-dialog-heading"><h2 id="sp-share-title">Link teilen</h2><button class="sp-button" type="button" id="sp-share-close" aria-label="Teilen schließen">×</button></div>
-    <p>Erstelle einen Link zum aktuellen Bühnenplan samt Routing. Jeder mit dem Link kann diesen Stand ansehen – ohne Anmeldung.</p>
+    <p>Kopiere den vollständigen Link zum aktuellen Bühnenplan samt Routing. Der Empfänger öffnet ihn direkt – ohne Anmeldung und ohne eine ID einzufügen.</p>
     <p class="sp-muted">Kontaktfelder, Autor und Notizen werden entfernt. Prüfe vor der Freigabe auch Projektnamen und Beschriftungen auf private Angaben.</p>
     <p class="sp-muted">Aktualisieren und Löschen funktionieren in diesem Browser. Beim Löschen seiner Website-Daten geht diese Berechtigung verloren.</p>
-    <label class="sp-field">Projekt-ID<input id="sp-share-id" readonly></label>
+    <input id="sp-share-id" type="hidden">
     <p id="sp-share-status" class="sp-muted" role="status" aria-live="polite"></p>
-    <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-publish">Jetzt freigeben</button><button class="sp-button sp-danger-quiet" type="button" id="sp-share-revoke" hidden>Link löschen</button></div>
-    <div id="sp-share-result" hidden><label class="sp-field">Kurzer Ansichtslink<textarea id="sp-share-link" rows="2" readonly></textarea></label><div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button" type="button" id="sp-share-copy-id">ID kopieren</button><button class="sp-button" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div></div>
-    <details><summary>Ohne Online-Freigabe teilen</summary><p class="sp-muted">Ein vollständiger Offline-Link enthält den Plan und kann sehr lang sein. Er lässt sich nicht widerrufen. Für WhatsApp ist die Projekt-ID besser geeignet.</p><button class="sp-button" type="button" id="sp-share-offline">Offline-Link erstellen</button><label class="sp-field" id="sp-share-offline-field" hidden>Offline-Link<textarea id="sp-share-offline-link" rows="3" readonly></textarea></label><button class="sp-button" type="button" id="sp-share-offline-copy" hidden>Offline-Link kopieren</button></details>
+    <div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-publish">Link erstellen &amp; kopieren</button><button class="sp-button sp-danger-quiet" type="button" id="sp-share-revoke" hidden>Link löschen</button></div>
+    <div id="sp-share-result" hidden><label class="sp-field">Kurzer Ansichtslink<textarea id="sp-share-link" rows="2" readonly></textarea></label><div class="sp-actions"><button class="sp-button sp-primary" type="button" id="sp-share-copy">Link kopieren</button><button class="sp-button" type="button" id="sp-share-preview">Geteilte Ansicht öffnen</button></div></div>
+    <details><summary>Ohne Online-Freigabe teilen</summary><p class="sp-muted">Ein vollständiger Offline-Link enthält den Plan und kann sehr lang sein. Er lässt sich nicht widerrufen. Für WhatsApp ist der kurze Ansichtslink besser geeignet.</p><button class="sp-button" type="button" id="sp-share-offline">Offline-Link erstellen</button><label class="sp-field" id="sp-share-offline-field" hidden>Offline-Link<textarea id="sp-share-offline-link" rows="3" readonly></textarea></label><button class="sp-button" type="button" id="sp-share-offline-copy" hidden>Offline-Link kopieren</button></details>
   </dialog>
   <dialog id="sp-shared-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-shared-title">
     <div class="sp-dialog-heading"><h2 id="sp-shared-title">Projekt-ID öffnen</h2><button class="sp-button" type="button" id="sp-shared-close" aria-label="Projekt-ID öffnen schließen">×</button></div>
@@ -698,10 +698,15 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>Shift + Klick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.11">v0.1.0-beta.11</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Neue Funktionen und Verbesserungen.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.12">v0.1.0-beta.12</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.11</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.12</strong><span>Aktuell</span></div><time datetime="2026-09-16">16. September 2026</time></header>
+            <h4>Vollständigen Projektlink direkt kopieren</h4>
+            <ul><li><strong>Ein Klick zum Verschicken:</strong> „Link kopieren“ auf der Projektkarte und in den Projektdaten stellt den aktuellen Plan bereit und kopiert die vollständige Adresse mit ID. Empfänger öffnen den Link direkt.</li><li><strong>Klarer Teilen-Dialog:</strong> Die separate Aktion zum Kopieren der nackten ID entfällt. Falls der Browser die Zwischenablage blockiert, steht der vollständige Link zum manuellen Kopieren bereit.</li></ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.11</strong></div><time datetime="2026-09-16">16. September 2026</time></header>
             <h4>Einfach per Link – ohne Anmeldung</h4>
             <ul><li><strong>Link erstellen und teilen:</strong> Nach Einrichtung des Freigabedienstes brauchen auch Absender keine E-Mail und kein Passwort. Aktualisieren und Löschen sind im ursprünglichen Browser möglich.</li><li><strong>Eindeutige IDs:</strong> Jede aktive Freigabe hat genau eine ID. „Link löschen“ gibt sie wieder frei. Wird sie später erneut vergeben, können alte Links den neuen Plan öffnen.</li></ul>
           </article>
@@ -863,7 +868,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.11 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.12 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -11672,12 +11677,13 @@ function createStageplotSymbolV3(type, options = {}) {
     return {state:'saved',text:'Lokal gespeichert · '+date};
   }
   function projectIdentityMarkup(id){
-    return '<button type="button" class="sp-project-identity" data-project-id-copy="'+esc(id)+'" aria-label="Projekt-ID '+esc(id)+' kopieren" title="Projekt-ID kopieren"><span>Projekt-ID</span><code>'+esc(id)+'</code><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 4V3H3v9h1"/></svg></button>';
+    return '<button type="button" class="sp-project-identity" data-project-id-copy="'+esc(id)+'" aria-label="Projektlink '+esc(id)+' kopieren" title="Aktuellen Plan freigeben und vollständigen Link kopieren"><span>Link kopieren</span><code>'+esc(id)+'</code><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 4V3H3v9h1"/></svg></button>';
   }
-  async function copyProjectIdentity(id,button){
+  function copyProjectIdentity(id){
     if(!projectIdentity(id))return;
-    try{await navigator.clipboard.writeText(id);say('Projekt-ID kopiert: '+id);}
-    catch(error){const range=window.document.createRange();range.selectNodeContents(button.querySelector('code'));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);say('Projekt-ID markiert · bitte kopieren');}
+    if(view==='project'&&stage?.projectId===id){openShareDialog(undefined,{copy:true});return;}
+    const entry=dashboardProjects().find(item=>item.document.stage.projectId===id);
+    if(entry)openShareDialog(entry.document,{copy:true});
   }
   function refreshProjectIdentity(){
     if(view!=='project'||!stage)return;
@@ -13257,8 +13263,8 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     shareActive=active;shareOwned=owned;
     const enabled=window.StageplotShare.configured(window.StageplotCloudConfig);
     $('sp-share-publish').hidden=!enabled;$('sp-share-publish').disabled=shareBusy||!owned;
-    $('sp-share-publish').textContent=active&&owned?'Freigabe aktualisieren':'Link erstellen';$('sp-share-revoke').hidden=!active||!owned;$('sp-share-revoke').disabled=shareBusy;
-    $('sp-share-result').hidden=!active;$('sp-share-copy-id').disabled=!active;
+    $('sp-share-publish').textContent=active&&owned?'Aktualisieren & Link kopieren':'Link erstellen & kopieren';$('sp-share-revoke').hidden=!active||!owned;$('sp-share-revoke').disabled=shareBusy;
+    $('sp-share-result').hidden=!active;$('sp-share-copy').disabled=shareBusy;
   }
   async function refreshShareState(){
     if(!shareDocument||!$('sp-share-dialog').open||shareBusy)return;
@@ -13268,16 +13274,16 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
     try{
       const result=await shareClient.status(shareDocument.stage.projectId);if(generation!==shareGeneration)return;shareBusy=false;
       const mayManage=result.available||result.owned;shareControls(result.active,mayManage);
-      $('sp-share-status').textContent=!mayManage?'Diese ID ist bereits vergeben. Du kannst den vorhandenen Link ansehen. Für einen eigenen Link das Projekt duplizieren.':result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. Erst „Link erstellen“ lädt diesen Stand hoch.';
+      $('sp-share-status').textContent=!mayManage?'Diese ID ist bereits vergeben. Du kannst den vorhandenen Link ansehen. Für einen eigenen Link das Projekt duplizieren.':result.active?'Freigegeben · Stand '+new Date(result.updated_at).toLocaleString('de-AT'):'Noch nicht freigegeben. „Link erstellen & kopieren“ stellt diesen Stand bereit und kopiert die vollständige Adresse.';
     }catch(error){if(generation===shareGeneration){shareBusy=false;shareControls();$('sp-share-publish').disabled=true;$('sp-share-status').textContent=error.message;}}
   }
-  function openShareDialog(document){
+  function openShareDialog(document,{copy=false}={}){
     try{
       if(!document){if(!flushProjectForm(true))return;finishEdit();if(!stage)throw new Error('Bitte zuerst ein Projekt anlegen.');if(!stage.projectId&&!persistDraft(true))return;document={stage,objects};}
       shareDocument=window.StageplotShare.clean(normalizeSetupDocument(document));
       if(!projectIdentity(shareDocument.stage.projectId))throw new Error('Bitte das Projekt zuerst lokal speichern.');
       shareGeneration++;shareBusy=false;$('sp-share-id').value=shareDocument.stage.projectId;$('sp-share-link').value=window.location.href.split('#')[0]+'#p/'+shareDocument.stage.projectId;
-      $('sp-share-offline-field').hidden=true;$('sp-share-offline-copy').hidden=true;$('sp-share-dialog').showModal();refreshShareState();
+      $('sp-share-offline-field').hidden=true;$('sp-share-offline-copy').hidden=true;$('sp-share-dialog').showModal();shareControls(false,true);if(copy&&window.StageplotShare.configured(window.StageplotCloudConfig))updateShare(false,true);else refreshShareState();
     }catch(error){say('Freigabe nicht geöffnet: '+error.message);}
   }
   $('sp-share-dialog').addEventListener('close',()=>{shareGeneration++;shareBusy=false;});
@@ -13286,16 +13292,31 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   $('sp-account-dialog').addEventListener('close',refreshShareState);
   async function copyShareValue(field,message){try{await navigator.clipboard.writeText($(field).value);$('sp-share-status').textContent=message;}catch(error){$(field).focus();$(field).select();$('sp-share-status').textContent='Text markiert · bitte kopieren.';}}
   $('sp-share-copy').addEventListener('click',()=>copyShareValue('sp-share-link','Ansichtslink kopiert.'));
-  $('sp-share-copy-id').addEventListener('click',()=>copyShareValue('sp-share-id','Projekt-ID kopiert.'));
   $('sp-share-preview').addEventListener('click',()=>{const link=$('sp-share-link').value;if(link)window.open(link,'_blank','noopener');});
   $('sp-share-offline').addEventListener('click',()=>{try{$('sp-share-offline-link').value=window.location.href.split('#')[0]+'#share='+encodeShareDocument(shareDocument);$('sp-share-offline-field').hidden=false;$('sp-share-offline-copy').hidden=false;}catch(error){$('sp-share-status').textContent=error.message;}});
   $('sp-share-offline-copy').addEventListener('click',()=>copyShareValue('sp-share-offline-link','Offline-Link kopiert.'));
-  async function updateShare(revoke=false){
-    if(shareBusy||!shareDocument)return;const generation=++shareGeneration,document=shareDocument;shareBusy=true;shareControls();$('sp-share-status').textContent=revoke?'Link wird gelöscht …':'Plan wird freigegeben …';
-    try{const result=await (revoke?shareClient.revoke(document.stage.projectId):shareClient.publish(document));if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active,true);$('sp-share-status').textContent=revoke?'Link gelöscht. Die ID ist wieder frei und kann für einen anderen Plan vergeben werden.':'Freigegeben. Du kannst jetzt den Link kopieren und teilen.';}
-    catch(error){if(generation!==shareGeneration)return;shareBusy=false;shareControls();$('sp-share-result').hidden=true;$('sp-share-status').textContent=error.message;}
+  function copyPublishedLink(ready,link){
+    // Start the clipboard request in the click handler. Safari accepts promised data,
+    // but rejects a new write request made only after the publication request finishes.
+    const content=ready.then(()=>new Blob([link],{type:'text/plain'}));content.catch(()=>{});
+    try{
+      const copied=navigator.clipboard?.write&&window.ClipboardItem
+        ?navigator.clipboard.write([new ClipboardItem({'text/plain':content})])
+        :ready.then(()=>navigator.clipboard.writeText(link));
+      return copied.then(()=>true,()=>false);
+    }catch{return Promise.resolve(false);}
   }
-  $('sp-share-publish').addEventListener('click',()=>updateShare());
+  async function updateShare(revoke=false,copy=false){
+    if(shareBusy||!shareDocument)return;const generation=++shareGeneration,document=shareDocument,link=$('sp-share-link').value;shareBusy=true;shareControls();$('sp-share-status').textContent=revoke?'Link wird gelöscht …':'Link wird vorbereitet …';
+    const publication=revoke?shareClient.revoke(document.stage.projectId):shareClient.publish(document);
+    const clipboard=copy?copyPublishedLink(publication,link):Promise.resolve(false);
+    try{
+      const result=await publication,copied=await clipboard;if(generation!==shareGeneration)return;shareBusy=false;shareControls(result.active,true);
+      $('sp-share-status').textContent=revoke?'Link gelöscht. Die ID ist wieder frei und kann für einen anderen Plan vergeben werden.':copied?'Link kopiert. Du kannst ihn direkt verschicken.':'Freigegeben. Du kannst jetzt den vollständigen Link kopieren und teilen.';
+      if(copy&&!copied){$('sp-share-link').focus();$('sp-share-link').select();$('sp-share-status').textContent='Link bereit und markiert · bitte kopieren.';}
+    }catch(error){if(generation!==shareGeneration)return;shareBusy=false;shareControls();$('sp-share-result').hidden=true;$('sp-share-status').textContent=error.message;}
+  }
+  $('sp-share-publish').addEventListener('click',()=>updateShare(false,true));
   $('sp-share-revoke').addEventListener('click',()=>confirmSetupAction('Link löschen und ID freigeben?','Die Online-Freigabe wird gelöscht. Deine lokale Datei bleibt erhalten. Die ID darf danach neu vergeben werden; alte Links können dann einen anderen Plan öffnen.','Link löschen',()=>updateShare(true),true));
   $('sp-shared-open').addEventListener('click',()=>{$('sp-shared-status').textContent='';$('sp-shared-dialog').showModal();});
   $('sp-shared-close').addEventListener('click',()=>$('sp-shared-dialog').close());

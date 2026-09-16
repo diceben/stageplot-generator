@@ -6,7 +6,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in einer Kopfzeile. Kompaktere Abstände und der entfernte Bausteinzähler lassen mehr Platz für die Objekte. Die Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
 
-**Aktuelle Version:** v0.1.0-beta.11 · Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.12 · Release Notes sind in der App über `?` erreichbar.
 
 Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
@@ -16,7 +16,7 @@ Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SET
 
 ## Funktionen
 
-- **Teilen per Link ohne Anmeldung:** Nach Einrichtung des Online-Dienstes geben Absender einzelne Pläne samt Routing frei, ohne E-Mail oder Passwort. Aktualisieren und Löschen sind im ursprünglichen Browser möglich. Empfänger öffnen einen kurzen Link oder die ID. Jede aktive ID ist weltweit eindeutig; „Link löschen“ gibt sie zur Wiederverwendung frei. Kontakte, Autor und freie Notizen bleiben ausgeschlossen. [Einrichtung](ACCOUNT_SETUP.md).
+- **Teilen per Link ohne Anmeldung:** Nach Einrichtung des Online-Dienstes geben Absender einzelne Pläne samt Routing frei, ohne E-Mail oder Passwort. „Link kopieren“ auf der Projektkarte oder in den Projektdaten stellt den aktuellen Stand bereit und kopiert die vollständige Adresse mit ID. Empfänger öffnen den Link direkt. Aktualisieren und Löschen sind im ursprünglichen Browser möglich. Jede aktive ID ist weltweit eindeutig; „Link löschen“ gibt sie zur Wiederverwendung frei. Kontakte, Autor und freie Notizen bleiben ausgeschlossen. [Einrichtung](ACCOUNT_SETUP.md).
 
 - **Freigabelinks im selben Tab:** Vollständige Ansichtslinks öffnen auch in einer bereits laufenden App. Wechsel zwischen Links und Browser-Zurück funktionieren; eigene Entwürfe und ausstehende gültige Eingaben bleiben beim Wechsel erhalten.
 
@@ -85,7 +85,7 @@ Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SET
 - **40 illustrierte Objektgrafiken (35 zusätzliche Bausteine, fünf aktualisierte Orchesterinstrumente)** für Percussion, Tasten, DJ, Backline, PA, Orchester und Video, mit lokal gespeicherten Bildgenerierungs-Assets in Draufsicht. Alle vier Etappen und die Asset-Pflege: [ILLUSTRATED_OBJECTS.md](ILLUSTRATED_OBJECTS.md).
 - **Object Packs** mit Shop-Vorschau, lokalen Offline-Freischaltungen, signierten Codes, Beta Crew Pass und Crew Rewards.
 - **Projektverwaltung** mit Karten-Vorschau, direktem Umbenennen, portablem Download und abgesichertem Löschen.
-- **Dauerhafte Projekt-ID** auf jeder Projektkarte und in den Projektdaten, per Klick kopierbar und über die Projektsuche auffindbar. Bestehende lokale Projekte erhalten automatisch eine ID; Umbenennen, normales Speichern und Gerätesync behalten sie bei. „Projekt duplizieren“, importierte Kopien und Konfliktkopien erhalten eigene IDs. Der Speicherstatus unterscheidet lokale Speicherung, offene Änderungen und tatsächlich bestätigten Sync.
+- **Dauerhafte Projekt-ID** auf jeder Projektkarte und in den Projektdaten, über die Projektsuche auffindbar; der Kopierknopf liefert den vollständigen Ansichtslink einschließlich ID. Bestehende lokale Projekte erhalten automatisch eine ID; Umbenennen, normales Speichern und Gerätesync behalten sie bei. „Projekt duplizieren“, importierte Kopien und Konfliktkopien erhalten eigene IDs. Der Speicherstatus unterscheidet lokale Speicherung, offene Änderungen und tatsächlich bestätigten Sync.
 - **Playback-Laptop:** Stereo L/R, PLAYAUDIO1U mit zwölf symmetrischen XLR-Ausgängen oder Dante Virtual Soundcard über ein Netzwerkkabel direkt wählen. Ausgangspaare benennen (z. B. 1–2 Intro, 3–4 Percussion), in zwei Mono-Signale teilen und benötigte Kanäle aktivieren. Dante-Sendekanäle und Übergabeziel festlegen; keine Zuweisung auf analoge Stagebox-Buchsen. Namen, physische Ausgangsnummern und Netzwerkübergabe erscheinen im gemeinsamen Audioplan und Export. [Bedienung und Herstellerquellen](PLAYBACK.md).
 - **Outs am Symbol** global per Toolbar-Button ein-/ausblendbar.
 - **Offline-first mit optionalem Account-Abgleich** für Projekte, Entwürfe, Vorlagen und Inventar. Lokale Speicherung bleibt primär; Übertragungen werden vorgemerkt, gleichzeitige Änderungen als Konfliktkopien erhalten. Ohne konfigurierte Supabase-Anbindung bleibt der Account-Dienst deaktiviert.
