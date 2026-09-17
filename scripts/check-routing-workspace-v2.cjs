@@ -202,6 +202,44 @@ async function checkStage4SharedDi(browser,errors){
   await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore,'Viewing the shared DI layout does not alter the saved draft');
  }finally{await context.close();}
 }
+async function checkDiLibrary(browser,errors){
+ const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'});
+ try{
+  const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',error=>errors.push(error.message));await fixture(page);
+  await page.locator('.sp-steps [data-view="editor"]').click();await page.locator('[data-category="audio"]').click();
+  const dialog=page.locator('#sp-model-dialog'),family=page.locator('#sp-library-items [data-library-model-family="di-boxes"]'),models=['radial-j48','radial-j48-stereo','radial-prod2','generic-passive-mono','generic-passive-stereo','generic-active-mono','generic-active-stereo'];
+  const before=await saved(page);
+  for(const width of [1512,390]){
+   await page.setViewportSize({width,height:width===390?844:982});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));if(await page.locator('#sp-library-open').isVisible())await page.locator('#sp-library-open').click();
+   await family.click();assert.equal(await dialog.locator('[data-dialog-model]').count(),7);assert.equal(await dialog.locator('select,[data-dialog-model="di-model:custom"]').count(),0);
+   assert.equal(await dialog.getAttribute('data-docked'),String(width===1512));await dialog.locator('img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));
+   await assertNoOverflow(page,'#sp-model-dialog','DI library '+width);
+   const geometry=await dialog.evaluate(el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom};});assert(geometry.left>=0&&geometry.right<=width+1&&geometry.top>=0&&geometry.bottom<=(width===390?844:982)+1);
+   assert(await dialog.locator('.sp-model-dialog-option').evaluateAll(items=>items.every(item=>item.querySelector('img').getBoundingClientRect().bottom<=item.querySelector('strong').getBoundingClientRect().top)),'Product pictures remain above names');
+   if(width===1512){await dialog.locator('[data-model-favorite="di-model:radial-prod2"]').click();assert(await dialog.isVisible(),'Favoriting a DI keeps its model picker open');}
+   await page.screenshot({path:artifactPath('library-di-models-'+width+'-'+engine+'.png')});await page.keyboard.press('Escape');assert(!await dialog.isVisible());
+   assert.deepEqual((await saved(page)).objects,before.objects,'Opening or dismissing model selection never places a DI');
+  }
+  await page.setViewportSize({width:1512,height:982});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));if(await page.locator('#sp-library-open').isVisible())await page.locator('#sp-library-open').click();
+  let lastObject,lastDevice;
+  for(const modelId of models){
+   await family.click();await dialog.locator('[data-dialog-model="di-model:'+modelId+'"]').click();assert.equal(await page.locator('#sp-prototype').getAttribute('data-placing'),'true');
+   if(modelId===models[0]){await page.keyboard.press('Escape');assert.deepEqual((await saved(page)).objects,before.objects);await family.click();await dialog.locator('[data-dialog-model="di-model:'+modelId+'"]').click();}
+   await page.keyboard.press('Enter');await page.waitForFunction(()=>document.querySelector('#sp-header-draft-status').textContent==='Lokal gespeichert');
+   const doc=await saved(page);lastObject=doc.objects.at(-1);lastDevice=doc.stage.routing.devices.find(device=>device.objectId===lastObject.id);assert.equal(lastObject.type,'di');assert.equal(lastDevice.modelId,modelId);
+   assert.equal(lastDevice.channels,modelId.includes('stereo')||modelId==='radial-prod2'?2:1);assert.equal(lastObject.io.inputs.count,lastDevice.channels);assert.equal(lastObject.io.outputs.count,lastDevice.channels);
+   assert.equal(lastDevice.active,modelId.startsWith('radial-j48')||modelId.startsWith('generic-active'));assert(!doc.stage.routing.inputs.some(row=>row.sourceKey.startsWith(lastObject.id+':')));
+  }
+  if(await page.locator('#sp-inspector-open').isVisible())await page.locator('#sp-inspector-open').click();await page.locator('#sp-properties-tab').click();assert.equal(await page.locator('#sp-audio-object [data-di-model]').count(),0);
+  const lastPosition={x:lastObject.x,y:lastObject.y};await page.locator('#sp-audio-object [data-di-model-open]').click();assert.equal(await dialog.locator('[data-dialog-model][aria-pressed="true"]').getAttribute('data-dialog-model'),'di-model:generic-active-stereo');
+  await dialog.locator('[data-dialog-model="di-model:radial-prod2"]').click();let doc=await saved(page);assert.equal(doc.stage.routing.devices.find(device=>device.id===lastDevice.id).modelId,'radial-prod2');assert.deepEqual(Object.fromEntries(['x','y'].map(key=>[key,doc.objects.find(object=>object.id===lastObject.id)[key]])),lastPosition);
+  await page.locator('[data-library-scope="favorites"]').click();const favorite=page.locator('#sp-library-items [data-add="di-model:radial-prod2"]');assert(await favorite.isVisible());await favorite.click();await page.keyboard.press('Enter');await page.waitForFunction(()=>document.querySelector('#sp-header-draft-status').textContent==='Lokal gespeichert');
+  doc=await saved(page);assert.equal(doc.stage.routing.devices.find(device=>device.objectId===doc.objects.at(-1).id).modelId,'radial-prod2');const count=doc.objects.filter(o=>o.type==='di').length;
+  await page.reload();await page.locator('.sp-steps [data-view="editor"]').click();await page.locator('[data-library-scope="favorites"]').click();assert(await favorite.isVisible());assert.equal((await saved(page)).objects.filter(o=>o.type==='di').length,count);
+  await page.locator('[data-library-scope="all"]').click();await page.locator('#sp-library-search').fill('ProD2');assert(await favorite.isVisible(),'Product search offers a DI model directly');
+  await page.screenshot({path:artifactPath('library-di-search-'+engine+'.png')});
+ }finally{await context.close();}
+}
 async function checkPhysicalDiStage(browser,errors){
  const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'});
  try{
@@ -209,12 +247,12 @@ async function checkPhysicalDiStage(browser,errors){
   const workspace=page.locator('#sp-routing-workspace-v2'),sourceId='station-2';
   let doc=await saved(page);assert.equal(doc.objects.filter(o=>o.type==='di').length,1,'An older assigned DI receives exactly one stage object');
   const initialDevice=doc.stage.routing.devices.find(d=>d.id==='di-prod2-demo');assert(doc.objects.some(o=>o.id===initialDevice.objectId&&o.type==='di'));
-  await page.locator('.sp-steps [data-view="editor"]').click();await page.locator('#sp-library-search').fill('DI');await page.locator('#sp-library-items [data-add="di"]').click();await page.keyboard.press('Enter');
+  await page.locator('.sp-steps [data-view="editor"]').click();await page.locator('#sp-library-search').fill('DI');await page.locator('#sp-library-items [data-library-model-family="di-boxes"]').click();await page.locator('#sp-model-dialog [data-dialog-model="di-model:radial-prod2"]').click();await page.keyboard.press('Enter');
   await page.waitForFunction(()=>document.querySelector('#sp-header-draft-status').textContent==='Lokal gespeichert');doc=await saved(page);
   let manual=doc.objects.filter(o=>o.type==='di').at(-1);assert.notEqual(manual.id,initialDevice.objectId);const manualId=manual.id;
   assert(!doc.stage.routing.inputs.some(row=>row.sourceKey.startsWith(manualId+':')),'Placing a DI does not invent a sound source');
   if(await page.locator('#sp-inspector-open').isVisible())await page.locator('#sp-inspector-open').click();await page.locator('#sp-properties-tab').click();await change(page.locator('#sp-label'),'Piano DI');
-  await page.locator('#sp-audio-object [data-di-model="radial-prod2"]').click();doc=await saved(page);const manualDevice=doc.stage.routing.devices.find(d=>d.objectId===manualId);assert(manualDevice);assert.equal(manualDevice.channels,2);
+  assert.equal(await page.locator('#sp-audio-object [data-di-model]').count(),0,'Model tiles belong in the library, not the inspector');doc=await saved(page);const manualDevice=doc.stage.routing.devices.find(d=>d.objectId===manualId);assert(manualDevice);assert.equal(manualDevice.channels,2);
   await change(page.locator('#sp-label'),'Piano DI');await change(page.locator('#sp-pos-x'),6);await change(page.locator('#sp-pos-y'),3.5);
   doc=await saved(page);manual=doc.objects.find(o=>o.id===manualId);const position={x:manual.x,y:manual.y,angle:manual.angle};
   await page.locator('.sp-steps [data-view="routing"]').click();assert.equal(await workspace.locator('.rw-source-list [data-rw-select="'+manualId+'"]').count(),0);
@@ -359,9 +397,10 @@ async function run(){const browser=await launchBrowser();try{
  await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore);
  await checkWave2Stereo(browser,errors);
  await checkStage4SharedDi(browser,errors);
+ await checkDiLibrary(browser,errors);
  await checkPhysicalDiStage(browser,errors);
  await checkSourceOutputs(browser,errors);
  assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive DI popup and source outputs, native output activation/count/names/stereo/connector with DI preservation, zero-output recovery and undo/redo/reload, modal keyboard/dismissal, direct inline acquisition, native Wave 2 stereo DI and occupied-port protection, Stage 4 Piano/Synth on two shared DI cards with four channels, physical stage DI placement/reuse/deletion, responsive device assignment, atomic model replacement and patching, read-only/reload, monitor metadata and CSV export.');
 }finally{await browser.close();}}
 if(require.main===module)run().catch(error=>{console.error(error);process.exit(1);});
-module.exports={checkPhysicalDiStage,fixture,checkWave2Stereo,checkStage4SharedDi,checkSourceOutputs};
+module.exports={checkDiLibrary,checkPhysicalDiStage,fixture,checkWave2Stereo,checkStage4SharedDi,checkSourceOutputs};

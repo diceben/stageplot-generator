@@ -13,7 +13,7 @@ for(const marker of [
   "'electric-basses':{label:'Bass',representative:'bass'}",
   'data-library-model-family=',
   "function openLibraryModelDialog(family){showCompactModelDialog(family,'','place');}",
-  "if(context?.action==='place')beginPlacement(type,{detail:0})"
+  "if(context?.action==='place'){beginPlacement(type,{detail:0})"
 ])assert.ok(script.includes(marker)||html.includes(marker),marker+' fehlt im gemeinsamen Modell-Picker-Workflow.');
 
 assert.match(script,/const visible=\[\],seenFamilies=new Set\(\);[\s\S]*seenFamilies\.has\(family\)/,'Die Bibliothek fasst Modellfamilien nicht zusammen.');
@@ -29,7 +29,7 @@ console.log('PASS V80: je ein Keyboard-/Gitarren-/Bass-Sammelobjekt mit gemeinsa
 
 // Library-only groups preserve catalog geometry and the original instrument types.
 const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{value:'',innerHTML:'',textContent:'',dataset:{},querySelector:()=>({}),querySelectorAll:()=>[],removeAttribute(){},show(){this.open=true;},showModal(){this.open=true;}});return nodes.get(id);};
-const ctx={$:node,root:{querySelectorAll:()=>[],dataset:{libraryCollapsed:'false'}},window:{innerWidth:1200},document:{activeElement:{}},positionModelDialog(){},view:'editor',libraryMode:'objects',libraryScope:'all',libraryCategory:'all',libraryPreferences:{favorites:[],recent:[]},objects:[],placement:null,syncLibrarySearchUi(){},esc:String,isObjectUnlocked:()=>true,libraryIcon:c=>'<svg data-type="'+c.id+'"/>',icon:c=>'<svg data-type="'+c.id+'"/>',compactModelFamilies:new Set(['keys']),visualVariantFamilies:{keys:'Keyboardmodell'},requestAnimationFrame(){}};
+const ctx={StageplotRoutingModel:require('./stageplot-routing-model-v2.js'),stage:null,audioDiPhoto:()=>'<img class="sp-audio-di-photo">',$:node,root:{querySelectorAll:()=>[],dataset:{libraryCollapsed:'false'}},window:{innerWidth:1200},document:{activeElement:{}},positionModelDialog(){},view:'editor',libraryMode:'objects',libraryScope:'all',libraryCategory:'all',libraryPreferences:{favorites:[],recent:[]},objects:[],placement:null,syncLibrarySearchUi(){},esc:String,isObjectUnlocked:()=>true,libraryIcon:c=>'<svg data-type="'+c.id+'"/>',icon:c=>'<svg data-type="'+c.id+'"/>',compactModelFamilies:new Set(['keys']),visualVariantFamilies:{keys:'Keyboardmodell'},requestAnimationFrame(){}};
 vm.createContext(ctx);
 vm.runInContext(html.slice(html.indexOf('  const catalog = ['),html.indexOf('  let stage ='))+'\nthis.catalog=catalog;this.byId=byId;this.groups=libraryModelFamilyCards;',ctx);
 const extract=name=>{const match=html.match(new RegExp('  function '+name+'\\([^]*?\\n  }'));assert(match,name);return match[0];};
@@ -62,7 +62,7 @@ for(const category of categories){
  for(const match of rendered.matchAll(/data-add="([^"]+)"/g))reachable.add(match[1]);
  const families=[...rendered.matchAll(/data-library-model-family="([^"]+)"/g)].map(m=>m[1]);
  assert.equal(new Set(families).size,families.length,category+' contains no duplicate family');
- for(const family of families)for(const c of ctx.libraryFamilyVariants(family,true))reachable.add(c.id);
+ for(const family of families)for(const c of ctx.libraryFamilyVariants(family,true))reachable.add(c.diModelId?'di':c.id);
 }
 for(const c of ctx.catalog){assert(reachable.has(c.id),c.id+' missing from the new navigation');assert(ctx.libraryCategoriesFor(c).length>0,c.id+' has no category');}
 assert(ctx.libraryCategoriesFor(ctx.byId['double-bass']).includes('guitars'));
@@ -88,3 +88,15 @@ node('sp-library-search').value='mik';ctx.libraryScope='all';ctx.library();
 const micHits=[...node('sp-library-items').innerHTML.matchAll(/data-add="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(micHits[0],'mic','Microphones precede category-only matches such as guitar stands.');
 assert(micHits.indexOf('mic-round')<micHits.indexOf('guitar-stand-single'));
+
+ctx.libraryScope='all';ctx.libraryCategory='audio';node('sp-library-search').value='';ctx.library();
+assert.equal((node('sp-library-items').innerHTML.match(/data-library-model-family="di-boxes"/g)||[]).length,1);
+assert(!node('sp-library-items').innerHTML.includes('data-add="di"'));
+ctx.showCompactModelDialog('di-boxes','','place');
+assert.equal((node('sp-model-dialog-options').innerHTML.match(/data-dialog-model=/g)||[]).length,7);
+assert(!node('sp-model-dialog-options').innerHTML.includes('di-model:custom'));
+node('sp-library-search').value='ProD2';ctx.library();assert(node('sp-library-items').innerHTML.includes('data-add="di-model:radial-prod2"'));
+ctx.libraryScope='favorites';ctx.libraryPreferences.favorites=['di-model:radial-prod2'];ctx.library();assert(node('sp-library-items').innerHTML.includes('data-add="di-model:radial-prod2"'));
+console.log('PASS DI LIBRARY: seven models in the shared picker, direct product search and model favorites.');
+
+ctx.libraryPreferences.favorites=['di'];node('sp-library-search').value='';ctx.library();assert(node('sp-library-items').innerHTML.includes('data-library-model-family="di-boxes"'),'Old DI favorites open the model picker.');
