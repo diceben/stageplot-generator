@@ -161,8 +161,17 @@
       const rows = state.routing.inputs || [];
       return '<div class="rw-di-ports" role="group" aria-label="Anschlüsse der DI-Box">' + Array.from({length:diChannels(item)}, (_, index) => {
         const channel = index + 1, occupant = rows.find(other => other.diDeviceId === item.id && Number(other.diChannel) === channel), chosen = occupant?.id === row.id;
-        return button('<b>' + channel + '</b><span>' + esc(occupant ? baseName(occupant.instrument) : 'Frei') + '</span>', {'data-rw-di-device':item.id,'data-rw-di-channel':channel,'data-rw-row':row.id,'aria-label':deviceName(item) + ' Kanal ' + channel + ' · ' + (occupant?.instrument || 'Frei')}, {className:(compact ? 'rw-di-port-compact ' : '') + (chosen ? 'rw-connected' : ''),pressed:chosen,disabled:!!occupant && !chosen,mutation:true});
+        const side = occupant?.stereoGroup ? occupant.mode === 'Stereo R' ? 'R' : 'L' : '', label = occupant ? side ? baseName(occupant.instrument) + ' · ' + side : occupant.instrument : 'Frei';
+        return button('<b>' + channel + '</b><span>' + esc(label) + '</span>', {'data-rw-di-device':item.id,'data-rw-di-channel':channel,'data-rw-row':row.id,'aria-label':deviceName(item) + ' Eingang ' + channel + ' · ' + label}, {className:(compact ? 'rw-di-port-compact ' : '') + (chosen ? 'rw-connected' : ''),pressed:chosen,disabled:!!occupant && !chosen,mutation:true});
       }).join('') + '</div>';
+    }
+
+    function diStereoControl(row, item) {
+      if (diChannels(item) < 2) return '';
+      const pair = stereoRows([row],'inputs'), shared = pair.length === 2 && pair.every(member => member.diDeviceId === item.id);
+      if (shared) return '<p class="rw-di-stereo-status">Gemeinsame DI · ' + (row.mode === 'Stereo R' ? 'R' : 'L') + ' → Eingang ' + Number(row.diChannel) + '</p>';
+      if (readonly() || !state.diStereoSources?.[sourceId(row)] || ![1,2].includes(Number(row.portIndex)) || row.origin === 'pickup' || /:(?:pickup|audio)-/.test(row.sourceKey)) return '';
+      return button('L + R anschließen', {'data-rw-di-stereo':row.id,'data-rw-di-stereo-device':item.id,'data-rw-row':row.id,'aria-label':'Beide Ausgänge an ' + deviceName(item) + ' anschließen'}, {className:'rw-di-stereo-connect',mutation:true});
     }
 
     function diEditor(row) {
@@ -227,7 +236,7 @@
       } else {
         const title = kind === 'DI' ? di ? deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
         content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (readonly() ? kind === 'DI' && di ? esc(diDetails(di)) : 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
-        if (kind === 'DI' && di) content += diPortButtons(row,di,true);
+        if (kind === 'DI' && di) content += diPortButtons(row,di,true) + diStereoControl(row,di);
         if (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V')) content += button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true});
         if (editing) editor = '<div class="rw-card-editor">' + (kind === 'DI' ? diEditor(row) : '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Mikrofonname', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'})) + '</div>';
       }
@@ -398,7 +407,8 @@
         if (result !== false) closeDiPicker();
         return result;
       }
-      if (data.rwDiDevice) return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});
+      if (data.rwDiStereo) return doAction({type:'connectStereoDi',rowId:data.rwDiStereo,deviceId:data.rwDiStereoDevice},{close:true});
+      if (data.rwDiDevice) {if(route(data.rwRow)?.diDeviceId === data.rwDiDevice && Number(route(data.rwRow)?.diChannel) === Number(data.rwDiChannel))return;return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});}
       if (data.rwDeviceValue) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceValue]:data.rwDeviceValue === 'channels' ? Number(data.rwValue) : data.rwDeviceValue === 'active' ? data.rwValue === 'true' : data.rwValue}});
       if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
       if (data.rwUnpatch) return doAction({type:'unpatch',direction:data.rwDirection,rowIds:splitIds(data.rwUnpatch)},{close:true});

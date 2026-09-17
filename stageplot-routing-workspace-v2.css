@@ -170,6 +170,8 @@
 #sp-prototype .rw-di-ports .rw-button {flex:1;display:flex;align-items:center;gap:5px;font-size:10px;padding:6px;min-height:31px;text-align:left;}
 #sp-prototype .rw-di-ports .rw-button span {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #sp-prototype .rw-di-ports .rw-button:disabled:not([aria-pressed="true"]) {background:var(--rw-soft);color:var(--rw-muted);opacity:.65;}
+#sp-prototype .rw-button.rw-di-stereo-connect {width:100%;min-height:36px;border-color:var(--rw-accent);color:var(--rw-accent);background:var(--rw-highlight);}
+#sp-prototype .rw-di-stereo-status {margin:0;font-size:10px;line-height:1.5;color:var(--rw-muted);}
 #sp-prototype .rw-model-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}
 #sp-prototype .rw-model-tile {display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;padding:9px 7px;text-align:center;}
 #sp-prototype .rw-model-tile strong {font-size:11px;font-weight:600;line-height:1.3;}

@@ -1,7 +1,12 @@
 // Embedded in the app closure. All workspace edits use the existing draft, undo and export state.
 let routingWorkspaceV2=null;
 function routingWorkspaceState(){
-  return {tab:routingTab,readonly:sharedReadOnly,saveState:{text:$('sp-header-draft-status').textContent,state:draftState},stage,objects,routing:stage.routing,boxes:allRoutingStageboxes(),catalog:byId,microphones:StageplotMics.catalog,diModels:StageplotRoutingModel.diModels};
+  return {tab:routingTab,readonly:sharedReadOnly,saveState:{text:$('sp-header-draft-status').textContent,state:draftState},stage,objects,routing:stage.routing,boxes:allRoutingStageboxes(),catalog:byId,microphones:StageplotMics.catalog,diModels:StageplotRoutingModel.diModels,diStereoSources:Object.fromEntries(objects.map(o=>[o.id,routingDiStereoSource(o)]))};
+}
+function routingDiStereoSource(o){
+  const c=byId[o?.type];if(!c?.instrument||drumModel.isDrums(o.type)||['percussion','orchestra','di'].includes(o.type))return false;
+  const io=objectIo(o),defaults=defaultObjectIo(o);
+  return ['XLR','Klinke'].includes(io.outputs.connector)&&objectOutputSignal(o,io.outputs.connector)==='Line'&&Math.max(io.outputs.count,defaults.outputs.count)>=2;
 }
 function drawRoutingStage(host,ids=[]){
   if(!stage)return;
@@ -38,6 +43,47 @@ function routingWorkspaceMembers(direction,ids){
   const rows=stage.routing[direction],selected=(ids||[]).map(id=>routingEditableRow(direction,id)),members=[];
   for(const row of selected)for(const member of audioOrderedGroup(rows,row))if(!members.some(item=>item.id===member.id)){routingEditableRow(direction,member.id);members.push(member);}
   if(!members.length)throw Error('Bitte ein Signal wählen.');return members;
+}
+function connectRoutingStereoDi(action){
+  const selected=routingEditableRow('inputs',action.rowId),source=routeSourceObject(selected);
+  if(!routingDiStereoSource(source))throw Error('Diese Quelle hat keine zwei analogen Line-Ausgänge.');
+  const device=stage.routing.devices?.find(item=>item.id===action.deviceId);
+  if(!device||device.channels<2)throw Error('Für L und R wird eine DI-Box mit zwei Eingängen benötigt.');
+  if(device.objectId&&objects.find(o=>o.id===device.objectId)?.locked)throw Error('Die DI-Box ist gesperrt.');
+  const keys=[0,1].map(index=>source.id+':'+objectOutputPortKey(source,index)),keySet=new Set(keys);
+  if(!keySet.has(selected.sourceKey))throw Error('Bitte einen der beiden Geräteausgänge auswählen.');
+  const all=[...stage.routing.inputs,...stage.routing.outputs];
+  if(all.some(row=>(row.linkedSources||[]).some(member=>keySet.has(member.sourceKey)))||stage.routing.inputs.some(row=>keySet.has(row.sourceKey)&&(row.linkedSources||[]).length))throw Error('Die Geräteausgänge sind mit weiteren Signalen verbunden. Zuerst den gemeinsamen Signalweg trennen.');
+  if(stage.routing.outputs.some(row=>keySet.has(row.sourceKey)))throw Error('Ein Geräteausgang wird bereits in einem anderen Signalweg verwendet.');
+  const current=stage.routing.inputs.filter(row=>keySet.has(row.sourceKey));
+  if(new Set(current.map(row=>row.sourceKey)).size!==current.length)throw Error('Ein Geräteausgang wird bereits mehrfach verwendet.');
+  for(const row of current){
+    routingEditableRow('inputs',row.id);
+    if(row.pickup==='Digital'||['Dante','MADI','USB','Digital'].includes(row.connector))throw Error('Ein digitales Signal kann nicht durch eine analoge DI-Box geführt werden.');
+    if(row.stereoGroup&&stage.routing.inputs.some(other=>other.stereoGroup===row.stereoGroup&&!keySet.has(other.sourceKey)))throw Error('Ein Geräteausgang ist bereits mit einem anderen Stereosignal verbunden.');
+  }
+  const selectedIds=new Set(current.map(row=>row.id));
+  if(stage.routing.inputs.some(row=>row.diDeviceId===device.id&&[1,2].includes(Number(row.diChannel))&&!selectedIds.has(row.id)))throw Error('Ein benötigter DI-Eingang ist bereits belegt.');
+  const io=objectIo(source),pair=keys.map(key=>current.find(row=>row.sourceKey===key));
+  if(io.outputs.count>=2&&io.stereoPairs.includes(1)&&pair.every((row,index)=>row&&row.diDeviceId===device.id&&Number(row.diChannel)===index+1&&row.mode==='Stereo '+(index?'R':'L'))&&pair[0].stereoGroup&&pair[0].stereoGroup===pair[1].stereoGroup)return false;
+  const originals=new Map(current.map(row=>[row.sourceKey,{...row}]));
+  source.io={...io,outputs:{...io.outputs,count:Math.max(2,io.outputs.count)},stereoPairs:[...new Set([1,...io.stereoPairs])].sort((a,b)=>a-b),aliases:{...io.aliases,outputs:Array.from({length:Math.max(2,io.outputs.count)},(_,index)=>io.aliases.outputs[index]||'')}};
+  source.outs=ioValueText(source.io.outputs,'outputs');
+  stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>!keySet.has(key));
+  // Reconciliation owns physical output IDs, including legacy configured-out keys.
+  // It replaces stage.routing, so all rows and the device are looked up again below.
+  syncRoutingFromStage(false,false);
+  const routing=stage.routing,rows=keys.map(key=>routing.inputs.find(row=>row.sourceKey===key));
+  if(rows.some(row=>!row))throw Error('Die Geräteausgänge konnten nicht aktiviert werden.');
+  const group=pair[0]?.stereoGroup&&pair[0].stereoGroup===pair[1]?.stereoGroup?pair[0].stereoGroup:source.id+':stereo-out-1';
+  rows.forEach((row,index)=>{
+    const original=originals.get(row.sourceKey),generatedInstrument=row.generatedInstrument;
+    if(original)Object.assign(row,original,{generatedInstrument});
+    Object.assign(row,{portIndex:index+1,mode:'Stereo '+(index?'R':'L'),stereoGroup:group,edited:true});
+  });
+  StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,[1,2]);
+  rows.forEach(writeRoutingPickup);
+  return true;
 }
 function writeRoutingPickup(row){
   StageplotMics.writeDrumRoute(objects,row,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));
@@ -98,6 +144,7 @@ function dispatchRoutingWorkspace(action){
         const box=routingStageboxes('inputs').find(box=>box.id===row.stagebox);if(box&&!routeStageboxCompatible(row,'inputs',box)){row.stagebox='';row.stageboxPort=null;}writeRoutingPickup(row);break;}
       case 'createDi':{const row=routingEditableRow('inputs',action.rowId),device=StageplotRoutingModel.createDevice(routing,Object.fromEntries(Object.entries({modelId:action.modelId,name:action.name,channels:action.channels,active:action.active,power:action.power||(action.phantom===false?'none':undefined)}).filter(([,value])=>value!==undefined)));StageplotRoutingModel.assignDevice(routing,[row.id],device.id,[1]);writeRoutingPickup(row);break;}
       case 'assignDi':{const row=routingEditableRow('inputs',action.rowId);StageplotRoutingModel.assignDevice(routing,[row.id],action.deviceId,[Number(action.channel)]);writeRoutingPickup(row);break;}
+      case 'connectStereoDi':if(connectRoutingStereoDi(action)===false)return;break;
       case 'updateDi':{const occupants=routing.inputs.filter(row=>row.diDeviceId===action.deviceId);occupants.forEach(row=>routingEditableRow('inputs',row.id));StageplotRoutingModel.updateDevice(routing,action.deviceId,action.fields);occupants.forEach(writeRoutingPickup);break;}
       case 'patch':{const rows=routing[direction],members=routingWorkspaceMembers(direction,action.rowIds),box=routingStageboxes(direction).find(box=>box.id===action.boxId);if(!box)throw Error('Stagebox nicht gefunden.');applyAudioPatchPlan(rows,planAudioPatch(rows,members,box,direction,{startPort:Number(action.port)}));break;}
       case 'unpatch':for(const row of routingWorkspaceMembers(direction,action.rowIds))Object.assign(row,{stagebox:'',stageboxPort:null});break;

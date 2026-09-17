@@ -735,16 +735,16 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.17">v0.1.0-beta.17</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.18">v0.1.0-beta.18</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.17</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.18</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
             <h4>Instrumente, Routing und Bearbeitung</h4>
             <ul>
               <li><strong>Instrumentbilder:</strong> Neue generierte Bilder für elf E-Gitarrenmodelle, Akustikgitarren, Banjo, Mandoline, Lap Steel und Ukulele. Alle Katalogmikrofone haben echte Fotos; MD 421 Kompakt ist ergänzt.</li>
               <li><strong>Bässe:</strong> Neue Bildassets für J-Bass, P-Bass, PJ-Bass, Shortscale, Mustang, Akustikbass, Kontrabass, Höfner Violin Bass und Rickenbacker 4003. Alle neun sind unter „Bass“ auswählbar; der Kontrabass bleibt auch unter „Streicher“ und im Orchester-Editor verfügbar.</li>
               <li><strong>Drums &amp; Percussion:</strong> Größere Arbeitsfläche mit Zoom. Drumset, Cajon, Becken und Vocal-Boom kombinieren; Cajon vorne oder hinten mit frei wählbaren Mikrofonen abnehmen. Neue Bilder für Cajon und Vocal-Boom.</li>
-              <li><strong>Routing:</strong> Neue Ansichten für Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen und beleuchteter Draufsicht. Abnahmeart und Anschluss direkt in kompakten Karten wählen; Direktausgänge wiederholen das Instrumentbild nicht mehr. Weitere Abnahmen und Dual Mono zeigen getrennte Wege mit feinen Pfeilen. Mono-Quellen können einzelne Eingänge einer Stereo-DI nutzen.</li>
+              <li><strong>Routing:</strong> Neue Ansichten für Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen und beleuchteter Draufsicht. Abnahmeart und Anschluss direkt in kompakten Karten wählen; Direktausgänge wiederholen das Instrumentbild nicht mehr. Weitere Abnahmen und Dual Mono zeigen getrennte Wege mit feinen Pfeilen. Mono-Quellen können einzelne Eingänge einer Stereo-DI nutzen. „L + R anschließen“ verbindet beide Instrumentausgänge mit Eingang 1 und 2 derselben DI-Box.</li>
               <li><strong>DI-Auswahl:</strong> Kompaktes Popup mit sieben gleich großen Kacheln: echte Produktfotos von Radial J48, J48 Stereo und ProD2 sowie vier generische DIs für aktiv/passiv und Mono/Stereo.</li>
               <li><strong>Bearbeitung:</strong> Beschriftungen und freie Notizen per Doppelklick bearbeiten, mehrere Objekte mit Cmd-/Strg-Klick auswählen. Treppenstufen im Popup einstellen und einzelne Streicher direkt bearbeiten. Neue Akkordeons sind um 180° gedreht.</li>
               <li><strong>PDF und Speicherung:</strong> Schlagzeug und Instrumentbilder werden vollständig gedruckt. Hinweise erklären die Speicherung im Browser, mögliche Datenverluste und Sicherungsdateien. Platzprobleme in der Handyansicht sind behoben.</li>
@@ -800,7 +800,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.17 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.18 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -6776,6 +6776,8 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .rw-di-ports .rw-button {flex:1;display:flex;align-items:center;gap:5px;font-size:10px;padding:6px;min-height:31px;text-align:left;}
 #sp-prototype .rw-di-ports .rw-button span {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #sp-prototype .rw-di-ports .rw-button:disabled:not([aria-pressed="true"]) {background:var(--rw-soft);color:var(--rw-muted);opacity:.65;}
+#sp-prototype .rw-button.rw-di-stereo-connect {width:100%;min-height:36px;border-color:var(--rw-accent);color:var(--rw-accent);background:var(--rw-highlight);}
+#sp-prototype .rw-di-stereo-status {margin:0;font-size:10px;line-height:1.5;color:var(--rw-muted);}
 #sp-prototype .rw-model-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}
 #sp-prototype .rw-model-tile {display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;padding:9px 7px;text-align:center;}
 #sp-prototype .rw-model-tile strong {font-size:11px;font-weight:600;line-height:1.3;}
@@ -7321,8 +7323,17 @@ html,body { height:100%; overflow:hidden; }
       const rows = state.routing.inputs || [];
       return '<div class="rw-di-ports" role="group" aria-label="Anschlüsse der DI-Box">' + Array.from({length:diChannels(item)}, (_, index) => {
         const channel = index + 1, occupant = rows.find(other => other.diDeviceId === item.id && Number(other.diChannel) === channel), chosen = occupant?.id === row.id;
-        return button('<b>' + channel + '</b><span>' + esc(occupant ? baseName(occupant.instrument) : 'Frei') + '</span>', {'data-rw-di-device':item.id,'data-rw-di-channel':channel,'data-rw-row':row.id,'aria-label':deviceName(item) + ' Kanal ' + channel + ' · ' + (occupant?.instrument || 'Frei')}, {className:(compact ? 'rw-di-port-compact ' : '') + (chosen ? 'rw-connected' : ''),pressed:chosen,disabled:!!occupant && !chosen,mutation:true});
+        const side = occupant?.stereoGroup ? occupant.mode === 'Stereo R' ? 'R' : 'L' : '', label = occupant ? side ? baseName(occupant.instrument) + ' · ' + side : occupant.instrument : 'Frei';
+        return button('<b>' + channel + '</b><span>' + esc(label) + '</span>', {'data-rw-di-device':item.id,'data-rw-di-channel':channel,'data-rw-row':row.id,'aria-label':deviceName(item) + ' Eingang ' + channel + ' · ' + label}, {className:(compact ? 'rw-di-port-compact ' : '') + (chosen ? 'rw-connected' : ''),pressed:chosen,disabled:!!occupant && !chosen,mutation:true});
       }).join('') + '</div>';
+    }
+
+    function diStereoControl(row, item) {
+      if (diChannels(item) < 2) return '';
+      const pair = stereoRows([row],'inputs'), shared = pair.length === 2 && pair.every(member => member.diDeviceId === item.id);
+      if (shared) return '<p class="rw-di-stereo-status">Gemeinsame DI · ' + (row.mode === 'Stereo R' ? 'R' : 'L') + ' → Eingang ' + Number(row.diChannel) + '</p>';
+      if (readonly() || !state.diStereoSources?.[sourceId(row)] || ![1,2].includes(Number(row.portIndex)) || row.origin === 'pickup' || /:(?:pickup|audio)-/.test(row.sourceKey)) return '';
+      return button('L + R anschließen', {'data-rw-di-stereo':row.id,'data-rw-di-stereo-device':item.id,'data-rw-row':row.id,'aria-label':'Beide Ausgänge an ' + deviceName(item) + ' anschließen'}, {className:'rw-di-stereo-connect',mutation:true});
     }
 
     function diEditor(row) {
@@ -7387,7 +7398,7 @@ html,body { height:100%; overflow:hidden; }
       } else {
         const title = kind === 'DI' ? di ? deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
         content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (readonly() ? kind === 'DI' && di ? esc(diDetails(di)) : 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
-        if (kind === 'DI' && di) content += diPortButtons(row,di,true);
+        if (kind === 'DI' && di) content += diPortButtons(row,di,true) + diStereoControl(row,di);
         if (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V')) content += button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true});
         if (editing) editor = '<div class="rw-card-editor">' + (kind === 'DI' ? diEditor(row) : '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Mikrofonname', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'})) + '</div>';
       }
@@ -7558,7 +7569,8 @@ html,body { height:100%; overflow:hidden; }
         if (result !== false) closeDiPicker();
         return result;
       }
-      if (data.rwDiDevice) return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});
+      if (data.rwDiStereo) return doAction({type:'connectStereoDi',rowId:data.rwDiStereo,deviceId:data.rwDiStereoDevice},{close:true});
+      if (data.rwDiDevice) {if(route(data.rwRow)?.diDeviceId === data.rwDiDevice && Number(route(data.rwRow)?.diChannel) === Number(data.rwDiChannel))return;return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});}
       if (data.rwDeviceValue) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceValue]:data.rwDeviceValue === 'channels' ? Number(data.rwValue) : data.rwDeviceValue === 'active' ? data.rwValue === 'true' : data.rwValue}});
       if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
       if (data.rwUnpatch) return doAction({type:'unpatch',direction:data.rwDirection,rowIds:splitIds(data.rwUnpatch)},{close:true});
@@ -13215,7 +13227,12 @@ function createStageplotSymbolV3(type, options = {}) {
 // Embedded in the app closure. All workspace edits use the existing draft, undo and export state.
 let routingWorkspaceV2=null;
 function routingWorkspaceState(){
-  return {tab:routingTab,readonly:sharedReadOnly,saveState:{text:$('sp-header-draft-status').textContent,state:draftState},stage,objects,routing:stage.routing,boxes:allRoutingStageboxes(),catalog:byId,microphones:StageplotMics.catalog,diModels:StageplotRoutingModel.diModels};
+  return {tab:routingTab,readonly:sharedReadOnly,saveState:{text:$('sp-header-draft-status').textContent,state:draftState},stage,objects,routing:stage.routing,boxes:allRoutingStageboxes(),catalog:byId,microphones:StageplotMics.catalog,diModels:StageplotRoutingModel.diModels,diStereoSources:Object.fromEntries(objects.map(o=>[o.id,routingDiStereoSource(o)]))};
+}
+function routingDiStereoSource(o){
+  const c=byId[o?.type];if(!c?.instrument||drumModel.isDrums(o.type)||['percussion','orchestra','di'].includes(o.type))return false;
+  const io=objectIo(o),defaults=defaultObjectIo(o);
+  return ['XLR','Klinke'].includes(io.outputs.connector)&&objectOutputSignal(o,io.outputs.connector)==='Line'&&Math.max(io.outputs.count,defaults.outputs.count)>=2;
 }
 function drawRoutingStage(host,ids=[]){
   if(!stage)return;
@@ -13252,6 +13269,47 @@ function routingWorkspaceMembers(direction,ids){
   const rows=stage.routing[direction],selected=(ids||[]).map(id=>routingEditableRow(direction,id)),members=[];
   for(const row of selected)for(const member of audioOrderedGroup(rows,row))if(!members.some(item=>item.id===member.id)){routingEditableRow(direction,member.id);members.push(member);}
   if(!members.length)throw Error('Bitte ein Signal wählen.');return members;
+}
+function connectRoutingStereoDi(action){
+  const selected=routingEditableRow('inputs',action.rowId),source=routeSourceObject(selected);
+  if(!routingDiStereoSource(source))throw Error('Diese Quelle hat keine zwei analogen Line-Ausgänge.');
+  const device=stage.routing.devices?.find(item=>item.id===action.deviceId);
+  if(!device||device.channels<2)throw Error('Für L und R wird eine DI-Box mit zwei Eingängen benötigt.');
+  if(device.objectId&&objects.find(o=>o.id===device.objectId)?.locked)throw Error('Die DI-Box ist gesperrt.');
+  const keys=[0,1].map(index=>source.id+':'+objectOutputPortKey(source,index)),keySet=new Set(keys);
+  if(!keySet.has(selected.sourceKey))throw Error('Bitte einen der beiden Geräteausgänge auswählen.');
+  const all=[...stage.routing.inputs,...stage.routing.outputs];
+  if(all.some(row=>(row.linkedSources||[]).some(member=>keySet.has(member.sourceKey)))||stage.routing.inputs.some(row=>keySet.has(row.sourceKey)&&(row.linkedSources||[]).length))throw Error('Die Geräteausgänge sind mit weiteren Signalen verbunden. Zuerst den gemeinsamen Signalweg trennen.');
+  if(stage.routing.outputs.some(row=>keySet.has(row.sourceKey)))throw Error('Ein Geräteausgang wird bereits in einem anderen Signalweg verwendet.');
+  const current=stage.routing.inputs.filter(row=>keySet.has(row.sourceKey));
+  if(new Set(current.map(row=>row.sourceKey)).size!==current.length)throw Error('Ein Geräteausgang wird bereits mehrfach verwendet.');
+  for(const row of current){
+    routingEditableRow('inputs',row.id);
+    if(row.pickup==='Digital'||['Dante','MADI','USB','Digital'].includes(row.connector))throw Error('Ein digitales Signal kann nicht durch eine analoge DI-Box geführt werden.');
+    if(row.stereoGroup&&stage.routing.inputs.some(other=>other.stereoGroup===row.stereoGroup&&!keySet.has(other.sourceKey)))throw Error('Ein Geräteausgang ist bereits mit einem anderen Stereosignal verbunden.');
+  }
+  const selectedIds=new Set(current.map(row=>row.id));
+  if(stage.routing.inputs.some(row=>row.diDeviceId===device.id&&[1,2].includes(Number(row.diChannel))&&!selectedIds.has(row.id)))throw Error('Ein benötigter DI-Eingang ist bereits belegt.');
+  const io=objectIo(source),pair=keys.map(key=>current.find(row=>row.sourceKey===key));
+  if(io.outputs.count>=2&&io.stereoPairs.includes(1)&&pair.every((row,index)=>row&&row.diDeviceId===device.id&&Number(row.diChannel)===index+1&&row.mode==='Stereo '+(index?'R':'L'))&&pair[0].stereoGroup&&pair[0].stereoGroup===pair[1].stereoGroup)return false;
+  const originals=new Map(current.map(row=>[row.sourceKey,{...row}]));
+  source.io={...io,outputs:{...io.outputs,count:Math.max(2,io.outputs.count)},stereoPairs:[...new Set([1,...io.stereoPairs])].sort((a,b)=>a-b),aliases:{...io.aliases,outputs:Array.from({length:Math.max(2,io.outputs.count)},(_,index)=>io.aliases.outputs[index]||'')}};
+  source.outs=ioValueText(source.io.outputs,'outputs');
+  stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>!keySet.has(key));
+  // Reconciliation owns physical output IDs, including legacy configured-out keys.
+  // It replaces stage.routing, so all rows and the device are looked up again below.
+  syncRoutingFromStage(false,false);
+  const routing=stage.routing,rows=keys.map(key=>routing.inputs.find(row=>row.sourceKey===key));
+  if(rows.some(row=>!row))throw Error('Die Geräteausgänge konnten nicht aktiviert werden.');
+  const group=pair[0]?.stereoGroup&&pair[0].stereoGroup===pair[1]?.stereoGroup?pair[0].stereoGroup:source.id+':stereo-out-1';
+  rows.forEach((row,index)=>{
+    const original=originals.get(row.sourceKey),generatedInstrument=row.generatedInstrument;
+    if(original)Object.assign(row,original,{generatedInstrument});
+    Object.assign(row,{portIndex:index+1,mode:'Stereo '+(index?'R':'L'),stereoGroup:group,edited:true});
+  });
+  StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,[1,2]);
+  rows.forEach(writeRoutingPickup);
+  return true;
 }
 function writeRoutingPickup(row){
   StageplotMics.writeDrumRoute(objects,row,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));
@@ -13312,6 +13370,7 @@ function dispatchRoutingWorkspace(action){
         const box=routingStageboxes('inputs').find(box=>box.id===row.stagebox);if(box&&!routeStageboxCompatible(row,'inputs',box)){row.stagebox='';row.stageboxPort=null;}writeRoutingPickup(row);break;}
       case 'createDi':{const row=routingEditableRow('inputs',action.rowId),device=StageplotRoutingModel.createDevice(routing,Object.fromEntries(Object.entries({modelId:action.modelId,name:action.name,channels:action.channels,active:action.active,power:action.power||(action.phantom===false?'none':undefined)}).filter(([,value])=>value!==undefined)));StageplotRoutingModel.assignDevice(routing,[row.id],device.id,[1]);writeRoutingPickup(row);break;}
       case 'assignDi':{const row=routingEditableRow('inputs',action.rowId);StageplotRoutingModel.assignDevice(routing,[row.id],action.deviceId,[Number(action.channel)]);writeRoutingPickup(row);break;}
+      case 'connectStereoDi':if(connectRoutingStereoDi(action)===false)return;break;
       case 'updateDi':{const occupants=routing.inputs.filter(row=>row.diDeviceId===action.deviceId);occupants.forEach(row=>routingEditableRow('inputs',row.id));StageplotRoutingModel.updateDevice(routing,action.deviceId,action.fields);occupants.forEach(writeRoutingPickup);break;}
       case 'patch':{const rows=routing[direction],members=routingWorkspaceMembers(direction,action.rowIds),box=routingStageboxes(direction).find(box=>box.id===action.boxId);if(!box)throw Error('Stagebox nicht gefunden.');applyAudioPatchPlan(rows,planAudioPatch(rows,members,box,direction,{startPort:Number(action.port)}));break;}
       case 'unpatch':for(const row of routingWorkspaceMembers(direction,action.rowIds))Object.assign(row,{stagebox:'',stageboxPort:null});break;
