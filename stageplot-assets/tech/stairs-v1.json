@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "description": "Approved generated stage stairs, orthographic overhead. Reassembled from fixed-size corners, stretchable rims and repeatable deck texture.",
+  "source": "stairs-approved-v1.webp",
+  "generator": "Built-in image generation",
+  "approved": "2026-09-17",
+  "shadow": {
+    "lowerTread": 0.27,
+    "contact": 0.16,
+    "contactDepth": 0.05
+  },
+  "sourceDimensions": [
+    1254,
+    1254
+  ],
+  "parts": [
+    {
+      "name": "surface",
+      "file": "stairs-surface-v1.webp",
+      "crop": [
+        385,
+        150,
+        256,
+        128
+      ]
+    },
+    {
+      "name": "top-left",
+      "file": "stairs-top-left-v1.webp",
+      "crop": [
+        154,
+        110,
+        36,
+        40
+      ]
+    },
+    {
+      "name": "top",
+      "file": "stairs-top-v1.webp",
+      "crop": [
+        190,
+        110,
+        848,
+        40
+      ]
+    },
+    {
+      "name": "top-right",
+      "file": "stairs-top-right-v1.webp",
+      "crop": [
+        1038,
+        110,
+        36,
+        40
+      ]
+    },
+    {
+      "name": "left",
+      "file": "stairs-left-v1.webp",
+      "crop": [
+        154,
+        150,
+        36,
+        144
+      ]
+    },
+    {
+      "name": "right",
+      "file": "stairs-right-v1.webp",
+      "crop": [
+        1038,
+        150,
+        36,
+        144
+      ]
+    },
+    {
+      "name": "bottom-left",
+      "file": "stairs-bottom-left-v1.webp",
+      "crop": [
+        154,
+        294,
+        36,
+        66
+      ]
+    },
+    {
+      "name": "bottom",
+      "file": "stairs-bottom-v1.webp",
+      "crop": [
+        190,
+        294,
+        848,
+        66
+      ]
+    },
+    {
+      "name": "bottom-right",
+      "file": "stairs-bottom-right-v1.webp",
+      "crop": [
+        1038,
+        294,
+        36,
+        66
+      ]
+    },
+    {
+      "name": "rail-top",
+      "file": "stairs-rail-top-v1.webp",
+      "crop": [
+        117,
+        102,
+        21,
+        30
+      ]
+    },
+    {
+      "name": "rail",
+      "file": "stairs-rail-v1.webp",
+      "crop": [
+        117,
+        146,
+        21,
+        956
+      ]
+    },
+    {
+      "name": "rail-bottom",
+      "file": "stairs-rail-bottom-v1.webp",
+      "crop": [
+        117,
+        1104,
+        21,
+        38
+      ]
+    }
+  ],
+  "designBrief": "True orthographic top view of a typical portable stage staircase, four equal black anti-slip treads, silver aluminium nosings and screws, slim side stringers, no handrails or background, lightly drawn realistic style matching the drum assets.",
+  "provenance": "Existing generated preview explicitly approved by the user before integration; no new illustration was substituted. Source image exec-776d69a6-d080-43c3-b5a3-64ffba86d5b0.png."
+}

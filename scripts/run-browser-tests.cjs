@@ -1,7 +1,7 @@
 const {spawn}=require('node:child_process');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const checks=['check-routing-workspace-v2.cjs','check-project-dashboard.cjs','check-mobile-library.cjs','check-mobile-routing.cjs','check-project-actions.cjs','check-share-navigation.cjs','check-project-sharing.cjs','check-venue-editor.cjs','check-mic-head-direction.cjs','check-mic-layers.cjs','check-mobile-stage.cjs','check-new-project.cjs','check-theme-switch.cjs','check-print-assets.cjs'];
+const checks=['check-routing-workspace-v2.cjs','check-project-dashboard.cjs','check-mobile-library.cjs','check-mobile-routing.cjs','check-project-actions.cjs','check-share-navigation.cjs','check-project-sharing.cjs','check-venue-editor.cjs','check-stairs.cjs','check-mic-head-direction.cjs','check-mic-layers.cjs','check-mobile-stage.cjs','check-new-project.cjs','check-theme-switch.cjs','check-print-assets.cjs'];
 function run(file,env){
   return new Promise((resolve,reject)=>{
     const child=spawn(process.execPath,[path.join(__dirname,file)],{cwd:root,env,stdio:'inherit'});
