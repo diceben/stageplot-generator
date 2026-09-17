@@ -11,10 +11,10 @@ const fixture=(id,type,connector='XLR',count=1)=>({id,type,label:id,x:1,y:1,io:{
 function harness(list=[]){
   const nodes=new Map(),ctx={StageplotRoutingModel:require('./stageplot-routing-model-v2.js'),StageplotMics:require('./stageplot-mics-v1.js'),StageplotIem:require('./stageplot-iem-v1.js'),
     stage:{title:'Routing QA',w:8,d:6,routing:{inputs:[],outputs:[],devices:[],disabledSources:[]},cables:[]},objects:clone(list),history:[],future:[],sharedReadOnly:false,routingTab:'inputs',activeStageboxId:'',nextId:20,token:0,renders:0,saves:0,undoCalls:0,autoCalls:0,
-    byId:{guitar:{instrument:true,category:'guitars',short:'Guitar',name:'Gitarre'},keys:{instrument:true,category:'keys',short:'Keys',name:'Keys'},rack:{name:'IEM Rack'},wedge:{name:'Wedge'},'iem-earphones':{},'stagebox-8':{short:'Stagebox A'}},
+    byId:{guitar:{instrument:true,category:'guitars',short:'Guitar',name:'Gitarre'},keys:{instrument:true,category:'keys',short:'Keys',name:'Keys'},'keys-wave2':{instrument:true,category:'keys',short:'Wave 2',name:'Nord Wave 2'},'keys-stage4':{instrument:true,category:'keys',short:'Stage 4',name:'Nord Stage 4'},'keys-bassstation2':{instrument:true,category:'keys',short:'Bass Station',name:'Bass Station'},mic:{instrument:true,name:'Mic'},di:{name:'DI'},rack:{name:'IEM Rack'},wedge:{name:'Wedge'},'iem-earphones':{},'stagebox-8':{short:'Stagebox A'}},
     stageboxCapacity:{'stagebox-8':{inputs:8,outputs:4}},routeModes:new Set(['Mono','Stereo L','Stereo R','Mic','DI','Direct']),routeSignals:new Set(['Mic','Line','Instrument','Digital']),
     projectText:(value,max)=>String(value??'').slice(0,max),normalizeIoConnector:(value,fallback='XLR')=>['XLR','Klinke','USB','Digital','MADI','Dante'].includes(value)?value:fallback,
-    objectIo:o=>o.io||{inputs:{count:0,connector:'XLR'},outputs:{count:0,connector:'XLR'},stereoPairs:[],aliases:{inputs:[],outputs:[]}},ioAliasText:value=>value||'',ioAliasAt:()=>'',
+    ioConnectorValues:['XLR','Klinke','USB','Digital','MADI','Dante'],
     drumModel:{isDrums:()=>false},routeToken:()=>String(++ctx.token),queueDraftSave(){},reconcileCablesWithRouting(){},say(){},isObjectUnlocked:()=>true,
     makeObject:(type,position,id)=>({...fixture(id,type),...position,...(type==='rack'?{iemMixes:[{id:'main',name:'IEM 1',mode:'stereo',transport:'wireless',ports:['iem-l','iem-r']}]}:{})}),
     $:id=>{if(!nodes.has(id))nodes.set(id,{disabled:false});return nodes.get(id);},
@@ -25,8 +25,8 @@ function harness(list=[]){
   ctx.undo=()=>ctx.undoCalls++;ctx.autoAssignRouting=()=>ctx.autoCalls++;
   vm.createContext(ctx);
   vm.runInContext(audio.slice(0,audio.indexOf("$('sp-audio-object').addEventListener")),ctx);
-  vm.runInContext(['normalizeRouteChannel','normalizeRouting','objectOutputPortKey','objectOutputBaseName','objectOutputSignal','generatedInputSpecs','generatedOutputSpecs','reconcileRouteList','syncRoutingFromStage','routingStageboxes','routeSourceObject','keepHistory'].map(extract).join('\n'),ctx);
-  for(const name of ['normalizeIemConfig','routeNeedsDi','routeStageboxCompatible','routeSpec'])vm.runInContext(html.match(new RegExp('^  const '+name+'=[^\\n]+','m'))[0],ctx);
+  vm.runInContext(['normalizeRouteChannel','normalizeRouting','parseIoValue','defaultObjectIo','normalizeObjectIo','objectOutputPortKey','objectOutputBaseName','objectOutputSignal','generatedInputSpecs','generatedOutputSpecs','reconcileRouteList','syncRoutingFromStage','routingStageboxes','routeSourceObject','keepHistory'].map(extract).join('\n'),ctx);
+  for(const name of ['normalizeIemConfig','routeNeedsDi','routeStageboxCompatible','routeSpec','ioValueText','parseOutsValue','ioAliasText','normalizeIoAliasList','objectIo','ioAliasAt'])vm.runInContext(html.match(new RegExp('^  const '+name+'=[^\\n]+','m'))[0],ctx);
   vm.runInContext(host,ctx);vm.runInContext('renderRouting=()=>{renders++};',ctx);
   ctx.syncRoutingFromStage(false,false);return ctx;
 }
@@ -76,6 +76,272 @@ test('Mono sources share one stereo DI and occupied DI inputs remain atomic',()=
   c.dispatchRoutingWorkspace({type:'assignDi',rowId:bass.id,deviceId,channel:2});assert.equal(c.stage.routing.devices.length,1);assert(c.stage.routing.inputs.every(row=>!row.stereoGroup));
   const before=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'assignDi',rowId:bass.id,deviceId,channel:1}),/belegt/);assert.equal(c.snapshot(),before);
   c.dispatchRoutingWorkspace({type:'updateDi',deviceId,fields:{name:'Gemeinsame DI'}});assert(c.stage.routing.inputs.every(row=>row.microphone==='Gemeinsame DI'));
+});
+
+test('Stereo DI capability preserves old mono drafts and excludes mic, guitar and digital sources',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke'),fixture('guitar','guitar','Klinke'),fixture('mic','mic'),fixture('digital','keys-wave2','Dante',2),fixture('bassstation','keys-bassstation2','Klinke')]);
+  c.allRoutingStageboxes=()=>[];c.draftState='saved';const before=c.snapshot(),capability=c.routingWorkspaceState().diStereoSources;
+  assert.equal(capability.wave,true);assert.equal(capability.guitar,false);assert.equal(capability.mic,false);assert.equal(capability.digital,false);assert.equal(capability.bassstation,false);
+  assert.equal(c.snapshot(),before);c.syncRoutingFromStage(false,false);assert.equal(c.stage.routing.inputs.filter(row=>row.sourceKey.startsWith('wave:')).length,1);assert.equal(c.objects.find(o=>o.id==='wave').io.outputs.count,1);
+});
+
+test('Connect L and R expands a saved mono Wave onto the same physical DI in one undo step',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke'),fixture('box','stagebox-8')]),id=c.stage.routing.inputs[0].id;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:id,modelId:'radial-prod2'});const deviceId=getRow(c,id).diDeviceId;
+  c.dispatchRoutingWorkspace({type:'patch',rowIds:[id],boxId:'box',port:4});c.dispatchRoutingWorkspace({type:'editChannel',rowId:id,fields:{number:12,instrument:'Mein Wave links',notes:'CH bleibt'}});
+  const before=c.snapshot(),count=c.history.length,saves=c.saves;c.future=['redo-entry'];
+  c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:id,deviceId});
+  const rows=c.stage.routing.inputs.filter(row=>row.sourceKey.startsWith('wave:')).sort((a,b)=>a.portIndex-b.portIndex),left=getRow(c,id),right=rows[1];
+  assert.equal(rows.length,2);assert.equal(left.sourceKey,'wave:out-1');assert.equal(right.sourceKey,'wave:out-2');assert.equal(left.diDeviceId,deviceId);assert.equal(right.diDeviceId,deviceId);assert.equal(c.stage.routing.devices.length,1);
+  assert.deepEqual(clone(rows.map(row=>[row.diChannel,row.mode])),[[1,'Stereo L'],[2,'Stereo R']]);assert(left.stereoGroup&&left.stereoGroup===right.stereoGroup);
+  assert.deepEqual([left.number,left.instrument,left.notes,left.stagebox,left.stageboxPort],[12,'Mein Wave links','CH bleibt','box',4]);assert.equal(right.number,null);assert.equal(right.stagebox,'');assert.equal(right.stageboxPort,null);
+  assert.equal(c.objects.find(o=>o.id==='wave').io.outputs.count,2);assert.deepEqual(clone(c.objects.find(o=>o.id==='wave').io.stereoPairs),[1]);assert.equal(c.objects.find(o=>o.id==='wave').outs,'2 Outs · Klinke');
+  assert.equal(c.history.length,count+1);assert.equal(c.history.at(-1),before);assert.equal(c.saves,saves+1);assert.deepEqual(clone(c.future),[]);
+  const connected=c.snapshot();c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:right.id,deviceId});assert.equal(c.snapshot(),connected);assert.equal(c.history.length,count+1,'Repeating the completed action is a no-op.');
+  c.syncRoutingFromStage(false,false);assert.equal(c.stage.routing.inputs.length,2);assert.equal(c.stage.routing.devices.length,1);
+  const undo=JSON.parse(c.history.at(-1));c.stage=undo.stage;c.objects=undo.objects;c.syncRoutingFromStage(false,false);assert.equal(c.stage.routing.inputs.length,1);assert.equal(getRow(c,id).stageboxPort,4);assert.equal(c.objects[0].io.outputs.count,1);
+});
+
+test('A disabled native right output is reactivated without duplicating a DI or changing other outputs',()=>{
+  const source=fixture('wave','keys-wave2','Klinke',4);source.io.outputKeyStyle='configured';source.io.stereoPairs=[3];source.io.aliases.outputs=['Lead L','Lead R','Extra L','Extra R'];
+  const c=harness([source]),left=c.stage.routing.inputs[0],right=c.stage.routing.inputs[1];
+  c.dispatchRoutingWorkspace({type:'removePickup',rowId:right.id});c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-j48-stereo'});
+  const deviceId=getRow(c,left.id).diDeviceId;c.stage.routing.disabledSources.push('unrelated:out-1');
+  c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:left.id,deviceId});
+  const rows=c.stage.routing.inputs.filter(row=>row.sourceKey.startsWith('wave:'));
+  assert.deepEqual(clone(rows.map(row=>row.sourceKey)),['wave:configured-out-1','wave:configured-out-2']);assert.equal(new Set(rows.map(row=>row.diDeviceId)).size,1);assert.equal(c.stage.routing.devices.length,1);assert(rows.every(row=>row.phantom));
+  assert.deepEqual(clone(c.stage.routing.disabledSources),['unrelated:out-1']);assert.equal(c.objects[0].io.outputs.count,4);assert.deepEqual(clone(c.objects[0].io.stereoPairs),[1,3]);assert.deepEqual(clone(c.objects[0].io.aliases.outputs),source.io.aliases.outputs);assert.equal(c.objects[0].io.outputKeyStyle,'configured');
+});
+
+test('Existing left and right channels keep their IDs and patches while DI ports become 1 and 2',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke',2),fixture('box','stagebox-8')]),[left,right]=c.stage.routing.inputs;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});const deviceId=getRow(c,left.id).diDeviceId;
+  c.StageplotRoutingModel.assignDevice(c.stage.routing,[left.id,right.id],deviceId,[2,1]);
+  c.dispatchRoutingWorkspace({type:'patch',rowIds:[left.id,right.id],boxId:'box',port:5});
+  c.dispatchRoutingWorkspace({type:'editChannel',rowId:left.id,fields:{number:15,notes:'Links'}});c.dispatchRoutingWorkspace({type:'editChannel',rowId:right.id,fields:{number:16,notes:'Rechts'}});
+  const prior=c.stage.routing.inputs.map(row=>[row.id,row.sourceKey,row.number,row.stagebox,row.stageboxPort,row.notes]);
+  c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:right.id,deviceId});
+  assert.deepEqual(c.stage.routing.inputs.map(row=>[row.id,row.sourceKey,row.number,row.stagebox,row.stageboxPort,row.notes]),prior);assert.deepEqual(clone(c.stage.routing.inputs.map(row=>row.diChannel)),[1,2]);assert.equal(c.stage.routing.devices.length,1);
+});
+
+test('Stereo DI conflicts and save failures restore source IO, routing and undo state together',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke'),fixture('bass','guitar','Klinke')]),[wave,bass]=c.stage.routing.inputs;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:wave.id,modelId:'radial-prod2'});const deviceId=getRow(c,wave.id).diDeviceId;
+  c.dispatchRoutingWorkspace({type:'assignDi',rowId:bass.id,deviceId,channel:2});c.future=['redo-entry'];
+  const before=c.snapshot(),history=clone(c.history),saves=c.saves;
+  assert.throws(()=>c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:wave.id,deviceId}),/belegt/);assert.equal(c.snapshot(),before);assert.deepEqual(clone(c.history),history);assert.deepEqual(clone(c.future),['redo-entry']);assert.equal(c.saves,saves);
+  c.dispatchRoutingWorkspace({type:'setPickup',rowId:bass.id,kind:'Direct'});const free=c.snapshot(),freeHistory=clone(c.history);c.future=['retry-redo'];c.saveError=true;
+  assert.throws(()=>c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:wave.id,deviceId}),/Speichern/);assert.equal(c.snapshot(),free);assert.deepEqual(clone(c.history),freeHistory);assert.deepEqual(clone(c.future),['retry-redo']);assert.equal(c.stage.routing.devices.length,1);
+});
+
+test('Stereo DI rejects readonly, source/physical DI locks, digital rows and mono DI capacity',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke'),fixture('physical','di')]),id=c.stage.routing.inputs[0].id;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:id,modelId:'radial-prod2'});const deviceId=getRow(c,id).diDeviceId,action={type:'connectStereoDi',rowId:id,deviceId};
+  c.sharedReadOnly=true;assert.throws(()=>c.dispatchRoutingWorkspace(action),/schreibgeschützt/);c.sharedReadOnly=false;
+  c.objects[0].locked=true;assert.throws(()=>c.dispatchRoutingWorkspace(action),/gesperrt/);c.objects[0].locked=false;
+  c.stage.routing.devices[0].objectId='physical';c.objects[1].locked=true;assert.throws(()=>c.dispatchRoutingWorkspace(action),/gesperrt/);c.objects[1].locked=false;c.stage.routing.devices[0].objectId='';
+  getRow(c,id).pickup='Digital';getRow(c,id).connector='USB';const digital=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace(action),/digitales Signal/);assert.equal(c.snapshot(),digital);
+  c.dispatchRoutingWorkspace({type:'setPickup',rowId:id,kind:'DI'});c.dispatchRoutingWorkspace({type:'createDi',rowId:id,modelId:'radial-j48'});const mono=c.snapshot();
+  assert.throws(()=>c.dispatchRoutingWorkspace({...action,deviceId:getRow(c,id).diDeviceId}),/zwei Eingängen/);assert.equal(c.snapshot(),mono);
+});
+
+test('Stereo DI never duplicates merged native outputs or repurposes an extra pickup',()=>{
+  for(const merged of ['right-under-another-route','source-has-linked-route','extra-pickup']){
+    const c=harness([fixture('wave','keys-wave2','Klinke'),fixture('voice','mic')]),id=c.stage.routing.inputs[0].id;
+    c.dispatchRoutingWorkspace({type:'createDi',rowId:id,modelId:'radial-prod2'});const deviceId=getRow(c,id).diDeviceId;let selected=id;
+    if(merged==='right-under-another-route')c.stage.routing.inputs.find(row=>row.sourceKey==='voice:mic').linkedSources=[{id:'merged-right',sourceKey:'wave:out-2',instrument:'Wave R',manual:true}];
+    else if(merged==='source-has-linked-route')getRow(c,id).linkedSources=[{id:'merged-other',sourceKey:'other:main',instrument:'Andere Quelle',manual:true}];
+    else {c.dispatchRoutingWorkspace({type:'addPickup',sourceId:'wave',kind:'DI'});selected=c.stage.routing.inputs.find(row=>row.origin==='pickup').id;}
+    const before=c.snapshot(),history=clone(c.history),saves=c.saves;
+    assert.throws(()=>c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:selected,deviceId}),/Signalweg trennen|Geräteausgänge auswählen/);
+    assert.equal(c.snapshot(),before);assert.deepEqual(clone(c.history),history);assert.equal(c.saves,saves);assert.equal(c.stage.routing.devices.length,1);
+  }
+});
+
+test('Nord Stage 4 routes Piano and Synth through two distinct physical stereo DIs',()=>{
+  const source=fixture('nord','keys-stage4','Klinke',4);source.io.aliases.outputs=['Piano','Piano','Synth','Synth'];source.io.stereoPairs=[1,3];
+  const c=harness([source,{...fixture('box','stagebox-8'),comboJacks:true}]);c.allRoutingStageboxes=()=>[];c.draftState='saved';
+  const beforeRead=c.snapshot();assert.deepEqual(clone(c.routingWorkspaceState().diStereoPairs.nord),[{start:1,ports:[1,2],sourceKeys:['nord:out-1','nord:out-2']},{start:3,ports:[3,4],sourceKeys:['nord:out-3','nord:out-4']}]);assert.equal(c.snapshot(),beforeRead);
+  c.dispatchRoutingWorkspace({type:'setSourceOutputStereo',sourceId:'nord',start:3,linked:true});
+  const [pianoL,pianoR,synthL,synthR]=c.stage.routing.inputs;
+  c.dispatchRoutingWorkspace({type:'patch',rowIds:[pianoL.id],boxId:'box',port:1});c.dispatchRoutingWorkspace({type:'patch',rowIds:[synthR.id],boxId:'box',port:3});
+  c.dispatchRoutingWorkspace({type:'editChannel',rowId:pianoL.id,fields:{number:11,notes:'Piano behalten'}});c.dispatchRoutingWorkspace({type:'editChannel',rowId:synthR.id,fields:{number:14,notes:'Synth behalten'}});
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:pianoL.id,modelId:'radial-prod2'});const pianoDi=getRow(c,pianoL.id).diDeviceId;
+  assert.equal(getRow(c,pianoR.id).diDeviceId,pianoDi,'Choosing a stereo DI on either native stereo member connects both outputs.');
+  const savedPiano=clone(c.stage.routing.inputs.slice(0,2)),beforeSynth=c.snapshot(),history=c.history.length;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:synthR.id,modelId:'radial-prod2'});const synthDi=getRow(c,synthR.id).diDeviceId;
+  assert.notEqual(pianoDi,synthDi,'The same catalog model can represent two different physical DI boxes.');assert.equal(c.stage.routing.devices.length,2);assert.equal(c.stage.routing.inputs.length,4);
+  assert.deepEqual(clone(c.stage.routing.inputs.map(row=>[row.portIndex,row.diDeviceId,row.diChannel,row.mode,row.stageboxPort])),[[1,pianoDi,1,'Stereo L',1],[2,pianoDi,2,'Stereo R',2],[3,synthDi,1,'Stereo L',3],[4,synthDi,2,'Stereo R',4]]);
+  assert.deepEqual(clone(c.stage.routing.inputs.slice(0,2)),savedPiano);assert.deepEqual(clone(c.objects[0].io.aliases.outputs),['Piano','Piano','Synth','Synth']);assert.equal(getRow(c,synthR.id).number,14);assert.equal(getRow(c,synthR.id).notes,'Synth behalten');assert.equal(c.history.length,history+1);assert.equal(c.history.at(-1),beforeSynth);
+  const connected=c.snapshot();c.syncRoutingFromStage(false,false);assert.equal(c.snapshot(),connected,'Reconciliation preserves both physical boxes and all channel details.');
+  const undo=JSON.parse(c.history.at(-1));c.stage=undo.stage;c.objects=undo.objects;c.syncRoutingFromStage(false,false);assert.equal(c.stage.routing.devices.length,1);assert.equal(getRow(c,pianoR.id).diDeviceId,pianoDi);assert.equal(getRow(c,synthL.id).diDeviceId||'','');assert.equal(getRow(c,synthR.id).diDeviceId||'','');
+});
+
+test('Connect L and R on outputs 3 and 4 expands only that native pair and preserves Piano',()=>{
+  const source=fixture('nord','keys-stage4','Klinke',3);source.io.outputKeyStyle='configured';source.io.aliases.outputs=['Piano','Piano','Synth'];
+  const c=harness([source]);c.dispatchRoutingWorkspace({type:'createDi',rowId:c.stage.routing.inputs[0].id,modelId:'radial-prod2'});const piano=clone(c.stage.routing.inputs),pianoDi=piano[0].diDeviceId;
+  c.dispatchRoutingWorkspace({type:'setSourceOutputUsed',sourceId:'nord',port:3,used:true});const synth=c.stage.routing.inputs.find(row=>row.portIndex===3);
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:synth.id,modelId:'radial-prod2'});const synthDi=getRow(c,synth.id).diDeviceId;
+  const beforeConflict=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:synth.id,deviceId:pianoDi}),/belegt/);assert.equal(c.snapshot(),beforeConflict);
+  const history=c.history.length;c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:synth.id,deviceId:synthDi});
+  assert.deepEqual(clone(c.stage.routing.inputs.slice(0,2)),piano);assert.equal(c.stage.routing.devices.length,2);assert.equal(c.objects[0].io.outputs.count,4);assert.deepEqual(clone(c.objects[0].io.stereoPairs),[1,3]);assert.deepEqual(clone(c.objects[0].io.aliases.outputs),['Piano','Piano','Synth','']);
+  const synthRows=c.stage.routing.inputs.slice(2);assert.deepEqual(clone(synthRows.map(row=>[row.sourceKey,row.portIndex,row.diChannel,row.mode])),[['nord:configured-out-3',3,1,'Stereo L'],['nord:configured-out-4',4,2,'Stereo R']]);assert(synthRows[0].stereoGroup&&synthRows[0].stereoGroup===synthRows[1].stereoGroup);assert.notEqual(synthRows[0].stereoGroup,piano[0].stereoGroup);assert.equal(c.history.length,history+1);
+  const connected=c.snapshot();c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:synthRows[1].id,deviceId:synthDi});assert.equal(c.snapshot(),connected);assert.equal(c.history.length,history+1);
+});
+
+test('One shared DI card changes model, pickup and removal atomically for its two channels',()=>{
+  const source=fixture('nord','keys-stage4','Klinke',4);source.io.stereoPairs=[1,3];
+  const c=harness([source]);c.dispatchRoutingWorkspace({type:'setSourceOutputStereo',sourceId:'nord',start:3,linked:true});
+  const [pianoL,pianoR,synthL,synthR]=c.stage.routing.inputs,ids=[synthL.id,synthR.id];
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:pianoL.id,modelId:'radial-prod2'});c.dispatchRoutingWorkspace({type:'createDi',rowId:synthL.id,modelId:'radial-prod2'});const piano=clone(c.stage.routing.inputs.slice(0,2)),oldDi=getRow(c,synthL.id).diDeviceId;
+  for(const rowIds of [undefined,ids]){const before=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'createDi',rowId:synthL.id,rowIds,modelId:'radial-j48'}),/zwei Eingängen/);assert.equal(c.snapshot(),before,'A mono choice cannot silently detach the other output.');}
+  const beforeReplacement=c.snapshot(),history=c.history.length;c.dispatchRoutingWorkspace({type:'createDi',rowId:synthL.id,rowIds:ids,modelId:'radial-j48-stereo'});const newDi=getRow(c,synthL.id).diDeviceId;
+  assert.notEqual(newDi,oldDi);assert.equal(getRow(c,synthR.id).diDeviceId,newDi);assert(ids.every(id=>getRow(c,id).phantom));assert.equal(c.history.length,history+1);assert.equal(c.history.at(-1),beforeReplacement);
+  c.dispatchRoutingWorkspace({type:'assignDi',rowId:synthL.id,rowIds:ids,deviceId:oldDi,channel:1});assert.deepEqual(ids.map(id=>[getRow(c,id).diDeviceId,getRow(c,id).diChannel,getRow(c,id).phantom]),[[oldDi,1,false],[oldDi,2,false]]);
+  const beforeBusy=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'assignDi',rowId:synthL.id,rowIds:ids,deviceId:getRow(c,pianoL.id).diDeviceId,channel:1}),/belegt/);assert.equal(c.snapshot(),beforeBusy);
+  c.dispatchRoutingWorkspace({type:'setPickup',rowId:synthL.id,rowIds:ids,kind:'Direct'});assert(ids.every(id=>getRow(c,id).pickup==='Direct'&&getRow(c,id).diDeviceId===''));
+  c.dispatchRoutingWorkspace({type:'removePickup',rowId:synthL.id,rowIds:ids});assert.deepEqual(clone(c.stage.routing.inputs),piano);assert.deepEqual(clone(c.objects[0].io.stereoPairs),[1]);assert.deepEqual(clone(c.stage.routing.disabledSources),['nord:out-3','nord:out-4']);
+});
+
+test('Changing a shared dual-mono DI preserves the occupied input order',()=>{
+  const c=harness([fixture('guitar','guitar','Klinke')]),native=c.stage.routing.inputs[0];c.dispatchRoutingWorkspace({type:'createDi',rowId:native.id,modelId:'radial-prod2'});const firstDi=getRow(c,native.id).diDeviceId;
+  c.dispatchRoutingWorkspace({type:'addPickup',sourceId:'guitar',kind:'DI'});const pickup=c.stage.routing.inputs.find(row=>row.origin==='pickup');c.dispatchRoutingWorkspace({type:'assignDi',rowId:pickup.id,deviceId:firstDi,channel:2});
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:pickup.id,rowIds:[pickup.id,native.id],modelId:'generic-active-stereo'});
+  assert.equal(getRow(c,native.id).diChannel,1);assert.equal(getRow(c,pickup.id).diChannel,2);assert.equal(getRow(c,native.id).diDeviceId,getRow(c,pickup.id).diDeviceId);assert(c.stage.routing.inputs.every(row=>!row.stereoGroup));
+});
+
+test('Replacing a shared native stereo DI preserves deliberately reversed physical inputs',()=>{
+  for(const explicit of [false,true]){
+    const c=harness([fixture('nord','keys-stage4','Klinke',2)]),[left,right]=c.stage.routing.inputs;
+    c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});const priorDi=getRow(c,left.id).diDeviceId;
+    c.StageplotRoutingModel.assignDevice(c.stage.routing,[left.id,right.id],priorDi,[2,1]);
+    c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,...(explicit?{rowIds:[left.id,right.id]}:{}),modelId:'radial-j48-stereo'});
+    assert.equal(getRow(c,left.id).diChannel,2);assert.equal(getRow(c,right.id).diChannel,1);assert.equal(getRow(c,left.id).diDeviceId,getRow(c,right.id).diDeviceId);assert.notEqual(getRow(c,left.id).diDeviceId,priorDi);
+    assert.equal(getRow(c,left.id).mode,'Stereo L');assert.equal(getRow(c,right.id).mode,'Stereo R');assert.equal(getRow(c,left.id).stereoGroup,getRow(c,right.id).stereoGroup);
+  }
+});
+
+test('A physical DI patches only its own outputs even when stereo partners use another box',()=>{
+  const source=fixture('nord','keys-stage4','Klinke',4);source.io.stereoPairs=[1,3];
+  const c=harness([source,fixture('box','stagebox-8')]);c.dispatchRoutingWorkspace({type:'setSourceOutputStereo',sourceId:'nord',start:3,linked:true});
+  const [one,two,three,four]=c.stage.routing.inputs;c.dispatchRoutingWorkspace({type:'createDi',rowId:one.id,modelId:'radial-prod2'});const diA=getRow(c,one.id).diDeviceId;c.dispatchRoutingWorkspace({type:'createDi',rowId:three.id,modelId:'radial-prod2'});const diB=getRow(c,three.id).diDeviceId;
+  c.StageplotRoutingModel.clearDevice(c.stage.routing,[one.id,two.id,three.id,four.id]);c.StageplotRoutingModel.assignDevice(c.stage.routing,[one.id,three.id],diA,[1,2]);c.StageplotRoutingModel.assignDevice(c.stage.routing,[two.id,four.id],diB,[1,2]);
+  c.dispatchRoutingWorkspace({type:'patch',rowIds:[two.id,four.id],boxId:'box',port:5,exactRows:true});const otherBox=[two.id,four.id].map(id=>clone(getRow(c,id)));
+  const history=c.history.length;c.dispatchRoutingWorkspace({type:'patch',rowIds:[one.id,three.id],boxId:'box',port:1,exactRows:true});assert.deepEqual([one.id,three.id].map(id=>getRow(c,id).stageboxPort),[1,2]);assert.deepEqual([two.id,four.id].map(id=>clone(getRow(c,id))),otherBox);assert.equal(c.history.length,history+1);
+  c.dispatchRoutingWorkspace({type:'unpatch',rowIds:[one.id,three.id],exactRows:true});assert([one.id,three.id].every(id=>getRow(c,id).stagebox===''));assert.deepEqual([two.id,four.id].map(id=>clone(getRow(c,id))),otherBox);
+  const before=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'patch',rowIds:[one.id,three.id],boxId:'box',port:5,exactRows:true}),/belegt/);assert.equal(c.snapshot(),before);
+});
+
+test('Grouped DI changes preserve mono routing and reject invalid selections and failed saves',()=>{
+  const source=fixture('nord','keys-stage4','Klinke',4);source.io.stereoPairs=[];
+  const c=harness([source,fixture('guitar','guitar','Klinke')]);const [left,right,guitar]=c.stage.routing.inputs;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});assert.equal(getRow(c,right.id).diDeviceId||'','','An unlinked mono source does not acquire a second DI input automatically.');
+  const before=c.snapshot(),history=clone(c.history);c.future=['redo-entry'];
+  for(const rowIds of [[left.id,left.id],[left.id,guitar.id],[right.id]])assert.throws(()=>c.dispatchRoutingWorkspace({type:'setPickup',rowId:left.id,rowIds,kind:'Mic'}),/erneut auswählen|derselben Quelle/);
+  assert.equal(c.snapshot(),before);assert.deepEqual(clone(c.history),history);assert.deepEqual(clone(c.future),['redo-entry']);
+  c.saveError=true;assert.throws(()=>c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,rowIds:[left.id,right.id],modelId:'radial-j48-stereo'}),/Speichern/);assert.equal(c.snapshot(),before);assert.deepEqual(clone(c.history),history);assert.deepEqual(clone(c.future),['redo-entry']);
+});
+
+test('Source output summaries are normalized read-only views including inactive configured ports',()=>{
+  const source=fixture('wave','keys-wave2','Klinke',4);source.io.outputKeyStyle='configured';source.io.aliases.outputs=['Piano'];
+  const c=harness([source]);c.allRoutingStageboxes=()=>[];c.draftState='saved';const before=c.snapshot(),info=c.routingWorkspaceState().sourceOutputs.wave;
+  assert.deepEqual(clone(info.connectors),['XLR','Klinke','USB','Digital','MADI','Dante']);assert.equal(info.count,4);assert.equal(info.connector,'Klinke');assert.deepEqual(clone(info.aliases),['Piano','','','']);assert.equal(info.editable,true);assert.equal(info.locked,false);
+  assert.deepEqual(clone(info.ports.map(port=>[port.number,port.sourceKey,port.active])),[[1,'wave:configured-out-1',true],[2,'wave:configured-out-2',true],[3,'wave:configured-out-3',false],[4,'wave:configured-out-4',false]]);
+  assert.equal(c.snapshot(),before,'Reading source controls must not migrate old drafts or activate ports.');
+});
+
+test('Adding physical outputs activates each added port while preserving DI routes and prior disabled ports',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke',2),fixture('box','stagebox-8')]),[left,right]=c.stage.routing.inputs;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});const deviceId=getRow(c,left.id).diDeviceId;
+  c.dispatchRoutingWorkspace({type:'assignDi',rowId:right.id,deviceId,channel:2});c.dispatchRoutingWorkspace({type:'patch',rowIds:[left.id,right.id],boxId:'box',port:2});
+  c.dispatchRoutingWorkspace({type:'editChannel',rowId:left.id,fields:{number:9,instrument:'Eigener Kanalname',notes:'Notiz'}});
+  const savedLeft=clone(getRow(c,left.id));c.dispatchRoutingWorkspace({type:'setSourceOutputUsed',sourceId:'wave',port:2,used:false});
+  const before=c.snapshot(),history=c.history.length,saves=c.saves;
+  c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:4}});
+  assert.deepEqual(clone(c.stage.routing.inputs.map(row=>row.portIndex)),[1,3,4]);assert(c.stage.routing.disabledSources.includes('wave:out-2'));assert.equal(c.stage.routing.devices.length,1);
+  const current=getRow(c,left.id);assert.deepEqual([current.diDeviceId,current.diChannel,current.number,current.instrument,current.notes,current.stagebox,current.stageboxPort],[deviceId,1,savedLeft.number,savedLeft.instrument,savedLeft.notes,savedLeft.stagebox,savedLeft.stageboxPort]);
+  assert.equal(c.history.length,history+1);assert.equal(c.history.at(-1),before);assert.equal(c.saves,saves+1);assert.equal(c.objects[0].outs,'4 Outs · Klinke');
+  c.syncRoutingFromStage(false,false);assert.deepEqual(clone(c.stage.routing.inputs.map(row=>row.portIndex)),[1,3,4]);
+});
+
+test('Reducing physical outputs removes only native ports and retains microphone pickups and undo data',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke',2),fixture('box','stagebox-8')]),[left,right]=c.stage.routing.inputs;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});const deviceId=getRow(c,left.id).diDeviceId;
+  c.dispatchRoutingWorkspace({type:'assignDi',rowId:right.id,deviceId,channel:2});c.dispatchRoutingWorkspace({type:'patch',rowIds:[left.id,right.id],boxId:'box',port:5});
+  c.dispatchRoutingWorkspace({type:'addPickup',sourceId:'wave',kind:'Mic'});const extra=c.stage.routing.inputs.find(row=>row.origin==='pickup');
+  c.dispatchRoutingWorkspace({type:'setPickup',rowId:extra.id,kind:'Mic',microphone:'Shure Beta 91A'});c.dispatchRoutingWorkspace({type:'editChannel',rowId:extra.id,fields:{number:21,notes:'Extra Mic'}});
+  const micBefore=clone(getRow(c,extra.id)),before=c.snapshot(),count=c.history.length;
+  c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:1}});
+  assert.equal(getRow(c,right.id),undefined);assert.equal(getRow(c,left.id).stereoGroup,'');assert.equal(getRow(c,left.id).stageboxPort,5);assert.deepEqual(clone(getRow(c,extra.id)),micBefore);assert.equal(c.StageplotRoutingModel.occupancy(c.stage.routing,deviceId)[1].free,true);
+  assert.equal(c.history.length,count+1);assert.equal(c.history.at(-1),before);
+  c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:0}});assert.deepEqual(clone(c.stage.routing.inputs.map(row=>row.id)),[extra.id]);assert.equal(c.routingSourceOutputs(c.objects[0]).count,0);assert.equal(c.routingSourceOutputs(c.objects[0]).editable,true);
+  c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:2}});assert.equal(c.stage.routing.inputs.filter(row=>row.sourceKey==='wave:out-1'||row.sourceKey==='wave:out-2').length,2);assert.deepEqual(clone(getRow(c,extra.id)),micBefore);
+});
+
+test('Changing native outputs to digital releases their analog DI and patch but preserves separate microphone pickup',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke',2),fixture('box','stagebox-8')]),[left,right]=c.stage.routing.inputs;
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});const deviceId=getRow(c,left.id).diDeviceId;c.dispatchRoutingWorkspace({type:'connectStereoDi',rowId:left.id,deviceId});c.dispatchRoutingWorkspace({type:'patch',rowIds:[left.id,right.id],boxId:'box',port:3});
+  c.dispatchRoutingWorkspace({type:'editChannel',rowId:left.id,fields:{number:18,instrument:'Custom left',notes:'Keep'}});c.dispatchRoutingWorkspace({type:'addPickup',sourceId:'wave',kind:'Mic'});const mic=c.stage.routing.inputs.find(row=>row.origin==='pickup'),micBefore=clone(mic);
+  for(const connector of ['Dante','USB','MADI','Digital']){
+    c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{connector}});
+    const rows=c.stage.routing.inputs.filter(row=>row.id!==mic.id);assert(rows.every(row=>row.pickup==='Digital'&&row.connector===connector&&row.signalType==='Digital'&&row.diDeviceId===''&&row.diChannel===null&&!row.phantom&&row.stagebox===''&&row.stageboxPort===null));
+    assert.equal(getRow(c,left.id).number,18);assert.equal(getRow(c,left.id).instrument,'Custom left');assert.equal(getRow(c,left.id).notes,'Keep');assert.deepEqual(clone(getRow(c,mic.id)),micBefore);assert.equal(c.stage.routing.devices.length,1);
+  }
+  c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{connector:'XLR'}});assert.equal(getRow(c,left.id).pickup,'Direct');assert.equal(getRow(c,left.id).connector,'XLR');assert.equal(getRow(c,left.id).diDeviceId,'');
+});
+
+test('Source stereo, aliases and usage remain coherent with native route format buttons',()=>{
+  const source=fixture('wave','keys-wave2','XLR',2);source.io.stereoPairs=[];
+  const c=harness([source]),[left,right]=c.stage.routing.inputs;c.dispatchRoutingWorkspace({type:'editChannel',rowId:left.id,fields:{number:8,instrument:'Custom signal',notes:'Left'}});
+  c.dispatchRoutingWorkspace({type:'setSourceOutputAlias',sourceId:'wave',port:1,value:'  Piano   Solo  '});assert.equal(c.objects[0].io.aliases.outputs[0],'Piano Solo');assert.equal(getRow(c,left.id).instrument,'Custom signal');
+  c.dispatchRoutingWorkspace({type:'linkStereo',rowIds:[right.id,left.id]});assert.deepEqual(clone(c.objects[0].io.stereoPairs),[1]);assert.equal(getRow(c,left.id).mode,'Stereo L');assert.equal(getRow(c,right.id).mode,'Stereo R');assert.deepEqual(clone(c.objects[0].io.aliases.outputs),['Piano Solo','Piano Solo']);
+  c.dispatchRoutingWorkspace({type:'setSourceOutputAlias',sourceId:'wave',port:2,value:'Keys'});assert.deepEqual(clone(c.objects[0].io.aliases.outputs),['Keys','Keys']);assert.match(getRow(c,right.id).instrument,/Keys/);assert.equal(getRow(c,left.id).instrument,'Custom signal');assert.equal(getRow(c,left.id).number,8);assert.equal(getRow(c,left.id).notes,'Left');
+  c.dispatchRoutingWorkspace({type:'unlinkStereo',rowIds:[left.id,right.id]});assert.deepEqual(clone(c.objects[0].io.stereoPairs),[]);assert(c.stage.routing.inputs.every(row=>row.mode==='Mono'&&!row.stereoGroup));
+  c.dispatchRoutingWorkspace({type:'setSourceOutputUsed',sourceId:'wave',port:2,used:false});assert.equal(c.stage.routing.inputs.length,1);
+  c.dispatchRoutingWorkspace({type:'setSourceOutputStereo',sourceId:'wave',start:1,linked:true});assert.equal(c.stage.routing.inputs.length,2,'Explicitly linking a native pair also activates its missing member.');assert.equal(c.routingSourceOutputs(c.objects[0]).ports[1].active,true);assert.equal(getRow(c,left.id).number,8);
+});
+
+test('Reactivating an old disabled stereo output repairs both native sides, and removal clears the IO pair',()=>{
+  const c=harness([fixture('wave','keys-wave2','XLR',2)]),[left,right]=c.stage.routing.inputs;
+  c.StageplotRoutingModel.removeInput(c.stage.routing,right.id);Object.assign(getRow(c,left.id),{mode:'Mono',stereoGroup:'',edited:true,number:10,notes:'Old draft'});c.syncRoutingFromStage(false,false);
+  assert.deepEqual(clone(c.objects[0].io.stereoPairs),[1]);assert.equal(c.stage.routing.inputs.length,1);
+  c.dispatchRoutingWorkspace({type:'setSourceOutputUsed',sourceId:'wave',port:2,used:true});
+  const rows=c.stage.routing.inputs.filter(row=>row.sourceKey.startsWith('wave:'));assert.deepEqual(clone(rows.map(row=>row.mode)),['Stereo L','Stereo R']);assert.equal(rows[0].stereoGroup,rows[1].stereoGroup);assert(rows[0].stereoGroup);assert.equal(getRow(c,left.id).number,10);assert.equal(getRow(c,left.id).notes,'Old draft');
+  c.dispatchRoutingWorkspace({type:'removePickup',rowId:rows[1].id});assert.deepEqual(clone(c.objects[0].io.stereoPairs),[]);assert.equal(c.objects[0].io.outputs.count,2);assert.equal(getRow(c,left.id).mode,'Mono');assert.equal(getRow(c,left.id).stereoGroup,'');assert.equal(c.routingSourceOutputs(c.objects[0]).ports[1].active,false);
+});
+
+test('Output edits preserve mixed native and synthetic stereo groups and reject replacing their link',()=>{
+  const c=harness([fixture('wave','keys-wave2','XLR')]),left=c.stage.routing.inputs[0];c.dispatchRoutingWorkspace({type:'addPickup',sourceId:'wave',kind:'Mic'});const mic=c.stage.routing.inputs.find(row=>row.origin==='pickup');c.dispatchRoutingWorkspace({type:'linkStereo',rowIds:[left.id,mic.id]});
+  const group=getRow(c,left.id).stereoGroup,micBefore=clone(getRow(c,mic.id));c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:2}});
+  assert.equal(getRow(c,left.id).stereoGroup,group);assert.deepEqual(clone(getRow(c,mic.id)),micBefore);
+  const before=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'setSourceOutputStereo',sourceId:'wave',start:1,linked:true}),/anderen Abnahme/);assert.equal(c.snapshot(),before);
+  c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:0}});assert.equal(getRow(c,mic.id).stereoGroup,'');assert.equal(getRow(c,mic.id).mode,'Mono');assert.equal(c.stage.routing.inputs.length,1);
+});
+
+test('Invalid, locked or merged output changes roll back without altering history or source IO',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke',2),fixture('voice','mic')]),left=c.stage.routing.inputs[0];
+  const invalid=[{type:'setSourceOutputs',fields:{count:65}},{type:'setSourceOutputs',fields:{count:-1}},{type:'setSourceOutputs',fields:{connector:'RCA'}},{type:'setSourceOutputStereo',start:2,linked:true},{type:'setSourceOutputAlias',port:3,value:'Invalid'},{type:'setSourceOutputUsed',port:0,used:true}];
+  const before=c.snapshot();c.future=['redo'];for(const action of invalid){assert.throws(()=>c.dispatchRoutingWorkspace({sourceId:'wave',...action}));assert.equal(c.snapshot(),before);assert.equal(c.saves,0);assert.equal(c.history.length,0);assert.deepEqual(clone(c.future),['redo']);}
+  c.objects[0].locked=true;assert.throws(()=>c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:3}}),/gesperrt/);c.objects[0].locked=false;c.sharedReadOnly=true;assert.throws(()=>c.dispatchRoutingWorkspace({type:'setSourceOutputUsed',sourceId:'wave',port:1,used:false}),/schreibgeschützt/);c.sharedReadOnly=false;
+  getRow(c,left.id).linkedSources=[{id:'merged',sourceKey:'other:main',instrument:'Other'}];const merged=c.snapshot();assert.equal(c.routingSourceOutputs(c.objects[0]).ports[0].locked,true);assert.throws(()=>c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:3}}),/Signalweg trennen/);assert.equal(c.snapshot(),merged);
+  getRow(c,left.id).linkedSources=[];c.saveError=true;const failed=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:'wave',fields:{count:4}}),/Speichern/);assert.equal(c.snapshot(),failed);assert.equal(c.history.length,0);assert.deepEqual(clone(c.future),['redo']);
+});
+
+test('Special source setups open their existing modals without changing the active workspace',()=>{
+  const c=harness();c.byId.laptop={instrument:true,name:'Playback'};c.byId.drums={instrument:true,name:'Drums'};c.byId.percussion={instrument:true,name:'Percussion'};c.byId.orchestra={instrument:true,name:'Orchestra'};
+  c.drumModel={isDrums:type=>type==='drums',drumChannels:()=>[]};c.percussionModel={channels:()=>[]};c.orchestraModel={channels:()=>[]};c.objects=[fixture('laptop','laptop','Klinke',2),fixture('kit','drums'),fixture('perc','percussion'),fixture('orch','orchestra')];
+  const opened=[];c.openPlaybackDialog=id=>opened.push(['playback',id]);c.openSelectedDrumDesigner=()=>opened.push(['setup',c.selected]);c.show=()=>{throw Error('Must stay in routing');};
+  for(const [id,editor] of [['laptop','playback'],['kit','drums'],['perc','percussion'],['orch','orchestra']]){
+    const info=c.routingSourceOutputs(c.objects.find(o=>o.id===id));assert.equal(info.editor,editor);assert.equal(info.editable,false);assert.throws(()=>c.dispatchRoutingWorkspace({type:'setSourceOutputs',sourceId:id,fields:{count:2}}),/Geräte-Setup/);c.dispatchRoutingWorkspace({type:'openSourceEditor',sourceId:id});
+  }
+  assert.deepEqual(opened,[['playback','laptop'],['setup','kit'],['setup','perc'],['setup','orch']]);assert.equal(c.saves,0);assert.equal(c.history.length,0);
+  c.sharedReadOnly=true;assert.throws(()=>c.dispatchRoutingWorkspace({type:'openSourceEditor',sourceId:'kit'}),/schreibgeschützt/);
+  c.sharedReadOnly=false;c.objects[1].locked=true;assert.throws(()=>c.dispatchRoutingWorkspace({type:'openSourceEditor',sourceId:'kit'}),/gesperrt/);
+});
+
+test('The inspector shortcut opens source output controls even with zero active routes',()=>{
+  const c=harness([fixture('wave','keys-wave2','Klinke',0)]),opened=[];c.show=view=>opened.push(view);c.outputOpened=id=>opened.push(id);vm.runInContext('routingWorkspaceV2={openSourceOutputs:id=>outputOpened(id)};',c);
+  assert.equal(c.stage.routing.inputs.length,0);c.routingTab='outputs';c.openRoutingObjectOutputs('wave');assert.equal(c.routingTab,'inputs');assert.deepEqual(opened,['routing','wave']);assert.equal(c.saves,0);
 });
 
 test('Custom DI starts with one editable port when no extra fields are provided',()=>{

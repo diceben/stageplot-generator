@@ -63,9 +63,8 @@
         map.get(id).rows.push(row);
       }
       for (const source of state.objects || []) {
-        if (!map.has(source.id) && state.catalog?.[source.type]?.instrument && !/^di(?:-|$)/.test(source.type)) {
-          const count = source.io?.outputs?.count;
-          if (count !== 0) map.set(source.id, {id:source.id, object:source, name:source.label || state.catalog[source.type].short || 'Instrument', rows:[]});
+        if (!map.has(source.id) && (state.catalog?.[source.type]?.instrument || state.sourceOutputs?.[source.id]) && !/^di(?:-|$)/.test(source.type)) {
+          map.set(source.id, {id:source.id, object:source, name:source.label || state.catalog[source.type].short || 'Instrument', rows:[]});
         }
       }
       sources = [...map.values()];
@@ -133,7 +132,7 @@
       return '<div class="rw-port-grid" data-port-purpose="' + purpose + '">' + Array.from({length:count}, (_, index) => {
         const port = index + 1, occupant = assigned.get(port), selected = purpose === 'overview' ? activePort?.boxId === selectedBox.id && activePort.direction === direction && activePort.port === port : !!occupant && selectedIds.has(occupant.id);
         const pair = selectedRows.length > 1, conflict = purpose === 'patch' && (Array.from({length:pair ? selectedRows.length : 1}, (_, offset) => assigned.get(port + offset)).some(row => row && !selectedIds.has(row.id)) || port + selectedRows.length - 1 > count);
-        const attrsForPort = purpose === 'overview' ? {'data-rw-port':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction} : {'data-rw-patch':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction,'data-rw-rows':idsOf(selectedRows)};
+        const attrsForPort = purpose === 'overview' ? {'data-rw-port':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction} : {'data-rw-patch':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction,'data-rw-rows':idsOf(selectedRows),'data-rw-exact-rows':String(direction === 'inputs' && selectedRows.length > 1 && !!selectedRows[0].diDeviceId && selectedRows.every(row => row.diDeviceId === selectedRows[0].diDeviceId))};
         const stereo = occupant?.stereoGroup, paired = stereo && [...assigned.values()].some(row => row.id !== occupant.id && row.stereoGroup === stereo), side = occupant?.mode === 'Stereo R' ? 'right' : 'left';
         return '<button type="button" class="rw-port"' + attrs({...attrsForPort,'data-used':String(!!occupant),'data-selected':String(selected),'data-stereo':paired ? side : undefined,'aria-pressed':String(selected),'aria-label':(direction === 'inputs' ? 'Eingang ' : 'Ausgang ') + port + ' · ' + (occupant?.instrument || 'Frei') + (conflict ? ' · belegt' : '')}) + (conflict || purpose === 'patch' && readonly() ? ' disabled' : '') + '><span class="rw-port-number">' + String(port).padStart(2,'0') + '</span>' + (purpose === 'overview' ? '<span class="sp-stagebox-socket" aria-hidden="true"></span>' : '') + (occupant?.phantom ? '<span class="rw-port-phantom">48 V</span>' : '') + '<span class="rw-port-name">' + esc(occupant?.instrument?.replace(/^Drums\s*·\s*/, '') || 'Frei') + '</span>' + (paired ? '<span class="rw-stereo-mark" aria-label="Stereo-Paar">' + (side === 'left' ? 'L' : 'R') + '</span>' : '') + '</button>';
       }).join('') + '</div>';
@@ -143,7 +142,7 @@
       if (openCard !== key || readonly()) return '';
       const boxes = (state.boxes || []).filter(item => item[direction] > 0);
       const chosen = boxes.find(item => item.id === pickerBox) || boxes.find(item => item.id === rows[0]?.stagebox) || boxes[0];
-      return '<div class="rw-card-editor"><div class="rw-choice-row" role="group" aria-label="Stagebox wählen">' + boxes.map(item => button(esc(item.name), {'data-rw-picker-box':item.id}, {pressed:item.id === chosen?.id})).join('') + '</div>' + ports(direction, chosen, rows) + (rows.some(row => row.stagebox) ? button('Verbindung lösen', {'data-rw-unpatch':idsOf(rows),'data-rw-direction':direction}, {className:'rw-quiet-danger',mutation:true}) : '') + '</div>';
+      return '<div class="rw-card-editor"><div class="rw-choice-row" role="group" aria-label="Stagebox wählen">' + boxes.map(item => button(esc(item.name), {'data-rw-picker-box':item.id}, {pressed:item.id === chosen?.id})).join('') + '</div>' + ports(direction, chosen, rows) + (rows.some(row => row.stagebox) ? button('Verbindung lösen', {'data-rw-unpatch':idsOf(rows),'data-rw-direction':direction,'data-rw-exact-rows':String(direction === 'inputs' && rows.length > 1 && !!rows[0].diDeviceId && rows.every(row => row.diDeviceId === rows[0].diDeviceId))}, {className:'rw-quiet-danger',mutation:true}) : '') + '</div>';
     }
 
     function patchCard(rows, direction, suffix = '') {
@@ -153,22 +152,48 @@
         return '<article class="rw-card rw-patch-card">' + cardHead('Anschluss',null,art(icon(source || 'laptop'))) + '<strong class="rw-network-label">Dante · Netzwerk</strong><p class="rw-card-meta">RJ45 · CAT5e / CAT6</p><p class="rw-card-meta">' + esc(source?.playback?.target || 'Ziel noch offen') + '</p>' + (source?.type === 'laptop' && !readonly() ? button('Playback-Setup',{'data-rw-playback':source.id},{mutation:true}) : '') + '</article>';
       }
       const locations = [...new Set(rows.map(row => box(row.stagebox)?.name).filter(Boolean))].join(' / ');
-      const patchRows = stereoRows(rows,direction);
-      return '<article class="rw-card rw-patch-card" data-rw-card="' + esc(key) + '">' + cardHead(direction === 'inputs' ? 'Anschluss' : 'Ausgänge', key, art(icon(assignedBox?.type || 'stagebox-16'), 'rw-stagebox-art')) + button(esc(locations || 'Stagebox wählen') + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<div class="rw-port-pills">' + rows.map((row,index) => button(esc((direction === 'inputs' ? 'IN ' : 'OUT ') + (row.stageboxPort ? String(row.stageboxPort).padStart(2,'0') : '—') + (linked ? index === 0 ? ' · L' : ' · R' : row.stereoGroup ? row.mode === 'Stereo R' ? ' · R' : ' · L' : '')), {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:row.stageboxPort ? 'rw-connected' : '',mutation:true})).join('') + '</div>' + (openCard === key && patchRows.length > 1 ? '<p class="rw-card-meta">Stereo · L / R · erste Buchse wählen</p>' : '') + patchEditor(patchRows, direction, key) + '</article>';
+      const patchRows = direction === 'inputs' && linked && first.diDeviceId && rows.every(row => row.diDeviceId === first.diDeviceId) ? rows : stereoRows(rows,direction);
+      return '<article class="rw-card rw-patch-card" data-rw-card="' + esc(key) + '">' + cardHead(direction === 'inputs' ? 'Anschluss' : 'Ausgänge', key, art(icon(assignedBox?.type || 'stagebox-16'), 'rw-stagebox-art')) + button(esc(locations || 'Stagebox wählen') + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<div class="rw-port-pills">' + rows.map((row,index) => button(esc((direction === 'inputs' ? 'IN ' : 'OUT ') + (row.stageboxPort ? String(row.stageboxPort).padStart(2,'0') : '—') + (row.stereoGroup ? row.mode === 'Stereo R' ? ' · R' : ' · L' : linked ? ' · ' + (index + 1) : '')), {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:row.stageboxPort ? 'rw-connected' : '',mutation:true})).join('') + '</div>' + (openCard === key && patchRows.length > 1 ? '<p class="rw-card-meta">' + (monoLabel(patchRows) === 'Stereo' ? 'Stereo · L / R' : 'Zwei Eingänge') + ' · erste Buchse wählen</p>' : '') + patchEditor(patchRows, direction, key) + '</article>';
+    }
+
+    function sharedDiRows(row) {
+      if (!row?.diDeviceId || pickupKind(row) !== 'DI') return row ? [row] : [];
+      return (state.routing.inputs || []).filter(member => member.diDeviceId === row.diDeviceId && pickupKind(member) === 'DI' && sourceId(member) === sourceId(row)).sort((a,b) => Number(a.diChannel) - Number(b.diChannel));
+    }
+
+    function diInputMap(rows) {
+      return '<div class="rw-di-input-map" aria-label="Belegte DI-Eingänge">' + rows.map(row => '<div><span>Out ' + esc(row.portIndex || '—') + (row.stereoGroup ? row.mode === 'Stereo R' ? ' · R' : ' · L' : '') + '</span><span aria-hidden="true">→</span><strong>Eingang ' + Number(row.diChannel) + '</strong></div>').join('') + '</div>';
+    }
+
+    function diSignalTitle(rows) {
+      const aliases = state.sourceOutputs?.[sourceId(rows[0])]?.aliases || [], names = [...new Set(rows.map(row => aliases[Number(row.portIndex) - 1]).filter(Boolean))];
+      return '<div class="rw-di-signal-title"><strong>' + esc(names.length ? names.join(' / ') : 'Gemeinsame DI') + '</strong><span>' + rows.map(row => 'Out ' + esc(row.portIndex || '—')).join(' + ') + '</span></div>';
     }
 
     function diPortButtons(row, item, compact = false) {
-      const rows = state.routing.inputs || [];
+      const rows = state.routing.inputs || [], members = sharedDiRows(row);
+      if (members.length > 1) {
+        const chosen = members.every(member => member.diDeviceId === item.id), busy = rows.some(other => other.diDeviceId === item.id && !members.some(member => member.id === other.id));
+        return '<div class="rw-di-ports">' + button(chosen ? 'Verbunden' : 'Diese DI verwenden', {'data-rw-di-device':item.id,'data-rw-di-channel':1,'data-rw-row':row.id}, {pressed:chosen,disabled:chosen || busy || diChannels(item) < members.length,mutation:true}) + '</div>';
+      }
       return '<div class="rw-di-ports" role="group" aria-label="Anschlüsse der DI-Box">' + Array.from({length:diChannels(item)}, (_, index) => {
         const channel = index + 1, occupant = rows.find(other => other.diDeviceId === item.id && Number(other.diChannel) === channel), chosen = occupant?.id === row.id;
-        return button('<b>' + channel + '</b><span>' + esc(occupant ? baseName(occupant.instrument) : 'Frei') + '</span>', {'data-rw-di-device':item.id,'data-rw-di-channel':channel,'data-rw-row':row.id,'aria-label':deviceName(item) + ' Kanal ' + channel + ' · ' + (occupant?.instrument || 'Frei')}, {className:(compact ? 'rw-di-port-compact ' : '') + (chosen ? 'rw-connected' : ''),pressed:chosen,disabled:!!occupant && !chosen,mutation:true});
+        const side = occupant?.stereoGroup ? occupant.mode === 'Stereo R' ? 'R' : 'L' : '', label = occupant ? side ? baseName(occupant.instrument) + ' · ' + side : occupant.instrument : 'Frei';
+        return button('<b>' + channel + '</b><span>' + esc(label) + '</span>', {'data-rw-di-device':item.id,'data-rw-di-channel':channel,'data-rw-row':row.id,'aria-label':deviceName(item) + ' Eingang ' + channel + ' · ' + label}, {className:(compact ? 'rw-di-port-compact ' : '') + (chosen ? 'rw-connected' : ''),pressed:chosen,disabled:!!occupant && !chosen,mutation:true});
       }).join('') + '</div>';
+    }
+
+    function diStereoControl(row, item) {
+      if (diChannels(item) < 2) return '';
+      const pair = stereoRows([row],'inputs'), shared = pair.length === 2 && pair.every(member => member.diDeviceId === item.id);
+      if (shared) return '<p class="rw-di-stereo-status">Gemeinsame DI · ' + (row.mode === 'Stereo R' ? 'R' : 'L') + ' → Eingang ' + Number(row.diChannel) + '</p>';
+      if (readonly() || !state.diStereoPairs?.[sourceId(row)]?.some(pair => pair.sourceKeys.includes(row.sourceKey)) || row.origin === 'pickup' || /:(?:pickup|audio)-/.test(row.sourceKey)) return '';
+      return button('L + R anschließen', {'data-rw-di-stereo':row.id,'data-rw-di-stereo-device':item.id,'data-rw-row':row.id,'aria-label':'Beide Ausgänge an ' + deviceName(item) + ' anschließen'}, {className:'rw-di-stereo-connect',mutation:true});
     }
 
     function diEditor(row) {
       const chosen = device(row.diDeviceId), devices = state.routing.devices || [];
       const existing = devices.length ? '<h4>Vorhandene DI-Box</h4><div class="rw-existing-di-list">' + devices.map(item => '<div class="rw-existing-di"><span class="rw-existing-di-art">' + diPhoto(item) + '</span><strong>' + esc(deviceName(item)) + '</strong><small>' + esc(diDetails(item)) + '</small>' + diPortButtons(row,item) + '</div>').join('') + '</div>' : '';
-      const modelChoice = button('DI-Box wählen', {'data-rw-di-open':row.id}, {className:'rw-di-choose',mutation:true});
       let settings = '';
       if (chosen) {
         const custom = chosen.modelId === 'custom';
@@ -182,7 +207,7 @@
         }
         settings = '<div class="rw-device-fields">' + settings + '</div>';
       }
-      return '<div class="rw-editor-section">' + modelChoice + existing + settings + '</div>';
+      return '<div class="rw-editor-section">' + existing + settings + '</div>';
     }
 
     function diPicker() {
@@ -219,14 +244,22 @@
       return microphones.filter(item => normalized([item.name,item.type,item.brand].join(' ')).includes(queryText)).map(item => button('<span class="rw-mic-photo">' + micIcon(item.name) + '</span><strong>' + esc(item.name) + '</strong><small>' + esc(item.type || '') + (item.phantom ? ' · 48 V' : '') + '</small>', {'data-rw-mic':item.name,'data-rw-row':row.id,'data-rw-phantom':String(!!item.phantom)}, {className:'rw-model-tile',pressed:row.microphone === item.name,mutation:true})).join('') || '<p class="rw-empty-small">Kein passendes Mikrofon.</p>';
     }
 
-    function pickupCard(row) {
-      const key = 'pickup-' + row.id, kind = pickupKind(row), di = device(row.diDeviceId), title = kind === 'DI' ? deviceName(di) : kind === 'Mic' ? row.microphone || 'Mikrofon wählen' : pickupName(kind);
-      const picture = kind === 'Mic' ? micIcon(row.microphone) : kind === 'DI' ? diPhoto(di) : icon(object(sourceId(row)) || 'laptop');
-      let editor = '';
-      if (openCard === key && !readonly()) {
-        editor = '<div class="rw-card-editor"><div class="rw-choice-row rw-pickup-types" role="group" aria-label="Abnahmeart">' + ['Mic','DI','Direct','Digital'].map(value => button(pickupName(value), {'data-rw-pickup':value,'data-rw-row':row.id}, {pressed:kind === value,mutation:true})).join('') + '</div>' + (kind === 'DI' ? diEditor(row) : kind === 'Mic' ? '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Eigenes Mikrofon', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'}) : '<div class="rw-choice-row" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div>') + button('Abnahme entfernen', {'data-rw-remove-pickup':row.id}, {className:'rw-quiet-danger',mutation:true}) + '</div>';
+    function pickupCard(row, rows = [row]) {
+      const shared = rows.length > 1;
+      const key = 'pickup-' + row.id, kind = pickupKind(row), di = device(row.diDeviceId), editing = openCard === key && !readonly();
+      const kinds = '<div class="rw-choice-row rw-pickup-types" role="group" aria-label="Abnahmeart">' + [['Mic','Mikrofon'],['DI','DI-Box'],['Direct','Direkt'],['Digital','Digital']].map(([value,label]) => button(label, {'data-rw-pickup':value,'data-rw-row':row.id,'aria-label':pickupName(value)}, {pressed:kind === value,mutation:true})).join('') + '</div>';
+      let content = '', editor = '';
+      if (kind === 'Direct' || kind === 'Digital') {
+        content = '<div class="rw-pickup-connection"><span>Anschluss</span><div class="rw-choice-row rw-inline-connectors" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div></div>';
+      } else {
+        const title = kind === 'DI' ? di ? deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
+        content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (readonly() ? kind === 'DI' && di ? esc(diDetails(di)) : 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
+        if (kind === 'DI' && di) content += shared ? diInputMap(rows) : diPortButtons(row,di,true) + diStereoControl(row,di);
+        if (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V')) content += button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true});
+        if (editing) editor = '<div class="rw-card-editor">' + (kind === 'DI' ? diEditor(row) : '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Mikrofonname', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'})) + '</div>';
       }
-      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? diDetails(di) : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
+      const actions = readonly() ? '' : '<div class="rw-pickup-actions">' + (kind === 'DI' ? button(editing ? 'Einstellungen schließen' : 'Box einstellen',{'data-rw-open':key,'aria-expanded':String(editing)},{className:'rw-pickup-settings'}) : '') + button('Entfernen',{'data-rw-remove-pickup':row.id,'aria-label':'Abnahme entfernen'},{className:'rw-quiet-danger'}) + '</div>';
+      return '<article class="rw-card rw-pickup-card"' + attrs({'data-rw-row-card':row.id,'data-rw-rows':idsOf(rows),'data-rw-device-card':di?.id,'data-pickup-kind':kind}) + '>' + (shared ? diSignalTitle(rows) : '') + kinds + content + editor + actions + '</article>';
     }
 
     function channelCard(row, direction = 'inputs') {
@@ -234,19 +267,54 @@
     }
 
     const connector = '<span class="rw-connector"><svg viewBox="0 0 10 14" fill="none" aria-hidden="true" focusable="false"><path d="m2.5 2.5 4.5 4.5-4.5 4.5"/></svg></span>';
-    const arrow = (stereo = false) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? ['L','R'].map(side => '<span class="rw-arrow-lane"><small>' + side + '</small>' + connector + '</span>').join('') : connector) + '</div>';
+    const arrow = (stereo = false, labels = ['L','R']) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? labels.map(side => '<span class="rw-arrow-lane"><small>' + esc(side) + '</small>' + connector + '</span>').join('') : connector) + '</div>';
+
+    function sourceOutputControls(group) {
+      const outputs = state.sourceOutputs?.[group.id];
+      if (!outputs) return '';
+      const summary = outputs.count + (outputs.count === 1 ? ' Ausgang' : ' Ausgänge') + ' · ' + outputs.connector, locked = readonly() || outputs.locked, disabled = locked || !outputs.editable;
+      if (outputs.editor && !outputs.editable) return '<div class="rw-source-outputs"><span class="rw-output-summary">' + esc(summary) + '</span>' + button(({playback:'Playback-Ausgänge',drums:'Drum-Aufbau',percussion:'Percussion-Aufbau',orchestra:'Orchester-Aufbau'}[outputs.editor] || 'Ausgänge') + ' bearbeiten', {'data-rw-source-editor':group.id}, {disabled:locked,mutation:true}) + '</div>';
+      const key = 'source-outputs-' + group.id, editing = openCard === key;
+      let markup = '<div class="rw-source-outputs">' + button('<span><small>Ausgänge</small><strong>' + esc(summary) + '</strong></span><span aria-hidden="true">' + (editing ? '−' : '+') + '</span>', {'data-rw-source-outputs':group.id,'aria-label':'Ausgänge von ' + group.name + ' bearbeiten','aria-expanded':String(editing)}, {className:'rw-source-output-toggle'});
+      if (editing) {
+        markup += '<div class="rw-source-output-editor"><div class="rw-output-count"><span>Anzahl</span><div>' + button('−', {'data-rw-source-output-step':-1,'data-rw-source':group.id,'aria-label':'Einen Ausgang weniger'}, {disabled:disabled || outputs.count <= 0,mutation:true}) + '<input type="number" min="0" max="64" step="1" required aria-label="Anzahl Ausgänge" data-rw-source-output-count="' + esc(group.id) + '" data-rw-focus="output-count-' + esc(group.id) + '" value="' + outputs.count + '"' + (disabled ? ' disabled' : '') + '>' + button('+', {'data-rw-source-output-step':1,'data-rw-source':group.id,'aria-label':'Einen Ausgang mehr'}, {disabled:disabled || outputs.count >= 64,mutation:true}) + '</div></div><div class="rw-output-connector"><span>Buchse am Instrument</span><div class="rw-choice-row" role="group" aria-label="Ausgangsbuchse">' + outputs.connectors.map(value => button(esc(value), {'data-rw-source-output-connector':value,'data-rw-source':group.id}, {pressed:value === outputs.connector,disabled,mutation:true})).join('') + '</div></div>';
+        if (outputs.ports.length) {
+          markup += '<div class="rw-output-port-list">';
+          for (const port of outputs.ports) {
+            const locked = disabled || port.locked, paired = outputs.stereoPairs.includes(port.number) || outputs.stereoPairs.includes(port.number - 1), side = paired ? outputs.stereoPairs.includes(port.number) ? ' · L' : ' · R' : '';
+            markup += '<div class="rw-output-port"><div><strong>Out ' + port.number + side + '</strong>' + button(port.active ? 'Verwendet' : 'Verwenden', {'data-rw-source-output-used':port.number,'data-rw-source':group.id,'data-rw-value':String(!port.active),'aria-label':'Ausgang ' + port.number + (port.active ? ' deaktivieren' : ' verwenden')}, {pressed:port.active,disabled:locked,mutation:true}) + '</div><input type="text" maxlength="60" placeholder="Ausgangsname" aria-label="Name Ausgang ' + port.number + '" data-rw-source-output-alias="' + port.number + '" data-rw-source="' + esc(group.id) + '" data-rw-focus="output-alias-' + esc(group.id) + '-' + port.number + '" value="' + esc(outputs.aliases[port.number - 1] || '') + '"' + (locked ? ' disabled' : '') + '></div>';
+            if (port.number % 2 === 0) {
+              const start = port.number - 1, linked = outputs.stereoPairs.includes(start), pairLocked = disabled || outputs.ports.some(member => [start,port.number].includes(member.number) && member.locked);
+              markup += '<div class="rw-output-pair"><span>Out ' + start + ' + ' + port.number + '</span><div class="rw-choice-row" role="group" aria-label="Format Ausgänge ' + start + ' und ' + port.number + '">' + [[false,'Einzeln'],[true,'Stereo L/R']].map(([value,label]) => button(label, {'data-rw-source-output-stereo':start,'data-rw-source':group.id,'data-rw-value':String(value)}, {pressed:linked === value,disabled:pairLocked,mutation:true})).join('') + '</div></div>';
+            }
+          }
+          markup += '</div>';
+        }
+        markup += '</div>';
+      }
+      return markup + '</div>';
+    }
 
     function sourceFlow(group, onlyRow = null) {
-      const rows = onlyRow ? [onlyRow] : group.rows, count = rows.length, linked = count > 1 && monoLabel(rows) === 'Stereo';
-      const sourceCard = '<article class="rw-card rw-source-card" style="grid-row:2 / ' + (count + 2) + '">' + cardHead('Quelle', null, art(icon(group.object))) + field('Instrument',group.name,{'data-rw-source-field':'label','data-rw-source':group.id},{maxlength:42}) + '<p class="rw-card-meta">' + count + (count === 1 ? ' Abnahme' : ' Abnahmen') + '</p></article>';
-      let markup = '<div class="rw-flow-scroll"><div class="rw-source-flow" data-row-count="' + count + '"><span class="rw-column-title rw-column-source">Quelle</span><span class="rw-column-title rw-column-pickup">Abnahme</span><span class="rw-column-title rw-column-patch">Anschluss</span><span class="rw-column-title rw-column-channel">Kanal</span>' + sourceCard;
-      rows.forEach((row,index) => {
-        const gridRow = index + 2;
-        markup += '<div class="rw-branch" data-branch="' + (count === 1 ? 'single' : index === 0 ? 'first' : index === count - 1 ? 'last' : 'middle') + '" style="grid-row:' + gridRow + '" aria-hidden="true">' + connector + '</div><div class="rw-flow-pickup" style="grid-row:' + gridRow + '">' + pickupCard(row) + '</div><div class="rw-flow-arrow-one" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-patch" style="grid-row:' + gridRow + '">' + patchCard([row],'inputs') + '</div><div class="rw-flow-arrow-two" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-channel" style="grid-row:' + gridRow + '">' + channelCard(row) + '</div>';
+      const rows = onlyRow ? sharedDiRows(onlyRow) : group.rows, count = rows.length, linked = count > 1 && monoLabel(rows) === 'Stereo';
+      const lanes = [], seen = new Set();
+      for (const row of rows) {
+        if (seen.has(row.id)) continue;
+        const members = sharedDiRows(row).filter(member => rows.some(candidate => candidate.id === member.id));
+        members.forEach(member => seen.add(member.id));lanes.push(members);
+      }
+      const laneCount = lanes.length;
+      const sourceCard = '<article class="rw-card rw-source-card" style="grid-row:2 / ' + (Math.max(1,laneCount) + 2) + '">' + cardHead('Quelle', null, art(icon(group.object))) + field('Instrument',group.name,{'data-rw-source-field':'label','data-rw-source':group.id},{maxlength:42}) + sourceOutputControls(group) + '<p class="rw-card-meta">' + laneCount + (laneCount === 1 ? ' Abnahme' : ' Abnahmen') + (count > laneCount ? ' · ' + count + ' Kanäle' : '') + '</p></article>';
+      let markup = '<div class="rw-flow-scroll"><div class="rw-source-flow" data-row-count="' + laneCount + '" data-signal-count="' + count + '"><span class="rw-column-title rw-column-source">Quelle</span><span class="rw-column-title rw-column-pickup">Abnahme</span><span class="rw-column-title rw-column-patch">Anschluss</span><span class="rw-column-title rw-column-channel">Kanal</span>' + sourceCard;
+      lanes.forEach((members,index) => {
+        const gridRow = index + 2, row = members[0], shared = members.length > 1;
+        const channels = shared ? '<div class="rw-channel-stack">' + members.map(member => channelCard(member)).join('') + '</div>' : channelCard(row);
+        const split = shared ? '<div class="rw-channel-fork" aria-hidden="true">' + members.map((member,i) => '<div data-branch="' + (i === 0 ? 'first' : i === members.length - 1 ? 'last' : 'middle') + '">' + connector + '</div>').join('') + '</div>' : arrow();
+        markup += '<div class="rw-branch" data-branch="' + (laneCount === 1 ? 'single' : index === 0 ? 'first' : index === laneCount - 1 ? 'last' : 'middle') + '" style="grid-row:' + gridRow + '" aria-hidden="true">' + connector + '</div><div class="rw-flow-pickup" style="grid-row:' + gridRow + '">' + pickupCard(row,members) + '</div><div class="rw-flow-arrow-one" style="grid-row:' + gridRow + '">' + arrow(shared, members.map(member => member.stereoGroup ? member.mode === 'Stereo R' ? 'R' : 'L' : String(member.diChannel))) + '</div><div class="rw-flow-patch" style="grid-row:' + gridRow + '">' + patchCard(members,'inputs') + '</div><div class="rw-flow-arrow-two' + (shared ? ' rw-flow-split' : '') + '" style="grid-row:' + gridRow + '">' + split + '</div><div class="rw-flow-channel" style="grid-row:' + gridRow + '">' + channels + '</div>';
       });
-      if (!onlyRow && !readonly()) markup += '<div class="rw-add-pickup" style="grid-row:' + (count + 2) + '">' + button('＋ Weitere Abnahme',{'data-rw-add-pickup':group.id},{className:'rw-add',mutation:true}) + '</div>';
+      if (!onlyRow && !readonly()) markup += '<div class="rw-add-pickup" style="grid-row:' + (laneCount + 2) + '">' + button('＋ Weitere Abnahme',{'data-rw-add-pickup':group.id},{className:'rw-add',mutation:true}) + '</div>';
       markup += '</div></div>';
-      if (!onlyRow && count >= 2 && !readonly()) markup += '<div class="rw-format-controls" role="group" aria-label="Kanalformat">' + button('Unabhängig · Dual-Mono',{'data-rw-unlink':idsOf(rows)},{pressed:!linked,mutation:true}) + (count === 2 ? button('Stereo · L / R',{'data-rw-link':idsOf(rows)},{pressed:linked,mutation:true}) : '') + '</div>';
+      if (!onlyRow && count === 2 && !readonly()) markup += '<div class="rw-format-controls" role="group" aria-label="Kanalformat">' + button('Unabhängig · Dual-Mono',{'data-rw-unlink':idsOf(rows)},{pressed:!linked,mutation:true}) + button('Stereo · L / R',{'data-rw-link':idsOf(rows)},{pressed:linked,mutation:true}) + '</div>';
       return markup;
     }
 
@@ -260,7 +328,7 @@
       const group = sources.find(item => item.id === activeSource);
       if (!group) return '<div class="rw-empty"><strong>Noch keine Quellen</strong><p>Instrumente auf der Bühne erscheinen hier mit ihren Abnahmen.</p></div>';
       highlighted = group.object ? [group.object.id] : [];
-      return heading(group.name, '<span class="rw-format-badge">' + (group.rows.length ? monoLabel(group.rows) : 'Offen') + '</span>') + (group.rows.length ? sourceFlow(group) + notes(group.rows,'inputs') : '<div class="rw-empty"><strong>Abnahme hinzufügen</strong><div class="rw-choice-row">' + ['Mic','DI','Direct'].map(kind => button(pickupName(kind),{'data-rw-first-pickup':kind,'data-rw-source':group.id},{mutation:true})).join('') + '</div></div>');
+      return heading(group.name, '<span class="rw-format-badge">' + (group.rows.length ? monoLabel(group.rows) : 'Offen') + '</span>') + sourceFlow(group) + notes(group.rows,'inputs');
     }
 
     function monitorView(group = monitors.find(item => item.id === activeMonitor), embedded = false) {
@@ -339,7 +407,7 @@
     }
     function render() {
       if (destroyed) return;
-      const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0;
+      const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0, outputScroll = host.querySelector('.rw-output-port-list')?.scrollTop || 0, flowScroll = host.querySelector('.rw-flow-scroll')?.scrollLeft || 0;
       state = api.getState() || {}; state.routing = state.routing || state.stage?.routing || {inputs:[],outputs:[]};
       if (!['inputs','outputs','stageboxes'].includes(state.tab)) state.tab = 'inputs';
       if (state.tab !== lastTab) { query = ''; openCard = ''; diPickerRow = ''; lastTab = state.tab; error = ''; }
@@ -349,6 +417,8 @@
       host.innerHTML = header() + '<div class="rw-layout">' + sidebar() + '<div class="rw-detail" id="sp-routing-detail-v2" role="tabpanel"><main class="rw-main">' + (error && !diPickerRow ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + content + '</main>' + footer() + '</div></div>' + (diPickerRow ? diPicker() : '');
       host.querySelector('.rw-main').scrollTop = mainScroll;
       host.querySelector('.rw-source-list').scrollTop = listScroll;
+      if (host.querySelector('.rw-output-port-list')) host.querySelector('.rw-output-port-list').scrollTop = outputScroll;
+      if (host.querySelector('.rw-flow-scroll')) host.querySelector('.rw-flow-scroll').scrollLeft = flowScroll;
       const dialog = host.querySelector('[data-rw-di-dialog]');
       if (dialog) {
         dialog.showModal();
@@ -375,7 +445,13 @@
       if (data.rwSelect) { if (state.tab === 'stageboxes') {activeBox = data.rwSelect;activePort = null;} else if (state.tab === 'outputs') activeMonitor = data.rwSelect; else activeSource = data.rwSelect; openCard = ''; error = ''; render(); return; }
       if (data.rwPort) {activeBox = data.rwBox;activePort = {boxId:activeBox,direction:data.rwDirection,port:Number(data.rwPort)};openCard = '';render();return;}
       if (data.rwExport) {doAction({type:'exportPatch',direction:data.rwExport});return;}
+      if (data.rwSourceOutputs) {openCard = openCard === 'source-outputs-' + data.rwSourceOutputs ? '' : 'source-outputs-' + data.rwSourceOutputs;error = '';render();host.querySelector('.rw-source-output-editor')?.scrollIntoView({block:'nearest',inline:'nearest'});return;}
       if (readonly()) return;
+      if (data.rwSourceEditor) return doAction({type:'openSourceEditor',sourceId:data.rwSourceEditor});
+      if (data.rwSourceOutputStep) return doAction({type:'setSourceOutputs',sourceId:data.rwSource,fields:{count:state.sourceOutputs[data.rwSource].count + Number(data.rwSourceOutputStep)}});
+      if (data.rwSourceOutputConnector) return doAction({type:'setSourceOutputs',sourceId:data.rwSource,fields:{connector:data.rwSourceOutputConnector}});
+      if (data.rwSourceOutputStereo) return doAction({type:'setSourceOutputStereo',sourceId:data.rwSource,start:Number(data.rwSourceOutputStereo),linked:data.rwValue === 'true'});
+      if (data.rwSourceOutputUsed) return doAction({type:'setSourceOutputUsed',sourceId:data.rwSource,port:Number(data.rwSourceOutputUsed),used:data.rwValue === 'true'});
       if (data.rwDiClose) {closeDiPicker();return;}
       if (data.rwDiOpen) {openDiPicker(data.rwDiOpen,target);return;}
       if (data.rwOpen) {openCard = openCard === data.rwOpen ? '' : data.rwOpen;pickerBox = '';micQuery = '';error = '';render();if(openCard.startsWith('pickup-'))host.querySelector('[data-rw-mic-search]')?.focus({preventScroll:true});return;}
@@ -383,21 +459,22 @@
       if (data.rwPlayback) return doAction({type:'openPlayback',sourceId:data.rwPlayback});
       if (data.rwAddPickup) return doAction({type:'addPickup',sourceId:data.rwAddPickup,kind:'Mic'});
       if (data.rwFirstPickup) return doAction({type:'addPickup',sourceId:data.rwSource,kind:data.rwFirstPickup});
-      if (data.rwRemovePickup) return doAction({type:'removePickup',rowId:data.rwRemovePickup},{close:true});
-      if (data.rwPickup) return doAction({type:'setPickup',rowId:data.rwRow,kind:data.rwPickup});
+      if (data.rwRemovePickup) return doAction({type:'removePickup',rowId:data.rwRemovePickup,rowIds:sharedDiRows(route(data.rwRemovePickup)).map(row => row.id)},{close:true});
+      if (data.rwPickup) {if(pickupKind(route(data.rwRow)) === data.rwPickup)return;openCard = '';return doAction({type:'setPickup',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),kind:data.rwPickup});}
       if (data.rwMic !== undefined) return doAction({type:'setPickup',rowId:data.rwRow,kind:'Mic',microphone:data.rwMic,phantom:data.rwPhantom === 'true'},{close:true});
       if (data.rwCreateDi) {
         if (device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
-        const result = doAction({type:'createDi',rowId:data.rwRow,modelId:data.rwCreateDi});
+        const result = doAction({type:'createDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),modelId:data.rwCreateDi});
         if (result !== false) closeDiPicker();
         return result;
       }
-      if (data.rwDiDevice) return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});
+      if (data.rwDiStereo) return doAction({type:'connectStereoDi',rowId:data.rwDiStereo,deviceId:data.rwDiStereoDevice},{close:true});
+      if (data.rwDiDevice) {if(route(data.rwRow)?.diDeviceId === data.rwDiDevice && Number(route(data.rwRow)?.diChannel) === Number(data.rwDiChannel))return;return doAction({type:'assignDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});}
       if (data.rwDeviceValue) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceValue]:data.rwDeviceValue === 'channels' ? Number(data.rwValue) : data.rwDeviceValue === 'active' ? data.rwValue === 'true' : data.rwValue}});
-      if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
-      if (data.rwUnpatch) return doAction({type:'unpatch',direction:data.rwDirection,rowIds:splitIds(data.rwUnpatch)},{close:true});
+      if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),exactRows:data.rwExactRows === 'true',boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
+      if (data.rwUnpatch) return doAction({type:'unpatch',direction:data.rwDirection,rowIds:splitIds(data.rwUnpatch),exactRows:data.rwExactRows === 'true'},{close:true});
       if (data.rwTogglePhantom) {const row = route(data.rwTogglePhantom);if(row)return doAction({type:'editChannel',direction:'inputs',rowId:row.id,fields:{phantom:!row.phantom}});}
-      if (data.rwConnector) return doAction({type:'editChannel',direction:'inputs',rowId:data.rwRow,fields:{connector:data.rwConnector}});
+      if (data.rwConnector) {if(route(data.rwRow)?.connector === data.rwConnector)return;return doAction({type:'editChannel',direction:'inputs',rowId:data.rwRow,fields:{connector:data.rwConnector}});}
       if (data.rwLink) return doAction({type:'linkStereo',rowIds:splitIds(data.rwLink)});
       if (data.rwUnlink) return doAction({type:'unlinkStereo',rowIds:splitIds(data.rwUnlink)});
       if (data.rwMonitorFormat) return doAction({type:'setMonitorFormat',rowIds:splitIds(data.rwRows),format:data.rwMonitorFormat});
@@ -423,6 +500,8 @@
     function onChange(event) {
       const input = event.target, data = input.dataset; if (readonly()) return;
       if (input.validity && !input.validity.valid) { input.reportValidity(); return false; }
+      if (data.rwSourceOutputCount) return doAction({type:'setSourceOutputs',sourceId:data.rwSourceOutputCount,fields:{count:Number(input.value)}});
+      if (data.rwSourceOutputAlias) return doAction({type:'setSourceOutputAlias',sourceId:data.rwSource,port:Number(data.rwSourceOutputAlias),value:input.value});
       if (data.rwSourceField) return doAction({type:'editSource',sourceId:data.rwSource,fields:{[data.rwSourceField]:input.value}});
       if (data.rwChannelField) return doAction({type:'editChannel',direction:data.rwDirection,rowId:data.rwRow,fields:{[data.rwChannelField]:data.rwChannelField === 'number' ? input.value === '' ? null : Number(input.value) : input.value}});
       if (data.rwDeviceField) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceField]:input.value}});
@@ -431,6 +510,16 @@
       if (data.rwNotes) return doAction({type:data.rwDirection === 'outputs' ? 'editMonitor' : 'editChannel',direction:data.rwDirection,rowId:splitIds(data.rwNotes)[0],rowIds:splitIds(data.rwNotes),fields:{notes:input.value}});
     }
     function onKeydown(event) {
+      if (event.key === 'Tab' && event.target.matches('[data-rw-source-output-count],[data-rw-source-output-alias]') && event.target.value !== event.target.defaultValue) {
+        // Save before native Tab navigation: replacing the focused input on blur
+        // would otherwise leave the browser with a detached navigation anchor.
+        event.preventDefault();
+        const key = event.target.dataset.rwFocus, result = onChange({target:event.target});
+        if (result === false || error) return;
+        const controls = [...host.querySelectorAll('button:not(:disabled),input:not(:disabled),textarea:not(:disabled)')].filter(element => element.getClientRects().length), index = controls.findIndex(element => element.dataset.rwFocus === key);
+        if (index >= 0) (controls[index + (event.shiftKey ? -1 : 1)] || controls[index]).focus();
+        return;
+      }
       if (diPickerRow) {
         event.stopPropagation();
         if (event.key === 'Escape') {event.preventDefault();closeDiPicker();}
@@ -448,12 +537,13 @@
         const tabs = ['inputs','outputs','stageboxes'], current = tabs.indexOf(state.tab), next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (current + (event.key === 'ArrowRight' ? 1 : 2)) % 3;
         event.preventDefault();doAction({type:'selectTab',tab:tabs[next]});host.querySelector('[data-rw-tab="' + tabs[next] + '"]')?.focus();return;
       }
-      if (event.key === 'Escape' && openCard) {openCard = '';error = '';render();event.stopPropagation();}
+      if (event.key === 'Escape' && openCard) {const source = openCard.startsWith('source-outputs-') ? openCard.slice('source-outputs-'.length) : '';openCard = '';error = '';render();if(source)[...host.querySelectorAll('[data-rw-source-outputs]')].find(button => button.dataset.rwSourceOutputs === source)?.focus({preventScroll:true});event.stopPropagation();}
       if (event.key === 'Enter' && event.target.matches('input:not([type="search"])')) {event.preventDefault();event.target.blur();}
     }
     host.addEventListener('click',onClick); host.addEventListener('pointerdown',onPointerDown); host.addEventListener('input',onInput); host.addEventListener('change',onChange); host.addEventListener('keydown',onKeydown);
     return {
       render,
+      openSourceOutputs(id) {activeSource = id;openCard = 'source-outputs-' + id;const flow = host.querySelector('.rw-flow-scroll');if(flow)flow.scrollLeft = 0;render();host.querySelector('.rw-source-output-editor')?.scrollIntoView({block:'nearest',inline:'nearest'});host.querySelector('[data-rw-source-output-count]')?.focus({preventScroll:true});},
       selectSource(id) {if(state?.tab === 'outputs')activeMonitor = monitors.find(group => group.id === id || group.object?.id === id || group.rows.some(row => row.id === id || sourceId(row) === id))?.id || id;else activeSource = sources.find(group => group.id === id || group.rows.some(row => row.id === id))?.id || id;openCard = '';render();},
       selectStagebox(id,direction,port) {activeBox = id;activePort = direction && port ? {boxId:id,direction,port:Number(port)} : null;openCard = '';render();},
       destroy() {destroyed = true;stageObserver?.disconnect();if(frame)cancelAnimationFrame(frame);host.removeEventListener('click',onClick);host.removeEventListener('pointerdown',onPointerDown);host.removeEventListener('input',onInput);host.removeEventListener('change',onChange);host.removeEventListener('keydown',onKeydown);host.replaceChildren();}
