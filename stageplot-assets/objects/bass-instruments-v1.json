@@ -1,0 +1,317 @@
+{
+  "generator": "built-in image_gen",
+  "mode": "generate",
+  "created": "2026-09-17",
+  "camera": "Orthographic front face, instrument laid flat, neck up; recognizable plan symbol, not a standing instrument footprint.",
+  "dimensions": "Approximate generic plan dimensions in metres unless an asset includes dimensionsSource. Existing P-Bass, J-Bass and double-bass dimensions remain unchanged.",
+  "processing": "Original RGBA PNG outputs copied without pixel edits. SVG viewBox excludes transparent margins and preserves aspect ratio. Framing ignores isolated alpha values below 8/255 and adds a four-pixel margin; PNG pixels and alpha are unchanged.",
+  "assets": [
+    {
+      "id": "bass-j",
+      "label": "J-Bass",
+      "w": 0.36,
+      "d": 1.18,
+      "reference": "https://www.fender.com/products/player-ii-jazz-bass",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, pickups and tuning pegs. EXACTLY FOUR strings and FOUR tuning machines. Classic right-handed Fender Jazz Bass architecture. Long slim 34-inch-scale fretted neck with 20 frets, distinct asymmetric offset-waist body with long rounded upper horn on viewer left and shorter lower horn on viewer right. Light gray solid body, white sweeping pickguard, dark rosewood fretboard with white dot inlays. Exactly TWO straight slender BLACK single-coil bar pickups spaced apart, one near neck and one near bridge, both perpendicular to strings. Chrome elongated control plate along lower right with THREE small dark knobs and output jack. Chrome four-saddle bass bridge. Large curved Fender bass paddle headstock with four cloverleaf tuners in one row on viewer left. Four strings, no tremolo. Full width/length ratio about 0.305.",
+      "asset": "bass-j-illustrated-v1.png",
+      "size": [
+        878,
+        1792
+      ],
+      "viewBox": [
+        176,
+        3,
+        529,
+        1789
+      ],
+      "alphaBounds": [
+        180,
+        7,
+        701,
+        1792
+      ],
+      "sha256": "c6ac789e011cb8db520c7cdb8b59c34c93436991b3ada8cf0bd6d4a31614857c",
+      "sourceFile": "exec-40eca9aa-39a1-4458-a05a-4b69d2e9626f.png",
+      "rawAlphaBounds": [
+        27,
+        0,
+        815,
+        1792
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "bass",
+      "label": "P-Bass",
+      "w": 0.36,
+      "d": 1.16,
+      "reference": "https://www.fender.com/products/american-professional-classic-precision-bass",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, pickups and tuning pegs. EXACTLY FOUR strings and FOUR tuning machines. Classic right-handed Fender Precision Bass architecture. Long 34-inch-scale neck, 20 frets. Traditional smooth double-cutaway body with rounded long upper horn on viewer left, shorter horn on right, centered waist (NOT offset Jazz Bass). Light silver-gray solid body, broad white pickguard, dark rosewood fingerboard with pale dots. ONE Precision SPLIT-COIL pickup in middle of body: two short offset black rectangular halves, one under the two left strings and one under the two right strings. NO bridge pickup. Two chrome control knobs on lower right pickguard, small jack. Four-saddle chrome bridge near bottom. Large round-ended Fender bass headstock with exactly four cloverleaf tuning machines in a single row on viewer left. Four strings, no tremolo. Full width/length ratio about 0.31.",
+      "asset": "bass-illustrated-v1.png",
+      "size": [
+        986,
+        1595
+      ],
+      "viewBox": [
+        263,
+        13,
+        460,
+        1569
+      ],
+      "alphaBounds": [
+        267,
+        17,
+        719,
+        1578
+      ],
+      "sha256": "2f136763eb29288ca216b2b78908bb3819f80669b7132fb43710496e17af54a3",
+      "sourceFile": "exec-edb422f7-590d-4db6-9590-56eec88f37ef.png",
+      "rawAlphaBounds": [
+        0,
+        15,
+        972,
+        1580
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "bass-pj",
+      "label": "PJ-Bass",
+      "w": 0.36,
+      "d": 1.16,
+      "reference": "https://www.fender.com/products/affinity-series-precision-bass-pj-1",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, pickups and tuning pegs. EXACTLY FOUR strings and FOUR tuning machines. Classic right-handed Precision/Jazz hybrid PJ electric bass. Traditional Precision smooth double-cut body, long rounded upper horn on viewer left and shorter right horn, non-offset centered waist. Medium gray solid body, WHITE full Precision pickguard, dark 20-fret rosewood fingerboard with pale dots, long 34-inch-scale neck. Pickup layout must visibly show BOTH: a Precision SPLIT-COIL in middle (two offset short black halves under two strings each), PLUS a separate long narrow straight Jazz single-coil bar near bridge. Three small chrome knobs on lower right and chrome jack. Four-saddle chrome bridge. Large curved Fender bass paddle headstock with exactly four cloverleaf tuners all on viewer left. Four strings, no tremolo. Full width/length ratio about 0.31.",
+      "asset": "bass-pj-illustrated-v1.png",
+      "size": [
+        988,
+        1592
+      ],
+      "viewBox": [
+        266,
+        15,
+        456,
+        1544
+      ],
+      "alphaBounds": [
+        270,
+        19,
+        718,
+        1555
+      ],
+      "sha256": "1cbbcce0a2b654109399c4a0cae169c30493c52dba15b62696f9ded997b9bc9a",
+      "sourceFile": "exec-bc978037-cf53-48b7-ab77-5399330076ba.png",
+      "rawAlphaBounds": [
+        106,
+        16,
+        927,
+        1558
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "bass-shortscale",
+      "label": "Shortscale",
+      "w": 0.33,
+      "d": 1.04,
+      "reference": "https://images.epiphone.com/Media/EpiCatalog_2018_digital.pdf",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass raster sprite for a 2D stage-plot editor. ONE instrument lying flat, FRONT FACE to camera, neck straight up. Exactly perpendicular orthographic camera, no perspective. Portrait, centered, whole headstock, tuners and body uncropped with small transparent margin. Realistic monochrome graphite-and-ink product illustration, fine charcoal edges, restrained gray material shading, believable wood and metal detail, polished and legible at small size, not a vector icon. Neutral grayscale only. Genuine transparent alpha background; no floor, cast shadow, white rectangle or checkerboard drawing. No lettering, logos, people, hands, cases, stands, cables or extra instruments. Right-handed short-scale EB-0 / SG-style FOUR-STRING electric bass. Thin medium-gray mahogany body with two sharp pointed symmetrical devil-horn cutaways, beveled edges, centered waist not offset. Compact 30.5-inch scale bass, dark rosewood fretboard with 20 frets and small white dots. Exactly ONE wide rectangular chrome-covered sidewinder humbucker immediately next to the end of the neck, no bridge pickup. Small black pickguard on viewer right below pickup. Chrome three-point adjustable bass bridge with four saddles, two black top-hat knobs and one jack on lower right body. Symmetrical dark open-book headstock, exactly FOUR chrome cloverleaf tuners TWO on each side. FOUR thick strings. No tremolo. Full width/length ratio about 0.32. Body clearly different from a rounded Fender Mustang.",
+      "asset": "bass-shortscale-illustrated-v1.png",
+      "size": [
+        971,
+        1619
+      ],
+      "viewBox": [
+        212,
+        11,
+        548,
+        1600
+      ],
+      "alphaBounds": [
+        216,
+        15,
+        756,
+        1607
+      ],
+      "sha256": "606e96b4119cb32d75bf3219406081d89bcd28fb529eca833626ed24ace231cd",
+      "sourceFile": "exec-3878a319-80bb-46c1-9511-367044b3d8b2.png",
+      "rawAlphaBounds": [
+        0,
+        12,
+        939,
+        1619
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "bass-mustang",
+      "label": "Mustang",
+      "w": 0.33,
+      "d": 1.07,
+      "reference": "https://intl.fender.com/products/jmj-road-worn-mustang-bass",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, pickups and tuning pegs. EXACTLY FOUR strings and FOUR tuning machines. Right-handed short-scale Fender Mustang Bass architecture. Recognizably compact small offset double-cutaway body with rounded horns, swept waist and distinctive Mustang shape, visibly shorter 30-inch scale neck with 19 frets. Light silver-gray body, white pearloid broad curving pickguard, separate small rounded chrome control plate on lower right carrying two chrome knobs and jack. One compact Mustang split-coil pickup with two small staggered cream pickup halves in middle, NO bridge pickup. Four-saddle bass bridge and string-through plate, no tremolo. Dark fingerboard, white dot markers. Small Fender-style paddle headstock with exactly four cloverleaf tuners in one row on viewer left. Four strings. Full width/length ratio about 0.31; body proportionally larger relative to neck than a Jazz Bass.",
+      "asset": "bass-mustang-illustrated-v1.png",
+      "size": [
+        991,
+        1587
+      ],
+      "viewBox": [
+        246,
+        5,
+        494,
+        1570
+      ],
+      "alphaBounds": [
+        250,
+        9,
+        736,
+        1571
+      ],
+      "sha256": "52e0d384aec720b6d9e8f89829a60c7dc3680b12f640eb0b2ad61227b9d5bdd5",
+      "sourceFile": "exec-ab90ca42-54b4-4e54-ba1e-72778a60e539.png",
+      "rawAlphaBounds": [
+        33,
+        0,
+        930,
+        1573
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "bass-acoustic",
+      "label": "Akustikbass",
+      "w": 0.43,
+      "d": 1.2,
+      "reference": "https://www.fender.com/products/cb-60sce-bass",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, pickups and tuning pegs. EXACTLY FOUR strings and FOUR tuning machines. Right-handed FOUR-STRING acoustic-electric bass guitar, in style of concert-body Fender CB-60SCE. Large rounded wooden acoustic body with narrow waist, graceful single rounded Venetian cutaway at upper viewer-right, one large circular central soundhole with restrained rosette. Pale gray spruce wood grain top, fine dark binding, small dark teardrop pickguard right of soundhole. Long bass neck with dark walnut fretted fingerboard and small pale dots. Dark wooden pin bridge at lower body with FOUR bridge pins, four thick metallic strings crossing soundhole to nut. Wide compact symmetric bass headstock with exactly FOUR large chrome bass tuners arranged TWO per side. No magnetic pickups, no f-holes, no guitar six-string bridge. Complete 32-inch-scale bass, noticeably longer neck than acoustic guitar. Full width/length ratio about 0.36.",
+      "asset": "bass-acoustic-illustrated-v1.png",
+      "size": [
+        941,
+        1672
+      ],
+      "viewBox": [
+        157,
+        4,
+        627,
+        1661
+      ],
+      "alphaBounds": [
+        161,
+        8,
+        780,
+        1661
+      ],
+      "sha256": "731af520a3b9857d0dbfdc1b8eb0723a60a33b826f464d1eb9a220968fd91705",
+      "sourceFile": "exec-19081a14-ca75-4a3c-9e3e-91c03a6ea324.png",
+      "rawAlphaBounds": [
+        0,
+        0,
+        856,
+        1672
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "double-bass",
+      "label": "Kontrabass",
+      "w": 0.66,
+      "d": 1.9,
+      "reference": "https://www.hofner.com/web/content/45194?download=true&unique=d17ca10d6966fb3a4d172f953896e18f98b88b6e",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, pickups and tuning pegs. EXACTLY FOUR strings and FOUR tuning machines. Full-size orchestral upright DOUBLE BASS / CONTRABASS lying flat soundboard up, scroll at top and short metal endpin pointing down. Correct tall double-bass proportions total height about 190 cm, broad lower bout 66 cm, steep sloping upper shoulders, deep C-bouts and modest violin corners, large pear-shaped lower body. Pale medium-gray figured wooden arched soundboard with TWO slender black f-holes, tall pale carved wooden bridge, long dark ebony FRETLESS fingerboard (NO FRETS, NO DOTS), dark tapering tailpiece, exactly FOUR thick long strings, curled carved scroll and FOUR brass tuning machines represented in grayscale. Endpin only modest extension below body. No bow, no stand. Not cello, no guitar pickups, no round soundhole. Full width/height ratio about 0.347.",
+      "asset": "double-bass-illustrated-v1.png",
+      "size": [
+        937,
+        1678
+      ],
+      "viewBox": [
+        171,
+        17,
+        596,
+        1643
+      ],
+      "alphaBounds": [
+        175,
+        21,
+        763,
+        1656
+      ],
+      "sha256": "4cbc282d423c75a35ee228129bb1c3555e95b559b12db7893cdc3eace5559777",
+      "sourceFile": "exec-b398182f-329c-4bc5-9bfd-729d38862bd6.png",
+      "rawAlphaBounds": [
+        23,
+        17,
+        828,
+        1660
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "bass-violin",
+      "label": "Höfner Violin Bass",
+      "w": 0.28,
+      "d": 1.1,
+      "reference": "https://www.hofner.com/en/shop/hct-500-1-bk-hct-500-1-bk-violin-bass-ct-3204",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass instrument raster sprite for a 2D stage-plot editor. Generate ONE full-length instrument lying flat on its back with its FRONT FACE facing the camera, neck pointing vertically straight up. Camera exactly perpendicular to its front, orthographic, no perspective, no side walls visible. Portrait composition centered, whole headstock, tuners and body uncropped, small transparent margin. Style: realistic monochrome graphite-and-ink product illustration, fine charcoal edges, soft restrained gray material shading, believable wood grain and metal detail; polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background, no floor, no cast shadow, no white rectangle and no checkerboard drawing. No lettering, branding, logos, watermarks, labels, people, hands, cases, stands, cables, microphones or extra instruments. Anatomically coherent strings, bridge, pickups and tuning pegs. EXACTLY FOUR strings and FOUR tuning machines. Iconic Höfner 500/1 Violin Bass, the Beatles violin-shaped hollow-body electric bass, right-handed layout. Symmetrical small VIOLIN-shaped guitar body, deeply pinched concave waist, rounded upper and lower bouts and tiny violin corners, no cutaway horns, NO F-HOLES, NO ROUND SOUNDHOLE. Gray sunburst arched maple/spruce finish with lighter center and dark shaded edge, fine pale binding. Two small chrome rectangular staple-top humbucking pickups aligned across FOUR strings, one at neck heel and one near bridge. Small separate pearl pickguard on viewer-right, rectangular pearloid control panel on lower viewer-right with two cream knobs and three black sliding switches. Dark floating wooden bridge, thin chrome trapeze tailpiece to bottom. Slim dark fretted 30-inch scale neck with small dots. Small symmetric black headstock with exactly FOUR cream oval tuning buttons TWO on each side. No logo. Complete full length ratio width/height about 0.255.",
+      "asset": "bass-violin-illustrated-v1.png",
+      "size": [
+        944,
+        1665
+      ],
+      "viewBox": [
+        242,
+        17,
+        459,
+        1598
+      ],
+      "alphaBounds": [
+        246,
+        21,
+        697,
+        1611
+      ],
+      "sha256": "5435b86c25b52c298508d2d6c4c05e5814de40e2d06a9ea4f95f8f98fb543585",
+      "sourceFile": "exec-e34433a9-5171-49f8-9d03-75933dc332f2.png",
+      "rawAlphaBounds": [
+        145,
+        18,
+        884,
+        1617
+      ],
+      "alphaThreshold": 8
+    },
+    {
+      "id": "bass-rickenbacker",
+      "label": "Rickenbacker 4003",
+      "w": 0.343,
+      "d": 1.138,
+      "reference": "https://www.rickenbacker.com/guitars/model-4003/",
+      "prompt": "Use case: product-mockup. Asset type: one isolated bass raster sprite for a 2D stage-plot editor. ONE full-length right-handed RICKENBACKER 4003 bass lying flat on its back with FRONT FACE facing camera and neck straight up. Exactly perpendicular orthographic front camera; no perspective, no side walls. Portrait, centered, whole headstock, tuners and body uncropped with small transparent margin. Realistic monochrome graphite-and-ink product illustration, fine charcoal edges, restrained gray material shading, believable wood and chrome detail, polished and legible at small size, not a flat vector icon. Neutral grayscale only. Genuine transparent alpha background; no floor, cast shadow, white rectangle or checkerboard drawing. No lettering, branding, logos, people, hands, cases, stands, cables or extra instruments. Exactly FOUR strings and FOUR cloverleaf tuners arranged TWO on each side of the distinctive Rickenbacker wave-shaped headstock, with white curving triangular truss-rod cover WITHOUT lettering. Recognizable 4003 solid body outline: long rounded hooked upper horn on viewer left, shorter pointed inward-curling horn on viewer right, flowing sculpted waist, broad rounded lower bout, fine cream body binding. Dark-gray glossy body with white irregular curved two-level pickguard and pale neck binding. Long slim 20-fret dark rosewood fingerboard with LARGE PEARLOID TRIANGULAR INLAYS, not simple dots. TWO pickups: slim neck high-gain pickup, large chrome bridge pickup surround and chrome arch cover, wide cast chrome RIC bass tailpiece and four-saddle bridge near bottom. FOUR black control knobs on white lower-right pickguard, one small selector switch. No tremolo, no f-holes, no guitar six-string hardware. Accurate width/total length ratio 34.3/113.8 cm (about .30).",
+      "dimensionsSource": "Manufacturer overall width and length.",
+      "asset": "bass-rickenbacker-illustrated-v1.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "rawAlphaBounds": [
+        65,
+        1,
+        1010,
+        1507
+      ],
+      "alphaThreshold": 8,
+      "alphaBounds": [
+        260,
+        12,
+        765,
+        1505
+      ],
+      "viewBox": [
+        256,
+        8,
+        513,
+        1501
+      ],
+      "sha256": "286c114879fbd4b421539b695d383dbce5a744f6b169eba08e8fd4cf5b5d4cbb",
+      "sourceFile": "exec-8dc6790e-d6f2-45b4-969e-d51fe298df36.png"
+    }
+  ]
+}
