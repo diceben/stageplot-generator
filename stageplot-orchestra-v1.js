@@ -70,8 +70,13 @@ function createStageplotOrchestraModel() {
     minX-=.025;minY-=.025;maxX+=.025;maxY+=.025;
     const w=round(maxX-minX),d=round(maxY-minY);return {config,all,parts:all.filter(p=>active(config,p)),minX,minY,w,d,vb:[round(w*100),round(d*100)]};
   }
+  // Shared generated upright-bass asset, including tightly framed original alpha.
+  const doubleBassAsset={"width":660,"height":1900,"imageWidth":937,"imageHeight":1678,"viewBox":[171,17,596,1643],"asset":"double-bass-illustrated-v1.png"};
+  function imageSource(type){return type==='double-bass'?'./stageplot-assets/objects/'+doubleBassAsset.asset:'./stageplot-assets/orchestra/'+byId[type].asset+'.webp';}
   function imageMarkup(p,unit=100){
     const {w,d}=dimensions(p),c=byId[p.type];
+    if(c.id==='double-bass'){const a=doubleBassAsset;return '<svg x="'+(-w*unit/2)+'" y="'+(-d*unit/2)+'" width="'+w*unit+'" height="'+d*unit+'" viewBox="'+a.viewBox.join(' ')+'" preserveAspectRatio="xMidYMid meet"><image data-orchestra-image="'+c.id+'" href="'+imageSource(c.id)+'" width="'+a.imageWidth+'" height="'+a.imageHeight+'"/></svg>';}
+
     const illustrated=['violin','viola','cello','harp','clarinet'].includes(c.id),asset=illustrated?'./stageplot-assets/objects/'+c.id+'-v1.webp':'./stageplot-assets/orchestra/'+c.asset+'.webp';
     return '<image data-orchestra-image="'+c.id+'" href="'+asset+'" x="'+(-w*unit/2)+'" y="'+(-d*unit/2)+'" width="'+w*unit+'" height="'+d*unit+'" preserveAspectRatio="'+(illustrated?'xMidYMid meet':'none')+'" style="filter:grayscale(1)"/>';
   }
@@ -84,6 +89,6 @@ function createStageplotOrchestraModel() {
   function artwork(value){const l=layout(value);return '<g data-equipment="orchestra" transform="translate('+round(-l.minX*100)+' '+round(-l.minY*100)+')">'+l.parts.map(p=>'<g transform="translate('+round(p.x*100)+' '+round(p.y*100)+') rotate('+p.angle+')">'+(l.config.seating?furnitureMarkup(p):'')+imageMarkup(p)+'</g>').join('')+(l.config.mode==='ensemble'?'<g data-conductor="true"><rect x="-50" y="-40" width="100" height="80" rx="3" fill="#e5e5e5" stroke="#888"/><text x="0" y="65" text-anchor="middle" font-size="15" font-family="Arial,sans-serif" fill="#333">Dirigat · Publikum ↓</text></g>':'')+groupLabels(value)+'</g>';}
   function channels(value){const l=layout(value);return l.parts.filter(p=>p.pickup!=='none').flatMap(p=>p.pickup==='dual'?[{id:p.id,partId:p.id,name:(p.label||byId[p.type].name)+' · DI',suffix:'DI',pickup:'DI',connector:'XLR'},{id:p.id+'-mic',partId:p.id,name:(p.label||byId[p.type].name)+' · Mikrofon',suffix:'Mikrofon',pickup:'Mic',connector:'XLR'}]:[{id:p.id,partId:p.id,name:p.label||byId[p.type].name,connector:'XLR'}]);}
   function familyEnabled(value,family){const c=normalize(value);return sections.filter(s=>s.family===family).some(s=>c.groups[s.id]&&c.parts.some(p=>p.section===s.id&&p.enabled));}
-  return {families,catalog,byId,sections,sectionById,part,seat,preset,single,normalize,dimensions,layout,active,imageMarkup,furnitureMarkup,groupLabels,artwork,channels,familyEnabled,escape};
+  return {families,catalog,byId,sections,sectionById,part,seat,preset,single,normalize,dimensions,layout,active,imageSource,imageMarkup,furnitureMarkup,groupLabels,artwork,channels,familyEnabled,escape};
 }
 if(typeof module==='object'&&module.exports)module.exports=createStageplotOrchestraModel;
