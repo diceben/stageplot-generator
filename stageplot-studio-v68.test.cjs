@@ -26,10 +26,10 @@ assert.equal(packageJson.version,html.match(/data-release-version="([^"]+)"/)?.[
 assert.match(html,/stereoPairs=\[\.\.\.new Set\(pairs\.map\(Number\)\.filter\(start=>Number\.isInteger\(start\)&&start>0&&start%2===1&&start<outputs\.count\)\)\]/,'Stereo-Links werden nicht auf ungerade linke Kanäle mit rechtem Nachbarn begrenzt.');
 assert.match(html,/io\.stereoPairs=io\.stereoPairs\.filter\(start=>start<io\.outputs\.count\)/,'Das Ändern der Instrument-Inputs würde gültige Output-Stereo-Links löschen.');
 assert.match(html,/item\.io=normalizeObjectIo\(o\.io,\{\.\.\.o,type,drums:item\.drums\|\|o\.drums,percussion:item\.percussion\|\|o\.percussion,orchestra:item\.orchestra\|\|o\.orchestra\}\)/,'Bestehende lokale Instrumente erhalten beim Import keine migrationssichere I/O-Struktur.');
-assert.match(html,/if\(stageboxCapacity\[type\]\)item\.comboJacks=o\.comboJacks===true/,'Die Stagebox-Kombibuchsen werden beim Import nicht erhalten.');
+assert.match(html,/if\(stageboxCapacity\[type\]\)item\.comboJacks=stageboxCapacity\[type\]\.comboJacks\?\?\(o\.comboJacks===true\)/,'Die Stagebox-Kombibuchsen werden beim Import nicht erhalten.');
 assert.match(html,/source\.outputKeyStyle==='configured'\|\|\(!source\.outputs&&legacy\.count\)\?'configured':'native'/,'Alte Freitext-Outs behalten ihre bisherigen Routing-Keys nicht.');
 assert.match(html,/if\(io\)for\(let index=0;index<io\.inputs\.count;index\+\+\)/,'Definierte Instrument-Inputs werden nicht als Stagebox-Outputs in das Routing übernommen.');
-assert.match(html,/comboJacks:o\.comboJacks===true/,'Stagebox-Ansichten kennen den Kombibuchsen-Status nicht.');
+assert.match(html,/comboJacks:stageboxCapacity\[o\.type\]\.comboJacks\?\?\(o\.comboJacks===true\)/,'Stagebox-Ansichten kennen den Kombibuchsen-Status nicht.');
 
 console.log('PASS V68: Instrument-I/O, Stereo-Zuordnung, DI-Warnung und Stagebox-Kombibuchsen.');
 

@@ -32,6 +32,8 @@
     const readonly = () => state.readonly === true;
     const icon = input => {
       if (!input) return '<span class="rw-art-fallback" aria-hidden="true">♪</span>';
+      const type=typeof input==='string'?input:input.type;
+      if(global.StageplotStageboxes?.get(type))return global.StageplotStageboxes.picture(type);
       try { return api.objectIcon?.(input) || '<span class="rw-art-fallback" aria-hidden="true">♪</span>'; }
       catch (_) { return '<span class="rw-art-fallback" aria-hidden="true">♪</span>'; }
     };
@@ -126,17 +128,20 @@
       return '<aside class="rw-sidebar"><div class="rw-sidebar-heading"><h2>' + title + '</h2><label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-search data-rw-focus="source-search" value="' + esc(query) + '" placeholder="Suchen" aria-label="' + title + ' suchen" autocomplete="off"></label></div><div class="rw-source-list">' + (rows || '<p class="rw-empty-small">' + (query ? 'Keine Treffer.' : 'Noch keine ' + title + '.') + '</p>') + add + '</div><figure class="rw-minimap-wrap"><div class="rw-minimap" data-rw-stage id="sp-routing-minimap"></div><figcaption>Bühne · Draufsicht</figcaption></figure></aside>';
     }
 
-    function ports(direction, selectedBox, selectedRows = [], purpose = 'patch') {
-      if (!selectedBox) return '<p class="rw-empty-small">Noch keine Stagebox auf der Bühne.</p>';
-      const count = selectedBox[direction] || 0, selectedIds = new Set(selectedRows.map(row => row.id));
-      const assigned = new Map((state.routing[direction] || []).filter(row => row.stagebox === selectedBox.id && row.stageboxPort).map(row => [Number(row.stageboxPort), row]));
-      return '<div class="rw-port-grid" data-port-purpose="' + purpose + '">' + Array.from({length:count}, (_, index) => {
-        const port = index + 1, occupant = assigned.get(port), selected = purpose === 'overview' ? activePort?.boxId === selectedBox.id && activePort.direction === direction && activePort.port === port : !!occupant && selectedIds.has(occupant.id);
+    function portButton(direction,selectedBox,selectedRows,purpose,port,onImage=false){
+      const count=selectedBox[direction]||0,selectedIds=new Set(selectedRows.map(row=>row.id));
+      const assigned=new Map((state.routing[direction]||[]).filter(row=>row.stagebox===selectedBox.id&&row.stageboxPort).map(row=>[Number(row.stageboxPort),row]));
+        const occupant = assigned.get(port), selected = purpose === 'overview' ? activePort?.boxId === selectedBox.id && activePort.direction === direction && activePort.port === port : !!occupant && selectedIds.has(occupant.id);
         const pair = selectedRows.length > 1, conflict = purpose === 'patch' && (Array.from({length:pair ? selectedRows.length : 1}, (_, offset) => assigned.get(port + offset)).some(row => row && !selectedIds.has(row.id)) || port + selectedRows.length - 1 > count);
         const attrsForPort = purpose === 'overview' ? {'data-rw-port':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction} : {'data-rw-patch':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction,'data-rw-rows':idsOf(selectedRows),'data-rw-exact-rows':String(direction === 'inputs' && selectedRows.length > 1 && !!selectedRows[0].diDeviceId && selectedRows.every(row => row.diDeviceId === selectedRows[0].diDeviceId))};
         const stereo = occupant?.stereoGroup, paired = stereo && [...assigned.values()].some(row => row.id !== occupant.id && row.stereoGroup === stereo), side = occupant?.mode === 'Stereo R' ? 'right' : 'left';
-        return '<button type="button" class="rw-port"' + attrs({...attrsForPort,'data-used':String(!!occupant),'data-selected':String(selected),'data-stereo':paired ? side : undefined,'aria-pressed':String(selected),'aria-label':(direction === 'inputs' ? 'Eingang ' : 'Ausgang ') + port + ' · ' + (occupant?.instrument || 'Frei') + (conflict ? ' · belegt' : '')}) + (conflict || purpose === 'patch' && readonly() ? ' disabled' : '') + '><span class="rw-port-number">' + String(port).padStart(2,'0') + '</span>' + (purpose === 'overview' ? '<span class="sp-stagebox-socket" aria-hidden="true"></span>' : '') + (occupant?.phantom ? '<span class="rw-port-phantom">48 V</span>' : '') + '<span class="rw-port-name">' + esc(occupant?.instrument?.replace(/^Drums\s*·\s*/, '') || 'Frei') + '</span>' + (paired ? '<span class="rw-stereo-mark" aria-label="Stereo-Paar">' + (side === 'left' ? 'L' : 'R') + '</span>' : '') + '</button>';
-      }).join('') + '</div>';
+        return '<button type="button" class="rw-port' + (onImage ? ' sp-stagebox-image-port' : '') + '"' + attrs({...attrsForPort,'data-used':String(!!occupant),'data-selected':String(selected),'data-stereo':paired ? side : undefined,'aria-pressed':String(selected),'aria-label':(direction === 'inputs' ? 'Eingang ' : 'Ausgang ') + port + ' · ' + (occupant?.instrument || 'Frei') + (conflict ? ' · belegt' : '')}) + (conflict || purpose === 'patch' && readonly() ? ' disabled' : '') + '><span class="rw-port-number">' + String(port).padStart(2,'0') + '</span>' + (purpose === 'overview' && !onImage ? '<span class="sp-stagebox-socket" aria-hidden="true"></span>' : '') + (occupant?.phantom ? '<span class="rw-port-phantom">48 V</span>' : '') + '<span class="rw-port-name">' + esc(occupant?.instrument?.replace(/^Drums\s*·\s*/, '') || 'Frei') + '</span>' + (paired ? '<span class="rw-stereo-mark" aria-label="Stereo-Paar">' + (side === 'left' ? 'L' : 'R') + '</span>' : '') + '</button>';
+
+    }
+    function ports(direction,selectedBox,selectedRows=[],purpose='patch'){
+      if(!selectedBox)return '<p class="rw-empty-small">Noch keine Stagebox auf der Bühne.</p>';
+      if(purpose==='patch'&&global.StageplotStageboxes?.get(selectedBox.type))return global.StageplotStageboxes.surface(selectedBox.type,(d,port)=>portButton(d,selectedBox,selectedRows,purpose,port,true),[direction]);
+      return '<div class="rw-port-grid" data-port-purpose="'+purpose+'">'+Array.from({length:selectedBox[direction]||0},(_,index)=>portButton(direction,selectedBox,selectedRows,purpose,index+1)).join('')+'</div>';
     }
 
     function patchEditor(rows, direction, key) {
@@ -245,7 +250,8 @@
     }
     function closeDiPicker() {
       const rowId = diPickerRow, focus = diPickerFocus;
-      diPickerRow = '';diPickerFocus = null;diPickerDevices = false;diPickerNew = false;error = '';render();restoreFocus(focus);
+      diPickerRow = '';diPickerFocus = null;diPickerDevices = false;diPickerNew = false;error = '';render();host.querySelectorAll('.sp-stagebox-device-scroll').forEach((el,i)=>{el.scrollLeft=deviceScrolls[i]||0;});
+      restoreFocus(focus);
       if (!host.contains(host.ownerDocument.activeElement) || host.ownerDocument.activeElement === host) {
         [...host.querySelectorAll('[data-rw-di-open]')].find(element => element.dataset.rwDiOpen === rowId)?.focus({preventScroll:true});
       }
@@ -369,8 +375,10 @@
       highlighted = [selectedBox.id];
       const key = 'box-' + selectedBox.id, editing = openCard === key && !readonly();
       let content = heading(selectedBox.name, (!readonly() ? button(pencil,{'data-rw-open':key,'aria-label':'Stagebox bearbeiten','aria-expanded':String(editing)},{className:'rw-edit'}) : '') + '<div class="rw-choice-row rw-heading-choices" role="group" aria-label="Stagebox-Darstellung">' + [['grid','Buchsen'],['list','Liste']].map(([value,label]) => button(label,{'data-rw-box-layout':value},{pressed:stageboxLayout === value})).join('') + '</div>') + '<p class="rw-capacity">' + selectedBox.inputs + ' Eingänge · ' + selectedBox.outputs + ' Ausgänge</p>';
-      if (editing) content += '<div class="rw-box-editor">' + field('Stagebox-Name',selectedBox.name,{'data-rw-box-field':'name','data-rw-box':selectedBox.id},{maxlength:42}) + '<div class="rw-choice-row" role="group" aria-label="Eingangsbuchsen">' + [false,true].map(combo => button(combo ? 'XLR / Klinke' : 'XLR',{'data-rw-combo':String(combo),'data-rw-box':selectedBox.id},{pressed:!!selectedBox.comboJacks === combo,mutation:true})).join('') + '</div></div>';
-      for (const direction of ['inputs','outputs']) if (selectedBox[direction]) content += '<section class="rw-stagebox-section" data-rw-port-layout="' + stageboxLayout + '" data-combo-jacks="' + String(selectedBox.comboJacks === true) + '"><header><h3>' + (direction === 'inputs' ? 'Eingänge' : 'Ausgänge') + '</h3><span>' + (state.routing[direction] || []).filter(row => row.stagebox === selectedBox.id && row.stageboxPort).length + ' / ' + selectedBox[direction] + ' belegt</span></header>' + ports(direction,selectedBox,[],'overview') + '</section>';
+      if (editing) content += '<div class="rw-box-editor">' + field('Stagebox-Name',selectedBox.name,{'data-rw-box-field':'name','data-rw-box':selectedBox.id},{maxlength:42}) + (global.StageplotStageboxes?.get(selectedBox.type) ? '<p class="rw-card-meta">'+esc(global.StageplotStageboxes.get(selectedBox.type).brand+' '+global.StageplotStageboxes.get(selectedBox.type).name)+' · '+(selectedBox.comboJacks?'XLR / Klinke':'XLR')+'</p>' : '<div class="rw-choice-row" role="group" aria-label="Eingangsbuchsen">' + [false,true].map(combo => button(combo ? 'XLR / Klinke' : 'XLR',{'data-rw-combo':String(combo),'data-rw-box':selectedBox.id},{pressed:!!selectedBox.comboJacks === combo,mutation:true})).join('') + '</div>') + '</div>';
+      const hardware=global.StageplotStageboxes?.get(selectedBox.type);
+      if(hardware&&stageboxLayout==='grid')content+='<section class="rw-stagebox-hardware"><div class="rw-stagebox-legend"><span>'+esc(hardware.brand+' '+hardware.name)+' · '+esc(hardware.protocol)+'</span><span><i></i> Belegt · Buchse antippen</span></div>'+global.StageplotStageboxes.surface(selectedBox.type,(direction,port)=>portButton(direction,selectedBox,[],'overview',port,true))+'</section>';
+      else for (const direction of ['inputs','outputs']) if (selectedBox[direction]) content += '<section class="rw-stagebox-section" data-rw-port-layout="' + stageboxLayout + '" data-combo-jacks="' + String(selectedBox.comboJacks === true) + '"><header><h3>' + (direction === 'inputs' ? 'Eingänge' : 'Ausgänge') + '</h3><span>' + (state.routing[direction] || []).filter(row => row.stagebox === selectedBox.id && row.stageboxPort).length + ' / ' + selectedBox[direction] + ' belegt</span></header>' + ports(direction,selectedBox,[],'overview') + '</section>';
       if (activePort?.boxId === selectedBox.id) {
         const direction = activePort.direction, occupied = (state.routing[direction] || []).find(row => row.stagebox === selectedBox.id && Number(row.stageboxPort) === activePort.port);
         content += '<section class="rw-selected-route"><h3>' + (direction === 'inputs' ? 'Eingang ' : 'Ausgang ') + String(activePort.port).padStart(2,'0') + '</h3>';
@@ -422,6 +430,7 @@
     }
     function render() {
       if (destroyed) return;
+      const deviceScrolls=[...host.querySelectorAll('.sp-stagebox-device-scroll')].map(el=>el.scrollLeft);
       const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0, outputScroll = host.querySelector('.rw-output-port-list')?.scrollTop || 0, flowScroll = host.querySelector('.rw-flow-scroll')?.scrollLeft || 0;
       state = api.getState() || {}; state.routing = state.routing || state.stage?.routing || {inputs:[],outputs:[]};
       if (!['inputs','outputs','stageboxes'].includes(state.tab)) state.tab = 'inputs';

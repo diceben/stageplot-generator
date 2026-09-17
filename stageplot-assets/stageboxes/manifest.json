@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "created": "2026-09-17",
+  "generator": "OpenAI built-in image_gen.imagegen",
+  "scope": "Reference-driven front panel illustrations. The app supplies authoritative selectable port numbers. Analog socket counts and placement were checked against manufacturer front photographs. Tiny decorative lettering is illustrative; it is not used as routing data.",
+  "integration": "Locally stored unmodified generated PNGs; SVG frames crop and position the images. Click targets are measured per socket in stageplot-stageboxes-v1.js. Digital network, USB and power connections are not analog patch targets.",
+  "assets": [
+    {
+      "id": "stagebox-ah-ar84",
+      "file": "ar84-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-27a09db4-d68b-49f1-bc31-5506619213a4.png",
+      "promptKey": "ar84",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.allen-heath.com/hardware/everything-i-o/ar84/"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://www.allen-heath.com/content/uploads/2023/01/IO-AR84-Page-1024x201.jpg.webp"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-ah-ar2412",
+      "file": "ar2412-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-946597b8-fa98-4729-bde2-dd7f3788eecb.png",
+      "promptKey": "ar2412",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.allen-heath.com/hardware/everything-i-o/ar2412/"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://www.allen-heath.com/content/uploads/2023/01/AR2412-Page-1024x346.jpg.webp"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-ah-ab168",
+      "file": "ab168-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-4f47bad5-0a61-4590-9984-9ae45d8048ce.png",
+      "promptKey": "ab168",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.allen-heath.com/hardware/everything-i-o/ab168/"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://www.allen-heath.com/content/uploads/2023/01/AB168_2048-1024x437.jpg.webp"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-behringer-s16",
+      "file": "s16-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-c782555c-3394-4d9f-abf5-3a4b3d576757.png",
+      "promptKey": "s16",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.behringer.com/en/products/0606-ABC"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://cdn-media.empowertribe.com/52dc39cc65ed466492e899b4acd1ff2e/Image_BE_0606-ABC_S16_Front_XL.png"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-ah-dx168",
+      "file": "dx168-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-c50d63db-ccba-49b0-94bc-edef0987e993.png",
+      "promptKey": "dx168",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.allen-heath.com/hardware/everything-i-o/dx168/"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://www.allen-heath.com/content/uploads/2023/01/DX168_2048-1024x683.jpg.webp"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-ah-dt168",
+      "file": "dt168-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-296ea5a0-0761-4c13-b0d3-8c1ff36a34f0.png",
+      "promptKey": "dt168",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.allen-heath.com/hardware/everything-i-o/dt168/"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://www.allen-heath.com/content/uploads/2023/01/DT168_2048-1024x683.jpg"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-ah-gx4816",
+      "file": "gx4816-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-fd1938bf-9ab6-4c37-9295-402629f27bdd.png",
+      "promptKey": "gx4816",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.allen-heath.com/hardware/everything-i-o/gx4816/"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://www.allen-heath.com/content/uploads/2023/01/GX4816_2048-1024x683.jpg"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-behringer-s32",
+      "file": "s32-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-1b11a2ec-d4b8-4fc8-9122-792fc5d11e55.png",
+      "promptKey": "s32",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.behringer.com/en/products/0606-ACQ"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://cdn-media.empowertribe.com/265cd598c9bb489db2da4d6c2057a982/Image_BE_0606-ACQ_S32_Media-Front.tif"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-behringer-sd8",
+      "file": "sd8-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-46935991-85a8-43e8-9911-ae909b1893e7.png",
+      "promptKey": "sd8",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.behringer.com/en/products/0606-ACP"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://cdn-media.empowertribe.com/41751c1f3f974fb18d0a351400aa9823/Image_BE_0606-ACP_SD8_Media-Front.tif"
+        }
+      ]
+    },
+    {
+      "id": "stagebox-behringer-sd16",
+      "file": "sd16-front-v1.png",
+      "generatedPath": "/Users/ben/.codex/generated_images/01a0ac17-fa63-71a2-a903-1919b8e0e76c/exec-e1a64a07-a333-4fc8-b74a-9066594989d0.png",
+      "promptKey": "sd16",
+      "sources": [
+        {
+          "kind": "manufacturer product",
+          "url": "https://www.behringer.com/en/products/0606-ACO"
+        },
+        {
+          "kind": "manufacturer front photograph (generation reference only)",
+          "url": "https://cdn-media.empowertribe.com/4b2e688fa1134115a608b4d17f113c40/Image_BE_0606-ACO_SD16_Media-Front.tif"
+        }
+      ]
+    }
+  ],
+  "specificationSources": [
+    "https://cdn.mediavalet.com/aunsw/musictribe/v7Km-7gwwUq5D_FbQcPbhw/TvFJ5KT7-U-mDPp9VEbo7Q/Original/QSG_BE_0606-ACO_SD16-SD8_JP.pdf",
+    "https://www.allen-heath.com/content/uploads/2023/06/AR84-Technical-Datasheet.pdf",
+    "https://www.allen-heath.com/content/uploads/2023/06/AR2412-Technical-Datasheet-1.pdf",
+    "https://www.allen-heath.com/content/uploads/2023/06/AB168_Weights_Dimensions.pdf",
+    "https://www.allen-heath.com/content/uploads/2023/06/AP11129_4-DX168-Getting-Started-Guide-Issue-4.pdf",
+    "https://www.allen-heath.com/content/uploads/2023/06/DT168-Weights-and-Dims.pdf",
+    "https://www.allen-heath.com/content/uploads/2023/06/GX4816-Weights-and-Dims-1.pdf"
+  ],
+  "prompts": "prompts-v1.json"
+}

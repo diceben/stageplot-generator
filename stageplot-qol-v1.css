@@ -215,3 +215,32 @@
 }
 
 #sp-prototype #sp-model-dialog .sp-model-dialog-option > .sp-audio-di-photo {width:100%;height:80px;object-fit:contain;padding:4px;border-radius:8px;background:#fff;}
+
+/* Manufacturer stageboxes: measured sockets overlay imagegen raster views. */
+#sp-prototype .sp-stagebox-picture { display:block; width:100%; height:100%; object-fit:contain; }
+#sp-prototype .sp-model-dialog-option > .sp-stagebox-picture { width:100%; height:90px; max-width:100%; margin:8px auto; }
+#sp-prototype .sp-model-dialog-option:has(> .sp-stagebox-picture) { justify-content:center; gap:8px; }
+#sp-prototype .sp-model-dialog-option:has(> .sp-stagebox-picture) > small { font-size:11px; color:var(--sp-muted); }
+#sp-prototype .sp-stagebox-device-scroll { width:100%; min-width:0; max-width:100%; overflow-x:auto; overflow-y:hidden; padding:16px 6px 24px; border-radius:14px; background:var(--sp-soft); scrollbar-width:thin; overscroll-behavior-x:contain; }
+#sp-prototype .sp-stagebox-device-scroll:focus-visible { outline:2px solid var(--sp-teal); outline-offset:3px; }
+#sp-prototype .sp-stagebox-device { position:relative; width:100%; isolation:isolate; }
+#sp-prototype .sp-stagebox-device > .sp-stagebox-picture { position:absolute; inset:0; pointer-events:none; }
+#sp-prototype .sp-stagebox-hotspot { position:absolute; transform:translate(-50%,-50%); z-index:1; }
+#sp-prototype .sp-stagebox-hotspot:has(:focus-visible),#sp-prototype .sp-stagebox-hotspot:hover { z-index:3; }
+#sp-prototype .sp-stagebox-hotspot > button.sp-stagebox-image-port { position:relative; display:block; width:100%; height:100%; min-width:0; min-height:0; padding:0; border:2px solid transparent; border-radius:50%; background:transparent; color:white; box-shadow:none; cursor:pointer; overflow:visible; font-size:11px; transform:none; }
+#sp-prototype .sp-stagebox-image-port:is([data-used="true"],[aria-pressed="true"],[data-active-port="true"]) { border-color:#c2f448!important; background:rgba(177,231,29,.12)!important; box-shadow:0 0 0 2px #19231b,0 0 12px #b5ec3b44!important; }
+#sp-prototype .sp-stagebox-image-port:is([data-selected="true"],[data-active-port="true"]) { outline:2px solid white; outline-offset:4px; }
+#sp-prototype .sp-stagebox-hotspot > button.sp-stagebox-image-port:hover,#sp-prototype .sp-stagebox-hotspot > button.sp-stagebox-image-port:focus-visible { outline:2px solid #c2f448; outline-offset:3px; background:rgba(177,231,29,.18); }
+#sp-prototype .sp-stagebox-hotspot > button.sp-stagebox-image-port:disabled { cursor:not-allowed; opacity:.45; background:rgba(20,25,26,.7); }
+#sp-prototype .sp-stagebox-image-port > :is(.rw-port-number,.sp-stagebox-port-number) { position:absolute; display:block; left:50%; top:-12px; transform:translateX(-50%); min-width:24px; padding:1px 4px; border:1px solid #ffffff30; border-radius:5px; background:#20282c; color:white; font-size:11px; font-weight:700; line-height:15px; text-align:center; }
+#sp-prototype .sp-stagebox-image-port[data-used="true"] > :is(.rw-port-number,.sp-stagebox-port-number) { background:#c2f448; color:#18200b; border-color:#c2f448; }
+#sp-prototype .sp-stagebox-image-port > :is(.rw-port-name,.sp-stagebox-port-name) { position:absolute; display:none; left:50%; bottom:calc(100% + 16px); min-width:100px; max-width:210px; width:max-content; padding:6px 10px; transform:translateX(-50%); border:1px solid var(--sp-line); border-radius:8px; background:var(--sp-panel); color:var(--sp-ink); box-shadow:0 4px 20px #0003; white-space:normal; font-size:12px; line-height:1.4; text-align:center; pointer-events:none; }
+#sp-prototype .sp-stagebox-image-port:is(:hover,:focus-visible) > :is(.rw-port-name,.sp-stagebox-port-name) { display:block; }
+#sp-prototype .sp-stagebox-image-port .sp-stagebox-socket { display:none!important; }
+#sp-prototype .sp-stagebox-image-port .rw-port-phantom { position:absolute; inset:auto auto -7px 50%; transform:translateX(-50%); padding:0 3px; border-radius:3px; background:#20282c; color:#ffcb7d; font-size:9px; }
+#sp-prototype .sp-stagebox-image-port .rw-stereo-mark { position:absolute; right:-5px; bottom:-6px; background:#20282c; color:#c2f448; font-size:10px; padding:0 3px; border-radius:3px; }
+#sp-prototype .rw-stagebox-hardware { min-width:0; margin:18px 0 26px; }
+#sp-prototype .rw-stagebox-legend { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin:0 0 12px; color:var(--sp-muted); font-size:12px; }
+#sp-prototype .rw-stagebox-legend i { display:inline-block; width:8px; height:8px; margin-right:4px; border-radius:50%; background:var(--sp-teal); }
+#sp-prototype .rw-card-editor:has(.sp-stagebox-device) { min-width:0; }
+#sp-prototype .rw-stagebox-art .sp-stagebox-picture { max-height:140px; }
