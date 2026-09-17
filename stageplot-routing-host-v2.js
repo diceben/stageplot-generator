@@ -4,6 +4,81 @@ function routingWorkspaceState(){
   const specs=generatedInputSpecs();
   return {tab:routingTab,readonly:sharedReadOnly,saveState:{text:$('sp-header-draft-status').textContent,state:draftState},stage,objects,routing:stage.routing,boxes:allRoutingStageboxes(),catalog:byId,microphones:StageplotMics.catalog,diModels:StageplotRoutingModel.diModels,diStereoSources:Object.fromEntries(objects.map(o=>[o.id,routingDiStereoSource(o)])),diStereoPairs:Object.fromEntries(objects.map(o=>[o.id,routingDiStereoPairs(o)])),sourceOutputs:Object.fromEntries(objects.filter(o=>byId[o.type]?.instrument||byId[o.type]?.category==='amps'&&o.io).map(o=>[o.id,routingSourceOutputs(o,specs)]))};
 }
+// A physical DI has one routing device and one movable stage object.
+function routingDiObject(device){return objects.find(o=>o.id===device?.objectId&&o.type==='di');}
+function routingAssertDiEditable(device){if(routingDiObject(device)?.locked)throw Error('Die DI-Box ist gesperrt.');}
+function routingUniqueDiLabel(value){
+  const base=value.slice(0,36);let name=base,index=2;while(objects.some(o=>o.type==='di'&&o.label===name))name=base+' '+index++;return name;
+}
+function cloneRoutingDiObject(original,copy){
+  if(original.type!=='di')return;
+  const device=stage.routing.devices.find(device=>device.objectId===original.id);if(!device)return;
+  copy.label=routingUniqueDiLabel(original.label||'DI');StageplotRoutingModel.createDevice(stage.routing,{...device,id:undefined,objectId:copy.id});
+}
+function routingDiLabel(device,rows){
+  const model=StageplotRoutingModel.diModels.find(model=>model.id===device.modelId);
+  if(device.name&&device.name!==model?.name&&device.name!=='DI-Box')return device.name.slice(0,42);
+  const source=routeSourceObject(rows[0]),io=source&&objectIo(source),aliases=[...new Set(rows.map(row=>io?.aliases.outputs[Number(row.portIndex)-1]).filter(Boolean))];
+  const name=aliases.length===1?aliases[0]:source?.label||byId[source?.type]?.short;
+  return (name?(aliases.length===1?name:name+' · DI'):'DI '+(objects.filter(o=>o.type==='di').length+1)).slice(0,42);
+}
+function routingPlaceDi(device,rows){
+  const source=routeSourceObject(rows[0]),center=source||{x:stage.w/2,y:stage.d/2,angle:0},size=typeof bounds==='function'&&source?bounds(source):{hw:.6,hd:.4};
+  let id;do{id='station-'+nextId++;}while(objects.some(o=>o.id===id));
+  const o=makeObject('di',{x:center.x,y:center.y},id),own=typeof bounds==='function'?bounds(o):{hw:.08,hd:.12};
+  const occupied=objects.filter(other=>!byId[other.type]?.underlay&&other.type!=='text'),candidates=[];
+  for(let ring=0;ring<24;ring++){
+    const dx=size.hw+own.hw+.18+ring*.25,dy=size.hd+own.hd+.18+ring*.25;
+    for(const [x,y] of [[dx,0],[-dx,0],[0,dy],[0,-dy],[dx,dy],[-dx,dy],[dx,-dy],[-dx,-dy]])candidates.push({x:center.x+x,y:center.y+y});
+  }
+  const score=position=>{Object.assign(o,position);const off=typeof outside==='function'?outside(o,stage):o.x<own.hw||o.y<own.hd||o.x>stage.w-own.hw||o.y>stage.d-own.hd;const overlap=occupied.filter(other=>typeof rectanglesOverlap==='function'?rectanglesOverlap(o,other):Math.abs(o.x-other.x)<.35&&Math.abs(o.y-other.y)<.35).length;return Number(off)*1000+overlap;};
+  let chosen=candidates[0],best=Infinity;
+  for(const position of candidates){const value=score(position);if(value<best){best=value;chosen=position;}if(value===0)break;}
+  Object.assign(o,chosen,{label:routingUniqueDiLabel(routingDiLabel(device,rows)),showLabel:true,showOuts:false});objects.push(o);device.objectId=o.id;return o;
+}
+function syncRoutingDiObjects(){
+  if(!stage)return false;
+  const routing=stage.routing,diIds=new Set(objects.filter(o=>o.type==='di').map(o=>o.id));let changed=false;
+  // Old DI placeholder rows are equipment, not extra sound sources. Keep any
+  // configured channel as an unassigned source rather than losing its patch.
+  for(const direction of ['inputs','outputs'])routing[direction]=routing[direction].filter(row=>{
+    const owner=String(row.sourceKey||'').split(':')[0];
+    const real=(row.linkedSources||[]).filter(member=>!diIds.has(String(member.sourceKey||'').split(':')[0]));
+    if(!diIds.has(owner)){if(real.length!==(row.linkedSources||[]).length){row.linkedSources=real;changed=true;}return true;}
+    changed=true;
+    if(real.length){const first=real.shift();Object.assign(row,{sourceKey:first.sourceKey,portIndex:first.portIndex,sourceConnector:first.sourceConnector||first.connector,sourceSignalType:first.sourceSignalType||first.signalType,generatedInstrument:first.generatedInstrument||first.instrument,instrument:first.instrument||row.instrument,linkedSources:real,manual:true});return true;}
+    const physical=objects.find(o=>o.id===owner),custom=row.instrument&&![physical?.label,'DI-Box',row.generatedInstrument].includes(row.instrument);
+    routing.disabledSources=[...new Set([...routing.disabledSources,row.sourceKey])];
+    if(row.number||row.stagebox||row.notes||custom){Object.assign(row,{sourceKey:'',linkedSources:[],manual:true,instrument:custom?row.instrument:'Signal an '+(physical?.label||'DI'),generatedInstrument:'',portIndex:null});return true;}
+    return false;
+  });
+  for(const o of objects.filter(o=>o.type==='di'))if(!routing.devices.some(device=>device.objectId===o.id)){
+    if(!o.label||['DI','DI-Box'].includes(o.label))o.label=routingUniqueDiLabel('DI');
+    const io=objectIo(o);StageplotRoutingModel.createDevice(routing,{modelId:io.outputs.count>1?'generic-passive-stereo':'generic-passive-mono',name:o.label||'DI-Box',objectId:o.id});changed=true;
+  }
+  const claimed=new Set();
+  for(const device of routing.devices){
+    let o=routingDiObject(device);if(o&&claimed.has(o.id)){device.objectId='';o=null;changed=true;}
+    if(!o){o=routingPlaceDi(device,routing.inputs.filter(row=>row.diDeviceId===device.id));changed=true;}
+    claimed.add(o.id);
+    const count=device.channels,io=objectIo(o);
+    if(io.inputs.count!==count||io.outputs.count!==count||io.inputs.connector!=='Klinke'||io.outputs.connector!=='XLR'){
+      o.io={...io,inputs:{count,connector:'Klinke'},outputs:{count,connector:'XLR'},stereoPairs:[],aliases:{inputs:normalizeIoAliasList(io.aliases.inputs,count),outputs:normalizeIoAliasList(io.aliases.outputs,count)}};o.outs=count+' '+(count===1?'Out':'Outs')+' · XLR';changed=true;
+    }
+  }
+  return changed;
+}
+function routingChooseDiModel(action){
+  const routing=stage.routing,requested=routingPickupRows(action),paired=routingDiSelectionRows(action),model=StageplotRoutingModel.diModels.find(model=>model.id===action.modelId);
+  if(!model)throw Error('DI-Modell nicht gefunden.');
+  const current=routing.devices.find(device=>device.id===requested[0].diDeviceId),shared=current&&paired.length===2&&paired.every(row=>row.diDeviceId===current.id),rows=(model.channels||action.channels||1)>=2?paired:requested;
+  if((model.channels||action.channels||1)<2&&(requested.length>1||shared))throw Error('Für beide Ausgänge wird eine DI-Box mit zwei Eingängen benötigt.');
+  const ids=new Set(rows.map(row=>row.id)),replace=current&&!action.newDevice&&routing.inputs.filter(row=>row.diDeviceId===current.id).every(row=>ids.has(row.id));
+  const fields=Object.fromEntries(Object.entries({modelId:action.modelId,name:action.name||model.name,channels:action.channels,active:action.active,power:action.power||(action.phantom===false?'none':undefined)}).filter(([,value])=>value!==undefined));
+  if(replace)routingAssertDiEditable(current);
+  const device=replace?StageplotRoutingModel.updateDevice(routing,current.id,fields):StageplotRoutingModel.createDevice(routing,fields);
+  StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,rows.map((_,index)=>index+1));rows.forEach(writeRoutingPickup);
+}
 function routingSourceOutputEditor(o){return drumModel.isDrums(o?.type)?'drums':o?.type==='percussion'?'percussion':o?.type==='orchestra'?'orchestra':o?.type==='laptop'?'playback':'';}
 function routingSourceOutputs(o,specs=generatedInputSpecs()){
   const io=objectIo(o),editor=routingSourceOutputEditor(o),locked=sharedReadOnly||o.locked===true,all=[...stage.routing.inputs,...stage.routing.outputs];
@@ -144,6 +219,7 @@ function routingPickupRows(action){
   const ids=Array.isArray(action.rowIds)?action.rowIds:[action.rowId];
   if(!ids.length||ids.length>2||new Set(ids).size!==ids.length||!ids.includes(action.rowId))throw Error('Bitte die Abnahme erneut auswählen.');
   const rows=ids.map(id=>routingEditableRow('inputs',id)),sourceId=row=>routeSourceObject(row)?.id||row.sourceKey?.split(':')[0]||row.id;
+  rows.forEach(row=>routingAssertDiEditable(stage.routing.devices.find(device=>device.id===row.diDeviceId)));
   if(rows.length>1&&rows.some(row=>sourceId(row)!==sourceId(rows[0])))throw Error('Eine gemeinsame Abnahme gehört zu derselben Quelle.');
   const sharedDevice=rows[0].diDeviceId&&rows.every(row=>row.diDeviceId===rows[0].diDeviceId);
   return rows.slice().sort((a,b)=>sharedDevice?Number(a.diChannel)-Number(b.diChannel):(Number(a.portIndex)||Infinity)-(Number(b.portIndex)||Infinity));
@@ -298,12 +374,10 @@ function dispatchRoutingWorkspace(action){
           if(action.microphone!==undefined){row.microphone=projectText(action.microphone,80);const mic=StageplotMics.find(row.microphone);if(mic)row.phantom=!!mic.phantom;}
           if(action.phantom!==undefined)row.phantom=action.phantom===true;
           const box=routingStageboxes('inputs').find(box=>box.id===row.stagebox);if(box&&!routeStageboxCompatible(row,'inputs',box)){row.stagebox='';row.stageboxPort=null;}writeRoutingPickup(row);}break;}
-      case 'createDi':{const requested=routingPickupRows(action),paired=routingDiSelectionRows(action),device=StageplotRoutingModel.createDevice(routing,Object.fromEntries(Object.entries({modelId:action.modelId,name:action.name,channels:action.channels,active:action.active,power:action.power||(action.phantom===false?'none':undefined)}).filter(([,value])=>value!==undefined))),current=requested[0].diDeviceId,shared=current&&paired.length===2&&paired.every(row=>row.diDeviceId===current),rows=device.channels>=2?paired:requested;
-        if(device.channels<2&&(requested.length>1||shared))throw Error('Für beide Ausgänge wird eine DI-Box mit zwei Eingängen benötigt.');
-        StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,rows.map((_,index)=>index+1));rows.forEach(writeRoutingPickup);break;}
-      case 'assignDi':{const rows=routingPickupRows(action),start=Number(action.channel||1);StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),action.deviceId,rows.map((_,index)=>start+index));rows.forEach(writeRoutingPickup);break;}
+      case 'createDi':routingChooseDiModel(action);break;
+      case 'assignDi':{const device=routing.devices.find(device=>device.id===action.deviceId);if(!device)throw Error('DI-Box nicht gefunden.');routingAssertDiEditable(device);const rows=action.autoPair&&device.channels>=2?routingDiSelectionRows(action):routingPickupRows(action),start=Number(action.channel||1);StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,rows.map((_,index)=>start+index));rows.forEach(writeRoutingPickup);break;}
       case 'connectStereoDi':if(connectRoutingStereoDi(action)===false)return;break;
-      case 'updateDi':{const occupants=routing.inputs.filter(row=>row.diDeviceId===action.deviceId);occupants.forEach(row=>routingEditableRow('inputs',row.id));StageplotRoutingModel.updateDevice(routing,action.deviceId,action.fields);occupants.forEach(writeRoutingPickup);break;}
+      case 'updateDi':{const device=routing.devices.find(device=>device.id===action.deviceId);routingAssertDiEditable(device);const occupants=routing.inputs.filter(row=>row.diDeviceId===action.deviceId);occupants.forEach(row=>routingEditableRow('inputs',row.id));StageplotRoutingModel.updateDevice(routing,action.deviceId,action.fields);const physical=routingDiObject(device);if(physical&&action.fields?.name)physical.label=action.fields.name.slice(0,42);occupants.forEach(writeRoutingPickup);break;}
       case 'patch':{const rows=routing[direction],members=routingWorkspaceMembers(direction,action.rowIds,action.exactRows===true),box=routingStageboxes(direction).find(box=>box.id===action.boxId);if(!box)throw Error('Stagebox nicht gefunden.');applyAudioPatchPlan(rows,planAudioPatch(rows,members,box,direction,{startPort:Number(action.port)}));break;}
       case 'unpatch':for(const row of routingWorkspaceMembers(direction,action.rowIds,action.exactRows===true))Object.assign(row,{stagebox:'',stageboxPort:null});break;
       case 'editChannel':{const row=routingEditableRow(direction,action.rowId),fields=action.fields||{};

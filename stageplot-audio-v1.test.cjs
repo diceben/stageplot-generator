@@ -199,7 +199,12 @@ productionCtx.fillProductionObject({type:'riser'});assert(productionCtx.$('sp-pr
 // DI chaining and dual mono use existing identities; no channel renumbering.
 ctx.clone=clone;ctx.change=fn=>fn();ctx.StageplotRoutingModel=require('./stageplot-routing-model-v2.js');ctx.byId.di={instrument:true,category:'tech',signalType:'Instrument',name:'DI',short:'DI'};
 ctx.objects=[fixture('instrument','guitar'),fixture('box','di')];
-ctx.stage.routing={inputs:[ctx.normalizeRouteChannel({id:'route-a',sourceKey:'instrument:main',number:17,instrument:'Guitar',microphone:'JDI',pickup:'DI',stagebox:'stagebox',stageboxPort:5},0,'inputs'),ctx.normalizeRouteChannel({id:'route-di',sourceKey:'box:io-out-1',number:19,instrument:'DI',pickup:'DI',microphone:'J48',phantom:true},1,'inputs')],outputs:[],disabledSources:[]};
+ctx.stage.routing={devices:[{id:'di-test',modelId:'radial-j48',name:'Radial J48',objectId:'box',channels:1,active:true,power:'48V'}],inputs:[ctx.normalizeRouteChannel({id:'route-a',sourceKey:'instrument:main',number:17,instrument:'Guitar',microphone:'JDI',pickup:'DI',stagebox:'stagebox',stageboxPort:5},0,'inputs')],outputs:[],disabledSources:['box:io-out-1']};
+// This audio control forwards to the shared dispatcher; its atomic physical
+// object behavior is covered by the routing-host suite and browser tests.
+ctx.syncRoutingDiObjects=()=>false;ctx.renderEditor=()=>{};
+ctx.dispatchRoutingWorkspace=action=>{assert.equal(action.type,'assignDi');return ctx.StageplotRoutingModel.assignDevice(ctx.stage.routing,[action.rowId],action.deviceId,[action.channel]);};
+
 ctx.sharedReadOnly=false;ctx.linkAudioDi(ctx.objects[1],'route-a');assert.equal(ctx.stage.routing.inputs.length,1);assert.equal(ctx.stage.routing.inputs[0].number,17);assert.equal(ctx.stage.routing.inputs[0].stageboxPort,5);assert.equal(ctx.stage.routing.inputs[0].pickup,'DI');assert.equal(ctx.audioObjectRows(ctx.objects[1])[0].row.id,'route-a');ctx.syncRoutingFromStage(false,false);assert.equal(ctx.stage.routing.inputs.length,1,'Sync must not recreate the linked DI as another channel.');
 assert.equal(ctx.stage.routing.inputs[0].linkedSources.length,0,'Physical DI assignments do not merge unrelated signal rows.');assert(ctx.stage.routing.disabledSources.includes('box:io-out-1'));
 assert(!ctx.audioDiControls(ctx.objects[1]).includes('<select'),'Physical DI controls use model/port/signal buttons.');
@@ -207,7 +212,7 @@ const physical=ctx.stage.routing.devices.find(device=>device.objectId==='box');a
 ctx.configureAudioDi(ctx.objects[1],{modelId:'radial-prod2',name:'Radial ProD2'});
 ctx.objects.push(fixture('bass','guitar'));ctx.stage.routing.inputs.push(ctx.normalizeRouteChannel({id:'route-b',sourceKey:'bass:main',number:23,instrument:'Bass',pickup:'DI',stagebox:'stagebox',stageboxPort:7},1,'inputs'));
 ctx.linkAudioDi(ctx.objects[1],'route-b',2);assert.equal(ctx.stage.routing.inputs.length,2);assert.equal(ctx.audioObjectRows(ctx.objects[1]).length,2);assert.deepEqual(clone(ctx.stage.routing.inputs.map(row=>row.diChannel)),[1,2]);
-const beforeConflict=clone(ctx.stage.routing);assert.throws(()=>ctx.linkAudioDi(ctx.objects[1],'route-b',1),/belegt/);assert.deepEqual(clone(ctx.stage.routing),beforeConflict,'A rejected DI connection preserves every channel and patch.');
+const beforeConflict=clone(ctx.stage.routing);assert.throws(()=>ctx.linkAudioDi(ctx.objects[1],'route-b',1),/belegt/);assert.deepEqual({...clone(ctx.stage.routing),generatedAt:0},{...beforeConflict,generatedAt:0},'A rejected DI connection preserves every channel and patch.');
 assert(ctx.audioPrintTable('inputs').includes('Radial ProD2 · DI-Eingang 2'));assert(ctx.audioSearchText(ctx.stage.routing.inputs[1],'inputs').includes('prod2'));
 ctx.stage.routing.outputs=[ctx.normalizeRouteChannel({id:'route-monitor',instrument:'Gesang',outputKind:'iem',monitorDeviceName:'Sender',monitorReceiverName:'Empfänger',monitorAmplifierName:'Kopfhörerverstärker'},0,'outputs')];assert(ctx.audioPrintTable('outputs').includes('Kopfhörerverstärker → Sender → Empfänger'));
 const extra=ctx.StageplotRoutingModel.additionalPickup(ctx.stage.routing,'instrument','Mic','extra-mic');ctx.syncRoutingFromStage(false,false);assert(ctx.stage.routing.inputs.some(row=>row.sourceKey===extra.sourceKey));

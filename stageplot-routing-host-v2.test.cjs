@@ -2,12 +2,12 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const html=fs.readFileSync('stageplot-studio.html','utf8'),audio=fs.readFileSync('stageplot-audio-v1.js','utf8'),host=fs.readFileSync('stageplot-routing-host-v2.js','utf8');
 const clone=value=>JSON.parse(JSON.stringify(value));
 function extract(name){
-  const start=html.indexOf('  function '+name+'(');assert(start>=0,'Missing host function '+name);
+  const start=(name==='bounds'?html.lastIndexOf('  function '+name+'('):html.indexOf('  function '+name+'('));assert(start>=0,'Missing host function '+name);
   const end=html.indexOf('\n',start),line=html.slice(start,end);
   if(line.trimEnd().endsWith('}'))return line;
   const close=html.indexOf('\n  }',end);assert(close>=0,'Missing closing brace '+name);return html.slice(start,close+4);
 }
-const fixture=(id,type,connector='XLR',count=1)=>({id,type,label:id,x:1,y:1,io:{inputs:{count:0,connector:'XLR'},outputs:{count,connector},stereoPairs:count>1?[1]:[],aliases:{inputs:[],outputs:[]}}});
+const fixture=(id,type,connector='XLR',count=1)=>({id,type,label:id,x:1,y:1,angle:0,io:{inputs:{count:0,connector:'XLR'},outputs:{count,connector},stereoPairs:count>1?[1]:[],aliases:{inputs:[],outputs:[]}}});
 function harness(list=[]){
   const nodes=new Map(),ctx={StageplotRoutingModel:require('./stageplot-routing-model-v2.js'),StageplotMics:require('./stageplot-mics-v1.js'),StageplotIem:require('./stageplot-iem-v1.js'),
     stage:{title:'Routing QA',w:8,d:6,routing:{inputs:[],outputs:[],devices:[],disabledSources:[]},cables:[]},objects:clone(list),history:[],future:[],sharedReadOnly:false,routingTab:'inputs',activeStageboxId:'',nextId:20,token:0,renders:0,saves:0,undoCalls:0,autoCalls:0,
@@ -16,7 +16,8 @@ function harness(list=[]){
     projectText:(value,max)=>String(value??'').slice(0,max),normalizeIoConnector:(value,fallback='XLR')=>['XLR','Klinke','USB','Digital','MADI','Dante'].includes(value)?value:fallback,
     ioConnectorValues:['XLR','Klinke','USB','Digital','MADI','Dante'],
     drumModel:{isDrums:()=>false},routeToken:()=>String(++ctx.token),queueDraftSave(){},reconcileCablesWithRouting(){},say(){},isObjectUnlocked:()=>true,
-    makeObject:(type,position,id)=>({...fixture(id,type),...position,...(type==='rack'?{iemMixes:[{id:'main',name:'IEM 1',mode:'stereo',transport:'wireless',ports:['iem-l','iem-r']}]}:{})}),
+    objectSize:o=>o.type==='di'?{w:.1,d:.16}:{w:1.2,d:.4},
+    makeObject:(type,position,id)=>({...fixture(id,type),angle:0,...position,...(type==='rack'?{iemMixes:[{id:'main',name:'IEM 1',mode:'stereo',transport:'wireless',ports:['iem-l','iem-r']}]}:{})}),
     $:id=>{if(!nodes.has(id))nodes.set(id,{disabled:false});return nodes.get(id);},
     Date:{now:()=>1000},
   };
@@ -25,7 +26,7 @@ function harness(list=[]){
   ctx.undo=()=>ctx.undoCalls++;ctx.autoAssignRouting=()=>ctx.autoCalls++;
   vm.createContext(ctx);
   vm.runInContext(audio.slice(0,audio.indexOf("$('sp-audio-object').addEventListener")),ctx);
-  vm.runInContext(['normalizeRouteChannel','normalizeRouting','parseIoValue','defaultObjectIo','normalizeObjectIo','objectOutputPortKey','objectOutputBaseName','objectOutputSignal','generatedInputSpecs','generatedOutputSpecs','reconcileRouteList','syncRoutingFromStage','routingStageboxes','routeSourceObject','keepHistory'].map(extract).join('\n'),ctx);
+  vm.runInContext(['bounds','rectanglesOverlap','outside','normalizeRouteChannel','normalizeRouting','parseIoValue','defaultObjectIo','normalizeObjectIo','objectOutputPortKey','objectOutputBaseName','objectOutputSignal','generatedInputSpecs','generatedOutputSpecs','reconcileRouteList','syncRoutingFromStage','routingStageboxes','routeSourceObject','keepHistory','detachConnectionsForObject'].map(extract).join('\n'),ctx);
   for(const name of ['normalizeIemConfig','routeNeedsDi','routeStageboxCompatible','routeSpec','ioValueText','parseOutsValue','ioAliasText','normalizeIoAliasList','objectIo','ioAliasAt'])vm.runInContext(html.match(new RegExp('^  const '+name+'=[^\\n]+','m'))[0],ctx);
   vm.runInContext(host,ctx);vm.runInContext('renderRouting=()=>{renders++};',ctx);
   ctx.syncRoutingFromStage(false,false);return ctx;
@@ -139,7 +140,7 @@ test('Stereo DI rejects readonly, source/physical DI locks, digital rows and mon
   c.dispatchRoutingWorkspace({type:'createDi',rowId:id,modelId:'radial-prod2'});const deviceId=getRow(c,id).diDeviceId,action={type:'connectStereoDi',rowId:id,deviceId};
   c.sharedReadOnly=true;assert.throws(()=>c.dispatchRoutingWorkspace(action),/schreibgeschützt/);c.sharedReadOnly=false;
   c.objects[0].locked=true;assert.throws(()=>c.dispatchRoutingWorkspace(action),/gesperrt/);c.objects[0].locked=false;
-  c.stage.routing.devices[0].objectId='physical';c.objects[1].locked=true;assert.throws(()=>c.dispatchRoutingWorkspace(action),/gesperrt/);c.objects[1].locked=false;c.stage.routing.devices[0].objectId='';
+  c.stage.routing.devices.find(d=>d.id===deviceId).objectId='physical';c.objects[1].locked=true;assert.throws(()=>c.dispatchRoutingWorkspace(action),/gesperrt/);c.objects[1].locked=false;c.stage.routing.devices.find(d=>d.id===deviceId).objectId='';
   getRow(c,id).pickup='Digital';getRow(c,id).connector='USB';const digital=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace(action),/digitales Signal/);assert.equal(c.snapshot(),digital);
   c.dispatchRoutingWorkspace({type:'setPickup',rowId:id,kind:'DI'});c.dispatchRoutingWorkspace({type:'createDi',rowId:id,modelId:'radial-j48'});const mono=c.snapshot();
   assert.throws(()=>c.dispatchRoutingWorkspace({...action,deviceId:getRow(c,id).diDeviceId}),/zwei Eingängen/);assert.equal(c.snapshot(),mono);
@@ -196,8 +197,8 @@ test('One shared DI card changes model, pickup and removal atomically for its tw
   c.dispatchRoutingWorkspace({type:'createDi',rowId:pianoL.id,modelId:'radial-prod2'});c.dispatchRoutingWorkspace({type:'createDi',rowId:synthL.id,modelId:'radial-prod2'});const piano=clone(c.stage.routing.inputs.slice(0,2)),oldDi=getRow(c,synthL.id).diDeviceId;
   for(const rowIds of [undefined,ids]){const before=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'createDi',rowId:synthL.id,rowIds,modelId:'radial-j48'}),/zwei Eingängen/);assert.equal(c.snapshot(),before,'A mono choice cannot silently detach the other output.');}
   const beforeReplacement=c.snapshot(),history=c.history.length;c.dispatchRoutingWorkspace({type:'createDi',rowId:synthL.id,rowIds:ids,modelId:'radial-j48-stereo'});const newDi=getRow(c,synthL.id).diDeviceId;
-  assert.notEqual(newDi,oldDi);assert.equal(getRow(c,synthR.id).diDeviceId,newDi);assert(ids.every(id=>getRow(c,id).phantom));assert.equal(c.history.length,history+1);assert.equal(c.history.at(-1),beforeReplacement);
-  c.dispatchRoutingWorkspace({type:'assignDi',rowId:synthL.id,rowIds:ids,deviceId:oldDi,channel:1});assert.deepEqual(ids.map(id=>[getRow(c,id).diDeviceId,getRow(c,id).diChannel,getRow(c,id).phantom]),[[oldDi,1,false],[oldDi,2,false]]);
+  assert.equal(newDi,oldDi,'Changing the model keeps the same physical box.');assert.equal(getRow(c,synthR.id).diDeviceId,newDi);assert(ids.every(id=>getRow(c,id).phantom));assert.equal(c.history.length,history+1);assert.equal(c.history.at(-1),beforeReplacement);
+  c.dispatchRoutingWorkspace({type:'createDi',rowId:synthL.id,rowIds:ids,modelId:'radial-prod2'});assert.deepEqual(ids.map(id=>[getRow(c,id).diDeviceId,getRow(c,id).diChannel,getRow(c,id).phantom]),[[oldDi,1,false],[oldDi,2,false]]);
   const beforeBusy=c.snapshot();assert.throws(()=>c.dispatchRoutingWorkspace({type:'assignDi',rowId:synthL.id,rowIds:ids,deviceId:getRow(c,pianoL.id).diDeviceId,channel:1}),/belegt/);assert.equal(c.snapshot(),beforeBusy);
   c.dispatchRoutingWorkspace({type:'setPickup',rowId:synthL.id,rowIds:ids,kind:'Direct'});assert(ids.every(id=>getRow(c,id).pickup==='Direct'&&getRow(c,id).diDeviceId===''));
   c.dispatchRoutingWorkspace({type:'removePickup',rowId:synthL.id,rowIds:ids});assert.deepEqual(clone(c.stage.routing.inputs),piano);assert.deepEqual(clone(c.objects[0].io.stereoPairs),[1]);assert.deepEqual(clone(c.stage.routing.disabledSources),['nord:out-3','nord:out-4']);
@@ -216,7 +217,7 @@ test('Replacing a shared native stereo DI preserves deliberately reversed physic
     c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});const priorDi=getRow(c,left.id).diDeviceId;
     c.StageplotRoutingModel.assignDevice(c.stage.routing,[left.id,right.id],priorDi,[2,1]);
     c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,...(explicit?{rowIds:[left.id,right.id]}:{}),modelId:'radial-j48-stereo'});
-    assert.equal(getRow(c,left.id).diChannel,2);assert.equal(getRow(c,right.id).diChannel,1);assert.equal(getRow(c,left.id).diDeviceId,getRow(c,right.id).diDeviceId);assert.notEqual(getRow(c,left.id).diDeviceId,priorDi);
+    assert.equal(getRow(c,left.id).diChannel,2);assert.equal(getRow(c,right.id).diChannel,1);assert.equal(getRow(c,left.id).diDeviceId,getRow(c,right.id).diDeviceId);assert.equal(getRow(c,left.id).diDeviceId,priorDi);
     assert.equal(getRow(c,left.id).mode,'Stereo L');assert.equal(getRow(c,right.id).mode,'Stereo R');assert.equal(getRow(c,left.id).stereoGroup,getRow(c,right.id).stereoGroup);
   }
 });
@@ -410,5 +411,38 @@ test('Inline fields accept the actual workspace microphone, mix name and notes a
   assert(c.stage.routing.outputs.every(row=>row.iemName==='Gesang'&&row.notes==='Mehr Stimme, weniger Bass'));assert.equal(c.objects.find(o=>o.id==='rack').iemMixes[0].name,'Gesang');
 });
 
+test('Every assigned DI has one movable object; model changes and save rollback retain identity',()=>{
+  const c=harness([fixture('nord','keys-stage4','Klinke',4)]),source=c.objects[0],left=c.stage.routing.inputs[0];
+  source.io.aliases.outputs=['Piano','Piano','Synth','Synth'];c.syncRoutingFromStage(false,false);
+  const before=c.snapshot(),history=c.history.length;c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2'});
+  const device=c.stage.routing.devices[0],physical=c.objects.find(o=>o.id===device.objectId);assert(physical);assert.equal(physical.type,'di');assert.equal(physical.label,'Piano');assert.equal(c.objects.filter(o=>o.type==='di').length,1);assert(!c.rectanglesOverlap(source,physical));assert(!c.outside(physical,c.stage));assert.equal(c.history[history],before);
+  Object.assign(physical,{x:6,y:4,angle:90});const id=physical.id;c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-j48-stereo'});
+  assert.equal(c.stage.routing.devices[0].objectId,id);assert.equal(c.objects.filter(o=>o.type==='di').length,1);assert.deepEqual(clone(c.objects.find(o=>o.id===id)),clone(physical));
+  c.syncRoutingFromStage(false,false);assert.equal(c.objects.find(o=>o.id===id).x,6);assert(!c.stage.routing.inputs.some(row=>row.sourceKey.startsWith(id+':')));
+  const stable=c.snapshot(),nextId=c.nextId;c.saveError=true;assert.throws(()=>c.dispatchRoutingWorkspace({type:'createDi',rowId:left.id,modelId:'radial-prod2',newDevice:true}),/Speichern/);assert.equal(c.snapshot(),stable);assert.equal(c.nextId,nextId);
+});
+test('Manual DI placement supplies free hardware and removal releases assignments without deleting channels',()=>{
+  const c=harness([fixture('nord','keys-stage4','Klinke',2),fixture('placed','di','XLR',2)]),device=c.stage.routing.devices[0],rows=c.stage.routing.inputs;
+  assert.equal(device.objectId,'placed');assert.equal(device.channels,2);assert.equal(rows.length,2);assert(c.StageplotRoutingModel.occupancy(c.stage.routing,device.id).every(port=>port.free));
+  Object.assign(rows[0],{number:11,stagebox:'box',stageboxPort:5,notes:'Piano'});
+  c.dispatchRoutingWorkspace({type:'assignDi',rowId:rows[0].id,deviceId:device.id,autoPair:true});assert(c.stage.routing.inputs.every(row=>row.diDeviceId===device.id));assert.equal(c.objects.filter(o=>o.type==='di').length,1);
+  c.detachConnectionsForObject('placed');c.objects=c.objects.filter(o=>o.id!=='placed');c.syncRoutingFromStage(false,false);
+  assert.equal(c.stage.routing.devices.length,0);assert.equal(c.objects.filter(o=>o.type==='di').length,0);assert.equal(c.stage.routing.inputs.length,2);assert.equal(c.stage.routing.inputs[0].number,11);assert.equal(c.stage.routing.inputs[0].stageboxPort,5);assert(!c.stage.routing.inputs[0].diDeviceId);
+});
+test('Old DI placeholders migrate without losing configured channels or creating duplicate hardware',()=>{
+  const c=harness([fixture('placed','di')]);
+  c.stage.routing.inputs=[{id:'route-placeholder',sourceKey:'placed:io-out-1',instrument:'placed',generatedInstrument:'placed',pickup:'DI',connector:'XLR',number:null,notes:'',manual:false}];
+  c.syncRoutingFromStage(false,false);assert.equal(c.stage.routing.inputs.length,0);assert.equal(c.objects.length,1);assert.equal(c.stage.routing.devices.length,1);
+  c.stage.routing.inputs=[{id:'route-legacy-patch',sourceKey:'placed:io-out-1',instrument:'placed',generatedInstrument:'placed',pickup:'DI',connector:'XLR',number:17,stagebox:'existing-box',stageboxPort:7,notes:'Keep wiring',manual:false}];
+  c.syncRoutingFromStage(false,false);const row=c.stage.routing.inputs[0];assert.equal(row.id,'route-legacy-patch');assert.equal(row.sourceKey,'');assert.equal(row.number,17);assert.equal(row.stageboxPort,7);assert.equal(row.notes,'Keep wiring');assert.equal(c.stage.routing.devices.length,1);c.syncRoutingFromStage(false,false);assert.equal(c.stage.routing.inputs.length,1);assert.equal(c.objects.length,1);
+});
+test('Unassigned imported DIs stay available on stage and copied boxes retain their model',()=>{
+  const c=harness([fixture('placed','di')]),first=c.stage.routing.devices[0];
+  c.StageplotRoutingModel.updateDevice(c.stage.routing,first.id,{modelId:'radial-prod2'});
+  c.StageplotRoutingModel.createDevice(c.stage.routing,{modelId:'radial-j48-stereo',name:'Spare DI'});c.syncRoutingFromStage(false,false);
+  assert.equal(c.stage.routing.devices.length,2);assert.equal(c.objects.filter(o=>o.type==='di').length,2);assert(c.objects.some(o=>o.label==='Spare DI'));
+  const original=c.objects[0],copy={...clone(original),id:'copy',x:4,y:3};c.cloneRoutingDiObject(original,copy);c.objects.push(copy);c.syncRoutingFromStage(false,false);
+  const copied=c.stage.routing.devices.find(device=>device.objectId==='copy');assert.equal(copied.modelId,'radial-prod2');assert(c.StageplotRoutingModel.occupancy(c.stage.routing,copied.id).every(port=>port.free));assert.notEqual(copy.label,original.label);
+});
 if(runFailures.length)throw Error(runFailures.length+' routing host tests failed: '+runFailures.join('; '));
 console.log('PASS ROUTING HOST: actual dispatch, atomic patch conflicts, undo rollback, readonly/lock guards, shared DI capacity, custom DI defaults, combo sockets, migration/remapping and monitoring formats.');

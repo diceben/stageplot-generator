@@ -353,7 +353,7 @@
               <label class="sp-field">Breite (m)<input id="sp-access-width" type="number" min="0.3" max="30" step="0.1" inputmode="decimal"></label>
               <label class="sp-field">Tiefe (m)<input id="sp-access-depth" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
             </div>
-            <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern. Der Pfeil zeigt die Aufstiegsrichtung.</span>
+            <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern.</span>
           </div>
           <div id="sp-foh-fields" class="sp-inspector-section" hidden><h4>FOH-Platz</h4><div class="sp-fields">
               <label class="sp-field">FOH-Breite (m)<input id="sp-foh-width" type="number" min="0.3" max="30" step="0.1"></label>
@@ -728,18 +728,24 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.21">v0.1.0-beta.21</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.25">v0.1.0-beta.25</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.21</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
-            <h4>Instrumente, Routing und Bearbeitung</h4>
+            <header><div><strong>v0.1.0-beta.25</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
+            <h4>Objektmenü, Instrumente und Routing</h4>
             <ul>
+              <li><strong>Neue Darstellung:</strong> Illustrierte Stagetreppe von oben mit dunklen Trittflächen und silbernen Metallkanten. Tiefer liegende Stufen sind etwas dunkler schattiert.</li>
+              <li><strong>Frei einstellbar:</strong> Breite, Tiefe und 1–24 Stufen unabhängig ändern. Die einzelnen Stufen passen sich an, während die seitlichen Wangen und Beschläge ihre Proportionen behalten.</li>
+              <li><strong>Überall gleich:</strong> Bühnenrand, freie Treppen und Hausgrundrisse verwenden dieselben lokalen Bildassets, auch in Vorschau und Export. Bestehende Treppen übernehmen die neue Darstellung; ihre Stufenanzahl bleibt beim Wechsel in den Hausgrundriss erhalten.</li>
+              <li><strong>Objektmenü:</strong> Animierte Schaltflächen für Bearbeiten, Drehen, Label ein-/ausblenden, Duplizieren, Sperren und eine Ebene zurück. Schließen und Löschen stehen darunter; die Objektmitte bleibt zum Verschieben frei.</li>
+              <li><strong>Drehen und Bearbeiten:</strong> Drehring mit 45°-Rastung und feiner Einstellung bei größerem Abstand. Ein Klick außerhalb oder Escape führt aus einem Untermenü zurück zur ersten Seite. Modellauswahl und die jeweiligen Instrument-Editoren bleiben erreichbar.</li>
               <li><strong>Instrumentbilder:</strong> Neue generierte Bilder für elf E-Gitarrenmodelle, Akustikgitarren, Banjo, Mandoline, Lap Steel und Ukulele. Alle Katalogmikrofone haben echte Fotos; MD 421 Kompakt ist ergänzt.</li>
               <li><strong>Bausteine:</strong> Acht Kategorien mit kompakter Navigation, gruppierten Objekttypen und Modellauswahl neben der Bibliothek. Die Suche zeigt einzelne Modelle direkt; Modelle lassen sich in der Auswahl als Favoriten speichern.</li>
               <li><strong>Bässe:</strong> Neue Bildassets für J-Bass, P-Bass, PJ-Bass, Shortscale, Mustang, Akustikbass, Kontrabass, Höfner Violin Bass und Rickenbacker 4003. Alle neun sind unter „Bass“ auswählbar; der Kontrabass bleibt auch unter „Streicher“ und im Orchester-Editor verfügbar.</li>
               <li><strong>Drums &amp; Percussion:</strong> Größere Arbeitsfläche mit Zoom. Drumset, Cajon, Becken und Vocal-Boom kombinieren; Cajon vorne oder hinten mit frei wählbaren Mikrofonen abnehmen. Neue Bilder für Cajon und Vocal-Boom.</li>
               <li><strong>Routing:</strong> Neue Ansichten für Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen und beleuchteter Draufsicht. Abnahmeart und Anschluss direkt in kompakten Karten wählen; Direktausgänge wiederholen das Instrumentbild nicht mehr. Weitere Abnahmen und Dual Mono zeigen getrennte Wege mit feinen Pfeilen. Die Quellenkarte bietet Anzahl, Buchsenart, Namen, aktive Ausgänge und Stereo-Paare direkt im Routing; auch Quellen ohne aktive Ausgänge bleiben erreichbar. Mono-Quellen können einzelne Eingänge einer Stereo-DI nutzen. Stereo-Paare nutzen eine gemeinsame DI-Karte und teilen sich erst bei den Pultkanälen auf. Mehrere Paare wie Piano auf Out 1/2 und Synth auf Out 3/4 lassen sich jeweils an eine eigene DI anschließen.</li>
-              <li><strong>DI-Auswahl:</strong> Kompaktes Popup mit sieben gleich großen Kacheln: echte Produktfotos von Radial J48, J48 Stereo und ProD2 sowie vier generische DIs für aktiv/passiv und Mono/Stereo.</li>
+              <li><strong>DIs auf der Bühne:</strong> Jede Routing-DI erscheint als verschiebbare Box neben dem Instrument. Manuell platzierte Boxen können direkt zugeordnet werden; ein Stereopaar nutzt eine gemeinsame Box. Modellwechsel behalten ihre Position. Beim Anklicken sind belegte und freie Eingänge sofort sichtbar. Bestehende Pläne übernehmen Geräte und Kanalzuordnungen.</li>
+              <li><strong>DI-Auswahl:</strong> „DI-Box“ in der Bausteinbibliothek öffnet die sieben Untermodelle wie bei den Gitarren. Modell wählen und direkt platzieren; Suche und Favoriten unterstützen einzelne Modelle. In den Eigenschaften stehen die gewählte Box und ihre Anschlüsse. Kompaktes Popup mit sieben gleich großen Kacheln: echte Produktfotos von Radial J48, J48 Stereo und ProD2 sowie vier generische DIs für aktiv/passiv und Mono/Stereo.</li>
               <li><strong>Bearbeitung:</strong> Beschriftungen und freie Notizen per Doppelklick bearbeiten, mehrere Objekte mit Cmd-/Strg-Klick auswählen. Treppenstufen im Popup einstellen und einzelne Streicher direkt bearbeiten. Neue Akkordeons sind um 180° gedreht.</li>
               <li><strong>PDF und Speicherung:</strong> Schlagzeug und Instrumentbilder werden vollständig gedruckt. Hinweise erklären die Speicherung im Browser, mögliche Datenverluste und Sicherungsdateien. Platzprobleme in der Handyansicht sind behoben.</li>
             </ul>
@@ -794,7 +800,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.21 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.25 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -5866,6 +5872,9 @@ html,body { height:100%; overflow:hidden; }
   background:transparent;
 }
 #sp-prototype #sp-selected { display:flex; flex-direction:column; gap:0; }
+#sp-prototype #sp-selected[data-object-type="di"] .sp-inspector-identity { order:-3; }
+#sp-prototype #sp-selected[data-object-type="di"] .sp-inspector-actions { order:-2; }
+#sp-prototype #sp-selected[data-object-type="di"] #sp-audio-object { order:-1; }
 #sp-prototype .sp-properties-panel :is([hidden],.sp-drum-object-actions:has(> [hidden])) { display:none!important; }
 #sp-prototype #sp-selected .sp-inspector-identity { display:flex; align-items:center; gap:12px; padding-bottom:14px; }
 #sp-prototype #sp-selected-icon { width:64px; height:64px; flex:0 0 64px; display:grid; place-items:center; }
@@ -6677,6 +6686,8 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-library .sp-library-card > .sp-library-item { padding:8px 4px 6px; }
   #sp-prototype #sp-library .sp-library-item > :is(svg,.sp-library-thumbnail) { height:38px; }
 }
+
+#sp-prototype #sp-model-dialog .sp-model-dialog-option > .sp-audio-di-photo {width:100%;height:80px;object-fit:contain;padding:4px;border-radius:8px;background:#fff;}
 /* build-inline:end stageplot-qol-v1.css */
 </style>
 
@@ -7126,6 +7137,17 @@ html,body { height:100%; overflow:hidden; }
 @media(prefers-reduced-motion:no-preference) {
   #sp-prototype .rw-button,#sp-prototype .rw-port,#sp-prototype .rw-list-item {transition:background .12s ease,border-color .12s ease;}
 }
+
+#sp-prototype .rw-button.rw-di-choose {min-height:32px;font-size:11px;background:var(--rw-paper);}
+#sp-prototype .rw-di-instance {display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:12px;border:1px solid var(--rw-border);border-radius:9px;min-width:0;text-align:center;background:var(--rw-paper);}
+#sp-prototype .rw-di-instance>strong {font-size:13px;overflow-wrap:anywhere;}
+#sp-prototype .rw-di-instance>small {color:var(--rw-muted);font-size:11px;}
+#sp-prototype .rw-di-instance .rw-di-picker-art {height:72px;margin-bottom:0;}
+#sp-prototype .rw-di-instance .rw-di-picker-art img {width:72px;height:72px;}
+#sp-prototype .rw-di-instance-status {display:grid;gap:3px;font-size:10px;color:var(--rw-muted);overflow-wrap:anywhere;}
+#sp-prototype .rw-di-instance .rw-button {font-size:10px;padding:7px;min-height:34px;}
+#sp-prototype .rw-di-instance-ports {display:grid;gap:5px;margin-top:auto;}
+#sp-prototype .rw-di-picker>.rw-add {margin-top:14px;}
 /* build-inline:end stageplot-routing-workspace-v2.css */
 </style>
 <style>
@@ -7559,7 +7581,7 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
     if (!host || !api?.getState || !api?.dispatch) throw new Error('Routing-Arbeitsbereich benötigt Host und Datenzugriff.');
     let state, sources = [], monitors = [], activeSource = '', activeMonitor = '', activeBox = '', activePort = null;
     let query = '', micQuery = '', openCard = '', pickerBox = '', error = '', destroyed = false, frame = 0, lastTab = '', toolsOpen = false, stageboxLayout = 'grid', pendingField = null;
-    let stageObserver = null, resizeTarget = null, highlighted = [], diPickerRow = '', diPickerFocus = null;
+    let stageObserver = null, resizeTarget = null, highlighted = [], diPickerRow = '', diPickerFocus = null, diPickerDevices = false, diPickerNew = false;
     host.classList.add('sp-routing-workspace-v2');
 
     const object = id => (state.objects || []).find(item => item.id === id);
@@ -7567,6 +7589,7 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
     const box = id => (state.boxes || []).find(item => item.id === id);
     const device = id => (state.routing?.devices || []).find(item => item.id === id);
     const diChannels = item => Math.max(1, Number(item?.channels || item?.channelCount) || 1);
+    const physicalName = item => object(item?.objectId)?.label || item?.name || 'DI-Box';
     const deviceName = item => item?.name || item?.model || item?.modelId || 'DI-Box';
     const diModel = item => (state.diModels || []).find(model => model.id === (item?.modelId || item?.id));
     const diDetails = item => (item.active ? 'Aktiv' + ({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[item.power] || '') : 'Passiv') + ' · ' + diChannels(item) + (diChannels(item) === 1 ? ' Kanal' : ' Kanäle');
@@ -7600,7 +7623,7 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
     function groups() {
       const inputs = state.routing?.inputs || [], outputs = state.routing?.outputs || [], map = new Map();
       for (const row of inputs) {
-        const id = sourceId(row) || row.id, source = object(id);
+        const id = sourceId(row) || row.id, source = object(id);if(source?.type === 'di')continue;
         if (!map.has(id)) map.set(id, {id, object:source, name:source?.label || state.catalog?.[source?.type]?.short || baseName(row.generatedInstrument || row.instrument) || 'Signal', rows:[]});
         map.get(id).rows.push(row);
       }
@@ -7739,7 +7762,7 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
       let settings = '';
       if (chosen) {
         const custom = chosen.modelId === 'custom';
-        settings = field('Gerätename', chosen.name, {'data-rw-device-field':'name','data-rw-device':chosen.id}, {maxlength:80});
+        settings = field('Gerätename', physicalName(chosen), {'data-rw-device-field':'name','data-rw-device':chosen.id}, {maxlength:80});
         if (custom) {
           settings += '<div class="rw-choice-row" role="group" aria-label="DI-Kanäle">' + [1,2].map(count => button(count === 1 ? '1 Kanal' : '2 Kanäle', {'data-rw-device-value':'channels','data-rw-device':chosen.id,'data-rw-value':count}, {pressed:diChannels(chosen) === count,mutation:true})).join('') + '</div>';
           settings += '<div class="rw-choice-row" role="group" aria-label="DI-Bauart">' + [false,true].map(active => button(active ? 'Aktiv' : 'Passiv', {'data-rw-device-value':'active','data-rw-device':chosen.id,'data-rw-value':String(active)}, {pressed:!!chosen.active === active,mutation:true})).join('') + '</div>';
@@ -7756,24 +7779,37 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
       const row = route(diPickerRow);
       if (!row || readonly()) {diPickerRow = '';return '';}
       const chosen = device(row.diDeviceId), source = sources.find(item => item.rows.some(input => input.id === row.id));
+      if (diPickerDevices) return diDevicePicker(row,source);
       const models = (state.diModels || []).filter(item => item.id !== 'custom');
       const names = {'generic-passive-mono':'Passiv Mono','generic-passive-stereo':'Passiv Stereo','generic-active-mono':'Aktiv Mono','generic-active-stereo':'Aktiv Stereo'};
       const tiles = models.map(item => {
-        const selected = chosen?.modelId === item.id;
+        const selected = !diPickerNew && chosen?.modelId === item.id;
         const detail = (item.active ? 'Aktiv' : 'Passiv') + ' · ' + (diChannels(item) === 1 ? 'Mono' : 'Stereo') + (item.active && item.power === '48V' ? ' · 48 V' : '');
         return button('<span class="rw-di-picker-art">' + diPhoto(item) + '</span><strong>' + esc(names[item.id] || item.name) + '</strong><small>' + esc(detail) + '</small>' + (selected ? '<span class="rw-di-picker-check" aria-hidden="true">✓</span>' : ''), {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-di-picker-tile',pressed:selected,mutation:true});
       }).join('');
       return '<dialog class="rw-di-picker" data-rw-di-dialog aria-labelledby="rw-di-picker-title" aria-describedby="rw-di-picker-source"><header class="rw-di-picker-heading"><div><h2 id="rw-di-picker-title">DI-Box wählen</h2><p id="rw-di-picker-source">' + esc(source?.name || baseName(row.instrument)) + '</p></div>' + button('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>', {'data-rw-di-close':'true','aria-label':'DI-Auswahl schließen'}, {className:'rw-di-picker-close'}) + '</header>' + (error ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + '<div class="rw-di-picker-grid">' + tiles + '</div></dialog>';
     }
 
-    function openDiPicker(rowId, trigger) {
+    function diDevicePicker(row, source) {
+      const own = sharedDiRows(row), stereo = stereoRows([row],'inputs'), nativePair = stereo.length === 2 && state.diStereoPairs?.[sourceId(row)]?.some(pair => stereo.every(member => pair.sourceKeys.includes(member.sourceKey))), members = nativePair ? stereo : own;
+      const tiles = (state.routing.devices || []).filter(item => item.objectId).map(item => {
+        const paired = members.length > 1 && diChannels(item) >= members.length, selected = paired ? members : own, ids = new Set(selected.map(member => member.id));
+        const occupants = (state.routing.inputs || []).filter(member => member.diDeviceId === item.id), free = Array.from({length:diChannels(item)},(_,i) => i+1).filter(port => !occupants.some(member => Number(member.diChannel) === port && !ids.has(member.id)));
+        const locked = object(item.objectId)?.locked, controls = selected.length > 1 ? button('L + R anschließen',{'data-rw-use-di':item.id,'data-rw-row':row.id,'data-rw-di-channel':1},{disabled:locked || ![1,2].every(port => free.includes(port)),mutation:true}) : '<div class="rw-di-instance-ports">' + Array.from({length:diChannels(item)},(_,i) => {const port=i+1,occupant=occupants.find(member => Number(member.diChannel) === port);return button('Eingang '+port+' · '+esc(occupant?.instrument || 'Frei'),{'data-rw-use-di':item.id,'data-rw-row':row.id,'data-rw-di-channel':port},{disabled:locked || !free.includes(port),mutation:true});}).join('') + '</div>';
+        const status=selected.length>1?'<div class="rw-di-instance-status">'+Array.from({length:diChannels(item)},(_,i)=>'<span>'+(i+1)+' · '+esc(occupants.find(member=>Number(member.diChannel)===i+1)?.instrument||'Frei')+'</span>').join('')+'</div>':'';
+        return '<article class="rw-di-instance" data-rw-di-instance="'+esc(item.id)+'"><span class="rw-di-picker-art">'+diPhoto(item)+'</span><strong>'+esc(physicalName(item))+'</strong><small>'+esc(diModel(item)?.name || deviceName(item))+'</small>'+status+controls+'</article>';
+      }).join('');
+      return '<dialog class="rw-di-picker" data-rw-di-dialog aria-labelledby="rw-di-picker-title"><header class="rw-di-picker-heading"><div><h2 id="rw-di-picker-title">DI-Box zuordnen</h2><p>'+esc(source?.name || row.instrument)+'</p></div>'+button('×',{'data-rw-di-close':'true','aria-label':'DI-Auswahl schließen'},{className:'rw-di-picker-close'})+'</header>'+(error?'<p class="rw-error" role="alert">'+esc(error)+'</p>':'')+'<div class="rw-di-picker-grid">'+tiles+'</div>'+button('＋ Neue DI',{'data-rw-di-new':row.id},{className:'rw-add',mutation:true})+'</dialog>';
+    }
+
+    function openDiPicker(rowId, trigger, existing = false) {
       if (readonly() || !route(rowId)) return;
       diPickerFocus = trigger ? {attributes:[...trigger.attributes].filter(attr => attr.name.startsWith('data-rw-')).map(attr => [attr.name,attr.value]),row:rowId} : preserveFocus();
-      diPickerRow = rowId;error = '';render();
+      diPickerRow = rowId;diPickerDevices = existing;diPickerNew = false;error = '';render();
     }
     function closeDiPicker() {
       const rowId = diPickerRow, focus = diPickerFocus;
-      diPickerRow = '';diPickerFocus = null;error = '';render();restoreFocus(focus);
+      diPickerRow = '';diPickerFocus = null;diPickerDevices = false;diPickerNew = false;error = '';render();restoreFocus(focus);
       if (!host.contains(host.ownerDocument.activeElement) || host.ownerDocument.activeElement === host) {
         [...host.querySelectorAll('[data-rw-di-open]')].find(element => element.dataset.rwDiOpen === rowId)?.focus({preventScroll:true});
       }
@@ -7794,9 +7830,10 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
       if (kind === 'Direct' || kind === 'Digital') {
         content = '<div class="rw-pickup-connection"><span>Anschluss</span><div class="rw-choice-row rw-inline-connectors" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div></div>';
       } else {
-        const title = kind === 'DI' ? di ? deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
-        content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (readonly() ? kind === 'DI' && di ? esc(diDetails(di)) : 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
+        const title = kind === 'DI' ? di ? diModel(di)?.name || deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
+        content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (kind === 'DI' && di ? esc(physicalName(di)) : readonly() ? 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
         if (kind === 'DI' && di) content += shared ? diInputMap(rows) : diPortButtons(row,di,true) + diStereoControl(row,di);
+        if (kind === 'DI' && !readonly() && (state.routing.devices || []).some(item => item.id !== di?.id && item.objectId)) content += button('Box zuordnen',{'data-rw-di-choose':row.id,'aria-haspopup':'dialog'},{className:'rw-di-choose',mutation:true});
         if (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V')) content += button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true});
         if (editing) editor = '<div class="rw-card-editor">' + (kind === 'DI' ? diEditor(row) : '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Mikrofonname', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'})) + '</div>';
       }
@@ -7869,7 +7906,7 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
     function sourcesView() {
       const group = sources.find(item => item.id === activeSource);
       if (!group) return '<div class="rw-empty"><strong>Noch keine Quellen</strong><p>Instrumente auf der Bühne erscheinen hier mit ihren Abnahmen.</p></div>';
-      highlighted = group.object ? [group.object.id] : [];
+      highlighted = [...new Set([group.object?.id,...group.rows.map(row => device(row.diDeviceId)?.objectId)].filter(Boolean))];
       return heading(group.name, '<span class="rw-format-badge">' + (group.rows.length ? monoLabel(group.rows) : 'Offen') + '</span>') + sourceFlow(group) + notes(group.rows,'inputs');
     }
 
@@ -7995,6 +8032,9 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
       if (data.rwSourceOutputStereo) return doAction({type:'setSourceOutputStereo',sourceId:data.rwSource,start:Number(data.rwSourceOutputStereo),linked:data.rwValue === 'true'});
       if (data.rwSourceOutputUsed) return doAction({type:'setSourceOutputUsed',sourceId:data.rwSource,port:Number(data.rwSourceOutputUsed),used:data.rwValue === 'true'});
       if (data.rwDiClose) {closeDiPicker();return;}
+      if (data.rwDiChoose) {openDiPicker(data.rwDiChoose,target,true);return;}
+      if (data.rwDiNew) {diPickerDevices = false;diPickerNew = true;error = '';render();return;}
+      if (data.rwUseDi) {const result = doAction({type:'assignDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),deviceId:data.rwUseDi,channel:Number(data.rwDiChannel),autoPair:true});if(result !== false)closeDiPicker();return;}
       if (data.rwDiOpen) {openDiPicker(data.rwDiOpen,target);return;}
       if (data.rwOpen) {openCard = openCard === data.rwOpen ? '' : data.rwOpen;pickerBox = '';micQuery = '';error = '';render();if(openCard.startsWith('pickup-'))host.querySelector('[data-rw-mic-search]')?.focus({preventScroll:true});return;}
       if (data.rwPickerBox) {pickerBox = data.rwPickerBox;render();return;}
@@ -8005,8 +8045,8 @@ if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
       if (data.rwPickup) {if(pickupKind(route(data.rwRow)) === data.rwPickup)return;openCard = '';return doAction({type:'setPickup',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),kind:data.rwPickup});}
       if (data.rwMic !== undefined) return doAction({type:'setPickup',rowId:data.rwRow,kind:'Mic',microphone:data.rwMic,phantom:data.rwPhantom === 'true'},{close:true});
       if (data.rwCreateDi) {
-        if (device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
-        const result = doAction({type:'createDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),modelId:data.rwCreateDi});
+        if (!diPickerNew && device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
+        const result = doAction({type:'createDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),modelId:data.rwCreateDi,newDevice:diPickerNew});
         if (result !== false) closeDiPicker();
         return result;
       }
@@ -9253,6 +9293,10 @@ const StageplotPrint = (() => {
       if(p.kind==='obstacle')svgEl('path',{...attrs,fill:'var(--sp-line)'},group);
       else if(p.kind==='zone')svgEl('path',{...attrs,fill:'none','stroke-dasharray':'5 3',stroke:muted},group);
       else if(p.kind==='line')svgEl('path',{...attrs,fill:muted,stroke:muted},group);
+      else if(p.kind==='stairs'&&typeof root.stageplotStairArtwork==='function'){
+        const art=svgEl('g',{'data-venue-part':p.id,transform:'translate('+(x+p.x*scale)+' '+(y+p.y*scale)+') rotate('+p.angle+')'},group);
+        art.innerHTML=root.stageplotStairArtwork({width:p.w*scale,depth:p.d*scale,steps:p.steps||5,unit:scale,idPrefix:'venue-'+p.id});
+      }
       else if(p.kind==='stairs'||p.kind==='ramp'){
         svgEl('path',{...attrs,fill:'var(--sp-paper)'},group);
         if(p.kind==='stairs')for(let i=1;i<(p.steps||5);i++){const a=G.transform(p,[0,p.d*i/(p.steps||5)]),b=G.transform(p,[p.w,p.d*i/(p.steps||5)]);svgEl('line',{x1:x+a[0]*scale,y1:y+a[1]*scale,x2:x+b[0]*scale,y2:y+b[1]*scale,stroke:muted,'stroke-width':.8},group);}
@@ -10303,7 +10347,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'riser-2',name:'Riser-Gruppe · 2×',short:'Riser · 2×',art:'riser',category:'tech',w:2,d:2,vb:[200,200],underlay:true,riserCount:2},
     {id:'riser-3',name:'Riser-Gruppe · 3×',short:'Riser · 3×',art:'riser',category:'tech',w:3,d:2,vb:[150,100],underlay:true,riserCount:3},
     {id:'stage-module',name:'Bühnenmodul · 2 × 1 m',short:'Bühnenmodul 2×1',art:'riser',category:'tech',w:2,d:1,vb:[200,100],underlay:true,stageExtension:true,keywords:'bühne komplex modul podest 2x1 anklippen erweitern',detail:'Magnetisch an Bühnenkante oder weiteres Modul anklippen'},
-    {id:'stage-stairs',name:'Bühnentreppe',short:'Treppe',category:'tech',w:1.2,d:1,vb:[120,100],underlay:true,stageAccess:'stairs',libraryGroup:'stage',keywords:'bühne treppe stufen aufgang zugang stairs',detail:'Pfeil zeigt die Aufstiegsrichtung'},
+    {id:'stage-stairs',name:'Bühnentreppe',short:'Treppe',category:'tech',w:1.2,d:1,vb:[120,100],underlay:true,stageAccess:'stairs',libraryGroup:'stage',keywords:'bühne treppe stufen aufgang zugang stairs',detail:'Breite, Tiefe und Stufenanzahl einstellbar · dunklere Stufen liegen tiefer'},
     {id:'stage-ramp',name:'Bühnenrampe',short:'Rampe',category:'tech',w:2,d:1,vb:[200,100],underlay:true,stageAccess:'ramp',libraryGroup:'stage',keywords:'bühne rampe equipment zugang verladerampe ramp',detail:'Pfeil zeigt die Aufstiegsrichtung'},
     {id:'stage-railing',name:'Bühnengeländer · 2 m',short:'Bühnengeländer',category:'tech',w:2,d:.14,vb:[300,21],libraryGroup:'stage',keywords:'bühne geländer absturzsicherung rail',detail:'2 m Bühnengeländer in Draufsicht'},
     {id:'stage-truss-tower',name:'Traversentower · Bodenplatte',short:'Traversentower',category:'tech',w:.7,d:.7,vb:[100,100],underlay:true,libraryGroup:'stage',keywords:'bühne truss tower traverse bodenplatte licht',detail:'Vierpunkt-Traverse auf quadratischer Bodenplatte'},
@@ -10363,7 +10407,10 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'text',name:'Freie Beschriftung',short:'Text',category:'tech',w:.8,d:.35}
   ].map(c=>({...c,defaultAngle:c.defaultAngle??(c.category==='keys'?180:['guitar','guitar-tele','guitar-les-paul','guitar-es','bass','bass-j','acoustic','acoustic-classical','acoustic-gypsy','acoustic-cutaway','acoustic-jazz','banjo','double-bass'].includes(c.id)?65:0),art:c.art||c.id,vb:c.vb||[100,100],instrument:c.instrument??(['drums','keys','strings','winds','mics','amps'].includes(c.category)||c.id==='laptop')}));
   const byId = Object.fromEntries(catalog.map(c => [c.id, c]));
+  function libraryDiModels(){return StageplotRoutingModel.diModels.filter(model=>model.id!=='custom').map(model=>({...byId.di,id:'di-model:'+model.id,diModelId:model.id,family:'di-boxes',name:model.name,short:model.name,detail:(model.active?'Aktiv':'Passiv')+' · '+(model.channels===1?'Mono':'Stereo')+(model.power==='48V'?' · 48 V':''),keywords:'DI DI-Box '+(model.active?'aktiv active':'passiv passive')+' '+(model.channels===1?'mono':'stereo')}));}
+  function libraryItem(id){return byId[id]||libraryDiModels().find(item=>item.id===id);}
   const libraryModelFamilyCards={
+    'di-boxes':{label:'DI-Box',representative:'di',members:['di']},
     keys:{label:'Keyboard',representative:'keys-stage4'},
     stageboxes:{label:'Stagebox',representative:'stagebox-16'},
     mixers:{label:'Mischpult',representative:'mixer-xr18'},
@@ -10381,6 +10428,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     return Object.keys(libraryModelFamilyCards).find(family=>libraryModelFamilyCards[family].members?.includes(c.id))||c.family;
   }
   function libraryFamilyVariants(family,placing=false){
+    if(family==='di-boxes')return libraryDiModels();
     const members=libraryModelFamilyCards[family]?.members;
     const variants=members?members.map(id=>byId[id]).filter(Boolean):catalog.filter(c=>c.family===family);
     // Upright bass also belongs in the Bass insertion picker; its orchestra model stays intact.
@@ -10426,7 +10474,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     if(['drums','percussion'].includes(c.category)||orchestralPercussionIds.has(id)||['drum-throne','drum-shield','drumfill'].includes(id))groups.push('drums');
     if(c.category==='winds'||c.orchestraPart&&!orchestralPercussionIds.has(id)||['orchestra','double-bass','music-stand','musician-chair'].includes(id))groups.push('orchestral');
     if(c.category==='mics'||stand||['music-stand','tablet-stand'].includes(id))groups.push('mics');
-    if(['stageboxes','mixers'].includes(c.family)||['rack','iem-earphones','foh','di','wedge','pa-top','subwoofer','sidefill','drumfill','wireless-antenna'].includes(id))groups.push('audio');
+    if(['stageboxes','mixers','di-boxes'].includes(c.family)||['rack','iem-earphones','foh','di','wedge','pa-top','subwoofer','sidefill','drumfill','wireless-antenna'].includes(id))groups.push('audio');
     if(stageLibraryIds.has(id)||['piano-bench','drum-throne','musician-chair','standing-stool','equipment-table','power','drum-shield','text'].includes(id))groups.push('stage');
     if(c.family==='lights'||['camera-tripod','led-wall','projection-screen','teleprompter'].includes(id))groups.push('lights');
     return groups;
@@ -10451,7 +10499,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   let editorFit=null;
   let selectionIds=new Set(),selectionMode=false,selectionProject=null;
   let libraryScope='all';
-  const libraryPreferenceIds=new Set([...catalog.map(c=>c.id),...Object.keys(libraryModelFamilyCards).map(id=>'family:'+id)]);
+  const libraryPreferenceIds=new Set([...catalog.map(c=>c.id),...libraryDiModels().map(c=>c.id),...Object.keys(libraryModelFamilyCards).map(id=>'family:'+id)]);
   let libraryPreferences=StageplotQol.readPreferences(window.localStorage,libraryPreferenceIds);
   let libraryCategory='guitars',libraryMode='objects',activePackId='core',placement=null,placementFrame=false;
   let packState={version:1,unlocked:[],activations:[],betaPass:false,betaGrantedAt:0,rewards:{feedback:false,newsletter:false,feedbackAt:0,newsletterAt:0},outbox:[]};
@@ -10891,7 +10939,42 @@ function stageplotStringFrame(type){return Object.hasOwn(STAGEPLOT_STRING_ASSETS
 // Generated bass sprites; prompts and manufacturer references: bass-instruments-v1.json.
 const STAGEPLOT_BASS_ASSETS=Object.freeze({"bass-j":{"width":360,"height":1180,"imageWidth":878,"imageHeight":1792,"viewBox":[176,3,529,1789],"asset":"bass-j-illustrated-v1.png"},"bass":{"width":360,"height":1160,"imageWidth":986,"imageHeight":1595,"viewBox":[263,13,460,1569],"asset":"bass-illustrated-v1.png"},"bass-pj":{"width":360,"height":1160,"imageWidth":988,"imageHeight":1592,"viewBox":[266,15,456,1544],"asset":"bass-pj-illustrated-v1.png"},"bass-shortscale":{"width":330,"height":1040,"imageWidth":971,"imageHeight":1619,"viewBox":[212,11,548,1600],"asset":"bass-shortscale-illustrated-v1.png"},"bass-mustang":{"width":330,"height":1070,"imageWidth":991,"imageHeight":1587,"viewBox":[246,5,494,1570],"asset":"bass-mustang-illustrated-v1.png"},"bass-acoustic":{"width":430,"height":1200,"imageWidth":941,"imageHeight":1672,"viewBox":[157,4,627,1661],"asset":"bass-acoustic-illustrated-v1.png"},"double-bass":{"width":660,"height":1900,"imageWidth":937,"imageHeight":1678,"viewBox":[171,17,596,1643],"asset":"double-bass-illustrated-v1.png"},"bass-violin":{"width":280,"height":1100,"imageWidth":944,"imageHeight":1665,"viewBox":[242,17,459,1598],"asset":"bass-violin-illustrated-v1.png"},"bass-rickenbacker":{"width":343,"height":1138,"imageWidth":1024,"imageHeight":1536,"viewBox":[256,8,513,1501],"asset":"bass-rickenbacker-illustrated-v1.png"}});
 function stageplotBassFrame(type){return Object.hasOwn(STAGEPLOT_BASS_ASSETS,type)?STAGEPLOT_BASS_ASSETS[type]:null;}
+// Shared by free stair objects, stage-edge stairs and the house-plan editor.
+// Fixed-size fittings and a repeating generated deck texture preserve physical
+// proportions when width, run and step count change independently.
+function stageplotStairArtwork(options = {}) {
+  const positive=(value,fallback)=>Number.isFinite(Number(value))&&Number(value)>0?Number(value):fallback;
+  const width=positive(options.width,120),depth=positive(options.depth,100),unit=positive(options.unit,100);
+  const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));
+  const f=value=>String(Math.round(value*1e6)/1e6);
+  const prefix=String(options.idPrefix||'stairs').replace(/[^a-z0-9_-]/gi,'-');
+  const id='sp-stairs-'+prefix+'-'+(stageplotStairArtwork.sequence=(stageplotStairArtwork.sequence||0)+1);
+  const rail=Math.min(.048*unit,width/10),x=rail,w=width-2*rail,h=depth/steps;
+  const image=(name,x,y,w,h)=>w>0&&h>0?'<image href="stageplot-assets/tech/stairs-'+name+'-v1.webp" x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" preserveAspectRatio="none" stroke="none" data-stair-image="'+name+'"/>':'';
+  let out='<g data-part="stage-stairs-top-view" data-generated-stairs="true" data-step-count="'+steps+'" data-stair-width="'+f(width/unit)+'" data-stair-depth="'+f(depth/unit)+'" fill="none" stroke="none">';
+  out+='<defs><pattern id="'+id+'-deck" width="'+f(.32*unit)+'" height="'+f(.16*unit)+'" patternUnits="userSpaceOnUse" x="'+f(x)+'" y="0">'+image('surface',0,0,.32*unit,.16*unit)+'</pattern>';
+  for(let i=1;i<steps;i++)out+='<linearGradient id="'+id+'-shadow-'+i+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="'+f(.16+.05*i/(steps-1))+'"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>';
+  out+='</defs>';
+  for(let i=0;i<steps;i++){
+    const y=i*h,side=Math.min(.045*unit,w/4),fit=Math.min(1,h*.82/(.1325*unit)),top=.05*unit*fit,bottom=.0825*unit*fit;
+    const xs=[x,x+side,x+w-side],ys=[y,y+top,y+h-bottom],ws=[side,w-side*2,side],hs=[top,h-top-bottom,bottom];
+    const pieces=[['top-left','top','top-right'],['left',null,'right'],['bottom-left','bottom','bottom-right']];
+    out+='<g data-stair-step="'+i+'"><rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" fill="url(#'+id+'-deck)" stroke="none"/>';
+    for(let row=0;row<3;row++)for(let col=0;col<3;col++)if(pieces[row][col])out+=image(pieces[row][col],xs[col],ys[row],ws[col],hs[row]);
+    if(i){
+      out+='<rect data-stair-shade="'+i+'" x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" fill="#000" stroke="none" opacity="'+f(.27*i/(steps-1))+'"/>';
+      out+='<rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(Math.min(h*.2,.04*unit))+'" fill="url(#'+id+'-shadow-'+i+')" stroke="none"/>';
+    }
+    out+='</g>';
+  }
+  const cap=Math.min(.042*unit,depth/4),rails=image('rail-top',0,0,rail,cap)+image('rail',0,cap,rail,depth-2*cap)+image('rail-bottom',0,depth-cap,rail,cap);
+  out+='<g data-stair-stringer="left">'+rails+'</g><g data-stair-stringer="right" transform="translate('+f(width)+' 0) scale(-1 1)">'+rails+'</g></g>';
+  return out;
+}
+// The house-plan module lives outside the main editor's closure.
+if(typeof window!=='undefined')window.stageplotStairArtwork=stageplotStairArtwork;
 function createStageplotSymbolV3(type, options = {}) {
+  if(type==='stage-stairs')return stageplotStairArtwork({width:(Number(options.width)||1.2)*100,depth:(Number(options.depth)||1)*100,steps:options.steps,unit:100,idPrefix:options.idPrefix});
   const bassAsset=stageplotBassFrame(type);
   if(bassAsset){const a=bassAsset;return '<g data-equipment="'+type+'" data-generated-bass="true"><svg width="'+a.width+'" height="'+a.height+'" viewBox="'+a.viewBox.join(' ')+'" preserveAspectRatio="xMidYMid meet"><image href="stageplot-assets/objects/'+a.asset+'" width="'+a.imageWidth+'" height="'+a.imageHeight+'" data-rendered-bass-asset="'+type+'"/></svg></g>';}
 
@@ -11397,10 +11480,6 @@ function createStageplotSymbolV3(type, options = {}) {
     if(count===2)line(5,h/2,w-5,h/2,.6);
     if(count===3){line(w/3,5,w/3,h-5,.6);line(w*2/3,5,w*2/3,h-5,.6);}
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
-  }else if(type==='stage-stairs'){
-    group('','stage-stairs-top-view');rect(2,2,116,96,'#f3f4f1',.85,.5,'#4a504a');
-    const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));for(let i=1;i<steps;i++)line(2,2+i*96/steps,118,2+i*96/steps,.65,'#858c85');
-    const arrow='M60 85V18M49 30L60 18L71 30';path(arrow,'none',3.5,'#f3f4f1');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-ramp'){
     group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');
     const rampPattern=scopedId('pattern','ramp-grip');out+='<defs><pattern id="'+rampPattern+'" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0M-3 3L3-3M6 12L12 6" stroke="#aeb4ae" stroke-width=".65"/></pattern></defs>';
@@ -11485,7 +11564,7 @@ function createStageplotSymbolV3(type, options = {}) {
       definition.innerHTML=createStageplotSymbolV3(c.art,{drumLayout:layout,idPrefix:'stage-'+owner});definition.dataset.geometry=signature;
       artBoundsCache.set(id,{x:0,y:0,width:layout.vb[0],height:layout.vb[1]});artCache.set(key,id);return id;
     }
-    const variant=c.art==='mic'?((o.stand||'boom')==='round'?'round':'boom-'+(o.boomDirection||'up')):c.art==='riser'?String(c.riserCount||1):c.art==='stage-stairs'?String(o.steps||5):'';
+    const variant=c.art==='mic'?((o.stand||'boom')==='round'?'round':'boom-'+(o.boomDirection||'up')):c.art==='riser'?String(c.riserCount||1):c.art==='stage-stairs'?[o.steps||5,o.width||1.2,o.depth||1].join('-'):'';
     const key=c.art+'-'+variant;
     if(artCache.has(key))return artCache.get(key);
     const id='sp-art-'+key,definition=sEl('g',{id,class:'sp-symbol'},artDefs);
@@ -11553,7 +11632,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(stage)stage.cables=normalizeCables(stage.cables,null,objects);
   }
   function detachConnectionsForObject(id){
-    if(!stage)return;for(const device of stage.routing?.devices||[])if(device.objectId===id)device.objectId='';stage.cables=(stage.cables||[]).filter(cable=>cable.sourceId!==id&&cable.targetId!==id);for(const direction of ['inputs','outputs'])stage.routing[direction]=(stage.routing[direction]||[]).filter(row=>{if(String(row.sourceKey||'').startsWith(id+':'))return false;if(row.stagebox===id){row.stagebox='';row.stageboxPort=null;}return true;});
+    if(!stage)return;const removedDi=new Set((stage.routing?.devices||[]).filter(device=>device.objectId===id).map(device=>device.id));for(const row of stage.routing?.inputs||[])if(removedDi.has(row.diDeviceId))StageplotRoutingModel.clearDevice(stage.routing,[row.id]);if(stage.routing?.devices)stage.routing.devices=stage.routing.devices.filter(device=>!removedDi.has(device.id));stage.cables=(stage.cables||[]).filter(cable=>cable.sourceId!==id&&cable.targetId!==id);for(const direction of ['inputs','outputs'])stage.routing[direction]=(stage.routing[direction]||[]).filter(row=>{if(String(row.sourceKey||'').startsWith(id+':'))return false;if(row.stagebox===id){row.stagebox='';row.stageboxPort=null;}return true;});
   }
   function rectanglesOverlap(a,b){
     const sa=objectSize(a),sb=objectSize(b),ra=a.angle*Math.PI/180,rb=b.angle*Math.PI/180;
@@ -11783,7 +11862,7 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const o of list.filter(o=>byId[o.type]?.stageExtension)){const p=venueObjectPart(o);p.name=o.label||'Bühnenmodul';g.parts.push(p);}
     for(const item of stairStates(s)){
       const b=stairsGeometry(s,item.id),edge=stairEdge(s,item.id),side=['left','right'].includes(edge),w=side?b.d:b.w,d=side?b.w:b.d;
-      const q=G.part({kind:'stairs',name:'Treppe',w,d,angle:edge==='front'?0:edge==='back'?180:edge==='left'?90:270});
+      const q=G.part({kind:'stairs',name:'Treppe',w,d,steps:item.record.stairsSteps||3,angle:edge==='front'?0:edge==='back'?180:edge==='left'?90:270});
       const origin=G.transform(q,[-w/2,0]);q.x=(edge==='front'||edge==='back'?b.x+b.w/2:edge==='left'?0:s.w)+origin[0];q.y=(edge==='left'||edge==='right'?b.y+b.d/2:edge==='front'?s.d:0)+origin[1];g.parts.push(q);
     }
     return G.normalize(g);
@@ -11950,13 +12029,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const scale=Number(svg.dataset.scale),stair=stairsGeometry(s,id),isSide=['left','right'].includes(g.dataset.stairEdge);
     const tw=(isSide?stair.d:stair.w)*scale,th=(isSide?stair.w:stair.d)*scale;
     const body=g.querySelector('[data-stair-body]');if(body){body.setAttribute('x',-tw/2);body.setAttribute('width',tw);}
-    g.querySelectorAll('[data-stair-step]').forEach(node=>{node.setAttribute('x',-tw/2+2);node.setAttribute('width',Math.max(0,tw-4));});
-    g.querySelectorAll('[data-stair-tread]').forEach(l=>{l.setAttribute('x1',-tw/2+1);l.setAttribute('x2',tw/2-1);});
-    g.querySelectorAll('[data-stair-anti-slip],[data-stair-nosing]').forEach(l=>{l.setAttribute('x1',-tw/2+(l.hasAttribute('data-stair-anti-slip')?3:2));l.setAttribute('x2',tw/2-(l.hasAttribute('data-stair-anti-slip')?3:2));});
-    const rails=g.querySelectorAll('[data-stair-rail]');
-    if(rails[0])rails[0].setAttribute('x',-tw/2+.6);
-    if(rails[1])rails[1].setAttribute('x',tw/2-3.4);
-    const posts=g.querySelectorAll('[data-stair-post]');posts.forEach((post,index)=>post.setAttribute('cx',index<2?-tw/2+2:tw/2-2));
+    const art=g.querySelector('[data-stair-art]');if(art){art.setAttribute('transform','translate('+(-tw/2)+' 0)');art.innerHTML=stageplotStairArtwork({width:tw,depth:th,steps:stairState(s,id)?.stairsSteps||3,unit:scale,idPrefix:id});}
     g.querySelectorAll('[data-stairs-resize]').forEach(a=>{const dir=a.dataset.stairsResize==='right'?1:-1,cx=dir*(tw/2+13),shell=a.querySelector('rect'),path=a.querySelector('path');if(shell)shell.setAttribute('x',cx-10);if(path)path.setAttribute('d','M'+(cx-dir*2.5)+' '+(th/2-4.2)+'L'+(cx+dir*4.5)+' '+(th/2)+'L'+(cx-dir*2.5)+' '+(th/2+4.2));});
   }
   let stairsAnim=0;
@@ -12354,18 +12427,9 @@ function createStageplotSymbolV3(type, options = {}) {
       const stair=stairsGeometry(s,stairEntry.id),pose=stairVisualPose(s,mx,top,scale,stairEntry.id),isSide=['left','right'].includes(pose.edge),stairW=isSide?stair.d:stair.w,stairD=isSide?stair.w:stair.d,tw=stairW*scale,th=stairD*scale;
       const stairsSelected=mode==='editor'&&selected===stairEntry.id,stairs=sEl('g',{transform:pose.transform,'data-stairs':stairEntry.record.stairs,'data-stair-edge':pose.edge,'data-stairs-zone':'true','data-stairs-id':stairEntry.id,'data-selected':String(stairsSelected),'data-width-metres':stairW,'data-run-metres':stairD,class:mode==='editor'?'sp-stairs-zone':'','aria-label':'Bühnentreppe · '+metres(stairW)+' breit · '+metres(stairD)+' tief · am Bühnenrand verschiebbar'},svg);
       const stairsBody={x:-tw/2,y:0,width:tw,height:th,rx:2.2,fill:blackStage?'#20221f':'#d9dcd6',stroke:blackStage?moduleStroke:'var(--sp-art)','stroke-width':stairsSelected?2:1,'data-stair-body':'true'};if(stairsSelected)stairsBody.stroke='var(--sp-teal)';sEl('rect',stairsBody,stairs);
-      const stepCount=Math.max(1,Math.min(24,Math.round(stairEntry.record.stairsSteps||3))),stepH=th/stepCount;
-      for(let j=0;j<stepCount;j++){
-        const y=j*stepH,shade=blackStage?['#393c37','#30332f','#272a26'][j%3]:['#f7f8f4','#e9ece6','#dce0d9'][j%3];
-        sEl('rect',{x:-tw/2+2,y:y+1.2,width:Math.max(0,tw-4),height:Math.max(0,stepH-2),rx:.8,fill:shade,stroke:'none','data-stair-step':j},stairs);
-        if(j>0)sEl('line',{x1:-tw/2+1,y1:y,x2:tw/2-1,y2:y,stroke:blackStage?'#8e938b':'#6e746e','stroke-width':1.25,'data-stair-tread':j},stairs);
-        sEl('line',{x1:-tw/2+3,y1:y+stepH-2.3,x2:tw/2-3,y2:y+stepH-2.3,stroke:blackStage?'#a2a79e':'#8e958c','stroke-width':.7,'stroke-dasharray':'3 1.8','pointer-events':'none','data-stair-anti-slip':j},stairs);
-        sEl('line',{x1:-tw/2+2,y1:y+stepH-1,x2:tw/2-2,y2:y+stepH-1,stroke:blackStage?'#111411':'#b5bab2','stroke-width':.55,'pointer-events':'none','data-stair-nosing':j},stairs);
-      }
-      for(const x of [-tw/2+2,tw/2-2]){
-        sEl('rect',{x:x-1.4,y:1,width:2.8,height:Math.max(0,th-2),rx:1.1,fill:blackStage?'#111310':'#5d635d',stroke:blackStage?'#777c75':'#303530','stroke-width':.45,'data-stair-rail':'true','data-stair-stringer':'true'},stairs);
-        for(const y of [2.6,th-2.6]){sEl('circle',{cx:x,cy:y,r:1.45,fill:blackStage?'#b3b7b0':'#d9dcd6',stroke:'#3d423d','stroke-width':.45,'data-stair-post':'true'},stairs);sEl('circle',{cx:x,cy:y,r:.45,fill:'#555b55','pointer-events':'none'},stairs);}
-      }
+      const stepCount=Math.max(1,Math.min(24,Math.round(stairEntry.record.stairsSteps||3)));
+      const art=sEl('g',{'data-stair-art':'true',transform:'translate('+(-tw/2)+' 0)'},stairs);
+      art.innerHTML=stageplotStairArtwork({width:tw,depth:th,steps:stepCount,unit:scale,idPrefix:mode+'-'+stairEntry.id});
       if(stairsSelected)for(const [side,dir] of [['left',-1],['right',1]]){
         const cx=dir*(tw/2+13),g=sEl('g',{'data-stairs-resize':side,'data-stairs-visual-handle':side,style:'cursor:'+(isSide?'ns-resize':'ew-resize')},stairs);
         sEl('rect',{x:cx-10,y:th/2-8.5,width:20,height:17,rx:8.5,fill:'#202420',stroke:'#ed2f87','stroke-width':1.4},g);
@@ -12552,7 +12616,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const screen=point.matrixTransform(matrix),rect=floor.parentElement.getBoundingClientRect(),viewport=floor.getBoundingClientRect();
     if(screen.x<viewport.left||screen.x>viewport.right||screen.y<viewport.top||screen.y>viewport.bottom){objectMenu.sync(null);return;}
     const special=stageboxCapacity[o.type]?'Anschlüsse bearbeiten':o.type==='rack'?'IEM-Monitore bearbeiten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester bearbeiten':drumModel.isDrums(o.type)||o.type==='percussion'?'Drums & Percussion bearbeiten':'';
-    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,modelFamily:compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),dragging:!!drag?.moved,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
+    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,modelFamily:o.type==='di'?'di-boxes':compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),dragging:!!drag?.moved,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
   }
 
   function defaultPackState(){return {version:1,unlocked:[],activations:[],betaPass:false,betaGrantedAt:0,rewards:{feedback:false,newsletter:false,feedbackAt:0,newsletterAt:0},outbox:[]};}
@@ -12595,6 +12659,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(pack.reward&&(packState.rewards.feedback||packState.rewards.newsletter))return 'Teilweise frei';return 'Gesperrt';
   }
   function libraryIcon(c){
+    if(c.diModelId)return audioDiPhoto(c.diModelId).replace('sp-audio-di-photo','sp-library-thumbnail');
     return c.id==='orchestra'?'<img class="sp-library-thumbnail" src="./stageplot-assets/categories/orchestra-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false">':icon(c);
   }
   function packArtwork(pack,limit=4){return packObjects(pack).slice(0,limit).map(c=>'<span>'+icon(c)+'</span>').join('');}
@@ -12721,7 +12786,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(cohort.some(o=>o.locked)&&!['lock','duplicate'].includes(action)){say('Auswahl enthält gesperrte Objekte · zuerst gemeinsam entsperren');return;}
     if(action==='duplicate'){
       const unavailable=cohort.find(o=>!isObjectUnlocked(o.type));if(unavailable){lockedObjectPack(unavailable.type);return;}
-      change(()=>{const copies=cohort.map(o=>({...clone(o),id:nextObjectId(),x:o.x+.5,y:o.y+.5,locked:false}));objects.push(...copies);setSelection(copies.map(o=>o.id));selectionMode=false;syncRoutingFromStage(false);},cohort.length+' Objekte dupliziert');return;
+      change(()=>{const copies=cohort.map(o=>({...clone(o),id:nextObjectId(),x:o.x+.5,y:o.y+.5,locked:false}));copies.forEach((copy,index)=>cloneRoutingDiObject(cohort[index],copy));objects.push(...copies);setSelection(copies.map(o=>o.id));selectionMode=false;syncRoutingFromStage(false);},cohort.length+' Objekte dupliziert');return;
     }
     if(action==='delete'){
       change(()=>{for(const o of cohort)detachConnectionsForObject(o.id);objects=objects.filter(o=>!selectionIds.has(o.id));setSelection([]);selectionMode=false;syncRoutingFromStage(false);},cohort.length+' Objekte entfernt · mit Rückgängig wiederherstellbar');return;
@@ -12736,7 +12801,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function saveLibraryPreferences(){
     return StageplotQol.writePreferences(window.localStorage,libraryPreferences);
   }
-  const libraryTypeForObject=o=>o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts?.length===1&&byId[o.orchestra.parts[0].type]?o.orchestra.parts[0].type:o.type==='mic'&&o.stand==='round'?'mic-round':o.type;
+  const libraryTypeForObject=o=>o.type==='di'&&libraryItem('di-model:'+stage?.routing?.devices?.find(device=>device.objectId===o.id)?.modelId)?'di-model:'+stage.routing.devices.find(device=>device.objectId===o.id).modelId:o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts?.length===1&&byId[o.orchestra.parts[0].type]?o.orchestra.parts[0].type:o.type==='mic'&&o.stand==='round'?'mic-round':o.type;
   function toggleLibraryFavorite(id){
     const scroll=$('sp-library-items').scrollTop,fromInspector=document.activeElement===$('sp-object-favorite'),fromModel=document.activeElement?.dataset?.modelFavorite;
     libraryPreferences=StageplotQol.favorite(libraryPreferences,id,libraryPreferenceIds);
@@ -12744,7 +12809,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(view==='editor')inspector();
     const button=[...$('sp-library-items').querySelectorAll('[data-library-favorite]')].find(b=>b.dataset.libraryFavorite===id);
     const modelButton=$('sp-model-dialog-options').querySelector('[data-model-favorite="'+id+'"]');
-    if(modelButton){const active=libraryPreferences.favorites.includes(id);modelButton.textContent=active?'★':'☆';modelButton.setAttribute('aria-pressed',String(active));modelButton.setAttribute('aria-label',byId[id].name+(active?' aus Favoriten entfernen':' als Favorit merken'));}
+    if(modelButton){const active=libraryPreferences.favorites.includes(id);modelButton.textContent=active?'★':'☆';modelButton.setAttribute('aria-pressed',String(active));modelButton.setAttribute('aria-label',libraryItem(id).name+(active?' aus Favoriten entfernen':' als Favorit merken'));}
     (fromModel&&modelButton?modelButton:fromInspector?$('sp-object-favorite'):button||root.querySelector('[data-library-scope="'+libraryScope+'"]')).focus({preventScroll:true});
     say(saved?(libraryPreferences.favorites.includes(id)?'In Favoriten gespeichert':'Aus Favoriten entfernt'):'Favoriten gelten für diese Sitzung · lokaler Speicher nicht verfügbar');
   }
@@ -12758,9 +12823,9 @@ function createStageplotSymbolV3(type, options = {}) {
     const visible=[],seenFamilies=new Set();
     const familyEntry=family=>{const card=libraryModelFamilyCards[family];if(!card)return null;return {c:{...byId[card.representative],name:card.label,short:card.label},family,variants:libraryFamilyVariants(family,true),key:'family:'+family};};
     if(libraryScope==='all'){
-      for(const c of catalog.filter(c=>libraryMatches(c,query?'all':libraryCategory,query))){
+      for(const c of [...catalog,...libraryDiModels()].filter(c=>libraryMatches(c,query?'all':libraryCategory,query))){
         const family=libraryCategory==='guitars'&&c.id==='double-bass'?'electric-basses':libraryFamilyFor(c);
-        if(query||!libraryModelFamilyCards[family])visible.push({c,key:c.id});
+        if(query&&c.id!=='di'||!libraryModelFamilyCards[family])visible.push({c,key:c.id});
         else if(!seenFamilies.has(family)){seenFamilies.add(family);visible.push(familyEntry(family));}
       }
       if(query)visible.sort((a,b)=>librarySearchRank(a.c,query)-librarySearchRank(b.c,query));
@@ -12768,7 +12833,7 @@ function createStageplotSymbolV3(type, options = {}) {
       if(!query&&order.length)visible.sort((a,b)=>(order.includes(a.key)?order.indexOf(a.key):99)-(order.includes(b.key)?order.indexOf(b.key):99));
     }else{
       for(const key of libraryPreferences[libraryScope==='favorites'?'favorites':'recent']){
-        const entry=key.startsWith('family:')?familyEntry(key.slice(7)):byId[key]?{c:byId[key],key}:null;
+        const entry=key==='di'?{...familyEntry('di-boxes'),key}:key.startsWith('family:')?familyEntry(key.slice(7)):libraryItem(key)?{c:libraryItem(key),key}:null;
         if(entry&&(entry.variants||[entry.c]).some(c=>libraryMatches({...c,libraryHidden:false},'all',query)))visible.push(entry);
       }
     }
@@ -12781,10 +12846,10 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-library-section-heading').textContent=query?'Suchergebnisse':libraryScope==='favorites'?'Favoriten':libraryScope==='recent'?'Zuletzt verwendet':categoryName;
     const cardHtml=entry=>{
       const c=entry.c,favorite=libraryPreferences.favorites.includes(entry.key);let card;
-      if(entry.family){const active=objects.some(o=>libraryFamilyFor(byId[libraryTypeForObject(o)])===entry.family),count=entry.variants.length,kind=['brass','woodwinds','orchestral-strings'].includes(entry.family)?'Instrumente':'Modelle';
+      if(entry.family){const active=objects.some(o=>libraryFamilyFor(libraryItem(libraryTypeForObject(o)))===entry.family),count=entry.variants.length,kind=['brass','woodwinds','orchestral-strings'].includes(entry.family)?'Instrumente':'Modelle';
         card='<button class="sp-library-item sp-library-model-family" type="button" data-library-model-family="'+entry.family+'" data-active="'+active+'" aria-haspopup="dialog" aria-controls="sp-model-dialog" aria-label="'+esc(c.name+' auswählen · '+count+' '+kind)+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span><span class="sp-library-model-count">'+count+' '+kind+'</span></button>';
       }else{const unlocked=isObjectUnlocked(c.id),pack=objectPackById[objectPackForType.get(c.id)];
-        card='<button class="sp-library-item" type="button" '+(unlocked?'data-add="'+c.id+'" data-pending="'+(placement?.type===c.id)+'"':'data-pack-open="'+pack.id+'" data-pack-locked="true"')+' aria-label="'+esc(unlocked?c.name+' zum Platzieren auswählen':c.name+' ist im '+pack.name+' Pack · Pack ansehen')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span>'+(unlocked?'':'<span class="sp-library-lock-label">'+esc(pack.name)+'</span>')+'</button>';
+        card='<button class="sp-library-item" type="button" '+(unlocked?'data-add="'+c.id+'" data-pending="'+((placement?.libraryKey||placement?.type)===c.id)+'"':'data-pack-open="'+pack.id+'" data-pack-locked="true"')+' aria-label="'+esc(unlocked?c.name+' zum Platzieren auswählen':c.name+' ist im '+pack.name+' Pack · Pack ansehen')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span>'+(unlocked?'':'<span class="sp-library-lock-label">'+esc(pack.name)+'</span>')+'</button>';
       }
       return '<div class="sp-library-card">'+card+'<button type="button" class="sp-library-favorite" data-library-favorite="'+entry.key+'" aria-pressed="'+favorite+'" aria-label="'+esc(c.name+(favorite?' aus Favoriten entfernen':' als Favorit merken'))+'">'+(favorite?'★':'☆')+'</button></div>';
     };
@@ -12797,8 +12862,8 @@ function createStageplotSymbolV3(type, options = {}) {
   function updateList(){
     const cableCount=stage?.cables?.length||0;
     $('sp-item-count').textContent=objects.length?objects.length+' Baustein'+(objects.length===1?'':'e')+(cableCount?' · '+cableCount+' Kabel':''):'Noch keine Bausteine';
-    const activeObject=objects.find(o=>o.id===selected),active=activeObject?.type,activeFamily=libraryFamilyFor(byId[libraryTypeForObject(activeObject||{})]);
-    root.querySelectorAll('[data-add]').forEach(b=>{b.dataset.active=String(b.dataset.add===active);b.dataset.pending=String(b.dataset.add===placement?.type);});
+    const activeObject=objects.find(o=>o.id===selected),active=activeObject?.type,activeFamily=libraryFamilyFor(libraryItem(libraryTypeForObject(activeObject||{})));
+    root.querySelectorAll('[data-add]').forEach(b=>{b.dataset.active=String(b.dataset.add===libraryTypeForObject(activeObject||{}));b.dataset.pending=String(b.dataset.add===(placement?.libraryKey||placement?.type));});
     root.querySelectorAll('[data-library-model-family]').forEach(b=>{b.dataset.active=String(activeFamily===b.dataset.libraryModelFamily);});
     const list=$('sp-object-list'),scroll=list.scrollTop,focused=list.contains(document.activeElement)?document.activeElement:null;
     const focusSelect=focused?.dataset.select,focusLock=focused?.dataset.layerLock;
@@ -12890,16 +12955,16 @@ function createStageplotSymbolV3(type, options = {}) {
     return result;
   }
   function syncObjectIoControls(o,locked=false){
-    const io=objectIo(o),drums=drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type),disabled=locked||drums;
-    $('sp-ins-direct').hidden=drums;$('sp-outs-direct').hidden=drums;
+    const io=objectIo(o),drums=drumModel.isDrums(o.type)||['percussion','orchestra'].includes(o.type),physicalDi=o.type==='di',disabled=locked||drums||physicalDi;
+    $('sp-ins-direct').hidden=drums||physicalDi;$('sp-outs-direct').hidden=drums||physicalDi;
     $('sp-ins-count').value=io.inputs.count;$('sp-outs-count').value=io.outputs.count;$('sp-ins-count').disabled=disabled;$('sp-outs-count').disabled=disabled;
     syncChoiceButtons($('sp-ins-connector-options'),io.inputs.connector,disabled);syncChoiceButtons($('sp-outs-connector-options'),io.outputs.connector,disabled);
     root.querySelectorAll('[data-ins-step],[data-outs-step]').forEach(button=>button.disabled=disabled);
     $('sp-ins-preview').textContent=ioValueText(io.inputs,'inputs');$('sp-outs-preview').textContent=o.type==='orchestra'?io.outputs.count+' Signale · im Orchester-Editor definiert':o.type==='percussion'?io.outputs.count+' Signale · im Percussion-Editor definiert':drums?io.outputs.count+' Drum-Mikrofonkanäle · im Drum Designer definiert':ioValueText(io.outputs,'outputs');
     const drumSummary=$('sp-drum-output-summary');drumSummary.hidden=!drums;if(drums){const channels=o.type==='orchestra'?orchestraModel.channels(o.orchestra).map(row=>({...row,method:'xlr',model:''})):o.type==='percussion'?percussionModel.channels(o.percussion).map(row=>({...row,method:row.electronic?'di':'xlr',model:''})):drumModel.drumChannels(o.type,o.drums);$('sp-drum-output-count').textContent=channels.length+' '+(channels.length===1?'Output':'Outputs');$('sp-drum-output-list').innerHTML=channels.length?channels.map(row=>'<div class="sp-drum-output-row"><span>'+esc(row.name)+'</span><small title="'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'">'+esc(row.method==='di'?'DI / Line':row.model||'Generisches Mikrofon')+'</small></div>').join(''):'<div class="sp-drum-output-row"><span>Keine</span><small>Keine aktive Abnahme</small></div>';}
     const host=$('sp-stereo-link-options');host.innerHTML='';for(let start=1;start<io.outputs.count;start+=2){const button=document.createElement('button');button.type='button';button.dataset.stereoStart=String(start);button.setAttribute('aria-pressed',String(io.stereoPairs.includes(start)));button.disabled=disabled;button.textContent='Out '+start+' + '+(start+1);host.appendChild(button);}
-    $('sp-stereo-links').dataset.empty=String(io.outputs.count<2||drums);$('sp-stereo-links').hidden=drums;
-    const aliasSection=$('sp-io-aliases'),aliasHost=$('sp-io-alias-list');aliasSection.hidden=drums;aliasHost.replaceChildren();let priorDirection='';
+    $('sp-stereo-links').dataset.empty=String(io.outputs.count<2||drums);$('sp-stereo-links').hidden=drums||physicalDi;
+    const aliasSection=$('sp-io-aliases'),aliasHost=$('sp-io-alias-list');aliasSection.hidden=drums||physicalDi;aliasHost.replaceChildren();let priorDirection='';
     if(!drums)for(const group of ioAliasGroups(io)){if(group.kind!==priorDirection){const heading=document.createElement('div');heading.className='sp-io-alias-direction';heading.textContent=group.kind==='outputs'?'Ausgänge':'Eingänge';aliasHost.appendChild(heading);priorDirection=group.kind;}const row=document.createElement('label'),label=document.createElement('span'),input=document.createElement('input'),aliases=io.aliases[group.kind]||[];row.className='sp-io-alias-row';label.textContent=group.label;input.type='text';input.maxLength=60;input.placeholder=group.kind==='outputs'?'z. B. Piano':'z. B. Talkback';input.value=group.ports.map(port=>aliases[port-1]).find(Boolean)||'';input.disabled=disabled;input.dataset.ioAliasKind=group.kind;input.dataset.ioAliasPorts=group.ports.join(',');input.setAttribute('aria-label',group.label+' Alias');row.append(label,input);aliasHost.appendChild(row);}
     $('sp-outs').value=ioValueText(io.outputs,'outputs').replace(/^Keine Outs$/,'');
   }
@@ -13632,7 +13697,7 @@ function createStageplotSymbolV3(type, options = {}) {
   const ioAliasAt=(io,kind,number)=>ioAliasText(io?.aliases?.[kind]?.[number-1]);
   function generatedInputSpecs(){
     const specs=[];
-    for(const o of objects){const c=byId[o.type];
+    for(const o of objects){const c=byId[o.type];if(o.type==='di')continue;
       if(o.type==='orchestra'&&typeof orchestraModel!=='undefined'){orchestraModel.channels(o.orchestra).forEach((row,index)=>specs.push(routeSpec(o,'orch-'+row.id,o.orchestra?.mode==='single'?(o.label||row.name)+(row.suffix?' · '+row.suffix:''):(o.label||'Orchester')+' · '+row.name,row.pickup==='DI'?'DI':'Mic',row.pickup==='DI'?'Instrument':'Mic',{connector:'XLR',portIndex:index+1,pickup:row.pickup||'Mic'})));continue;}
       if(o.type==='percussion'&&typeof percussionModel!=='undefined'){
         percussionModel.channels(o.percussion).forEach((row,index)=>specs.push(routeSpec(o,'perc-'+row.id,(o.label||'Percussion')+' · '+row.name,row.side?'Stereo '+row.side:row.electronic?'Direct':'Mic',row.electronic?'Line':'Mic',{connector:row.connector,microphone:row.microphone||'',phantom:row.phantom===true,portIndex:index+1,stereoGroup:row.stereoGroup?o.id+':perc-'+row.stereoGroup:''})));continue;
@@ -13647,7 +13712,7 @@ function createStageplotSymbolV3(type, options = {}) {
     return specs;
   }
   function generatedOutputSpecs(){
-    const specs=[];for(const o of objects){const c=byId[o.type],io=c.instrument?objectIo(o):null;
+    const specs=[];for(const o of objects){if(o.type==='di')continue;const c=byId[o.type],io=c.instrument?objectIo(o):null;
       if(io)for(let index=0;index<io.inputs.count;index++){const number=index+1,alias=ioAliasAt(io,'inputs',number),suffix=alias?' · '+alias:io.inputs.count>1?' · In '+number:'',signal=['USB','Digital','MADI','Dante'].includes(io.inputs.connector)?'Digital':'Line';specs.push(routeSpec(o,'io-in-'+number,(o.label||c.name)+suffix,io.inputs.count===1?'Mono':'Direct',signal,{connector:io.inputs.connector,portIndex:number}));}
       if(o.type==='wedge')specs.push(routeSpec(o,'monitor','Monitor · '+(o.label||'Wedge'),'Mono','Line',{connector:'XLR',portIndex:1}));
       if(o.type==='iem-earphones'){specs.push(routeSpec(o,'iem-l','IEM · '+(o.label||'Musiker')+' L','Stereo L','Line',{connector:'XLR',portIndex:1,stereoGroup:o.id+':iem'}));specs.push(routeSpec(o,'iem-r','IEM · '+(o.label||'Musiker')+' R','Stereo R','Line',{connector:'XLR',portIndex:2,stereoGroup:o.id+':iem'}));}
@@ -13664,9 +13729,11 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   function syncRoutingFromStage(announce=true,persist=true){
     if(!stage)return;stage.routing=normalizeRouting(stage.routing);
+    if(typeof StageplotRoutingModel!=='undefined')StageplotRoutingModel.ensure(stage.routing,objects);
+    const diChanged=typeof syncRoutingDiObjects==='function'&&syncRoutingDiObjects();
     const inputSpecs=selectAudioSpecs(generatedInputSpecs(),'inputs'),outputSpecs=selectAudioSpecs(generatedOutputSpecs(),'outputs'),validSourceKeys=new Set([...inputSpecs,...outputSpecs].map(spec=>spec.sourceKey));
     const movedToOutput=new Set(stage.routing.outputs.filter(row=>row.manual&&row.sourceKey).map(row=>row.sourceKey)),movedToInput=new Set(stage.routing.inputs.filter(row=>row.manual&&row.sourceKey).map(row=>row.sourceKey));
-    stage.routing.inputs=reconcileRouteList(stage.routing.inputs,inputSpecs.filter(spec=>!movedToOutput.has(spec.sourceKey)),'inputs',validSourceKeys);stage.routing.outputs=reconcileRouteList(stage.routing.outputs,outputSpecs.filter(spec=>!movedToInput.has(spec.sourceKey)),'outputs',validSourceKeys);stage.routing.generatedAt=Date.now();if(typeof StageplotRoutingModel!=='undefined')StageplotRoutingModel.ensure(stage.routing,objects);reconcileCablesWithRouting();if(persist)queueDraftSave();if(announce)say('Routing aus dem Bühnenaufbau aktualisiert');
+    stage.routing.inputs=reconcileRouteList(stage.routing.inputs,inputSpecs.filter(spec=>!movedToOutput.has(spec.sourceKey)),'inputs',validSourceKeys);stage.routing.outputs=reconcileRouteList(stage.routing.outputs,outputSpecs.filter(spec=>!movedToInput.has(spec.sourceKey)),'outputs',validSourceKeys);stage.routing.generatedAt=Date.now();if(typeof StageplotRoutingModel!=='undefined')StageplotRoutingModel.ensure(stage.routing,objects);reconcileCablesWithRouting();if(persist||diChanged&&!sharedReadOnly)queueDraftSave();if(announce)say('Routing aus dem Bühnenaufbau aktualisiert');
   }
   function routingStageboxes(direction){return objects.filter(o=>stageboxCapacity[o.type]?.[direction]>0).map(o=>({id:o.id,name:o.label||byId[o.type].short,capacity:stageboxCapacity[o.type][direction],x:o.x,y:o.y,type:o.type,comboJacks:o.comboJacks===true}));}
   const routeNeedsDi=(row,direction,box)=>direction==='inputs'&&row?.connector==='Klinke'&&!box?.comboJacks;
@@ -13739,6 +13806,81 @@ let routingWorkspaceV2=null;
 function routingWorkspaceState(){
   const specs=generatedInputSpecs();
   return {tab:routingTab,readonly:sharedReadOnly,saveState:{text:$('sp-header-draft-status').textContent,state:draftState},stage,objects,routing:stage.routing,boxes:allRoutingStageboxes(),catalog:byId,microphones:StageplotMics.catalog,diModels:StageplotRoutingModel.diModels,diStereoSources:Object.fromEntries(objects.map(o=>[o.id,routingDiStereoSource(o)])),diStereoPairs:Object.fromEntries(objects.map(o=>[o.id,routingDiStereoPairs(o)])),sourceOutputs:Object.fromEntries(objects.filter(o=>byId[o.type]?.instrument||byId[o.type]?.category==='amps'&&o.io).map(o=>[o.id,routingSourceOutputs(o,specs)]))};
+}
+// A physical DI has one routing device and one movable stage object.
+function routingDiObject(device){return objects.find(o=>o.id===device?.objectId&&o.type==='di');}
+function routingAssertDiEditable(device){if(routingDiObject(device)?.locked)throw Error('Die DI-Box ist gesperrt.');}
+function routingUniqueDiLabel(value){
+  const base=value.slice(0,36);let name=base,index=2;while(objects.some(o=>o.type==='di'&&o.label===name))name=base+' '+index++;return name;
+}
+function cloneRoutingDiObject(original,copy){
+  if(original.type!=='di')return;
+  const device=stage.routing.devices.find(device=>device.objectId===original.id);if(!device)return;
+  copy.label=routingUniqueDiLabel(original.label||'DI');StageplotRoutingModel.createDevice(stage.routing,{...device,id:undefined,objectId:copy.id});
+}
+function routingDiLabel(device,rows){
+  const model=StageplotRoutingModel.diModels.find(model=>model.id===device.modelId);
+  if(device.name&&device.name!==model?.name&&device.name!=='DI-Box')return device.name.slice(0,42);
+  const source=routeSourceObject(rows[0]),io=source&&objectIo(source),aliases=[...new Set(rows.map(row=>io?.aliases.outputs[Number(row.portIndex)-1]).filter(Boolean))];
+  const name=aliases.length===1?aliases[0]:source?.label||byId[source?.type]?.short;
+  return (name?(aliases.length===1?name:name+' · DI'):'DI '+(objects.filter(o=>o.type==='di').length+1)).slice(0,42);
+}
+function routingPlaceDi(device,rows){
+  const source=routeSourceObject(rows[0]),center=source||{x:stage.w/2,y:stage.d/2,angle:0},size=typeof bounds==='function'&&source?bounds(source):{hw:.6,hd:.4};
+  let id;do{id='station-'+nextId++;}while(objects.some(o=>o.id===id));
+  const o=makeObject('di',{x:center.x,y:center.y},id),own=typeof bounds==='function'?bounds(o):{hw:.08,hd:.12};
+  const occupied=objects.filter(other=>!byId[other.type]?.underlay&&other.type!=='text'),candidates=[];
+  for(let ring=0;ring<24;ring++){
+    const dx=size.hw+own.hw+.18+ring*.25,dy=size.hd+own.hd+.18+ring*.25;
+    for(const [x,y] of [[dx,0],[-dx,0],[0,dy],[0,-dy],[dx,dy],[-dx,dy],[dx,-dy],[-dx,-dy]])candidates.push({x:center.x+x,y:center.y+y});
+  }
+  const score=position=>{Object.assign(o,position);const off=typeof outside==='function'?outside(o,stage):o.x<own.hw||o.y<own.hd||o.x>stage.w-own.hw||o.y>stage.d-own.hd;const overlap=occupied.filter(other=>typeof rectanglesOverlap==='function'?rectanglesOverlap(o,other):Math.abs(o.x-other.x)<.35&&Math.abs(o.y-other.y)<.35).length;return Number(off)*1000+overlap;};
+  let chosen=candidates[0],best=Infinity;
+  for(const position of candidates){const value=score(position);if(value<best){best=value;chosen=position;}if(value===0)break;}
+  Object.assign(o,chosen,{label:routingUniqueDiLabel(routingDiLabel(device,rows)),showLabel:true,showOuts:false});objects.push(o);device.objectId=o.id;return o;
+}
+function syncRoutingDiObjects(){
+  if(!stage)return false;
+  const routing=stage.routing,diIds=new Set(objects.filter(o=>o.type==='di').map(o=>o.id));let changed=false;
+  // Old DI placeholder rows are equipment, not extra sound sources. Keep any
+  // configured channel as an unassigned source rather than losing its patch.
+  for(const direction of ['inputs','outputs'])routing[direction]=routing[direction].filter(row=>{
+    const owner=String(row.sourceKey||'').split(':')[0];
+    const real=(row.linkedSources||[]).filter(member=>!diIds.has(String(member.sourceKey||'').split(':')[0]));
+    if(!diIds.has(owner)){if(real.length!==(row.linkedSources||[]).length){row.linkedSources=real;changed=true;}return true;}
+    changed=true;
+    if(real.length){const first=real.shift();Object.assign(row,{sourceKey:first.sourceKey,portIndex:first.portIndex,sourceConnector:first.sourceConnector||first.connector,sourceSignalType:first.sourceSignalType||first.signalType,generatedInstrument:first.generatedInstrument||first.instrument,instrument:first.instrument||row.instrument,linkedSources:real,manual:true});return true;}
+    const physical=objects.find(o=>o.id===owner),custom=row.instrument&&![physical?.label,'DI-Box',row.generatedInstrument].includes(row.instrument);
+    routing.disabledSources=[...new Set([...routing.disabledSources,row.sourceKey])];
+    if(row.number||row.stagebox||row.notes||custom){Object.assign(row,{sourceKey:'',linkedSources:[],manual:true,instrument:custom?row.instrument:'Signal an '+(physical?.label||'DI'),generatedInstrument:'',portIndex:null});return true;}
+    return false;
+  });
+  for(const o of objects.filter(o=>o.type==='di'))if(!routing.devices.some(device=>device.objectId===o.id)){
+    if(!o.label||['DI','DI-Box'].includes(o.label))o.label=routingUniqueDiLabel('DI');
+    const io=objectIo(o);StageplotRoutingModel.createDevice(routing,{modelId:io.outputs.count>1?'generic-passive-stereo':'generic-passive-mono',name:o.label||'DI-Box',objectId:o.id});changed=true;
+  }
+  const claimed=new Set();
+  for(const device of routing.devices){
+    let o=routingDiObject(device);if(o&&claimed.has(o.id)){device.objectId='';o=null;changed=true;}
+    if(!o){o=routingPlaceDi(device,routing.inputs.filter(row=>row.diDeviceId===device.id));changed=true;}
+    claimed.add(o.id);
+    const count=device.channels,io=objectIo(o);
+    if(io.inputs.count!==count||io.outputs.count!==count||io.inputs.connector!=='Klinke'||io.outputs.connector!=='XLR'){
+      o.io={...io,inputs:{count,connector:'Klinke'},outputs:{count,connector:'XLR'},stereoPairs:[],aliases:{inputs:normalizeIoAliasList(io.aliases.inputs,count),outputs:normalizeIoAliasList(io.aliases.outputs,count)}};o.outs=count+' '+(count===1?'Out':'Outs')+' · XLR';changed=true;
+    }
+  }
+  return changed;
+}
+function routingChooseDiModel(action){
+  const routing=stage.routing,requested=routingPickupRows(action),paired=routingDiSelectionRows(action),model=StageplotRoutingModel.diModels.find(model=>model.id===action.modelId);
+  if(!model)throw Error('DI-Modell nicht gefunden.');
+  const current=routing.devices.find(device=>device.id===requested[0].diDeviceId),shared=current&&paired.length===2&&paired.every(row=>row.diDeviceId===current.id),rows=(model.channels||action.channels||1)>=2?paired:requested;
+  if((model.channels||action.channels||1)<2&&(requested.length>1||shared))throw Error('Für beide Ausgänge wird eine DI-Box mit zwei Eingängen benötigt.');
+  const ids=new Set(rows.map(row=>row.id)),replace=current&&!action.newDevice&&routing.inputs.filter(row=>row.diDeviceId===current.id).every(row=>ids.has(row.id));
+  const fields=Object.fromEntries(Object.entries({modelId:action.modelId,name:action.name||model.name,channels:action.channels,active:action.active,power:action.power||(action.phantom===false?'none':undefined)}).filter(([,value])=>value!==undefined));
+  if(replace)routingAssertDiEditable(current);
+  const device=replace?StageplotRoutingModel.updateDevice(routing,current.id,fields):StageplotRoutingModel.createDevice(routing,fields);
+  StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,rows.map((_,index)=>index+1));rows.forEach(writeRoutingPickup);
 }
 function routingSourceOutputEditor(o){return drumModel.isDrums(o?.type)?'drums':o?.type==='percussion'?'percussion':o?.type==='orchestra'?'orchestra':o?.type==='laptop'?'playback':'';}
 function routingSourceOutputs(o,specs=generatedInputSpecs()){
@@ -13880,6 +14022,7 @@ function routingPickupRows(action){
   const ids=Array.isArray(action.rowIds)?action.rowIds:[action.rowId];
   if(!ids.length||ids.length>2||new Set(ids).size!==ids.length||!ids.includes(action.rowId))throw Error('Bitte die Abnahme erneut auswählen.');
   const rows=ids.map(id=>routingEditableRow('inputs',id)),sourceId=row=>routeSourceObject(row)?.id||row.sourceKey?.split(':')[0]||row.id;
+  rows.forEach(row=>routingAssertDiEditable(stage.routing.devices.find(device=>device.id===row.diDeviceId)));
   if(rows.length>1&&rows.some(row=>sourceId(row)!==sourceId(rows[0])))throw Error('Eine gemeinsame Abnahme gehört zu derselben Quelle.');
   const sharedDevice=rows[0].diDeviceId&&rows.every(row=>row.diDeviceId===rows[0].diDeviceId);
   return rows.slice().sort((a,b)=>sharedDevice?Number(a.diChannel)-Number(b.diChannel):(Number(a.portIndex)||Infinity)-(Number(b.portIndex)||Infinity));
@@ -14034,12 +14177,10 @@ function dispatchRoutingWorkspace(action){
           if(action.microphone!==undefined){row.microphone=projectText(action.microphone,80);const mic=StageplotMics.find(row.microphone);if(mic)row.phantom=!!mic.phantom;}
           if(action.phantom!==undefined)row.phantom=action.phantom===true;
           const box=routingStageboxes('inputs').find(box=>box.id===row.stagebox);if(box&&!routeStageboxCompatible(row,'inputs',box)){row.stagebox='';row.stageboxPort=null;}writeRoutingPickup(row);}break;}
-      case 'createDi':{const requested=routingPickupRows(action),paired=routingDiSelectionRows(action),device=StageplotRoutingModel.createDevice(routing,Object.fromEntries(Object.entries({modelId:action.modelId,name:action.name,channels:action.channels,active:action.active,power:action.power||(action.phantom===false?'none':undefined)}).filter(([,value])=>value!==undefined))),current=requested[0].diDeviceId,shared=current&&paired.length===2&&paired.every(row=>row.diDeviceId===current),rows=device.channels>=2?paired:requested;
-        if(device.channels<2&&(requested.length>1||shared))throw Error('Für beide Ausgänge wird eine DI-Box mit zwei Eingängen benötigt.');
-        StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,rows.map((_,index)=>index+1));rows.forEach(writeRoutingPickup);break;}
-      case 'assignDi':{const rows=routingPickupRows(action),start=Number(action.channel||1);StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),action.deviceId,rows.map((_,index)=>start+index));rows.forEach(writeRoutingPickup);break;}
+      case 'createDi':routingChooseDiModel(action);break;
+      case 'assignDi':{const device=routing.devices.find(device=>device.id===action.deviceId);if(!device)throw Error('DI-Box nicht gefunden.');routingAssertDiEditable(device);const rows=action.autoPair&&device.channels>=2?routingDiSelectionRows(action):routingPickupRows(action),start=Number(action.channel||1);StageplotRoutingModel.assignDevice(routing,rows.map(row=>row.id),device.id,rows.map((_,index)=>start+index));rows.forEach(writeRoutingPickup);break;}
       case 'connectStereoDi':if(connectRoutingStereoDi(action)===false)return;break;
-      case 'updateDi':{const occupants=routing.inputs.filter(row=>row.diDeviceId===action.deviceId);occupants.forEach(row=>routingEditableRow('inputs',row.id));StageplotRoutingModel.updateDevice(routing,action.deviceId,action.fields);occupants.forEach(writeRoutingPickup);break;}
+      case 'updateDi':{const device=routing.devices.find(device=>device.id===action.deviceId);routingAssertDiEditable(device);const occupants=routing.inputs.filter(row=>row.diDeviceId===action.deviceId);occupants.forEach(row=>routingEditableRow('inputs',row.id));StageplotRoutingModel.updateDevice(routing,action.deviceId,action.fields);const physical=routingDiObject(device);if(physical&&action.fields?.name)physical.label=action.fields.name.slice(0,42);occupants.forEach(writeRoutingPickup);break;}
       case 'patch':{const rows=routing[direction],members=routingWorkspaceMembers(direction,action.rowIds,action.exactRows===true),box=routingStageboxes(direction).find(box=>box.id===action.boxId);if(!box)throw Error('Stagebox nicht gefunden.');applyAudioPatchPlan(rows,planAudioPatch(rows,members,box,direction,{startPort:Number(action.port)}));break;}
       case 'unpatch':for(const row of routingWorkspaceMembers(direction,action.rowIds,action.exactRows===true))Object.assign(row,{stagebox:'',stageboxPort:null});break;
       case 'editChannel':{const row=routingEditableRow(direction,action.rowId),fields=action.fields||{};
@@ -14359,15 +14500,15 @@ function audioDiPhoto(value){
 function audioDiControls(o){
   if(o.type!=='di'||typeof StageplotRoutingModel==='undefined')return '';
   const device=stage.routing.devices?.find(device=>device.objectId===o.id),ownIds=new Set(stage.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')).map(row=>row.id)),disabled=sharedReadOnly||o.locked,off=disabled?' disabled':'';
-  const ports=device?StageplotRoutingModel.occupancy(stage.routing,device.id).map(port=>ownIds.has(port.rowId)?{...port,rowId:'',instrument:'',free:true}:port):[{channel:1,free:true,rowId:'',instrument:''}],selectedPort=audioDiSelectedPort.objectId===o.id&&ports.some(port=>port.channel===audioDiSelectedPort.channel)?audioDiSelectedPort.channel:ports.find(port=>port.free)?.channel||1,current=ports.find(port=>port.channel===selectedPort),models=StageplotRoutingModel.diModels;
+  const ports=device?StageplotRoutingModel.occupancy(stage.routing,device.id).map(port=>ownIds.has(port.rowId)?{...port,rowId:'',instrument:'',free:true}:port):[{channel:1,free:true,rowId:'',instrument:''}],selectedPort=audioDiSelectedPort.objectId===o.id&&ports.some(port=>port.channel===audioDiSelectedPort.channel)?audioDiSelectedPort.channel:ports.find(port=>port.free)?.channel||1,current=ports.find(port=>port.channel===selectedPort),models=StageplotRoutingModel.diModels.filter(model=>model.id!=='custom');
   const choices=stage.routing.inputs.filter(row=>!ownIds.has(row.id)&&row.connector!=='Dante'&&row.pickup!=='Digital'&&routeSourceObject(row)?.type!=='di'&&!routeSourceObject(row)?.locked);
-  const selector='<div class="sp-choice-pills sp-audio-di-models" role="group" aria-label="DI-Modell">'+models.map(model=>'<button type="button" data-di-model="'+model.id+'" aria-pressed="'+(device?.modelId===model.id)+'"'+off+'>'+audioDiPhoto(model)+'<span>'+esc(model.name)+'</span>'+(model.id.startsWith('generic-')?'<small>Generisch</small>':'')+'</button>').join('')+'</div>';
+
   const custom=device?.modelId==='custom'?'<label class="sp-field">Eigener Name<input data-di-device-name maxlength="80" value="'+esc(device.name)+'"'+off+'></label><label class="sp-field">Eingänge<input data-di-device-channels type="number" min="1" max="32" step="1" value="'+device.channels+'"'+off+'></label><div class="sp-choice-pills" role="group" aria-label="DI-Bauart">'+[[false,'Passiv'],[true,'Aktiv']].map(([value,label])=>'<button type="button" data-di-active="'+value+'" aria-pressed="'+(device.active===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
   const power=device?.active&&(device.modelId==='custom'||models.find(model=>model.id===device.modelId)?.configurablePower)?'<div class="sp-choice-pills" role="group" aria-label="Stromversorgung">'+[['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label])=>'<button type="button" data-di-power="'+value+'" aria-pressed="'+(device.power===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
   const sockets='<div class="sp-choice-pills" role="group" aria-label="DI-Eingang">'+ports.map(port=>'<button type="button" data-di-port="'+port.channel+'" aria-pressed="'+(selectedPort===port.channel)+'"'+off+'>'+port.channel+' · '+esc(port.free?'Frei':port.instrument)+'</button>').join('')+'</div>';
   const assignment=current?.free?'<div class="sp-audio-available">'+choices.map(row=>'<button type="button" class="sp-button" data-di-source="'+esc(row.id)+'" data-di-channel="'+selectedPort+'"'+off+'>'+esc(row.instrument)+' · CH '+(row.number||'—')+'</button>').join('')+'</div>': '<button type="button" class="sp-audio-object-row" data-audio-edit="'+esc(current.rowId)+'" data-audio-direction="inputs"'+off+'>'+esc(current.instrument)+'</button><button type="button" class="sp-button" data-di-disconnect="'+esc(current.rowId)+'"'+off+'>DI-Eingang freigeben</button>';
-  const selected=device?'<div class="sp-audio-di-selected">'+audioDiPhoto(device)+'<span><strong>'+esc(device.name)+'</strong><small>'+esc((device.active?'Aktiv'+({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[device.power]||''):'Passiv')+' · '+device.channels+(device.channels===1?' Eingang':' Eingänge'))+'</small></span></div>':'';
-  return '<div class="sp-direct-field"><span>DI-Box</span>'+selected+selector+custom+power+(device?'':'<small>Modell auswählen</small>')+'<span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+'</div>';
+  const selected=device?'<div class="sp-audio-di-selected">'+audioDiPhoto(device)+'<span><strong>'+esc(models.find(model=>model.id===device.modelId)?.name||device.name)+'</strong><small>'+esc((device.active?'Aktiv'+({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[device.power]||''):'Passiv')+' · '+device.channels+(device.channels===1?' Eingang':' Eingänge'))+'</small></span></div>':'';
+  return '<div class="sp-direct-field">'+selected+'<span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+custom+power+'<button type="button" class="sp-button" data-di-model-open'+off+'>Modell ändern</button></div>';
 }
 function audioDiDraft(o){
   const routing=clone(stage.routing);StageplotRoutingModel.ensure(routing,objects);
@@ -14378,23 +14519,21 @@ function configureAudioDi(o,fields){
   if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
   const next=audioDiDraft(o);for(const row of next.routing.inputs.filter(row=>row.diDeviceId===next.device.id))if(routeSourceObject(row)?.locked)throw Error('Ein angeschlossenes Instrument ist gesperrt.');
   StageplotRoutingModel.updateDevice(next.routing,next.device.id,fields);
-  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Box aktualisiert');
+  change(()=>{stage.routing=next.routing;if(fields.name&&!fields.modelId)o.label=fields.name.slice(0,42);syncRoutingDiObjects();reconcileCablesWithRouting();},'DI-Box aktualisiert');
 }
 function linkAudioDi(o,targetId,channel=null){
   if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
   const target=stage.routing.inputs.find(row=>row.id===targetId);if(!target||String(target.sourceKey||'').startsWith(o.id+':'))return;
   if(routeSourceObject(target)?.locked)throw Error('Das Instrument ist gesperrt.');
-  const next=audioDiDraft(o);
-  // The old generated DI placeholder is not an additional sound source. Preserve
-  // its disabled identity so reconciliation cannot recreate it after assignment.
-  for(const row of next.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')&&row.origin!=='pickup'))StageplotRoutingModel.removeInput(next.routing,row.id);
-  StageplotRoutingModel.assignDevice(next.routing,[targetId],next.device.id,channel===null?undefined:[Number(channel)]);
-  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Eingang zugeordnet · Pultkanal und Patch beibehalten');
+  syncRoutingFromStage(false,false);const device=stage.routing.devices.find(device=>device.objectId===o.id);if(!device)return;
+  dispatchRoutingWorkspace({type:'assignDi',rowId:targetId,deviceId:device.id,channel:channel||1,autoPair:(channel||1)===1&&device.channels>=2});renderEditor();
+
 }
 
 function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
-  host.hidden=!all.length&&!rows.length&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
+  host.hidden=!all.length&&!rows.length&&o.type!=='di'&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
+  if(o.type==='di'){host.innerHTML='<h4>Anschlüsse</h4>'+audioDiControls(o)+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';return;}
   const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),physicalDi=o.type==='di'&&stage.routing.devices?.some(device=>device.objectId===o.id),available=physicalDi?[]:all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
   host.innerHTML=(o.type==='rack'?iemMonitorShortcut(o):o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4>'+audioSignalFormatControls(o)+audioDiControls(o)+'<p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }
@@ -14868,13 +15007,13 @@ $('sp-patch-undo').addEventListener('click',()=>{if(audioPatchUndoToken&&history
 $('sp-routing-sort-instruments').addEventListener('click',()=>{if(sharedReadOnly||!stage||!['inputs','outputs'].includes(routingTab))return;change(()=>{stage.routing[routingTab]=groupAudioInstruments(stage.routing[routingTab]);},'Nach Instrumenten geordnet · Kanalnummern beibehalten');renderRouting();});
 $('sp-routing-rows').addEventListener('click',e=>{const b=e.target.closest('[data-route-object-move]');if(!b||sharedReadOnly||!stage)return;e.stopPropagation();change(()=>{stage.routing[routingTab]=moveAudioInstrument(stage.routing[routingTab],b.dataset.routeObjectId,b.dataset.routeObjectMove);},'Instrumentgruppe verschoben · Kanalnummern beibehalten');renderRouting();});
 $('sp-audio-object').addEventListener('click',e=>{
-  const control=e.target.closest('[data-di-model],[data-di-port],[data-di-source],[data-di-disconnect],[data-di-active],[data-di-power]');if(!control||control.disabled)return;
+  const control=e.target.closest('[data-di-model-open],[data-di-port],[data-di-source],[data-di-disconnect],[data-di-active],[data-di-power]');if(!control||control.disabled)return;
   const o=objects.find(o=>o.id===selected);if(!o||sharedReadOnly||o.locked)return;
   try{
     if(control.hasAttribute('data-di-port')){audioDiSelectedPort={objectId:o.id,channel:Number(control.dataset.diPort)};renderObjectAudio(o);return;}
     if(control.hasAttribute('data-di-source')){linkAudioDi(o,control.dataset.diSource,Number(control.dataset.diChannel));return;}
     if(control.hasAttribute('data-di-disconnect')){const row=stage.routing.inputs.find(row=>row.id===control.dataset.diDisconnect);if(routeSourceObject(row)?.locked)throw Error('Das Instrument ist gesperrt.');change(()=>StageplotRoutingModel.clearDevice(stage.routing,[control.dataset.diDisconnect]),'DI-Eingang freigegeben');return;}
-    if(control.hasAttribute('data-di-model')){const model=StageplotRoutingModel.diModels.find(model=>model.id===control.dataset.diModel);if(model)configureAudioDi(o,{modelId:model.id,name:model.name});return;}
+    if(control.hasAttribute('data-di-model-open')){const device=stage.routing.devices.find(device=>device.objectId===o.id);showCompactModelDialog('di-boxes','di-model:'+device?.modelId,'change');return;}
     if(control.hasAttribute('data-di-active')){configureAudioDi(o,{active:control.dataset.diActive==='true',power:control.dataset.diActive==='true'?'48V':'none'});return;}
     if(control.hasAttribute('data-di-power'))configureAudioDi(o,{power:control.dataset.diPower});
   }catch(error){say(error.message);}
@@ -16274,6 +16413,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type))o.drums=drumModel.drumDefaults();
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type)&&seed?.drums)o.drums=drumModel.normalizeDrums(type,seed.drums);
     if(c.instrument){o.io=normalizeObjectIo(null,o);o.outs=ioValueText(o.io.outputs,'outputs').replace(/^Keine Outs$/,'');}
+    if(type==='di'&&seed?.diModelId){const model=StageplotRoutingModel.diModels.find(item=>item.id===seed.diModelId);if(model){o.label=model.name;o.io={inputs:{count:model.channels,connector:'Klinke'},outputs:{count:model.channels,connector:'XLR'},aliases:{inputs:[],outputs:[]},stereoPairs:[]};o.outs=model.channels+' '+(model.channels===1?'Out':'Outs')+' · XLR';}}
     if(stageboxCapacity[type])o.comboJacks=false;
     if(type==='rack')o.iem=normalizeIemConfig({name:'IEM 1'},o.label);
     if(o.type==='mic')Object.assign(o,{stand:c.micStand||'boom',purpose:'vocals',boomDirection:'up',micHeadDirection:'follow',micFrameVersion:2});
@@ -16281,25 +16421,27 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     constrain(o);return o;
   }
   function add(type,point){
+    if(libraryItem(type)?.diModelId)type='di';
     if(!stage||!Object.hasOwn(byId,type)||!point||!Number.isFinite(point.x)||!Number.isFinite(point.y))return;
     if(!isObjectUnlocked(type)){cancelPlacement(false);lockedObjectPack(type);return;}
     const c=byId[type],seed=placement?.type===type?placement.seed:null;
     cancelPlacement(false);
     let added=null;change(()=>{
-      const o=makeObject(type,point,'station-'+nextId++,seed);objects.push(o);selected=o.id;added=o;syncRoutingFromStage(false);
+      const o=makeObject(type,point,'station-'+nextId++,seed);objects.push(o);selected=o.id;added=o;if(o.type==='di'&&seed?.diModelId)StageplotRoutingModel.createDevice(stage.routing,{modelId:seed.diModelId,objectId:o.id});syncRoutingFromStage(false);
     },c.name+' platziert');
     if(added){libraryPreferences=StageplotQol.remember(libraryPreferences,libraryTypeForObject(added),libraryPreferenceIds);saveLibraryPreferences();library();}
     if(added?.type==='rack')requestAnimationFrame(()=>openIemMonitors(added.id));
   }
   function beginPlacement(type,event,seed=null){
+    const libraryKey=type,item=libraryItem(type);if(item?.diModelId){type='di';seed={...seed,diModelId:item.diModelId};}
     if(sharedReadOnly||!stage||view!=='editor'||!Object.hasOwn(byId,type))return;
     if(!isObjectUnlocked(type)){lockedObjectPack(type);return;}
     if(typeof drumModel!=='undefined'&&drumModel.isDrums(type)&&!seed){type='drums';seed={drums:readLastDrumConfig()};}
     finishEdit();setSelection([]);selectionMode=false;panMode=false;
     if(workspaceCompact()){mobileToolsOpen=false;libraryCollapsed=true;inspectorCollapsed=true;syncWorkspaceUi();}
-    placement={type,seed,cursor:event&&event.detail!==0?{x:event.clientX,y:event.clientY}:null,point:null,previewKey:''};
-    root.dataset.placing='true';$('sp-placement-notice').hidden=false;$('sp-placement-name').textContent=byId[type].short;
-    renderEditor();queuePlacementPreview();say(byId[type].name+(mobileWorkspace()?' ausgewählt · auf der Bühne antippen':' ausgewählt · auf der Bühne klicken · Esc zum Abbrechen'));
+    placement={type,seed,libraryKey,cursor:event&&event.detail!==0?{x:event.clientX,y:event.clientY}:null,point:null,previewKey:''};
+    root.dataset.placing='true';$('sp-placement-notice').hidden=false;$('sp-placement-name').textContent=item?.short||byId[type].short;
+    renderEditor();queuePlacementPreview();say((item?.name||byId[type].name)+(mobileWorkspace()?' ausgewählt · auf der Bühne antippen':' ausgewählt · auf der Bühne klicken · Esc zum Abbrechen'));
     if(workspaceCompact())$('sp-editor-floor').focus({preventScroll:true});
   }
   function cancelPlacement(announce=true){
@@ -16594,7 +16736,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   });
   $('sp-library-items').addEventListener('dragstart',e=>e.preventDefault());
   document.addEventListener('pointercancel',e=>{if(libDrag?.pointer===e.pointerId){cancelLibraryDrag();cancelPlacement(false);}});
-  $('sp-library-items').addEventListener('click',e=>{const family=e.target.closest('[data-library-model-family]');if(family){openLibraryModelDialog(family.dataset.libraryModelFamily);suppressClick=false;return;}const pack=e.target.closest('[data-pack-open]');if(pack){openPackDialog(pack.dataset.packOpen);suppressClick=false;return;}const b=e.target.closest('[data-add]');if(b&&(!suppressClick||e.detail===0)){if(placement&&placement.type===b.dataset.add)cancelPlacement();else beginPlacement(b.dataset.add,e);}suppressClick=false;});
+  $('sp-library-items').addEventListener('click',e=>{const family=e.target.closest('[data-library-model-family]');if(family){openLibraryModelDialog(family.dataset.libraryModelFamily);suppressClick=false;return;}const pack=e.target.closest('[data-pack-open]');if(pack){openPackDialog(pack.dataset.packOpen);suppressClick=false;return;}const b=e.target.closest('[data-add]');if(b&&(!suppressClick||e.detail===0)){if(placement&&(placement.libraryKey||placement.type)===b.dataset.add)cancelPlacement();else beginPlacement(b.dataset.add,e);}suppressClick=false;});
   $('sp-object-list').addEventListener('click',e=>{
     const lock=e.target.closest('[data-layer-lock]');
     if(lock){e.preventDefault();e.stopPropagation();cancelPlacement(false);finishEdit();const o=objects.find(o=>o.id===lock.dataset.layerLock);if(o){const before=snapshot(),activeTab=inspectorTab;o.locked=!o.locked;keepHistory(before);renderEditor();setInspectorTab(activeTab);requestAnimationFrame(()=>root.querySelector('[data-layer-lock="'+o.id+'"]')?.focus({preventScroll:true}));say(o.locked?'Objekt gesperrt':'Objekt entsperrt');}return;}
@@ -16799,7 +16941,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     $(id).addEventListener('input',()=>{
       const o=objects.find(o=>o.id===selected);if(!o)return;
       if(!editBefore)editBefore=snapshot();
-      if(id==='sp-label')o.label=$(id).value;
+      if(id==='sp-label'){o.label=$(id).value;if(o.type==='di'){const device=stage.routing.devices.find(device=>device.objectId===o.id);if(device)StageplotRoutingModel.updateDevice(stage.routing,device.id,{name:o.label||'DI-Box'});}}
       if(id==='sp-note')o.note=$(id).value;
       if(id==='sp-outs')o.outs=$(id).value;
       if(id!=='sp-note')queueDraw();if(id==='sp-label'){updateList();updateInspectorIdentity(o);}queueDraftSave();
@@ -16851,14 +16993,14 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     dialog.style.maxHeight=(window.innerHeight-parseFloat(dialog.style.top)-16)+'px';
   }
   function showCompactModelDialog(family,currentType='',action='change'){
-    const group=action==='place'?libraryModelFamilyCards[family]:null;
+    const group=action==='place'||family==='di-boxes'?libraryModelFamilyCards[family]:null;
     if(!group&&!compactModelFamilies.has(family))return;
-    const variants=libraryFamilyVariants(family,action==='place'),current=byId[currentType],dialog=$('sp-model-dialog');modelDialogContext={family,currentType,action,opener:document.activeElement};
+    const variants=libraryFamilyVariants(family,action==='place'),current=libraryItem(currentType),dialog=$('sp-model-dialog');modelDialogContext={family,currentType,action,objectId:action==='change'?selected:null,opener:document.activeElement};
     $('sp-model-dialog-title').textContent=group?group.label+' auswählen':visualVariantFamilies[family]||'Modell auswählen';
     dialog.querySelector('.sp-eyebrow').textContent=action==='place'?'':'MODELLWECHSEL';
     $('sp-model-dialog-summary').textContent=variants.length+' '+(['brass','woodwinds','orchestral-strings'].includes(family)?'Instrumente':'Modelle')+(action==='change'?' · aktuell '+(current?.name||''):'');
     $('sp-model-dialog-hint').textContent=action==='place'?'Modell wählen und auf der Bühne platzieren.':'Modell wählen. Position und Anschlüsse bleiben erhalten.';
-    $('sp-model-dialog-options').innerHTML=variants.map(item=>{const unlocked=isObjectUnlocked(item.id),chosen=item.id===currentType,favorite=libraryPreferences.favorites.includes(item.id);return '<div class="sp-model-dialog-card"><button class="sp-model-dialog-option" type="button" data-dialog-model="'+item.id+'" data-model-unlocked="'+unlocked+'" aria-pressed="'+String(chosen)+'" aria-label="'+esc(item.name+(chosen?' · ausgewählt':'')+(!unlocked?' · Pack erforderlich':''))+'" title="'+esc(item.detail||item.name)+'">'+icon(item)+'<strong>'+esc(item.short)+'</strong>'+(!unlocked?'<small>Pack erforderlich</small>':'')+'</button><button type="button" class="sp-model-favorite" data-model-favorite="'+item.id+'" aria-pressed="'+favorite+'" aria-label="'+esc(item.name+(favorite?' aus Favoriten entfernen':' als Favorit merken'))+'">'+(favorite?'★':'☆')+'</button></div>';}).join('');
+    $('sp-model-dialog-options').innerHTML=variants.map(item=>{const unlocked=isObjectUnlocked(item.id),chosen=item.id===currentType,favorite=libraryPreferences.favorites.includes(item.id);return '<div class="sp-model-dialog-card"><button class="sp-model-dialog-option" type="button" data-dialog-model="'+item.id+'" data-model-unlocked="'+unlocked+'" aria-pressed="'+String(chosen)+'" aria-label="'+esc(item.name+(chosen?' · ausgewählt':'')+(!unlocked?' · Pack erforderlich':''))+'" title="'+esc(item.detail||item.name)+'">'+(item.diModelId?audioDiPhoto(item.diModelId):icon(item))+'<strong>'+esc(item.short)+'</strong>'+(item.diModelId?'<small>'+esc(item.detail)+'</small>':'')+(!unlocked?'<small>Pack erforderlich</small>':'')+'</button><button type="button" class="sp-model-favorite" data-model-favorite="'+item.id+'" aria-pressed="'+favorite+'" aria-label="'+esc(item.name+(favorite?' aus Favoriten entfernen':' als Favorit merken'))+'">'+(favorite?'★':'☆')+'</button></div>';}).join('');
     if(!dialog.open){dialog.dataset.docked=String(action==='place'&&window.innerWidth>=1000&&root.dataset.libraryCollapsed!=='true');dialog.removeAttribute('style');if(dialog.dataset.docked==='true')dialog.show();else dialog.showModal();}
     positionModelDialog();requestAnimationFrame(()=>($('sp-model-dialog-options').querySelector('[data-dialog-model][aria-pressed="true"]')||$('sp-model-dialog-options').querySelector('[data-dialog-model]'))?.focus({preventScroll:true}));
   }
@@ -16877,7 +17019,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   window.addEventListener('resize',positionModelDialog);
   document.addEventListener('keydown',e=>{const d=$('sp-model-dialog');if(e.key==='Escape'&&d.open&&d.dataset.docked==='true'&&!root.querySelector('dialog:modal')){e.preventDefault();e.stopPropagation();d.close();}},true);
   document.addEventListener('pointerdown',e=>{const d=$('sp-model-dialog');if(d.open&&d.dataset.docked==='true'&&!d.contains(e.target)&&!$('sp-library').contains(e.target))d.close();});
-  $('sp-model-dialog-options').addEventListener('click',e=>{const favorite=e.target.closest('[data-model-favorite]');if(favorite){toggleLibraryFavorite(favorite.dataset.modelFavorite);return;}const button=e.target.closest('[data-dialog-model]');if(!button)return;const type=button.dataset.dialogModel,context=modelDialogContext;if(!isObjectUnlocked(type)){$('sp-model-dialog').close();lockedObjectPack(type);return;}$('sp-model-dialog').close();if(context?.action==='place')beginPlacement(type,{detail:0});else changeSelectedVariant(type);});
+  $('sp-model-dialog-options').addEventListener('click',e=>{const favorite=e.target.closest('[data-model-favorite]');if(favorite){toggleLibraryFavorite(favorite.dataset.modelFavorite);return;}const button=e.target.closest('[data-dialog-model]');if(!button)return;const type=button.dataset.dialogModel,context=modelDialogContext;if(!isObjectUnlocked(type)){$('sp-model-dialog').close();lockedObjectPack(type);return;}$('sp-model-dialog').close();if(context?.action==='place'){beginPlacement(type,{detail:0});$('sp-editor-floor').focus({preventScroll:true});}else if(libraryItem(type)?.diModelId){const o=objects.find(o=>o.id===context?.objectId),model=StageplotRoutingModel.diModels.find(model=>model.id===libraryItem(type).diModelId);try{configureAudioDi(o,{modelId:model.id,name:model.name});}catch(error){say(error.message);}}else changeSelectedVariant(type);});
   $('sp-inspector-position').addEventListener('click',e=>{const button=e.target.closest('[data-rotate]');if(button&&!button.disabled)rotate(Number(button.dataset.rotate));});
   const rotate=amount=>{if(selectedObjects().length>1){multiAction(amount<0?'rotate-left':'rotate-right');return;}finishEdit();const o=objects.find(o=>o.id===selected);if(o&&!o.locked)change(()=>{o.angle=(o.angle+amount+360)%360;constrain(o,false);},'Drehung: '+((o.angle+amount+360)%360)+'°');};
   $('sp-object-rotate').addEventListener('click',e=>{const b=e.target.closest('[data-rotate]'),zero=e.target.closest('[data-rotate-zero]');if(b)rotate(Number(b.dataset.rotate));else if(zero){const o=objects.find(o=>o.id===selected);if(o&&!o.locked)change(()=>{o.angle=0;constrain(o,false);},'Drehung: 0°');}});
@@ -16972,7 +17114,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       const o=objects.find(item=>item.id===selected);if(!o||o.locked||sharedReadOnly)return;
       finishEdit();const label=fields.label.slice(0,o.type==='text'?240:42),steps=Math.max(1,Math.min(24,Math.round(fields.steps)||5));
       if(label===o.label&&(o.type!=='stage-stairs'||steps===(o.steps||5)))return;
-      change(()=>{o.label=label;if(o.type==='stage-stairs')o.steps=steps;},'Objekt angepasst');
+      change(()=>{o.label=label;if(o.type==='di'){const device=stage.routing.devices.find(device=>device.objectId===o.id);if(device)StageplotRoutingModel.updateDevice(stage.routing,device.id,{name:label||'DI-Box'});}if(o.type==='stage-stairs')o.steps=steps;},'Objekt angepasst');
     },
     beginRotation(){finishEdit();const o=objects.find(item=>item.id===selected);return {id:o?.id,before:snapshot(),angle:o?.angle};},
     rotate(value){const o=objects.find(item=>item.id===selected);if(!o||o.locked||sharedReadOnly)return;o.angle=Number(StageplotObjectMenu.angle(value).toFixed(1));constrain(o,false);queueDraw();},
@@ -16991,12 +17133,12 @@ function createStageplotOrchestraEditor(root,model,onCommit){
       if(action==='lock'){change(()=>{o.locked=!o.locked;},o.locked?'Objekt entsperrt':'Objekt gesperrt');return;}
       if(action==='reset'){change(()=>{o.angle=0;constrain(o,false);},'Drehung: 0°');return;}
       if(action==='backward'){const target=StageplotObjectMenu.previous(objects,o,byId);if(target)change(()=>{moveObjectBehind(objects,o,target);},'Eine Ebene zurückgelegt');return;}
-      if(action==='model'){const family=byId[o.type].family;if(compactModelFamilies.has(family))showCompactModelDialog(family,o.type);return;}
+      if(action==='model'){if(o.type==='di'){const device=stage.routing.devices.find(device=>device.objectId===o.id);showCompactModelDialog('di-boxes','di-model:'+device?.modelId,'change');return;}const family=byId[o.type].family;if(compactModelFamilies.has(family))showCompactModelDialog(family,o.type);return;}
       if(action==='special'){if(stageboxCapacity[o.type])openStageboxIo(o.id);else openSelectedDrumDesigner({currentTarget:opener});return;}
       if(action==='properties'){setInspectorTab('properties');setWorkspacePanel('inspector',true);inspector();}
     }
   });
-  function duplicateSelectedObject(){if(selectedObjects().length>1){multiAction('duplicate');return;}finishEdit();const o=objects.find(o=>o.id===selected);if(!o)return;if(!isObjectUnlocked(o.type)){lockedObjectPack(o.type);return;}change(()=>{const copy={...clone(o),id:'station-'+nextId++,x:o.x+.5,y:o.y+.5,locked:false};constrain(copy);objects.push(copy);selected=copy.id;},'Baustein dupliziert');}
+  function duplicateSelectedObject(){if(selectedObjects().length>1){multiAction('duplicate');return;}finishEdit();const o=objects.find(o=>o.id===selected);if(!o)return;if(!isObjectUnlocked(o.type)){lockedObjectPack(o.type);return;}change(()=>{const copy={...clone(o),id:'station-'+nextId++,x:o.x+.5,y:o.y+.5,locked:false};constrain(copy);cloneRoutingDiObject(o,copy);objects.push(copy);selected=copy.id;syncRoutingFromStage(false);},'Baustein dupliziert');}
   $('sp-duplicate').addEventListener('click',duplicateSelectedObject);
   $('sp-inspector-duplicate').addEventListener('click',duplicateSelectedObject);
   $('sp-send-behind').addEventListener('click',()=>{
@@ -17306,10 +17448,10 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(placement&&e.key==='Escape'){e.preventDefault();cancelPlacement();return;}
     if(editableKeyTarget(e.target))return;
     const libraryButton=e.target.closest('[data-add]');
-    if(e.key==='Enter'&&libraryButton&&(!placement||placement.type!==libraryButton.dataset.add)){
+    if(e.key==='Enter'&&libraryButton&&(!placement||(placement.libraryKey||placement.type)!==libraryButton.dataset.add)){
       e.preventDefault();if(!e.repeat)beginPlacement(libraryButton.dataset.add,{detail:0});return;
     }
-    if(placement&&e.key==='Enter'&&(!e.target.closest('button')||e.target.closest('[data-add]')?.dataset.add===placement.type)){
+    if(placement&&e.key==='Enter'&&(!e.target.closest('button')||e.target.closest('[data-add]')?.dataset.add===(placement.libraryKey||placement.type))){
       e.preventDefault();const svg=$('sp-editor-floor').querySelector('svg'),rect=svg.getBoundingClientRect();
       add(placement.type,placement.point||svgPoint(svg,{clientX:rect.left+rect.width/2,clientY:rect.top+rect.height/2}));return;
     }

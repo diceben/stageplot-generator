@@ -18,8 +18,9 @@ for(const o of fixtures){
  assert.equal(JSON.stringify(fixtures),before,'Finding a layer cannot mutate the project.');
 }
 const nodes=new Map();Object.assign(ctx,{
- objects:[],selected:null,sharedReadOnly:false,history:[],stage:{routing:{inputs:[],outputs:[]}},
+ objects:[],selected:null,sharedReadOnly:false,history:[],stage:{routing:{inputs:[],outputs:[],devices:[]}},
  $:id=>{if(!nodes.has(id))nodes.set(id,{parentElement:{},focus(){}});return nodes.get(id);},
+ StageplotRoutingModel:{updateDevice(routing,id,fields){Object.assign(routing.devices.find(device=>device.id===id),fields);}},
  root:{querySelector:()=>null},finishEdit(){},constrain(){},queueDraw(){},renderEditor(){},say(){},
  snapshot:()=>JSON.stringify({stage:ctx.stage,objects:ctx.objects}),
  keepHistory(before){if(before!==ctx.snapshot())ctx.history.push(before);},
@@ -41,6 +42,10 @@ for(const fixture of fixtures){
  const family=ctx.byId[fixture.type].family;if(ctx.compactModelFamilies.has(family)){ctx.api.action('model');assert.deepEqual(ctx.called,['model',family,fixture.type]);}
  ctx.sharedReadOnly=true;const readonly=ctx.snapshot();for(const action of ['label','lock','duplicate','delete','reset','backward','special'])ctx.api.action(action);ctx.api.rotate(200);ctx.api.edit({label:'blocked'});assert.equal(ctx.snapshot(),readonly);ctx.sharedReadOnly=false;
 }
+ctx.objects=[{id:'di-test',type:'di',label:'DI-Box'}];ctx.selected='di-test';ctx.stage.routing.devices=[{id:'device-test',objectId:'di-test',modelId:'radial-j48',name:'DI-Box'}];
+ctx.api.edit({label:'Bass DI'});assert.equal(ctx.stage.routing.devices[0].name,'Bass DI','Renaming a stage DI updates the linked routing device.');
+ctx.api.action('model');assert.deepEqual(ctx.called,['model','di-boxes','di-model:radial-j48']);
+ctx.api.edit({label:''});assert.equal(ctx.stage.routing.devices[0].name,'DI-Box');
 ctx.objects=fixtures.map(clone);
 const top=[...ctx.objects].reverse().find(o=>band(o)==='equipment'),target=menu.previous(ctx.objects,top,ctx.byId);ctx.selected=top.id;const before=ctx.snapshot();ctx.api.action('backward');assert.equal(ctx.objects.indexOf(top)+1,ctx.objects.indexOf(target));assert.deepEqual([...ctx.objects].sort((a,b)=>a.id.localeCompare(b.id)),JSON.parse(before).objects.sort((a,b)=>a.id.localeCompare(b.id)));
 ctx.objects=[{id:'box',type:'stagebox-16'}];ctx.selected='box';ctx.api.action('special');assert.deepEqual(ctx.called,['stagebox','box']);

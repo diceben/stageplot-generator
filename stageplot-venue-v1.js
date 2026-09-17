@@ -105,6 +105,10 @@
       if(p.kind==='obstacle')svgEl('path',{...attrs,fill:'var(--sp-line)'},group);
       else if(p.kind==='zone')svgEl('path',{...attrs,fill:'none','stroke-dasharray':'5 3',stroke:muted},group);
       else if(p.kind==='line')svgEl('path',{...attrs,fill:muted,stroke:muted},group);
+      else if(p.kind==='stairs'&&typeof root.stageplotStairArtwork==='function'){
+        const art=svgEl('g',{'data-venue-part':p.id,transform:'translate('+(x+p.x*scale)+' '+(y+p.y*scale)+') rotate('+p.angle+')'},group);
+        art.innerHTML=root.stageplotStairArtwork({width:p.w*scale,depth:p.d*scale,steps:p.steps||5,unit:scale,idPrefix:'venue-'+p.id});
+      }
       else if(p.kind==='stairs'||p.kind==='ramp'){
         svgEl('path',{...attrs,fill:'var(--sp-paper)'},group);
         if(p.kind==='stairs')for(let i=1;i<(p.steps||5);i++){const a=G.transform(p,[0,p.d*i/(p.steps||5)]),b=G.transform(p,[p.w,p.d*i/(p.steps||5)]);svgEl('line',{x1:x+a[0]*scale,y1:y+a[1]*scale,x2:x+b[0]*scale,y2:y+b[1]*scale,stroke:muted,'stroke-width':.8},group);}
