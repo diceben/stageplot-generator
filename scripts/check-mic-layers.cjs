@@ -28,6 +28,10 @@ const assert=require('node:assert/strict');
    const keys=el.querySelector('[aria-label="Layer keyboard"]'),b=keys.getBoundingClientRect();
    for(let y=b.top+2;y<b.bottom;y+=2)for(let x=b.left+2;x<b.right;x+=2)if(document.elementFromPoint(x,y)?.closest('[data-object]')===keys)return{x,y};
   });assert(point,'Keyboard remains reachable over the stand feet');await p.mouse.click(point.x,point.y);await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  // The object menu opens around the selected keyboard. Wait for its moving
+  // buttons to settle before choosing an exposed stand foot by hit testing.
+  // Otherwise a button can move across the chosen point before pointerdown.
+  await p.waitForFunction(()=>!document.querySelector('#sp-object-menu')?.getAnimations({subtree:true}).some(animation=>animation.playState==='running'));
   const footPoint=await floor.evaluate(el=>{
    const base=el.querySelector('[data-mic-layer="base"]'),b=base.getBoundingClientRect();
    for(let y=b.bottom-2;y>b.top;y-=2)for(let x=b.left+2;x<b.right;x+=2)if(document.elementFromPoint(x,y)?.closest('[data-mic-object]')===base)return{x,y};
