@@ -68,7 +68,7 @@ async function checkInlinePickup(page,workspace){
  await card.locator('[data-rw-pickup="Direct"]').click();await card.locator('[data-rw-connector="Klinke"]').click();
  assert.deepEqual(await routingData(),withJack,'Clicking the current type or connector preserves the saved jack connection');
  for(const width of [1512,390]){
-  await page.setViewportSize({width,height:width===390?844:982});await card.scrollIntoViewIfNeeded();
+  await page.setViewportSize({width,height:width===390?844:982});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await card.scrollIntoViewIfNeeded();
   await assertNoOverflow(page,'[data-rw-row-card="route-key-l"]','Inline direct-output controls '+width);
   for(const button of ['[data-rw-pickup="Direct"]','[data-rw-connector="Klinke"]'])assert(await card.locator(button).isVisible());
   await page.mouse.move(1,1);await page.screenshot({path:artifactPath('routing-direct-inline-light-'+width+'-'+engine+'.png')});
@@ -112,6 +112,7 @@ async function checkWave2Stereo(browser,errors){
    const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',error=>errors.push(error.message));await wave2Fixture(page,occupied);
    const workspace=page.locator('#sp-routing-workspace-v2'),card=workspace.locator('[data-rw-row-card="route-key-l"]');
    assert.equal(await workspace.locator('.rw-pickup-card').count(),1);
+   await workspace.locator('[data-rw-source-outputs="station-2"]').click();assert.equal(await workspace.locator('[data-rw-source-output-count="station-2"]').inputValue(),'1','The output controls are available for an existing mono draft');await workspace.locator('[data-rw-source-outputs="station-2"]').click();
    if(!occupied){
     await card.locator('[data-rw-di-device="di-prod2-demo"][data-rw-di-channel="2"]').click();
     const single=await saved(page);assert.equal(waveRows(single).length,1);assert.equal(waveRows(single)[0].diChannel,2);assert.equal(waveRows(single)[0].mode,'Mono','Either individual DI input can serve a mono source');
@@ -130,12 +131,78 @@ async function checkWave2Stereo(browser,errors){
    await workspace.locator('[data-rw-tool="redo"]').click();assert.deepEqual(state(await saved(page)),state(connected),'One redo restores both native outputs and the same stereo assignment');
    await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await workspace.locator('[data-rw-select="station-2"]').first().click();connected=await saved(page);checkConnected(connected,waveRows(before)[0]);
    for(const width of [1512,390]){
-    await page.setViewportSize({width,height:width===390?844:982});await workspace.locator('.rw-pickup-card').first().scrollIntoViewIfNeeded();
+    await page.setViewportSize({width,height:width===390?844:982});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await workspace.locator('.rw-pickup-card').first().scrollIntoViewIfNeeded();
     await workspace.locator('.rw-pickup-card img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));await page.mouse.move(1,1);
     await page.screenshot({path:artifactPath('routing-wave2-stereo-di-light-'+width+'-'+engine+'.png')});
    }
   }finally{await context.close();}
  }
+}
+async function checkSourceOutputs(browser,errors){
+ const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'});
+ try{
+  const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',error=>errors.push(error.message));await fixture(page);
+  await page.evaluate(()=>{
+   const workspace=JSON.parse(localStorage.getItem('stageplot-studio:workspace:v1')),entry=workspace.entry;
+   Object.assign(entry.document.stage.routing.inputs.find(row=>row.id==='route-key-l'),{pickup:'DI',diDeviceId:'di-prod2-demo',diChannel:2,microphone:'Radial ProD2',notes:'Keyboard links behalten'});
+   const drafts=JSON.parse(localStorage.getItem('stageplot-studio:drafts:v1'));drafts.entries=drafts.entries.map(item=>item.id===entry.id?entry:item);localStorage.setItem('stageplot-studio:drafts:v1',JSON.stringify(drafts));localStorage.setItem('stageplot-studio:workspace:v1',JSON.stringify(workspace));
+  });
+  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();
+  const workspace=page.locator('#sp-routing-workspace-v2'),sourceId='station-2',source=doc=>doc.objects.find(object=>object.id===sourceId),rows=doc=>doc.stage.routing.inputs.filter(row=>row.sourceKey.startsWith(sourceId+':'));
+  const state=doc=>{const {generatedAt,...routing}=doc.stage.routing;return {io:source(doc).io,routing};};
+  const protectedFields=row=>Object.fromEntries(['id','diDeviceId','diChannel','number','stagebox','stageboxPort','notes'].map(key=>[key,row[key]]));
+  const opener=workspace.locator('[data-rw-source-outputs="'+sourceId+'"]'),editor=workspace.locator('.rw-source-output-editor'),count=workspace.locator('[data-rw-source-output-count="'+sourceId+'"]');
+  const action=(name,value,next)=>workspace.locator('[data-rw-source-output-'+name+'="'+value+'"][data-rw-source="'+sourceId+'"]'+(next===undefined?'':'[data-rw-value="'+next+'"]'));
+  const open=async()=>{if(!await editor.isVisible())await opener.click();};
+  const undo=async direction=>{if(await workspace.locator('[data-rw-tools]').getAttribute('aria-expanded')!=='true')await workspace.locator('[data-rw-tools]').click();await workspace.locator('[data-rw-tool="'+direction+'"]').click();};
+  await workspace.locator('[data-rw-select="'+sourceId+'"]').first().click();await open();
+  assert.equal(await count.inputValue(),'4');assert.equal(await workspace.locator('dialog[open]').count(),0,'Source output settings open directly in the source card');assert.equal(await editor.locator('select').count(),0);
+  await action('step','1').click();let doc=await saved(page);assert.equal(source(doc).io.outputs.count,5);
+  assert.deepEqual(rows(doc).map(row=>row.sourceKey).sort(),['station-2:out-1','station-2:out-2','station-2:out-5'],'Increasing hardware capacity activates the new native output without adding pickups');
+  const assigned=protectedFields(rows(doc).find(row=>row.id==='route-key-l'));
+  for(const port of [3,4])await action('used',port,true).click();
+  doc=await saved(page);assert.equal(rows(doc).length,5);assert.equal(new Set(rows(doc).map(row=>row.sourceKey)).size,5);
+  await action('used',5,false).click();doc=await saved(page);assert.equal(source(doc).io.outputs.count,5);assert(!rows(doc).some(row=>row.sourceKey==='station-2:out-5'));assert(doc.stage.routing.disabledSources.includes('station-2:out-5'));
+  await action('stereo',3,true).click();await change(action('alias',3),'Pads');await change(action('alias',1),'Piano');
+  doc=await saved(page);assert.deepEqual(source(doc).io.aliases.outputs.slice(0,4),['Piano','Piano','Pads','Pads']);assert(source(doc).io.stereoPairs.includes(3));
+  const pads=rows(doc).filter(row=>[3,4].includes(row.portIndex));assert.deepEqual(pads.map(row=>row.mode),['Stereo L','Stereo R']);assert(pads.every(row=>row.instrument.includes('Pads')));assert.equal(pads[0].stereoGroup,pads[1].stereoGroup);
+  await action('alias',5).scrollIntoViewIfNeeded();const portList=editor.locator('.rw-output-port-list'),portScroll=await portList.evaluate(element=>element.scrollTop);assert(portScroll>0);
+  await change(action('alias',5),'Reserve');assert(Math.abs(await portList.evaluate(element=>element.scrollTop)-portScroll)<=2,'Editing a lower output name preserves the port-list scroll position');
+  await action('connector','XLR').click();doc=await saved(page);assert.equal(source(doc).io.outputs.connector,'XLR');assert.deepEqual(protectedFields(rows(doc).find(row=>row.id==='route-key-l')),assigned,'Names and an analog source connector preserve its DI, channel, notes and patch');
+  const analog=state(doc);
+  for(const width of [1512,390]){
+   await page.setViewportSize({width,height:width===390?844:982});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await count.scrollIntoViewIfNeeded();await assertNoOverflow(page,'.rw-source-output-editor','Source output editor '+width);await page.mouse.move(1,1);
+   await page.screenshot({path:artifactPath('routing-source-outputs-light-'+width+'-'+engine+'.png')});
+  }
+  await page.setViewportSize({width:1512,height:982});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await count.focus();await page.keyboard.press('Escape');assert(!await editor.isVisible());assert(await opener.evaluate(element=>element===document.activeElement),'Escape returns focus to the source output button');await open();
+  await action('connector','Dante').click();doc=await saved(page);
+  const digital=rows(doc).find(row=>row.id==='route-key-l');assert.equal(source(doc).io.outputs.connector,'Dante');assert.equal(digital.connector,'Dante');assert(!digital.diDeviceId);assert(!digital.stagebox);assert(!digital.stageboxPort);
+  await undo('undo');assert.deepEqual(state(await saved(page)),analog,'One undo restores the analog source and its DI connection');
+  await open();await change(count,0);doc=await saved(page);assert.equal(source(doc).io.outputs.count,0);assert.equal(rows(doc).length,0);assert(await workspace.locator('[data-rw-select="'+sourceId+'"]').first().isVisible());assert(await opener.isVisible());assert.equal(await workspace.locator('.rw-source-card').count(),1);
+  const empty=state(doc);await open();await change(count,2);doc=await saved(page);assert.equal(source(doc).io.outputs.count,2);assert.deepEqual(rows(doc).map(row=>row.sourceKey).sort(),['station-2:out-1','station-2:out-2']);const restored=state(doc);
+  await undo('undo');assert.deepEqual(state(await saved(page)),empty,'A source with no outputs remains recoverable through undo');await undo('redo');assert.deepEqual(state(await saved(page)),restored);
+  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await workspace.locator('[data-rw-select="'+sourceId+'"]').first().click();await open();assert.equal(await count.inputValue(),'2');assert.equal(rows(await saved(page)).length,2);
+  for(const quantity of [16,64]){
+   await change(count,quantity);assert.equal(source(await saved(page)).io.outputs.count,quantity);assert.equal(await count.inputValue(),String(quantity));
+   const bounds=await count.boundingBox();assert(bounds&&bounds.y>=0&&bounds.y+bounds.height<=page.viewportSize().height,'Growing the output count keeps its controls on screen');
+   assert(await editor.evaluate(element=>element.contains(document.activeElement)),'Focus remains within the output editor after increasing the count');
+  }
+  await page.mouse.move(1,1);await page.screenshot({path:artifactPath('routing-source-outputs-many-light-64-'+engine+'.png')});await change(count,2);assert.equal(rows(await saved(page)).length,2);
+  await workspace.locator('[data-rw-select="station-6"]').first().click();assert.equal(await workspace.locator('[data-rw-source-editor="station-6"]').count(),1,'Drum outputs offer their existing setup editor');assert.equal(await workspace.locator('[data-rw-source-output-count="station-6"]').count(),0);
+  await page.locator('.sp-steps [data-view="editor"]').click();await page.locator('#sp-editor-floor [data-object="'+sourceId+'"]').first().click();if(await page.locator('#sp-inspector-open').isVisible())await page.locator('#sp-inspector-open').click();await page.locator('#sp-properties-tab').click();
+  await page.locator('#sp-outs-routing-open').click();assert(await workspace.isVisible());assert(await count.isVisible());assert.equal(await count.inputValue(),'2','The inspector shortcut opens this source and its output controls directly');
+  await page.evaluate(()=>{
+   const workspace=JSON.parse(localStorage.getItem('stageplot-studio:workspace:v1')),entry=workspace.entry;entry.document.objects.find(object=>object.id==='station-2').locked=true;
+   const drafts=JSON.parse(localStorage.getItem('stageplot-studio:drafts:v1'));drafts.entries=drafts.entries.map(item=>item.id===entry.id?entry:item);localStorage.setItem('stageplot-studio:drafts:v1',JSON.stringify(drafts));localStorage.setItem('stageplot-studio:workspace:v1',JSON.stringify(workspace));
+  });
+  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await workspace.locator('[data-rw-select="'+sourceId+'"]').first().click();
+  const locked=await saved(page);await checkSourceOutputsReadOnly(workspace,sourceId);assert.deepEqual(await saved(page),locked,'Reading locked hardware settings does not alter the draft');
+ }finally{await context.close();}
+}
+async function checkSourceOutputsReadOnly(workspace,sourceId){
+ await workspace.locator('[data-rw-source-outputs="'+sourceId+'"]').click();
+ const editor=workspace.locator('.rw-source-output-editor');assert(await editor.isVisible(),'Protected hardware settings remain readable');
+ const controls=editor.locator('input,button,textarea,select');assert(await controls.count()>0);assert(await controls.evaluateAll(items=>items.every(item=>item.disabled)),'Protected output controls are disabled');
 }
 async function run(){const browser=await launchBrowser();try{
  const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'}),page=await context.newPage();page.setDefaultTimeout(10000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await fixture(page);
@@ -191,9 +258,12 @@ async function run(){const browser=await launchBrowser();try{
  const storedBefore=await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1'));
  const shareDoc=await page.evaluate(document=>window.StageplotShare.clean(document),doc),shareHash=Buffer.from(JSON.stringify({kind:'stageplot-readonly',version:1,document:shareDoc})).toString('base64url');
  const readonlyPage=await page.context().newPage();readonlyPage.on('pageerror',e=>errors.push(e.message));await readonlyPage.goto((process.env.APP_URL||'http://127.0.0.1:8899/')+'#share='+shareHash);await readonlyPage.locator('.sp-steps [data-view="routing"]').click();
- const readonlyWorkspace=readonlyPage.locator('#sp-routing-workspace-v2');assert.equal(await readonlyWorkspace.getAttribute('data-readonly'),'true');assert.equal(await readonlyWorkspace.locator('[data-rw-add-pickup]').count(),0);assert(await readonlyWorkspace.locator('input:not([type="search"])').evaluateAll(fields=>fields.every(field=>field.readOnly)));await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore);
+ const readonlyWorkspace=readonlyPage.locator('#sp-routing-workspace-v2');assert.equal(await readonlyWorkspace.getAttribute('data-readonly'),'true');assert.equal(await readonlyWorkspace.locator('[data-rw-add-pickup]').count(),0);assert(await readonlyWorkspace.locator('input:not([type="search"])').evaluateAll(fields=>fields.every(field=>field.readOnly)));
+ await checkSourceOutputsReadOnly(readonlyWorkspace,'station-1');await readonlyWorkspace.locator('[data-rw-select="station-6"]').first().click();assert(await readonlyWorkspace.locator('[data-rw-source-editor="station-6"]').isDisabled());
+ await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore);
  await checkWave2Stereo(browser,errors);
- assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive seven-model DI popup, loaded photos and equal tiles, modal keyboard/dismissal, persisted model selection, direct inline acquisition and connectors, single instrument figure, connector undo, shared stereo DI occupancy, native Wave 2 stereo DI with undo/redo/reload and occupied-port protection, atomic stereo patching, monitor format/metadata, reload and CSV export.');
+ await checkSourceOutputs(browser,errors);
+ assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive DI popup and source outputs, native output activation/count/names/stereo/connector with DI preservation, zero-output recovery and undo/redo/reload, modal keyboard/dismissal, direct inline acquisition, native Wave 2 stereo DI and occupied-port protection, shared stereo DI, atomic stereo patching, monitor metadata and CSV export.');
 }finally{await browser.close();}}
 if(require.main===module)run().catch(error=>{console.error(error);process.exit(1);});
 module.exports={fixture};

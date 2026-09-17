@@ -63,9 +63,8 @@
         map.get(id).rows.push(row);
       }
       for (const source of state.objects || []) {
-        if (!map.has(source.id) && state.catalog?.[source.type]?.instrument && !/^di(?:-|$)/.test(source.type)) {
-          const count = source.io?.outputs?.count;
-          if (count !== 0) map.set(source.id, {id:source.id, object:source, name:source.label || state.catalog[source.type].short || 'Instrument', rows:[]});
+        if (!map.has(source.id) && (state.catalog?.[source.type]?.instrument || state.sourceOutputs?.[source.id]) && !/^di(?:-|$)/.test(source.type)) {
+          map.set(source.id, {id:source.id, object:source, name:source.label || state.catalog[source.type].short || 'Instrument', rows:[]});
         }
       }
       sources = [...map.values()];
@@ -251,9 +250,35 @@
     const connector = '<span class="rw-connector"><svg viewBox="0 0 10 14" fill="none" aria-hidden="true" focusable="false"><path d="m2.5 2.5 4.5 4.5-4.5 4.5"/></svg></span>';
     const arrow = (stereo = false) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? ['L','R'].map(side => '<span class="rw-arrow-lane"><small>' + side + '</small>' + connector + '</span>').join('') : connector) + '</div>';
 
+    function sourceOutputControls(group) {
+      const outputs = state.sourceOutputs?.[group.id];
+      if (!outputs) return '';
+      const summary = outputs.count + (outputs.count === 1 ? ' Ausgang' : ' Ausgänge') + ' · ' + outputs.connector, locked = readonly() || outputs.locked, disabled = locked || !outputs.editable;
+      if (outputs.editor && !outputs.editable) return '<div class="rw-source-outputs"><span class="rw-output-summary">' + esc(summary) + '</span>' + button(({playback:'Playback-Ausgänge',drums:'Drum-Aufbau',percussion:'Percussion-Aufbau',orchestra:'Orchester-Aufbau'}[outputs.editor] || 'Ausgänge') + ' bearbeiten', {'data-rw-source-editor':group.id}, {disabled:locked,mutation:true}) + '</div>';
+      const key = 'source-outputs-' + group.id, editing = openCard === key;
+      let markup = '<div class="rw-source-outputs">' + button('<span><small>Ausgänge</small><strong>' + esc(summary) + '</strong></span><span aria-hidden="true">' + (editing ? '−' : '+') + '</span>', {'data-rw-source-outputs':group.id,'aria-label':'Ausgänge von ' + group.name + ' bearbeiten','aria-expanded':String(editing)}, {className:'rw-source-output-toggle'});
+      if (editing) {
+        markup += '<div class="rw-source-output-editor"><div class="rw-output-count"><span>Anzahl</span><div>' + button('−', {'data-rw-source-output-step':-1,'data-rw-source':group.id,'aria-label':'Einen Ausgang weniger'}, {disabled:disabled || outputs.count <= 0,mutation:true}) + '<input type="number" min="0" max="64" step="1" required aria-label="Anzahl Ausgänge" data-rw-source-output-count="' + esc(group.id) + '" data-rw-focus="output-count-' + esc(group.id) + '" value="' + outputs.count + '"' + (disabled ? ' disabled' : '') + '>' + button('+', {'data-rw-source-output-step':1,'data-rw-source':group.id,'aria-label':'Einen Ausgang mehr'}, {disabled:disabled || outputs.count >= 64,mutation:true}) + '</div></div><div class="rw-output-connector"><span>Buchse am Instrument</span><div class="rw-choice-row" role="group" aria-label="Ausgangsbuchse">' + outputs.connectors.map(value => button(esc(value), {'data-rw-source-output-connector':value,'data-rw-source':group.id}, {pressed:value === outputs.connector,disabled,mutation:true})).join('') + '</div></div>';
+        if (outputs.ports.length) {
+          markup += '<div class="rw-output-port-list">';
+          for (const port of outputs.ports) {
+            const locked = disabled || port.locked, paired = outputs.stereoPairs.includes(port.number) || outputs.stereoPairs.includes(port.number - 1), side = paired ? outputs.stereoPairs.includes(port.number) ? ' · L' : ' · R' : '';
+            markup += '<div class="rw-output-port"><div><strong>Out ' + port.number + side + '</strong>' + button(port.active ? 'Verwendet' : 'Verwenden', {'data-rw-source-output-used':port.number,'data-rw-source':group.id,'data-rw-value':String(!port.active),'aria-label':'Ausgang ' + port.number + (port.active ? ' deaktivieren' : ' verwenden')}, {pressed:port.active,disabled:locked,mutation:true}) + '</div><input type="text" maxlength="60" placeholder="Ausgangsname" aria-label="Name Ausgang ' + port.number + '" data-rw-source-output-alias="' + port.number + '" data-rw-source="' + esc(group.id) + '" data-rw-focus="output-alias-' + esc(group.id) + '-' + port.number + '" value="' + esc(outputs.aliases[port.number - 1] || '') + '"' + (locked ? ' disabled' : '') + '></div>';
+            if (port.number % 2 === 0) {
+              const start = port.number - 1, linked = outputs.stereoPairs.includes(start), pairLocked = disabled || outputs.ports.some(member => [start,port.number].includes(member.number) && member.locked);
+              markup += '<div class="rw-output-pair"><span>Out ' + start + ' + ' + port.number + '</span><div class="rw-choice-row" role="group" aria-label="Format Ausgänge ' + start + ' und ' + port.number + '">' + [[false,'Einzeln'],[true,'Stereo L/R']].map(([value,label]) => button(label, {'data-rw-source-output-stereo':start,'data-rw-source':group.id,'data-rw-value':String(value)}, {pressed:linked === value,disabled:pairLocked,mutation:true})).join('') + '</div></div>';
+            }
+          }
+          markup += '</div>';
+        }
+        markup += '</div>';
+      }
+      return markup + '</div>';
+    }
+
     function sourceFlow(group, onlyRow = null) {
       const rows = onlyRow ? [onlyRow] : group.rows, count = rows.length, linked = count > 1 && monoLabel(rows) === 'Stereo';
-      const sourceCard = '<article class="rw-card rw-source-card" style="grid-row:2 / ' + (count + 2) + '">' + cardHead('Quelle', null, art(icon(group.object))) + field('Instrument',group.name,{'data-rw-source-field':'label','data-rw-source':group.id},{maxlength:42}) + '<p class="rw-card-meta">' + count + (count === 1 ? ' Abnahme' : ' Abnahmen') + '</p></article>';
+      const sourceCard = '<article class="rw-card rw-source-card" style="grid-row:2 / ' + (Math.max(1,count) + 2) + '">' + cardHead('Quelle', null, art(icon(group.object))) + field('Instrument',group.name,{'data-rw-source-field':'label','data-rw-source':group.id},{maxlength:42}) + sourceOutputControls(group) + '<p class="rw-card-meta">' + count + (count === 1 ? ' Abnahme' : ' Abnahmen') + '</p></article>';
       let markup = '<div class="rw-flow-scroll"><div class="rw-source-flow" data-row-count="' + count + '"><span class="rw-column-title rw-column-source">Quelle</span><span class="rw-column-title rw-column-pickup">Abnahme</span><span class="rw-column-title rw-column-patch">Anschluss</span><span class="rw-column-title rw-column-channel">Kanal</span>' + sourceCard;
       rows.forEach((row,index) => {
         const gridRow = index + 2;
@@ -275,7 +300,7 @@
       const group = sources.find(item => item.id === activeSource);
       if (!group) return '<div class="rw-empty"><strong>Noch keine Quellen</strong><p>Instrumente auf der Bühne erscheinen hier mit ihren Abnahmen.</p></div>';
       highlighted = group.object ? [group.object.id] : [];
-      return heading(group.name, '<span class="rw-format-badge">' + (group.rows.length ? monoLabel(group.rows) : 'Offen') + '</span>') + (group.rows.length ? sourceFlow(group) + notes(group.rows,'inputs') : '<div class="rw-empty"><strong>Abnahme hinzufügen</strong><div class="rw-choice-row">' + ['Mic','DI','Direct'].map(kind => button(pickupName(kind),{'data-rw-first-pickup':kind,'data-rw-source':group.id},{mutation:true})).join('') + '</div></div>');
+      return heading(group.name, '<span class="rw-format-badge">' + (group.rows.length ? monoLabel(group.rows) : 'Offen') + '</span>') + sourceFlow(group) + notes(group.rows,'inputs');
     }
 
     function monitorView(group = monitors.find(item => item.id === activeMonitor), embedded = false) {
@@ -354,7 +379,7 @@
     }
     function render() {
       if (destroyed) return;
-      const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0;
+      const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0, outputScroll = host.querySelector('.rw-output-port-list')?.scrollTop || 0, flowScroll = host.querySelector('.rw-flow-scroll')?.scrollLeft || 0;
       state = api.getState() || {}; state.routing = state.routing || state.stage?.routing || {inputs:[],outputs:[]};
       if (!['inputs','outputs','stageboxes'].includes(state.tab)) state.tab = 'inputs';
       if (state.tab !== lastTab) { query = ''; openCard = ''; diPickerRow = ''; lastTab = state.tab; error = ''; }
@@ -364,6 +389,8 @@
       host.innerHTML = header() + '<div class="rw-layout">' + sidebar() + '<div class="rw-detail" id="sp-routing-detail-v2" role="tabpanel"><main class="rw-main">' + (error && !diPickerRow ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + content + '</main>' + footer() + '</div></div>' + (diPickerRow ? diPicker() : '');
       host.querySelector('.rw-main').scrollTop = mainScroll;
       host.querySelector('.rw-source-list').scrollTop = listScroll;
+      if (host.querySelector('.rw-output-port-list')) host.querySelector('.rw-output-port-list').scrollTop = outputScroll;
+      if (host.querySelector('.rw-flow-scroll')) host.querySelector('.rw-flow-scroll').scrollLeft = flowScroll;
       const dialog = host.querySelector('[data-rw-di-dialog]');
       if (dialog) {
         dialog.showModal();
@@ -390,7 +417,13 @@
       if (data.rwSelect) { if (state.tab === 'stageboxes') {activeBox = data.rwSelect;activePort = null;} else if (state.tab === 'outputs') activeMonitor = data.rwSelect; else activeSource = data.rwSelect; openCard = ''; error = ''; render(); return; }
       if (data.rwPort) {activeBox = data.rwBox;activePort = {boxId:activeBox,direction:data.rwDirection,port:Number(data.rwPort)};openCard = '';render();return;}
       if (data.rwExport) {doAction({type:'exportPatch',direction:data.rwExport});return;}
+      if (data.rwSourceOutputs) {openCard = openCard === 'source-outputs-' + data.rwSourceOutputs ? '' : 'source-outputs-' + data.rwSourceOutputs;error = '';render();host.querySelector('.rw-source-output-editor')?.scrollIntoView({block:'nearest',inline:'nearest'});return;}
       if (readonly()) return;
+      if (data.rwSourceEditor) return doAction({type:'openSourceEditor',sourceId:data.rwSourceEditor});
+      if (data.rwSourceOutputStep) return doAction({type:'setSourceOutputs',sourceId:data.rwSource,fields:{count:state.sourceOutputs[data.rwSource].count + Number(data.rwSourceOutputStep)}});
+      if (data.rwSourceOutputConnector) return doAction({type:'setSourceOutputs',sourceId:data.rwSource,fields:{connector:data.rwSourceOutputConnector}});
+      if (data.rwSourceOutputStereo) return doAction({type:'setSourceOutputStereo',sourceId:data.rwSource,start:Number(data.rwSourceOutputStereo),linked:data.rwValue === 'true'});
+      if (data.rwSourceOutputUsed) return doAction({type:'setSourceOutputUsed',sourceId:data.rwSource,port:Number(data.rwSourceOutputUsed),used:data.rwValue === 'true'});
       if (data.rwDiClose) {closeDiPicker();return;}
       if (data.rwDiOpen) {openDiPicker(data.rwDiOpen,target);return;}
       if (data.rwOpen) {openCard = openCard === data.rwOpen ? '' : data.rwOpen;pickerBox = '';micQuery = '';error = '';render();if(openCard.startsWith('pickup-'))host.querySelector('[data-rw-mic-search]')?.focus({preventScroll:true});return;}
@@ -439,6 +472,8 @@
     function onChange(event) {
       const input = event.target, data = input.dataset; if (readonly()) return;
       if (input.validity && !input.validity.valid) { input.reportValidity(); return false; }
+      if (data.rwSourceOutputCount) return doAction({type:'setSourceOutputs',sourceId:data.rwSourceOutputCount,fields:{count:Number(input.value)}});
+      if (data.rwSourceOutputAlias) return doAction({type:'setSourceOutputAlias',sourceId:data.rwSource,port:Number(data.rwSourceOutputAlias),value:input.value});
       if (data.rwSourceField) return doAction({type:'editSource',sourceId:data.rwSource,fields:{[data.rwSourceField]:input.value}});
       if (data.rwChannelField) return doAction({type:'editChannel',direction:data.rwDirection,rowId:data.rwRow,fields:{[data.rwChannelField]:data.rwChannelField === 'number' ? input.value === '' ? null : Number(input.value) : input.value}});
       if (data.rwDeviceField) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceField]:input.value}});
@@ -447,6 +482,16 @@
       if (data.rwNotes) return doAction({type:data.rwDirection === 'outputs' ? 'editMonitor' : 'editChannel',direction:data.rwDirection,rowId:splitIds(data.rwNotes)[0],rowIds:splitIds(data.rwNotes),fields:{notes:input.value}});
     }
     function onKeydown(event) {
+      if (event.key === 'Tab' && event.target.matches('[data-rw-source-output-count],[data-rw-source-output-alias]') && event.target.value !== event.target.defaultValue) {
+        // Save before native Tab navigation: replacing the focused input on blur
+        // would otherwise leave the browser with a detached navigation anchor.
+        event.preventDefault();
+        const key = event.target.dataset.rwFocus, result = onChange({target:event.target});
+        if (result === false || error) return;
+        const controls = [...host.querySelectorAll('button:not(:disabled),input:not(:disabled),textarea:not(:disabled)')].filter(element => element.getClientRects().length), index = controls.findIndex(element => element.dataset.rwFocus === key);
+        if (index >= 0) (controls[index + (event.shiftKey ? -1 : 1)] || controls[index]).focus();
+        return;
+      }
       if (diPickerRow) {
         event.stopPropagation();
         if (event.key === 'Escape') {event.preventDefault();closeDiPicker();}
@@ -464,12 +509,13 @@
         const tabs = ['inputs','outputs','stageboxes'], current = tabs.indexOf(state.tab), next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (current + (event.key === 'ArrowRight' ? 1 : 2)) % 3;
         event.preventDefault();doAction({type:'selectTab',tab:tabs[next]});host.querySelector('[data-rw-tab="' + tabs[next] + '"]')?.focus();return;
       }
-      if (event.key === 'Escape' && openCard) {openCard = '';error = '';render();event.stopPropagation();}
+      if (event.key === 'Escape' && openCard) {const source = openCard.startsWith('source-outputs-') ? openCard.slice('source-outputs-'.length) : '';openCard = '';error = '';render();if(source)[...host.querySelectorAll('[data-rw-source-outputs]')].find(button => button.dataset.rwSourceOutputs === source)?.focus({preventScroll:true});event.stopPropagation();}
       if (event.key === 'Enter' && event.target.matches('input:not([type="search"])')) {event.preventDefault();event.target.blur();}
     }
     host.addEventListener('click',onClick); host.addEventListener('pointerdown',onPointerDown); host.addEventListener('input',onInput); host.addEventListener('change',onChange); host.addEventListener('keydown',onKeydown);
     return {
       render,
+      openSourceOutputs(id) {activeSource = id;openCard = 'source-outputs-' + id;const flow = host.querySelector('.rw-flow-scroll');if(flow)flow.scrollLeft = 0;render();host.querySelector('.rw-source-output-editor')?.scrollIntoView({block:'nearest',inline:'nearest'});host.querySelector('[data-rw-source-output-count]')?.focus({preventScroll:true});},
       selectSource(id) {if(state?.tab === 'outputs')activeMonitor = monitors.find(group => group.id === id || group.object?.id === id || group.rows.some(row => row.id === id || sourceId(row) === id))?.id || id;else activeSource = sources.find(group => group.id === id || group.rows.some(row => row.id === id))?.id || id;openCard = '';render();},
       selectStagebox(id,direction,port) {activeBox = id;activePort = direction && port ? {boxId:id,direction,port:Number(port)} : null;openCard = '';render();},
       destroy() {destroyed = true;stageObserver?.disconnect();if(frame)cancelAnimationFrame(frame);host.removeEventListener('click',onClick);host.removeEventListener('pointerdown',onPointerDown);host.removeEventListener('input',onInput);host.removeEventListener('change',onChange);host.removeEventListener('keydown',onKeydown);host.replaceChildren();}
