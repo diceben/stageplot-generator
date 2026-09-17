@@ -1,39 +1,38 @@
 # Routing
 
-Der Signal-Editor zeigt Instrument und Kanalnummer dauerhaft im Kopf. Vier direkt erreichbare Bereiche ersetzen aufklappbare Abschnitte:
+Drei Ansichten bearbeiten dieselben gespeicherten Verbindungen: **Quellen**, **Monitoring** und **Stagebox**. Die Draufsicht links unten zeigt den tatsächlichen Bühnenplan; ausgewählte Objekte leuchten grün. Einstellungen erfolgen über Karten, Tasten und Textfelder ohne Dropdowns.
 
-- **Abnahme:** Mikrofon, DI, Direkt / Line oder Digital. Mikrofone per Hersteller-Taste und Modellkarte wählen; „Vorschläge“ berücksichtigt das Instrument und bei Drum-Kanälen die genaue Abnahmeposition. Die Sofortsuche durchsucht immer den gesamten Katalog, auch wenn zuvor ein Hersteller gewählt war; „SM 57“ findet ebenso wie „sm57“ das richtige Modell. „Eigenes Modell“ erhält die Möglichkeit, nicht enthaltenes Equipment anzugeben. Eine Modellwahl übernimmt die 48-V-Voreinstellung aus dem Katalog; sie bleibt ausdrücklich änderbar.
-- **Signalweg:** Die beteiligten Bühnenobjekte und der Weg über Abnahme, Stagebox und Mischpult. Große Karten binden weitere Mono-Signale in einen gemeinsamen Kanal ein. Die Auswahl zeigt vor dem Speichern, welcher CH dadurch integriert wird. Originaldaten bleiben wiederherstellbar.
-- **Kanäle:** Mischpultnummern und die Stagebox-Buchsen des aktuellen Signals. CH und IN/OUT sind unabhängig voneinander. Stereo kann weiterhin getrennte Notizen, Modelle oder Buchsen an verschiedenen Stageboxen behalten.
-- **Notizen & Funk:** Signalname, Notizen, Frequenzbereich, IEM-Übertragung und Reihenfolge.
+## Quellen
 
-## Einheitlich anschließen
+Links ein Instrument wählen. Es erscheint einmal im Signalweg. Jede Abnahme hat eine eigene Zeile mit Abnahme, Stagebox-Anschluss und Pultkanal. **Weitere Abnahme** steht unter der letzten Abnahme und fügt an dieser Stelle eine weitere hinzu. Zwei unabhängige Wege bleiben Dual-Mono; **Stereo · L / R** verbindet zwei Abnahmen ausdrücklich zu einem Paar.
 
-Inputliste und Stagebox-Belegung verwenden dieselbe Verbindungsauswahl. In der Inputliste „Anschließen“ wählen und eine freie Buchse antippen. In der Stagebox-Belegung eine freie Buchse antippen und das Signal wählen. Die letzte Auswahl speichert sofort; „Rückgängig“ stellt den vorherigen Stand wieder her. Öffnen und Schließen ohne Auswahl ändern nichts.
+Mikrofon, DI, Direktausgang oder Digital stehen im Abnahmefeld zur Auswahl. Mikrofone lassen sich im lokalen Fotokatalog suchen oder mit eigenem Namen erfassen. Modellwahl und 48 V werden mit dem Drum- und Percussion-Editor abgeglichen. Die Kanalnummer kann sich von der Buchsennummer unterscheiden und bleibt beim Umstecken erhalten.
 
-Der Kopf zeigt Instrument, Stagebox-Buchse und Pultkanal bzw. Mix. IN/OUT ist die physische Buchse; CH/Mix bleibt beim Umstecken erhalten. Die vorgeschlagenen Buchsen glitzern rosa, Stereo zeigt L/R gemeinsam. Eine bestehende Verbindung und dann die nächste passende Stagebox werden bevorzugt. Die Signalauswahl zeigt unverbundene Signale zuerst, mit Bild, Kanal und Mikrofon sowie einer Sofortsuche.
+Eine DI ist ein physisches Gerät mit getrennt belegbaren Eingängen. Zur Wahl stehen Radial J48 (ein Eingang, aktiv, 48 V), Radial J48 Stereo (zwei Eingänge, aktiv, 48 V), Radial ProD2 (zwei Eingänge, passiv), vier generische DI-Boxen. Ein Klick auf den Modellnamen öffnet ein Popup mit sieben gleich großen Kacheln; die Auswahl wird direkt übernommen. Schließen oder Escape lässt die bisherige Zuordnung unverändert. Die generischen Varianten sind **passiv Mono**, **passiv Stereo**, **aktiv Mono** und **aktiv Stereo** mit jeweils eigenem Bild. Bei aktiven generischen DIs stehen 48 V, Batterie und Netzteil zur Wahl. Vorhandene eigene Geräte aus älteren Plänen bleiben erhalten; dort sind Kanalzahl und Aktiv/Passiv weiter einstellbar. Eine Mono-Quelle kann einen Eingang einer Stereo-DI nutzen; der zweite bleibt frei oder wird einer anderen Quelle zugeordnet. Die Gerätekapazität erzeugt keine zusätzlichen Signale.
 
-Eine belegte Buchse zeigt ihre Verbindung mit „Anderes Signal“, „Andere Buchse“, „Signal bearbeiten“ und „Trennen“. Beim Anschließen auf eine belegte Buchse erscheinen direkt die betroffenen Signale und die Aktionen „Andere Buchse“, „Ersetzen“ und – für gleich große, vollständig verbundene Gruppen – „Verbindungen tauschen“. Ersetzen trennt ein betroffenes Stereopaar vollständig. Es gibt keine zusätzliche Bestätigungskette. Kapazität und Anschlussart werden beim endgültigen Klick erneut geprüft.
+## Anschlüsse und Stagebox
 
-Beim Anschließen aus dem Signal-Editor werden dessen sichtbare Änderungen gemeinsam mit der Verbindung gespeichert. Der Hinweis im Anschlussfenster erklärt dies vor der Auswahl. Es folgt kein zweiter Übernehmen-Schritt. Ungültige Angaben führen zurück ins unverändert erhaltene Formular; das Projekt wird dabei nicht teilweise geändert.
+Im Anschlussfeld eine Stagebox und eine freie nummerierte Buchse wählen. Die Änderung speichert sofort. Belegte Eingänge können nicht versehentlich überschrieben werden. Bei Stereo wird das gesamte Paar geprüft und auf zwei benachbarte Buchsen gelegt; die gewählte Nummer ist der linke Eingang. Trennen löst beide Seiten. Bereits bestehende getrennte Zuordnungen bleiben beim Laden erhalten.
 
-Bei Instrumenten mit mehreren Signalen bietet die Auswahl eine gemeinsame Zuordnung der noch freien Kanäle an. Vor dem Anschließen zeigt sie jeden Kanal mit der vorgeschlagenen Buchse. Bereits verbundene Kanäle bleiben an ihrem Platz; Stereo wird nicht aufgeteilt und vorhandene Ports werden nicht überschrieben.
-
-Die Stagebox-Belegung zeigt eine per Bildkarte gewählte Stagebox mit großen Buchsen und lesbaren Signal-/Kanalbeschriftungen. Die Arbeitsfläche bleibt stabil; Geräteeinstellungen öffnen ausdrücklich in einem eigenen Fenster. Am Handy öffnet die Verbindungsauswahl vom unteren Rand. Instrument und Ziel bleiben oben sichtbar, die Tastatur erscheint erst beim Antippen der Suche. Die lokalen Datenformate und der Offline-Betrieb bleiben erhalten.
+Die Stagebox-Ansicht zeigt Inputs und Outputs, freie und belegte Buchsen, 48 V und zusammengehörige Stereopaare. Eine belegte Buchse öffnet ihren Signalweg; an einer freien Buchse lässt sich ein Signal wählen. Name und XLR/Klinke-Kombibuchsen werden an der Stagebox eingestellt. Für reine XLR-Inputs benötigt ein Klinkensignal eine DI. Dante wird im Playback-Setup über das Netzwerk geführt.
 
 ## IEM-Monitore
 
-„IEM-Monitore · Funk / Kabel“ auf die Bühne setzen: Die Übersicht öffnet direkt. Über +/− die Anzahl der Monitor-Mixe (1–16) festlegen. Jede Karte steht für einen Musiker bzw. einen Mix; Name, Mono/Stereo und Funk/Kabel bleiben offen sichtbar. Bei Funk lässt sich der Frequenzbereich ergänzen.
+Monitoring zeigt **Mix/Bus → Stagebox-Ausgänge → Gerät → Empfänger**. Stereo hat zwei parallele L/R-Verbindungen bis zu einem gemeinsamen IEM-Sender und Empfänger. Mixname, Busnummer, Gerät, Empfänger, Funk/Kabel und Frequenz stehen direkt im jeweiligen Feld. Wedges können aktiv oder passiv mit separatem Verstärker angegeben werden.
 
-Mono benötigt einen AUX, Stereo zwei. Freie AUX-Nummern werden vorgeschlagen; eigene Nummern sind direkt änderbar. Bereits verwendete Nummern werden nicht doppelt vergeben. AUX bezeichnet den Mix am Pult; die physische OUT-Buchse wird davon unabhängig über „Ausgänge verbinden“ gewählt. Dafür öffnet dieselbe Stagebox-Auswahl mit sichtbaren Buchsen und gemeinsamem L/R-Vorschlag wie im übrigen Routing.
+**Monitorweg** legt einen IEM-, Wedge- oder Line-Weg an. Vorhandene IEM-Racks bleiben auch über ihre bisherige Übersicht für 1–16 Mixe bearbeitbar. Beide Einstiege nutzen dieselben Kanäle. Mono benötigt einen Bus, Stereo zwei. Beim Wechsel auf Mono wird der rechte Ausgang frei; der linke Kanal behält seine Nummer und Zuordnung. Rückgängig stellt den vorherigen Stand wieder her.
 
-Am Objekt „IEM-Monitore einrichten“ bzw. die schwebende IEM-Taste wählen. Auch die Kanalnummer im Routing und „Signal bearbeiten“ an einer belegten Buchse führen in dieselbe Übersicht. Namen, Funkangaben, AUX und Buchsen erscheinen in den gemeinsamen Outputlisten und im Export mit Technik & Kanälen.
+## Speichern und Export
 
-Gültige Änderungen speichern automatisch lokal. Bestehende IEM-Racks übernehmen ihre bisherigen Namen, Kanal-IDs, AUX-Nummern, Notizen und Buchsen. Beim Umschalten auf Mono bleibt der linke Kanal erhalten und der rechte Ausgang wird frei. Weniger IEMs entfernt die letzten Mixe; „Rückgängig“ stellt den vorherigen Stand einschließlich Buchsen wieder her. Der Speicherstatus zeigt auch Fehler an. Die IEM-/Rack-Fläche im Bühnenaufbau bleibt eine separat bemaßbare Stellfläche.
+Gültige Änderungen speichern lokal und funktionieren offline. Alte Projekte behalten Kanalnummern, Modelle, Notizen und Zuordnungen. Vorhandene DI-Verbindungen werden in Geräte mit belegbaren Eingängen übernommen. Der angezeigte Speicherstatus stammt vom lokalen Projektspeicher.
 
-Prüfung: `npm test` enthält die Migration, gemischte Sets, AUX-Konflikte und den Erhalt vorhandener Verbindungen. `scripts/check-iem-monitors.cjs` prüft optional im Browser Platzieren, vier gemischte IEMs, physische Buchsenwahl, Undo, Neuladen, Routing-Einstieg, mobile Ansicht, Druckvorschau und Offline-Speicherung. `APP_URL`, `BROWSER=webkit` und `PLAYWRIGHT_MODULE` sind einstellbar.
+**Werkzeuge** enthält Rückgängig/Wiederholen, Nummerierung freier Kanäle, automatische Belegung freier Stagebox-Ports und die Import-/Export-Aktionen. Die Patchliste enthält DI-Eingänge, physische Buchsen und Monitoring-Geräte. Geteilte Projekte übernehmen diese Angaben; private Notizen und Kontakte bleiben ausgeschlossen. Der Freigabedienst benötigt dafür Migration `0008_routing_devices.sql`.
 
-## Originalfotos
+## DI-Bilder und Originalfotos
+
+Die vier generischen DI-Boxen verwenden lokal gespeicherte, mit Bildgenerierung erstellte Illustrationen ohne Herstellermarke. [Bilder, Prompts und Referenzen](stageplot-assets/di/generic-di-v1.json).
+
+Radial J48, J48 Stereo und ProD2 zeigen in der DI-Auswahl, am Gerät und im Signalweg jeweils das passende Originalfoto von Radial Engineering. Die drei unveränderten Herstellerfotos liegen lokal unter `stageplot-assets/di/` und benötigen zusammen rund 184 kB. Eigene Modelle zeigen einen neutralen Platzhalter. [Bildquellen und Prüfsummen](stageplot-assets/di/original-sources.json).
 
 Der gemeinsame Katalog enthält Fotos für **81 von 88 konkreten Mikrofoneinträgen**. Hinzu kommen fünf allgemeine Mikrofontypen ohne erfundenes Modellfoto. 78 unterschiedliche Originalaufnahmen stammen direkt von 22 Herstellern, ihren regionalen Produktseiten und Archiven. Sie liegen lokal unter `stageplot-assets/mics/` und funktionieren ohne Abfrage eines Bilddienstes. Es werden keine KI-generierten Mikrofonbilder eingesetzt.
 
@@ -47,7 +46,7 @@ KM 84 und KM 184, M201 TG und M 201 sowie M80 und M80-SH haben jeweils eigene Or
 
 ## Gemeinsame Mikrofon-Auswahl
 
-Audio-Plan und Drum-Editor verwenden `stageplot-mics-v1.js` mit 93 identischen Modelldatensätzen und dieselbe Oberfläche aus `stageplot-mic-picker-v1.js` / `.css`. Auch die Signal-Editoren am Bühnenobjekt und an einem belegten Stagebox-Port öffnen diese Auswahl. Die Recherche- und Originaldateinachweise stehen in der Asset-Liste oben.
+Routing und Drum-Editor verwenden denselben Katalog aus `stageplot-mics-v1.js`. Das Routing zeigt die Modellkarten direkt im Abnahmefeld; Drum- und Percussion-Editor nutzen `stageplot-mic-picker-v1.js` / `.css`. Die Recherche- und Originaldateinachweise stehen in der Asset-Liste oben.
 
 - Hersteller, passende Vorschläge, Favoriten, zuletzt verwendete Modelle und alle Modelle sind direkt erreichbar.
 - Der Stern merkt ein Mikrofon, ohne es auszuwählen. Favoriten und die zwölf zuletzt verwendeten Katalogmodelle werden lokal für alle Projekte und beide Editoren gespeichert. Sie enthalten keine Projekt- oder Kontaktdaten.

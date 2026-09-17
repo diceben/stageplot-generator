@@ -6,13 +6,15 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in einer Kopfzeile. Kompaktere Abstände und der entfernte Bausteinzähler lassen mehr Platz für die Objekte. Die Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
 
-**Aktuelle Version:** v0.1.0-beta.14 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.16 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
+
+Die Routing-Arbeitsfläche zeigt Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen ohne Dropdowns. Mono-Quellen teilen bei Bedarf eine physische Stereo-DI; Portbelegung und Signalformat bleiben getrennt. J48, J48 Stereo und ProD2 zeigen lokale Original-Produktfotos. Die Auswahl öffnet als Popup mit sieben gleich großen Modellkacheln. Vier generische DIs ergänzen die Originalfotos: passiv/aktiv, jeweils Mono/Stereo. Feine Pfeile verbinden die Stationen des Signalwegs. [Bedienung](AUDIO_BEDIENUNG.md).
 
 Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
 ## Entwicklung und Prüfungen
 
-`npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 45 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots und die PDF-Gegenprobe mit Schlagzeug und Jazzmaster liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
+`npm run check` prüft alle Laufzeitmodule und eingebetteten Skripte. `npm test` prüft den Build-Abgleich und die 47 Funktionstestgruppen. Für Browserprüfungen einmal `npm ci` und `npx playwright install chromium webkit` ausführen, danach `npm run test:browser` und `BROWSER=webkit npm run test:browser`. Ohne `APP_URL` startet und beendet der Lauf seinen eigenen lokalen Vorschau-Server. Screenshots und die PDF-Gegenprobe mit Schlagzeug und Jazzmaster liegen in `test-results/`. GitHub Actions prüft Chromium und WebKit; beide müssen vor dem Deployment erfolgreich sein. Details: [Mobile QA](MOBILE_QA.md).
 
 ## Funktionen
 

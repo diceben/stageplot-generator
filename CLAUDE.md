@@ -15,7 +15,7 @@ This repository is the standalone 2D Stageplot Generator. Never mix it with Gigb
 - Fixed user rule: always use image generation for new or replacement instrument/equipment illustrations and save the resulting raster assets locally. Do not substitute hand-coded SVG paths or CSS drawings for these images.
 - Research the characteristic anatomy of new instrument variants first. Keep an asset manifest with prompts, reference sources and generation provenance. SVG may position the raster image without redrawing the instrument.
 
-- Microphone catalog pictures are an explicit exception: use only real photographs of the correct product. Never generate catalog photos; label representative photos for generic types. Keep source/credit metadata with the local files.
+- Microphone catalog pictures and named DI-box product pictures are explicit exceptions: use only real photographs of the correct product. Never generate catalog photos; label representative photos for generic types. Keep source/credit metadata with the local files.
 
 ## After changing code
 

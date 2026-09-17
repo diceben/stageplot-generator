@@ -5,11 +5,11 @@ assert.match(html,/<section id="sp-setup"[^>]*\bhidden>/);
 assert.match(html,/<div id="sp-prototype"[^>]*\bdata-booting[^>]*\binert/);
 assert.ok(html.indexOf('id="sp-startup-style"')<html.indexOf('id="sp-prototype"'));
 assert.doesNotMatch(html,/This visual revision opens on a sample arrangement|const defaultDrumConfig=/);
-const callbackQueue=[],draws=[],context={view:'dashboard',frameQueued:false,requestAnimationFrame:fn=>callbackQueue.push(fn),updateSetup:()=>draws.push('setup'),editorCanvas:()=>draws.push('editor'),renderPrint:()=>draws.push('print')};
+const callbackQueue=[],draws=[],context={view:'dashboard',frameQueued:false,requestAnimationFrame:fn=>callbackQueue.push(fn),updateSetup:()=>draws.push('setup'),editorCanvas:()=>draws.push('editor'),renderPrint:()=>draws.push('print'),renderRouting:()=>draws.push('routing')};
 vm.createContext(context);vm.runInContext(html.match(/  function queueDraw\([^]*?\n  }/)[0],context);
-for(const view of ['dashboard','project','routing']){context.view=view;context.queueDraw();assert.equal(callbackQueue.length,0,view+' must not schedule a hidden print render');}
-for(const view of ['setup','editor','print']){context.view=view;context.queueDraw();context.queueDraw();assert.equal(callbackQueue.length,1);callbackQueue.shift()();assert.equal(draws.pop(),view);}
-context.view='editor';context.queueDraw();context.view='routing';callbackQueue.shift()();assert.equal(draws.length,0,'Navigation before the next frame must cancel work for the previous view.');assert.equal(context.frameQueued,false);
+for(const view of ['dashboard','project']){context.view=view;context.queueDraw();assert.equal(callbackQueue.length,0,view+' must not schedule a hidden print render');}
+for(const view of ['setup','editor','print','routing']){context.view=view;context.queueDraw();context.queueDraw();assert.equal(callbackQueue.length,1);callbackQueue.shift()();assert.equal(draws.pop(),view);}
+context.view='editor';context.queueDraw();context.view='dashboard';callbackQueue.shift()();assert.equal(draws.length,0,'Navigation before the next frame must cancel work for the previous view.');assert.equal(context.frameQueued,false);
 function startup(){
  const nodes=new Map(['sp-startup','sp-startup-message','sp-startup-retry','sp-prototype'].map(id=>[id,{dataset:{},hidden:id==='sp-startup-retry',inert:id==='sp-prototype',setAttribute(k,v){this[k]=v;},removeAttribute(k){delete this[k];},addEventListener(k,fn){this[k]=fn;}}]));
  const events={},ctx={document:{getElementById:id=>nodes.get(id)},window:{localStorage:{getItem:()=>'{"theme":"dark"}'},location:{reload(){ctx.reloaded=true;}},addEventListener:(key,fn)=>events[key]=fn,removeEventListener:key=>delete events[key]}};

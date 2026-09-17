@@ -5,6 +5,7 @@ function audioOrderedGroup(rows,row){return audioGroup(rows,row).slice().sort((a
 function planAudioPatch(rows,members,box,direction,{startPort=null,preserve=false,replace=false}={}){
   if(!box||!members.length)throw Error('Bitte eine Stagebox und ein Signal wählen.');
   if(members.some(row=>row.connector==='Dante'))throw Error('Dante wird über das Netzwerk übergeben, nicht über analoge XLR-Buchsen.');
+  if(members.some(row=>['USB','MADI','Digital'].includes(row.connector)))throw Error('Dieses digitale Signal benötigt einen passenden Digitaleingang.');
   const capacity=box.capacity??box[direction],ids=new Set(members.map(row=>row.id));
   if(members.some(row=>routeNeedsDi(row,direction,box)))throw Error('DI-Box nötig: Unter „Abnahme“ DI-Box wählen oder eine Stagebox mit Kombibuchsen verwenden.');
   const occupied=new Map(rows.filter(row=>!ids.has(row.id)&&row.stagebox===box.id&&row.stageboxPort).map(row=>[Number(row.stageboxPort),row]));
@@ -36,7 +37,7 @@ function audioPatchStatus(row,direction){
   const box=routingStageboxes(direction).find(item=>item.id===row.stagebox);
   return !box||row.stageboxPort>box.capacity||routeNeedsDi(row,direction,box)?'review':'patched';
 }
-function audioSearchText(row,direction){return [row.instrument,row.generatedInstrument,row.number,row.microphone,row.notes,routeFrequency(row),stageboxRouteLocation(row,direction),row.pickup].filter(Boolean).join(' ').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function audioSearchText(row,direction){return [row.instrument,row.generatedInstrument,row.number,row.microphone,audioDiDescription(row),row.monitorDeviceName,row.monitorReceiverName,row.monitorAmplifierName,row.notes,routeFrequency(row),stageboxRouteLocation(row,direction),row.pickup].filter(Boolean).join(' ').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function audioVisibleRows(rows,direction,query='',filter='all'){
   const words=query.toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().split(/\s+/).filter(Boolean),matches=new Set();
   for(const row of rows){const status=audioPatchStatus(row,direction),match=filter==='all'||filter==='unnumbered'&&!row.number||filter==='unpatched'&&status!=='patched';if(match&&words.every(word=>audioSearchText(row,direction).includes(word)))for(const member of audioGroup(rows,row))matches.add(member.id);}
@@ -132,7 +133,7 @@ function selectAudioSpecs(specs,direction){
   const rows=stage.routing[direction],existing=new Set(rows.map(row=>row.sourceKey)),linked=new Set(['inputs','outputs'].flatMap(key=>stage.routing[key].flatMap(row=>(row.linkedSources||[]).map(member=>member.sourceKey)))),disabled=new Set(stage.routing.disabledSources||[]);
   return specs.filter(spec=>!linked.has(spec.sourceKey)&&!disabled.has(spec.sourceKey)&&(existing.has(spec.sourceKey)||audioDefaultUsed(spec,direction)));
 }
-function audioObjectRows(o){return ['inputs','outputs'].flatMap(direction=>(stage?.routing?.[direction]||[]).filter(row=>audioMembers(row).some(member=>member.sourceKey.startsWith(o.id+':'))).map(row=>({row,direction})));}
+function audioObjectRows(o){const devices=new Set((stage?.routing?.devices||[]).filter(device=>device.objectId===o.id).map(device=>device.id));return ['inputs','outputs'].flatMap(direction=>(stage?.routing?.[direction]||[]).filter(row=>devices.has(row.diDeviceId)||audioMembers(row).some(member=>String(member.sourceKey||'').startsWith(o.id+':'))).map(row=>({row,direction})));}
 function audioObjectChannels(o){
   const rows=audioObjectRows(o);return ['inputs','outputs'].map(direction=>{const list=rows.filter(item=>item.direction===direction).map(item=>item.row.number||'—');return list.length?(direction==='inputs'?'CH ':o.type==='rack'?'AUX ':'OUT ')+[...new Set(list)].join(' / '):'';}).filter(Boolean).join(' · ');
 }
@@ -142,7 +143,7 @@ function applyOrchestraPickupChanges(o,previous,next){
   for(const spec of orchestraModel.channels(next)){
     const pickup=spec.pickup||'Mic';if(!before.has(spec.id)||before.get(spec.id)===pickup)continue;
     const key=o.id+':orch-'+spec.id;
-    for(const row of stage.routing.inputs)for(const member of audioMembers(row))if(member.sourceKey===key)Object.assign(member,{pickup,signalType:pickup==='DI'?'Instrument':'Mic',mode:'Mono',stereoGroup:'',connector:'XLR',edited:true});
+    for(const row of stage.routing.inputs)for(const member of audioMembers(row))if(member.sourceKey===key)Object.assign(member,{...(pickup!=='DI'&&member.diDeviceId?{diDeviceId:'',diChannel:null}:{}),pickup,signalType:pickup==='DI'?'Instrument':'Mic',mode:'Mono',stereoGroup:'',connector:'XLR',edited:true});
   }
 }
 function audioSignalFormatControls(o){
@@ -169,29 +170,57 @@ function setAudioObjectFormat(o,format){
     if(format==='dual')for(const [index,spec] of specs.entries()){
       let row=stage.routing.inputs.find(row=>audioMembers(row).some(member=>member.sourceKey===spec.sourceKey));
       if(!row){row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing.inputs.length,'inputs');stage.routing.inputs.push(row);}
-      Object.assign(row,{edited:true,mode:'Mono',stereoGroup:'',pickup:index===0?'DI':'Mic',signalType:index===0?'Instrument':'Mic',connector:'XLR'});
+      Object.assign(row,{...(index>0&&row.diDeviceId?{diDeviceId:'',diChannel:null}:{}),edited:true,mode:'Mono',stereoGroup:'',pickup:index===0?'DI':'Mic',signalType:index===0?'Instrument':'Mic',connector:'XLR'});
       if(index===1&&(!row.microphone||row.microphone==='Direktausgang')){row.microphone='';row.phantom=false;}
     }
   },format==='dual'?'Zwei unabhängige Signale eingerichtet':'Signalformat geändert');
 }
-function audioDiControls(o){
-  if(o.type!=='di'||o.locked)return '';
-  const own=stage.routing.inputs.find(row=>row.sourceKey.startsWith(o.id+':'));
-  if(!own)return '<p class="sp-muted">Die DI-Box ist dem oben angezeigten Signal zugeordnet.</p>';
-  const choices=stage.routing.inputs.filter(row=>row.id!==own.id&&!row.stereoGroup&&!row.linkedSources?.length&&row.connector!=='Dante');
-  return '<label class="sp-field">Vorhandenes Signal durch diese DI führen<select data-di-source><option value="">Signal auswählen …</option>'+choices.map(row=>'<option value="'+row.id+'">'+esc(row.instrument)+' · CH '+(row.number||'—')+'</option>').join('')+'</select></label><small>Die DI und das Instrument verwenden danach denselben Pultkanal.</small>';
+let audioDiSelectedPort={objectId:'',channel:1};
+function audioDiDescription(row){const device=stage?.routing?.devices?.find(device=>device.id===row.diDeviceId);return device?device.name+(row.diChannel?' · DI-Eingang '+row.diChannel:''):'';}
+function audioDiPhoto(value){
+  const models=typeof StageplotRoutingModel==='undefined'?[]:StageplotRoutingModel.diModels,key=String(typeof value==='object'?value?.modelId||value?.id:value||'').toLowerCase().replace(/[^a-z0-9]/g,''),model=models.find(model=>[model.id,model.name,model.name.replace(/^Radial\s+/,'')].some(name=>name.toLowerCase().replace(/[^a-z0-9]/g,'')===key));
+  return model?.photo?'<img class="sp-audio-di-photo" src="'+esc(model.photo)+'" alt="'+esc(model.photoAlt||model.name)+'" loading="lazy" decoding="async">':'<span class="sp-audio-di-custom">Eigene DI</span>';
 }
-function linkAudioDi(o,targetId){
-  if(sharedReadOnly||!stage||!o)return;
-  const rows=stage.routing.inputs,own=rows.find(row=>row.sourceKey.startsWith(o.id+':')),target=rows.find(row=>row.id===targetId);
-  if(!own||!target||own===target||target.stereoGroup||o.locked)return;
-  change(()=>{target.linkedSources=[...(target.linkedSources||[]),clone(own)];target.pickup='DI';target.connector='XLR';target.edited=true;target.microphone=own.microphone||'';target.phantom=own.phantom;stage.routing.inputs=rows.filter(row=>row.id!==own.id);reconcileCablesWithRouting();},'DI-Box zugeordnet · Pultkanal beibehalten');
+function audioDiControls(o){
+  if(o.type!=='di'||typeof StageplotRoutingModel==='undefined')return '';
+  const device=stage.routing.devices?.find(device=>device.objectId===o.id),ownIds=new Set(stage.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')).map(row=>row.id)),disabled=sharedReadOnly||o.locked,off=disabled?' disabled':'';
+  const ports=device?StageplotRoutingModel.occupancy(stage.routing,device.id).map(port=>ownIds.has(port.rowId)?{...port,rowId:'',instrument:'',free:true}:port):[{channel:1,free:true,rowId:'',instrument:''}],selectedPort=audioDiSelectedPort.objectId===o.id&&ports.some(port=>port.channel===audioDiSelectedPort.channel)?audioDiSelectedPort.channel:ports.find(port=>port.free)?.channel||1,current=ports.find(port=>port.channel===selectedPort),models=StageplotRoutingModel.diModels;
+  const choices=stage.routing.inputs.filter(row=>!ownIds.has(row.id)&&row.connector!=='Dante'&&row.pickup!=='Digital'&&routeSourceObject(row)?.type!=='di'&&!routeSourceObject(row)?.locked);
+  const selector='<div class="sp-choice-pills sp-audio-di-models" role="group" aria-label="DI-Modell">'+models.map(model=>'<button type="button" data-di-model="'+model.id+'" aria-pressed="'+(device?.modelId===model.id)+'"'+off+'>'+audioDiPhoto(model)+'<span>'+esc(model.name)+'</span>'+(model.id.startsWith('generic-')?'<small>Generisch</small>':'')+'</button>').join('')+'</div>';
+  const custom=device?.modelId==='custom'?'<label class="sp-field">Eigener Name<input data-di-device-name maxlength="80" value="'+esc(device.name)+'"'+off+'></label><label class="sp-field">Eingänge<input data-di-device-channels type="number" min="1" max="32" step="1" value="'+device.channels+'"'+off+'></label><div class="sp-choice-pills" role="group" aria-label="DI-Bauart">'+[[false,'Passiv'],[true,'Aktiv']].map(([value,label])=>'<button type="button" data-di-active="'+value+'" aria-pressed="'+(device.active===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
+  const power=device?.active&&(device.modelId==='custom'||models.find(model=>model.id===device.modelId)?.configurablePower)?'<div class="sp-choice-pills" role="group" aria-label="Stromversorgung">'+[['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label])=>'<button type="button" data-di-power="'+value+'" aria-pressed="'+(device.power===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
+  const sockets='<div class="sp-choice-pills" role="group" aria-label="DI-Eingang">'+ports.map(port=>'<button type="button" data-di-port="'+port.channel+'" aria-pressed="'+(selectedPort===port.channel)+'"'+off+'>'+port.channel+' · '+esc(port.free?'Frei':port.instrument)+'</button>').join('')+'</div>';
+  const assignment=current?.free?'<div class="sp-audio-available">'+choices.map(row=>'<button type="button" class="sp-button" data-di-source="'+esc(row.id)+'" data-di-channel="'+selectedPort+'"'+off+'>'+esc(row.instrument)+' · CH '+(row.number||'—')+'</button>').join('')+'</div>': '<button type="button" class="sp-audio-object-row" data-audio-edit="'+esc(current.rowId)+'" data-audio-direction="inputs"'+off+'>'+esc(current.instrument)+'</button><button type="button" class="sp-button" data-di-disconnect="'+esc(current.rowId)+'"'+off+'>DI-Eingang freigeben</button>';
+  const selected=device?'<div class="sp-audio-di-selected">'+audioDiPhoto(device)+'<span><strong>'+esc(device.name)+'</strong><small>'+esc((device.active?'Aktiv'+({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[device.power]||''):'Passiv')+' · '+device.channels+(device.channels===1?' Eingang':' Eingänge'))+'</small></span></div>':'';
+  return '<div class="sp-direct-field"><span>DI-Box</span>'+selected+selector+custom+power+(device?'':'<small>Modell auswählen</small>')+'<span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+'</div>';
+}
+function audioDiDraft(o){
+  const routing=clone(stage.routing);StageplotRoutingModel.ensure(routing,objects);
+  const device=routing.devices.find(device=>device.objectId===o.id)||StageplotRoutingModel.createDevice(routing,{modelId:'custom',name:o.label||'DI-Box',objectId:o.id});
+  return {routing,device};
+}
+function configureAudioDi(o,fields){
+  if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
+  const next=audioDiDraft(o);for(const row of next.routing.inputs.filter(row=>row.diDeviceId===next.device.id))if(routeSourceObject(row)?.locked)throw Error('Ein angeschlossenes Instrument ist gesperrt.');
+  StageplotRoutingModel.updateDevice(next.routing,next.device.id,fields);
+  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Box aktualisiert');
+}
+function linkAudioDi(o,targetId,channel=null){
+  if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
+  const target=stage.routing.inputs.find(row=>row.id===targetId);if(!target||String(target.sourceKey||'').startsWith(o.id+':'))return;
+  if(routeSourceObject(target)?.locked)throw Error('Das Instrument ist gesperrt.');
+  const next=audioDiDraft(o);
+  // The old generated DI placeholder is not an additional sound source. Preserve
+  // its disabled identity so reconciliation cannot recreate it after assignment.
+  for(const row of next.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')&&row.origin!=='pickup'))StageplotRoutingModel.removeInput(next.routing,row.id);
+  StageplotRoutingModel.assignDevice(next.routing,[targetId],next.device.id,channel===null?undefined:[Number(channel)]);
+  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Eingang zugeordnet · Pultkanal und Patch beibehalten');
 }
 
 function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
   host.hidden=!all.length&&!rows.length&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
-  const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),available=all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
+  const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),physicalDi=o.type==='di'&&stage.routing.devices?.some(device=>device.objectId===o.id),available=physicalDi?[]:all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
   host.innerHTML=(o.type==='rack'?iemMonitorShortcut(o):o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4>'+audioSignalFormatControls(o)+audioDiControls(o)+'<p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }
 
@@ -294,7 +323,7 @@ function saveAudioChannel({patchPlan=null,afterCommit=null}={}){
     errorField='sp-audio-port';const portRows=patchPlan?clone(rows):rows;if(patchPlan)applyAudioPatchPlan(portRows,{displaced:patchPlan.displaced,assignments:patchPlan.assignments.filter(patch=>!excluded.has(patch.id))});const ports=planAudioPorts(routingStageboxes(direction),portRows,excluded,[{boxId:box,port:$('sp-audio-port').value},...(stereo?[{boxId:rightBox,port:$('sp-audio-right-port').value}]:[])]);
     const connector=direction==='inputs'?audioInputConnector(original,pickup):original.connector||'XLR',signalType=direction==='outputs'?'Line':pickup==='Mic'?'Mic':pickup==='DI'?'Line':pickup==='Digital'?'Digital':'Line',iem=direction==='outputs'&&kind==='iem';
     if(connector==='Dante'&&(box||rightBox))throw Error('Dante wird über das Netzwerk übergeben. Die analoge Stagebox-Zuordnung zuerst lösen.');
-    const shared={edited:true,pickup,outputKind:direction==='outputs'?kind:'',connector,signalType,microphone:direction==='inputs'&&connector!=='Dante'?$('sp-channel-microphone').value:'',phantom:direction==='inputs'&&connector!=='Dante'&&$('sp-channel-phantom').checked,frequencyBand:direction==='inputs'?($('sp-audio-wireless').checked?$('sp-audio-frequency').value:''):iem&&$('sp-audio-transport').value==='wireless'?$('sp-audio-frequency').value:'',iemName:iem?name:'',iemMode:iem?(stereo?'stereo':'mono'):'',iemTransport:iem?$('sp-audio-transport').value:'',iemGroup:iem?(original.iemGroup||original.id):''};
+    const shared={...(pickup!=='DI'&&original.diDeviceId?{diDeviceId:'',diChannel:null}:{}),edited:true,pickup,outputKind:direction==='outputs'?kind:'',connector,signalType,microphone:direction==='inputs'&&connector!=='Dante'?$('sp-channel-microphone').value:'',phantom:direction==='inputs'&&connector!=='Dante'&&$('sp-channel-phantom').checked,frequencyBand:direction==='inputs'?($('sp-audio-wireless').checked?$('sp-audio-frequency').value:''):iem&&$('sp-audio-transport').value==='wireless'?$('sp-audio-frequency').value:'',iemName:iem?name:'',iemMode:iem?(stereo?'stereo':'mono'):'',iemTransport:iem?$('sp-audio-transport').value:'',iemGroup:iem?(original.iemGroup||original.id):''};
     next=normalizeRouteChannel({...original,...shared,manual:original.manual||original.isNew||direction!==original.direction,number:numbers[0],instrument:stereo?(!nameChanged&&oldPartner?original.instrument:name+' · L'):name,mode:stereo?'Stereo L':'Mono',stereoGroup:stereo?(original.stereoGroup||'audio-'+original.id):'',stagebox:box,stageboxPort:ports[0],notes:$('sp-channel-notes').value},0,direction);
     if(stereo){
       let seed=oldPartner;
@@ -329,14 +358,14 @@ function removeAudioChannel(){
 function audioPrintTable(direction){
   const rows=stage?.routing?.[direction]||[];if(!rows.length)return '<p class="sp-paper-routing-empty">Keine Signale angelegt.</p>';
   const input=direction==='inputs',heads=input?['CH','Signal / Quelle','Mikrofon / DI','48V','Patch / Übergabe','Notizen']:['OUT','Ziel / Signal','Art / Format','Übertragung / Funk','Patch / Übergabe','Notizen'];
-  return '<table class="sp-paper-routing-table sp-audio-print-table" data-audio-direction="'+direction+'"><thead><tr>'+heads.map(head=>'<th>'+head+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>{const playback=routeSourceObject(row)?.type==='laptop'&&row.connector!=='Dante'?playbackSourceHint(row):'',source=esc(row.instrument||'—')+(playback?'<small>'+esc(playback)+'</small>':'')+(routeFrequency(row)&&input?'<small>Funk: '+esc(routeFrequency(row))+'</small>':''),pickup=row.microphone||({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||'—'),kind={monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)],format=row.stereoGroup?row.mode:'Mono',transfer=audioKind(row)==='iem'?[row.iemTransport==='wireless'?'Funk':row.iemTransport==='cable'?'Kabel':'',routeFrequency(row)].filter(Boolean).join(' · '):'';
+  return '<table class="sp-paper-routing-table sp-audio-print-table" data-audio-direction="'+direction+'"><thead><tr>'+heads.map(head=>'<th>'+head+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>{const playback=routeSourceObject(row)?.type==='laptop'&&row.connector!=='Dante'?playbackSourceHint(row):'',equipment=input?'':[row.monitorAmplifierName,row.monitorDeviceName,row.monitorReceiverName].filter(Boolean).join(' → '),source=esc(row.instrument||'—')+(playback?'<small>'+esc(playback)+'</small>':'')+(equipment?'<small>'+esc(equipment)+'</small>':'')+(routeFrequency(row)&&input?'<small>Funk: '+esc(routeFrequency(row))+'</small>':''),pickup=audioDiDescription(row)||row.microphone||({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||'—'),kind={monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)],format=row.stereoGroup?row.mode:'Mono',transfer=audioKind(row)==='iem'?[row.iemTransport==='wireless'?'Funk':row.iemTransport==='cable'?'Kabel':'',routeFrequency(row)].filter(Boolean).join(' · '):'';
     const cells=input?[row.number||'—',source,esc(pickup),row.phantom?'48V':'—',esc(stageboxRouteLocation(row,direction)),esc(row.notes||'—')]:[row.number||'—',source,kind+' · '+esc(format),esc(transfer||'—'),esc(stageboxRouteLocation(row,direction)),esc(row.notes||'—')];return '<tr>'+cells.map(cell=>'<td>'+cell+'</td>').join('')+'</tr>';
   }).join('')+'</tbody></table>';
 }
 function audioPatchSections(){
   return allRoutingStageboxes().flatMap(box=>{
     const rows=['inputs','outputs'].flatMap(direction=>stage.routing[direction].filter(row=>row.stagebox===box.id&&row.stageboxPort).sort((a,b)=>a.stageboxPort-b.stageboxPort).map(row=>({row,direction})));if(!rows.length)return [];
-    return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table sp-audio-patch-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th></tr></thead><tbody>'+rows.map(({row,direction})=>'<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+'</td><td>'+esc(row.connector)+'</td></tr>').join('')+'</tbody></table>'}];
+    return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table sp-audio-patch-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th></tr></thead><tbody>'+rows.map(({row,direction})=>'<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+(audioDiDescription(row)?'<small>'+esc(audioDiDescription(row))+'</small>':'')+'</td><td>'+esc(row.connector)+'</td></tr>').join('')+'</tbody></table>'}];
   });
 }
 // Every microphone entry point uses the same identities, photos and picker.
@@ -349,7 +378,7 @@ function renderAudioMicPicker(){
   $('sp-audio-model-heading').textContent=mic?'Mikrofon auswählen':pickup==='DI'?'DI-Box angeben':'Abnahme';
   $('sp-audio-mic-choices').hidden=!mic;$('sp-audio-mic-selected').hidden=pickup!=='DI';
   $('sp-audio-custom-model-field').hidden=pickup!=='DI'||!audioCustomModel;
-  $('sp-audio-mic-selected').innerHTML='<div><small>DI-Box</small><strong>'+esc(selected||'Modell noch offen')+'</strong></div><button class="sp-button" type="button" data-audio-custom-model>Eigenes Modell</button>'+(selected?'<button class="sp-button" type="button" data-audio-clear-model aria-label="Modell entfernen">×</button>':'');
+  $('sp-audio-mic-selected').innerHTML=(selected?audioDiPhoto(selected):'')+'<div><small>DI-Box</small><strong>'+esc(selected||'Modell noch offen')+'</strong></div><button class="sp-button" type="button" data-audio-custom-model>Eigenes Modell</button>'+(selected?'<button class="sp-button" type="button" data-audio-clear-model aria-label="Modell entfernen">×</button>':'');
   if(!mic)return;
   const channel=$('sp-channel-number').value,context=(channel&&channel!=='#'?'CH '+channel+' · ':'')+$('sp-channel-instrument').value;
   const options={selected,context,suggestions:editingRoute?.sourceKey?.includes(':drum-')?StageplotMics.drumSuggestions(editingRoute.sourceKey.split(':drum-')[1]):audioMicSuggestions($('sp-channel-instrument').value),onSelect(model){$('sp-channel-microphone').value=model.name;$('sp-audio-custom-model').value=model.name;$('sp-channel-phantom').checked=model.phantom===true;renderAudioEditorContext();}};
@@ -365,7 +394,7 @@ function renderAudioChainPreview(){
   $('sp-audio-chain-title').textContent=input?'Ein Weg zum Mischpult':'Vom Mischpult zur Bühne';
   $('sp-audio-chain-description').textContent=input?'Instrument, Verstärker und Mikrofon können zu einem gemeinsamen Kanal gehören.':'Der Output versorgt einen Monitor, ein IEM-System oder ein anderes Gerät.';
   const sources=[editingRoute,...(editingRoute.linkedSources||[]),...selected],steps=[{name:sources.map((row,i)=>i?row.instrument:$('sp-channel-instrument').value).join(' + '),detail:sources.length>1?'Bühnenobjekte · gemeinsamer Kanal':'Bühnenobjekt',picture:audioObjectPicture(editingRoute)}];
-  if(input)steps.push({name:$('sp-channel-microphone').value||({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[$('sp-audio-pickup').value]),detail:'Abnahme'});
+  if(input)steps.push({name:$('sp-channel-microphone').value||({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[$('sp-audio-pickup').value]),detail:'Abnahme',picture:$('sp-audio-pickup').value==='DI'?audioDiPhoto($('sp-channel-microphone').value):''});
   const box=routingStageboxes($('sp-channel-direction').value).find(box=>box.id===$('sp-channel-stagebox').value);
   if(input&&audioInputConnector(editingRoute,$('sp-audio-pickup').value)==='Dante')steps.push({name:playbackNetworkLocation(editingRoute),detail:'1 × CAT5e / CAT6 · RJ45'});else steps.push({name:box?.name||'Stagebox offen',detail:box?(input?'IN ':'OUT ')+($('sp-audio-port').value||'automatisch'):'Verbindung unter Kanäle'});
   steps.push({name:(input?'CH ':'Mix / Output ')+($('sp-channel-number').value||'offen')+(stereo?' / '+($('sp-audio-right-number').value||'offen'):''),detail:'Mischpult'});
@@ -585,7 +614,7 @@ $('sp-audio-object').addEventListener('click',e=>{
   const format=e.target.closest('[data-object-format]');if(format){setAudioObjectFormat(objects.find(o=>o.id===selected),format.dataset.objectFormat);return;}
   const edit=e.target.closest('[data-audio-edit]');if(edit){openChannelDialog(edit.dataset.audioDirection,edit.dataset.audioEdit);return;}
   if(e.target.closest('[data-audio-overview]')){show('routing');return;}
-  const use=e.target.closest('[data-audio-use]');if(use){const direction=use.dataset.audioDirection,spec=(direction==='inputs'?generatedInputSpecs():generatedOutputSpecs()).find(row=>row.sourceKey===use.dataset.audioUse);if(!spec)return;const before=snapshot();stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>key!==spec.sourceKey);const row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing[direction].length,direction);stage.routing[direction].push(row);keepHistory(before);renderEditor();openChannelDialog(direction,row.id);}
+  const use=e.target.closest('[data-audio-use]');if(use){const direction=use.dataset.audioDirection,spec=(direction==='inputs'?generatedInputSpecs():generatedOutputSpecs()).find(row=>row.sourceKey===use.dataset.audioUse);if(!spec)return;const source=routeSourceObject(spec);if(source?.type==='di'&&stage.routing.devices?.some(device=>device.objectId===source.id)){say('Instrument unter „DI-Box“ auswählen.');return;}const before=snapshot();stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>key!==spec.sourceKey);const row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing[direction].length,direction);stage.routing[direction].push(row);keepHistory(before);renderEditor();openChannelDialog(direction,row.id);}
 });
 $('sp-audio-number').addEventListener('click',()=>{
   if(sharedReadOnly)return;const before=snapshot(),plans=[];
@@ -663,4 +692,19 @@ $('sp-patch-undo').addEventListener('click',()=>{if(audioPatchUndoToken&&history
 
 $('sp-routing-sort-instruments').addEventListener('click',()=>{if(sharedReadOnly||!stage||!['inputs','outputs'].includes(routingTab))return;change(()=>{stage.routing[routingTab]=groupAudioInstruments(stage.routing[routingTab]);},'Nach Instrumenten geordnet · Kanalnummern beibehalten');renderRouting();});
 $('sp-routing-rows').addEventListener('click',e=>{const b=e.target.closest('[data-route-object-move]');if(!b||sharedReadOnly||!stage)return;e.stopPropagation();change(()=>{stage.routing[routingTab]=moveAudioInstrument(stage.routing[routingTab],b.dataset.routeObjectId,b.dataset.routeObjectMove);},'Instrumentgruppe verschoben · Kanalnummern beibehalten');renderRouting();});
-$('sp-audio-object').addEventListener('change',e=>{if(e.target.matches('[data-di-source]')){const o=objects.find(o=>o.id===selected);if(o)linkAudioDi(o,e.target.value);}});
+$('sp-audio-object').addEventListener('click',e=>{
+  const control=e.target.closest('[data-di-model],[data-di-port],[data-di-source],[data-di-disconnect],[data-di-active],[data-di-power]');if(!control||control.disabled)return;
+  const o=objects.find(o=>o.id===selected);if(!o||sharedReadOnly||o.locked)return;
+  try{
+    if(control.hasAttribute('data-di-port')){audioDiSelectedPort={objectId:o.id,channel:Number(control.dataset.diPort)};renderObjectAudio(o);return;}
+    if(control.hasAttribute('data-di-source')){linkAudioDi(o,control.dataset.diSource,Number(control.dataset.diChannel));return;}
+    if(control.hasAttribute('data-di-disconnect')){const row=stage.routing.inputs.find(row=>row.id===control.dataset.diDisconnect);if(routeSourceObject(row)?.locked)throw Error('Das Instrument ist gesperrt.');change(()=>StageplotRoutingModel.clearDevice(stage.routing,[control.dataset.diDisconnect]),'DI-Eingang freigegeben');return;}
+    if(control.hasAttribute('data-di-model')){const model=StageplotRoutingModel.diModels.find(model=>model.id===control.dataset.diModel);if(model)configureAudioDi(o,{modelId:model.id,name:model.name});return;}
+    if(control.hasAttribute('data-di-active')){configureAudioDi(o,{active:control.dataset.diActive==='true',power:control.dataset.diActive==='true'?'48V':'none'});return;}
+    if(control.hasAttribute('data-di-power'))configureAudioDi(o,{power:control.dataset.diPower});
+  }catch(error){say(error.message);}
+});
+$('sp-audio-object').addEventListener('change',e=>{
+  if(!e.target.matches('[data-di-device-name],[data-di-device-channels]'))return;const o=objects.find(o=>o.id===selected);if(!o||sharedReadOnly||o.locked)return;
+  try{if(e.target.matches('[data-di-device-name]')){const name=e.target.value.trim();if(!name)throw Error('Bitte einen Namen für die DI-Box eingeben.');configureAudioDi(o,{name});}else configureAudioDi(o,{channels:Number(e.target.value)});}catch(error){say(error.message);renderObjectAudio(o);}
+});

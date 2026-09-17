@@ -50,8 +50,8 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
-        if route.path.startswith("/stageplot-assets/mics/"):
-            asset_root = (root / "stageplot-assets" / "mics").resolve()
+        if route.path.startswith(("/stageplot-assets/mics/", "/stageplot-assets/di/")):
+            asset_root = (root / "stageplot-assets" / route.path.split("/")[2]).resolve()
             asset = (root / route.path.lstrip("/")).resolve()
             if asset.parent != asset_root or asset.suffix not in (".png", ".webp", ".jpg") or not asset.is_file():
                 self.send_error(404)

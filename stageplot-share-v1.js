@@ -10,13 +10,14 @@
   const micIds='kick1-in kick1-out kick2-in kick2-out snare-up snare-down side-up side-down rack1 rack2 rack3 rack4 floor1 floor2 floor3 hihat ride crash1 crash2 crash3 crash4 splash1 splash2 splash3 splash4 china1 china2 clapstack oh-mono oh-l oh-r room-mono room-l room-r pad-l pad-r bongos '+extraIds.flatMap(id=>['1','2','l','r'].map(side=>id+'-'+side)).join(' ');
   const map=(names,schema)=>Object.fromEntries(names.split(' ').map(key=>[key,schema]));
   const mix={...fields('id name mode transport frequencyBand'),ports:[true]};
-  const route=fields('id adoptedSource edited pickup outputKind iemName iemMode iemTransport iemGroup frequencyBand sourceKey number instrument generatedInstrument mode signalType connector portIndex stereoGroup microphone phantom stagebox stageboxPort manual');
+  const route=fields('id adoptedSource edited pickup outputKind iemName iemMode iemTransport iemGroup frequencyBand sourceKey number instrument generatedInstrument mode signalType connector portIndex stereoGroup microphone phantom stagebox stageboxPort manual origin acquisitionId sourcePortKey sourceConnector sourceSignalType diDeviceId diChannel monitorDeviceName monitorReceiverName monitorAmplifierName monitorDeviceKind monitorActive');
   const routingRow={...route,linkedSources:[route]};
+  const routingDevice=fields('id modelId name channels active power phantom objectId');
   // This explicit schema is also embedded in the SQL migration and checked by tests.
   // Contacts, author, free notes, inventory references and unknown fields are absent.
   const schema={stage:{...fields('title projectId w d estimated surface complex stairs stairsOffset stairsAlong stairsWidth stairsDepth stairsSteps iem iemLength iemDepth iemX iemY'),
     project:fields('name unit'),extraStairs:[stair],
-    routing:{version:true,disabledSources:[true],inputs:[routingRow],outputs:[routingRow],generatedAt:true},
+    routing:{version:true,disabledSources:[true],devices:[routingDevice],inputs:[routingRow],outputs:[routingRow],generatedAt:true},
     cables:[{...fields('id direction sourceKey sourceId targetId targetPort length bundleId'),route:[point]}],
     geometry:{...fields('version height clearance showModules name measured revision'),parts:[{...fields('id name kind shape x y w d angle height role locked rise target steps'),points:[[true]],anchor:fields('partId edge t')}]}
   },objects:[{...fields('id type x y angle label showLabel power wireless outs showOuts locked house drumPresetId comboJacks stand purpose boomDirection micHeadDirection micFrameVersion width depth height steps'),dimensions:size,labelOffset:point,
