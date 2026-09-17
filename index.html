@@ -735,15 +735,16 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.14">v0.1.0-beta.14</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.15">v0.1.0-beta.15</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.14</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.15</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
             <h4>Instrumente, Routing und Bearbeitung</h4>
             <ul>
               <li><strong>Instrumentbilder:</strong> Neue generierte Bilder für elf E-Gitarrenmodelle, Akustikgitarren, Banjo, Mandoline, Lap Steel und Ukulele. Alle Katalogmikrofone haben echte Fotos; MD 421 Kompakt ist ergänzt.</li>
               <li><strong>Drums &amp; Percussion:</strong> Größere Arbeitsfläche mit Zoom. Drumset, Cajon, Becken und Vocal-Boom kombinieren; Cajon vorne oder hinten mit frei wählbaren Mikrofonen abnehmen. Neue Bilder für Cajon und Vocal-Boom.</li>
-              <li><strong>Routing:</strong> Nach Instrumenten geordnete Liste mit Abnahme, Stagebox und Pultkanal. DI-Boxen einem Signal zuordnen; Dual Mono auch für Amps, Pedalboards und einzelne Streicher.</li>
+              <li><strong>Routing:</strong> Neue Ansichten für Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen und beleuchteter Draufsicht. Weitere Abnahmen und Dual Mono zeigen getrennte Wege mit feinen Pfeilen. Mono-Quellen können einzelne Eingänge einer Stereo-DI nutzen.</li>
+              <li><strong>DI-Auswahl:</strong> Kompaktes Popup mit sieben gleich großen Kacheln: echte Produktfotos von Radial J48, J48 Stereo und ProD2 sowie vier generische DIs für aktiv/passiv und Mono/Stereo.</li>
               <li><strong>Bearbeitung:</strong> Beschriftungen und freie Notizen per Doppelklick bearbeiten, mehrere Objekte mit Cmd-/Strg-Klick auswählen. Treppenstufen im Popup einstellen und einzelne Streicher direkt bearbeiten. Neue Akkordeons sind um 180° gedreht.</li>
               <li><strong>PDF und Speicherung:</strong> Schlagzeug und Instrumentbilder werden vollständig gedruckt. Hinweise erklären die Speicherung im Browser, mögliche Datenverluste und Sicherungsdateien. Platzprobleme in der Handyansicht sind behoben.</li>
             </ul>
@@ -798,7 +799,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.14 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.15 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -6668,7 +6669,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .rw-button.rw-add>span {font-size:22px;}
 #sp-prototype .rw-inline-choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:12px;}
 #sp-prototype .rw-flow-scroll {overflow-x:auto;overflow-y:visible;padding-bottom:8px;}
-#sp-prototype .rw-source-flow {display:grid;grid-template-columns:minmax(125px,.88fr) 37px minmax(165px,1.1fr) 28px minmax(155px,1.05fr) 28px minmax(145px,1fr);grid-auto-rows:auto;min-width:760px;gap:18px 0;align-items:center;}
+#sp-prototype .rw-source-flow {--rw-branch-half:18.5px;--rw-connector-gap:0px;display:grid;grid-template-columns:minmax(125px,.88fr) 37px minmax(165px,1.1fr) 28px minmax(155px,1.05fr) 28px minmax(145px,1fr);grid-auto-rows:auto;min-width:760px;gap:18px 0;align-items:center;}
 #sp-prototype .rw-column-title {font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:650;color:var(--rw-muted);grid-row:1;}
 #sp-prototype .rw-column-source {grid-column:1;}
 #sp-prototype .rw-column-pickup {grid-column:3;}
@@ -6707,19 +6708,23 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .rw-channel-emblem {height:84px;display:grid;place-content:center;text-align:center;gap:0;color:var(--rw-muted);}
 #sp-prototype .rw-channel-emblem small {font-size:9px;letter-spacing:2px;}
 #sp-prototype .rw-channel-emblem strong {font-size:37px;font-weight:300;line-height:1.15;font-variant-numeric:tabular-nums;}
-#sp-prototype .rw-arrow {display:grid;place-items:center;color:var(--rw-accent);font-size:29px;font-weight:400;min-width:24px;}
-#sp-prototype .rw-arrow span {position:relative;line-height:1.1;}
-#sp-prototype .rw-arrow small {position:absolute;top:-11px;left:0;font-size:9px;}
-#sp-prototype .rw-arrow-stereo {gap:12px;}
-#sp-prototype .rw-branch {grid-column:2;align-self:stretch;position:relative;display:flex;align-items:center;justify-content:flex-end;color:var(--rw-accent);font-size:25px;margin:-9px 0;}
-#sp-prototype .rw-branch::before {content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:var(--rw-accent);}
-#sp-prototype .rw-branch::after {content:"";position:absolute;left:50%;right:0;top:50%;height:1.5px;background:var(--rw-accent);}
-#sp-prototype .rw-branch span {position:relative;z-index:1;transform:translateY(-1px);}
+#sp-prototype .rw-arrow {display:grid;align-content:center;justify-items:stretch;color:var(--rw-accent);min-width:24px;}
+#sp-prototype .rw-connector {display:block;position:relative;width:100%;height:14px;}
+#sp-prototype .rw-connector::before {content:"";position:absolute;left:0;right:3px;top:50%;height:1.5px;transform:translateY(-50%);background:currentColor;}
+#sp-prototype .rw-connector svg {display:block;position:absolute;right:0;top:0;width:10px;height:14px;overflow:visible;}
+#sp-prototype .rw-connector path {stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;}
+#sp-prototype .rw-arrow-lane {display:block;position:relative;width:100%;}
+#sp-prototype .rw-arrow-lane small {position:absolute;top:-9px;left:3px;font-size:8px;line-height:1;font-weight:600;color:var(--rw-muted);}
+#sp-prototype .rw-arrow-stereo {gap:16px;}
+#sp-prototype .rw-branch {grid-column:2;align-self:stretch;position:relative;display:flex;align-items:center;justify-content:flex-end;color:var(--rw-accent);margin:-9px 0;}
+#sp-prototype .rw-branch::before {content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;transform:translateX(-50%);background:currentColor;}
+#sp-prototype .rw-branch>.rw-connector {width:50%;}
 #sp-prototype .rw-branch[data-branch="first"]::before {top:50%;}
 #sp-prototype .rw-branch[data-branch="last"]::before {bottom:50%;}
 #sp-prototype .rw-branch[data-branch="single"]::before {display:none;}
-#sp-prototype .rw-branch[data-branch="single"]::after {left:0;}
-#sp-prototype .rw-source-card::after {content:"";position:absolute;left:100%;width:19px;top:50%;height:1.5px;background:var(--rw-accent);}
+#sp-prototype .rw-branch[data-branch="single"]>.rw-connector {flex:none;width:calc(100% + var(--rw-connector-gap));}
+#sp-prototype .rw-source-card::after {content:"";position:absolute;left:calc(100% + 1px);width:calc(var(--rw-branch-half) + var(--rw-connector-gap));top:50%;height:1.5px;transform:translateY(-50%);background:var(--rw-accent);}
+#sp-prototype .rw-source-flow[data-row-count="1"]>.rw-source-card::after {display:none;}
 #sp-prototype .rw-choice-row {display:flex;flex-wrap:wrap;align-items:start;gap:5px;}
 #sp-prototype .rw-choice-row>.rw-button {flex:1 1 auto;padding:7px 8px;min-height:33px;font-size:11px;}
 #sp-prototype .rw-choice-row.rw-pickup-types {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:4px;border-radius:7px;background:var(--rw-soft);}
@@ -6761,12 +6766,35 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .rw-di-custom {display:grid;place-items:center;width:100%;height:100%;min-height:48px;background:var(--rw-soft);border-radius:5px;color:var(--rw-muted);font-size:12px;}
 #sp-prototype .rw-existing-di-art {display:block;grid-row:1/3;height:48px;}
 #sp-prototype .rw-existing-di-art img {width:100%;height:100%;}
-#sp-prototype .rw-di-model-options {display:grid;gap:16px;max-height:320px;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:3px 5px 5px 3px;}
-#sp-prototype .rw-di-model-options:focus-visible {outline:2px solid var(--rw-accent);outline-offset:2px;border-radius:5px;}
-#sp-prototype .rw-di-model-group {display:grid;gap:8px;min-width:0;}
-#sp-prototype .rw-di-model-options .rw-model-art {height:64px;}
-#sp-prototype .rw-di-model-options .rw-model-tile {padding:8px 6px;}
-#sp-prototype .rw-custom-di {width:100%;border-style:dashed;background:transparent;}
+#sp-prototype .rw-di-choose {width:100%;}
+#sp-prototype .rw-di-picker {width:min(960px,calc(100vw - 48px));max-width:none;max-height:calc(100dvh - 48px);margin:auto;padding:28px 30px 30px;border:1px solid var(--rw-border);border-radius:22px;background:var(--rw-paper);color:var(--rw-ink);box-shadow:0 24px 80px #0004;overflow:auto;overscroll-behavior:contain;}
+#sp-prototype .rw-di-picker::backdrop {background:#10161385;backdrop-filter:blur(2px);}
+#sp-prototype .rw-di-picker-heading {display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:24px;}
+#sp-prototype .rw-di-picker-heading h2 {margin:0;font-size:32px;line-height:1.15;letter-spacing:-1px;font-weight:750;}
+#sp-prototype .rw-di-picker-heading p {margin:5px 0 0;font-size:15px;color:var(--rw-muted);}
+#sp-prototype .rw-di-picker-close {flex:none;min-width:40px;width:40px;height:40px;min-height:40px;padding:10px;border:0;border-radius:13px;background:var(--rw-soft);}
+#sp-prototype .rw-di-picker-close svg {width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;}
+#sp-prototype .rw-di-picker-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;gap:12px;}
+#sp-prototype .rw-di-picker-tile {position:relative;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:6px;min-height:208px;padding:16px 15px;border-radius:12px;text-align:left;background:var(--rw-paper);}
+#sp-prototype .rw-di-picker-tile:hover:not(:disabled),#sp-prototype .rw-di-picker-tile[aria-pressed="true"] {background:var(--rw-paper);border-color:var(--rw-accent);color:var(--rw-ink);}
+#sp-prototype .rw-di-picker-tile[aria-pressed="true"] {box-shadow:inset 0 0 0 1px var(--rw-accent);}
+#sp-prototype .rw-di-picker-art {display:grid;place-items:center;width:100%;height:125px;margin-bottom:8px;border-radius:7px;background:#fff;}
+#sp-prototype .rw-di-picker-art img {width:120px;height:115px;max-width:100%;padding:0;object-fit:contain;}
+#sp-prototype .rw-di-picker-tile strong {font-size:15px;line-height:1.3;font-weight:650;letter-spacing:-.25px;}
+#sp-prototype .rw-di-picker-tile small {font-size:12px;line-height:1.4;color:var(--rw-muted);}
+#sp-prototype .rw-di-picker-check {position:absolute;top:11px;right:11px;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:var(--rw-accent);color:var(--rw-paper);font-size:16px;font-weight:700;}
+@media(max-width:740px) {
+  #sp-prototype .rw-di-picker {width:calc(100vw - 24px);max-height:calc(100dvh - 24px);padding:20px 16px;border-radius:18px;}
+  #sp-prototype .rw-di-picker-heading {margin-bottom:18px;gap:12px;}
+  #sp-prototype .rw-di-picker-heading h2 {font-size:26px;}
+  #sp-prototype .rw-di-picker-heading p {font-size:13px;}
+  #sp-prototype .rw-di-picker-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  #sp-prototype .rw-di-picker-tile {min-height:192px;padding:12px 10px;}
+  #sp-prototype .rw-di-picker-art {height:104px;margin-bottom:5px;}
+  #sp-prototype .rw-di-picker-art img {width:100px;height:98px;}
+  #sp-prototype .rw-di-picker-tile strong {font-size:13px;}
+  #sp-prototype .rw-di-picker-tile small {font-size:11px;}
+}
 #sp-prototype .rw-mic-options {max-height:335px;overflow:auto;overscroll-behavior:contain;}
 #sp-prototype .rw-mic-photo {display:grid;place-items:center;width:100%;height:75px;background:#fff;border-radius:4px;overflow:hidden;}
 #sp-prototype .rw-mic-photo img {display:block;max-width:100%;max-height:75px;width:100%;height:75px;object-fit:contain;}
@@ -6841,7 +6869,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .rw-box-editor .rw-field {flex:1;}
 #sp-prototype .rw-selected-route {margin-top:22px;}
 #sp-prototype .rw-selected-route>h3 {font-size:17px;margin:0 0 15px;}
-#sp-prototype .rw-selected-route .rw-source-flow {gap:8px 0;}
+#sp-prototype .rw-selected-route .rw-source-flow {--rw-connector-gap:0px;gap:8px 0;}
 #sp-prototype .rw-selected-route .rw-card {min-height:200px;}
 #sp-prototype .rw-selected-route .rw-source-card .rw-art {height:92px;min-height:92px;}
 #sp-prototype .rw-selected-route>.rw-quiet-danger {margin-top:10px;}
@@ -6862,6 +6890,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .rw-main {padding:28px 30px;}
   #sp-prototype .rw-minimap {height:228px;}
   #sp-prototype .rw-source-flow,#sp-prototype .rw-monitor-flow {column-gap:5px;}
+  #sp-prototype .rw-source-flow {--rw-connector-gap:5px;}
   #sp-prototype .rw-card {padding:15px;min-height:250px;}
   #sp-prototype .rw-card-value {font-size:13px;}
 }
@@ -6911,7 +6940,7 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype .rw-view-heading h2 {font-size:23px;letter-spacing:-.4px;}
   #sp-prototype .rw-format-badge {font-size:10px;padding:4px 8px;min-height:26px;}
   #sp-prototype .rw-heading-choices {margin-left:0;}
-  #sp-prototype .rw-source-flow {min-width:670px;grid-template-columns:110px 30px 155px 23px 150px 23px 145px;}
+  #sp-prototype .rw-source-flow {--rw-branch-half:15px;min-width:670px;grid-template-columns:110px 30px 155px 23px 150px 23px 145px;}
   #sp-prototype .rw-source-flow:has(.rw-pickup-card .rw-card-editor) {min-width:800px;grid-template-columns:110px 30px 285px 23px 150px 23px 145px;}
   #sp-prototype .rw-source-flow:has(.rw-patch-card .rw-card-editor) {min-width:805px;grid-template-columns:110px 30px 155px 23px 285px 23px 145px;}
   #sp-prototype .rw-card {padding:10px;min-height:222px;}
@@ -7127,7 +7156,7 @@ html,body { height:100%; overflow:hidden; }
     if (!host || !api?.getState || !api?.dispatch) throw new Error('Routing-Arbeitsbereich benötigt Host und Datenzugriff.');
     let state, sources = [], monitors = [], activeSource = '', activeMonitor = '', activeBox = '', activePort = null;
     let query = '', micQuery = '', openCard = '', pickerBox = '', error = '', destroyed = false, frame = 0, lastTab = '', toolsOpen = false, stageboxLayout = 'grid', pendingField = null;
-    let stageObserver = null, resizeTarget = null, highlighted = [];
+    let stageObserver = null, resizeTarget = null, highlighted = [], diPickerRow = '', diPickerFocus = null;
     host.classList.add('sp-routing-workspace-v2');
 
     const object = id => (state.objects || []).find(item => item.id === id);
@@ -7276,11 +7305,9 @@ html,body { height:100%; overflow:hidden; }
     }
 
     function diEditor(row) {
-      const chosen = device(row.diDeviceId), devices = state.routing.devices || [], models = state.diModels || [];
+      const chosen = device(row.diDeviceId), devices = state.routing.devices || [];
       const existing = devices.length ? '<h4>Vorhandene DI-Box</h4><div class="rw-existing-di-list">' + devices.map(item => '<div class="rw-existing-di"><span class="rw-existing-di-art">' + diPhoto(item) + '</span><strong>' + esc(deviceName(item)) + '</strong><small>' + esc(diDetails(item)) + '</small>' + diPortButtons(row,item) + '</div>').join('') + '</div>' : '';
-      const modelTile = item => button('<span class="rw-model-art">' + diPhoto(item) + '</span><strong>' + esc(item.name) + '</strong><small>' + esc(diDetails(item)) + '</small>', {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-model-tile',mutation:true});
-      const modelChoices = [['Modelle',models.filter(item => item.id !== 'custom' && !item.id.startsWith('generic-'))],['Generisch',models.filter(item => item.id.startsWith('generic-'))]].filter(([,items]) => items.length).map(([title,items]) => '<section class="rw-di-model-group"><h4>' + title + '</h4><div class="rw-model-grid">' + items.map(modelTile).join('') + '</div></section>').join('');
-      const customChoice = models.some(item => item.id === 'custom') ? button('＋ Eigene DI',{'data-rw-create-di':'custom','data-rw-row':row.id},{className:'rw-custom-di',mutation:true}) : '';
+      const modelChoice = button('DI-Box wählen', {'data-rw-di-open':row.id}, {className:'rw-di-choose',mutation:true});
       let settings = '';
       if (chosen) {
         const custom = chosen.modelId === 'custom';
@@ -7294,7 +7321,34 @@ html,body { height:100%; overflow:hidden; }
         }
         settings = '<div class="rw-device-fields">' + settings + '</div>';
       }
-      return '<div class="rw-editor-section">' + existing + '<div class="rw-di-model-options" role="region" aria-label="DI-Modelle" tabindex="0">' + modelChoices + '</div>' + customChoice + settings + '</div>';
+      return '<div class="rw-editor-section">' + modelChoice + existing + settings + '</div>';
+    }
+
+    function diPicker() {
+      const row = route(diPickerRow);
+      if (!row || readonly()) {diPickerRow = '';return '';}
+      const chosen = device(row.diDeviceId), source = sources.find(item => item.rows.some(input => input.id === row.id));
+      const models = (state.diModels || []).filter(item => item.id !== 'custom');
+      const names = {'generic-passive-mono':'Passiv Mono','generic-passive-stereo':'Passiv Stereo','generic-active-mono':'Aktiv Mono','generic-active-stereo':'Aktiv Stereo'};
+      const tiles = models.map(item => {
+        const selected = chosen?.modelId === item.id;
+        const detail = (item.active ? 'Aktiv' : 'Passiv') + ' · ' + (diChannels(item) === 1 ? 'Mono' : 'Stereo') + (item.active && item.power === '48V' ? ' · 48 V' : '');
+        return button('<span class="rw-di-picker-art">' + diPhoto(item) + '</span><strong>' + esc(names[item.id] || item.name) + '</strong><small>' + esc(detail) + '</small>' + (selected ? '<span class="rw-di-picker-check" aria-hidden="true">✓</span>' : ''), {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-di-picker-tile',pressed:selected,mutation:true});
+      }).join('');
+      return '<dialog class="rw-di-picker" data-rw-di-dialog aria-labelledby="rw-di-picker-title" aria-describedby="rw-di-picker-source"><header class="rw-di-picker-heading"><div><h2 id="rw-di-picker-title">DI-Box wählen</h2><p id="rw-di-picker-source">' + esc(source?.name || baseName(row.instrument)) + '</p></div>' + button('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>', {'data-rw-di-close':'true','aria-label':'DI-Auswahl schließen'}, {className:'rw-di-picker-close'}) + '</header>' + (error ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + '<div class="rw-di-picker-grid">' + tiles + '</div></dialog>';
+    }
+
+    function openDiPicker(rowId, trigger) {
+      if (readonly() || !route(rowId)) return;
+      diPickerFocus = trigger ? {attributes:[...trigger.attributes].filter(attr => attr.name.startsWith('data-rw-')).map(attr => [attr.name,attr.value]),row:rowId} : preserveFocus();
+      diPickerRow = rowId;error = '';render();
+    }
+    function closeDiPicker() {
+      const rowId = diPickerRow, focus = diPickerFocus;
+      diPickerRow = '';diPickerFocus = null;error = '';render();restoreFocus(focus);
+      if (!host.contains(host.ownerDocument.activeElement) || host.ownerDocument.activeElement === host) {
+        [...host.querySelectorAll('[data-rw-di-open]')].find(element => element.dataset.rwDiOpen === rowId)?.focus({preventScroll:true});
+      }
     }
 
     function microphoneChoices(row) {
@@ -7311,14 +7365,15 @@ html,body { height:100%; overflow:hidden; }
       if (openCard === key && !readonly()) {
         editor = '<div class="rw-card-editor"><div class="rw-choice-row rw-pickup-types" role="group" aria-label="Abnahmeart">' + ['Mic','DI','Direct','Digital'].map(value => button(pickupName(value), {'data-rw-pickup':value,'data-rw-row':row.id}, {pressed:kind === value,mutation:true})).join('') + '</div>' + (kind === 'DI' ? diEditor(row) : kind === 'Mic' ? '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Eigenes Mikrofon', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'}) : '<div class="rw-choice-row" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div>') + button('Abnahme entfernen', {'data-rw-remove-pickup':row.id}, {className:'rw-quiet-danger',mutation:true}) + '</div>';
       }
-      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? diDetails(di) : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
+      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? diDetails(di) : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
     }
 
     function channelCard(row, direction = 'inputs') {
       return '<article class="rw-card rw-channel-card">' + cardHead('Kanal', null, '<div class="rw-channel-emblem" aria-hidden="true"><small>' + (direction === 'inputs' ? 'CH' : 'BUS') + '</small><strong>' + esc(row.number ? String(row.number).padStart(2,'0') : '—') + '</strong></div>') + field('Kanalnummer',row.number,{'data-rw-channel-field':'number','data-rw-row':row.id,'data-rw-direction':direction},{type:'number',min:1,max:999,placeholder:'—',className:'rw-number-field'}) + field('Kanalname',row.instrument,{'data-rw-channel-field':'instrument','data-rw-row':row.id,'data-rw-direction':direction}) + '<p class="rw-card-meta">' + esc(row.stereoGroup ? row.mode === 'Stereo R' ? 'Stereo · R' : 'Stereo · L' : 'Mono') + '</p></article>';
     }
 
-    const arrow = (stereo = false) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? '<span><small>L</small>→</span><span><small>R</small>→</span>' : '<span>→</span>') + '</div>';
+    const connector = '<span class="rw-connector"><svg viewBox="0 0 10 14" fill="none" aria-hidden="true" focusable="false"><path d="m2.5 2.5 4.5 4.5-4.5 4.5"/></svg></span>';
+    const arrow = (stereo = false) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? ['L','R'].map(side => '<span class="rw-arrow-lane"><small>' + side + '</small>' + connector + '</span>').join('') : connector) + '</div>';
 
     function sourceFlow(group, onlyRow = null) {
       const rows = onlyRow ? [onlyRow] : group.rows, count = rows.length, linked = count > 1 && monoLabel(rows) === 'Stereo';
@@ -7326,7 +7381,7 @@ html,body { height:100%; overflow:hidden; }
       let markup = '<div class="rw-flow-scroll"><div class="rw-source-flow" data-row-count="' + count + '"><span class="rw-column-title rw-column-source">Quelle</span><span class="rw-column-title rw-column-pickup">Abnahme</span><span class="rw-column-title rw-column-patch">Anschluss</span><span class="rw-column-title rw-column-channel">Kanal</span>' + sourceCard;
       rows.forEach((row,index) => {
         const gridRow = index + 2;
-        markup += '<div class="rw-branch" data-branch="' + (count === 1 ? 'single' : index === 0 ? 'first' : index === count - 1 ? 'last' : 'middle') + '" style="grid-row:' + gridRow + '" aria-hidden="true"><span>→</span></div><div class="rw-flow-pickup" style="grid-row:' + gridRow + '">' + pickupCard(row) + '</div><div class="rw-flow-arrow-one" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-patch" style="grid-row:' + gridRow + '">' + patchCard([row],'inputs') + '</div><div class="rw-flow-arrow-two" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-channel" style="grid-row:' + gridRow + '">' + channelCard(row) + '</div>';
+        markup += '<div class="rw-branch" data-branch="' + (count === 1 ? 'single' : index === 0 ? 'first' : index === count - 1 ? 'last' : 'middle') + '" style="grid-row:' + gridRow + '" aria-hidden="true">' + connector + '</div><div class="rw-flow-pickup" style="grid-row:' + gridRow + '">' + pickupCard(row) + '</div><div class="rw-flow-arrow-one" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-patch" style="grid-row:' + gridRow + '">' + patchCard([row],'inputs') + '</div><div class="rw-flow-arrow-two" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-channel" style="grid-row:' + gridRow + '">' + channelCard(row) + '</div>';
       });
       if (!onlyRow && !readonly()) markup += '<div class="rw-add-pickup" style="grid-row:' + (count + 2) + '">' + button('＋ Weitere Abnahme',{'data-rw-add-pickup':group.id},{className:'rw-add',mutation:true}) + '</div>';
       markup += '</div></div>';
@@ -7426,17 +7481,29 @@ html,body { height:100%; overflow:hidden; }
       const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0;
       state = api.getState() || {}; state.routing = state.routing || state.stage?.routing || {inputs:[],outputs:[]};
       if (!['inputs','outputs','stageboxes'].includes(state.tab)) state.tab = 'inputs';
-      if (state.tab !== lastTab) { query = ''; openCard = ''; lastTab = state.tab; error = ''; }
+      if (state.tab !== lastTab) { query = ''; openCard = ''; diPickerRow = ''; lastTab = state.tab; error = ''; }
       groups(); highlighted = [];
       const content = state.tab === 'stageboxes' ? stageboxView() : state.tab === 'outputs' ? monitorView() : sourcesView();
       host.dataset.readonly = String(readonly()); host.dataset.tab = state.tab;
-      host.innerHTML = header() + '<div class="rw-layout">' + sidebar() + '<div class="rw-detail" id="sp-routing-detail-v2" role="tabpanel"><main class="rw-main">' + (error ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + content + '</main>' + footer() + '</div></div>';
+      host.innerHTML = header() + '<div class="rw-layout">' + sidebar() + '<div class="rw-detail" id="sp-routing-detail-v2" role="tabpanel"><main class="rw-main">' + (error && !diPickerRow ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + content + '</main>' + footer() + '</div></div>' + (diPickerRow ? diPicker() : '');
       host.querySelector('.rw-main').scrollTop = mainScroll;
       host.querySelector('.rw-source-list').scrollTop = listScroll;
-      restoreFocus(focus); renderStage();
+      const dialog = host.querySelector('[data-rw-di-dialog]');
+      if (dialog) {
+        dialog.showModal();
+        dialog.addEventListener('cancel', event => {event.preventDefault();closeDiPicker();});
+        if (focus?.attributes?.some(([name]) => name === 'data-rw-create-di' || name === 'data-rw-di-close')) restoreFocus(focus);
+        else (dialog.querySelector('[aria-pressed="true"]') || dialog.querySelector('[data-rw-create-di]'))?.focus({preventScroll:true});
+      } else restoreFocus(focus);
+      renderStage();
     }
 
     function onClick(event) {
+      if (event.target.matches('[data-rw-di-dialog]')) {
+        const bounds = event.target.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeDiPicker();
+        return;
+      }
       const target = event.target.closest('button'); if (!target || !host.contains(target) || target.disabled) return;
       const data = {...target.dataset};
       if (pendingField) {const input = pendingField;pendingField = null;const saved = onChange({target:input});if(saved === false || error)return;}
@@ -7448,6 +7515,8 @@ html,body { height:100%; overflow:hidden; }
       if (data.rwPort) {activeBox = data.rwBox;activePort = {boxId:activeBox,direction:data.rwDirection,port:Number(data.rwPort)};openCard = '';render();return;}
       if (data.rwExport) {doAction({type:'exportPatch',direction:data.rwExport});return;}
       if (readonly()) return;
+      if (data.rwDiClose) {closeDiPicker();return;}
+      if (data.rwDiOpen) {openDiPicker(data.rwDiOpen,target);return;}
       if (data.rwOpen) {openCard = openCard === data.rwOpen ? '' : data.rwOpen;pickerBox = '';micQuery = '';error = '';render();if(openCard.startsWith('pickup-'))host.querySelector('[data-rw-mic-search]')?.focus({preventScroll:true});return;}
       if (data.rwPickerBox) {pickerBox = data.rwPickerBox;render();return;}
       if (data.rwPlayback) return doAction({type:'openPlayback',sourceId:data.rwPlayback});
@@ -7456,7 +7525,12 @@ html,body { height:100%; overflow:hidden; }
       if (data.rwRemovePickup) return doAction({type:'removePickup',rowId:data.rwRemovePickup},{close:true});
       if (data.rwPickup) return doAction({type:'setPickup',rowId:data.rwRow,kind:data.rwPickup});
       if (data.rwMic !== undefined) return doAction({type:'setPickup',rowId:data.rwRow,kind:'Mic',microphone:data.rwMic,phantom:data.rwPhantom === 'true'},{close:true});
-      if (data.rwCreateDi) return doAction({type:'createDi',rowId:data.rwRow,modelId:data.rwCreateDi});
+      if (data.rwCreateDi) {
+        if (device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
+        const result = doAction({type:'createDi',rowId:data.rwRow,modelId:data.rwCreateDi});
+        if (result !== false) closeDiPicker();
+        return result;
+      }
       if (data.rwDiDevice) return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});
       if (data.rwDeviceValue) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceValue]:data.rwDeviceValue === 'channels' ? Number(data.rwValue) : data.rwDeviceValue === 'active' ? data.rwValue === 'true' : data.rwValue}});
       if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
@@ -7496,6 +7570,19 @@ html,body { height:100%; overflow:hidden; }
       if (data.rwNotes) return doAction({type:data.rwDirection === 'outputs' ? 'editMonitor' : 'editChannel',direction:data.rwDirection,rowId:splitIds(data.rwNotes)[0],rowIds:splitIds(data.rwNotes),fields:{notes:input.value}});
     }
     function onKeydown(event) {
+      if (diPickerRow) {
+        event.stopPropagation();
+        if (event.key === 'Escape') {event.preventDefault();closeDiPicker();}
+        if (event.key === 'Tab') {
+          const controls = [...host.querySelectorAll('[data-rw-di-dialog] button:not(:disabled)')], active = host.ownerDocument.activeElement;
+          if (controls.length) {
+            event.preventDefault();
+            const index = controls.indexOf(active), next = index < 0 ? event.shiftKey ? controls.length - 1 : 0 : (index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+            controls[next].focus();
+          }
+        }
+        return;
+      }
       if (event.target.matches('[data-rw-tab]') && ['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) {
         const tabs = ['inputs','outputs','stageboxes'], current = tabs.indexOf(state.tab), next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (current + (event.key === 'ArrowRight' ? 1 : 2)) % 3;
         event.preventDefault();doAction({type:'selectTab',tab:tabs[next]});host.querySelector('[data-rw-tab="' + tabs[next] + '"]')?.focus();return;

@@ -17,7 +17,7 @@
     if (!host || !api?.getState || !api?.dispatch) throw new Error('Routing-Arbeitsbereich benötigt Host und Datenzugriff.');
     let state, sources = [], monitors = [], activeSource = '', activeMonitor = '', activeBox = '', activePort = null;
     let query = '', micQuery = '', openCard = '', pickerBox = '', error = '', destroyed = false, frame = 0, lastTab = '', toolsOpen = false, stageboxLayout = 'grid', pendingField = null;
-    let stageObserver = null, resizeTarget = null, highlighted = [];
+    let stageObserver = null, resizeTarget = null, highlighted = [], diPickerRow = '', diPickerFocus = null;
     host.classList.add('sp-routing-workspace-v2');
 
     const object = id => (state.objects || []).find(item => item.id === id);
@@ -166,11 +166,9 @@
     }
 
     function diEditor(row) {
-      const chosen = device(row.diDeviceId), devices = state.routing.devices || [], models = state.diModels || [];
+      const chosen = device(row.diDeviceId), devices = state.routing.devices || [];
       const existing = devices.length ? '<h4>Vorhandene DI-Box</h4><div class="rw-existing-di-list">' + devices.map(item => '<div class="rw-existing-di"><span class="rw-existing-di-art">' + diPhoto(item) + '</span><strong>' + esc(deviceName(item)) + '</strong><small>' + esc(diDetails(item)) + '</small>' + diPortButtons(row,item) + '</div>').join('') + '</div>' : '';
-      const modelTile = item => button('<span class="rw-model-art">' + diPhoto(item) + '</span><strong>' + esc(item.name) + '</strong><small>' + esc(diDetails(item)) + '</small>', {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-model-tile',mutation:true});
-      const modelChoices = [['Modelle',models.filter(item => item.id !== 'custom' && !item.id.startsWith('generic-'))],['Generisch',models.filter(item => item.id.startsWith('generic-'))]].filter(([,items]) => items.length).map(([title,items]) => '<section class="rw-di-model-group"><h4>' + title + '</h4><div class="rw-model-grid">' + items.map(modelTile).join('') + '</div></section>').join('');
-      const customChoice = models.some(item => item.id === 'custom') ? button('＋ Eigene DI',{'data-rw-create-di':'custom','data-rw-row':row.id},{className:'rw-custom-di',mutation:true}) : '';
+      const modelChoice = button('DI-Box wählen', {'data-rw-di-open':row.id}, {className:'rw-di-choose',mutation:true});
       let settings = '';
       if (chosen) {
         const custom = chosen.modelId === 'custom';
@@ -184,7 +182,34 @@
         }
         settings = '<div class="rw-device-fields">' + settings + '</div>';
       }
-      return '<div class="rw-editor-section">' + existing + '<div class="rw-di-model-options" role="region" aria-label="DI-Modelle" tabindex="0">' + modelChoices + '</div>' + customChoice + settings + '</div>';
+      return '<div class="rw-editor-section">' + modelChoice + existing + settings + '</div>';
+    }
+
+    function diPicker() {
+      const row = route(diPickerRow);
+      if (!row || readonly()) {diPickerRow = '';return '';}
+      const chosen = device(row.diDeviceId), source = sources.find(item => item.rows.some(input => input.id === row.id));
+      const models = (state.diModels || []).filter(item => item.id !== 'custom');
+      const names = {'generic-passive-mono':'Passiv Mono','generic-passive-stereo':'Passiv Stereo','generic-active-mono':'Aktiv Mono','generic-active-stereo':'Aktiv Stereo'};
+      const tiles = models.map(item => {
+        const selected = chosen?.modelId === item.id;
+        const detail = (item.active ? 'Aktiv' : 'Passiv') + ' · ' + (diChannels(item) === 1 ? 'Mono' : 'Stereo') + (item.active && item.power === '48V' ? ' · 48 V' : '');
+        return button('<span class="rw-di-picker-art">' + diPhoto(item) + '</span><strong>' + esc(names[item.id] || item.name) + '</strong><small>' + esc(detail) + '</small>' + (selected ? '<span class="rw-di-picker-check" aria-hidden="true">✓</span>' : ''), {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-di-picker-tile',pressed:selected,mutation:true});
+      }).join('');
+      return '<dialog class="rw-di-picker" data-rw-di-dialog aria-labelledby="rw-di-picker-title" aria-describedby="rw-di-picker-source"><header class="rw-di-picker-heading"><div><h2 id="rw-di-picker-title">DI-Box wählen</h2><p id="rw-di-picker-source">' + esc(source?.name || baseName(row.instrument)) + '</p></div>' + button('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>', {'data-rw-di-close':'true','aria-label':'DI-Auswahl schließen'}, {className:'rw-di-picker-close'}) + '</header>' + (error ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + '<div class="rw-di-picker-grid">' + tiles + '</div></dialog>';
+    }
+
+    function openDiPicker(rowId, trigger) {
+      if (readonly() || !route(rowId)) return;
+      diPickerFocus = trigger ? {attributes:[...trigger.attributes].filter(attr => attr.name.startsWith('data-rw-')).map(attr => [attr.name,attr.value]),row:rowId} : preserveFocus();
+      diPickerRow = rowId;error = '';render();
+    }
+    function closeDiPicker() {
+      const rowId = diPickerRow, focus = diPickerFocus;
+      diPickerRow = '';diPickerFocus = null;error = '';render();restoreFocus(focus);
+      if (!host.contains(host.ownerDocument.activeElement) || host.ownerDocument.activeElement === host) {
+        [...host.querySelectorAll('[data-rw-di-open]')].find(element => element.dataset.rwDiOpen === rowId)?.focus({preventScroll:true});
+      }
     }
 
     function microphoneChoices(row) {
@@ -201,14 +226,15 @@
       if (openCard === key && !readonly()) {
         editor = '<div class="rw-card-editor"><div class="rw-choice-row rw-pickup-types" role="group" aria-label="Abnahmeart">' + ['Mic','DI','Direct','Digital'].map(value => button(pickupName(value), {'data-rw-pickup':value,'data-rw-row':row.id}, {pressed:kind === value,mutation:true})).join('') + '</div>' + (kind === 'DI' ? diEditor(row) : kind === 'Mic' ? '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Eigenes Mikrofon', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'}) : '<div class="rw-choice-row" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div>') + button('Abnahme entfernen', {'data-rw-remove-pickup':row.id}, {className:'rw-quiet-danger',mutation:true}) + '</div>';
       }
-      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? diDetails(di) : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
+      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? diDetails(di) : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
     }
 
     function channelCard(row, direction = 'inputs') {
       return '<article class="rw-card rw-channel-card">' + cardHead('Kanal', null, '<div class="rw-channel-emblem" aria-hidden="true"><small>' + (direction === 'inputs' ? 'CH' : 'BUS') + '</small><strong>' + esc(row.number ? String(row.number).padStart(2,'0') : '—') + '</strong></div>') + field('Kanalnummer',row.number,{'data-rw-channel-field':'number','data-rw-row':row.id,'data-rw-direction':direction},{type:'number',min:1,max:999,placeholder:'—',className:'rw-number-field'}) + field('Kanalname',row.instrument,{'data-rw-channel-field':'instrument','data-rw-row':row.id,'data-rw-direction':direction}) + '<p class="rw-card-meta">' + esc(row.stereoGroup ? row.mode === 'Stereo R' ? 'Stereo · R' : 'Stereo · L' : 'Mono') + '</p></article>';
     }
 
-    const arrow = (stereo = false) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? '<span><small>L</small>→</span><span><small>R</small>→</span>' : '<span>→</span>') + '</div>';
+    const connector = '<span class="rw-connector"><svg viewBox="0 0 10 14" fill="none" aria-hidden="true" focusable="false"><path d="m2.5 2.5 4.5 4.5-4.5 4.5"/></svg></span>';
+    const arrow = (stereo = false) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? ['L','R'].map(side => '<span class="rw-arrow-lane"><small>' + side + '</small>' + connector + '</span>').join('') : connector) + '</div>';
 
     function sourceFlow(group, onlyRow = null) {
       const rows = onlyRow ? [onlyRow] : group.rows, count = rows.length, linked = count > 1 && monoLabel(rows) === 'Stereo';
@@ -216,7 +242,7 @@
       let markup = '<div class="rw-flow-scroll"><div class="rw-source-flow" data-row-count="' + count + '"><span class="rw-column-title rw-column-source">Quelle</span><span class="rw-column-title rw-column-pickup">Abnahme</span><span class="rw-column-title rw-column-patch">Anschluss</span><span class="rw-column-title rw-column-channel">Kanal</span>' + sourceCard;
       rows.forEach((row,index) => {
         const gridRow = index + 2;
-        markup += '<div class="rw-branch" data-branch="' + (count === 1 ? 'single' : index === 0 ? 'first' : index === count - 1 ? 'last' : 'middle') + '" style="grid-row:' + gridRow + '" aria-hidden="true"><span>→</span></div><div class="rw-flow-pickup" style="grid-row:' + gridRow + '">' + pickupCard(row) + '</div><div class="rw-flow-arrow-one" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-patch" style="grid-row:' + gridRow + '">' + patchCard([row],'inputs') + '</div><div class="rw-flow-arrow-two" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-channel" style="grid-row:' + gridRow + '">' + channelCard(row) + '</div>';
+        markup += '<div class="rw-branch" data-branch="' + (count === 1 ? 'single' : index === 0 ? 'first' : index === count - 1 ? 'last' : 'middle') + '" style="grid-row:' + gridRow + '" aria-hidden="true">' + connector + '</div><div class="rw-flow-pickup" style="grid-row:' + gridRow + '">' + pickupCard(row) + '</div><div class="rw-flow-arrow-one" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-patch" style="grid-row:' + gridRow + '">' + patchCard([row],'inputs') + '</div><div class="rw-flow-arrow-two" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-channel" style="grid-row:' + gridRow + '">' + channelCard(row) + '</div>';
       });
       if (!onlyRow && !readonly()) markup += '<div class="rw-add-pickup" style="grid-row:' + (count + 2) + '">' + button('＋ Weitere Abnahme',{'data-rw-add-pickup':group.id},{className:'rw-add',mutation:true}) + '</div>';
       markup += '</div></div>';
@@ -316,17 +342,29 @@
       const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0;
       state = api.getState() || {}; state.routing = state.routing || state.stage?.routing || {inputs:[],outputs:[]};
       if (!['inputs','outputs','stageboxes'].includes(state.tab)) state.tab = 'inputs';
-      if (state.tab !== lastTab) { query = ''; openCard = ''; lastTab = state.tab; error = ''; }
+      if (state.tab !== lastTab) { query = ''; openCard = ''; diPickerRow = ''; lastTab = state.tab; error = ''; }
       groups(); highlighted = [];
       const content = state.tab === 'stageboxes' ? stageboxView() : state.tab === 'outputs' ? monitorView() : sourcesView();
       host.dataset.readonly = String(readonly()); host.dataset.tab = state.tab;
-      host.innerHTML = header() + '<div class="rw-layout">' + sidebar() + '<div class="rw-detail" id="sp-routing-detail-v2" role="tabpanel"><main class="rw-main">' + (error ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + content + '</main>' + footer() + '</div></div>';
+      host.innerHTML = header() + '<div class="rw-layout">' + sidebar() + '<div class="rw-detail" id="sp-routing-detail-v2" role="tabpanel"><main class="rw-main">' + (error && !diPickerRow ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + content + '</main>' + footer() + '</div></div>' + (diPickerRow ? diPicker() : '');
       host.querySelector('.rw-main').scrollTop = mainScroll;
       host.querySelector('.rw-source-list').scrollTop = listScroll;
-      restoreFocus(focus); renderStage();
+      const dialog = host.querySelector('[data-rw-di-dialog]');
+      if (dialog) {
+        dialog.showModal();
+        dialog.addEventListener('cancel', event => {event.preventDefault();closeDiPicker();});
+        if (focus?.attributes?.some(([name]) => name === 'data-rw-create-di' || name === 'data-rw-di-close')) restoreFocus(focus);
+        else (dialog.querySelector('[aria-pressed="true"]') || dialog.querySelector('[data-rw-create-di]'))?.focus({preventScroll:true});
+      } else restoreFocus(focus);
+      renderStage();
     }
 
     function onClick(event) {
+      if (event.target.matches('[data-rw-di-dialog]')) {
+        const bounds = event.target.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeDiPicker();
+        return;
+      }
       const target = event.target.closest('button'); if (!target || !host.contains(target) || target.disabled) return;
       const data = {...target.dataset};
       if (pendingField) {const input = pendingField;pendingField = null;const saved = onChange({target:input});if(saved === false || error)return;}
@@ -338,6 +376,8 @@
       if (data.rwPort) {activeBox = data.rwBox;activePort = {boxId:activeBox,direction:data.rwDirection,port:Number(data.rwPort)};openCard = '';render();return;}
       if (data.rwExport) {doAction({type:'exportPatch',direction:data.rwExport});return;}
       if (readonly()) return;
+      if (data.rwDiClose) {closeDiPicker();return;}
+      if (data.rwDiOpen) {openDiPicker(data.rwDiOpen,target);return;}
       if (data.rwOpen) {openCard = openCard === data.rwOpen ? '' : data.rwOpen;pickerBox = '';micQuery = '';error = '';render();if(openCard.startsWith('pickup-'))host.querySelector('[data-rw-mic-search]')?.focus({preventScroll:true});return;}
       if (data.rwPickerBox) {pickerBox = data.rwPickerBox;render();return;}
       if (data.rwPlayback) return doAction({type:'openPlayback',sourceId:data.rwPlayback});
@@ -346,7 +386,12 @@
       if (data.rwRemovePickup) return doAction({type:'removePickup',rowId:data.rwRemovePickup},{close:true});
       if (data.rwPickup) return doAction({type:'setPickup',rowId:data.rwRow,kind:data.rwPickup});
       if (data.rwMic !== undefined) return doAction({type:'setPickup',rowId:data.rwRow,kind:'Mic',microphone:data.rwMic,phantom:data.rwPhantom === 'true'},{close:true});
-      if (data.rwCreateDi) return doAction({type:'createDi',rowId:data.rwRow,modelId:data.rwCreateDi});
+      if (data.rwCreateDi) {
+        if (device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
+        const result = doAction({type:'createDi',rowId:data.rwRow,modelId:data.rwCreateDi});
+        if (result !== false) closeDiPicker();
+        return result;
+      }
       if (data.rwDiDevice) return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});
       if (data.rwDeviceValue) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceValue]:data.rwDeviceValue === 'channels' ? Number(data.rwValue) : data.rwDeviceValue === 'active' ? data.rwValue === 'true' : data.rwValue}});
       if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
@@ -386,6 +431,19 @@
       if (data.rwNotes) return doAction({type:data.rwDirection === 'outputs' ? 'editMonitor' : 'editChannel',direction:data.rwDirection,rowId:splitIds(data.rwNotes)[0],rowIds:splitIds(data.rwNotes),fields:{notes:input.value}});
     }
     function onKeydown(event) {
+      if (diPickerRow) {
+        event.stopPropagation();
+        if (event.key === 'Escape') {event.preventDefault();closeDiPicker();}
+        if (event.key === 'Tab') {
+          const controls = [...host.querySelectorAll('[data-rw-di-dialog] button:not(:disabled)')], active = host.ownerDocument.activeElement;
+          if (controls.length) {
+            event.preventDefault();
+            const index = controls.indexOf(active), next = index < 0 ? event.shiftKey ? controls.length - 1 : 0 : (index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+            controls[next].focus();
+          }
+        }
+        return;
+      }
       if (event.target.matches('[data-rw-tab]') && ['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) {
         const tabs = ['inputs','outputs','stageboxes'], current = tabs.indexOf(state.tab), next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (current + (event.key === 'ArrowRight' ? 1 : 2)) % 3;
         event.preventDefault();doAction({type:'selectTab',tab:tabs[next]});host.querySelector('[data-rw-tab="' + tabs[next] + '"]')?.focus();return;

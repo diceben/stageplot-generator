@@ -16,6 +16,38 @@ async function fixture(page){
 }
 async function saved(page){return page.evaluate(()=>JSON.parse(localStorage.getItem('stageplot-studio:workspace:v1')).entry.document);}
 async function change(locator,value){await locator.fill(String(value));await locator.press('Tab');}
+async function checkDiPickerLayout(page,workspace,theme,width){
+ await page.setViewportSize({width,height:width===390?844:982});
+ const opener=workspace.locator('.rw-card-value[data-rw-di-open="route-acoustic"]');await opener.click();
+ const dialog=workspace.locator('[data-rw-di-dialog]');await dialog.waitFor({state:'visible'});
+ assert.equal(await page.getByRole('dialog',{name:'DI-Box wählen'}).count(),1);assert(await dialog.evaluate(el=>el.matches(':modal')));
+ assert.equal(await dialog.locator('[data-rw-create-di]').count(),7);assert.equal(await dialog.locator('[data-rw-create-di="custom"],select,[role="tablist"]').count(),0);
+ assert.doesNotMatch(await dialog.innerText(),/Eigene DI|Vorhandene DI|Modelle/);
+ await page.waitForFunction(()=>{const images=[...document.querySelectorAll('[data-rw-di-dialog] img')];return images.length===7&&images.every(image=>image.complete&&image.naturalWidth>0);});
+ await dialog.locator('img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));
+ await assertNoOverflow(page,'[data-rw-di-dialog]','DI-Auswahl '+width+' '+theme);
+ const geometry=await dialog.evaluate(el=>{const rect=node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};};return {dialog:rect(el),tiles:[...el.querySelectorAll('[data-rw-create-di]')].map(rect),pictures:[...el.querySelectorAll('.rw-di-picker-art')].map(rect)};});
+ assert(geometry.dialog.left>=0&&geometry.dialog.right<=width+1,'The popup fits the viewport');
+ assert(geometry.dialog.top>=0&&geometry.dialog.bottom<=(width===390?844:982)+1,'The popup remains reachable vertically');
+ for(const key of ['tiles','pictures'])for(const rect of geometry[key]){
+  assert(Math.abs(rect.width-geometry[key][0].width)<=1,key+' have equal widths');assert(Math.abs(rect.height-geometry[key][0].height)<=1,key+' have equal heights');
+ }
+ await page.mouse.move(1,1);await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+ await page.screenshot({path:artifactPath('routing-di-popup-'+theme+'-'+width+'-'+engine+'.png')});
+ await page.keyboard.press('Escape');await dialog.waitFor({state:'detached'});assert(await opener.evaluate(el=>el===document.activeElement),'Escape returns focus to the DI card');
+}
+async function checkDiPickerInteraction(page,workspace){
+ const opener=workspace.locator('.rw-card-value[data-rw-di-open="route-acoustic"]'),dialog=workspace.locator('[data-rw-di-dialog]');
+ const before=(await saved(page)).stage.routing;await opener.click();
+ await dialog.locator('[data-rw-create-di="radial-prod2"]').click();await dialog.waitFor({state:'detached'});
+ assert.deepEqual((await saved(page)).stage.routing,before,'Choosing the assigned model does not create another DI or change routing');
+ await opener.click();
+ for(const key of ['Tab','Shift+Tab'])for(let i=0;i<10;i++){await page.keyboard.press(key);assert(await dialog.evaluate(el=>el.contains(document.activeElement)),key+' stays within the modal');}
+ await workspace.locator('[data-rw-tab="outputs"]').evaluate(el=>el.focus());assert(await dialog.evaluate(el=>el.contains(document.activeElement)),'Background controls cannot take focus');
+ await page.mouse.click(4,4);await dialog.waitFor({state:'detached'});assert.equal(await workspace.getAttribute('data-tab'),'inputs');assert(await opener.evaluate(el=>el===document.activeElement),'Backdrop dismissal returns focus to the DI card');
+ await opener.click();await dialog.getByRole('button',{name:'DI-Auswahl schließen'}).click();await dialog.waitFor({state:'detached'});
+ assert.deepEqual((await saved(page)).stage.routing,before,'Dismissing the picker leaves saved routing unchanged');
+}
 async function run(){const browser=await launchBrowser();try{
  const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'}),page=await context.newPage();page.setDefaultTimeout(10000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await fixture(page);
  const workspace=page.locator('#sp-routing-workspace-v2');
@@ -24,9 +56,11 @@ async function run(){const browser=await launchBrowser();try{
  assert.equal(await workspace.locator('[data-object-visual][data-routing-selected="true"]').count(),1);
  for(const theme of ['light','dark']){
   await page.locator('#sp-settings-gear').click();await page.locator('[data-theme-choice="'+theme+'"]').click();await page.locator('#sp-settings-close').click();
+  await workspace.locator('[data-rw-tab="inputs"]').click();for(const width of [1512,390])await checkDiPickerLayout(page,workspace,theme,width);await page.setViewportSize({width:1512,height:982});
   for(const tab of ['inputs','outputs','stageboxes']){await workspace.locator('[data-rw-tab="'+tab+'"]').click();await page.screenshot({path:artifactPath('routing-v2-'+theme+'-'+tab+'-'+engine+'.png')});assert.equal(await workspace.locator('select').count(),0);}
  }
  await workspace.locator('[data-rw-tab="inputs"]').click();
+ await checkDiPickerInteraction(page,workspace);
  await workspace.locator('[data-rw-add-pickup]').click();assert.equal(await workspace.locator('.rw-pickup-card').count(),3);assert.equal(await workspace.locator('.rw-source-card').count(),1);
  const newId=await workspace.locator('.rw-pickup-card').last().getAttribute('data-rw-row-card');
  await workspace.locator('.rw-pickup-card').last().locator('[data-rw-open]').first().click();await change(workspace.locator('[data-rw-channel-field="microphone"][data-rw-row="'+newId+'"]'),'Eigenes Testmikrofon');
@@ -53,11 +87,20 @@ async function run(){const browser=await launchBrowser();try{
  await workspace.locator('[data-rw-tab="stageboxes"]').click();assert.match(await workspace.locator('[data-rw-port="3"][data-rw-direction="inputs"]').innerText(),/Akustik/);
  await workspace.locator('[data-rw-port="3"][data-rw-direction="inputs"]').click();assert.equal(await workspace.locator('.rw-source-card').count(),1);
  const downloadPromise=page.waitForEvent('download');await workspace.locator('[data-rw-export="all"]').click();const download=await downloadPromise;const fs=require('node:fs'),csv=fs.readFileSync(await download.path(),'utf8');assert(csv.includes('Radial ProD2'));assert(csv.includes('PSM Test'));assert(csv.includes('DI-Eingang'));
+ await workspace.locator('[data-rw-tab="inputs"]').click();await workspace.locator('[data-rw-select="station-1"]').first().click();
+ await workspace.locator('.rw-card-value[data-rw-di-open="route-acoustic"]').click();await workspace.locator('[data-rw-di-dialog] [data-rw-create-di="generic-active-stereo"]').click();
+ assert.equal(await workspace.locator('[data-rw-di-dialog]').count(),0,'Selecting a DI immediately closes the picker');
+ doc=await saved(page);const genericRow=doc.stage.routing.inputs.find(row=>row.id==='route-acoustic'),genericDevice=doc.stage.routing.devices.find(device=>device.id===genericRow.diDeviceId);
+ assert.equal(genericDevice.modelId,'generic-active-stereo');assert.equal(genericDevice.channels,2);assert.equal(genericRow.diChannel,1);assert.equal(genericRow.number,9);assert.equal(genericRow.stageboxPort,9);
+ assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).diDeviceId,'di-prod2-demo','Changing one acquisition leaves the other source on its shared physical DI');
+ await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();doc=await saved(page);
+ assert.equal(doc.stage.routing.inputs.find(row=>row.id==='route-acoustic').diDeviceId,genericDevice.id);assert.equal(doc.stage.routing.devices.find(device=>device.id===genericDevice.id).modelId,'generic-active-stereo');
+ await workspace.locator('.rw-card-value[data-rw-di-open="route-acoustic"]').click();assert.equal(await workspace.locator('[data-rw-di-dialog] [data-rw-create-di="generic-active-stereo"]').getAttribute('aria-pressed'),'true');await page.keyboard.press('Escape');
  const storedBefore=await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1'));
  const shareDoc=await page.evaluate(document=>window.StageplotShare.clean(document),doc),shareHash=Buffer.from(JSON.stringify({kind:'stageplot-readonly',version:1,document:shareDoc})).toString('base64url');
  const readonlyPage=await page.context().newPage();readonlyPage.on('pageerror',e=>errors.push(e.message));await readonlyPage.goto((process.env.APP_URL||'http://127.0.0.1:8899/')+'#share='+shareHash);await readonlyPage.locator('.sp-steps [data-view="routing"]').click();
  const readonlyWorkspace=readonlyPage.locator('#sp-routing-workspace-v2');assert.equal(await readonlyWorkspace.getAttribute('data-readonly'),'true');assert.equal(await readonlyWorkspace.locator('[data-rw-add-pickup]').count(),0);assert(await readonlyWorkspace.locator('input:not([type="search"])').evaluateAll(fields=>fields.every(field=>field.readOnly)));await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore);
- assert.deepEqual(errors,[]);console.log('PASS '+engine+': three light/dark routing views, inline editing, shared stereo DI occupancy, atomic stereo patching, monitor format/metadata, reload and CSV export.');
+ assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive seven-model DI popup, loaded photos and equal tiles, modal keyboard/dismissal, persisted model selection, shared stereo DI occupancy, inline editing, atomic stereo patching, monitor format/metadata, reload and CSV export.');
 }finally{await browser.close();}}
 if(require.main===module)run().catch(error=>{console.error(error);process.exit(1);});
 module.exports={fixture};
