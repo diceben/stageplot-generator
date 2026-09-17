@@ -106,8 +106,43 @@ function stageplotStringFrame(type){return Object.hasOwn(STAGEPLOT_STRING_ASSETS
 // Generated bass sprites; prompts and manufacturer references: bass-instruments-v1.json.
 const STAGEPLOT_BASS_ASSETS=Object.freeze({"bass-j":{"width":360,"height":1180,"imageWidth":878,"imageHeight":1792,"viewBox":[176,3,529,1789],"asset":"bass-j-illustrated-v1.png"},"bass":{"width":360,"height":1160,"imageWidth":986,"imageHeight":1595,"viewBox":[263,13,460,1569],"asset":"bass-illustrated-v1.png"},"bass-pj":{"width":360,"height":1160,"imageWidth":988,"imageHeight":1592,"viewBox":[266,15,456,1544],"asset":"bass-pj-illustrated-v1.png"},"bass-shortscale":{"width":330,"height":1040,"imageWidth":971,"imageHeight":1619,"viewBox":[212,11,548,1600],"asset":"bass-shortscale-illustrated-v1.png"},"bass-mustang":{"width":330,"height":1070,"imageWidth":991,"imageHeight":1587,"viewBox":[246,5,494,1570],"asset":"bass-mustang-illustrated-v1.png"},"bass-acoustic":{"width":430,"height":1200,"imageWidth":941,"imageHeight":1672,"viewBox":[157,4,627,1661],"asset":"bass-acoustic-illustrated-v1.png"},"double-bass":{"width":660,"height":1900,"imageWidth":937,"imageHeight":1678,"viewBox":[171,17,596,1643],"asset":"double-bass-illustrated-v1.png"},"bass-violin":{"width":280,"height":1100,"imageWidth":944,"imageHeight":1665,"viewBox":[242,17,459,1598],"asset":"bass-violin-illustrated-v1.png"},"bass-rickenbacker":{"width":343,"height":1138,"imageWidth":1024,"imageHeight":1536,"viewBox":[256,8,513,1501],"asset":"bass-rickenbacker-illustrated-v1.png"}});
 function stageplotBassFrame(type){return Object.hasOwn(STAGEPLOT_BASS_ASSETS,type)?STAGEPLOT_BASS_ASSETS[type]:null;}
+// Shared by free stair objects, stage-edge stairs and the house-plan editor.
+// Fixed-size fittings and a repeating generated deck texture preserve physical
+// proportions when width, run and step count change independently.
+function stageplotStairArtwork(options = {}) {
+  const positive=(value,fallback)=>Number.isFinite(Number(value))&&Number(value)>0?Number(value):fallback;
+  const width=positive(options.width,120),depth=positive(options.depth,100),unit=positive(options.unit,100);
+  const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));
+  const f=value=>String(Math.round(value*1e6)/1e6);
+  const prefix=String(options.idPrefix||'stairs').replace(/[^a-z0-9_-]/gi,'-');
+  const id='sp-stairs-'+prefix+'-'+(stageplotStairArtwork.sequence=(stageplotStairArtwork.sequence||0)+1);
+  const rail=Math.min(.048*unit,width/10),x=rail,w=width-2*rail,h=depth/steps;
+  const image=(name,x,y,w,h)=>w>0&&h>0?'<image href="stageplot-assets/tech/stairs-'+name+'-v1.webp" x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" preserveAspectRatio="none" stroke="none" data-stair-image="'+name+'"/>':'';
+  let out='<g data-part="stage-stairs-top-view" data-generated-stairs="true" data-step-count="'+steps+'" data-stair-width="'+f(width/unit)+'" data-stair-depth="'+f(depth/unit)+'" fill="none" stroke="none">';
+  out+='<defs><pattern id="'+id+'-deck" width="'+f(.32*unit)+'" height="'+f(.16*unit)+'" patternUnits="userSpaceOnUse" x="'+f(x)+'" y="0">'+image('surface',0,0,.32*unit,.16*unit)+'</pattern>';
+  for(let i=1;i<steps;i++)out+='<linearGradient id="'+id+'-shadow-'+i+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="'+f(.16+.05*i/(steps-1))+'"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>';
+  out+='</defs>';
+  for(let i=0;i<steps;i++){
+    const y=i*h,side=Math.min(.045*unit,w/4),fit=Math.min(1,h*.82/(.1325*unit)),top=.05*unit*fit,bottom=.0825*unit*fit;
+    const xs=[x,x+side,x+w-side],ys=[y,y+top,y+h-bottom],ws=[side,w-side*2,side],hs=[top,h-top-bottom,bottom];
+    const pieces=[['top-left','top','top-right'],['left',null,'right'],['bottom-left','bottom','bottom-right']];
+    out+='<g data-stair-step="'+i+'"><rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" fill="url(#'+id+'-deck)" stroke="none"/>';
+    for(let row=0;row<3;row++)for(let col=0;col<3;col++)if(pieces[row][col])out+=image(pieces[row][col],xs[col],ys[row],ws[col],hs[row]);
+    if(i){
+      out+='<rect data-stair-shade="'+i+'" x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" fill="#000" stroke="none" opacity="'+f(.27*i/(steps-1))+'"/>';
+      out+='<rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(Math.min(h*.2,.04*unit))+'" fill="url(#'+id+'-shadow-'+i+')" stroke="none"/>';
+    }
+    out+='</g>';
+  }
+  const cap=Math.min(.042*unit,depth/4),rails=image('rail-top',0,0,rail,cap)+image('rail',0,cap,rail,depth-2*cap)+image('rail-bottom',0,depth-cap,rail,cap);
+  out+='<g data-stair-stringer="left">'+rails+'</g><g data-stair-stringer="right" transform="translate('+f(width)+' 0) scale(-1 1)">'+rails+'</g></g>';
+  return out;
+}
+// The house-plan module lives outside the main editor's closure.
+if(typeof window!=='undefined')window.stageplotStairArtwork=stageplotStairArtwork;
 function createStageplotSymbolV3(type, options = {}) {
   if(typeof StageplotStageboxes!=='undefined'&&StageplotStageboxes.get(type))return StageplotStageboxes.artwork(type);
+  if(type==='stage-stairs')return stageplotStairArtwork({width:(Number(options.width)||1.2)*100,depth:(Number(options.depth)||1)*100,steps:options.steps,unit:100,idPrefix:options.idPrefix});
   const bassAsset=stageplotBassFrame(type);
   if(bassAsset){const a=bassAsset;return '<g data-equipment="'+type+'" data-generated-bass="true"><svg width="'+a.width+'" height="'+a.height+'" viewBox="'+a.viewBox.join(' ')+'" preserveAspectRatio="xMidYMid meet"><image href="stageplot-assets/objects/'+a.asset+'" width="'+a.imageWidth+'" height="'+a.imageHeight+'" data-rendered-bass-asset="'+type+'"/></svg></g>';}
 
@@ -613,10 +648,6 @@ function createStageplotSymbolV3(type, options = {}) {
     if(count===2)line(5,h/2,w-5,h/2,.6);
     if(count===3){line(w/3,5,w/3,h-5,.6);line(w*2/3,5,w*2/3,h-5,.6);}
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
-  }else if(type==='stage-stairs'){
-    group('','stage-stairs-top-view');rect(2,2,116,96,'#f3f4f1',.85,.5,'#4a504a');
-    const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));for(let i=1;i<steps;i++)line(2,2+i*96/steps,118,2+i*96/steps,.65,'#858c85');
-    const arrow='M60 85V18M49 30L60 18L71 30';path(arrow,'none',3.5,'#f3f4f1');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-ramp'){
     group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');
     const rampPattern=scopedId('pattern','ramp-grip');out+='<defs><pattern id="'+rampPattern+'" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0M-3 3L3-3M6 12L12 6" stroke="#aeb4ae" stroke-width=".65"/></pattern></defs>';

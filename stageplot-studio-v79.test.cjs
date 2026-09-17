@@ -20,7 +20,7 @@ for(const type of ['wedge','quad-cortex']){
 }
 
 for(const marker of [
-  'data-stair-anti-slip','data-stair-nosing','data-stair-stringer','data-stairs-visual-handle',
+  'data-stair-shade','data-stair-image','data-stair-stringer','data-stairs-visual-handle',
   "reverse=edge==='back'||edge==='right'",
   "if(edge==='front')top=cy+stair.d*scale/2+gap",
   "else if(edge==='back')top=cy-stair.d*scale/2-box.height-gap",

@@ -365,7 +365,7 @@
               <label class="sp-field">Breite (m)<input id="sp-access-width" type="number" min="0.3" max="30" step="0.1" inputmode="decimal"></label>
               <label class="sp-field">Tiefe (m)<input id="sp-access-depth" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
             </div>
-            <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern. Der Pfeil zeigt die Aufstiegsrichtung.</span>
+            <span class="sp-muted">Größe an den Griffen oder mit zwei Fingern in 10-cm-Schritten ändern.</span>
           </div>
           <div id="sp-foh-fields" class="sp-inspector-section" hidden><h4>FOH-Platz</h4><div class="sp-fields">
               <label class="sp-field">FOH-Breite (m)<input id="sp-foh-width" type="number" min="0.3" max="30" step="0.1"></label>
@@ -740,12 +740,26 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.23">v0.1.0-beta.23</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.26">v0.1.0-beta.26</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.23</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
-            <h4>Instrumente, Routing und Bearbeitung</h4>
+            <header><div><strong>v0.1.0-beta.26</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
+            <h4>Stageboxen mit belegbaren Gerätebildern</h4>
             <ul>
+              <li><strong>Modellauswahl:</strong> „Stagebox“ öffnet wie bei den Gitarren die Untermodelle: Behringer S16, S32, SD8 und SD16 sowie Allen &amp; Heath AR84, AR2412, AB168, DX168, DT168 und GX4816. Modellbilder, Suche und Favoriten stehen direkt in der Bibliothek bereit.</li>
+              <li><strong>Buchsen im Bild:</strong> Zehn lokal gespeicherte, anhand von Herstellerreferenzen generierte Geräteansichten. Im Routing lassen sich die tatsächlichen Eingangs- und Ausgangspositionen direkt antippen; belegte Buchsen sind markiert. Auf kleinen Bildschirmen ist die Geräteansicht seitlich verschiebbar. Die Listenansicht bleibt erreichbar.</li>
+              <li><strong>Verbindungen erhalten:</strong> Stereo-Paare bleiben beim Umstecken zusammen, CH und Mix behalten ihre Nummern. SD8 und SD16 haben feste Kombibuchsen. Ein Modellwechsel ist nur möglich, wenn die vorhandenen Verbindungen weiter passen. Bestehende generische Stageboxen und lokale Entwürfe bleiben erhalten.</li>
+            </ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.25</strong></div><time datetime="2026-09-17">17. September 2026</time></header>
+            <h4>Objektmenü, Instrumente und Routing</h4>
+            <ul>
+              <li><strong>Neue Darstellung:</strong> Illustrierte Stagetreppe von oben mit dunklen Trittflächen und silbernen Metallkanten. Tiefer liegende Stufen sind etwas dunkler schattiert.</li>
+              <li><strong>Frei einstellbar:</strong> Breite, Tiefe und 1–24 Stufen unabhängig ändern. Die einzelnen Stufen passen sich an, während die seitlichen Wangen und Beschläge ihre Proportionen behalten.</li>
+              <li><strong>Überall gleich:</strong> Bühnenrand, freie Treppen und Hausgrundrisse verwenden dieselben lokalen Bildassets, auch in Vorschau und Export. Bestehende Treppen übernehmen die neue Darstellung; ihre Stufenanzahl bleibt beim Wechsel in den Hausgrundriss erhalten.</li>
+              <li><strong>Objektmenü:</strong> Animierte Schaltflächen für Bearbeiten, Drehen, Label ein-/ausblenden, Duplizieren, Sperren und eine Ebene zurück. Schließen und Löschen stehen darunter; die Objektmitte bleibt zum Verschieben frei.</li>
+              <li><strong>Drehen und Bearbeiten:</strong> Drehring mit 45°-Rastung und feiner Einstellung bei größerem Abstand. Ein Klick außerhalb oder Escape führt aus einem Untermenü zurück zur ersten Seite. Modellauswahl und die jeweiligen Instrument-Editoren bleiben erreichbar.</li>
               <li><strong>Instrumentbilder:</strong> Neue generierte Bilder für elf E-Gitarrenmodelle, Akustikgitarren, Banjo, Mandoline, Lap Steel und Ukulele. Alle Katalogmikrofone haben echte Fotos; MD 421 Kompakt ist ergänzt.</li>
               <li><strong>Bausteine:</strong> Acht Kategorien mit kompakter Navigation, gruppierten Objekttypen und Modellauswahl neben der Bibliothek. Die Suche zeigt einzelne Modelle direkt; Modelle lassen sich in der Auswahl als Favoriten speichern.</li>
               <li><strong>Bässe:</strong> Neue Bildassets für J-Bass, P-Bass, PJ-Bass, Shortscale, Mustang, Akustikbass, Kontrabass, Höfner Violin Bass und Rickenbacker 4003. Alle neun sind unter „Bass“ auswählbar; der Kontrabass bleibt auch unter „Streicher“ und im Orchester-Editor verfügbar.</li>
@@ -807,7 +821,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.23 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.26 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -7186,6 +7200,249 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .rw-di-picker>.rw-add {margin-top:14px;}
 /* build-inline:end stageplot-routing-workspace-v2.css */
 </style>
+<style>
+/* build-inline:start stageplot-object-menu-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+#sp-prototype #sp-object-menu { --som-size:70px; --som-bg:light-dark(#fff,#30372f); --som-shadow:light-dark(#18261624,#0008); --som-gloss:light-dark(#fff9,#ffffff15); --som-lime:#c4f53b; position:absolute; z-index:24; width:0; height:0; color:var(--sp-ink); transition:opacity 160ms; pointer-events:none; }
+#sp-prototype #sp-object-menu[hidden],#sp-prototype #sp-object-menu [hidden] { display:none!important; }
+#sp-prototype #sp-object-menu[data-compact="true"] { --som-size:64px; }
+#sp-prototype #sp-object-menu[data-dragging="true"] { opacity:.32; }
+#sp-prototype :where(#sp-object-menu) button { font-family:inherit; cursor:pointer; color:inherit; touch-action:manipulation; }
+#sp-prototype #sp-object-menu[data-dragging="true"] button { pointer-events:none; }
+#sp-prototype #sp-object-menu button:disabled { opacity:.4; cursor:default; }
+#sp-prototype #sp-object-menu button:focus-visible { outline:3px solid #8fac29; outline-offset:4px; }
+#sp-prototype #sp-object-menu svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+#sp-prototype .som-orbit { position:absolute; left:calc(var(--som-size)/-2); top:calc(var(--som-size)/-2); width:var(--som-size); height:var(--som-size); transform:translate(var(--x),var(--y)); }
+#sp-prototype .som-orb { pointer-events:auto; width:100%; height:100%; padding:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:1px solid var(--sp-line); border-radius:50%; background:radial-gradient(ellipse at 35% 12%,var(--som-gloss),transparent 60%),var(--som-bg); box-shadow:0 7px 16px var(--som-shadow),inset 0 1px var(--som-gloss); font-size:11px; line-height:1; transition:transform 280ms cubic-bezier(.2,1.7,.4,1),border-color 160ms,box-shadow 180ms; }
+#sp-prototype .som-orb img { object-fit:contain; width:34px; height:30px; }
+#sp-prototype .som-orb[data-action="backward"] { gap:1px; }
+#sp-prototype .som-orb[data-action="backward"] span { max-width:52px; line-height:1.05; }
+#sp-prototype .som-orb[aria-pressed="true"] { background-color:var(--som-lime); border-color:#99ba2b; color:#26300c; }
+#sp-prototype .som-edge { pointer-events:auto; position:absolute; left:var(--edge-x,-103px); top:var(--edge-y,137px); width:206px; box-sizing:border-box; display:flex; align-items:center; gap:6px; padding:4px; border:1px solid var(--sp-line); border-radius:28px; background:var(--sp-panel); box-shadow:0 4px 12px var(--som-shadow); }
+#sp-prototype .som-edge button { display:flex; justify-content:center; align-items:center; gap:5px; flex:1; min-width:0; height:44px; padding:0 8px; border:0; border-radius:22px; background:var(--som-bg); font-size:11px; transition:transform 240ms cubic-bezier(.2,1.6,.4,1),box-shadow 180ms; }
+#sp-prototype .som-edge svg { width:18px!important; height:18px!important; }
+#sp-prototype .som-edge .som-delete { background:light-dark(#fae6e7,#4a2529); color:light-dark(#a31d27,#ffacb2); }
+@media(hover:hover) {
+ #sp-prototype .som-orb:not(:disabled):hover { transform:translateY(-3px) scale(1.1); border-color:#b4d955; box-shadow:0 12px 24px var(--som-shadow),0 0 18px #c4f53b33,inset 0 1px var(--som-gloss); }
+ #sp-prototype .som-edge button:not(:disabled):hover { transform:translateY(-2px) scale(1.08); box-shadow:0 7px 16px var(--som-shadow); }
+}
+#sp-prototype .som-spark { position:absolute; z-index:26; border-radius:50%; background:#c4f53b; box-shadow:0 0 5px 1px #c4f53b; pointer-events:none; }
+#sp-prototype .som-dial { position:absolute; left:calc(-1 * var(--som-radius,104px)); top:calc(-1 * var(--som-radius,104px)); width:calc(2 * var(--som-radius,104px)); height:calc(2 * var(--som-radius,104px)); }
+#sp-prototype .som-track { position:absolute; inset:0; border:3px solid #a7c954; border-radius:50%; box-shadow:0 0 0 8px color-mix(in srgb,var(--sp-panel) 65%,transparent); }
+#sp-prototype .som-tick { position:absolute; width:3px; height:10px; top:50%; left:50%; margin:-5px 0 0 -1.5px; border-radius:3px; background:var(--sp-muted); transform:rotate(var(--tick)) translateY(calc(-1 * var(--som-radius,104px))); }
+#sp-prototype .som-tick[data-active="true"] { width:5px; height:15px; margin:-7.5px 0 0 -2.5px; background:var(--som-lime); }
+#sp-prototype .som-dial-hit { pointer-events:auto; position:absolute; inset:-24px; width:calc(100% + 48px); height:calc(100% + 48px); border:0; border-radius:50%; background:transparent; touch-action:none!important; cursor:grab!important; }
+#sp-prototype .som-grip { pointer-events:auto; position:absolute; z-index:2; left:50%; top:0; margin:-25px 0 0 -25px; width:50px; height:50px; padding:0; display:grid; place-items:center; border:1px solid #99ba2b; border-radius:50%; background:radial-gradient(ellipse at 35% 12%,#ffffff85,transparent 65%),var(--som-lime); color:#26300c!important; box-shadow:0 5px 14px var(--som-shadow); font-size:13px; font-weight:600; touch-action:none!important; cursor:grab!important; user-select:none; }
+#sp-prototype .som-grip[data-snapped="true"] { box-shadow:0 0 0 5px #c4f53b29,0 5px 14px var(--som-shadow); }
+#sp-prototype .som-reset { pointer-events:auto; position:absolute; z-index:3; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border:1px solid var(--sp-line); border-radius:50%; background:var(--som-bg); box-shadow:0 4px 12px var(--som-shadow); font-size:14px; }
+#sp-prototype .som-editor { pointer-events:auto; position:absolute; left:-146px; bottom:-122px; box-sizing:border-box; width:292px; max-height:calc(100vh - 180px); overflow:auto; display:grid; gap:12px; padding:18px; border:1px solid var(--sp-line); border-radius:12px; background:var(--som-bg); box-shadow:0 12px 36px var(--som-shadow); }
+#sp-prototype .som-editor h3 { margin:0; font-size:15px; }
+#sp-prototype .som-editor label { display:grid; gap:5px; font-size:12px; }
+#sp-prototype .som-editor :is(textarea,input) { box-sizing:border-box; width:100%; min-height:40px; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; font-size:16px; }
+#sp-prototype .som-editor textarea { resize:vertical; }
+#sp-prototype .som-editor button { min-height:40px; padding:8px 10px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); text-align:left; font-size:12px; }
+#sp-prototype .som-edit-actions { display:flex; justify-content:flex-end; gap:8px; }
+#sp-prototype .som-editor button[type="submit"] { background:var(--som-lime); color:#26300c; border-color:transparent; }
+#sp-prototype[data-readonly="true"] #sp-object-menu { display:none!important; }
+@media(prefers-reduced-motion:reduce) { #sp-prototype #sp-object-menu,#sp-prototype .som-orb,#sp-prototype .som-edge button { transition:none; } #sp-prototype .som-orb,#sp-prototype .som-edge button { transform:none!important; } }
+@media print { #sp-object-menu,.som-spark { display:none!important; } }
+
+#sp-prototype #sp-object-menu[data-short="true"] { --som-size:52px; }
+#sp-prototype #sp-object-menu[data-short="true"] .som-orb { gap:2px; font-size:9px; }
+#sp-prototype #sp-object-menu[data-short="true"] .som-orb :is(svg,img) { width:20px; height:20px; }
+/* build-inline:end stageplot-object-menu-v1.css */
+</style>
+<script>
+/* build-inline:start stageplot-object-menu-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Object actions share the host's selection, history and existing editors.
+ * No project data or storage is owned by this view. */
+const StageplotObjectMenu = (() => {
+  const angle = value => ((Number(value) || 0) % 360 + 360) % 360;
+  const delta = (a, b) => ((a - b + 540) % 360) - 180;
+  // Physical artwork layers remain fixed: podiums below equipment, mic feet
+  // below equipment and mic arms above it. Reorder only within the same layer.
+  function previous(list, object, catalog) {
+    const band = o => catalog[o.type]?.underlay ? 'floor' : o.type === 'mic' ? 'mic' : 'equipment';
+    for (let i = list.indexOf(object) - 1; i >= 0; i--) if (band(list[i]) === band(object)) return list[i];
+    return null;
+  }
+  function snap(value, held = null, fine = false) {
+    if (held !== null && Math.abs(delta(value, held)) <= (fine ? 2 : 5.4)) return {value:angle(held), held};
+    const nearest = Math.round(value / 45) * 45;
+    return Math.abs(delta(value, nearest)) <= (fine ? 1 : 3) ? {value:angle(nearest), held:nearest} : {value:angle(value), held:null};
+  }
+  function mount(host, api) {
+    const el = document.createElement('div');
+    el.id = 'sp-object-menu'; el.hidden = true; el.setAttribute('role','group'); el.setAttribute('aria-label','Objektaktionen');
+    const paths = {
+      edit:'<path d="m15 4 5 5M4 20l5-1L20 8a2 2 0 0 0-5-5L4 14z"/>',
+      rotate:'<path d="M20 8V3l-3 3a8 8 0 1 0 3 9M20 8h-5"/>',
+      label:'<path d="M3 5h18v14H3zM7 15l3-6 3 6m-5-2h4m4-1h2m-2 3h2"/>',
+      duplicate:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/>',
+      lock:'<path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10"/><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M12 14v3"/>',
+      close:'<path d="m6 6 12 12M6 18 18 6"/>',
+      delete:'<path d="M5 7h14M9 7V4h6v3m2 0-.7 13H7.7L7 7M10 11v5m4-5v5"/>'
+    };
+    const icon = key => '<svg viewBox="0 0 24 24" aria-hidden="true">'+paths[key]+'</svg>';
+    const actions = [['edit','Bearbeiten'],['rotate','Drehen'],['label','Label'],['duplicate','Duplizieren'],['lock','Sperren'],['backward','Ebene zurück']];
+    el.innerHTML = actions.map(([key,text],i)=>'<div class="som-orbit" style="--i:'+i+'"><button type="button" class="som-orb" data-action="'+key+'">'+(key==='backward'?'<img src="./stageplot-assets/toolbar/send-backward-v1.png" alt="" width="34" height="30">':icon(key))+'<span>'+text+'</span></button></div>').join('')+
+      '<div class="som-dial" hidden><div class="som-track"></div>'+Array.from({length:8},(_,i)=>'<i class="som-tick" style="--tick:'+i*45+'deg"></i>').join('')+'<button type="button" class="som-dial-hit" aria-label="Objekt mit dem Drehring drehen"></button><button type="button" class="som-grip" role="slider" aria-label="Drehwinkel" aria-valuemin="0" aria-valuemax="359"></button><button type="button" class="som-reset" data-action="reset" aria-label="Drehung zurücksetzen">0°</button></div>'+
+      '<form class="som-editor" hidden aria-label="Objekt bearbeiten"><h3></h3><label>Beschriftung<textarea name="label" rows="2"></textarea></label><label class="som-steps" hidden>Stufen<input name="steps" type="number" min="1" max="24" step="1" inputmode="numeric"></label><button type="button" data-action="model" hidden>Modell wechseln</button><button type="button" data-action="special" hidden></button><button type="button" data-action="properties">Alle Eigenschaften</button><div class="som-edit-actions"><button type="button" data-action="back">Zurück</button><button type="submit">Übernehmen</button></div></form>'+
+      '<div class="som-edge"><button type="button" data-action="close">'+icon('close')+'<span>Schließen</span></button><button type="button" class="som-delete" data-action="delete">'+icon('delete')+'<span>Löschen</span></button></div>';
+    host.append(el);
+    const $ = selector => el.querySelector(selector), button = key => $('[data-action="'+key+'"]');
+    const dial = $('.som-dial'), grip = $('.som-grip'), form = $('.som-editor'), orbits = [...el.querySelectorAll('.som-orbit')];
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let current = null, dismissed = null, mode = 'main', gesture = null, suppressedClick = false, ignoreTimer = 0, lastSpark = 0, dialRadius = 104;
+    const active = () => !el.hidden && current;
+    function paintAngle() {
+      const a = angle(current.angle), r = dialRadius, t = a * Math.PI / 180;
+      grip.style.transform = 'translate('+Math.sin(t)*r+'px,'+(r-Math.cos(t)*r)+'px)';
+      grip.textContent = Math.round(a)+'°'; grip.setAttribute('aria-valuenow',String(Math.round(a)%360));
+      grip.setAttribute('aria-valuetext',Math.round(a)+' Grad');
+      grip.dataset.snapped = String(gesture?.held !== null && !!gesture);
+      el.querySelectorAll('.som-tick').forEach((tick,i)=>tick.dataset.active=String(Math.abs(delta(a,i*45))<.1));
+    }
+    function endGesture(cancel = false) {
+      if (!gesture) return;
+      const g = gesture; gesture = null;
+      if (g.target.hasPointerCapture(g.pointer)) g.target.releasePointerCapture(g.pointer);
+      api.endRotation(g.token,cancel); if (current) paintAngle();
+    }
+    function setMode(next, focus = false) {
+      endGesture(); mode = next; el.dataset.mode = mode;
+      dial.hidden = mode !== 'rotate'; form.hidden = mode !== 'edit';
+      orbits.forEach(orbit=>{orbit.hidden=mode!=='main';});
+      if (mode === 'rotate') { paintAngle(); if(focus)grip.focus({preventScroll:true}); }
+      if (mode === 'edit') {
+        form.querySelector('h3').textContent = current.kind;
+        form.elements.label.value = current.label; form.elements.label.maxLength=current.type==='text'?240:42;
+        $('.som-steps').hidden = current.type !== 'stage-stairs'; form.elements.steps.value = current.steps || 5;
+        button('special').hidden=!current.special; button('special').textContent=current.special||'';
+        button('model').hidden=!current.modelFamily;
+        if(focus)form.elements.label.focus({preventScroll:true});
+      }
+      if (mode === 'main' && focus) button('edit').focus({preventScroll:true});
+      if(current)sync(current);
+    }
+    function dismiss() { endGesture();if(current)setMode('main');dismissed=current?.id;el.hidden=true;api.focusCanvas(); }
+    function animateOpen() {
+      if(reduced.matches)return;
+      orbits.forEach((orbit,i)=>{
+        orbit.getAnimations().forEach(a=>a.cancel());
+        orbit.animate([{transform:'translate(0,0) scale(.15)',opacity:0},{transform:'translate(var(--x),var(--y)) scale(1.18)',opacity:1,offset:.7},{transform:'translate(var(--x),var(--y)) scale(1)',opacity:1}],{duration:440,delay:i*24,easing:'cubic-bezier(.2,.75,.3,1)'});
+      });
+    }
+    function sync(state) {
+      if(!state) { endGesture();current=null;dismissed=null;el.hidden=true;return; }
+      const changed=state.id!==current?.id, typeChanged=state.type!==current?.type, opening=changed||el.hidden;
+      if(changed){endGesture();if(dismissed!==state.id)dismissed=null;}
+      current=state;
+      if(dismissed===state.id){el.hidden=true;return;}
+      el.hidden=false;el.dataset.objectId=state.id;el.dataset.dragging=String(state.dragging);
+      if(changed)setMode('main');
+      else if(typeChanged&&mode==='edit')setMode('edit');
+      button('edit').disabled=button('rotate').disabled=button('delete').disabled=state.locked;
+      button('backward').disabled=state.locked||!state.canBack;
+      button('lock').setAttribute('aria-pressed',String(state.locked));button('lock').querySelector('span').textContent=state.locked?'Entsperren':'Sperren';
+      button('label').setAttribute('aria-pressed',String(state.showLabel));button('label').setAttribute('aria-label',state.showLabel?'Label ausblenden':'Label einblenden');
+      button('backward').title=state.canBack?'Eine Ebene zurück':'Bereits auf der untersten Ebene dieses Objekttyps';
+      const viewport=state.viewport||{left:0,top:0,width:host.clientWidth,height:host.clientHeight};
+      const w=viewport.width,h=viewport.height,small=w<420,short=h<330,r=small?98:116,gap=small?78:88;
+      let x=viewport.left+Math.max(r+40,Math.min(w-r-40,state.x-viewport.left)),y=viewport.top+Math.max(136,Math.min(h-gap-106,state.y-viewport.top)),edgeY=gap+49,edgeX=-103;
+      if(short){
+        x=viewport.left+Math.max(114,Math.min(w-114,state.x-viewport.left));
+        y=viewport.top+Math.max(56,Math.min(h-118,state.y-viewport.top));edgeY=64;
+        if(mode==='rotate'){x=viewport.left+Math.max(84,Math.min(w-302,state.x-viewport.left));y=viewport.top+Math.max(84,Math.min(h-84,state.y-viewport.top));edgeX=92;edgeY=-27;}
+        if(mode==='edit'){y=viewport.top+h/2;edgeY=h/2-58;}
+      }
+      dialRadius=short?58:104;el.style.setProperty('--som-radius',dialRadius+'px');
+      el.style.left=x+'px';el.style.top=y+'px';el.style.setProperty('--edge-y',edgeY+'px');el.style.setProperty('--edge-x',edgeX+'px');el.dataset.compact=String(small);el.dataset.short=String(short);
+      orbits.forEach((orbit,i)=>{orbit.style.setProperty('--x',(short?(i%3-1)*78:i%2?r:-r)+'px');orbit.style.setProperty('--y',(short?(Math.floor(i/3)-.5)*60:(Math.floor(i/2)-1)*gap)+'px');});
+      form.style.maxHeight=Math.max(80,y+edgeY-viewport.top-20)+'px';
+      form.style.bottom='auto';form.style.top=(edgeY-12-form.offsetHeight)+'px';
+      if(mode==='rotate')paintAngle();
+      if(opening&&mode==='main')animateOpen();
+    }
+    function commitForm() {
+      if(!form.reportValidity())return false;
+      api.edit({label:form.elements.label.value,steps:Number(form.elements.steps.value)});return true;
+    }
+    form.addEventListener('submit',event=>{event.preventDefault();if(commitForm())setMode('main',true);});
+    el.addEventListener('click',event=>{
+      const b=event.target.closest('[data-action]');if(!b||b.disabled||!active()||current.dragging)return;
+      const action=b.dataset.action;
+      if(action==='close'){dismiss();return;}
+      if(action==='back'){setMode('main',true);return;}
+      if(action==='edit'||action==='rotate'){setMode(action,true);return;}
+      if(['properties','special','model'].includes(action)){if(commitForm()){api.action(action,b);if(action==='properties')dismiss();}return;}
+      api.action(action,b);
+    });
+    // Outside click consumes only the submenu level. Do not hand that same
+    // pointer event to the canvas, a different object or another command.
+    function handleOutsidePointer(event) {
+      if(!active()||gesture||event.button!==0||api.modalOpen()||el.contains(event.target))return;
+      if(mode==='main'){
+        // Keep the menu attached while its own object/label is being grabbed.
+        const target=event.target.closest('[data-object],[data-mic-object],[data-label-for]');
+        if([target?.dataset.object,target?.dataset.micObject,target?.dataset.labelFor].includes(current.id))return;
+        dismissed=current.id;el.hidden=true;return;
+      }
+      event.preventDefault();event.stopImmediatePropagation();setMode('main');api.focusCanvas();
+      suppressedClick=true;clearTimeout(ignoreTimer);ignoreTimer=setTimeout(()=>suppressedClick=false,600);
+    }
+    document.addEventListener('pointerdown',handleOutsidePointer,true);
+    document.addEventListener('click',event=>{if(suppressedClick){suppressedClick=false;clearTimeout(ignoreTimer);event.preventDefault();event.stopImmediatePropagation();}},true);
+    document.addEventListener('keydown',event=>{
+      if(!active()||api.modalOpen())return;
+      if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();if(gesture)endGesture(true);else if(mode!=='main'){setMode('main',true);}else dismiss();}
+    },true);
+    function startRotation(event) {
+      if(event.button!==0||gesture||current.locked)return;
+      event.preventDefault();event.stopPropagation();const rect=dial.getBoundingClientRect(),cx=rect.left+dialRadius,cy=rect.top+dialRadius;
+      const theta=Math.atan2(event.clientY-cy,event.clientX-cx)*180/Math.PI;
+      gesture={pointer:event.pointerId,target:event.currentTarget,cx,cy,last:theta,value:current.angle,held:null,token:api.beginRotation()};
+      event.currentTarget.setPointerCapture(event.pointerId);grip.focus({preventScroll:true});
+    }
+    for(const target of [$('.som-dial-hit'),grip]) {
+      target.addEventListener('pointerdown',startRotation);
+      target.addEventListener('pointermove',event=>{
+        if(!gesture||event.pointerId!==gesture.pointer)return;
+        const g=gesture,theta=Math.atan2(event.clientY-g.cy,event.clientX-g.cx)*180/Math.PI,fine=Math.hypot(event.clientX-g.cx,event.clientY-g.cy)>dialRadius*1.5;
+        g.value+=delta(theta,g.last)*(fine?.35:1);g.last=theta;
+        const result=snap(g.value,g.held,fine);g.held=result.held;api.rotate(result.value);current.angle=result.value;paintAngle();
+      });
+      target.addEventListener('pointerup',()=>endGesture());
+      target.addEventListener('pointercancel',()=>endGesture(true));
+      target.addEventListener('lostpointercapture',()=>endGesture(true));
+    }
+    grip.addEventListener('keydown',event=>{
+      if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home'].includes(event.key))return;
+      event.preventDefault();event.stopPropagation();if(gesture)return;const token=api.beginRotation(),step=event.shiftKey?15:1;
+      api.rotate(event.key==='Home'?0:angle(current.angle+(['ArrowLeft','ArrowDown'].includes(event.key)?-step:step)));api.endRotation(token,false);
+    });
+    window.addEventListener('blur',()=>endGesture(true));
+    function spark(event, count) {
+      if(reduced.matches||event.pointerType==='touch'||event.currentTarget.disabled)return;
+      const bounds=host.getBoundingClientRect();
+      for(let i=0;i<count;i++){
+        const dot=document.createElement('i');dot.className='som-spark';const size=1.5+Math.random()*2.8;
+        Object.assign(dot.style,{left:event.clientX-bounds.left+'px',top:event.clientY-bounds.top+'px',width:size+'px',height:size+'px'});host.append(dot);
+        const a=Math.random()*Math.PI*2,d=12+Math.random()*30;
+        const animation=dot.animate([{opacity:0,transform:'scale(.4)'},{opacity:.85,offset:.15},{opacity:0,transform:'translate('+Math.cos(a)*d+'px,'+(Math.sin(a)*d-18)+'px) scale(0)'}],{duration:600+Math.random()*300,easing:'ease-out'});
+        animation.onfinish=()=>dot.remove();animation.oncancel=()=>dot.remove();
+      }
+    }
+    el.querySelectorAll('.som-orb,.som-edge button').forEach(b=>{
+      b.addEventListener('pointerenter',e=>spark(e,14));
+      b.addEventListener('pointermove',e=>{if(performance.now()-lastSpark>65){lastSpark=performance.now();spark(e,2);}});
+    });
+    return {sync,reopen(id){if(id===current?.id||id===dismissed)dismissed=null;},dismissFor(id){endGesture();dismissed=id;el.hidden=true;},isRotating:()=>!!gesture};
+  }
+  return {mount,previous,angle,delta,snap};
+})();
+if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
+/* build-inline:end stageplot-object-menu-v1.js */
+</script>
 <script>
 /* build-inline:start stageplot-stageboxes-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Model capacities and measured socket centres on local imagegen illustrations.
@@ -9114,7 +9371,7 @@ html,body { height:100%; overflow:hidden; }
     }
     function closeDiPicker() {
       const rowId = diPickerRow, focus = diPickerFocus;
-      diPickerRow = '';diPickerFocus = null;diPickerDevices = false;diPickerNew = false;error = '';render();host.querySelectorAll('.sp-stagebox-device-scroll').forEach((el,i)=>{el.scrollLeft=deviceScrolls[i]||0;});
+      diPickerRow = '';diPickerFocus = null;diPickerDevices = false;diPickerNew = false;error = '';render();
       restoreFocus(focus);
       if (!host.contains(host.ownerDocument.activeElement) || host.ownerDocument.activeElement === host) {
         [...host.querySelectorAll('[data-rw-di-open]')].find(element => element.dataset.rwDiOpen === rowId)?.focus({preventScroll:true});
@@ -9307,6 +9564,7 @@ html,body { height:100%; overflow:hidden; }
       host.querySelector('.rw-source-list').scrollTop = listScroll;
       if (host.querySelector('.rw-output-port-list')) host.querySelector('.rw-output-port-list').scrollTop = outputScroll;
       if (host.querySelector('.rw-flow-scroll')) host.querySelector('.rw-flow-scroll').scrollLeft = flowScroll;
+      host.querySelectorAll('.sp-stagebox-device-scroll').forEach((el,i)=>{el.scrollLeft=deviceScrolls[i]||0;});
       const dialog = host.querySelector('[data-rw-di-dialog]');
       if (dialog) {
         dialog.showModal();
@@ -10602,6 +10860,10 @@ const StageplotPrint = (() => {
       if(p.kind==='obstacle')svgEl('path',{...attrs,fill:'var(--sp-line)'},group);
       else if(p.kind==='zone')svgEl('path',{...attrs,fill:'none','stroke-dasharray':'5 3',stroke:muted},group);
       else if(p.kind==='line')svgEl('path',{...attrs,fill:muted,stroke:muted},group);
+      else if(p.kind==='stairs'&&typeof root.stageplotStairArtwork==='function'){
+        const art=svgEl('g',{'data-venue-part':p.id,transform:'translate('+(x+p.x*scale)+' '+(y+p.y*scale)+') rotate('+p.angle+')'},group);
+        art.innerHTML=root.stageplotStairArtwork({width:p.w*scale,depth:p.d*scale,steps:p.steps||5,unit:scale,idPrefix:'venue-'+p.id});
+      }
       else if(p.kind==='stairs'||p.kind==='ramp'){
         svgEl('path',{...attrs,fill:'var(--sp-paper)'},group);
         if(p.kind==='stairs')for(let i=1;i<(p.steps||5);i++){const a=G.transform(p,[0,p.d*i/(p.steps||5)]),b=G.transform(p,[p.w,p.d*i/(p.steps||5)]);svgEl('line',{x1:x+a[0]*scale,y1:y+a[1]*scale,x2:x+b[0]*scale,y2:y+b[1]*scale,stroke:muted,'stroke-width':.8},group);}
@@ -11662,7 +11924,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     {id:'riser-2',name:'Riser-Gruppe · 2×',short:'Riser · 2×',art:'riser',category:'tech',w:2,d:2,vb:[200,200],underlay:true,riserCount:2},
     {id:'riser-3',name:'Riser-Gruppe · 3×',short:'Riser · 3×',art:'riser',category:'tech',w:3,d:2,vb:[150,100],underlay:true,riserCount:3},
     {id:'stage-module',name:'Bühnenmodul · 2 × 1 m',short:'Bühnenmodul 2×1',art:'riser',category:'tech',w:2,d:1,vb:[200,100],underlay:true,stageExtension:true,keywords:'bühne komplex modul podest 2x1 anklippen erweitern',detail:'Magnetisch an Bühnenkante oder weiteres Modul anklippen'},
-    {id:'stage-stairs',name:'Bühnentreppe',short:'Treppe',category:'tech',w:1.2,d:1,vb:[120,100],underlay:true,stageAccess:'stairs',libraryGroup:'stage',keywords:'bühne treppe stufen aufgang zugang stairs',detail:'Pfeil zeigt die Aufstiegsrichtung'},
+    {id:'stage-stairs',name:'Bühnentreppe',short:'Treppe',category:'tech',w:1.2,d:1,vb:[120,100],underlay:true,stageAccess:'stairs',libraryGroup:'stage',keywords:'bühne treppe stufen aufgang zugang stairs',detail:'Breite, Tiefe und Stufenanzahl einstellbar · dunklere Stufen liegen tiefer'},
     {id:'stage-ramp',name:'Bühnenrampe',short:'Rampe',category:'tech',w:2,d:1,vb:[200,100],underlay:true,stageAccess:'ramp',libraryGroup:'stage',keywords:'bühne rampe equipment zugang verladerampe ramp',detail:'Pfeil zeigt die Aufstiegsrichtung'},
     {id:'stage-railing',name:'Bühnengeländer · 2 m',short:'Bühnengeländer',category:'tech',w:2,d:.14,vb:[300,21],libraryGroup:'stage',keywords:'bühne geländer absturzsicherung rail',detail:'2 m Bühnengeländer in Draufsicht'},
     {id:'stage-truss-tower',name:'Traversentower · Bodenplatte',short:'Traversentower',category:'tech',w:.7,d:.7,vb:[100,100],underlay:true,libraryGroup:'stage',keywords:'bühne truss tower traverse bodenplatte licht',detail:'Vierpunkt-Traverse auf quadratischer Bodenplatte'},
@@ -11806,6 +12068,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     return '';
   }
   let stage = null, objects = [], selected = null, nextId = 1, view = 'dashboard', drag = null, history = [], future = [], editBefore = null;
+  let objectMenu=null;
   const viewStorageKey='stageplot-studio:view:v1';
   let stageSurfaceDefault='light',setupStageSurface='light';
   let frameQueued = false, suppressClick = false;
@@ -12253,8 +12516,43 @@ function stageplotStringFrame(type){return Object.hasOwn(STAGEPLOT_STRING_ASSETS
 // Generated bass sprites; prompts and manufacturer references: bass-instruments-v1.json.
 const STAGEPLOT_BASS_ASSETS=Object.freeze({"bass-j":{"width":360,"height":1180,"imageWidth":878,"imageHeight":1792,"viewBox":[176,3,529,1789],"asset":"bass-j-illustrated-v1.png"},"bass":{"width":360,"height":1160,"imageWidth":986,"imageHeight":1595,"viewBox":[263,13,460,1569],"asset":"bass-illustrated-v1.png"},"bass-pj":{"width":360,"height":1160,"imageWidth":988,"imageHeight":1592,"viewBox":[266,15,456,1544],"asset":"bass-pj-illustrated-v1.png"},"bass-shortscale":{"width":330,"height":1040,"imageWidth":971,"imageHeight":1619,"viewBox":[212,11,548,1600],"asset":"bass-shortscale-illustrated-v1.png"},"bass-mustang":{"width":330,"height":1070,"imageWidth":991,"imageHeight":1587,"viewBox":[246,5,494,1570],"asset":"bass-mustang-illustrated-v1.png"},"bass-acoustic":{"width":430,"height":1200,"imageWidth":941,"imageHeight":1672,"viewBox":[157,4,627,1661],"asset":"bass-acoustic-illustrated-v1.png"},"double-bass":{"width":660,"height":1900,"imageWidth":937,"imageHeight":1678,"viewBox":[171,17,596,1643],"asset":"double-bass-illustrated-v1.png"},"bass-violin":{"width":280,"height":1100,"imageWidth":944,"imageHeight":1665,"viewBox":[242,17,459,1598],"asset":"bass-violin-illustrated-v1.png"},"bass-rickenbacker":{"width":343,"height":1138,"imageWidth":1024,"imageHeight":1536,"viewBox":[256,8,513,1501],"asset":"bass-rickenbacker-illustrated-v1.png"}});
 function stageplotBassFrame(type){return Object.hasOwn(STAGEPLOT_BASS_ASSETS,type)?STAGEPLOT_BASS_ASSETS[type]:null;}
+// Shared by free stair objects, stage-edge stairs and the house-plan editor.
+// Fixed-size fittings and a repeating generated deck texture preserve physical
+// proportions when width, run and step count change independently.
+function stageplotStairArtwork(options = {}) {
+  const positive=(value,fallback)=>Number.isFinite(Number(value))&&Number(value)>0?Number(value):fallback;
+  const width=positive(options.width,120),depth=positive(options.depth,100),unit=positive(options.unit,100);
+  const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));
+  const f=value=>String(Math.round(value*1e6)/1e6);
+  const prefix=String(options.idPrefix||'stairs').replace(/[^a-z0-9_-]/gi,'-');
+  const id='sp-stairs-'+prefix+'-'+(stageplotStairArtwork.sequence=(stageplotStairArtwork.sequence||0)+1);
+  const rail=Math.min(.048*unit,width/10),x=rail,w=width-2*rail,h=depth/steps;
+  const image=(name,x,y,w,h)=>w>0&&h>0?'<image href="stageplot-assets/tech/stairs-'+name+'-v1.webp" x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" preserveAspectRatio="none" stroke="none" data-stair-image="'+name+'"/>':'';
+  let out='<g data-part="stage-stairs-top-view" data-generated-stairs="true" data-step-count="'+steps+'" data-stair-width="'+f(width/unit)+'" data-stair-depth="'+f(depth/unit)+'" fill="none" stroke="none">';
+  out+='<defs><pattern id="'+id+'-deck" width="'+f(.32*unit)+'" height="'+f(.16*unit)+'" patternUnits="userSpaceOnUse" x="'+f(x)+'" y="0">'+image('surface',0,0,.32*unit,.16*unit)+'</pattern>';
+  for(let i=1;i<steps;i++)out+='<linearGradient id="'+id+'-shadow-'+i+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="'+f(.16+.05*i/(steps-1))+'"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>';
+  out+='</defs>';
+  for(let i=0;i<steps;i++){
+    const y=i*h,side=Math.min(.045*unit,w/4),fit=Math.min(1,h*.82/(.1325*unit)),top=.05*unit*fit,bottom=.0825*unit*fit;
+    const xs=[x,x+side,x+w-side],ys=[y,y+top,y+h-bottom],ws=[side,w-side*2,side],hs=[top,h-top-bottom,bottom];
+    const pieces=[['top-left','top','top-right'],['left',null,'right'],['bottom-left','bottom','bottom-right']];
+    out+='<g data-stair-step="'+i+'"><rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" fill="url(#'+id+'-deck)" stroke="none"/>';
+    for(let row=0;row<3;row++)for(let col=0;col<3;col++)if(pieces[row][col])out+=image(pieces[row][col],xs[col],ys[row],ws[col],hs[row]);
+    if(i){
+      out+='<rect data-stair-shade="'+i+'" x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(h)+'" fill="#000" stroke="none" opacity="'+f(.27*i/(steps-1))+'"/>';
+      out+='<rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(Math.min(h*.2,.04*unit))+'" fill="url(#'+id+'-shadow-'+i+')" stroke="none"/>';
+    }
+    out+='</g>';
+  }
+  const cap=Math.min(.042*unit,depth/4),rails=image('rail-top',0,0,rail,cap)+image('rail',0,cap,rail,depth-2*cap)+image('rail-bottom',0,depth-cap,rail,cap);
+  out+='<g data-stair-stringer="left">'+rails+'</g><g data-stair-stringer="right" transform="translate('+f(width)+' 0) scale(-1 1)">'+rails+'</g></g>';
+  return out;
+}
+// The house-plan module lives outside the main editor's closure.
+if(typeof window!=='undefined')window.stageplotStairArtwork=stageplotStairArtwork;
 function createStageplotSymbolV3(type, options = {}) {
   if(typeof StageplotStageboxes!=='undefined'&&StageplotStageboxes.get(type))return StageplotStageboxes.artwork(type);
+  if(type==='stage-stairs')return stageplotStairArtwork({width:(Number(options.width)||1.2)*100,depth:(Number(options.depth)||1)*100,steps:options.steps,unit:100,idPrefix:options.idPrefix});
   const bassAsset=stageplotBassFrame(type);
   if(bassAsset){const a=bassAsset;return '<g data-equipment="'+type+'" data-generated-bass="true"><svg width="'+a.width+'" height="'+a.height+'" viewBox="'+a.viewBox.join(' ')+'" preserveAspectRatio="xMidYMid meet"><image href="stageplot-assets/objects/'+a.asset+'" width="'+a.imageWidth+'" height="'+a.imageHeight+'" data-rendered-bass-asset="'+type+'"/></svg></g>';}
 
@@ -12760,10 +13058,6 @@ function createStageplotSymbolV3(type, options = {}) {
     if(count===2)line(5,h/2,w-5,h/2,.6);
     if(count===3){line(w/3,5,w/3,h-5,.6);line(w*2/3,5,w*2/3,h-5,.6);}
     for(const x of [4,w-4])for(const y of [4,h-4])rect(x-1.6,y-1.6,3.2,3.2,'#aaa',.4,.2);
-  }else if(type==='stage-stairs'){
-    group('','stage-stairs-top-view');rect(2,2,116,96,'#f3f4f1',.85,.5,'#4a504a');
-    const steps=Math.max(1,Math.min(24,Math.round(Number(options.steps)||5)));for(let i=1;i<steps;i++)line(2,2+i*96/steps,118,2+i*96/steps,.65,'#858c85');
-    const arrow='M60 85V18M49 30L60 18L71 30';path(arrow,'none',3.5,'#f3f4f1');path(arrow,'none',1.2,'#454b45');end();
   }else if(type==='stage-ramp'){
     group('','stage-ramp-top-view');path('M4 5H196L188 95H12Z','#eceeeb',.85,'#4a504a');
     const rampPattern=scopedId('pattern','ramp-grip');out+='<defs><pattern id="'+rampPattern+'" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0M-3 3L3-3M6 12L12 6" stroke="#aeb4ae" stroke-width=".65"/></pattern></defs>';
@@ -12848,7 +13142,7 @@ function createStageplotSymbolV3(type, options = {}) {
       definition.innerHTML=createStageplotSymbolV3(c.art,{drumLayout:layout,idPrefix:'stage-'+owner});definition.dataset.geometry=signature;
       artBoundsCache.set(id,{x:0,y:0,width:layout.vb[0],height:layout.vb[1]});artCache.set(key,id);return id;
     }
-    const variant=c.art==='mic'?((o.stand||'boom')==='round'?'round':'boom-'+(o.boomDirection||'up')):c.art==='riser'?String(c.riserCount||1):c.art==='stage-stairs'?String(o.steps||5):'';
+    const variant=c.art==='mic'?((o.stand||'boom')==='round'?'round':'boom-'+(o.boomDirection||'up')):c.art==='riser'?String(c.riserCount||1):c.art==='stage-stairs'?[o.steps||5,o.width||1.2,o.depth||1].join('-'):'';
     const key=c.art+'-'+variant;
     if(artCache.has(key))return artCache.get(key);
     const id='sp-art-'+key,definition=sEl('g',{id,class:'sp-symbol'},artDefs);
@@ -13147,7 +13441,7 @@ function createStageplotSymbolV3(type, options = {}) {
     for(const o of list.filter(o=>byId[o.type]?.stageExtension)){const p=venueObjectPart(o);p.name=o.label||'Bühnenmodul';g.parts.push(p);}
     for(const item of stairStates(s)){
       const b=stairsGeometry(s,item.id),edge=stairEdge(s,item.id),side=['left','right'].includes(edge),w=side?b.d:b.w,d=side?b.w:b.d;
-      const q=G.part({kind:'stairs',name:'Treppe',w,d,angle:edge==='front'?0:edge==='back'?180:edge==='left'?90:270});
+      const q=G.part({kind:'stairs',name:'Treppe',w,d,steps:item.record.stairsSteps||3,angle:edge==='front'?0:edge==='back'?180:edge==='left'?90:270});
       const origin=G.transform(q,[-w/2,0]);q.x=(edge==='front'||edge==='back'?b.x+b.w/2:edge==='left'?0:s.w)+origin[0];q.y=(edge==='left'||edge==='right'?b.y+b.d/2:edge==='front'?s.d:0)+origin[1];g.parts.push(q);
     }
     return G.normalize(g);
@@ -13314,13 +13608,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const scale=Number(svg.dataset.scale),stair=stairsGeometry(s,id),isSide=['left','right'].includes(g.dataset.stairEdge);
     const tw=(isSide?stair.d:stair.w)*scale,th=(isSide?stair.w:stair.d)*scale;
     const body=g.querySelector('[data-stair-body]');if(body){body.setAttribute('x',-tw/2);body.setAttribute('width',tw);}
-    g.querySelectorAll('[data-stair-step]').forEach(node=>{node.setAttribute('x',-tw/2+2);node.setAttribute('width',Math.max(0,tw-4));});
-    g.querySelectorAll('[data-stair-tread]').forEach(l=>{l.setAttribute('x1',-tw/2+1);l.setAttribute('x2',tw/2-1);});
-    g.querySelectorAll('[data-stair-anti-slip],[data-stair-nosing]').forEach(l=>{l.setAttribute('x1',-tw/2+(l.hasAttribute('data-stair-anti-slip')?3:2));l.setAttribute('x2',tw/2-(l.hasAttribute('data-stair-anti-slip')?3:2));});
-    const rails=g.querySelectorAll('[data-stair-rail]');
-    if(rails[0])rails[0].setAttribute('x',-tw/2+.6);
-    if(rails[1])rails[1].setAttribute('x',tw/2-3.4);
-    const posts=g.querySelectorAll('[data-stair-post]');posts.forEach((post,index)=>post.setAttribute('cx',index<2?-tw/2+2:tw/2-2));
+    const art=g.querySelector('[data-stair-art]');if(art){art.setAttribute('transform','translate('+(-tw/2)+' 0)');art.innerHTML=stageplotStairArtwork({width:tw,depth:th,steps:stairState(s,id)?.stairsSteps||3,unit:scale,idPrefix:id});}
     g.querySelectorAll('[data-stairs-resize]').forEach(a=>{const dir=a.dataset.stairsResize==='right'?1:-1,cx=dir*(tw/2+13),shell=a.querySelector('rect'),path=a.querySelector('path');if(shell)shell.setAttribute('x',cx-10);if(path)path.setAttribute('d','M'+(cx-dir*2.5)+' '+(th/2-4.2)+'L'+(cx+dir*4.5)+' '+(th/2)+'L'+(cx-dir*2.5)+' '+(th/2+4.2));});
   }
   let stairsAnim=0;
@@ -13420,6 +13708,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage&&['editor','routing','print','project'].includes(which)){openNewProjectDialog();return;}
     const previousView=view;
     if(which!=='editor'){selectionMode=false;selectionIds.clear();}
+    objectMenu?.sync(null);
     finishEdit();cancelPlacement(false);mobileToolsOpen=false;view=which;root.dataset.view=which;syncWorkspaceUi();
     if(!sharedReadOnly)try{window.sessionStorage.setItem(viewStorageKey,which);}catch(error){}
     ['dashboard','setup','editor','routing','print','project'].forEach(name=>{$('sp-'+name).hidden=name!==which;});
@@ -13609,6 +13898,7 @@ function createStageplotSymbolV3(type, options = {}) {
     return {scale,mx,top,H:height||Math.ceil(header+spanY*scale+bottom)};
   }
   function objectLabelLines(o,W,showMeasures,showOuts,mode){
+    if(o.showLabel===false)return {lines:[],nameLineCount:0};
     const text=o.type==='riser'?'':labelVisible(o)?labelText(o):'';
     const maxChars=o.type==='riser'?42:W<500?22:30,lines=[];
     const append=value=>{let rest=value;while(rest.length>maxChars){const space=rest.lastIndexOf(' ',maxChars),cut=space>5?space:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}if(rest)lines.push(rest);};
@@ -13716,18 +14006,9 @@ function createStageplotSymbolV3(type, options = {}) {
       const stair=stairsGeometry(s,stairEntry.id),pose=stairVisualPose(s,mx,top,scale,stairEntry.id),isSide=['left','right'].includes(pose.edge),stairW=isSide?stair.d:stair.w,stairD=isSide?stair.w:stair.d,tw=stairW*scale,th=stairD*scale;
       const stairsSelected=mode==='editor'&&selected===stairEntry.id,stairs=sEl('g',{transform:pose.transform,'data-stairs':stairEntry.record.stairs,'data-stair-edge':pose.edge,'data-stairs-zone':'true','data-stairs-id':stairEntry.id,'data-selected':String(stairsSelected),'data-width-metres':stairW,'data-run-metres':stairD,class:mode==='editor'?'sp-stairs-zone':'','aria-label':'Bühnentreppe · '+metres(stairW)+' breit · '+metres(stairD)+' tief · am Bühnenrand verschiebbar'},svg);
       const stairsBody={x:-tw/2,y:0,width:tw,height:th,rx:2.2,fill:blackStage?'#20221f':'#d9dcd6',stroke:blackStage?moduleStroke:'var(--sp-art)','stroke-width':stairsSelected?2:1,'data-stair-body':'true'};if(stairsSelected)stairsBody.stroke='var(--sp-teal)';sEl('rect',stairsBody,stairs);
-      const stepCount=Math.max(1,Math.min(24,Math.round(stairEntry.record.stairsSteps||3))),stepH=th/stepCount;
-      for(let j=0;j<stepCount;j++){
-        const y=j*stepH,shade=blackStage?['#393c37','#30332f','#272a26'][j%3]:['#f7f8f4','#e9ece6','#dce0d9'][j%3];
-        sEl('rect',{x:-tw/2+2,y:y+1.2,width:Math.max(0,tw-4),height:Math.max(0,stepH-2),rx:.8,fill:shade,stroke:'none','data-stair-step':j},stairs);
-        if(j>0)sEl('line',{x1:-tw/2+1,y1:y,x2:tw/2-1,y2:y,stroke:blackStage?'#8e938b':'#6e746e','stroke-width':1.25,'data-stair-tread':j},stairs);
-        sEl('line',{x1:-tw/2+3,y1:y+stepH-2.3,x2:tw/2-3,y2:y+stepH-2.3,stroke:blackStage?'#a2a79e':'#8e958c','stroke-width':.7,'stroke-dasharray':'3 1.8','pointer-events':'none','data-stair-anti-slip':j},stairs);
-        sEl('line',{x1:-tw/2+2,y1:y+stepH-1,x2:tw/2-2,y2:y+stepH-1,stroke:blackStage?'#111411':'#b5bab2','stroke-width':.55,'pointer-events':'none','data-stair-nosing':j},stairs);
-      }
-      for(const x of [-tw/2+2,tw/2-2]){
-        sEl('rect',{x:x-1.4,y:1,width:2.8,height:Math.max(0,th-2),rx:1.1,fill:blackStage?'#111310':'#5d635d',stroke:blackStage?'#777c75':'#303530','stroke-width':.45,'data-stair-rail':'true','data-stair-stringer':'true'},stairs);
-        for(const y of [2.6,th-2.6]){sEl('circle',{cx:x,cy:y,r:1.45,fill:blackStage?'#b3b7b0':'#d9dcd6',stroke:'#3d423d','stroke-width':.45,'data-stair-post':'true'},stairs);sEl('circle',{cx:x,cy:y,r:.45,fill:'#555b55','pointer-events':'none'},stairs);}
-      }
+      const stepCount=Math.max(1,Math.min(24,Math.round(stairEntry.record.stairsSteps||3)));
+      const art=sEl('g',{'data-stair-art':'true',transform:'translate('+(-tw/2)+' 0)'},stairs);
+      art.innerHTML=stageplotStairArtwork({width:tw,depth:th,steps:stepCount,unit:scale,idPrefix:mode+'-'+stairEntry.id});
       if(stairsSelected)for(const [side,dir] of [['left',-1],['right',1]]){
         const cx=dir*(tw/2+13),g=sEl('g',{'data-stairs-resize':side,'data-stairs-visual-handle':side,style:'cursor:'+(isSide?'ns-resize':'ew-resize')},stairs);
         sEl('rect',{x:cx-10,y:th/2-8.5,width:20,height:17,rx:8.5,fill:'#202420',stroke:'#ed2f87','stroke-width':1.4},g);
@@ -13899,30 +14180,24 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     stagePopover.hidden=selected!=='stage-zone'||!!placement||view!=='editor'||!svg;
     if(!stagePopover.hidden){const scale=Number(svg.dataset.scale),hostRect=$('sp-editor-floor').getBoundingClientRect(),box=stagePopover.getBoundingClientRect(),cx=Number(svg.dataset.originX)+stage.w*scale/2,top=Number(svg.dataset.originY);$('sp-stage-popover-size').textContent=num(stage.w)+' × '+metres(stage.d);stagePopover.style.left=Math.max(5,Math.min(hostRect.width-box.width-5,cx-box.width/2))+'px';stagePopover.style.top=Math.max(5,Math.min(hostRect.height-box.height-5,top+10))+'px';}
-    const stairControl=$('sp-object-stairs-control');stairControl.hidden=!o||o.type!=='stage-stairs'||!!placement||view!=='editor'||selectedObjects().length>1;
-    if(!stairControl.hidden){if(stairControl.parentNode!==$('sp-object-rotate'))$('sp-object-rotate').append(stairControl);$('sp-object-stairs-steps').disabled=!!o.locked;if(document.activeElement!==$('sp-object-stairs-steps'))$('sp-object-stairs-steps').value=o.steps||5;}
-    const hidden=!o||selectionMode||selectedObjects().length>1||!!placement||view!=='editor'||!svg;
-    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&!['percussion','orchestra','laptop','rack'].includes(o.type));if(o){drumButton.setAttribute('aria-label',o.type==='rack'?'IEM-Monitore einrichten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester-Editor öffnen':o.type==='percussion'?'Drums & Percussion öffnen':'Drums & Percussion öffnen');drumButton.querySelector('strong').textContent=o.type==='rack'?'IEM-Monitore':o.type==='laptop'?'Playback-Ausgänge':o.type==='orchestra'?'Orchester-Editor':o.type==='percussion'?'Aufbau bearbeiten':'Aufbau bearbeiten';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
-    drumButton.disabled=!!o.locked;stageboxButton.disabled=!!o.locked;if(!stageboxButton.hidden)stageboxButton.setAttribute('aria-label',(o.label||byId[o.type].short)+' Routing und I/O öffnen');
-    const below=overlappingObjectBelow(o),sendBehind=$('sp-send-behind');
-    if(sendBehind){sendBehind.hidden=!below;sendBehind.disabled=!!o.locked;sendBehind.dataset.overlapTarget=below?.id||'';
-      if(below){const targetName=below.label||byId[below.type].name,label='Unter „'+targetName+'“ anordnen'+(o.locked?' · Objekt gesperrt':'');sendBehind.setAttribute('aria-label',label);sendBehind.dataset.tooltip=label;}}
-    if(mobileWorkspace())return;
-    // Follow the object's centre and unrotated footprint. The rotating frame may pass underneath.
-    const size=objectSize(o),scale=Number(svg.dataset.scale),bar=toolbar.getBoundingClientRect();
-    const hostRect=$('sp-editor-floor').getBoundingClientRect(),hostWidth=hostRect.width;
-    const x=Number(svg.dataset.originX)+o.x*scale,y=Number(svg.dataset.originY)+(o.y-size.d/2)*scale;
-    const cy=Number(svg.dataset.originY)+o.y*scale;
-    if(x<0||x>hostWidth||cy<0||cy>hostRect.height){toolbar.hidden=true;drumButton.hidden=true;stageboxButton.hidden=true;return;}
-    toolbar.style.left=Math.max(3,Math.min(hostWidth-bar.width-3,x-bar.width/2))+'px';
-    const hostHeight=hostRect.height||600,secondary=!drumButton.hidden?drumButton:!stageboxButton.hidden?stageboxButton:null;
-    if(!secondary){toolbar.style.top=Math.max(5,Math.min(hostHeight-bar.height-4,y-bar.height-8))+'px';return;}
-    const secondaryBar=secondary.getBoundingClientRect(),gap=6,totalHeight=bar.height+gap+secondaryBar.height;
-    const groupTop=Math.max(5,Math.min(hostHeight-totalHeight-4,y-totalHeight-8));
-    toolbar.style.top=groupTop+'px';
-    secondary.style.left=Math.max(3,Math.min(hostWidth-secondaryBar.width-3,x-secondaryBar.width/2))+'px';
-    secondary.style.top=groupTop+bar.height+gap+'px';
+    // The new action menu replaces only ordinary object controls. Stage edges,
+    // attached stairs and the IEM area retain their own geometry controls.
+    toolbar.hidden=true;drumButton.hidden=true;stageboxButton.hidden=true;
+    $('sp-object-stairs-control').hidden=true;
+    syncObjectMenu(svg);
   }
+  function syncObjectMenu(svg=$('sp-editor-floor').querySelector('svg')) {
+    if(!objectMenu)return;
+    const o=objects.find(item=>item.id===selected),floor=$('sp-editor-floor');
+    if(!o||sharedReadOnly||selectionMode||selectedObjects().length!==1||placement||view!=='editor'||!svg){objectMenu.sync(null);return;}
+    const matrix=svg.getScreenCTM();if(!matrix)return;
+    const point=svg.createSVGPoint();point.x=Number(svg.dataset.originX)+o.x*Number(svg.dataset.scale);point.y=Number(svg.dataset.originY)+o.y*Number(svg.dataset.scale);
+    const screen=point.matrixTransform(matrix),rect=floor.parentElement.getBoundingClientRect(),viewport=floor.getBoundingClientRect();
+    if(screen.x<viewport.left||screen.x>viewport.right||screen.y<viewport.top||screen.y>viewport.bottom){objectMenu.sync(null);return;}
+    const special=stageboxCapacity[o.type]?'Anschlüsse bearbeiten':o.type==='rack'?'IEM-Monitore bearbeiten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester bearbeiten':drumModel.isDrums(o.type)||o.type==='percussion'?'Drums & Percussion bearbeiten':'';
+    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,modelFamily:o.type==='di'?'di-boxes':compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),dragging:!!drag?.moved,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
+  }
+
   function defaultPackState(){return {version:1,unlocked:[],activations:[],betaPass:false,betaGrantedAt:0,rewards:{feedback:false,newsletter:false,feedbackAt:0,newsletterAt:0},outbox:[]};}
   function normalizePackState(value){
     const source=value&&typeof value==='object'?value:{},allowed=new Set(objectPacks.filter(pack=>!pack.free&&!pack.reward).map(pack=>pack.id)),state=defaultPackState(),unique=new Set();
@@ -17836,12 +18111,15 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   let lastLabelTap=null;
   function editObjectLabel(id){
     const o=objects.find(item=>item.id===id);if(sharedReadOnly||!o||o.locked)return;
+    objectMenu?.dismissFor(id);
     finishEdit();setSelection([id]);setInspectorTab('properties');setWorkspacePanel('inspector',true);inspector();
     requestAnimationFrame(()=>{$('sp-label').focus();$('sp-label').select();});
   }
   function startObjectDrag(e){
+    if(objectMenu?.isRotating())return;
     focusCanvas();
     const labelTarget=e.target.closest('[data-label-for]'),id=labelTarget?.dataset.labelFor||stageObjectTarget(e.target),stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
+    if(id&&e.button===0)objectMenu?.reopen(id);
     if(e.button===1||panMode||spaceHeld||e.altKey){
       const blankPrimary=e.button===0&&!id&&!stairsTarget&&!iemTarget;
       startViewPan(e);
@@ -17917,7 +18195,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(!drag||drag.pointer!==e.pointerId)return;
     const p=svgPoint(drag.svg,e);
     if(Math.hypot(p.x-drag.x,p.y-drag.y)<.04&&!drag.moved)return;
-    drag.moved=true;lastLabelTap=null;
+    drag.moved=true;lastLabelTap=null;syncObjectMenu(drag.svg);
     if(drag.kind==='label'){
       const o=objects.find(o=>o.id===drag.id);if(!o||o.locked)return;
       o.labelOffset={x:Math.max(-10000,Math.min(10000,drag.ox+p.x-drag.x)),y:Math.max(-10000,Math.min(10000,drag.oy+p.y-drag.y))};
@@ -18419,6 +18697,37 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-io-alias-list').addEventListener('focusin',e=>{if(e.target.closest('[data-io-alias-kind]')&&!editBefore)editBefore=snapshot();});
   $('sp-io-alias-list').addEventListener('input',e=>{const input=e.target.closest('[data-io-alias-kind]'),o=objects.find(item=>item.id===selected);if(!input||!o||o.locked||drumModel.isDrums(o.type))return;if(!editBefore)editBefore=snapshot();const io=objectIo(o),kind=input.dataset.ioAliasKind,ports=String(input.dataset.ioAliasPorts||'').split(',').map(Number).filter(Number.isInteger),value=ioAliasText(input.value);for(const port of ports)if(port>0&&port<=io[kind].count)io.aliases[kind][port-1]=value;o.io=io;syncRoutingFromStage(false);queueDraw();});
   $('sp-io-alias-list').addEventListener('change',e=>{const input=e.target.closest('[data-io-alias-kind]');if(!input)return;input.value=ioAliasText(input.value);finishEdit();renderEditor();});
+  objectMenu=StageplotObjectMenu.mount($('sp-editor-floor').parentElement,{
+    focusCanvas:()=> $('sp-editor-floor').focus({preventScroll:true}),
+    modalOpen:()=>!!root.querySelector('dialog[open]'),
+    edit(fields){
+      const o=objects.find(item=>item.id===selected);if(!o||o.locked||sharedReadOnly)return;
+      finishEdit();const label=fields.label.slice(0,o.type==='text'?240:42),steps=Math.max(1,Math.min(24,Math.round(fields.steps)||5));
+      if(label===o.label&&(o.type!=='stage-stairs'||steps===(o.steps||5)))return;
+      change(()=>{o.label=label;if(o.type==='di'){const device=stage.routing.devices.find(device=>device.objectId===o.id);if(device)StageplotRoutingModel.updateDevice(stage.routing,device.id,{name:label||'DI-Box'});}if(o.type==='stage-stairs')o.steps=steps;},'Objekt angepasst');
+    },
+    beginRotation(){finishEdit();const o=objects.find(item=>item.id===selected);return {id:o?.id,before:snapshot(),angle:o?.angle};},
+    rotate(value){const o=objects.find(item=>item.id===selected);if(!o||o.locked||sharedReadOnly)return;o.angle=Number(StageplotObjectMenu.angle(value).toFixed(1));constrain(o,false);queueDraw();},
+    endRotation(token,cancel){
+      const o=objects.find(item=>item.id===token?.id);if(!o)return;
+      if(cancel)o.angle=token.angle;else keepHistory(token.before);
+      renderEditor();
+    },
+    action(action,opener){
+      const o=objects.find(item=>item.id===selected);if(!o||sharedReadOnly)return;
+      if(o.locked&&!['lock','duplicate','label'].includes(action))return;
+      finishEdit();
+      if(action==='duplicate'){duplicateSelectedObject();return;}
+      if(action==='delete'){removeSelectedObject();return;}
+      if(action==='label'){change(()=>{o.showLabel=o.showLabel===false;},o.showLabel===false?'Beschriftung eingeblendet':'Beschriftung ausgeblendet');return;}
+      if(action==='lock'){change(()=>{o.locked=!o.locked;},o.locked?'Objekt entsperrt':'Objekt gesperrt');return;}
+      if(action==='reset'){change(()=>{o.angle=0;constrain(o,false);},'Drehung: 0°');return;}
+      if(action==='backward'){const target=StageplotObjectMenu.previous(objects,o,byId);if(target)change(()=>{moveObjectBehind(objects,o,target);},'Eine Ebene zurückgelegt');return;}
+      if(action==='model'){if(o.type==='di'){const device=stage.routing.devices.find(device=>device.objectId===o.id);showCompactModelDialog('di-boxes','di-model:'+device?.modelId,'change');return;}const family=byId[o.type].family;if(compactModelFamilies.has(family))showCompactModelDialog(family,o.type);return;}
+      if(action==='special'){if(stageboxCapacity[o.type])openStageboxIo(o.id);else openSelectedDrumDesigner({currentTarget:opener});return;}
+      if(action==='properties'){setInspectorTab('properties');setWorkspacePanel('inspector',true);inspector();}
+    }
+  });
   function duplicateSelectedObject(){if(selectedObjects().length>1){multiAction('duplicate');return;}finishEdit();const o=objects.find(o=>o.id===selected);if(!o)return;if(!isObjectUnlocked(o.type)){lockedObjectPack(o.type);return;}change(()=>{const copy={...clone(o),id:'station-'+nextId++,x:o.x+.5,y:o.y+.5,locked:false};constrain(copy);cloneRoutingDiObject(o,copy);objects.push(copy);selected=copy.id;syncRoutingFromStage(false);},'Baustein dupliziert');}
   $('sp-duplicate').addEventListener('click',duplicateSelectedObject);
   $('sp-inspector-duplicate').addEventListener('click',duplicateSelectedObject);

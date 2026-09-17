@@ -70,6 +70,7 @@ const settled=page=>page.waitForFunction(()=>document.querySelector('#sp-header-
    await page.setViewportSize({width,height:width===390?844:982});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
    await workspace.locator('[data-rw-box-layout="list"]').click();assert.equal(await workspace.locator('.rw-stagebox-section [data-rw-port]').count(),24);await workspace.locator('[data-rw-box-layout="grid"]').click();
    const last=workspace.locator('.rw-stagebox-hardware [data-rw-direction="inputs"][data-rw-port="16"]');await last.click();await assertNoOverflow(page,'#sp-routing-workspace-v2','Stagebox routing '+width);
+   assert(await last.evaluate(el=>{const r=el.getBoundingClientRect(),parent=el.closest('.sp-stagebox-device-scroll').getBoundingClientRect();return r.left>=parent.left-1&&r.right<=parent.right+1;}),'Choosing a socket preserves its horizontal scroll position');
    await page.screenshot({path:artifactPath('stagebox-interactive-'+width+'-'+engine+'.png')});
   }
   const beforeReload=(await saved(page)).stage.routing;await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await settled(page);

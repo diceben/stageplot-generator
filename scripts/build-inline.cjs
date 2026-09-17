@@ -20,6 +20,7 @@ const INDEX = path.join(root, 'index.html');
 // transform() muss exakt den Text erzeugen, der eingebettet werden soll.
 const MODULES = [
   {file:'stageplot-stageboxes-v1.js',transform:s=>s.trim()},
+  ...['stageplot-object-menu-v1.js','stageplot-object-menu-v1.css'].map(file=>({file,transform:s=>s.trim()})),
   ...['stageplot-routing-model-v2.js','stageplot-routing-workspace-v2.js','stageplot-routing-workspace-v2.css','stageplot-routing-host-v2.js'].map(file=>({file,transform:s=>s.trim()})),
   { file: 'stageplot-qol-v1.js', transform: s => s.trim() },
   { file: 'stageplot-qol-v1.css', transform: s => s.trim() },
