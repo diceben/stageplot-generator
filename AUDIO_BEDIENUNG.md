@@ -30,6 +30,8 @@ Gültige Änderungen speichern lokal und funktionieren offline. Alte Projekte be
 
 ## Originalfotos
 
+Radial J48, J48 Stereo und ProD2 zeigen in der DI-Auswahl, am Gerät und im Signalweg jeweils das passende Originalfoto von Radial Engineering. Die drei unveränderten Herstellerfotos liegen lokal unter `stageplot-assets/di/` und benötigen zusammen rund 184 kB. Eigene Modelle zeigen einen neutralen Platzhalter. [Bildquellen und Prüfsummen](stageplot-assets/di/original-sources.json).
+
 Der gemeinsame Katalog enthält Fotos für **81 von 88 konkreten Mikrofoneinträgen**. Hinzu kommen fünf allgemeine Mikrofontypen ohne erfundenes Modellfoto. 78 unterschiedliche Originalaufnahmen stammen direkt von 22 Herstellern, ihren regionalen Produktseiten und Archiven. Sie liegen lokal unter `stageplot-assets/mics/` und funktionieren ohne Abfrage eines Bilddienstes. Es werden keine KI-generierten Mikrofonbilder eingesetzt.
 
 Die Aufnahmen werden für die Modellkarten proportional auf höchstens 640 × 640 Pixel verkleinert und als WebP komprimiert. Der vollständige Bildausschnitt bleibt erhalten; es werden keine Teile ergänzt oder neu gezeichnet. Zusammen benötigen die 78 ausgelieferten Fotos weniger als 2,5 MB. Sie laden erst bei Bedarf, mit asynchroner Bilddekodierung. Die Auswahl lädt auch für die bisherigen 19 Fotos jetzt kompakte Fassungen. Die früheren Bildadressen bleiben für noch geöffnete ältere App-Versionen erreichbar.

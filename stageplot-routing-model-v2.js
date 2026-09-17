@@ -10,9 +10,9 @@
   const signalTypes=new Set(['Mic','Line','Instrument','Digital']);
   const powers=new Set(['48V','battery','external','none']);
   const diModels=Object.freeze([
-    Object.freeze({id:'radial-j48',name:'Radial J48',channels:1,active:true,power:'48V',phantom:true}),
-    Object.freeze({id:'radial-j48-stereo',name:'Radial J48 Stereo',channels:2,active:true,power:'48V',phantom:true}),
-    Object.freeze({id:'radial-prod2',name:'Radial ProD2',channels:2,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'radial-j48',name:'Radial J48',photo:'stageplot-assets/di/radial-j48-photo-v1.jpg',photoAlt:'Radial J48 – Produktfotografie von Radial Engineering',channels:1,active:true,power:'48V',phantom:true}),
+    Object.freeze({id:'radial-j48-stereo',name:'Radial J48 Stereo',photo:'stageplot-assets/di/radial-j48-stereo-photo-v1.jpg',photoAlt:'Radial J48 Stereo – Produktfotografie von Radial Engineering',channels:2,active:true,power:'48V',phantom:true}),
+    Object.freeze({id:'radial-prod2',name:'Radial ProD2',photo:'stageplot-assets/di/radial-prod2-photo-v1.jpg',photoAlt:'Radial ProD2 – Produktfotografie von Radial Engineering',channels:2,active:false,power:'none',phantom:false}),
     Object.freeze({id:'custom',name:'Eigene DI',channels:1,active:false,power:'none',phantom:false})
   ]);
   const catalog=new Map(diModels.map(model=>[model.id,model]));

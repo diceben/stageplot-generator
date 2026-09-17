@@ -8,6 +8,14 @@
 #sp-audio-device .sp-stereo-links,#sp-audio-device .sp-io-aliases { display:none; }
 .sp-audio-available { display:grid;gap:8px; }
 .sp-audio-available .sp-button { white-space:normal;text-align:left;justify-content:space-between; }
+#sp-prototype .sp-choice-pills.sp-audio-di-models { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
+#sp-prototype .sp-audio-di-models button { display:grid;gap:7px;min-width:0;padding:9px;text-align:left; }
+#sp-prototype .sp-audio-di-photo { display:block;object-fit:contain;object-position:center;width:100%;height:96px;max-width:100%;padding:6px;box-sizing:border-box;background:#fff;border-radius:7px; }
+.sp-audio-di-custom { display:grid;place-items:center;min-height:96px;border-radius:7px;background:var(--sp-soft);color:var(--sp-muted);font-size:13px; }
+.sp-audio-di-selected { display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--sp-line);border-radius:9px;background:var(--sp-panel); }
+.sp-audio-di-selected > span:last-child { display:grid;gap:4px;min-width:0;overflow-wrap:anywhere; }
+#sp-prototype .sp-audio-di-selected .sp-audio-di-photo,#sp-prototype .sp-audio-mic-selected .sp-audio-di-photo { flex:none;width:96px;height:80px; }
+.sp-audio-di-selected .sp-audio-di-custom,.sp-audio-mic-selected .sp-audio-di-custom { flex:none;width:96px;min-height:80px; }
 #sp-channel-dialog { width:min(740px,calc(100vw - 32px));max-width:740px;max-height:calc(100dvh - 32px);overflow:auto; }
 #sp-channel-form { display:grid;gap:16px; }
 #sp-channel-form .sp-channel-top-fields { grid-template-columns:1fr 1.5fr; }

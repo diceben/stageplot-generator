@@ -1,0 +1,47 @@
+[
+  {
+    "model": "Radial J48",
+    "id": "radial-j48",
+    "productPage": "https://www.radialeng.com/product/j48",
+    "imageUrl": "https://www.radialeng.com/wp-content/uploads/2018/03/j48-34-right-1-768x715.jpg",
+    "retrieved": "2026-09-17",
+    "credit": "Radial Engineering",
+    "originalManufacturerPhoto": true,
+    "file": "radial-j48-photo-v1.jpg",
+    "sha256": "c29920d3c8b7f1e9086c31896e23fe9384fba9f80fee4bdb96977084b0650840",
+    "bytes": 50540,
+    "width": 768,
+    "height": 715,
+    "processing": "None; original manufacturer JPEG, unchanged."
+  },
+  {
+    "model": "Radial J48 Stereo",
+    "id": "radial-j48-stereo",
+    "productPage": "https://www.radialeng.com/product/j48-stereo",
+    "imageUrl": "https://www.radialeng.com/wp-content/uploads/2018/04/J48-Stereo-34-768x858.jpg",
+    "retrieved": "2026-09-17",
+    "credit": "Radial Engineering",
+    "originalManufacturerPhoto": true,
+    "file": "radial-j48-stereo-photo-v1.jpg",
+    "sha256": "0d0a665aeebe104877a71089c7dd2e11440da0a54992f7c4049d3049ce589e63",
+    "bytes": 58137,
+    "width": 768,
+    "height": 858,
+    "processing": "None; original manufacturer JPEG, unchanged."
+  },
+  {
+    "model": "Radial ProD2",
+    "id": "radial-prod2",
+    "productPage": "https://www.radialeng.com/product/prod2",
+    "imageUrl": "https://www.radialeng.com/wp-content/uploads/2018/04/prod2-34-right-768x873.jpg",
+    "retrieved": "2026-09-17",
+    "credit": "Radial Engineering",
+    "originalManufacturerPhoto": true,
+    "file": "radial-prod2-photo-v1.jpg",
+    "sha256": "7e2de27e6fc144c21363568fb36d9d0a6dfa0ababec816409df6c551bbc094f6",
+    "bytes": 75514,
+    "width": 768,
+    "height": 873,
+    "processing": "None; original manufacturer JPEG, unchanged."
+  }
+]
