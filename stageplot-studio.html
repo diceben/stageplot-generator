@@ -198,16 +198,20 @@
         <div class="sp-sidebar-head"><strong>Bausteine</strong><div class="sp-library-head-actions"><button type="button" class="sp-button" id="sp-inventory-open" aria-label="Mein Inventar öffnen">Inventar</button><button class="sp-sidebar-toggle sp-shell-toggle" type="button" id="sp-library-toggle" aria-label="Bausteinbibliothek einklappen" aria-expanded="true" aria-controls="sp-library"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M7 3v14m5.5-10-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
         <div class="sp-library-mode-tabs" role="tablist" aria-label="Bausteine und Objekt-Packs"><button type="button" id="sp-library-objects-tab" role="tab" aria-selected="true" aria-controls="sp-library-items" data-library-mode="objects">Objekte</button><button type="button" id="sp-library-packs-tab" role="tab" aria-selected="false" aria-controls="sp-library-packs" data-library-mode="packs">Packs <span id="sp-library-pack-count" aria-label=""></span></button></div>
         </div>
-        <label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-library-search" type="search" enterkeyhint="done" aria-label="Baustein suchen" placeholder="Baustein suchen …" maxlength="80" autocomplete="off"></label>
+        <label class="sp-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.4"/></svg><input id="sp-library-search" type="search" enterkeyhint="done" aria-label="Baustein suchen" placeholder="Objekt oder Modell suchen …" maxlength="80" autocomplete="off"></label>
         <div class="sp-library-quick-filters" role="group" aria-label="Bausteine filtern"><button type="button" data-library-scope="all" aria-pressed="true">Katalog</button><button type="button" data-library-scope="favorites" aria-pressed="false">★ Favoriten</button><button type="button" data-library-scope="recent" aria-pressed="false" aria-label="Zuletzt benutzte Bausteine">Zuletzt</button></div>
+        <button type="button" id="sp-library-categories-toggle" class="sp-library-categories-toggle" aria-expanded="false" aria-controls="sp-category-tabs"><span>Kategorien</span><strong id="sp-library-category-current">Gitarren &amp; Bässe</strong><span aria-hidden="true">⌄</span></button>
         <div id="sp-category-tabs" class="sp-category-tabs" role="group" aria-label="Baustein-Kategorien">
-          <button type="button" data-category="all" aria-pressed="true" aria-label="Alle" data-tooltip="Alle"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="all" src="./stageplot-assets/categories/all-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Alle</span></button>
-          <button type="button" data-category="instruments" aria-pressed="false" aria-label="Instrumente" data-tooltip="Instrumente"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="instruments" src="./stageplot-assets/categories/instruments-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Instrumente</span></button>
-          <button type="button" data-category="classical" aria-pressed="false" aria-label="Klassik & Orchester" data-tooltip="Klassik & Orchester"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="orchestra" src="./stageplot-assets/categories/orchestra-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Orchester</span></button>
-          <button type="button" data-category="stage" aria-pressed="false" aria-label="Bühnenelemente" data-tooltip="Bühnenelemente"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="stage" src="./stageplot-assets/categories/stage-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Bühne</span></button>
-          <button type="button" data-category="lights" aria-pressed="false" aria-label="Licht" data-tooltip="Licht"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="lights" src="./stageplot-assets/categories/lights-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Licht</span></button>
-          <button type="button" data-category="tech" aria-pressed="false" aria-label="Technik" data-tooltip="Technik"><img loading="lazy" decoding="async" class="sp-category-icon" data-category-icon="tech" src="./stageplot-assets/categories/tech-v1.webp" width="256" height="256" alt="" aria-hidden="true" draggable="false"><span class="sp-category-name">Technik</span></button>
+          <button type="button" data-category="guitars" aria-pressed="true"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Gitarren &amp; Bässe</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
+          <button type="button" data-category="keys" aria-pressed="false"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Tasten &amp; Elektronik</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
+          <button type="button" data-category="drums" aria-pressed="false"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Drums &amp; Percussion</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
+          <button type="button" data-category="orchestral" aria-pressed="false"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Streicher &amp; Bläser</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
+          <button type="button" data-category="mics" aria-pressed="false"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Mikrofone &amp; Stative</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
+          <button type="button" data-category="audio" aria-pressed="false"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Ton &amp; Monitoring</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
+          <button type="button" data-category="stage" aria-pressed="false"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Bühne &amp; Ausstattung</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
+          <button type="button" data-category="lights" aria-pressed="false"><span class="sp-category-icon" aria-hidden="true"></span><span class="sp-category-name">Licht &amp; Video</span><span class="sp-category-chevron" aria-hidden="true">›</span></button>
         </div>
+        <h3 id="sp-library-section-heading" class="sp-library-section-heading">Gitarren &amp; Bässe</h3>
         <div id="sp-library-items" class="sp-library-items"></div>
         <div id="sp-library-packs" class="sp-library-packs" role="tabpanel" aria-labelledby="sp-library-packs-tab" hidden></div>
         <span class="sp-library-hint">Wählen → auf der Bühne platzieren</span>
@@ -220,7 +224,7 @@
             <div class="sp-toolbar-group sp-canvas-cluster sp-history-controls" data-canvas-cluster="history">
               <button class="sp-button sp-iconbutton" id="sp-undo" type="button" aria-label="Rückgängig" data-tooltip="Rückgängig · ⌘ Z" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 5.5 3.5 9l4 3.5M4 9h7.2a4.8 4.8 0 1 1 0 9.6H9.5" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               <button class="sp-button sp-iconbutton" id="sp-redo" type="button" aria-label="Wiederholen" data-tooltip="Wiederholen · ⇧ ⌘ Z" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 5.5 4 3.5-4 3.5M16 9H8.8a4.8 4.8 0 1 0 0 9.6h1.7" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button class="sp-button" id="sp-note-add" type="button">Notiz</button><button class="sp-button" id="sp-venue-open" type="button"><span class="sp-tool-desktop-label">Bühnenform</span><span class="sp-tool-mobile-label">Form</span></button>
+              <button class="sp-button" id="sp-note-add" type="button" aria-label="Freien Text hinzufügen">+ Text</button><button class="sp-button" id="sp-venue-open" type="button"><span class="sp-tool-desktop-label">Bühnenform</span><span class="sp-tool-mobile-label">Form</span></button>
             </div>
             <div class="sp-toolbar-group sp-canvas-cluster sp-focus-controls" data-canvas-cluster="focus">
               <button class="sp-button" id="sp-multi-toggle" type="button" aria-pressed="false" aria-label="Mehrere Objekte auswählen"><span class="sp-tool-desktop-label">Mehrere auswählen</span><span class="sp-tool-mobile-label">Mehrere</span></button>
@@ -585,7 +589,8 @@
   </dialog>
   <dialog id="sp-model-dialog" class="sp-clear-dialog sp-model-dialog" aria-labelledby="sp-model-dialog-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">MODELLWECHSEL</span><h2 id="sp-model-dialog-title">Modell auswählen</h2><p id="sp-model-dialog-summary" class="sp-muted"></p></div><button class="sp-stagebox-close-button" type="button" id="sp-model-dialog-close" aria-label="Modellauswahl schließen">×</button></div>
-    <div class="sp-model-dialog-options" id="sp-model-dialog-options" role="listbox" aria-labelledby="sp-model-dialog-title"></div>
+    <div class="sp-model-dialog-options" id="sp-model-dialog-options" role="group" aria-labelledby="sp-model-dialog-title"></div>
+    <p id="sp-model-dialog-hint" class="sp-model-dialog-hint">Modell wählen und auf der Bühne platzieren.</p>
   </dialog>
   <dialog id="sp-share-dialog" class="sp-clear-dialog sp-share-dialog" aria-labelledby="sp-share-title" aria-describedby="sp-share-description">
     <header class="sp-share-heading">
@@ -723,13 +728,14 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.21">v0.1.0-beta.21</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.22">v0.1.0-beta.22</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.21</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.22</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
             <h4>Instrumente, Routing und Bearbeitung</h4>
             <ul>
               <li><strong>Instrumentbilder:</strong> Neue generierte Bilder für elf E-Gitarrenmodelle, Akustikgitarren, Banjo, Mandoline, Lap Steel und Ukulele. Alle Katalogmikrofone haben echte Fotos; MD 421 Kompakt ist ergänzt.</li>
+              <li><strong>Bausteine:</strong> Acht Kategorien mit kompakter Navigation, gruppierten Objekttypen und Modellauswahl neben der Bibliothek. Die Suche zeigt einzelne Modelle direkt; Modelle lassen sich in der Auswahl als Favoriten speichern.</li>
               <li><strong>Bässe:</strong> Neue Bildassets für J-Bass, P-Bass, PJ-Bass, Shortscale, Mustang, Akustikbass, Kontrabass, Höfner Violin Bass und Rickenbacker 4003. Alle neun sind unter „Bass“ auswählbar; der Kontrabass bleibt auch unter „Streicher“ und im Orchester-Editor verfügbar.</li>
               <li><strong>Drums &amp; Percussion:</strong> Größere Arbeitsfläche mit Zoom. Drumset, Cajon, Becken und Vocal-Boom kombinieren; Cajon vorne oder hinten mit frei wählbaren Mikrofonen abnehmen. Neue Bilder für Cajon und Vocal-Boom.</li>
               <li><strong>Routing:</strong> Neue Ansichten für Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen und beleuchteter Draufsicht. Abnahmeart und Anschluss direkt in kompakten Karten wählen; Direktausgänge wiederholen das Instrumentbild nicht mehr. Weitere Abnahmen und Dual Mono zeigen getrennte Wege mit feinen Pfeilen. Die Quellenkarte bietet Anzahl, Buchsenart, Namen, aktive Ausgänge und Stereo-Paare direkt im Routing; auch Quellen ohne aktive Ausgänge bleiben erreichbar. Mono-Quellen können einzelne Eingänge einer Stereo-DI nutzen. Stereo-Paare nutzen eine gemeinsame DI-Karte und teilen sich erst bei den Pultkanälen auf. Mehrere Paare wie Piano auf Out 1/2 und Synth auf Out 3/4 lassen sich jeweils an eine eigene DI anschließen.</li>
@@ -789,7 +795,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.21 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.22 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -6584,6 +6590,97 @@ html,body { height:100%; overflow:hidden; }
   #sp-prototype #sp-canvas-tools :is(.sp-history-controls,.sp-focus-controls) button { display:flex; align-items:center; justify-content:center; flex-direction:row; gap:0; line-height:1; font-weight:600; }
   #sp-prototype #sp-canvas-tools #sp-venue-open { min-width:54px; }
 }
+
+/* Object library: category list, object families, then individual models. */
+@media (min-width:1000px) { #sp-prototype { --sp-library-width:350px; } }
+#sp-prototype #sp-library .sp-library-mode-tabs { margin:0 0 7px; }
+#sp-prototype #sp-library .sp-library-mode-tabs button { min-height:30px; padding:5px 2px; }
+#sp-prototype #sp-library .sp-library-quick-filters { gap:0; border-bottom:1px solid var(--sp-line); }
+#sp-prototype #sp-library .sp-library-quick-filters button { position:relative; min-height:34px; border-radius:0; background:transparent; color:var(--sp-muted); font-size:12px; }
+#sp-prototype #sp-library .sp-library-quick-filters button[aria-pressed="true"] { background:transparent; color:var(--sp-ink); }
+#sp-prototype #sp-library .sp-library-quick-filters button[aria-pressed="true"]::after { content:''; position:absolute; height:3px; bottom:0; left:8px; right:8px; border-radius:3px; background:var(--sp-teal); }
+#sp-prototype #sp-library .sp-category-tabs { display:grid; grid-template-columns:minmax(0,1fr); gap:1px; margin:6px 0 0; padding:0 0 7px; }
+#sp-prototype #sp-library .sp-category-tabs button { min-height:32px; padding:3px 8px; flex-direction:row; justify-content:flex-start; gap:10px; border:0; border-radius:7px; color:var(--sp-ink); }
+#sp-prototype #sp-library .sp-category-tabs .sp-category-icon { width:26px; height:26px; padding:2px; object-fit:contain; border-radius:4px; background:light-dark(transparent,#e4e7df); }
+#sp-prototype #sp-library .sp-category-tabs .sp-category-name { flex:1; text-align:left; font-size:12px; font-weight:500; line-height:1.25; }
+#sp-prototype .sp-category-chevron { font-size:19px; color:var(--sp-muted); }
+#sp-prototype #sp-library .sp-category-tabs button[aria-pressed="true"] { background:var(--sp-accent-bg); }
+#sp-prototype #sp-library .sp-category-tabs button[aria-pressed="true"] .sp-category-chevron { color:var(--sp-teal); }
+#sp-prototype .sp-library-categories-toggle { display:none; }
+#sp-prototype #sp-library .sp-library-section-heading { flex:none; margin:0; padding:10px 3px 7px; font-size:13px; line-height:1.25; font-weight:700; }
+#sp-prototype #sp-library .sp-library-items { display:block; flex:1 1 0; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:2px 2px 8px; }
+#sp-prototype .sp-library-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; align-content:start; }
+#sp-prototype #sp-library .sp-library-card > .sp-library-item { min-height:100px; padding:12px 4px 8px; gap:3px; border:1px solid var(--sp-line); border-radius:8px; background:var(--sp-panel); }
+#sp-prototype #sp-library .sp-library-item > :is(svg,.sp-library-thumbnail) { width:74px; height:54px; padding:2px; border-radius:5px; }
+#sp-prototype #sp-library .sp-library-item > span { font-size:11px; }
+#sp-prototype #sp-library .sp-library-card .sp-library-favorite { width:26px; height:26px; right:0; top:0; font-size:16px; }
+#sp-prototype .sp-library-section { margin-top:7px; border-top:1px solid var(--sp-line); }
+#sp-prototype .sp-library-section > summary { display:flex; align-items:center; justify-content:space-between; min-height:40px; padding:8px 3px; cursor:pointer; font-size:12px; font-weight:550; list-style:none; }
+#sp-prototype .sp-library-section > summary::-webkit-details-marker { display:none; }
+#sp-prototype .sp-library-section > summary::after { content:'›'; font-size:19px; transition:transform .15s; }
+#sp-prototype .sp-library-section[open] > summary::after { transform:rotate(90deg); }
+#sp-prototype #sp-library[data-library-mode="packs"] :is(.sp-library-section-heading,.sp-library-categories-toggle) { display:none; }
+#sp-prototype #sp-model-dialog { box-shadow:0 10px 35px #0003; }
+#sp-prototype #sp-model-dialog[data-docked="true"] { position:fixed; inset:auto; margin:0; z-index:90; max-width:none; transform:none; border-radius:12px; }
+#sp-prototype #sp-model-dialog[open] { display:flex; flex-direction:column; }
+#sp-prototype #sp-model-dialog .sp-eyebrow:empty { display:none; }
+#sp-prototype #sp-model-dialog .sp-dialog-heading { flex:none; padding:16px 18px 12px; }
+#sp-prototype #sp-model-dialog .sp-dialog-heading h2 { font-size:21px; }
+#sp-prototype #sp-model-dialog-summary { font-size:12px; margin-top:4px; }
+#sp-prototype #sp-model-dialog .sp-model-dialog-options { min-height:0; flex:1 1 auto; max-height:none; padding:12px 16px; gap:8px; }
+#sp-prototype .sp-model-dialog-card { position:relative; min-width:0; }
+#sp-prototype #sp-model-dialog .sp-model-dialog-option { width:100%; height:100%; min-height:120px; grid-template-rows:80px auto; padding:10px 9px; background:var(--sp-panel); border-radius:8px; box-shadow:none; transform:none; }
+#sp-prototype #sp-model-dialog .sp-model-dialog-option > svg { height:80px; }
+#sp-prototype #sp-model-dialog .sp-model-dialog-option:hover,#sp-prototype #sp-model-dialog .sp-model-dialog-option[aria-pressed="true"] { border-color:var(--sp-teal); background:var(--sp-accent-bg); color:var(--sp-ink); }
+#sp-prototype .sp-model-favorite { position:absolute; top:3px; right:3px; display:grid; place-items:center; width:32px; height:32px; padding:0; font-size:20px; line-height:1; border:0; border-radius:50%; background:transparent; color:var(--sp-muted); cursor:pointer; }
+#sp-prototype .sp-model-favorite:hover { background:var(--sp-soft); }
+#sp-prototype .sp-model-favorite[aria-pressed="true"] { background:var(--sp-primary); color:var(--sp-primary-ink); }
+#sp-prototype .sp-model-dialog-hint { flex:none; margin:0; padding:12px 18px; background:var(--sp-soft); color:var(--sp-muted); font-size:12px; line-height:1.4; }
+@media (min-width:1000px) and (max-height:760px) {
+  #sp-prototype #sp-library .sp-category-tabs button { min-height:29px; padding-top:1px; padding-bottom:1px; }
+  #sp-prototype #sp-library .sp-category-tabs .sp-category-icon { height:25px; }
+  #sp-prototype #sp-library .sp-library-card > .sp-library-item { min-height:88px; }
+  #sp-prototype #sp-library .sp-library-item > :is(svg,.sp-library-thumbnail) { height:45px; }
+}
+@media (max-width:999px) {
+  #sp-prototype #sp-library .sp-library-categories-toggle { display:flex; flex:none; align-items:center; gap:8px; min-height:44px; width:100%; margin-top:5px; padding:6px 8px; border:1px solid var(--sp-line); border-radius:8px; background:var(--sp-panel); color:var(--sp-ink); text-align:left; font-size:11px; }
+  #sp-prototype #sp-library .sp-library-categories-toggle strong { flex:1; font-size:12px; }
+  #sp-prototype #sp-library .sp-library-categories-toggle[aria-expanded="false"] + .sp-category-tabs { display:none; }
+  #sp-prototype #sp-library .sp-category-tabs { max-height:45dvh; overflow:auto; grid-template-columns:minmax(0,1fr); }
+  #sp-prototype #sp-library .sp-category-tabs button { min-height:44px; }
+  #sp-prototype #sp-library .sp-category-tabs .sp-category-name { font-size:13px; }
+  #sp-prototype #sp-library .sp-library-section-heading { padding-top:8px; }
+  #sp-prototype #sp-library .sp-library-card .sp-library-favorite { width:44px; height:44px; top:0; right:0; }
+  #sp-prototype #sp-library .sp-library-card > .sp-library-item { padding-top:22px; }
+  #sp-prototype .sp-model-favorite { width:44px; height:44px; }
+}
+@media (max-width:760px), (max-width:900px) and (max-height:500px) and (pointer:coarse) {
+  #sp-prototype #sp-library .sp-library-mode-tabs button { min-height:44px; }
+  #sp-prototype #sp-library[data-searching="true"] :is(.sp-library-categories-toggle,.sp-library-section-heading,.sp-category-tabs) { display:none; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-items { display:grid; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-grid { display:contents; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-card > .sp-library-item { min-height:56px; padding:5px 52px 5px 8px; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-item > :is(svg,.sp-library-thumbnail) { width:64px; height:44px; }
+  #sp-prototype #sp-library[data-searching="true"] .sp-library-card .sp-library-favorite { right:5px; top:calc(50% - 22px); }
+}
+@media (max-width:360px) { #sp-prototype .sp-library-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1000px) {
+  #sp-prototype #sp-library .sp-library-topbar { display:flex; flex:none; align-items:center; gap:8px; margin-bottom:6px; }
+  #sp-prototype #sp-library .sp-sidebar-head { display:contents; }
+  #sp-prototype #sp-library .sp-sidebar-head > strong { order:0; font-size:17px; }
+  #sp-prototype #sp-library .sp-library-mode-tabs { order:1; flex:1; gap:8px; margin:0; border:0; }
+  #sp-prototype #sp-library .sp-library-mode-tabs button { min-height:32px; font-size:10px; padding:5px 0; }
+  #sp-prototype #sp-library .sp-library-head-actions { order:2; gap:2px; }
+  #sp-prototype #sp-library #sp-inventory-open { padding:4px 7px; min-height:32px; font-size:10px; }
+  #sp-prototype #sp-library > .sp-search { min-height:38px; }
+  #sp-prototype #sp-library > .sp-search input { padding:7px 0; }
+}
+
+#sp-prototype #sp-library .sp-category-icon > svg { display:block; width:100%; height:100%; }
+@media (min-width:1000px) and (max-height:760px) {
+  #sp-prototype #sp-library .sp-library-card > .sp-library-item { padding:8px 4px 6px; }
+  #sp-prototype #sp-library .sp-library-item > :is(svg,.sp-library-thumbnail) { height:38px; }
+}
 /* build-inline:end stageplot-qol-v1.css */
 </style>
 
@@ -10058,21 +10155,26 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   const byId = Object.fromEntries(catalog.map(c => [c.id, c]));
   const libraryModelFamilyCards={
     keys:{label:'Keyboard',representative:'keys-stage4'},
-    'acoustic-guitars':{label:'Akustik & Banjo',representative:'acoustic'},
-    'electric-guitars':{label:'Gitarre',representative:'guitar'},
+    stageboxes:{label:'Stagebox',representative:'stagebox-16'},
+    mixers:{label:'Mischpult',representative:'mixer-xr18'},
+    'guitar-stands':{label:'Gitarrenständer',representative:'guitar-stand-single',members:['guitar-stand-single','guitar-stand-empty','guitar-stand-full','guitar-tree-empty','guitar-tree-full']},
+    'guitar-amplifiers':{label:'Gitarrenverstärker',representative:'amp',members:['amp','amp-head','cabinet-112','cabinet-212','cabinet-412']},
+    'acoustic-guitars':{label:'Akustikgitarre',representative:'acoustic'},
+    'electric-guitars':{label:'E-Gitarre',representative:'guitar'},
     'electric-basses':{label:'Bass',representative:'bass'},
-    brass:{label:'Blech',representative:'trumpet',members:['trumpet','trombone','tuba','flugelhorn','horn','french-horn'],keywords:'blech blechbläser brass'},
-    woodwinds:{label:'Holz',representative:'saxophone',members:['saxophone','flute','oboe','clarinet','bassoon','piccolo','english-horn','bass-clarinet','contrabassoon'],keywords:'holz holzbläser woodwind woodwinds'},
+    brass:{label:'Blechbläser',representative:'trumpet',members:['trumpet','trombone','tuba','flugelhorn','horn','french-horn'],keywords:'blech blechbläser brass'},
+    woodwinds:{label:'Holzbläser',representative:'saxophone',members:['saxophone','flute','oboe','clarinet','bassoon','piccolo','english-horn','bass-clarinet','contrabassoon'],keywords:'holz holzbläser woodwind woodwinds'},
     'orchestral-strings':{label:'Streicher',representative:'violin',members:['violin','viola','cello','double-bass'],keywords:'streicher streichinstrumente streichinstrument geige geigen violine viola bratsche cello kontrabass'}
   };
   function libraryFamilyFor(c){
-    if(!c)return null;
+    if(!c||c.id==='banjo')return null;
     return Object.keys(libraryModelFamilyCards).find(family=>libraryModelFamilyCards[family].members?.includes(c.id))||c.family;
   }
   function libraryFamilyVariants(family,placing=false){
     const members=libraryModelFamilyCards[family]?.members;
     const variants=members?members.map(id=>byId[id]).filter(Boolean):catalog.filter(c=>c.family===family);
     // Upright bass also belongs in the Bass insertion picker; its orchestra model stays intact.
+    if(placing&&family==='acoustic-guitars')return variants.filter(c=>c.id!=='banjo');
     return placing&&family==='electric-basses'?[...variants,byId['double-bass']]:variants;
   }
   const objectPacks=[
@@ -10099,6 +10201,37 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     if(instrumentLibraryCategories.has(c.category)&&!['guitar-stands','guitar-trees'].includes(c.family))return 'instruments';
     return 'tech';
   }
+  // Library navigation is independent of saved object types and routing families.
+  const librarySections=[
+    {id:'guitars',icon:'guitar',name:'Gitarren & Bässe'}, {id:'keys',icon:'keys-stage4',name:'Tasten & Elektronik'},
+    {id:'drums',icon:'drums',name:'Drums & Percussion'}, {id:'orchestral',icon:'violin',name:'Streicher & Bläser'},
+    {id:'mics',icon:'mic-sm57',name:'Mikrofone & Stative'}, {id:'audio',icon:'wedge',name:'Ton & Monitoring'},
+    {id:'stage',icon:'riser',name:'Bühne & Ausstattung'}, {id:'lights',icon:'light-par',name:'Licht & Video'}
+  ];
+  const orchestralPercussionIds=new Set(['timpani','concert-bass-drum','orchestral-snare','crash-cymbals','tam-tam','xylophone','glockenspiel','triangle']);
+  function libraryCategoriesFor(c){
+    const groups=[],id=c.id,stand=['guitar-stands','guitar-trees'].includes(c.family);
+    if(c.category==='strings'&&!stand||c.category==='amps'&&id!=='leslie')groups.push('guitars');
+    if(c.category==='keys'||['laptop','leslie','piano-bench','dj-controller','dj-player','turntable','dj-mixer','sampler','drum-machine'].includes(id))groups.push('keys');
+    if(['drums','percussion'].includes(c.category)||orchestralPercussionIds.has(id)||['drum-throne','drum-shield','drumfill'].includes(id))groups.push('drums');
+    if(c.category==='winds'||c.orchestraPart&&!orchestralPercussionIds.has(id)||['orchestra','double-bass','music-stand','musician-chair'].includes(id))groups.push('orchestral');
+    if(c.category==='mics'||stand||['music-stand','tablet-stand'].includes(id))groups.push('mics');
+    if(['stageboxes','mixers'].includes(c.family)||['rack','iem-earphones','foh','di','wedge','pa-top','subwoofer','sidefill','drumfill','wireless-antenna'].includes(id))groups.push('audio');
+    if(stageLibraryIds.has(id)||['piano-bench','drum-throne','musician-chair','standing-stool','equipment-table','power','drum-shield','text'].includes(id))groups.push('stage');
+    if(c.family==='lights'||['camera-tripod','led-wall','projection-screen','teleprompter'].includes(id))groups.push('lights');
+    return groups;
+  }
+  function libraryBlockFor(c,category){
+    if(category==='guitars')return c.category==='amps'?'Verstärker & Effekte':c.id==='lap-steel'?'Weitere Saiteninstrumente':'';
+    if(category==='keys')return ['dj-controller','dj-player','turntable','dj-mixer'].includes(c.id)?'DJ': ['leslie','piano-bench'].includes(c.id)?'Zubehör':'';
+    if(category==='drums')return ['drum-throne','drum-shield','drumfill','percussion-table'].includes(c.id)?'Zubehör':orchestralPercussionIds.has(c.id)?'Orchesterschlagwerk':'';
+    if(category==='orchestral')return ['music-stand','musician-chair'].includes(c.id)?'Zubehör':'';
+    if(category==='mics')return c.category==='mics'?'':'Ständer & Halter';
+    if(category==='audio')return ['pa-top','subwoofer','sidefill','drumfill'].includes(c.id)?'PA & Fills':['foh','wireless-antenna'].includes(c.id)?'Zubehör':'';
+    if(category==='stage')return ['piano-bench','drum-throne','musician-chair','standing-stool','equipment-table','rug','drum-shield'].includes(c.id)?'Möbel & Ausstattung':['power','stage-cable-ramp'].includes(c.id)?'Strom & Kabelwege':'';
+    if(category==='lights')return c.family==='lights'?'':'Video';
+    return '';
+  }
   let stage = null, objects = [], selected = null, nextId = 1, view = 'dashboard', drag = null, history = [], future = [], editBefore = null;
   const viewStorageKey='stageplot-studio:view:v1';
   let stageSurfaceDefault='light',setupStageSurface='light';
@@ -10109,7 +10242,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   let libraryScope='all';
   const libraryPreferenceIds=new Set([...catalog.map(c=>c.id),...Object.keys(libraryModelFamilyCards).map(id=>'family:'+id)]);
   let libraryPreferences=StageplotQol.readPreferences(window.localStorage,libraryPreferenceIds);
-  let libraryCategory='all',libraryMode='objects',activePackId='core',placement=null,placementFrame=false;
+  let libraryCategory='guitars',libraryMode='objects',activePackId='core',placement=null,placementFrame=false;
   let packState={version:1,unlocked:[],activations:[],betaPass:false,betaGrantedAt:0,rewards:{feedback:false,newsletter:false,feedbackAt:0,newsletterAt:0},outbox:[]};
   let libraryCollapsed=false,inspectorCollapsed=false,canvasFocus=false,workspaceBeforeFocus=null,lastWorkspaceCompact=null;
   let inspectorTab='properties',helpReturnFocus=null;
@@ -12264,7 +12397,7 @@ function createStageplotSymbolV3(type, options = {}) {
     $('sp-library-packs').innerHTML=objectPacks.map(pack=>{const unlocked=isPackUnlocked(pack.id),objects=packObjects(pack);return '<button class="sp-pack-card" type="button" data-pack-open="'+pack.id+'" data-unlocked="'+unlocked+'" aria-label="'+esc(pack.name+' ansehen · '+packStateLabel(pack))+'"><div class="sp-pack-card-head"><div><h3>'+esc(pack.name)+'</h3><p>'+esc(pack.kicker)+'</p></div><span class="sp-pack-card-badge">'+esc(packStateLabel(pack))+'</span></div><div class="sp-pack-card-art">'+packArtwork(pack)+'</div><div class="sp-pack-card-foot"><span>'+objects.length+' Objekte</span><strong>'+esc(unlocked&&!pack.free?'Aktiv':pack.price)+'</strong></div></button>';}).join('');
   }
   function setLibraryMode(mode,focus=false){
-    libraryMode=mode==='packs'?'packs':'objects';$('sp-library').dataset.libraryMode=libraryMode;
+    libraryMode=mode==='packs'?'packs':'objects';$('sp-model-dialog').close();$('sp-library').dataset.libraryMode=libraryMode;
     for(const button of root.querySelectorAll('[data-library-mode]')){const active=button.dataset.libraryMode===libraryMode;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;}
     $('sp-library-packs').hidden=libraryMode!=='packs';if(libraryMode==='packs')renderPackCards();else library();
     if(focus)$(libraryMode==='packs'?'sp-library-packs-tab':'sp-library-objects-tab').focus({preventScroll:true});
@@ -12319,15 +12452,25 @@ function createStageplotSymbolV3(type, options = {}) {
   function libraryMatches(c,category,query){
     if(c.libraryHidden)return false;
     if(category!=='all'){
-      if(['instruments','stage','lights','tech'].includes(category)){if(libraryGroupFor(c)!==category)return false;}
+      if(librarySections.some(s=>s.id===category)){if(!libraryCategoriesFor(c).includes(category))return false;}
+      else if(['instruments','stage','lights','tech'].includes(category)){if(libraryGroupFor(c)!==category)return false;}
       else if(category==='classical'){if(c.id!=='orchestra'&&!c.orchestraPart)return false;}
       else if(!(category==='stations'?stationIds.includes(c.id):c.category===category))return false;
     }
     const normalize=value=>String(value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss');
     const terms={classical:'klassik orchester symphonie',drums:'schlagzeug drums percussion',keys:'keyboard keys klavier piano orgel',strings:'gitarre guitar bass saiten',winds:'blaser blaeser blasinstrument wind brass woodwind',mics:'mikrofon mic boom gesang vocals talkback teller',amps:'amp verstarker modeler',tech:'buhne technik'};
     const groupTerms={instruments:'instrument instrumente',stage:'bühne bühnenelemente podest rigging',lights:'licht scheinwerfer effekt',tech:'technik backline equipment sonstige'};
-    const text=normalize([c.name,c.short,c.keywords||'',c.detail||'',libraryModelFamilyCards[libraryFamilyFor(c)]?.keywords||'',terms[c.category]||'',groupTerms[libraryGroupFor(c)]||'',c.id.startsWith('guitar-tree-')?'tanne baum dreier stander triple':c.id==='guitar-stand-single'?'einzeln einzel einfacher ein gitarren bass stander single stand':c.id.startsWith('guitar-stand-')?'dreier stander rack':''].join(' '));
+    const text=normalize([c.name,c.short,c.keywords||'',c.detail||'',...libraryCategoriesFor(c).map(id=>librarySections.find(s=>s.id===id).name),libraryModelFamilyCards[libraryFamilyFor(c)]?.keywords||'',terms[c.category]||'',groupTerms[libraryGroupFor(c)]||'',c.id.startsWith('guitar-tree-')?'tanne baum dreier stander triple':c.id==='guitar-stand-single'?'einzeln einzel einfacher ein gitarren bass stander single stand':c.id.startsWith('guitar-stand-')?'dreier stander rack':''].join(' '));
     return normalize(query).trim().split(/\s+/).filter(Boolean).every(word=>text.includes(word));
+  }
+  function librarySearchRank(c,query){
+    const normalize=value=>String(value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss'),q=normalize(query).trim(),words=q.split(/\s+/),names=[normalize(c.name),normalize(c.short)];
+    if(names.includes(q))return 0;
+    if(names.some(name=>name.startsWith(q)))return 1;
+    if(words.every(word=>names.some(name=>name.includes(word))))return 2;
+    if(words.every(word=>normalize(c.keywords||'').includes(word)))return 3;
+    if(words.every(word=>normalize(c.detail||'').includes(word)))return 4;
+    return 5;
   }
   function selectedObjects(){
     const project=stage?.projectId||stage;
@@ -12388,12 +12531,14 @@ function createStageplotSymbolV3(type, options = {}) {
   }
   const libraryTypeForObject=o=>o.type==='orchestra'&&o.orchestra?.mode==='single'&&o.orchestra.parts?.length===1&&byId[o.orchestra.parts[0].type]?o.orchestra.parts[0].type:o.type==='mic'&&o.stand==='round'?'mic-round':o.type;
   function toggleLibraryFavorite(id){
-    const scroll=$('sp-library-items').scrollTop,fromInspector=document.activeElement===$('sp-object-favorite');
+    const scroll=$('sp-library-items').scrollTop,fromInspector=document.activeElement===$('sp-object-favorite'),fromModel=document.activeElement?.dataset?.modelFavorite;
     libraryPreferences=StageplotQol.favorite(libraryPreferences,id,libraryPreferenceIds);
     const saved=saveLibraryPreferences();library();$('sp-library-items').scrollTop=scroll;
     if(view==='editor')inspector();
     const button=[...$('sp-library-items').querySelectorAll('[data-library-favorite]')].find(b=>b.dataset.libraryFavorite===id);
-    (fromInspector?$('sp-object-favorite'):button||root.querySelector('[data-library-scope="'+libraryScope+'"]')).focus({preventScroll:true});
+    const modelButton=$('sp-model-dialog-options').querySelector('[data-model-favorite="'+id+'"]');
+    if(modelButton){const active=libraryPreferences.favorites.includes(id);modelButton.textContent=active?'★':'☆';modelButton.setAttribute('aria-pressed',String(active));modelButton.setAttribute('aria-label',byId[id].name+(active?' aus Favoriten entfernen':' als Favorit merken'));}
+    (fromModel&&modelButton?modelButton:fromInspector?$('sp-object-favorite'):button||root.querySelector('[data-library-scope="'+libraryScope+'"]')).focus({preventScroll:true});
     say(saved?(libraryPreferences.favorites.includes(id)?'In Favoriten gespeichert':'Aus Favoriten entfernt'):'Favoriten gelten für diese Sitzung · lokaler Speicher nicht verfügbar');
   }
 
@@ -12407,10 +12552,13 @@ function createStageplotSymbolV3(type, options = {}) {
     const familyEntry=family=>{const card=libraryModelFamilyCards[family];if(!card)return null;return {c:{...byId[card.representative],name:card.label,short:card.label},family,variants:libraryFamilyVariants(family,true),key:'family:'+family};};
     if(libraryScope==='all'){
       for(const c of catalog.filter(c=>libraryMatches(c,query?'all':libraryCategory,query))){
-        const family=libraryFamilyFor(c);
-        if(!libraryModelFamilyCards[family])visible.push({c,key:c.id});
+        const family=libraryCategory==='guitars'&&c.id==='double-bass'?'electric-basses':libraryFamilyFor(c);
+        if(query||!libraryModelFamilyCards[family])visible.push({c,key:c.id});
         else if(!seenFamilies.has(family)){seenFamilies.add(family);visible.push(familyEntry(family));}
       }
+      if(query)visible.sort((a,b)=>librarySearchRank(a.c,query)-librarySearchRank(b.c,query));
+      const order=libraryCategory==='guitars'?['family:electric-guitars','family:acoustic-guitars','family:electric-basses','banjo','mandolin','ukulele']:libraryCategory==='orchestral'?['family:orchestral-strings','family:woodwinds','family:brass','harp','orchestra']:[];
+      if(!query&&order.length)visible.sort((a,b)=>(order.includes(a.key)?order.indexOf(a.key):99)-(order.includes(b.key)?order.indexOf(b.key):99));
     }else{
       for(const key of libraryPreferences[libraryScope==='favorites'?'favorites':'recent']){
         const entry=key.startsWith('family:')?familyEntry(key.slice(7)):byId[key]?{c:byId[key],key}:null;
@@ -12418,17 +12566,25 @@ function createStageplotSymbolV3(type, options = {}) {
       }
     }
     root.querySelectorAll('[data-library-scope]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.libraryScope===libraryScope)));
-    root.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===libraryCategory)));
-    $('sp-category-tabs').hidden=libraryScope!=='all';
-    $('sp-library-items').innerHTML=visible.map(entry=>{
+    root.querySelectorAll('[data-category]').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.category===libraryCategory));const art=b.querySelector('.sp-category-icon'),section=librarySections.find(s=>s.id===b.dataset.category);if(art&&!art.children.length&&section)art.innerHTML=icon(byId[section.icon]);});
+    $('sp-category-tabs').hidden=libraryScope!=='all'||!!query;
+    $('sp-library-categories-toggle').hidden=libraryScope!=='all'||!!query;
+    const categoryName=librarySections.find(s=>s.id===libraryCategory)?.name||'Bausteine';
+    $('sp-library-category-current').textContent=categoryName;
+    $('sp-library-section-heading').textContent=query?'Suchergebnisse':libraryScope==='favorites'?'Favoriten':libraryScope==='recent'?'Zuletzt verwendet':categoryName;
+    const cardHtml=entry=>{
       const c=entry.c,favorite=libraryPreferences.favorites.includes(entry.key);let card;
-      if(entry.family){const active=objects.some(o=>libraryFamilyFor(byId[libraryTypeForObject(o)])===entry.family),count=entry.variants.length,kind=libraryModelFamilyCards[entry.family].members?'Instrumente':'Modelle';
+      if(entry.family){const active=objects.some(o=>libraryFamilyFor(byId[libraryTypeForObject(o)])===entry.family),count=entry.variants.length,kind=['brass','woodwinds','orchestral-strings'].includes(entry.family)?'Instrumente':'Modelle';
         card='<button class="sp-library-item sp-library-model-family" type="button" data-library-model-family="'+entry.family+'" data-active="'+active+'" aria-haspopup="dialog" aria-controls="sp-model-dialog" aria-label="'+esc(c.name+' auswählen · '+count+' '+kind)+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span><span class="sp-library-model-count">'+count+' '+kind+'</span></button>';
       }else{const unlocked=isObjectUnlocked(c.id),pack=objectPackById[objectPackForType.get(c.id)];
         card='<button class="sp-library-item" type="button" '+(unlocked?'data-add="'+c.id+'" data-pending="'+(placement?.type===c.id)+'"':'data-pack-open="'+pack.id+'" data-pack-locked="true"')+' aria-label="'+esc(unlocked?c.name+' zum Platzieren auswählen':c.name+' ist im '+pack.name+' Pack · Pack ansehen')+'">'+libraryIcon(c)+'<span>'+esc(c.short)+'</span>'+(unlocked?'':'<span class="sp-library-lock-label">'+esc(pack.name)+'</span>')+'</button>';
       }
       return '<div class="sp-library-card">'+card+'<button type="button" class="sp-library-favorite" data-library-favorite="'+entry.key+'" aria-pressed="'+favorite+'" aria-label="'+esc(c.name+(favorite?' aus Favoriten entfernen':' als Favorit merken'))+'">'+(favorite?'★':'☆')+'</button></div>';
-    }).join('')||'<p class="sp-library-empty">'+(query?'Keine passenden Bausteine. Suche ändern.':libraryScope==='favorites'?'Mit dem Stern am Baustein legst du deine Favoriten an.':libraryScope==='recent'?'Hier erscheinen deine zuletzt auf der Bühne platzierten Bausteine.':'Keine passenden Bausteine. Kategorie ändern.')+'</p>';
+    };
+    const blocks=new Map([['',[]]]);
+    for(const entry of visible){const block=!query&&libraryScope==='all'?libraryBlockFor(entry.c,libraryCategory):'';if(!blocks.has(block))blocks.set(block,[]);blocks.get(block).push(entry);}
+    const openBlocks=new Set([...$('sp-library-items').querySelectorAll('details[open]')].map(el=>el.dataset.libraryBlock));
+    $('sp-library-items').innerHTML=visible.length?[...blocks].filter(([,entries])=>entries.length).map(([name,entries])=>{const grid='<div class="sp-library-grid">'+entries.map(cardHtml).join('')+'</div>';return name?'<details class="sp-library-section" data-library-block="'+esc(name)+'" '+(openBlocks.has(name)?'open':'')+'><summary>'+esc(name)+'</summary>'+grid+'</details>':grid;}).join(''):'<p class="sp-library-empty">'+(query?'Keine passenden Bausteine. Suche ändern.':libraryScope==='favorites'?'Mit dem Stern am Baustein legst du deine Favoriten an.':libraryScope==='recent'?'Hier erscheinen deine zuletzt auf der Bühne platzierten Bausteine.':'Keine passenden Bausteine. Kategorie ändern.')+'</p>';
     $('sp-library-items').scrollTop=0;
   }
   function updateList(){
@@ -16308,10 +16464,11 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(lock){e.preventDefault();e.stopPropagation();cancelPlacement(false);finishEdit();const o=objects.find(o=>o.id===lock.dataset.layerLock);if(o){const before=snapshot(),activeTab=inspectorTab;o.locked=!o.locked;keepHistory(before);renderEditor();setInspectorTab(activeTab);requestAnimationFrame(()=>root.querySelector('[data-layer-lock="'+o.id+'"]')?.focus({preventScroll:true}));say(o.locked?'Objekt gesperrt':'Objekt entsperrt');}return;}
     const b=e.target.closest('[data-select]');if(b){cancelPlacement(false);finishEdit();if((selectionMode||e.shiftKey||e.metaKey||e.ctrlKey)&&objects.some(o=>o.id===b.dataset.select))toggleSelection(b.dataset.select);else setSelection([b.dataset.select]);renderEditor();}
   });
-  $('sp-category-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(b){libraryCategory=b.dataset.category;library();}});
-  $('sp-library-search').addEventListener('input',library);
+  $('sp-library-categories-toggle').addEventListener('click',()=>{const b=$('sp-library-categories-toggle');b.setAttribute('aria-expanded',String(b.getAttribute('aria-expanded')!=='true'));});
+  $('sp-category-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(b){$('sp-model-dialog').close();libraryCategory=b.dataset.category;$('sp-library-categories-toggle').setAttribute('aria-expanded','false');library();}});
+  $('sp-library-search').addEventListener('input',()=>{$('sp-model-dialog').close();library();});
   $('sp-library-search').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();e.currentTarget.blur();}});
-  root.querySelector('.sp-library-quick-filters').addEventListener('click',e=>{const b=e.target.closest('[data-library-scope]');if(b){libraryScope=b.dataset.libraryScope;library();}});
+  root.querySelector('.sp-library-quick-filters').addEventListener('click',e=>{const b=e.target.closest('[data-library-scope]');if(b){$('sp-model-dialog').close();libraryScope=b.dataset.libraryScope;library();}});
   $('sp-library-items').addEventListener('click',e=>{const b=e.target.closest('[data-library-favorite]');if(b){e.stopPropagation();toggleLibraryFavorite(b.dataset.libraryFavorite);}});
   $('sp-object-favorite').addEventListener('click',()=>{const o=objects.find(o=>o.id===selected);if(o)toggleLibraryFavorite(libraryTypeForObject(o));});
   window.addEventListener('storage',e=>{if(e.key===StageplotQol.key){libraryPreferences=StageplotQol.readPreferences(window.localStorage,libraryPreferenceIds);library();if(view==='editor')inspector();}});
@@ -16550,15 +16707,24 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     const o=objects.find(o=>o.id===selected),next=byId[nextType],prior=o&&byId[o.type];if(!o||o.locked||!next||nextType===o.type||!prior?.family||prior.family!==next.family)return;
     change(()=>{delete o.dimensions;o.type=nextType;o.angle=(o.angle-(prior.defaultAngle||0)+(next.defaultAngle||0)+360)%360;if(o.label===prior.short)o.label=next.short;constrain(o,false);},'Variante geändert');
   }
+  function positionModelDialog(){
+    const dialog=$('sp-model-dialog');if(!dialog.open||dialog.dataset.docked!=='true')return;
+    const rect=$('sp-library').getBoundingClientRect(),left=Math.max(12,rect.right+16),available=window.innerWidth-left-16;
+    if(available<360){dialog.close();return;}
+    dialog.style.left=left+'px';dialog.style.top=Math.max(16,Math.min(rect.top+40,window.innerHeight-240))+'px';dialog.style.width=Math.min(720,available)+'px';
+    dialog.style.maxHeight=(window.innerHeight-parseFloat(dialog.style.top)-16)+'px';
+  }
   function showCompactModelDialog(family,currentType='',action='change'){
-    const group=action==='place'&&libraryModelFamilyCards[family]?.members?libraryModelFamilyCards[family]:null;
+    const group=action==='place'?libraryModelFamilyCards[family]:null;
     if(!group&&!compactModelFamilies.has(family))return;
-    const variants=libraryFamilyVariants(family,action==='place'),current=byId[currentType];modelDialogContext={family,currentType,action};
-    $('sp-model-dialog-title').textContent=group?.label||visualVariantFamilies[family]||'Modell auswählen';
-    $('sp-model-dialog').querySelector('.sp-eyebrow').textContent=group?'INSTRUMENT AUSWÄHLEN':'MODELLWECHSEL';
-    $('sp-model-dialog-summary').textContent=group?'Instrument zum Platzieren wählen':action==='place'?variants.length+' Modelle · Modell zum Platzieren wählen':variants.length+' Modelle · aktuell '+(current?.name||'');
-    $('sp-model-dialog-options').innerHTML=variants.map(item=>{const unlocked=isObjectUnlocked(item.id),chosen=item.id===currentType;return '<button class="sp-model-dialog-option" type="button" role="option" data-dialog-model="'+item.id+'" data-model-unlocked="'+unlocked+'" aria-selected="'+String(chosen)+'" aria-label="'+esc(item.name+(chosen?' · ausgewählt':'')+(!unlocked?' · Pack erforderlich':''))+'">'+icon(item)+'<strong>'+esc(item.short)+'</strong><small>'+esc(item.detail||item.name)+(unlocked?'':' · Pack erforderlich')+'</small></button>';}).join('');
-    $('sp-model-dialog').showModal();requestAnimationFrame(()=>($('sp-model-dialog-options').querySelector('[aria-selected="true"]')||$('sp-model-dialog-options').querySelector('[data-dialog-model]'))?.focus({preventScroll:true}));
+    const variants=libraryFamilyVariants(family,action==='place'),current=byId[currentType],dialog=$('sp-model-dialog');modelDialogContext={family,currentType,action,opener:document.activeElement};
+    $('sp-model-dialog-title').textContent=group?group.label+' auswählen':visualVariantFamilies[family]||'Modell auswählen';
+    dialog.querySelector('.sp-eyebrow').textContent=action==='place'?'':'MODELLWECHSEL';
+    $('sp-model-dialog-summary').textContent=variants.length+' '+(['brass','woodwinds','orchestral-strings'].includes(family)?'Instrumente':'Modelle')+(action==='change'?' · aktuell '+(current?.name||''):'');
+    $('sp-model-dialog-hint').textContent=action==='place'?'Modell wählen und auf der Bühne platzieren.':'Modell wählen. Position und Anschlüsse bleiben erhalten.';
+    $('sp-model-dialog-options').innerHTML=variants.map(item=>{const unlocked=isObjectUnlocked(item.id),chosen=item.id===currentType,favorite=libraryPreferences.favorites.includes(item.id);return '<div class="sp-model-dialog-card"><button class="sp-model-dialog-option" type="button" data-dialog-model="'+item.id+'" data-model-unlocked="'+unlocked+'" aria-pressed="'+String(chosen)+'" aria-label="'+esc(item.name+(chosen?' · ausgewählt':'')+(!unlocked?' · Pack erforderlich':''))+'" title="'+esc(item.detail||item.name)+'">'+icon(item)+'<strong>'+esc(item.short)+'</strong>'+(!unlocked?'<small>Pack erforderlich</small>':'')+'</button><button type="button" class="sp-model-favorite" data-model-favorite="'+item.id+'" aria-pressed="'+favorite+'" aria-label="'+esc(item.name+(favorite?' aus Favoriten entfernen':' als Favorit merken'))+'">'+(favorite?'★':'☆')+'</button></div>';}).join('');
+    if(!dialog.open){dialog.dataset.docked=String(action==='place'&&window.innerWidth>=1000&&root.dataset.libraryCollapsed!=='true');dialog.removeAttribute('style');if(dialog.dataset.docked==='true')dialog.show();else dialog.showModal();}
+    positionModelDialog();requestAnimationFrame(()=>($('sp-model-dialog-options').querySelector('[data-dialog-model][aria-pressed="true"]')||$('sp-model-dialog-options').querySelector('[data-dialog-model]'))?.focus({preventScroll:true}));
   }
   function openLibraryModelDialog(family){showCompactModelDialog(family,'','place');}
   function openCompactModelDialog(){
@@ -16569,8 +16735,13 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-model-picker').addEventListener('click',e=>{const button=e.target.closest('[data-model]');if(button&&!button.disabled)changeSelectedVariant(button.dataset.model);});
   $('sp-model-change').addEventListener('click',openCompactModelDialog);
   $('sp-model-dialog-close').addEventListener('click',()=>$('sp-model-dialog').close());
-  $('sp-model-dialog').addEventListener('close',()=>{modelDialogContext=null;});
-  $('sp-model-dialog-options').addEventListener('click',e=>{const button=e.target.closest('[data-dialog-model]');if(!button)return;const type=button.dataset.dialogModel,context=modelDialogContext;if(!isObjectUnlocked(type)){$('sp-model-dialog').close();lockedObjectPack(type);return;}$('sp-model-dialog').close();if(context?.action==='place')beginPlacement(type,{detail:0});else changeSelectedVariant(type);});
+  $('sp-model-dialog').addEventListener('close',()=>{const context=modelDialogContext,opener=context?.opener;modelDialogContext=null;const target=opener?.isConnected?opener:context?root.querySelector('[data-library-model-family="'+context.family+'"]'):null;if((document.activeElement===document.body||$('sp-model-dialog').contains(document.activeElement))&&target)target.focus({preventScroll:true});});
+  $('sp-library-toggle').addEventListener('click',()=>$('sp-model-dialog').close());
+  $('sp-model-dialog').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();$('sp-model-dialog').close();}});
+  window.addEventListener('resize',positionModelDialog);
+  document.addEventListener('keydown',e=>{const d=$('sp-model-dialog');if(e.key==='Escape'&&d.open&&d.dataset.docked==='true'&&!root.querySelector('dialog:modal')){e.preventDefault();e.stopPropagation();d.close();}},true);
+  document.addEventListener('pointerdown',e=>{const d=$('sp-model-dialog');if(d.open&&d.dataset.docked==='true'&&!d.contains(e.target)&&!$('sp-library').contains(e.target))d.close();});
+  $('sp-model-dialog-options').addEventListener('click',e=>{const favorite=e.target.closest('[data-model-favorite]');if(favorite){toggleLibraryFavorite(favorite.dataset.modelFavorite);return;}const button=e.target.closest('[data-dialog-model]');if(!button)return;const type=button.dataset.dialogModel,context=modelDialogContext;if(!isObjectUnlocked(type)){$('sp-model-dialog').close();lockedObjectPack(type);return;}$('sp-model-dialog').close();if(context?.action==='place')beginPlacement(type,{detail:0});else changeSelectedVariant(type);});
   $('sp-inspector-position').addEventListener('click',e=>{const button=e.target.closest('[data-rotate]');if(button&&!button.disabled)rotate(Number(button.dataset.rotate));});
   const rotate=amount=>{if(selectedObjects().length>1){multiAction(amount<0?'rotate-left':'rotate-right');return;}finishEdit();const o=objects.find(o=>o.id===selected);if(o&&!o.locked)change(()=>{o.angle=(o.angle+amount+360)%360;constrain(o,false);},'Drehung: '+((o.angle+amount+360)%360)+'°');};
   $('sp-object-rotate').addEventListener('click',e=>{const b=e.target.closest('[data-rotate]'),zero=e.target.closest('[data-rotate-zero]');if(b)rotate(Number(b.dataset.rotate));else if(zero){const o=objects.find(o=>o.id===selected);if(o&&!o.locked)change(()=>{o.angle=0;constrain(o,false);},'Drehung: 0°');}});
