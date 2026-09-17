@@ -74,6 +74,26 @@
 #sp-prototype .rw-flow-pickup {grid-column:3;min-width:0;}
 #sp-prototype .rw-flow-patch {grid-column:5;min-width:0;}
 #sp-prototype .rw-flow-channel {grid-column:7;min-width:0;}
+#sp-prototype .rw-flow-channel:has(.rw-channel-stack) {align-self:stretch;display:grid;}
+#sp-prototype .rw-channel-stack {display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:18px;}
+#sp-prototype .rw-channel-stack .rw-channel-card {min-height:170px;}
+#sp-prototype .rw-channel-stack .rw-channel-emblem {height:36px;display:flex;align-items:center;justify-content:center;gap:7px;}
+#sp-prototype .rw-channel-stack .rw-channel-emblem strong {font-size:25px;}
+#sp-prototype .rw-flow-split {align-self:stretch;}
+#sp-prototype .rw-channel-fork {position:relative;height:100%;display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:18px;color:var(--rw-accent);}
+#sp-prototype .rw-channel-fork::before {content:"";position:absolute;left:0;right:50%;top:50%;height:1.5px;background:currentColor;transform:translateY(-50%);}
+#sp-prototype .rw-channel-fork>div {position:relative;display:flex;align-items:center;justify-content:flex-end;margin:-9px 0;}
+#sp-prototype .rw-channel-fork>div::before {content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:currentColor;transform:translateX(-50%);}
+#sp-prototype .rw-channel-fork>[data-branch="first"]::before {top:50%;}
+#sp-prototype .rw-channel-fork>[data-branch="last"]::before {bottom:50%;}
+#sp-prototype .rw-channel-fork .rw-connector {width:50%;}
+#sp-prototype .rw-di-signal-title {display:grid;gap:3px;padding:1px 0 7px;}
+#sp-prototype .rw-di-signal-title strong {font-size:14px;overflow-wrap:anywhere;}
+#sp-prototype .rw-di-signal-title>span {font-size:10px;color:var(--rw-muted);}
+#sp-prototype .rw-di-input-map {display:grid;gap:6px;margin:5px 0;}
+#sp-prototype .rw-di-input-map>div {display:flex;align-items:center;justify-content:space-between;gap:5px;padding:9px 7px;border:1px solid var(--rw-border);border-radius:5px;background:var(--rw-paper);font-size:10px;}
+#sp-prototype .rw-di-input-map>div>span:nth-child(2) {color:var(--rw-accent);}
+#sp-prototype .rw-di-input-map strong {font-weight:600;}
 #sp-prototype .rw-flow-arrow-one {grid-column:4;}
 #sp-prototype .rw-flow-arrow-two {grid-column:6;}
 #sp-prototype .rw-add-pickup {grid-column:3;align-self:start;margin-top:-4px;}

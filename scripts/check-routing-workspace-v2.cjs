@@ -125,8 +125,9 @@ async function checkWave2Stereo(browser,errors){
     assert.deepEqual(state(await saved(page)),state(before),'A busy second DI input leaves both sources, their notes and patching intact');
     assert.equal(await workspace.locator('.rw-pickup-card').count(),1);continue;
    }
-   let connected=await saved(page);checkConnected(connected,waveRows(before)[0]);assert.equal(await workspace.locator('.rw-source-card').count(),1);assert.equal(await workspace.locator('.rw-pickup-card').count(),2);
-   assert.match(await workspace.locator('.rw-pickup-card').first().innerText(),/Gemeinsame DI.*L.*Eingang 1/s);assert.match(await workspace.locator('.rw-pickup-card').last().innerText(),/Gemeinsame DI.*R.*Eingang 2/s);
+   let connected=await saved(page);checkConnected(connected,waveRows(before)[0]);assert.equal(await workspace.locator('.rw-source-card').count(),1);assert.equal(await workspace.locator('.rw-pickup-card').count(),1,'Both native outputs pass through one physical DI card');
+   assert.equal(await workspace.locator('[data-rw-device-card="di-prod2-demo"]').count(),1);assert.equal(await workspace.locator('.rw-patch-card').count(),1);assert.equal(await workspace.locator('.rw-channel-card').count(),2,'The signal splits into separate channel cards after the shared DI and patch');
+   assert.deepEqual((await card.getAttribute('data-rw-rows')).split('|'),waveRows(connected).map(row=>row.id));
    await workspace.locator('[data-rw-tools]').click();await workspace.locator('[data-rw-tool="undo"]').click();assert.deepEqual(state(await saved(page)),state(before),'One undo restores the mono source, disabled right output and original DI assignment');
    await workspace.locator('[data-rw-tool="redo"]').click();assert.deepEqual(state(await saved(page)),state(connected),'One redo restores both native outputs and the same stereo assignment');
    await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await workspace.locator('[data-rw-select="station-2"]').first().click();connected=await saved(page);checkConnected(connected,waveRows(before)[0]);
@@ -137,6 +138,68 @@ async function checkWave2Stereo(browser,errors){
    }
   }finally{await context.close();}
  }
+}
+async function checkStage4SharedDi(browser,errors){
+ const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'});
+ try{
+  const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',error=>errors.push(error.message));await fixture(page);
+  const workspace=page.locator('#sp-routing-workspace-v2'),sourceId='station-2';
+  const rows=doc=>doc.stage.routing.inputs.filter(row=>row.sourceKey.startsWith(sourceId+':')).sort((a,b)=>a.portIndex-b.portIndex);
+  const snapshot=doc=>{const {generatedAt,...routing}=doc.stage.routing;return {io:doc.objects.find(object=>object.id===sourceId).io,routing};};
+  const output=(name,value,next)=>workspace.locator('[data-rw-source-output-'+name+'="'+value+'"][data-rw-source="'+sourceId+'"]'+(next===undefined?'':'[data-rw-value="'+next+'"]'));
+  const choose=async(rowId,model)=>{await workspace.locator('[data-rw-di-open="'+rowId+'"]').click();await workspace.locator('[data-rw-di-dialog] [data-rw-create-di="'+model+'"]').click();assert.equal(await workspace.locator('[data-rw-di-dialog]').count(),0);};
+  const history=async direction=>{if(await workspace.locator('[data-rw-tools]').getAttribute('aria-expanded')!=='true')await workspace.locator('[data-rw-tools]').click();await workspace.locator('[data-rw-tool="'+direction+'"]').click();};
+  const assertCards=async(root,doc)=>{
+   const native=rows(doc),pairs=[native.slice(0,2),native.slice(2,4)];
+   assert.equal(await root.locator('.rw-source-card').count(),1);assert.equal(await root.locator('.rw-pickup-card').count(),2,'Four Stage 4 outputs use exactly two physical DI cards');
+   assert.equal(await root.locator('.rw-patch-card').count(),2,'Each physical DI has one patch card for its two outputs');assert.equal(await root.locator('.rw-channel-card').count(),4);
+   for(const pair of pairs){
+    const card=root.locator('[data-rw-device-card="'+pair[0].diDeviceId+'"]');assert.equal(await card.count(),1);
+    assert.deepEqual((await card.getAttribute('data-rw-rows')).split('|'),pair.map(row=>row.id));assert.equal(await card.locator('[data-rw-di-open]').count(),1,'The pair has one DI model control');
+    const patch=root.locator('.rw-patch-card[data-rw-card="patch-inputs-'+pair.map(row=>row.id).join('|')+'"]');assert.equal(await patch.count(),1);assert.equal(await patch.locator('.rw-port-pills button').count(),2);
+   }
+  };
+  await workspace.locator('[data-rw-select="'+sourceId+'"]').first().click();await change(workspace.locator('[data-rw-source-field="label"][data-rw-source="'+sourceId+'"]'),'Nord Stage 4');await workspace.locator('[data-rw-source-outputs="'+sourceId+'"]').click();
+  for(const port of [3,4])await output('used',port,true).click();await output('stereo',3,true).click();await change(output('alias',1),'Piano');await change(output('alias',3),'Synth');
+  await workspace.locator('[data-rw-source-outputs="'+sourceId+'"]').click();
+  let doc=await saved(page);const native=rows(doc),pianoIds=native.slice(0,2).map(row=>row.id),synthIds=native.slice(2,4).map(row=>row.id);
+  const originalPiano=native.slice(0,2).map(row=>({id:row.id,number:row.number,stagebox:row.stagebox,stageboxPort:row.stageboxPort}));
+  for(const rowId of [pianoIds[0],synthIds[0]]){await workspace.locator('[data-rw-row-card="'+rowId+'"] [data-rw-pickup="DI"]').click();await choose(rowId,'radial-prod2');}
+  doc=await saved(page);const configured=rows(doc),pianoDevice=configured[0].diDeviceId,synthDevice=configured[2].diDeviceId;
+  assert.deepEqual(configured.map(row=>row.sourceKey),[1,2,3,4].map(port=>sourceId+':out-'+port));assert.deepEqual(configured.map(row=>row.diDeviceId),[pianoDevice,pianoDevice,synthDevice,synthDevice]);assert.notEqual(pianoDevice,synthDevice,'Piano and Synth use distinct physical DIs');
+  assert.deepEqual(configured.map(row=>row.diChannel),[1,2,1,2]);assert.deepEqual(configured.map(row=>row.mode),['Stereo L','Stereo R','Stereo L','Stereo R']);assert(configured.slice(0,2).every(row=>row.instrument.includes('Piano')));assert(configured.slice(2,4).every(row=>row.instrument.includes('Synth')));
+  assert.deepEqual(configured.slice(0,2).map(row=>({id:row.id,number:row.number,stagebox:row.stagebox,stageboxPort:row.stageboxPort})),originalPiano,'Selecting the shared DI preserves Piano channel numbers and existing patch');
+  assert.equal(doc.stage.routing.inputs.find(row=>row.id==='route-acoustic').diDeviceId,'di-prod2-demo','Selecting two new DIs does not reuse the guitar’s physical unit');
+  await assertCards(workspace,doc);
+  for(const key of ['pickup-'+pianoIds[0],'patch-inputs-'+pianoIds.join('|')]){
+   await workspace.locator('[data-rw-open="'+key+'"]').first().click();await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+   const alignment=await workspace.evaluate(element=>{const center=node=>{const bounds=node.getBoundingClientRect();return bounds.y+bounds.height/2;};return {arrows:[...element.querySelectorAll('.rw-channel-fork:first-of-type')[0].querySelectorAll('.rw-connector')].map(center),channels:[...element.querySelector('.rw-channel-stack').children].map(center)};});
+   assert.equal(alignment.arrows.length,2);alignment.arrows.forEach((position,index)=>assert(Math.abs(position-alignment.channels[index])<=1,'Opening '+key+' keeps the split arrow centered on channel '+(index+1)));
+   await workspace.locator('[data-rw-open="'+key+'"]').first().click();
+  }
+  await workspace.locator('[data-rw-open="patch-inputs-'+synthIds.join('|')+'"]').first().click();await workspace.locator('[data-rw-patch="5"][data-rw-direction="inputs"]').click();
+  for(const [index,rowId]of synthIds.entries())await change(workspace.locator('[data-rw-channel-field="number"][data-rw-row="'+rowId+'"]'),13+index);
+  doc=await saved(page);assert.deepEqual(rows(doc).map(row=>row.stageboxPort),[11,12,5,6],'Each pair patches from its shared connection card');
+  assert.deepEqual(rows(doc).map(row=>row.number),[11,12,13,14],'Every output retains an independently editable console channel');
+  await page.setViewportSize({width:1512,height:1480});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await workspace.locator('.rw-pickup-card img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));await page.mouse.move(1,1);await page.screenshot({path:artifactPath('routing-stage4-piano-synth-prod2-'+engine+'.png')});await page.setViewportSize({width:1512,height:982});
+  const beforeReplacement=snapshot(doc);await choose(pianoIds[0],'generic-active-stereo');doc=await saved(page);
+  const replacement=rows(doc)[0].diDeviceId;assert.notEqual(replacement,pianoDevice);assert.deepEqual(rows(doc).map(row=>row.diDeviceId),[replacement,replacement,synthDevice,synthDevice]);assert.equal(doc.stage.routing.devices.find(device=>device.id===replacement).modelId,'generic-active-stereo');
+  assert.deepEqual(rows(doc).map(row=>row.stageboxPort),[11,12,5,6]);assert.deepEqual(rows(doc).map(row=>row.number),[11,12,13,14]);await assertCards(workspace,doc);
+  const afterReplacement=snapshot(doc);await history('undo');assert.deepEqual(snapshot(await saved(page)),beforeReplacement,'One undo restores both connections and the previous physical DI');await history('redo');assert.deepEqual(snapshot(await saved(page)),afterReplacement,'One redo replaces the physical DI for both Piano outputs');
+  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await workspace.locator('[data-rw-select="'+sourceId+'"]').first().click();doc=await saved(page);assert.deepEqual(snapshot(doc),afterReplacement);await assertCards(workspace,doc);
+  const sourceFigure=await workspace.locator('.rw-source-card .rw-art > svg').innerHTML();assert.equal(await workspace.locator('.rw-source-flow svg').evaluateAll((figures,source)=>figures.filter(figure=>figure.innerHTML===source).length,sourceFigure),1,'Stage 4 is pictured once, before its Piano and Synth routes');
+  for(const width of [1512,390]){
+   await page.setViewportSize({width,height:width===390?844:982});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+   await workspace.locator('.rw-pickup-card').first().scrollIntoViewIfNeeded();
+   for(const rowId of [pianoIds[0],synthIds[0]])await assertNoOverflow(page,'[data-rw-row-card="'+rowId+'"]','Shared Stage 4 DI '+width);
+   await workspace.locator('.rw-pickup-card img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));await page.mouse.move(1,1);await page.screenshot({path:artifactPath('routing-stage4-two-shared-di-light-'+width+'-'+engine+'.png')});
+  }
+  const storedBefore=await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),shareDoc=await page.evaluate(document=>window.StageplotShare.clean(document),doc),shareHash=Buffer.from(JSON.stringify({kind:'stageplot-readonly',version:1,document:shareDoc})).toString('base64url');
+  const readonlyPage=await context.newPage();readonlyPage.on('pageerror',error=>errors.push(error.message));await readonlyPage.goto((process.env.APP_URL||'http://127.0.0.1:8899/')+'#share='+shareHash);await readonlyPage.locator('.sp-steps [data-view="routing"]').click();
+  const readonlyWorkspace=readonlyPage.locator('#sp-routing-workspace-v2');await readonlyWorkspace.locator('[data-rw-select="'+sourceId+'"]').first().click();assert.equal(await readonlyWorkspace.getAttribute('data-readonly'),'true');await assertCards(readonlyWorkspace,doc);
+  assert(await readonlyWorkspace.locator('[data-rw-di-open]').evaluateAll(buttons=>buttons.every(button=>button.disabled)));assert(await readonlyWorkspace.locator('.rw-channel-card input').evaluateAll(fields=>fields.every(field=>field.readOnly)));
+  await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore,'Viewing the shared DI layout does not alter the saved draft');
+ }finally{await context.close();}
 }
 async function checkSourceOutputs(browser,errors){
  const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'});
@@ -228,11 +291,11 @@ async function run(){const browser=await launchBrowser();try{
  assert(await workspace.locator('[data-rw-di-device="di-prod2-demo"][data-rw-di-channel="1"][data-rw-row="'+newId+'"]').isDisabled());
  await workspace.locator('[data-rw-di-device="di-prod2-demo"][data-rw-di-channel="2"][data-rw-row="'+newId+'"]').click();
  let doc=await saved(page);assert.equal(doc.stage.routing.devices.length,1);assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).diChannel,2);assert.equal(doc.stage.routing.inputs.find(row=>row.id==='route-acoustic').diChannel,1);
- await workspace.locator('[data-rw-open="pickup-'+newId+'"]').first().click();
  await change(workspace.locator('[data-rw-channel-field="number"][data-rw-row="'+newId+'"]'),21);
- await workspace.locator('[data-rw-open="patch-inputs-'+newId+'"]').first().click();
+ assert.equal(await workspace.locator('.rw-pickup-card').count(),2,'Native and additional mono pickups from one source share one physical DI card');
+ await workspace.locator('[data-rw-open="patch-inputs-route-acoustic|'+newId+'"]').first().click();
  await workspace.locator('[data-rw-patch="3"][data-rw-direction="inputs"]').click();
- doc=await saved(page);assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).stageboxPort,3);
+ doc=await saved(page);assert.equal(doc.stage.routing.inputs.find(row=>row.id==='route-acoustic').stageboxPort,3);assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).stageboxPort,4);
  await workspace.locator('[data-rw-select="station-2"]').first().click();await workspace.locator('[data-rw-open="patch-inputs-route-key-r"]').first().click();
  await workspace.locator('[data-rw-patch="5"]').click();doc=await saved(page);assert.deepEqual(doc.stage.routing.inputs.filter(row=>row.id==='route-key-l'||row.id==='route-key-r').map(row=>row.stageboxPort),[5,6]);
  await workspace.locator('[data-rw-tab="outputs"]').click();
@@ -243,15 +306,15 @@ async function run(){const browser=await launchBrowser();try{
  await workspace.locator('[data-rw-monitor-format="mono"]').click();await workspace.locator('[data-rw-monitor-format="stereo"]').click();
  doc=await saved(page);const iem=doc.stage.routing.outputs.filter(row=>row.sourceKey.startsWith('station-3:'));assert.equal(iem.length,2);assert(iem.every(row=>row.monitorDeviceName==='PSM Test'&&row.monitorReceiverName==='Lead'&&row.iemTransport==='cable'&&!row.frequencyBand));
  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();doc=await saved(page);assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).number,21);assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).diChannel,2);
- await workspace.locator('[data-rw-tab="stageboxes"]').click();assert.match(await workspace.locator('[data-rw-port="3"][data-rw-direction="inputs"]').innerText(),/Akustik/);
- await workspace.locator('[data-rw-port="3"][data-rw-direction="inputs"]').click();assert.equal(await workspace.locator('.rw-source-card').count(),1);
+ await workspace.locator('[data-rw-tab="stageboxes"]').click();assert.match(await workspace.locator('[data-rw-port="4"][data-rw-direction="inputs"]').innerText(),/Akustik/);
+ await workspace.locator('[data-rw-port="4"][data-rw-direction="inputs"]').click();assert.equal(await workspace.locator('.rw-source-card').count(),1);assert.equal(await workspace.locator('.rw-pickup-card').count(),1);assert.equal(await workspace.locator('.rw-channel-card').count(),2,'The stagebox detail keeps both ports of the shared physical DI together');
  const downloadPromise=page.waitForEvent('download');await workspace.locator('[data-rw-export="all"]').click();const download=await downloadPromise;const fs=require('node:fs'),csv=fs.readFileSync(await download.path(),'utf8');assert(csv.includes('Radial ProD2'));assert(csv.includes('PSM Test'));assert(csv.includes('DI-Eingang'));
  await workspace.locator('[data-rw-tab="inputs"]').click();await workspace.locator('[data-rw-select="station-1"]').first().click();
  await workspace.locator('.rw-card-value[data-rw-di-open="route-acoustic"]').click();await workspace.locator('[data-rw-di-dialog] [data-rw-create-di="generic-active-stereo"]').click();
  assert.equal(await workspace.locator('[data-rw-di-dialog]').count(),0,'Selecting a DI immediately closes the picker');
  doc=await saved(page);const genericRow=doc.stage.routing.inputs.find(row=>row.id==='route-acoustic'),genericDevice=doc.stage.routing.devices.find(device=>device.id===genericRow.diDeviceId);
- assert.equal(genericDevice.modelId,'generic-active-stereo');assert.equal(genericDevice.channels,2);assert.equal(genericRow.diChannel,1);assert.equal(genericRow.number,9);assert.equal(genericRow.stageboxPort,9);
- assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).diDeviceId,'di-prod2-demo','Changing one acquisition leaves the other source on its shared physical DI');
+ assert.equal(genericDevice.modelId,'generic-active-stereo');assert.equal(genericDevice.channels,2);assert.equal(genericRow.diChannel,1);assert.equal(genericRow.number,9);assert.equal(genericRow.stageboxPort,3);
+ assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).diDeviceId,genericDevice.id,'Replacing the shared physical DI keeps both same-source pickups together');
  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();doc=await saved(page);
  assert.equal(doc.stage.routing.inputs.find(row=>row.id==='route-acoustic').diDeviceId,genericDevice.id);assert.equal(doc.stage.routing.devices.find(device=>device.id===genericDevice.id).modelId,'generic-active-stereo');
  await workspace.locator('.rw-card-value[data-rw-di-open="route-acoustic"]').click();assert.equal(await workspace.locator('[data-rw-di-dialog] [data-rw-create-di="generic-active-stereo"]').getAttribute('aria-pressed'),'true');await page.keyboard.press('Escape');
@@ -262,8 +325,9 @@ async function run(){const browser=await launchBrowser();try{
  await checkSourceOutputsReadOnly(readonlyWorkspace,'station-1');await readonlyWorkspace.locator('[data-rw-select="station-6"]').first().click();assert(await readonlyWorkspace.locator('[data-rw-source-editor="station-6"]').isDisabled());
  await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore);
  await checkWave2Stereo(browser,errors);
+ await checkStage4SharedDi(browser,errors);
  await checkSourceOutputs(browser,errors);
- assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive DI popup and source outputs, native output activation/count/names/stereo/connector with DI preservation, zero-output recovery and undo/redo/reload, modal keyboard/dismissal, direct inline acquisition, native Wave 2 stereo DI and occupied-port protection, shared stereo DI, atomic stereo patching, monitor metadata and CSV export.');
+ assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive DI popup and source outputs, native output activation/count/names/stereo/connector with DI preservation, zero-output recovery and undo/redo/reload, modal keyboard/dismissal, direct inline acquisition, native Wave 2 stereo DI and occupied-port protection, Stage 4 Piano/Synth on two shared DI cards with four channels, atomic physical DI replacement and patching, read-only/reload, monitor metadata and CSV export.');
 }finally{await browser.close();}}
 if(require.main===module)run().catch(error=>{console.error(error);process.exit(1);});
-module.exports={fixture};
+module.exports={fixture,checkWave2Stereo,checkStage4SharedDi,checkSourceOutputs};
