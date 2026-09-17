@@ -48,6 +48,38 @@ async function checkDiPickerInteraction(page,workspace){
  await opener.click();await dialog.getByRole('button',{name:'DI-Auswahl schließen'}).click();await dialog.waitFor({state:'detached'});
  assert.deepEqual((await saved(page)).stage.routing,before,'Dismissing the picker leaves saved routing unchanged');
 }
+async function checkInlinePickup(page,workspace){
+ const routingData=async()=>{const {generatedAt,...routing}=(await saved(page)).stage.routing;return routing;};
+ await page.locator('#sp-settings-gear').click();await page.locator('[data-theme-choice="light"]').click();await page.locator('#sp-settings-close').click();
+ await workspace.locator('[data-rw-select="station-2"]').first().click();
+ const card=workspace.locator('[data-rw-row-card="route-key-l"]'),before=await routingData();
+ assert.equal(await card.locator('[data-rw-pickup]').count(),4);assert.equal(await card.locator('[data-rw-open],input,select').count(),0,'A direct output is edited without opening another panel');
+ for(const value of ['Mic','DI','Direct','Digital'])assert(await card.locator('[data-rw-pickup="'+value+'"]').isVisible(),'Acquisition types are directly visible');
+ for(const value of ['XLR','Klinke'])assert(await card.locator('[data-rw-connector="'+value+'"]').isVisible(),'Connectors are directly visible');
+ const sourceFigure=await workspace.locator('.rw-source-card .rw-art > svg').innerHTML();
+ assert.equal(await workspace.locator('.rw-source-flow svg').evaluateAll((figures,source)=>figures.filter(figure=>figure.innerHTML===source).length,sourceFigure),1,'The instrument is pictured once in the signal flow');
+ assert.equal(await card.locator('img,svg,image').count(),0,'A direct output does not repeat the instrument picture');
+ await card.locator('[data-rw-connector="Klinke"]').click();
+ const withJack=await routingData(),jackRow=withJack.inputs.find(row=>row.id==='route-key-l');
+ assert.equal(jackRow.connector,'Klinke');assert.equal(jackRow.stagebox,'');assert.equal(jackRow.stageboxPort,null);assert.equal(jackRow.number,11);
+ // The first edit also normalizes the seeded fixture before it is persisted.
+ const originalConnection=before.inputs.find(row=>row.id==='route-key-l'),restored=structuredClone(withJack);
+ Object.assign(restored.inputs.find(row=>row.id==='route-key-l'),{connector:originalConnection.connector,stagebox:originalConnection.stagebox,stageboxPort:originalConnection.stageboxPort});
+ await card.locator('[data-rw-pickup="Direct"]').click();await card.locator('[data-rw-connector="Klinke"]').click();
+ assert.deepEqual(await routingData(),withJack,'Clicking the current type or connector preserves the saved jack connection');
+ for(const width of [1512,390]){
+  await page.setViewportSize({width,height:width===390?844:982});await card.scrollIntoViewIfNeeded();
+  await assertNoOverflow(page,'[data-rw-row-card="route-key-l"]','Inline direct-output controls '+width);
+  for(const button of ['[data-rw-pickup="Direct"]','[data-rw-connector="Klinke"]'])assert(await card.locator(button).isVisible());
+  await page.mouse.move(1,1);await page.screenshot({path:artifactPath('routing-direct-inline-light-'+width+'-'+engine+'.png')});
+ }
+ await page.setViewportSize({width:1512,height:982});await card.locator('[data-rw-connector="XLR"]').click();
+ assert.equal((await saved(page)).stage.routing.inputs.find(row=>row.id==='route-key-l').connector,'XLR');
+ if(await workspace.locator('[data-rw-tools]').getAttribute('aria-expanded')!=='true')await workspace.locator('[data-rw-tools]').click();
+ await workspace.locator('[data-rw-tool="undo"]').click();assert.deepEqual(await routingData(),withJack,'One undo restores the previous connector');
+ await workspace.locator('[data-rw-tool="undo"]').click();assert.deepEqual(await routingData(),restored,'The prior undo restores the connector and its stagebox connection together');
+ await workspace.locator('[data-rw-tools]').click();await workspace.locator('[data-rw-select="station-1"]').first().click();
+}
 async function run(){const browser=await launchBrowser();try{
  const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'}),page=await context.newPage();page.setDefaultTimeout(10000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await fixture(page);
  const workspace=page.locator('#sp-routing-workspace-v2');
@@ -61,11 +93,13 @@ async function run(){const browser=await launchBrowser();try{
  }
  await workspace.locator('[data-rw-tab="inputs"]').click();
  await checkDiPickerInteraction(page,workspace);
+ await checkInlinePickup(page,workspace);
  await workspace.locator('[data-rw-add-pickup]').click();assert.equal(await workspace.locator('.rw-pickup-card').count(),3);assert.equal(await workspace.locator('.rw-source-card').count(),1);
  const newId=await workspace.locator('.rw-pickup-card').last().getAttribute('data-rw-row-card');
  await workspace.locator('.rw-pickup-card').last().locator('[data-rw-open]').first().click();await change(workspace.locator('[data-rw-channel-field="microphone"][data-rw-row="'+newId+'"]'),'Eigenes Testmikrofon');
  assert.equal((await saved(page)).stage.routing.inputs.find(row=>row.id===newId).microphone,'Eigenes Testmikrofon');
  await workspace.locator('[data-rw-pickup="DI"][data-rw-row="'+newId+'"]').click();
+ await workspace.locator('[data-rw-open="pickup-'+newId+'"]').first().click();
  assert(await workspace.locator('[data-rw-di-device="di-prod2-demo"][data-rw-di-channel="1"][data-rw-row="'+newId+'"]').isDisabled());
  await workspace.locator('[data-rw-di-device="di-prod2-demo"][data-rw-di-channel="2"][data-rw-row="'+newId+'"]').click();
  let doc=await saved(page);assert.equal(doc.stage.routing.devices.length,1);assert.equal(doc.stage.routing.inputs.find(row=>row.id===newId).diChannel,2);assert.equal(doc.stage.routing.inputs.find(row=>row.id==='route-acoustic').diChannel,1);
@@ -100,7 +134,7 @@ async function run(){const browser=await launchBrowser();try{
  const shareDoc=await page.evaluate(document=>window.StageplotShare.clean(document),doc),shareHash=Buffer.from(JSON.stringify({kind:'stageplot-readonly',version:1,document:shareDoc})).toString('base64url');
  const readonlyPage=await page.context().newPage();readonlyPage.on('pageerror',e=>errors.push(e.message));await readonlyPage.goto((process.env.APP_URL||'http://127.0.0.1:8899/')+'#share='+shareHash);await readonlyPage.locator('.sp-steps [data-view="routing"]').click();
  const readonlyWorkspace=readonlyPage.locator('#sp-routing-workspace-v2');assert.equal(await readonlyWorkspace.getAttribute('data-readonly'),'true');assert.equal(await readonlyWorkspace.locator('[data-rw-add-pickup]').count(),0);assert(await readonlyWorkspace.locator('input:not([type="search"])').evaluateAll(fields=>fields.every(field=>field.readOnly)));await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore);
- assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive seven-model DI popup, loaded photos and equal tiles, modal keyboard/dismissal, persisted model selection, shared stereo DI occupancy, inline editing, atomic stereo patching, monitor format/metadata, reload and CSV export.');
+ assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive seven-model DI popup, loaded photos and equal tiles, modal keyboard/dismissal, persisted model selection, direct inline acquisition and connectors, single instrument figure, connector undo, shared stereo DI occupancy, atomic stereo patching, monitor format/metadata, reload and CSV export.');
 }finally{await browser.close();}}
 if(require.main===module)run().catch(error=>{console.error(error);process.exit(1);});
 module.exports={fixture};

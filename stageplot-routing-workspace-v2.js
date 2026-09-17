@@ -168,7 +168,6 @@
     function diEditor(row) {
       const chosen = device(row.diDeviceId), devices = state.routing.devices || [];
       const existing = devices.length ? '<h4>Vorhandene DI-Box</h4><div class="rw-existing-di-list">' + devices.map(item => '<div class="rw-existing-di"><span class="rw-existing-di-art">' + diPhoto(item) + '</span><strong>' + esc(deviceName(item)) + '</strong><small>' + esc(diDetails(item)) + '</small>' + diPortButtons(row,item) + '</div>').join('') + '</div>' : '';
-      const modelChoice = button('DI-Box wählen', {'data-rw-di-open':row.id}, {className:'rw-di-choose',mutation:true});
       let settings = '';
       if (chosen) {
         const custom = chosen.modelId === 'custom';
@@ -182,7 +181,7 @@
         }
         settings = '<div class="rw-device-fields">' + settings + '</div>';
       }
-      return '<div class="rw-editor-section">' + modelChoice + existing + settings + '</div>';
+      return '<div class="rw-editor-section">' + existing + settings + '</div>';
     }
 
     function diPicker() {
@@ -220,13 +219,20 @@
     }
 
     function pickupCard(row) {
-      const key = 'pickup-' + row.id, kind = pickupKind(row), di = device(row.diDeviceId), title = kind === 'DI' ? deviceName(di) : kind === 'Mic' ? row.microphone || 'Mikrofon wählen' : pickupName(kind);
-      const picture = kind === 'Mic' ? micIcon(row.microphone) : kind === 'DI' ? diPhoto(di) : icon(object(sourceId(row)) || 'laptop');
-      let editor = '';
-      if (openCard === key && !readonly()) {
-        editor = '<div class="rw-card-editor"><div class="rw-choice-row rw-pickup-types" role="group" aria-label="Abnahmeart">' + ['Mic','DI','Direct','Digital'].map(value => button(pickupName(value), {'data-rw-pickup':value,'data-rw-row':row.id}, {pressed:kind === value,mutation:true})).join('') + '</div>' + (kind === 'DI' ? diEditor(row) : kind === 'Mic' ? '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Eigenes Mikrofon', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'}) : '<div class="rw-choice-row" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div>') + button('Abnahme entfernen', {'data-rw-remove-pickup':row.id}, {className:'rw-quiet-danger',mutation:true}) + '</div>';
+      const key = 'pickup-' + row.id, kind = pickupKind(row), di = device(row.diDeviceId), editing = openCard === key && !readonly();
+      const kinds = '<div class="rw-choice-row rw-pickup-types" role="group" aria-label="Abnahmeart">' + [['Mic','Mikrofon'],['DI','DI-Box'],['Direct','Direkt'],['Digital','Digital']].map(([value,label]) => button(label, {'data-rw-pickup':value,'data-rw-row':row.id,'aria-label':pickupName(value)}, {pressed:kind === value,mutation:true})).join('') + '</div>';
+      let content = '', editor = '';
+      if (kind === 'Direct' || kind === 'Digital') {
+        content = '<div class="rw-pickup-connection"><span>Anschluss</span><div class="rw-choice-row rw-inline-connectors" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div></div>';
+      } else {
+        const title = kind === 'DI' ? di ? deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
+        content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (readonly() ? kind === 'DI' && di ? esc(diDetails(di)) : 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
+        if (kind === 'DI' && di) content += diPortButtons(row,di,true);
+        if (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V')) content += button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true});
+        if (editing) editor = '<div class="rw-card-editor">' + (kind === 'DI' ? diEditor(row) : '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Mikrofonname', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'})) + '</div>';
       }
-      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? diDetails(di) : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
+      const actions = readonly() ? '' : '<div class="rw-pickup-actions">' + (kind === 'DI' ? button(editing ? 'Einstellungen schließen' : 'Box einstellen',{'data-rw-open':key,'aria-expanded':String(editing)},{className:'rw-pickup-settings'}) : '') + button('Entfernen',{'data-rw-remove-pickup':row.id,'aria-label':'Abnahme entfernen'},{className:'rw-quiet-danger'}) + '</div>';
+      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '" data-pickup-kind="' + kind + '">' + kinds + content + editor + actions + '</article>';
     }
 
     function channelCard(row, direction = 'inputs') {
@@ -384,7 +390,7 @@
       if (data.rwAddPickup) return doAction({type:'addPickup',sourceId:data.rwAddPickup,kind:'Mic'});
       if (data.rwFirstPickup) return doAction({type:'addPickup',sourceId:data.rwSource,kind:data.rwFirstPickup});
       if (data.rwRemovePickup) return doAction({type:'removePickup',rowId:data.rwRemovePickup},{close:true});
-      if (data.rwPickup) return doAction({type:'setPickup',rowId:data.rwRow,kind:data.rwPickup});
+      if (data.rwPickup) {if(pickupKind(route(data.rwRow)) === data.rwPickup)return;openCard = '';return doAction({type:'setPickup',rowId:data.rwRow,kind:data.rwPickup});}
       if (data.rwMic !== undefined) return doAction({type:'setPickup',rowId:data.rwRow,kind:'Mic',microphone:data.rwMic,phantom:data.rwPhantom === 'true'},{close:true});
       if (data.rwCreateDi) {
         if (device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
@@ -397,7 +403,7 @@
       if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
       if (data.rwUnpatch) return doAction({type:'unpatch',direction:data.rwDirection,rowIds:splitIds(data.rwUnpatch)},{close:true});
       if (data.rwTogglePhantom) {const row = route(data.rwTogglePhantom);if(row)return doAction({type:'editChannel',direction:'inputs',rowId:row.id,fields:{phantom:!row.phantom}});}
-      if (data.rwConnector) return doAction({type:'editChannel',direction:'inputs',rowId:data.rwRow,fields:{connector:data.rwConnector}});
+      if (data.rwConnector) {if(route(data.rwRow)?.connector === data.rwConnector)return;return doAction({type:'editChannel',direction:'inputs',rowId:data.rwRow,fields:{connector:data.rwConnector}});}
       if (data.rwLink) return doAction({type:'linkStereo',rowIds:splitIds(data.rwLink)});
       if (data.rwUnlink) return doAction({type:'unlinkStereo',rowIds:splitIds(data.rwUnlink)});
       if (data.rwMonitorFormat) return doAction({type:'setMonitorFormat',rowIds:splitIds(data.rwRows),format:data.rwMonitorFormat});
