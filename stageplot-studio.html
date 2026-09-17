@@ -7128,6 +7128,249 @@ html,body { height:100%; overflow:hidden; }
 }
 /* build-inline:end stageplot-routing-workspace-v2.css */
 </style>
+<style>
+/* build-inline:start stageplot-object-menu-v1.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+#sp-prototype #sp-object-menu { --som-size:70px; --som-bg:light-dark(#fff,#30372f); --som-shadow:light-dark(#18261624,#0008); --som-gloss:light-dark(#fff9,#ffffff15); --som-lime:#c4f53b; position:absolute; z-index:24; width:0; height:0; color:var(--sp-ink); transition:opacity 160ms; pointer-events:none; }
+#sp-prototype #sp-object-menu[hidden],#sp-prototype #sp-object-menu [hidden] { display:none!important; }
+#sp-prototype #sp-object-menu[data-compact="true"] { --som-size:64px; }
+#sp-prototype #sp-object-menu[data-dragging="true"] { opacity:.32; }
+#sp-prototype :where(#sp-object-menu) button { font-family:inherit; cursor:pointer; color:inherit; touch-action:manipulation; }
+#sp-prototype #sp-object-menu[data-dragging="true"] button { pointer-events:none; }
+#sp-prototype #sp-object-menu button:disabled { opacity:.4; cursor:default; }
+#sp-prototype #sp-object-menu button:focus-visible { outline:3px solid #8fac29; outline-offset:4px; }
+#sp-prototype #sp-object-menu svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+#sp-prototype .som-orbit { position:absolute; left:calc(var(--som-size)/-2); top:calc(var(--som-size)/-2); width:var(--som-size); height:var(--som-size); transform:translate(var(--x),var(--y)); }
+#sp-prototype .som-orb { pointer-events:auto; width:100%; height:100%; padding:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:1px solid var(--sp-line); border-radius:50%; background:radial-gradient(ellipse at 35% 12%,var(--som-gloss),transparent 60%),var(--som-bg); box-shadow:0 7px 16px var(--som-shadow),inset 0 1px var(--som-gloss); font-size:11px; line-height:1; transition:transform 280ms cubic-bezier(.2,1.7,.4,1),border-color 160ms,box-shadow 180ms; }
+#sp-prototype .som-orb img { object-fit:contain; width:34px; height:30px; }
+#sp-prototype .som-orb[data-action="backward"] { gap:1px; }
+#sp-prototype .som-orb[data-action="backward"] span { max-width:52px; line-height:1.05; }
+#sp-prototype .som-orb[aria-pressed="true"] { background-color:var(--som-lime); border-color:#99ba2b; color:#26300c; }
+#sp-prototype .som-edge { pointer-events:auto; position:absolute; left:var(--edge-x,-103px); top:var(--edge-y,137px); width:206px; box-sizing:border-box; display:flex; align-items:center; gap:6px; padding:4px; border:1px solid var(--sp-line); border-radius:28px; background:var(--sp-panel); box-shadow:0 4px 12px var(--som-shadow); }
+#sp-prototype .som-edge button { display:flex; justify-content:center; align-items:center; gap:5px; flex:1; min-width:0; height:44px; padding:0 8px; border:0; border-radius:22px; background:var(--som-bg); font-size:11px; transition:transform 240ms cubic-bezier(.2,1.6,.4,1),box-shadow 180ms; }
+#sp-prototype .som-edge svg { width:18px!important; height:18px!important; }
+#sp-prototype .som-edge .som-delete { background:light-dark(#fae6e7,#4a2529); color:light-dark(#a31d27,#ffacb2); }
+@media(hover:hover) {
+ #sp-prototype .som-orb:not(:disabled):hover { transform:translateY(-3px) scale(1.1); border-color:#b4d955; box-shadow:0 12px 24px var(--som-shadow),0 0 18px #c4f53b33,inset 0 1px var(--som-gloss); }
+ #sp-prototype .som-edge button:not(:disabled):hover { transform:translateY(-2px) scale(1.08); box-shadow:0 7px 16px var(--som-shadow); }
+}
+#sp-prototype .som-spark { position:absolute; z-index:26; border-radius:50%; background:#c4f53b; box-shadow:0 0 5px 1px #c4f53b; pointer-events:none; }
+#sp-prototype .som-dial { position:absolute; left:calc(-1 * var(--som-radius,104px)); top:calc(-1 * var(--som-radius,104px)); width:calc(2 * var(--som-radius,104px)); height:calc(2 * var(--som-radius,104px)); }
+#sp-prototype .som-track { position:absolute; inset:0; border:3px solid #a7c954; border-radius:50%; box-shadow:0 0 0 8px color-mix(in srgb,var(--sp-panel) 65%,transparent); }
+#sp-prototype .som-tick { position:absolute; width:3px; height:10px; top:50%; left:50%; margin:-5px 0 0 -1.5px; border-radius:3px; background:var(--sp-muted); transform:rotate(var(--tick)) translateY(calc(-1 * var(--som-radius,104px))); }
+#sp-prototype .som-tick[data-active="true"] { width:5px; height:15px; margin:-7.5px 0 0 -2.5px; background:var(--som-lime); }
+#sp-prototype .som-dial-hit { pointer-events:auto; position:absolute; inset:-24px; width:calc(100% + 48px); height:calc(100% + 48px); border:0; border-radius:50%; background:transparent; touch-action:none!important; cursor:grab!important; }
+#sp-prototype .som-grip { pointer-events:auto; position:absolute; z-index:2; left:50%; top:0; margin:-25px 0 0 -25px; width:50px; height:50px; padding:0; display:grid; place-items:center; border:1px solid #99ba2b; border-radius:50%; background:radial-gradient(ellipse at 35% 12%,#ffffff85,transparent 65%),var(--som-lime); color:#26300c!important; box-shadow:0 5px 14px var(--som-shadow); font-size:13px; font-weight:600; touch-action:none!important; cursor:grab!important; user-select:none; }
+#sp-prototype .som-grip[data-snapped="true"] { box-shadow:0 0 0 5px #c4f53b29,0 5px 14px var(--som-shadow); }
+#sp-prototype .som-reset { pointer-events:auto; position:absolute; z-index:3; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border:1px solid var(--sp-line); border-radius:50%; background:var(--som-bg); box-shadow:0 4px 12px var(--som-shadow); font-size:14px; }
+#sp-prototype .som-editor { pointer-events:auto; position:absolute; left:-146px; bottom:-122px; box-sizing:border-box; width:292px; max-height:calc(100vh - 180px); overflow:auto; display:grid; gap:12px; padding:18px; border:1px solid var(--sp-line); border-radius:12px; background:var(--som-bg); box-shadow:0 12px 36px var(--som-shadow); }
+#sp-prototype .som-editor h3 { margin:0; font-size:15px; }
+#sp-prototype .som-editor label { display:grid; gap:5px; font-size:12px; }
+#sp-prototype .som-editor :is(textarea,input) { box-sizing:border-box; width:100%; min-height:40px; padding:8px; border:1px solid var(--sp-line); border-radius:6px; background:var(--sp-panel); color:var(--sp-ink); font:inherit; font-size:16px; }
+#sp-prototype .som-editor textarea { resize:vertical; }
+#sp-prototype .som-editor button { min-height:40px; padding:8px 10px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); text-align:left; font-size:12px; }
+#sp-prototype .som-edit-actions { display:flex; justify-content:flex-end; gap:8px; }
+#sp-prototype .som-editor button[type="submit"] { background:var(--som-lime); color:#26300c; border-color:transparent; }
+#sp-prototype[data-readonly="true"] #sp-object-menu { display:none!important; }
+@media(prefers-reduced-motion:reduce) { #sp-prototype #sp-object-menu,#sp-prototype .som-orb,#sp-prototype .som-edge button { transition:none; } #sp-prototype .som-orb,#sp-prototype .som-edge button { transform:none!important; } }
+@media print { #sp-object-menu,.som-spark { display:none!important; } }
+
+#sp-prototype #sp-object-menu[data-short="true"] { --som-size:52px; }
+#sp-prototype #sp-object-menu[data-short="true"] .som-orb { gap:2px; font-size:9px; }
+#sp-prototype #sp-object-menu[data-short="true"] .som-orb :is(svg,img) { width:20px; height:20px; }
+/* build-inline:end stageplot-object-menu-v1.css */
+</style>
+<script>
+/* build-inline:start stageplot-object-menu-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Object actions share the host's selection, history and existing editors.
+ * No project data or storage is owned by this view. */
+const StageplotObjectMenu = (() => {
+  const angle = value => ((Number(value) || 0) % 360 + 360) % 360;
+  const delta = (a, b) => ((a - b + 540) % 360) - 180;
+  // Physical artwork layers remain fixed: podiums below equipment, mic feet
+  // below equipment and mic arms above it. Reorder only within the same layer.
+  function previous(list, object, catalog) {
+    const band = o => catalog[o.type]?.underlay ? 'floor' : o.type === 'mic' ? 'mic' : 'equipment';
+    for (let i = list.indexOf(object) - 1; i >= 0; i--) if (band(list[i]) === band(object)) return list[i];
+    return null;
+  }
+  function snap(value, held = null, fine = false) {
+    if (held !== null && Math.abs(delta(value, held)) <= (fine ? 2 : 5.4)) return {value:angle(held), held};
+    const nearest = Math.round(value / 45) * 45;
+    return Math.abs(delta(value, nearest)) <= (fine ? 1 : 3) ? {value:angle(nearest), held:nearest} : {value:angle(value), held:null};
+  }
+  function mount(host, api) {
+    const el = document.createElement('div');
+    el.id = 'sp-object-menu'; el.hidden = true; el.setAttribute('role','group'); el.setAttribute('aria-label','Objektaktionen');
+    const paths = {
+      edit:'<path d="m15 4 5 5M4 20l5-1L20 8a2 2 0 0 0-5-5L4 14z"/>',
+      rotate:'<path d="M20 8V3l-3 3a8 8 0 1 0 3 9M20 8h-5"/>',
+      label:'<path d="M3 5h18v14H3zM7 15l3-6 3 6m-5-2h4m4-1h2m-2 3h2"/>',
+      duplicate:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/>',
+      lock:'<path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10"/><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M12 14v3"/>',
+      close:'<path d="m6 6 12 12M6 18 18 6"/>',
+      delete:'<path d="M5 7h14M9 7V4h6v3m2 0-.7 13H7.7L7 7M10 11v5m4-5v5"/>'
+    };
+    const icon = key => '<svg viewBox="0 0 24 24" aria-hidden="true">'+paths[key]+'</svg>';
+    const actions = [['edit','Bearbeiten'],['rotate','Drehen'],['label','Label'],['duplicate','Duplizieren'],['lock','Sperren'],['backward','Ebene zurück']];
+    el.innerHTML = actions.map(([key,text],i)=>'<div class="som-orbit" style="--i:'+i+'"><button type="button" class="som-orb" data-action="'+key+'">'+(key==='backward'?'<img src="./stageplot-assets/toolbar/send-backward-v1.png" alt="" width="34" height="30">':icon(key))+'<span>'+text+'</span></button></div>').join('')+
+      '<div class="som-dial" hidden><div class="som-track"></div>'+Array.from({length:8},(_,i)=>'<i class="som-tick" style="--tick:'+i*45+'deg"></i>').join('')+'<button type="button" class="som-dial-hit" aria-label="Objekt mit dem Drehring drehen"></button><button type="button" class="som-grip" role="slider" aria-label="Drehwinkel" aria-valuemin="0" aria-valuemax="359"></button><button type="button" class="som-reset" data-action="reset" aria-label="Drehung zurücksetzen">0°</button></div>'+
+      '<form class="som-editor" hidden aria-label="Objekt bearbeiten"><h3></h3><label>Beschriftung<textarea name="label" rows="2"></textarea></label><label class="som-steps" hidden>Stufen<input name="steps" type="number" min="1" max="24" step="1" inputmode="numeric"></label><button type="button" data-action="model" hidden>Modell wechseln</button><button type="button" data-action="special" hidden></button><button type="button" data-action="properties">Alle Eigenschaften</button><div class="som-edit-actions"><button type="button" data-action="back">Zurück</button><button type="submit">Übernehmen</button></div></form>'+
+      '<div class="som-edge"><button type="button" data-action="close">'+icon('close')+'<span>Schließen</span></button><button type="button" class="som-delete" data-action="delete">'+icon('delete')+'<span>Löschen</span></button></div>';
+    host.append(el);
+    const $ = selector => el.querySelector(selector), button = key => $('[data-action="'+key+'"]');
+    const dial = $('.som-dial'), grip = $('.som-grip'), form = $('.som-editor'), orbits = [...el.querySelectorAll('.som-orbit')];
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let current = null, dismissed = null, mode = 'main', gesture = null, suppressedClick = false, ignoreTimer = 0, lastSpark = 0, dialRadius = 104;
+    const active = () => !el.hidden && current;
+    function paintAngle() {
+      const a = angle(current.angle), r = dialRadius, t = a * Math.PI / 180;
+      grip.style.transform = 'translate('+Math.sin(t)*r+'px,'+(r-Math.cos(t)*r)+'px)';
+      grip.textContent = Math.round(a)+'°'; grip.setAttribute('aria-valuenow',String(Math.round(a)%360));
+      grip.setAttribute('aria-valuetext',Math.round(a)+' Grad');
+      grip.dataset.snapped = String(gesture?.held !== null && !!gesture);
+      el.querySelectorAll('.som-tick').forEach((tick,i)=>tick.dataset.active=String(Math.abs(delta(a,i*45))<.1));
+    }
+    function endGesture(cancel = false) {
+      if (!gesture) return;
+      const g = gesture; gesture = null;
+      if (g.target.hasPointerCapture(g.pointer)) g.target.releasePointerCapture(g.pointer);
+      api.endRotation(g.token,cancel); if (current) paintAngle();
+    }
+    function setMode(next, focus = false) {
+      endGesture(); mode = next; el.dataset.mode = mode;
+      dial.hidden = mode !== 'rotate'; form.hidden = mode !== 'edit';
+      orbits.forEach(orbit=>{orbit.hidden=mode!=='main';});
+      if (mode === 'rotate') { paintAngle(); if(focus)grip.focus({preventScroll:true}); }
+      if (mode === 'edit') {
+        form.querySelector('h3').textContent = current.kind;
+        form.elements.label.value = current.label; form.elements.label.maxLength=current.type==='text'?240:42;
+        $('.som-steps').hidden = current.type !== 'stage-stairs'; form.elements.steps.value = current.steps || 5;
+        button('special').hidden=!current.special; button('special').textContent=current.special||'';
+        button('model').hidden=!current.modelFamily;
+        if(focus)form.elements.label.focus({preventScroll:true});
+      }
+      if (mode === 'main' && focus) button('edit').focus({preventScroll:true});
+      if(current)sync(current);
+    }
+    function dismiss() { endGesture();if(current)setMode('main');dismissed=current?.id;el.hidden=true;api.focusCanvas(); }
+    function animateOpen() {
+      if(reduced.matches)return;
+      orbits.forEach((orbit,i)=>{
+        orbit.getAnimations().forEach(a=>a.cancel());
+        orbit.animate([{transform:'translate(0,0) scale(.15)',opacity:0},{transform:'translate(var(--x),var(--y)) scale(1.18)',opacity:1,offset:.7},{transform:'translate(var(--x),var(--y)) scale(1)',opacity:1}],{duration:440,delay:i*24,easing:'cubic-bezier(.2,.75,.3,1)'});
+      });
+    }
+    function sync(state) {
+      if(!state) { endGesture();current=null;dismissed=null;el.hidden=true;return; }
+      const changed=state.id!==current?.id, typeChanged=state.type!==current?.type, opening=changed||el.hidden;
+      if(changed){endGesture();if(dismissed!==state.id)dismissed=null;}
+      current=state;
+      if(dismissed===state.id){el.hidden=true;return;}
+      el.hidden=false;el.dataset.objectId=state.id;el.dataset.dragging=String(state.dragging);
+      if(changed)setMode('main');
+      else if(typeChanged&&mode==='edit')setMode('edit');
+      button('edit').disabled=button('rotate').disabled=button('delete').disabled=state.locked;
+      button('backward').disabled=state.locked||!state.canBack;
+      button('lock').setAttribute('aria-pressed',String(state.locked));button('lock').querySelector('span').textContent=state.locked?'Entsperren':'Sperren';
+      button('label').setAttribute('aria-pressed',String(state.showLabel));button('label').setAttribute('aria-label',state.showLabel?'Label ausblenden':'Label einblenden');
+      button('backward').title=state.canBack?'Eine Ebene zurück':'Bereits auf der untersten Ebene dieses Objekttyps';
+      const viewport=state.viewport||{left:0,top:0,width:host.clientWidth,height:host.clientHeight};
+      const w=viewport.width,h=viewport.height,small=w<420,short=h<330,r=small?98:116,gap=small?78:88;
+      let x=viewport.left+Math.max(r+40,Math.min(w-r-40,state.x-viewport.left)),y=viewport.top+Math.max(136,Math.min(h-gap-106,state.y-viewport.top)),edgeY=gap+49,edgeX=-103;
+      if(short){
+        x=viewport.left+Math.max(114,Math.min(w-114,state.x-viewport.left));
+        y=viewport.top+Math.max(56,Math.min(h-118,state.y-viewport.top));edgeY=64;
+        if(mode==='rotate'){x=viewport.left+Math.max(84,Math.min(w-302,state.x-viewport.left));y=viewport.top+Math.max(84,Math.min(h-84,state.y-viewport.top));edgeX=92;edgeY=-27;}
+        if(mode==='edit'){y=viewport.top+h/2;edgeY=h/2-58;}
+      }
+      dialRadius=short?58:104;el.style.setProperty('--som-radius',dialRadius+'px');
+      el.style.left=x+'px';el.style.top=y+'px';el.style.setProperty('--edge-y',edgeY+'px');el.style.setProperty('--edge-x',edgeX+'px');el.dataset.compact=String(small);el.dataset.short=String(short);
+      orbits.forEach((orbit,i)=>{orbit.style.setProperty('--x',(short?(i%3-1)*78:i%2?r:-r)+'px');orbit.style.setProperty('--y',(short?(Math.floor(i/3)-.5)*60:(Math.floor(i/2)-1)*gap)+'px');});
+      form.style.maxHeight=Math.max(80,y+edgeY-viewport.top-20)+'px';
+      form.style.bottom='auto';form.style.top=(edgeY-12-form.offsetHeight)+'px';
+      if(mode==='rotate')paintAngle();
+      if(opening&&mode==='main')animateOpen();
+    }
+    function commitForm() {
+      if(!form.reportValidity())return false;
+      api.edit({label:form.elements.label.value,steps:Number(form.elements.steps.value)});return true;
+    }
+    form.addEventListener('submit',event=>{event.preventDefault();if(commitForm())setMode('main',true);});
+    el.addEventListener('click',event=>{
+      const b=event.target.closest('[data-action]');if(!b||b.disabled||!active()||current.dragging)return;
+      const action=b.dataset.action;
+      if(action==='close'){dismiss();return;}
+      if(action==='back'){setMode('main',true);return;}
+      if(action==='edit'||action==='rotate'){setMode(action,true);return;}
+      if(['properties','special','model'].includes(action)){if(commitForm()){api.action(action,b);if(action==='properties')dismiss();}return;}
+      api.action(action,b);
+    });
+    // Outside click consumes only the submenu level. Do not hand that same
+    // pointer event to the canvas, a different object or another command.
+    function handleOutsidePointer(event) {
+      if(!active()||gesture||event.button!==0||api.modalOpen()||el.contains(event.target))return;
+      if(mode==='main'){
+        // Keep the menu attached while its own object/label is being grabbed.
+        const target=event.target.closest('[data-object],[data-mic-object],[data-label-for]');
+        if([target?.dataset.object,target?.dataset.micObject,target?.dataset.labelFor].includes(current.id))return;
+        dismissed=current.id;el.hidden=true;return;
+      }
+      event.preventDefault();event.stopImmediatePropagation();setMode('main');api.focusCanvas();
+      suppressedClick=true;clearTimeout(ignoreTimer);ignoreTimer=setTimeout(()=>suppressedClick=false,600);
+    }
+    document.addEventListener('pointerdown',handleOutsidePointer,true);
+    document.addEventListener('click',event=>{if(suppressedClick){suppressedClick=false;clearTimeout(ignoreTimer);event.preventDefault();event.stopImmediatePropagation();}},true);
+    document.addEventListener('keydown',event=>{
+      if(!active()||api.modalOpen())return;
+      if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();if(gesture)endGesture(true);else if(mode!=='main'){setMode('main',true);}else dismiss();}
+    },true);
+    function startRotation(event) {
+      if(event.button!==0||gesture||current.locked)return;
+      event.preventDefault();event.stopPropagation();const rect=dial.getBoundingClientRect(),cx=rect.left+dialRadius,cy=rect.top+dialRadius;
+      const theta=Math.atan2(event.clientY-cy,event.clientX-cx)*180/Math.PI;
+      gesture={pointer:event.pointerId,target:event.currentTarget,cx,cy,last:theta,value:current.angle,held:null,token:api.beginRotation()};
+      event.currentTarget.setPointerCapture(event.pointerId);grip.focus({preventScroll:true});
+    }
+    for(const target of [$('.som-dial-hit'),grip]) {
+      target.addEventListener('pointerdown',startRotation);
+      target.addEventListener('pointermove',event=>{
+        if(!gesture||event.pointerId!==gesture.pointer)return;
+        const g=gesture,theta=Math.atan2(event.clientY-g.cy,event.clientX-g.cx)*180/Math.PI,fine=Math.hypot(event.clientX-g.cx,event.clientY-g.cy)>dialRadius*1.5;
+        g.value+=delta(theta,g.last)*(fine?.35:1);g.last=theta;
+        const result=snap(g.value,g.held,fine);g.held=result.held;api.rotate(result.value);current.angle=result.value;paintAngle();
+      });
+      target.addEventListener('pointerup',()=>endGesture());
+      target.addEventListener('pointercancel',()=>endGesture(true));
+      target.addEventListener('lostpointercapture',()=>endGesture(true));
+    }
+    grip.addEventListener('keydown',event=>{
+      if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home'].includes(event.key))return;
+      event.preventDefault();event.stopPropagation();if(gesture)return;const token=api.beginRotation(),step=event.shiftKey?15:1;
+      api.rotate(event.key==='Home'?0:angle(current.angle+(['ArrowLeft','ArrowDown'].includes(event.key)?-step:step)));api.endRotation(token,false);
+    });
+    window.addEventListener('blur',()=>endGesture(true));
+    function spark(event, count) {
+      if(reduced.matches||event.pointerType==='touch'||event.currentTarget.disabled)return;
+      const bounds=host.getBoundingClientRect();
+      for(let i=0;i<count;i++){
+        const dot=document.createElement('i');dot.className='som-spark';const size=1.5+Math.random()*2.8;
+        Object.assign(dot.style,{left:event.clientX-bounds.left+'px',top:event.clientY-bounds.top+'px',width:size+'px',height:size+'px'});host.append(dot);
+        const a=Math.random()*Math.PI*2,d=12+Math.random()*30;
+        const animation=dot.animate([{opacity:0,transform:'scale(.4)'},{opacity:.85,offset:.15},{opacity:0,transform:'translate('+Math.cos(a)*d+'px,'+(Math.sin(a)*d-18)+'px) scale(0)'}],{duration:600+Math.random()*300,easing:'ease-out'});
+        animation.onfinish=()=>dot.remove();animation.oncancel=()=>dot.remove();
+      }
+    }
+    el.querySelectorAll('.som-orb,.som-edge button').forEach(b=>{
+      b.addEventListener('pointerenter',e=>spark(e,14));
+      b.addEventListener('pointermove',e=>{if(performance.now()-lastSpark>65){lastSpark=performance.now();spark(e,2);}});
+    });
+    return {sync,reopen(id){if(id===current?.id||id===dismissed)dismissed=null;},dismissFor(id){endGesture();dismissed=id;el.hidden=true;},isRotating:()=>!!gesture};
+  }
+  return {mount,previous,angle,delta,snap};
+})();
+if(typeof module!=='undefined')module.exports=StageplotObjectMenu;
+/* build-inline:end stageplot-object-menu-v1.js */
+</script>
 <script>
 /* build-inline:start stageplot-routing-model-v2.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 /* Canonical routing rows own signals and patches. DI devices own only physical capacity.
@@ -10200,6 +10443,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     return '';
   }
   let stage = null, objects = [], selected = null, nextId = 1, view = 'dashboard', drag = null, history = [], future = [], editBefore = null;
+  let objectMenu=null;
   const viewStorageKey='stageplot-studio:view:v1';
   let stageSurfaceDefault='light',setupStageSurface='light';
   let frameQueued = false, suppressClick = false;
@@ -11812,6 +12056,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage&&['editor','routing','print','project'].includes(which)){openNewProjectDialog();return;}
     const previousView=view;
     if(which!=='editor'){selectionMode=false;selectionIds.clear();}
+    objectMenu?.sync(null);
     finishEdit();cancelPlacement(false);mobileToolsOpen=false;view=which;root.dataset.view=which;syncWorkspaceUi();
     if(!sharedReadOnly)try{window.sessionStorage.setItem(viewStorageKey,which);}catch(error){}
     ['dashboard','setup','editor','routing','print','project'].forEach(name=>{$('sp-'+name).hidden=name!==which;});
@@ -12001,6 +12246,7 @@ function createStageplotSymbolV3(type, options = {}) {
     return {scale,mx,top,H:height||Math.ceil(header+spanY*scale+bottom)};
   }
   function objectLabelLines(o,W,showMeasures,showOuts,mode){
+    if(o.showLabel===false)return {lines:[],nameLineCount:0};
     const text=o.type==='riser'?'':labelVisible(o)?labelText(o):'';
     const maxChars=o.type==='riser'?42:W<500?22:30,lines=[];
     const append=value=>{let rest=value;while(rest.length>maxChars){const space=rest.lastIndexOf(' ',maxChars),cut=space>5?space:maxChars;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trim();}if(rest)lines.push(rest);};
@@ -12291,30 +12537,24 @@ function createStageplotSymbolV3(type, options = {}) {
     }
     stagePopover.hidden=selected!=='stage-zone'||!!placement||view!=='editor'||!svg;
     if(!stagePopover.hidden){const scale=Number(svg.dataset.scale),hostRect=$('sp-editor-floor').getBoundingClientRect(),box=stagePopover.getBoundingClientRect(),cx=Number(svg.dataset.originX)+stage.w*scale/2,top=Number(svg.dataset.originY);$('sp-stage-popover-size').textContent=num(stage.w)+' × '+metres(stage.d);stagePopover.style.left=Math.max(5,Math.min(hostRect.width-box.width-5,cx-box.width/2))+'px';stagePopover.style.top=Math.max(5,Math.min(hostRect.height-box.height-5,top+10))+'px';}
-    const stairControl=$('sp-object-stairs-control');stairControl.hidden=!o||o.type!=='stage-stairs'||!!placement||view!=='editor'||selectedObjects().length>1;
-    if(!stairControl.hidden){if(stairControl.parentNode!==$('sp-object-rotate'))$('sp-object-rotate').append(stairControl);$('sp-object-stairs-steps').disabled=!!o.locked;if(document.activeElement!==$('sp-object-stairs-steps'))$('sp-object-stairs-steps').value=o.steps||5;}
-    const hidden=!o||selectionMode||selectedObjects().length>1||!!placement||view!=='editor'||!svg;
-    toolbar.hidden=hidden;drumButton.hidden=hidden||!o||(!drumModel.isDrums(o.type)&&!['percussion','orchestra','laptop','rack'].includes(o.type));if(o){drumButton.setAttribute('aria-label',o.type==='rack'?'IEM-Monitore einrichten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester-Editor öffnen':o.type==='percussion'?'Drums & Percussion öffnen':'Drums & Percussion öffnen');drumButton.querySelector('strong').textContent=o.type==='rack'?'IEM-Monitore':o.type==='laptop'?'Playback-Ausgänge':o.type==='orchestra'?'Orchester-Editor':o.type==='percussion'?'Aufbau bearbeiten':'Aufbau bearbeiten';}stageboxButton.hidden=hidden||!o||!stageboxCapacity[o.type];if(hidden)return;
-    drumButton.disabled=!!o.locked;stageboxButton.disabled=!!o.locked;if(!stageboxButton.hidden)stageboxButton.setAttribute('aria-label',(o.label||byId[o.type].short)+' Routing und I/O öffnen');
-    const below=overlappingObjectBelow(o),sendBehind=$('sp-send-behind');
-    if(sendBehind){sendBehind.hidden=!below;sendBehind.disabled=!!o.locked;sendBehind.dataset.overlapTarget=below?.id||'';
-      if(below){const targetName=below.label||byId[below.type].name,label='Unter „'+targetName+'“ anordnen'+(o.locked?' · Objekt gesperrt':'');sendBehind.setAttribute('aria-label',label);sendBehind.dataset.tooltip=label;}}
-    if(mobileWorkspace())return;
-    // Follow the object's centre and unrotated footprint. The rotating frame may pass underneath.
-    const size=objectSize(o),scale=Number(svg.dataset.scale),bar=toolbar.getBoundingClientRect();
-    const hostRect=$('sp-editor-floor').getBoundingClientRect(),hostWidth=hostRect.width;
-    const x=Number(svg.dataset.originX)+o.x*scale,y=Number(svg.dataset.originY)+(o.y-size.d/2)*scale;
-    const cy=Number(svg.dataset.originY)+o.y*scale;
-    if(x<0||x>hostWidth||cy<0||cy>hostRect.height){toolbar.hidden=true;drumButton.hidden=true;stageboxButton.hidden=true;return;}
-    toolbar.style.left=Math.max(3,Math.min(hostWidth-bar.width-3,x-bar.width/2))+'px';
-    const hostHeight=hostRect.height||600,secondary=!drumButton.hidden?drumButton:!stageboxButton.hidden?stageboxButton:null;
-    if(!secondary){toolbar.style.top=Math.max(5,Math.min(hostHeight-bar.height-4,y-bar.height-8))+'px';return;}
-    const secondaryBar=secondary.getBoundingClientRect(),gap=6,totalHeight=bar.height+gap+secondaryBar.height;
-    const groupTop=Math.max(5,Math.min(hostHeight-totalHeight-4,y-totalHeight-8));
-    toolbar.style.top=groupTop+'px';
-    secondary.style.left=Math.max(3,Math.min(hostWidth-secondaryBar.width-3,x-secondaryBar.width/2))+'px';
-    secondary.style.top=groupTop+bar.height+gap+'px';
+    // The new action menu replaces only ordinary object controls. Stage edges,
+    // attached stairs and the IEM area retain their own geometry controls.
+    toolbar.hidden=true;drumButton.hidden=true;stageboxButton.hidden=true;
+    $('sp-object-stairs-control').hidden=true;
+    syncObjectMenu(svg);
   }
+  function syncObjectMenu(svg=$('sp-editor-floor').querySelector('svg')) {
+    if(!objectMenu)return;
+    const o=objects.find(item=>item.id===selected),floor=$('sp-editor-floor');
+    if(!o||sharedReadOnly||selectionMode||selectedObjects().length!==1||placement||view!=='editor'||!svg){objectMenu.sync(null);return;}
+    const matrix=svg.getScreenCTM();if(!matrix)return;
+    const point=svg.createSVGPoint();point.x=Number(svg.dataset.originX)+o.x*Number(svg.dataset.scale);point.y=Number(svg.dataset.originY)+o.y*Number(svg.dataset.scale);
+    const screen=point.matrixTransform(matrix),rect=floor.parentElement.getBoundingClientRect(),viewport=floor.getBoundingClientRect();
+    if(screen.x<viewport.left||screen.x>viewport.right||screen.y<viewport.top||screen.y>viewport.bottom){objectMenu.sync(null);return;}
+    const special=stageboxCapacity[o.type]?'Anschlüsse bearbeiten':o.type==='rack'?'IEM-Monitore bearbeiten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester bearbeiten':drumModel.isDrums(o.type)||o.type==='percussion'?'Drums & Percussion bearbeiten':'';
+    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,modelFamily:compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),dragging:!!drag?.moved,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
+  }
+
   function defaultPackState(){return {version:1,unlocked:[],activations:[],betaPass:false,betaGrantedAt:0,rewards:{feedback:false,newsletter:false,feedbackAt:0,newsletterAt:0},outbox:[]};}
   function normalizePackState(value){
     const source=value&&typeof value==='object'?value:{},allowed=new Set(objectPacks.filter(pack=>!pack.free&&!pack.reward).map(pack=>pack.id)),state=defaultPackState(),unique=new Set();
@@ -16143,12 +16383,15 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   let lastLabelTap=null;
   function editObjectLabel(id){
     const o=objects.find(item=>item.id===id);if(sharedReadOnly||!o||o.locked)return;
+    objectMenu?.dismissFor(id);
     finishEdit();setSelection([id]);setInspectorTab('properties');setWorkspacePanel('inspector',true);inspector();
     requestAnimationFrame(()=>{$('sp-label').focus();$('sp-label').select();});
   }
   function startObjectDrag(e){
+    if(objectMenu?.isRotating())return;
     focusCanvas();
     const labelTarget=e.target.closest('[data-label-for]'),id=labelTarget?.dataset.labelFor||stageObjectTarget(e.target),stairsTarget=e.target.closest('[data-stairs]'),iemTarget=e.target.closest('[data-iem-zone]'),resizeTarget=e.target.closest('[data-stage-resize]'),stairsResizeTarget=e.target.closest('[data-stairs-resize]'),stairsResetTarget=e.target.closest('[data-stairs-reset]');
+    if(id&&e.button===0)objectMenu?.reopen(id);
     if(e.button===1||panMode||spaceHeld||e.altKey){
       const blankPrimary=e.button===0&&!id&&!stairsTarget&&!iemTarget;
       startViewPan(e);
@@ -16224,7 +16467,7 @@ function createStageplotOrchestraEditor(root,model,onCommit){
     if(!drag||drag.pointer!==e.pointerId)return;
     const p=svgPoint(drag.svg,e);
     if(Math.hypot(p.x-drag.x,p.y-drag.y)<.04&&!drag.moved)return;
-    drag.moved=true;lastLabelTap=null;
+    drag.moved=true;lastLabelTap=null;syncObjectMenu(drag.svg);
     if(drag.kind==='label'){
       const o=objects.find(o=>o.id===drag.id);if(!o||o.locked)return;
       o.labelOffset={x:Math.max(-10000,Math.min(10000,drag.ox+p.x-drag.x)),y:Math.max(-10000,Math.min(10000,drag.oy+p.y-drag.y))};
@@ -16722,6 +16965,37 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   $('sp-io-alias-list').addEventListener('focusin',e=>{if(e.target.closest('[data-io-alias-kind]')&&!editBefore)editBefore=snapshot();});
   $('sp-io-alias-list').addEventListener('input',e=>{const input=e.target.closest('[data-io-alias-kind]'),o=objects.find(item=>item.id===selected);if(!input||!o||o.locked||drumModel.isDrums(o.type))return;if(!editBefore)editBefore=snapshot();const io=objectIo(o),kind=input.dataset.ioAliasKind,ports=String(input.dataset.ioAliasPorts||'').split(',').map(Number).filter(Number.isInteger),value=ioAliasText(input.value);for(const port of ports)if(port>0&&port<=io[kind].count)io.aliases[kind][port-1]=value;o.io=io;syncRoutingFromStage(false);queueDraw();});
   $('sp-io-alias-list').addEventListener('change',e=>{const input=e.target.closest('[data-io-alias-kind]');if(!input)return;input.value=ioAliasText(input.value);finishEdit();renderEditor();});
+  objectMenu=StageplotObjectMenu.mount($('sp-editor-floor').parentElement,{
+    focusCanvas:()=> $('sp-editor-floor').focus({preventScroll:true}),
+    modalOpen:()=>!!root.querySelector('dialog[open]'),
+    edit(fields){
+      const o=objects.find(item=>item.id===selected);if(!o||o.locked||sharedReadOnly)return;
+      finishEdit();const label=fields.label.slice(0,o.type==='text'?240:42),steps=Math.max(1,Math.min(24,Math.round(fields.steps)||5));
+      if(label===o.label&&(o.type!=='stage-stairs'||steps===(o.steps||5)))return;
+      change(()=>{o.label=label;if(o.type==='stage-stairs')o.steps=steps;},'Objekt angepasst');
+    },
+    beginRotation(){finishEdit();const o=objects.find(item=>item.id===selected);return {id:o?.id,before:snapshot(),angle:o?.angle};},
+    rotate(value){const o=objects.find(item=>item.id===selected);if(!o||o.locked||sharedReadOnly)return;o.angle=Number(StageplotObjectMenu.angle(value).toFixed(1));constrain(o,false);queueDraw();},
+    endRotation(token,cancel){
+      const o=objects.find(item=>item.id===token?.id);if(!o)return;
+      if(cancel)o.angle=token.angle;else keepHistory(token.before);
+      renderEditor();
+    },
+    action(action,opener){
+      const o=objects.find(item=>item.id===selected);if(!o||sharedReadOnly)return;
+      if(o.locked&&!['lock','duplicate','label'].includes(action))return;
+      finishEdit();
+      if(action==='duplicate'){duplicateSelectedObject();return;}
+      if(action==='delete'){removeSelectedObject();return;}
+      if(action==='label'){change(()=>{o.showLabel=o.showLabel===false;},o.showLabel===false?'Beschriftung eingeblendet':'Beschriftung ausgeblendet');return;}
+      if(action==='lock'){change(()=>{o.locked=!o.locked;},o.locked?'Objekt entsperrt':'Objekt gesperrt');return;}
+      if(action==='reset'){change(()=>{o.angle=0;constrain(o,false);},'Drehung: 0°');return;}
+      if(action==='backward'){const target=StageplotObjectMenu.previous(objects,o,byId);if(target)change(()=>{moveObjectBehind(objects,o,target);},'Eine Ebene zurückgelegt');return;}
+      if(action==='model'){const family=byId[o.type].family;if(compactModelFamilies.has(family))showCompactModelDialog(family,o.type);return;}
+      if(action==='special'){if(stageboxCapacity[o.type])openStageboxIo(o.id);else openSelectedDrumDesigner({currentTarget:opener});return;}
+      if(action==='properties'){setInspectorTab('properties');setWorkspacePanel('inspector',true);inspector();}
+    }
+  });
   function duplicateSelectedObject(){if(selectedObjects().length>1){multiAction('duplicate');return;}finishEdit();const o=objects.find(o=>o.id===selected);if(!o)return;if(!isObjectUnlocked(o.type)){lockedObjectPack(o.type);return;}change(()=>{const copy={...clone(o),id:'station-'+nextId++,x:o.x+.5,y:o.y+.5,locked:false};constrain(copy);objects.push(copy);selected=copy.id;},'Baustein dupliziert');}
   $('sp-duplicate').addEventListener('click',duplicateSelectedObject);
   $('sp-inspector-duplicate').addEventListener('click',duplicateSelectedObject);

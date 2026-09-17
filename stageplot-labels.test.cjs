@@ -24,7 +24,7 @@ const captures=new Set(),nodes=new Map(),host={setPointerCapture:id=>captures.ad
 const label={dataset:{labelFor:object.id,labelOffsetX:'1.25',labelOffsetY:'-.5'},setAttribute(name,value){this[name]=value;}};
 const svg={dataset:{scale:100,originX:0,originY:0},getBoundingClientRect:()=>({left:0,top:0})};
 const ctx={objects:[{...object,labelOffset:undefined}],stage:{w:8,d:5},drag:null,selected:null,panMode:false,spaceHeld:false,placement:null,sharedReadOnly:false,
-  lastLabelTap:null,setTimeout(){},selectionMode:false,stageObjectTarget:()=>null,focusCanvas(){},finishEdit(){},updateList(){},inspector(){},positionRotationToolbar(){},renderEditor(){},say(){},history:[],future:[],persistDraft(){this.saves=(this.saves||0)+1;},
+  objectMenu:null,syncObjectMenu(){},lastLabelTap:null,setTimeout(){},selectionMode:false,stageObjectTarget:()=>null,focusCanvas(){},finishEdit(){},updateList(){},inspector(){},positionRotationToolbar(){},renderEditor(){},say(){},history:[],future:[],persistDraft(){this.saves=(this.saves||0)+1;},
   $:id=>id==='sp-editor-floor'?host:(nodes.has(id)?nodes.get(id):(nodes.set(id,{}),nodes.get(id)))};
 ctx.editObjectLabel=id=>ctx.editedLabel=id;
 ctx.setSelection=ids=>ctx.selected=ids[0]||null;

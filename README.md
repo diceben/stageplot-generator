@@ -229,3 +229,11 @@ Das Drucklayout wird in `stageplot-print-v1.js` und `stageplot-print-v1.css` gep
 ### Audio-Daten
 
 `stage.routing` bleibt die gemeinsame Quelle für aktive `inputs` und `outputs`. Version 2 ergänzt `disabledSources` für ausdrücklich entfernte Signale sowie `pickup`, `outputKind`, `edited`, `adoptedSource` und `linkedSources` an Kanalzeilen. `linkedSources` hält die Originaldaten zusammengeführter Kanäle; beim Wiederherstellen werden zwischenzeitlich belegte Nummern oder Ports freigelassen. Projektkopien remappen Objektbezüge auch in Stereo-Gruppen, deaktivierten Quellen und Originalkanälen. Physische Buchsenzahlen bleiben unter `object.io`, ohne daraus jeden Anschluss automatisch als verwendetes Signal zu planen. Alte Zeichnungsdaten in `stage.cables` bleiben für kompatible Projektdateien gespeichert; sie werden weder dargestellt noch neu erzeugt.
+
+### Objektmenü
+
+Ein ausgewähltes Objekt bietet Bearbeiten, Drehen, Label, Duplizieren, Sperren und eine Ebene zurück. Schließen und Löschen stehen darunter. Ein Außenklick oder Escape führt aus dem Drehring und dem Bearbeitungsfenster zurück zu den Objektaktionen. Ein weiterer Außenklick schließt das Menü.
+
+Bearbeiten enthält die Beschriftung, bei Treppen die Stufenanzahl und passende Zugänge zu Modellwahl, Drum-/Percussion-/Orchester-Aufbau, Playback und IEM. Alle bisherigen Felder bleiben unter „Alle Eigenschaften“ verfügbar. Mehrfachauswahl und Bühnengeometrie behalten ihre vorhandenen Bedienelemente. Ebenenwechsel bleiben innerhalb der physischen Zeichenebene; Podeste und getrennte Mikrofonteile behalten ihre Reihenfolge.
+
+Der Drehring rastet an 45°-Winkeln ein; weiter außen wird die Bewegung feiner. Pfeiltasten drehen um 1°, mit Shift um 15°, Home setzt auf 0°. Eine Zeigerbewegung ist ein Rückgängig-Schritt; ein abgebrochener Zeigerkontakt setzt die Drehung zurück. Der Menücode liegt in `stageplot-object-menu-v1.js` und `stageplot-object-menu-v1.css` und wird mit `npm run build` eingebettet.
