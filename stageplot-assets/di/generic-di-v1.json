@@ -1,0 +1,75 @@
+{
+  "generator": "built-in image_gen",
+  "mode": "generate",
+  "created": "2026-09-17",
+  "purpose": "Generic, unbranded DI illustrations; not photographs of manufacturer products.",
+  "processing": "Original generated PNGs copied without pixel edits.",
+  "referenceSources": [
+    {
+      "url": "https://www.radialeng.com/product/prodi",
+      "purpose": "Mono passive DI anatomy and input/thru concept."
+    },
+    {
+      "url": "https://www.radialeng.com/product/prod2",
+      "purpose": "Two-channel passive DI anatomy."
+    },
+    {
+      "url": "https://www.radialeng.com/product/j48",
+      "purpose": "Mono active DI anatomy."
+    },
+    {
+      "url": "https://www.radialeng.com/product/j48-stereo",
+      "purpose": "Two-channel active DI anatomy."
+    }
+  ],
+  "assets": [
+    {
+      "id": "generic-passive-mono",
+      "prompt": "Use case: product-mockup. Asset type: small catalog illustration for a stage-audio routing application. Generate exactly ONE unbranded generic DI box, not a real manufacturer product. Clean realistic studio product illustration on pure white background, square image, three-quarter overhead view showing the top and input face, all edges fully visible with 10 percent margin. Dark graphite powder-coated rectangular metal chassis, small silver jack sockets, restrained pale lettering. Strong recognizability at thumbnail size. No brand, no logo, no imitation Radial branding, no cables, no extra equipment, no external captions, no collage or multiple angles. Subject: compact MONO PASSIVE direct box, one signal channel. Front face has exactly two quarter-inch jack sockets side by side labelled \"INPUT\" and \"THRU\", one small ground-lift switch. One balanced XLR output is on the rear face, can remain out of view. Top text verbatim \"PASSIVE\" and on the next line \"MONO DI\". No power LED, no power switch. Neutral industrial catalog aesthetic.",
+      "file": "generic-passive-mono-v1.png",
+      "sourceFile": "exec-343b452e-6964-477f-87da-78b1a6fc5301.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "bytes": 1882896,
+      "sha256": "6c51a231d3f9343e8d3b01debcfcbc284da8ce8f8f56d4ae11be4a3a8596a71a"
+    },
+    {
+      "id": "generic-passive-stereo",
+      "prompt": "Use case: product-mockup. Asset type: small catalog illustration for a stage-audio routing application. Generate exactly ONE unbranded generic DI box, not a real manufacturer product. Clean realistic studio product illustration on pure white background, square image, three-quarter overhead view showing the top and input face, all edges fully visible with 10 percent margin. Dark graphite powder-coated rectangular metal chassis, small silver jack sockets, restrained pale lettering. Strong recognizability at thumbnail size. No brand, no logo, no imitation Radial branding, no cables, no extra equipment, no external captions, no collage or multiple angles. Subject: wider STEREO PASSIVE direct box with two independent channels. Front face has exactly four quarter-inch jack sockets in two clearly separated pairs, labelled \"L\" and \"R\", each pair input and thru. Two balanced XLR outputs are on rear face, can remain out of view. Top text verbatim \"PASSIVE\" and on the next line \"STEREO DI\". No power LED, no power switch. Neutral industrial catalog aesthetic.",
+      "file": "generic-passive-stereo-v1.png",
+      "sourceFile": "exec-22cc6e58-9a15-4b17-b799-dbef5c45d178.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "bytes": 1698432,
+      "sha256": "37c8b004a31efb939b62cf803d0aa5d8c0990d1c5a6e8d37ae76c0ff036d295d"
+    },
+    {
+      "id": "generic-active-mono",
+      "prompt": "Use case: product-mockup. Asset type: small catalog illustration for a stage-audio routing application. Generate exactly ONE unbranded generic DI box, not a real manufacturer product. Clean realistic studio product illustration on pure white background, square image, three-quarter overhead view showing the top and input face, all edges fully visible with 10 percent margin. Dark graphite powder-coated rectangular metal chassis, small silver jack sockets, restrained pale lettering. Strong recognizability at thumbnail size. No brand, no logo, no imitation Radial branding, no cables, no extra equipment, no external captions, no collage or multiple angles. Subject: compact MONO ACTIVE direct box, one signal channel. Front face has exactly two quarter-inch jack sockets side by side labelled \"INPUT\" and \"THRU\", one small ground-lift switch and one small green power-status LED. One balanced XLR output is on rear face, can remain out of view. Top text verbatim \"ACTIVE\" and on the next line \"MONO DI\". Neutral industrial catalog aesthetic.",
+      "file": "generic-active-mono-v1.png",
+      "sourceFile": "exec-760d070c-cd16-419d-8abc-4ab97b9cd7c6.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "bytes": 1882051,
+      "sha256": "44aed88faa352da10ecc6f45f13b87f4adfa69dc2a7c7533d0c5f2f1824a7e51"
+    },
+    {
+      "id": "generic-active-stereo",
+      "prompt": "Use case: product-mockup. Asset type: small catalog illustration for a stage-audio routing application. Generate exactly ONE unbranded generic DI box, not a real manufacturer product. Clean realistic studio product illustration on pure white background, square image, three-quarter overhead view showing the top and input face, all edges fully visible with 10 percent margin. Dark graphite powder-coated rectangular metal chassis, small silver jack sockets, restrained pale lettering. Strong recognizability at thumbnail size. No brand, no logo, no imitation Radial branding, no cables, no extra equipment, no external captions, no collage or multiple angles. Subject: wider STEREO ACTIVE direct box with two independent channels. Front face has exactly four quarter-inch jack sockets in two clearly separated pairs, labelled \"L\" and \"R\", each pair input and thru. One small green power-status LED. Two balanced XLR outputs are on rear face, can remain out of view. Top text verbatim \"ACTIVE\" and on the next line \"STEREO DI\". Neutral industrial catalog aesthetic.",
+      "file": "generic-active-stereo-v1.png",
+      "sourceFile": "exec-a45e071c-aca5-497b-9dc4-0245ae5c1f52.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "bytes": 1683843,
+      "sha256": "fa88c7f6aaee3a296b4e6c95532cd592742245f26dbbfe28ec67b21949468e86"
+    }
+  ]
+}

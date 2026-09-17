@@ -8,7 +8,7 @@ Links ein Instrument wählen. Es erscheint einmal im Signalweg. Jede Abnahme hat
 
 Mikrofon, DI, Direktausgang oder Digital stehen im Abnahmefeld zur Auswahl. Mikrofone lassen sich im lokalen Fotokatalog suchen oder mit eigenem Namen erfassen. Modellwahl und 48 V werden mit dem Drum- und Percussion-Editor abgeglichen. Die Kanalnummer kann sich von der Buchsennummer unterscheiden und bleibt beim Umstecken erhalten.
 
-Eine DI ist ein physisches Gerät mit getrennt belegbaren Eingängen. Zur Wahl stehen Radial J48 (ein Eingang, aktiv, 48 V), Radial J48 Stereo (zwei Eingänge, aktiv, 48 V), Radial ProD2 (zwei Eingänge, passiv) und ein eigenes Modell. Bei eigenen Geräten sind Name, Kanalzahl, Aktiv/Passiv und Stromversorgung einstellbar. Eine Mono-Quelle kann einen Eingang einer Stereo-DI nutzen; der zweite bleibt frei oder wird einer anderen Quelle zugeordnet. Die Gerätekapazität erzeugt keine zusätzlichen Signale.
+Eine DI ist ein physisches Gerät mit getrennt belegbaren Eingängen. Zur Wahl stehen Radial J48 (ein Eingang, aktiv, 48 V), Radial J48 Stereo (zwei Eingänge, aktiv, 48 V), Radial ProD2 (zwei Eingänge, passiv), vier generische DI-Boxen und ein eigenes Modell. Die generischen Varianten sind **passiv Mono**, **passiv Stereo**, **aktiv Mono** und **aktiv Stereo** mit jeweils eigenem Bild. Bei aktiven generischen DIs stehen 48 V, Batterie und Netzteil zur Wahl. Bei eigenen Geräten sind zusätzlich Kanalzahl und Aktiv/Passiv einstellbar. Eine Mono-Quelle kann einen Eingang einer Stereo-DI nutzen; der zweite bleibt frei oder wird einer anderen Quelle zugeordnet. Die Gerätekapazität erzeugt keine zusätzlichen Signale.
 
 ## Anschlüsse und Stagebox
 
@@ -28,7 +28,9 @@ Gültige Änderungen speichern lokal und funktionieren offline. Alte Projekte be
 
 **Werkzeuge** enthält Rückgängig/Wiederholen, Nummerierung freier Kanäle, automatische Belegung freier Stagebox-Ports und die Import-/Export-Aktionen. Die Patchliste enthält DI-Eingänge, physische Buchsen und Monitoring-Geräte. Geteilte Projekte übernehmen diese Angaben; private Notizen und Kontakte bleiben ausgeschlossen. Der Freigabedienst benötigt dafür Migration `0008_routing_devices.sql`.
 
-## Originalfotos
+## DI-Bilder und Originalfotos
+
+Die vier generischen DI-Boxen verwenden lokal gespeicherte, mit Bildgenerierung erstellte Illustrationen ohne Herstellermarke. [Bilder, Prompts und Referenzen](stageplot-assets/di/generic-di-v1.json).
 
 Radial J48, J48 Stereo und ProD2 zeigen in der DI-Auswahl, am Gerät und im Signalweg jeweils das passende Originalfoto von Radial Engineering. Die drei unveränderten Herstellerfotos liegen lokal unter `stageplot-assets/di/` und benötigen zusammen rund 184 kB. Eigene Modelle zeigen einen neutralen Platzhalter. [Bildquellen und Prüfsummen](stageplot-assets/di/original-sources.json).
 

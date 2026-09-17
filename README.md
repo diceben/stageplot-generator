@@ -8,7 +8,7 @@ Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in e
 
 **Aktuelle Version:** v0.1.0-beta.14 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
 
-**In Entwicklung:** Die neue Routing-Arbeitsfläche zeigt Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen ohne Dropdowns. Mono-Quellen teilen bei Bedarf eine physische Stereo-DI; Portbelegung und Signalformat bleiben getrennt. J48, J48 Stereo und ProD2 zeigen lokale Original-Produktfotos. [Bedienung](AUDIO_BEDIENUNG.md).
+**In Entwicklung:** Die neue Routing-Arbeitsfläche zeigt Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen ohne Dropdowns. Mono-Quellen teilen bei Bedarf eine physische Stereo-DI; Portbelegung und Signalformat bleiben getrennt. J48, J48 Stereo und ProD2 zeigen lokale Original-Produktfotos. Vier generische DIs ergänzen die Auswahl mit eigenen Bildern: passiv/aktiv, jeweils Mono/Stereo. [Bedienung](AUDIO_BEDIENUNG.md).
 
 Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 

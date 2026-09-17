@@ -13,12 +13,18 @@
     Object.freeze({id:'radial-j48',name:'Radial J48',photo:'stageplot-assets/di/radial-j48-photo-v1.jpg',photoAlt:'Radial J48 – Produktfotografie von Radial Engineering',channels:1,active:true,power:'48V',phantom:true}),
     Object.freeze({id:'radial-j48-stereo',name:'Radial J48 Stereo',photo:'stageplot-assets/di/radial-j48-stereo-photo-v1.jpg',photoAlt:'Radial J48 Stereo – Produktfotografie von Radial Engineering',channels:2,active:true,power:'48V',phantom:true}),
     Object.freeze({id:'radial-prod2',name:'Radial ProD2',photo:'stageplot-assets/di/radial-prod2-photo-v1.jpg',photoAlt:'Radial ProD2 – Produktfotografie von Radial Engineering',channels:2,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'generic-passive-mono',name:'DI passiv · Mono',photo:'stageplot-assets/di/generic-passive-mono-v1.png',photoAlt:'Generische passive Mono-DI – Illustration',channels:1,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'generic-passive-stereo',name:'DI passiv · Stereo',photo:'stageplot-assets/di/generic-passive-stereo-v1.png',photoAlt:'Generische passive Stereo-DI – Illustration',channels:2,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'generic-active-mono',name:'DI aktiv · Mono',photo:'stageplot-assets/di/generic-active-mono-v1.png',photoAlt:'Generische aktive Mono-DI – Illustration',channels:1,active:true,power:'48V',phantom:true,configurablePower:true}),
+    Object.freeze({id:'generic-active-stereo',name:'DI aktiv · Stereo',photo:'stageplot-assets/di/generic-active-stereo-v1.png',photoAlt:'Generische aktive Stereo-DI – Illustration',channels:2,active:true,power:'48V',phantom:true,configurablePower:true}),
     Object.freeze({id:'custom',name:'Eigene DI',channels:1,active:false,power:'none',phantom:false})
   ]);
   const catalog=new Map(diModels.map(model=>[model.id,model]));
+  const modelToken=value=>clean(value).toLowerCase().replace(/[^a-z0-9]/g,'');
+  const modelNames=new Map(diModels.flatMap(model=>[[modelToken(model.id),model.id],[modelToken(model.name),model.id]]));
   function modelId(value){
-    const text=clean(value).toLowerCase().replace(/[^a-z0-9]/g,'');
-    return ({j48:'radial-j48',radialj48:'radial-j48',j48stereo:'radial-j48-stereo',radialj48stereo:'radial-j48-stereo',prod2:'radial-prod2',radialprod2:'radial-prod2',custom:'custom',eigenedi:'custom'})[text]||'custom';
+    const text=modelToken(value);
+    return modelNames.get(text)||({j48:'radial-j48',j48stereo:'radial-j48-stereo',prod2:'radial-prod2'})[text]||'custom';
   }
   function remapId(value,idMap){const id=clean(value);return idMap?idMap.get(id)||'':id;}
   function remapKey(value,idMap){const key=clean(value,140),split=key.indexOf(':');return split>0&&idMap?.has(key.slice(0,split))?idMap.get(key.slice(0,split))+key.slice(split):key;}
@@ -26,7 +32,7 @@
   function token(value,fallback){return clean(value,80).toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/^-+|-+$/g,'')||fallback;}
   function normalizeDevice(value,index,idMap){
     const source=object(value),id=/^[a-z0-9][a-z0-9-]{0,119}$/.test(source.id||'')?source.id:'di-device-'+(index+1),key=modelId(source.modelId||source.model||source.name),model=catalog.get(key),fixed=key!=='custom';
-    const active=fixed?model.active:source.active===true||(!own(source,'active')&&source.phantom===true),power=fixed?model.power:!active?'none':powers.has(source.power)?source.power:source.phantom===false?'external':'48V';
+    const active=fixed?model.active:source.active===true||(!own(source,'active')&&source.phantom===true),power=fixed?(model.configurablePower&&powers.has(source.power)&&source.power!=='none'?source.power:model.power):!active?'none':powers.has(source.power)?source.power:source.phantom===false?'external':'48V';
     return {id,modelId:key,name:clean(source.name,80)||model.name,channels:fixed?model.channels:integer(source.channels,1,32,1),active,power,phantom:active&&power==='48V',objectId:remapId(source.objectId,idMap)};
   }
   function normalizeDevices(raw,idMap=null){
@@ -62,14 +68,16 @@
     const ids=new Set(devicesOf(routing).map(device=>device.id));let base=token(requested,'di-device'),id=base,index=1;
     while(ids.has(id))id=base+'-'+(++index);return id;
   }
-  function validateCustom(options){
-    if(modelId(options.modelId||options.model||options.name)!=='custom')return;
+  function validateDevice(options){
+    const key=modelId(options.modelId||options.model||options.name),model=catalog.get(key);
+    if(model.configurablePower&&own(options,'power')&&(!powers.has(options.power)||options.power==='none'))throw Error('Eine aktive DI-Box benötigt eine gültige Stromversorgung.');
+    if(key!=='custom')return;
     if(own(options,'channels')&&integer(options.channels,1,32,null)===null)throw Error('Eine eigene DI-Box benötigt 1 bis 32 Kanäle.');
     if(own(options,'power')&&!powers.has(options.power))throw Error('Bitte eine gültige Stromversorgung wählen.');
   }
   function createDevice(routing,options={}){
     if(!routing||typeof routing!=='object')throw Error('Kein Routing vorhanden.');
-    validateCustom(options);const device=normalizeDevice({...options,id:nextDeviceId(routing,options.id)},devicesOf(routing).length);
+    validateDevice(options);const device=normalizeDevice({...options,id:nextDeviceId(routing,options.id)},devicesOf(routing).length);
     if(device.objectId&&devicesOf(routing).some(item=>item.objectId===device.objectId))throw Error('Dieses Bühnenobjekt gehört bereits zu einer DI-Box.');
     if(devicesOf(routing).length>=512)throw Error('Es können höchstens 512 DI-Boxen angelegt werden.');
     routing.devices=[...devicesOf(routing),device];return device;
@@ -98,7 +106,8 @@
   function updateDevice(routing,id,fields={}){
     const device=findDevice(routing,id),options={...device,...fields,id:device.id};
     if(modelId(options.modelId)==='custom'&&!device.active&&fields.active===true&&!own(fields,'power'))options.power='48V';
-    validateCustom(options);
+    if(catalog.get(modelId(options.modelId)).configurablePower&&!own(fields,'power')&&(!powers.has(options.power)||options.power==='none'))options.power='48V';
+    validateDevice(options);
     const next=normalizeDevice(options,0),rows=rowsOf(routing).filter(row=>row.diDeviceId===id);
     if(rows.some(row=>integer(row.diChannel,1,next.channels,null)===null))throw Error('Ein belegter DI-Eingang würde entfallen. Bitte zuerst das Signal umstecken.');
     if(next.objectId&&devicesOf(routing).some(item=>item.id!==id&&item.objectId===next.objectId))throw Error('Dieses Bühnenobjekt gehört bereits zu einer DI-Box.');

@@ -43,6 +43,50 @@ assert.throws(()=>model.updateDevice(r,custom.id,{power:'mains-invalid'}),/Strom
 model.clearDevice(r,['route-keys']);model.ensure(r,[]);assert.equal(r.inputs[2].diDeviceId,'','Explicit clear survives migration');
 assert.equal(model.occupancy(r,custom.id).filter(port=>!port.free).length,0);
 
+// Generic models keep physical capacity independent of source format and allow
+// active power options without making phantom-powered products configurable.
+const generic=routing([row('generic-guitar','station-guitar:main'),row('generic-bass','station-bass:main')]);
+for(const [id,name,channels,isActive] of [
+  ['generic-passive-mono','DI passiv · Mono',1,false],
+  ['generic-passive-stereo','DI passiv · Stereo',2,false],
+  ['generic-active-mono','DI aktiv · Mono',1,true],
+  ['generic-active-stereo','DI aktiv · Stereo',2,true]
+]){
+  const device=model.createDevice(generic,{modelId:id,channels:8,active:!isActive});
+  assert.equal(device.modelId,id);assert.equal(device.name,name);assert.equal(device.channels,channels);assert.equal(device.active,isActive);
+  assert.equal(device.power,isActive?'48V':'none');assert.equal(device.phantom,isActive);
+  assert.equal(model.normalizeDevices([{name}])[0].modelId,id,'A generic catalog name retains its model during legacy normalization');
+  assert.deepEqual(model.normalizeDevices(clone([device])),[device],'A generic model retains its identity after serialization');
+}
+const genericStereo=generic.devices.find(device=>device.modelId==='generic-passive-stereo');
+model.assignDevice(generic,['generic-guitar'],genericStereo.id,[1]);
+assert.equal(model.occupancy(generic,genericStereo.id)[1].free,true,'One mono source leaves the other stereo DI input free');
+model.assignDevice(generic,['generic-bass'],genericStereo.id,[2]);
+assert.deepEqual(model.occupancy(generic,genericStereo.id).map(port=>port.rowId),['generic-guitar','generic-bass']);
+before=clone(generic);assert.throws(()=>model.updateDevice(generic,genericStereo.id,{modelId:'generic-passive-mono'}),/belegter/);assert.deepEqual(generic,before);
+model.updateDevice(generic,genericStereo.id,{modelId:'generic-active-stereo'});
+assert.equal(genericStereo.power,'48V','Changing a passive model to generic active replaces its inherited no-power setting');
+assert(generic.inputs.every(row=>row.phantom));
+for(const power of ['battery','external','48V']){
+  model.updateDevice(generic,genericStereo.id,{power});assert.equal(genericStereo.power,power);
+  assert(generic.inputs.every(row=>row.phantom===(power==='48V')),'Assigned signals follow the selected power requirement');
+  const loaded=clone(generic);model.ensure(loaded,[]);assert.deepEqual(loaded.devices,generic.devices);
+  assert.deepEqual(loaded.inputs.map(row=>[row.diDeviceId,row.diChannel,row.phantom]),generic.inputs.map(row=>[row.diDeviceId,row.diChannel,row.phantom]));
+}
+model.updateDevice(generic,genericStereo.id,{modelId:'generic-passive-stereo'});
+model.updateDevice(generic,genericStereo.id,{modelId:'generic-active-stereo',power:'external'});
+assert.equal(genericStereo.power,'external','An explicit valid power choice wins when changing the model');
+assert(generic.inputs.every(row=>!row.phantom));
+for(const power of ['none','invalid']){
+  before=clone(generic);assert.throws(()=>model.updateDevice(generic,genericStereo.id,{power}),/Stromversorgung/);assert.deepEqual(generic,before);
+  assert.throws(()=>model.createDevice(generic,{modelId:'generic-active-mono',power}),/Stromversorgung/);assert.deepEqual(generic,before);
+}
+const battery=model.createDevice(generic,{modelId:'generic-active-mono',power:'battery'});assert.equal(battery.power,'battery');assert.equal(battery.phantom,false);
+assert.equal(model.normalizeDevices([{modelId:'generic-active-mono',power:'none'}])[0].power,'48V','Invalid imported generic active power falls back coherently');
+model.updateDevice(generic,genericStereo.id,{modelId:'radial-j48-stereo',power:'battery'});
+assert.equal(genericStereo.power,'48V','Named Radial hardware retains its manufacturer power requirement');
+assert(generic.inputs.every(row=>row.phantom));
+
 // Persistent pickup origin survives reconciliation-style normalization and deletion.
 const p=model.additionalPickup(r,'station-guitar','Mic','test-token');
 assert.equal(p.sourceKey,'station-guitar:pickup-test-token');assert(p.manual&&p.edited);assert.equal(p.origin,'pickup');
@@ -91,7 +135,7 @@ const long=model.additionalPickup(r,'x'.repeat(100),'Mic','token'.repeat(20));as
 
 // UMD standalone browser loading requires no document or Node globals.
 const context={};vm.createContext(context);vm.runInContext(fs.readFileSync(require.resolve('./stageplot-routing-model-v2.js'),'utf8'),context);
-assert.equal(context.StageplotRoutingModel.diModels.length,4);
+assert.equal(context.StageplotRoutingModel.diModels.length,8);
 console.log('PASS: shared DI devices, atomic occupancy, pickup persistence and legacy routing migration.');
 
 assert.equal(model.normalizeDevices([{id:'di-missing',modelId:'radial-prod2',objectId:'removed'}],new Map([['other','station-1']]))[0].objectId,'','Missing physical symbols cannot attach to an unrelated renumbered object.');

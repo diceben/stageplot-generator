@@ -7051,12 +7051,18 @@ html,body { height:100%; overflow:hidden; }
     Object.freeze({id:'radial-j48',name:'Radial J48',photo:'stageplot-assets/di/radial-j48-photo-v1.jpg',photoAlt:'Radial J48 – Produktfotografie von Radial Engineering',channels:1,active:true,power:'48V',phantom:true}),
     Object.freeze({id:'radial-j48-stereo',name:'Radial J48 Stereo',photo:'stageplot-assets/di/radial-j48-stereo-photo-v1.jpg',photoAlt:'Radial J48 Stereo – Produktfotografie von Radial Engineering',channels:2,active:true,power:'48V',phantom:true}),
     Object.freeze({id:'radial-prod2',name:'Radial ProD2',photo:'stageplot-assets/di/radial-prod2-photo-v1.jpg',photoAlt:'Radial ProD2 – Produktfotografie von Radial Engineering',channels:2,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'generic-passive-mono',name:'DI passiv · Mono',photo:'stageplot-assets/di/generic-passive-mono-v1.png',photoAlt:'Generische passive Mono-DI – Illustration',channels:1,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'generic-passive-stereo',name:'DI passiv · Stereo',photo:'stageplot-assets/di/generic-passive-stereo-v1.png',photoAlt:'Generische passive Stereo-DI – Illustration',channels:2,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'generic-active-mono',name:'DI aktiv · Mono',photo:'stageplot-assets/di/generic-active-mono-v1.png',photoAlt:'Generische aktive Mono-DI – Illustration',channels:1,active:true,power:'48V',phantom:true,configurablePower:true}),
+    Object.freeze({id:'generic-active-stereo',name:'DI aktiv · Stereo',photo:'stageplot-assets/di/generic-active-stereo-v1.png',photoAlt:'Generische aktive Stereo-DI – Illustration',channels:2,active:true,power:'48V',phantom:true,configurablePower:true}),
     Object.freeze({id:'custom',name:'Eigene DI',channels:1,active:false,power:'none',phantom:false})
   ]);
   const catalog=new Map(diModels.map(model=>[model.id,model]));
+  const modelToken=value=>clean(value).toLowerCase().replace(/[^a-z0-9]/g,'');
+  const modelNames=new Map(diModels.flatMap(model=>[[modelToken(model.id),model.id],[modelToken(model.name),model.id]]));
   function modelId(value){
-    const text=clean(value).toLowerCase().replace(/[^a-z0-9]/g,'');
-    return ({j48:'radial-j48',radialj48:'radial-j48',j48stereo:'radial-j48-stereo',radialj48stereo:'radial-j48-stereo',prod2:'radial-prod2',radialprod2:'radial-prod2',custom:'custom',eigenedi:'custom'})[text]||'custom';
+    const text=modelToken(value);
+    return modelNames.get(text)||({j48:'radial-j48',j48stereo:'radial-j48-stereo',prod2:'radial-prod2'})[text]||'custom';
   }
   function remapId(value,idMap){const id=clean(value);return idMap?idMap.get(id)||'':id;}
   function remapKey(value,idMap){const key=clean(value,140),split=key.indexOf(':');return split>0&&idMap?.has(key.slice(0,split))?idMap.get(key.slice(0,split))+key.slice(split):key;}
@@ -7064,7 +7070,7 @@ html,body { height:100%; overflow:hidden; }
   function token(value,fallback){return clean(value,80).toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/^-+|-+$/g,'')||fallback;}
   function normalizeDevice(value,index,idMap){
     const source=object(value),id=/^[a-z0-9][a-z0-9-]{0,119}$/.test(source.id||'')?source.id:'di-device-'+(index+1),key=modelId(source.modelId||source.model||source.name),model=catalog.get(key),fixed=key!=='custom';
-    const active=fixed?model.active:source.active===true||(!own(source,'active')&&source.phantom===true),power=fixed?model.power:!active?'none':powers.has(source.power)?source.power:source.phantom===false?'external':'48V';
+    const active=fixed?model.active:source.active===true||(!own(source,'active')&&source.phantom===true),power=fixed?(model.configurablePower&&powers.has(source.power)&&source.power!=='none'?source.power:model.power):!active?'none':powers.has(source.power)?source.power:source.phantom===false?'external':'48V';
     return {id,modelId:key,name:clean(source.name,80)||model.name,channels:fixed?model.channels:integer(source.channels,1,32,1),active,power,phantom:active&&power==='48V',objectId:remapId(source.objectId,idMap)};
   }
   function normalizeDevices(raw,idMap=null){
@@ -7100,14 +7106,16 @@ html,body { height:100%; overflow:hidden; }
     const ids=new Set(devicesOf(routing).map(device=>device.id));let base=token(requested,'di-device'),id=base,index=1;
     while(ids.has(id))id=base+'-'+(++index);return id;
   }
-  function validateCustom(options){
-    if(modelId(options.modelId||options.model||options.name)!=='custom')return;
+  function validateDevice(options){
+    const key=modelId(options.modelId||options.model||options.name),model=catalog.get(key);
+    if(model.configurablePower&&own(options,'power')&&(!powers.has(options.power)||options.power==='none'))throw Error('Eine aktive DI-Box benötigt eine gültige Stromversorgung.');
+    if(key!=='custom')return;
     if(own(options,'channels')&&integer(options.channels,1,32,null)===null)throw Error('Eine eigene DI-Box benötigt 1 bis 32 Kanäle.');
     if(own(options,'power')&&!powers.has(options.power))throw Error('Bitte eine gültige Stromversorgung wählen.');
   }
   function createDevice(routing,options={}){
     if(!routing||typeof routing!=='object')throw Error('Kein Routing vorhanden.');
-    validateCustom(options);const device=normalizeDevice({...options,id:nextDeviceId(routing,options.id)},devicesOf(routing).length);
+    validateDevice(options);const device=normalizeDevice({...options,id:nextDeviceId(routing,options.id)},devicesOf(routing).length);
     if(device.objectId&&devicesOf(routing).some(item=>item.objectId===device.objectId))throw Error('Dieses Bühnenobjekt gehört bereits zu einer DI-Box.');
     if(devicesOf(routing).length>=512)throw Error('Es können höchstens 512 DI-Boxen angelegt werden.');
     routing.devices=[...devicesOf(routing),device];return device;
@@ -7136,7 +7144,8 @@ html,body { height:100%; overflow:hidden; }
   function updateDevice(routing,id,fields={}){
     const device=findDevice(routing,id),options={...device,...fields,id:device.id};
     if(modelId(options.modelId)==='custom'&&!device.active&&fields.active===true&&!own(fields,'power'))options.power='48V';
-    validateCustom(options);
+    if(catalog.get(modelId(options.modelId)).configurablePower&&!own(fields,'power')&&(!powers.has(options.power)||options.power==='none'))options.power='48V';
+    validateDevice(options);
     const next=normalizeDevice(options,0),rows=rowsOf(routing).filter(row=>row.diDeviceId===id);
     if(rows.some(row=>integer(row.diChannel,1,next.channels,null)===null))throw Error('Ein belegter DI-Eingang würde entfallen. Bitte zuerst das Signal umstecken.');
     if(next.objectId&&devicesOf(routing).some(item=>item.id!==id&&item.objectId===next.objectId))throw Error('Dieses Bühnenobjekt gehört bereits zu einer DI-Box.');
@@ -7222,6 +7231,8 @@ html,body { height:100%; overflow:hidden; }
     const device = id => (state.routing?.devices || []).find(item => item.id === id);
     const diChannels = item => Math.max(1, Number(item?.channels || item?.channelCount) || 1);
     const deviceName = item => item?.name || item?.model || item?.modelId || 'DI-Box';
+    const diModel = item => (state.diModels || []).find(model => model.id === (item?.modelId || item?.id));
+    const diDetails = item => (item.active ? 'Aktiv' + ({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[item.power] || '') : 'Passiv') + ' · ' + diChannels(item) + (diChannels(item) === 1 ? ' Kanal' : ' Kanäle');
     const readonly = () => state.readonly === true;
     const icon = input => {
       if (!input) return '<span class="rw-art-fallback" aria-hidden="true">♪</span>';
@@ -7233,7 +7244,7 @@ html,body { height:100%; overflow:hidden; }
       catch (_) { return '<span class="rw-art-fallback" aria-hidden="true">MIC</span>'; }
     };
     const diPhoto = item => {
-      const model = (state.diModels || []).find(model => model.id === (item?.modelId || item?.id));
+      const model = diModel(item);
       return model?.photo ? '<img class="rw-di-product-photo" src="' + esc(model.photo) + '" alt="' + esc(model.photoAlt || model.name) + '" loading="lazy" decoding="async">' : '<span class="rw-di-custom">' + (item ? 'Eigene DI' : 'DI') + '</span>';
     };
     const art = (content, extra = '') => '<div class="rw-art ' + extra + '" aria-hidden="true">' + content + '</div>';
@@ -7361,7 +7372,22 @@ html,body { height:100%; overflow:hidden; }
 
     function diEditor(row) {
       const chosen = device(row.diDeviceId), devices = state.routing.devices || [], models = state.diModels || [];
-      return '<div class="rw-editor-section"><h4>Vorhandene DI-Box</h4>' + (devices.length ? devices.map(item => '<div class="rw-existing-di"><span class="rw-existing-di-art">' + diPhoto(item) + '</span><strong>' + esc(deviceName(item)) + '</strong><small>' + (item.active ? 'Aktiv' : 'Passiv') + ' · ' + diChannels(item) + (diChannels(item) === 1 ? ' Kanal' : ' Kanäle') + '</small>' + diPortButtons(row,item) + '</div>').join('') : '<p class="rw-empty-small">Noch keine DI-Box zugeordnet.</p>') + '<h4>Neue DI-Box</h4><div class="rw-model-grid">' + models.map(item => button('<span class="rw-model-art">' + diPhoto(item) + '</span><strong>' + esc(item.name) + '</strong><small>' + (item.active ? 'Aktiv' : 'Passiv') + ' · ' + diChannels(item) + (diChannels(item) === 1 ? ' Kanal' : ' Kanäle') + '</small>', {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-model-tile',mutation:true})).join('') + '</div>' + (chosen ? '<div class="rw-device-fields">' + field('Gerätename', chosen.name, {'data-rw-device-field':'name','data-rw-device':chosen.id}, {maxlength:80}) + (chosen.modelId === 'custom' ? '<div class="rw-choice-row" role="group" aria-label="DI-Kanäle">' + [1,2].map(count => button(count === 1 ? '1 Kanal' : '2 Kanäle', {'data-rw-device-value':'channels','data-rw-device':chosen.id,'data-rw-value':count}, {pressed:diChannels(chosen) === count,mutation:true})).join('') + '</div><div class="rw-choice-row" role="group" aria-label="DI-Bauart">' + [false,true].map(active => button(active ? 'Aktiv' : 'Passiv', {'data-rw-device-value':'active','data-rw-device':chosen.id,'data-rw-value':String(active)}, {pressed:!!chosen.active === active,mutation:true})).join('') + '</div>' + (chosen.active ? '<div class="rw-choice-row" role="group" aria-label="DI-Stromversorgung">' + [['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label]) => button(label, {'data-rw-device-value':'power','data-rw-device':chosen.id,'data-rw-value':value}, {pressed:chosen.power === value,mutation:true})).join('') + '</div>' : '') : '') + '</div>' : '') + '</div>';
+      const existing = devices.length ? devices.map(item => '<div class="rw-existing-di"><span class="rw-existing-di-art">' + diPhoto(item) + '</span><strong>' + esc(deviceName(item)) + '</strong><small>' + esc(diDetails(item)) + '</small>' + diPortButtons(row,item) + '</div>').join('') : '<p class="rw-empty-small">Noch keine DI-Box zugeordnet.</p>';
+      const modelChoices = models.map(item => button('<span class="rw-model-art">' + diPhoto(item) + '</span><strong>' + esc(item.name) + '</strong><small>' + (item.id.startsWith('generic-') ? 'Generisch · ' : '') + esc(diDetails(item)) + '</small>', {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-model-tile',mutation:true})).join('');
+      let settings = '';
+      if (chosen) {
+        const custom = chosen.modelId === 'custom';
+        settings = field('Gerätename', chosen.name, {'data-rw-device-field':'name','data-rw-device':chosen.id}, {maxlength:80});
+        if (custom) {
+          settings += '<div class="rw-choice-row" role="group" aria-label="DI-Kanäle">' + [1,2].map(count => button(count === 1 ? '1 Kanal' : '2 Kanäle', {'data-rw-device-value':'channels','data-rw-device':chosen.id,'data-rw-value':count}, {pressed:diChannels(chosen) === count,mutation:true})).join('') + '</div>';
+          settings += '<div class="rw-choice-row" role="group" aria-label="DI-Bauart">' + [false,true].map(active => button(active ? 'Aktiv' : 'Passiv', {'data-rw-device-value':'active','data-rw-device':chosen.id,'data-rw-value':String(active)}, {pressed:!!chosen.active === active,mutation:true})).join('') + '</div>';
+        }
+        if (chosen.active && (custom || diModel(chosen)?.configurablePower)) {
+          settings += '<div class="rw-choice-row" role="group" aria-label="DI-Stromversorgung">' + [['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label]) => button(label, {'data-rw-device-value':'power','data-rw-device':chosen.id,'data-rw-value':value}, {pressed:chosen.power === value,mutation:true})).join('') + '</div>';
+        }
+        settings = '<div class="rw-device-fields">' + settings + '</div>';
+      }
+      return '<div class="rw-editor-section"><h4>Vorhandene DI-Box</h4>' + existing + '<h4>Neue DI-Box</h4><div class="rw-model-grid">' + modelChoices + '</div>' + settings + '</div>';
     }
 
     function microphoneChoices(row) {
@@ -7378,7 +7404,7 @@ html,body { height:100%; overflow:hidden; }
       if (openCard === key && !readonly()) {
         editor = '<div class="rw-card-editor"><div class="rw-choice-row" role="group" aria-label="Abnahmeart">' + ['Mic','DI','Direct','Digital'].map(value => button(pickupName(value), {'data-rw-pickup':value,'data-rw-row':row.id}, {pressed:kind === value,mutation:true})).join('') + (kind === 'DI' ? diEditor(row) : kind === 'Mic' ? '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Eigenes Mikrofon', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'}) : '<div class="rw-choice-row" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div>') + button('Abnahme entfernen', {'data-rw-remove-pickup':row.id}, {className:'rw-quiet-danger',mutation:true}) + '</div>';
       }
-      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? (di.active ? 'Aktiv' : 'Passiv') + ' · ' + diChannels(di) + (diChannels(di) === 1 ? ' Kanal' : ' Kanäle') : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
+      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? diDetails(di) : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
     }
 
     function channelCard(row, direction = 'inputs') {
@@ -13688,12 +13714,13 @@ function audioDiControls(o){
   const device=stage.routing.devices?.find(device=>device.objectId===o.id),ownIds=new Set(stage.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')).map(row=>row.id)),disabled=sharedReadOnly||o.locked,off=disabled?' disabled':'';
   const ports=device?StageplotRoutingModel.occupancy(stage.routing,device.id).map(port=>ownIds.has(port.rowId)?{...port,rowId:'',instrument:'',free:true}:port):[{channel:1,free:true,rowId:'',instrument:''}],selectedPort=audioDiSelectedPort.objectId===o.id&&ports.some(port=>port.channel===audioDiSelectedPort.channel)?audioDiSelectedPort.channel:ports.find(port=>port.free)?.channel||1,current=ports.find(port=>port.channel===selectedPort),models=StageplotRoutingModel.diModels;
   const choices=stage.routing.inputs.filter(row=>!ownIds.has(row.id)&&row.connector!=='Dante'&&row.pickup!=='Digital'&&routeSourceObject(row)?.type!=='di'&&!routeSourceObject(row)?.locked);
-  const selector='<div class="sp-choice-pills sp-audio-di-models" role="group" aria-label="DI-Modell">'+models.map(model=>'<button type="button" data-di-model="'+model.id+'" aria-pressed="'+(device?.modelId===model.id)+'"'+off+'>'+audioDiPhoto(model)+'<span>'+esc(model.name)+'</span></button>').join('')+'</div>';
-  const custom=device?.modelId==='custom'?'<label class="sp-field">Eigener Name<input data-di-device-name maxlength="80" value="'+esc(device.name)+'"'+off+'></label><label class="sp-field">Eingänge<input data-di-device-channels type="number" min="1" max="32" step="1" value="'+device.channels+'"'+off+'></label><div class="sp-choice-pills" role="group" aria-label="DI-Bauart">'+[[false,'Passiv'],[true,'Aktiv']].map(([value,label])=>'<button type="button" data-di-active="'+value+'" aria-pressed="'+(device.active===value)+'"'+off+'>'+label+'</button>').join('')+'</div>'+(device.active?'<div class="sp-choice-pills" role="group" aria-label="Stromversorgung">'+[['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label])=>'<button type="button" data-di-power="'+value+'" aria-pressed="'+(device.power===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':''):'';
+  const selector='<div class="sp-choice-pills sp-audio-di-models" role="group" aria-label="DI-Modell">'+models.map(model=>'<button type="button" data-di-model="'+model.id+'" aria-pressed="'+(device?.modelId===model.id)+'"'+off+'>'+audioDiPhoto(model)+'<span>'+esc(model.name)+'</span>'+(model.id.startsWith('generic-')?'<small>Generisch</small>':'')+'</button>').join('')+'</div>';
+  const custom=device?.modelId==='custom'?'<label class="sp-field">Eigener Name<input data-di-device-name maxlength="80" value="'+esc(device.name)+'"'+off+'></label><label class="sp-field">Eingänge<input data-di-device-channels type="number" min="1" max="32" step="1" value="'+device.channels+'"'+off+'></label><div class="sp-choice-pills" role="group" aria-label="DI-Bauart">'+[[false,'Passiv'],[true,'Aktiv']].map(([value,label])=>'<button type="button" data-di-active="'+value+'" aria-pressed="'+(device.active===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
+  const power=device?.active&&(device.modelId==='custom'||models.find(model=>model.id===device.modelId)?.configurablePower)?'<div class="sp-choice-pills" role="group" aria-label="Stromversorgung">'+[['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label])=>'<button type="button" data-di-power="'+value+'" aria-pressed="'+(device.power===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
   const sockets='<div class="sp-choice-pills" role="group" aria-label="DI-Eingang">'+ports.map(port=>'<button type="button" data-di-port="'+port.channel+'" aria-pressed="'+(selectedPort===port.channel)+'"'+off+'>'+port.channel+' · '+esc(port.free?'Frei':port.instrument)+'</button>').join('')+'</div>';
   const assignment=current?.free?'<div class="sp-audio-available">'+choices.map(row=>'<button type="button" class="sp-button" data-di-source="'+esc(row.id)+'" data-di-channel="'+selectedPort+'"'+off+'>'+esc(row.instrument)+' · CH '+(row.number||'—')+'</button>').join('')+'</div>': '<button type="button" class="sp-audio-object-row" data-audio-edit="'+esc(current.rowId)+'" data-audio-direction="inputs"'+off+'>'+esc(current.instrument)+'</button><button type="button" class="sp-button" data-di-disconnect="'+esc(current.rowId)+'"'+off+'>DI-Eingang freigeben</button>';
-  const selected=device?'<div class="sp-audio-di-selected">'+audioDiPhoto(device)+'<span><strong>'+esc(device.name)+'</strong><small>'+esc((device.active?'Aktiv':'Passiv')+(device.phantom?' · 48 V':'')+' · '+device.channels+(device.channels===1?' Eingang':' Eingänge'))+'</small></span></div>':'';
-  return '<div class="sp-direct-field"><span>DI-Box</span>'+selected+selector+custom+(device?'':'<small>Modell auswählen</small>')+'<span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+'</div>';
+  const selected=device?'<div class="sp-audio-di-selected">'+audioDiPhoto(device)+'<span><strong>'+esc(device.name)+'</strong><small>'+esc((device.active?'Aktiv'+({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[device.power]||''):'Passiv')+' · '+device.channels+(device.channels===1?' Eingang':' Eingänge'))+'</small></span></div>':'';
+  return '<div class="sp-direct-field"><span>DI-Box</span>'+selected+selector+custom+power+(device?'':'<small>Modell auswählen</small>')+'<span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+'</div>';
 }
 function audioDiDraft(o){
   const routing=clone(stage.routing);StageplotRoutingModel.ensure(routing,objects);
