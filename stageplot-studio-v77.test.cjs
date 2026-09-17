@@ -6,8 +6,8 @@ const html=fs.readFileSync('stageplot-studio.html','utf8');
 const symbolSource=fs.readFileSync('stageplot-symbols-v3.js','utf8');
 const context={};vm.createContext(context);vm.runInContext(symbolSource+'\nthis.render=createStageplotSymbolV3;',context);
 
-for(const category of ['all','instruments','classical','stage','lights','tech'])assert.ok(html.includes('data-category="'+category+'"'),category+' fehlt in den kompakten Bibliothekskategorien.');
-assert.match(html,/\.sp-category-tabs\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s,'Die sechs Kategorie-Icons stehen nicht in zwei gleichmäßigen Reihen.');
+for(const category of ['guitars','keys','drums','orchestral','mics','audio','stage','lights'])assert.ok(html.includes('data-category="'+category+'"'),category+' fehlt in den kompakten Bibliothekskategorien.');
+assert.equal((html.slice(html.indexOf('<div id="sp-category-tabs"'),html.indexOf('<h3 id="sp-library-section-heading"')).match(/data-category=/g)||[]).length,8,'Acht erreichbare Kategorien.');
 
 for(const marker of [
   "id:'mic-wireless-ewd'.*w:.268,d:.05",

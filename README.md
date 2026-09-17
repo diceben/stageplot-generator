@@ -4,7 +4,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 **Beta live:** https://diceben.github.io/stageplot-generator/
 
-Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in einer Kopfzeile. Kompaktere Abstände und der entfernte Bausteinzähler lassen mehr Platz für die Objekte. Die Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
+Die Bausteinbibliothek zeigt acht Kategorien als kompakte Liste und gruppiert Modellvarianten. Modelle sind über die globale Suche direkt platzierbar. Auf dem Desktop öffnet die Modellauswahl neben der Bibliothek; Favoriten lassen sich dort für einzelne Modelle speichern. Zusätzliche Abschnitte bündeln Zubehör. Auf dem Handy ist die Kategorienliste aufklappbar; Suchtreffer bleiben über der Tastatur erreichbar.
 
 **Aktuelle Version:** v0.1.0-beta.16 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
 
