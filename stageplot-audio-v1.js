@@ -184,15 +184,15 @@ function audioDiPhoto(value){
 function audioDiControls(o){
   if(o.type!=='di'||typeof StageplotRoutingModel==='undefined')return '';
   const device=stage.routing.devices?.find(device=>device.objectId===o.id),ownIds=new Set(stage.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')).map(row=>row.id)),disabled=sharedReadOnly||o.locked,off=disabled?' disabled':'';
-  const ports=device?StageplotRoutingModel.occupancy(stage.routing,device.id).map(port=>ownIds.has(port.rowId)?{...port,rowId:'',instrument:'',free:true}:port):[{channel:1,free:true,rowId:'',instrument:''}],selectedPort=audioDiSelectedPort.objectId===o.id&&ports.some(port=>port.channel===audioDiSelectedPort.channel)?audioDiSelectedPort.channel:ports.find(port=>port.free)?.channel||1,current=ports.find(port=>port.channel===selectedPort),models=StageplotRoutingModel.diModels;
+  const ports=device?StageplotRoutingModel.occupancy(stage.routing,device.id).map(port=>ownIds.has(port.rowId)?{...port,rowId:'',instrument:'',free:true}:port):[{channel:1,free:true,rowId:'',instrument:''}],selectedPort=audioDiSelectedPort.objectId===o.id&&ports.some(port=>port.channel===audioDiSelectedPort.channel)?audioDiSelectedPort.channel:ports.find(port=>port.free)?.channel||1,current=ports.find(port=>port.channel===selectedPort),models=StageplotRoutingModel.diModels.filter(model=>model.id!=='custom');
   const choices=stage.routing.inputs.filter(row=>!ownIds.has(row.id)&&row.connector!=='Dante'&&row.pickup!=='Digital'&&routeSourceObject(row)?.type!=='di'&&!routeSourceObject(row)?.locked);
   const selector='<div class="sp-choice-pills sp-audio-di-models" role="group" aria-label="DI-Modell">'+models.map(model=>'<button type="button" data-di-model="'+model.id+'" aria-pressed="'+(device?.modelId===model.id)+'"'+off+'>'+audioDiPhoto(model)+'<span>'+esc(model.name)+'</span>'+(model.id.startsWith('generic-')?'<small>Generisch</small>':'')+'</button>').join('')+'</div>';
   const custom=device?.modelId==='custom'?'<label class="sp-field">Eigener Name<input data-di-device-name maxlength="80" value="'+esc(device.name)+'"'+off+'></label><label class="sp-field">Eingänge<input data-di-device-channels type="number" min="1" max="32" step="1" value="'+device.channels+'"'+off+'></label><div class="sp-choice-pills" role="group" aria-label="DI-Bauart">'+[[false,'Passiv'],[true,'Aktiv']].map(([value,label])=>'<button type="button" data-di-active="'+value+'" aria-pressed="'+(device.active===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
   const power=device?.active&&(device.modelId==='custom'||models.find(model=>model.id===device.modelId)?.configurablePower)?'<div class="sp-choice-pills" role="group" aria-label="Stromversorgung">'+[['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label])=>'<button type="button" data-di-power="'+value+'" aria-pressed="'+(device.power===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':'';
   const sockets='<div class="sp-choice-pills" role="group" aria-label="DI-Eingang">'+ports.map(port=>'<button type="button" data-di-port="'+port.channel+'" aria-pressed="'+(selectedPort===port.channel)+'"'+off+'>'+port.channel+' · '+esc(port.free?'Frei':port.instrument)+'</button>').join('')+'</div>';
   const assignment=current?.free?'<div class="sp-audio-available">'+choices.map(row=>'<button type="button" class="sp-button" data-di-source="'+esc(row.id)+'" data-di-channel="'+selectedPort+'"'+off+'>'+esc(row.instrument)+' · CH '+(row.number||'—')+'</button>').join('')+'</div>': '<button type="button" class="sp-audio-object-row" data-audio-edit="'+esc(current.rowId)+'" data-audio-direction="inputs"'+off+'>'+esc(current.instrument)+'</button><button type="button" class="sp-button" data-di-disconnect="'+esc(current.rowId)+'"'+off+'>DI-Eingang freigeben</button>';
-  const selected=device?'<div class="sp-audio-di-selected">'+audioDiPhoto(device)+'<span><strong>'+esc(device.name)+'</strong><small>'+esc((device.active?'Aktiv'+({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[device.power]||''):'Passiv')+' · '+device.channels+(device.channels===1?' Eingang':' Eingänge'))+'</small></span></div>':'';
-  return '<div class="sp-direct-field"><span>DI-Box</span>'+selected+selector+custom+power+(device?'':'<small>Modell auswählen</small>')+'<span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+'</div>';
+  const selected=device?'<div class="sp-audio-di-selected">'+audioDiPhoto(device)+'<span><strong>'+esc(models.find(model=>model.id===device.modelId)?.name||device.name)+'</strong><small>'+esc((device.active?'Aktiv'+({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[device.power]||''):'Passiv')+' · '+device.channels+(device.channels===1?' Eingang':' Eingänge'))+'</small></span></div>':'';
+  return '<div class="sp-direct-field">'+selected+'<span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+'<span>Modell wählen</span>'+selector+custom+power+'</div>';
 }
 function audioDiDraft(o){
   const routing=clone(stage.routing);StageplotRoutingModel.ensure(routing,objects);
@@ -203,23 +203,21 @@ function configureAudioDi(o,fields){
   if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
   const next=audioDiDraft(o);for(const row of next.routing.inputs.filter(row=>row.diDeviceId===next.device.id))if(routeSourceObject(row)?.locked)throw Error('Ein angeschlossenes Instrument ist gesperrt.');
   StageplotRoutingModel.updateDevice(next.routing,next.device.id,fields);
-  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Box aktualisiert');
+  change(()=>{stage.routing=next.routing;if(fields.name&&!fields.modelId)o.label=fields.name.slice(0,42);syncRoutingDiObjects();reconcileCablesWithRouting();},'DI-Box aktualisiert');
 }
 function linkAudioDi(o,targetId,channel=null){
   if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
   const target=stage.routing.inputs.find(row=>row.id===targetId);if(!target||String(target.sourceKey||'').startsWith(o.id+':'))return;
   if(routeSourceObject(target)?.locked)throw Error('Das Instrument ist gesperrt.');
-  const next=audioDiDraft(o);
-  // The old generated DI placeholder is not an additional sound source. Preserve
-  // its disabled identity so reconciliation cannot recreate it after assignment.
-  for(const row of next.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')&&row.origin!=='pickup'))StageplotRoutingModel.removeInput(next.routing,row.id);
-  StageplotRoutingModel.assignDevice(next.routing,[targetId],next.device.id,channel===null?undefined:[Number(channel)]);
-  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Eingang zugeordnet · Pultkanal und Patch beibehalten');
+  syncRoutingFromStage(false,false);const device=stage.routing.devices.find(device=>device.objectId===o.id);if(!device)return;
+  dispatchRoutingWorkspace({type:'assignDi',rowId:targetId,deviceId:device.id,channel:channel||1,autoPair:(channel||1)===1&&device.channels>=2});renderEditor();
+
 }
 
 function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
-  host.hidden=!all.length&&!rows.length&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
+  host.hidden=!all.length&&!rows.length&&o.type!=='di'&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
+  if(o.type==='di'){host.innerHTML='<h4>Anschlüsse</h4>'+audioDiControls(o)+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';return;}
   const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),physicalDi=o.type==='di'&&stage.routing.devices?.some(device=>device.objectId===o.id),available=physicalDi?[]:all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
   host.innerHTML=(o.type==='rack'?iemMonitorShortcut(o):o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4>'+audioSignalFormatControls(o)+audioDiControls(o)+'<p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }

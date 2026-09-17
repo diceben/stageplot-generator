@@ -12,7 +12,7 @@ async function fixture(page){
   entry.document.stage.routing={version:2,disabledSources:[],devices:[{id:'di-prod2-demo',modelId:'radial-prod2',name:'Radial ProD2',channels:2,active:false,power:'none'}],inputs:[row('route-acoustic','station-1:main','Akustik · DI',9,{diDeviceId:'di-prod2-demo',diChannel:1,sourceConnector:'Klinke'}),row('route-acoustic-mic','station-1:pickup-demo','Akustik · Mic',10,{manual:true,origin:'pickup',pickup:'Mic',microphone:'Neumann KM 184',phantom:true,signalType:'Mic'}),row('route-key-l','station-2:out-1','Keyboard L',11,{pickup:'Direct',stereoGroup:'station-2:stereo-out-1',mode:'Stereo L'}),row('route-key-r','station-2:out-2','Keyboard R',12,{pickup:'Direct',stereoGroup:'station-2:stereo-out-1',mode:'Stereo R'})],outputs:[row('route-iem-l','station-3:iem-l','IEM · Gesang L',1,{pickup:'Direct',outputKind:'iem',stereoGroup:'station-3:iem',iemGroup:'station-3:iem',mode:'Stereo L',iemName:'Gesang',iemMode:'stereo',iemTransport:'wireless',frequencyBand:'470–526 MHz',monitorDeviceName:'IEM Sender',monitorReceiverName:'Gesang'}),row('route-iem-r','station-3:iem-r','IEM · Gesang R',2,{pickup:'Direct',outputKind:'iem',stereoGroup:'station-3:iem',iemGroup:'station-3:iem',mode:'Stereo R',iemName:'Gesang',iemMode:'stereo',iemTransport:'wireless',frequencyBand:'470–526 MHz',monitorDeviceName:'IEM Sender',monitorReceiverName:'Gesang'})]};
   entry.document.stage.cables=[];localStorage.setItem('stageplot-studio:drafts:v1',JSON.stringify(d));localStorage.setItem('stageplot-studio:workspace:v1',JSON.stringify({version:1,entry}));
  });
- await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();
+ await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await page.waitForFunction(()=>document.querySelector('#sp-header-draft-status').textContent==='Lokal gespeichert');
 }
 async function saved(page){return page.evaluate(()=>JSON.parse(localStorage.getItem('stageplot-studio:workspace:v1')).entry.document);}
 async function change(locator,value){await locator.fill(String(value));await locator.press('Tab');}
@@ -94,6 +94,7 @@ async function wave2Fixture(page,occupied){
   localStorage.setItem('stageplot-studio:drafts:v1',JSON.stringify(drafts));localStorage.setItem('stageplot-studio:workspace:v1',JSON.stringify(workspace));
  },occupied);
  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await page.locator('[data-rw-select="station-2"]').first().click();
+ await page.waitForFunction(()=>document.querySelector('#sp-header-draft-status').textContent==='Lokal gespeichert');
 }
 async function checkWave2Stereo(browser,errors){
  const waveRows=doc=>doc.stage.routing.inputs.filter(row=>row.sourceKey.startsWith('station-2:')).sort((a,b)=>a.sourceKey.localeCompare(b.sourceKey));
@@ -183,7 +184,7 @@ async function checkStage4SharedDi(browser,errors){
   assert.deepEqual(rows(doc).map(row=>row.number),[11,12,13,14],'Every output retains an independently editable console channel');
   await page.setViewportSize({width:1512,height:1480});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await workspace.locator('.rw-pickup-card img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));await page.mouse.move(1,1);await page.screenshot({path:artifactPath('routing-stage4-piano-synth-prod2-'+engine+'.png')});await page.setViewportSize({width:1512,height:982});
   const beforeReplacement=snapshot(doc);await choose(pianoIds[0],'generic-active-stereo');doc=await saved(page);
-  const replacement=rows(doc)[0].diDeviceId;assert.notEqual(replacement,pianoDevice);assert.deepEqual(rows(doc).map(row=>row.diDeviceId),[replacement,replacement,synthDevice,synthDevice]);assert.equal(doc.stage.routing.devices.find(device=>device.id===replacement).modelId,'generic-active-stereo');
+  const replacement=rows(doc)[0].diDeviceId;assert.equal(replacement,pianoDevice);assert.deepEqual(rows(doc).map(row=>row.diDeviceId),[replacement,replacement,synthDevice,synthDevice]);assert.equal(doc.stage.routing.devices.find(device=>device.id===replacement).modelId,'generic-active-stereo');
   assert.deepEqual(rows(doc).map(row=>row.stageboxPort),[11,12,5,6]);assert.deepEqual(rows(doc).map(row=>row.number),[11,12,13,14]);await assertCards(workspace,doc);
   const afterReplacement=snapshot(doc);await history('undo');assert.deepEqual(snapshot(await saved(page)),beforeReplacement,'One undo restores both connections and the previous physical DI');await history('redo');assert.deepEqual(snapshot(await saved(page)),afterReplacement,'One redo replaces the physical DI for both Piano outputs');
   await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();await workspace.locator('[data-rw-select="'+sourceId+'"]').first().click();doc=await saved(page);assert.deepEqual(snapshot(doc),afterReplacement);await assertCards(workspace,doc);
@@ -199,6 +200,38 @@ async function checkStage4SharedDi(browser,errors){
   const readonlyWorkspace=readonlyPage.locator('#sp-routing-workspace-v2');await readonlyWorkspace.locator('[data-rw-select="'+sourceId+'"]').first().click();assert.equal(await readonlyWorkspace.getAttribute('data-readonly'),'true');await assertCards(readonlyWorkspace,doc);
   assert(await readonlyWorkspace.locator('[data-rw-di-open]').evaluateAll(buttons=>buttons.every(button=>button.disabled)));assert(await readonlyWorkspace.locator('.rw-channel-card input').evaluateAll(fields=>fields.every(field=>field.readOnly)));
   await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore,'Viewing the shared DI layout does not alter the saved draft');
+ }finally{await context.close();}
+}
+async function checkPhysicalDiStage(browser,errors){
+ const context=await browser.newContext({viewport:{width:1512,height:982},colorScheme:'light'});
+ try{
+  const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));await fixture(page);
+  const workspace=page.locator('#sp-routing-workspace-v2'),sourceId='station-2';
+  let doc=await saved(page);assert.equal(doc.objects.filter(o=>o.type==='di').length,1,'An older assigned DI receives exactly one stage object');
+  const initialDevice=doc.stage.routing.devices.find(d=>d.id==='di-prod2-demo');assert(doc.objects.some(o=>o.id===initialDevice.objectId&&o.type==='di'));
+  await page.locator('.sp-steps [data-view="editor"]').click();await page.locator('#sp-library-search').fill('DI');await page.locator('#sp-library-items [data-add="di"]').click();await page.keyboard.press('Enter');
+  await page.waitForFunction(()=>document.querySelector('#sp-header-draft-status').textContent==='Lokal gespeichert');doc=await saved(page);
+  let manual=doc.objects.filter(o=>o.type==='di').at(-1);assert.notEqual(manual.id,initialDevice.objectId);const manualId=manual.id;
+  assert(!doc.stage.routing.inputs.some(row=>row.sourceKey.startsWith(manualId+':')),'Placing a DI does not invent a sound source');
+  if(await page.locator('#sp-inspector-open').isVisible())await page.locator('#sp-inspector-open').click();await page.locator('#sp-properties-tab').click();await change(page.locator('#sp-label'),'Piano DI');
+  await page.locator('#sp-audio-object [data-di-model="radial-prod2"]').click();doc=await saved(page);const manualDevice=doc.stage.routing.devices.find(d=>d.objectId===manualId);assert(manualDevice);assert.equal(manualDevice.channels,2);
+  await change(page.locator('#sp-label'),'Piano DI');await change(page.locator('#sp-pos-x'),6);await change(page.locator('#sp-pos-y'),3.5);
+  doc=await saved(page);manual=doc.objects.find(o=>o.id===manualId);const position={x:manual.x,y:manual.y,angle:manual.angle};
+  await page.locator('.sp-steps [data-view="routing"]').click();assert.equal(await workspace.locator('.rw-source-list [data-rw-select="'+manualId+'"]').count(),0);
+  await workspace.locator('.rw-source-list [data-rw-select="'+sourceId+'"]').click();await workspace.locator('[data-rw-pickup="DI"][data-rw-row="route-key-l"]').click();await workspace.locator('[data-rw-di-choose="route-key-l"]').click();
+  let dialog=workspace.locator('[data-rw-di-dialog]');assert.equal(await dialog.locator('select,[role="tablist"]').count(),0);
+  for(const width of [1512,390]){await page.setViewportSize({width,height:width===390?844:982});await dialog.locator('img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));await assertNoOverflow(page,'[data-rw-di-dialog]','Physical DI selection '+width);assert(await dialog.locator('.rw-di-instance').evaluateAll(tiles=>tiles.every(tile=>tile.querySelector('img').getBoundingClientRect().bottom<=tile.querySelector('strong').getBoundingClientRect().top)),'DI photographs stay above their labels');await page.screenshot({path:artifactPath('routing-di-assign-'+width+'-'+engine+'.png')});}await page.setViewportSize({width:1512,height:982});
+  const physical=dialog.locator('[data-rw-di-instance="'+manualDevice.id+'"]');assert.match(await physical.innerText(),/Piano DI/);await physical.locator('[data-rw-use-di]').click();
+  doc=await saved(page);const keys=doc.stage.routing.inputs.filter(r=>r.sourceKey.startsWith(sourceId+':'));assert.equal(keys.length,2);assert(keys.every(row=>row.diDeviceId===manualDevice.id));assert.deepEqual(keys.map(row=>row.diChannel),[1,2]);assert.equal(doc.objects.filter(o=>o.type==='di').length,2);assert.deepEqual(keys.map(row=>row.stageboxPort),[11,12]);
+  await workspace.locator('[data-rw-di-open="route-key-l"]').click();await workspace.locator('[data-rw-create-di="radial-j48-stereo"]').click();doc=await saved(page);assert.equal(doc.stage.routing.devices.find(d=>d.id===manualDevice.id).objectId,manualId);assert.equal(doc.objects.filter(o=>o.type==='di').length,2);assert.deepEqual(Object.fromEntries(['x','y','angle'].map(key=>[key,doc.objects.find(o=>o.id===manualId)[key]])),position);
+  await workspace.locator('[data-rw-di-choose="route-key-l"]').click();await workspace.locator('[data-rw-di-new]').click();await workspace.locator('[data-rw-create-di="radial-prod2"]').click();doc=await saved(page);const newDevice=doc.stage.routing.devices.find(d=>d.id===doc.stage.routing.inputs.find(r=>r.id==='route-key-l').diDeviceId),newObject=doc.objects.find(o=>o.id===newDevice.objectId);assert(newObject);assert.notEqual(newObject.id,manualId);assert.equal(doc.objects.filter(o=>o.type==='di').length,3);assert(!doc.stage.routing.inputs.some(row=>row.sourceKey.startsWith(newObject.id+':')));
+  await workspace.locator('[data-rw-tools]').click();await workspace.locator('[data-rw-tool="undo"]').click();doc=await saved(page);assert(!doc.objects.some(o=>o.id===newObject.id));assert.equal(doc.stage.routing.inputs.find(r=>r.id==='route-key-l').diDeviceId,manualDevice.id);await workspace.locator('[data-rw-tool="redo"]').click();
+  await page.reload();await page.locator('.sp-steps [data-view="editor"]').click();doc=await saved(page);assert.equal(doc.objects.filter(o=>o.type==='di').length,3);assert.equal(doc.stage.routing.devices.find(d=>d.id===newDevice.id).objectId,newObject.id);
+  await page.locator('#sp-editor-floor [data-object="'+newObject.id+'"]').click();if(await page.locator('#sp-inspector-open').isVisible())await page.locator('#sp-inspector-open').click();await page.locator('#sp-properties-tab').click();assert.match(await page.locator('#sp-audio-object').innerText(),/Keyboard/);assert(await page.locator('#sp-outs-direct').isHidden());
+  await page.locator('#sp-selected-name').scrollIntoViewIfNeeded();const ports=await page.locator('#sp-audio-object [aria-label="DI-Eingang"]').boundingBox();assert(ports&&ports.y>=0&&ports.y+ports.height<982,'Selecting a stage DI exposes its input occupancy immediately');
+  await page.screenshot({path:artifactPath('routing-di-on-stage-'+engine+'.png')});
+  await page.locator('#sp-inspector-remove').click();doc=await saved(page);assert(!doc.stage.routing.devices.some(d=>d.id===newDevice.id));assert(!doc.objects.some(o=>o.id===newObject.id));const detached=doc.stage.routing.inputs.filter(r=>r.sourceKey.startsWith(sourceId+':'));assert.equal(detached.length,2);assert(detached.every(r=>!r.diDeviceId));assert.deepEqual(detached.map(r=>r.stageboxPort),[11,12]);
+  await page.reload();await page.locator('.sp-steps [data-view="routing"]').click();doc=await saved(page);assert(!doc.objects.some(o=>o.id===newObject.id),'Deleting a DI does not make it reappear');
  }finally{await context.close();}
 }
 async function checkSourceOutputs(browser,errors){
@@ -273,7 +306,7 @@ async function run(){const browser=await launchBrowser();try{
  assert.equal(await workspace.locator('select').count(),0);assert.equal(await workspace.locator('.rw-source-card').count(),1);assert.equal(await workspace.locator('.rw-pickup-card').count(),2);
  assert.equal(await workspace.locator('[data-rw-di-channel="2"]').first().innerText(),'2\nFrei');
  assert.equal(await workspace.locator('[data-rw-row-card="route-acoustic"] [data-rw-di-stereo]').count(),0,'A mono guitar does not offer a second native output');
- assert.equal(await workspace.locator('[data-object-visual][data-routing-selected="true"]').count(),1);
+ assert.equal(await workspace.locator('[data-object-visual][data-routing-selected="true"]').count(),2);
  for(const theme of ['light','dark']){
   await page.locator('#sp-settings-gear').click();await page.locator('[data-theme-choice="'+theme+'"]').click();await page.locator('#sp-settings-close').click();
   await workspace.locator('[data-rw-tab="inputs"]').click();for(const width of [1512,390])await checkDiPickerLayout(page,workspace,theme,width);await page.setViewportSize({width:1512,height:982});
@@ -326,8 +359,9 @@ async function run(){const browser=await launchBrowser();try{
  await readonlyPage.close();assert.equal(await page.evaluate(()=>localStorage.getItem('stageplot-studio:drafts:v1')),storedBefore);
  await checkWave2Stereo(browser,errors);
  await checkStage4SharedDi(browser,errors);
+ await checkPhysicalDiStage(browser,errors);
  await checkSourceOutputs(browser,errors);
- assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive DI popup and source outputs, native output activation/count/names/stereo/connector with DI preservation, zero-output recovery and undo/redo/reload, modal keyboard/dismissal, direct inline acquisition, native Wave 2 stereo DI and occupied-port protection, Stage 4 Piano/Synth on two shared DI cards with four channels, atomic physical DI replacement and patching, read-only/reload, monitor metadata and CSV export.');
+ assert.deepEqual(errors,[]);console.log('PASS '+engine+': light/dark routing views, responsive DI popup and source outputs, native output activation/count/names/stereo/connector with DI preservation, zero-output recovery and undo/redo/reload, modal keyboard/dismissal, direct inline acquisition, native Wave 2 stereo DI and occupied-port protection, Stage 4 Piano/Synth on two shared DI cards with four channels, physical stage DI placement/reuse/deletion, responsive device assignment, atomic model replacement and patching, read-only/reload, monitor metadata and CSV export.');
 }finally{await browser.close();}}
 if(require.main===module)run().catch(error=>{console.error(error);process.exit(1);});
-module.exports={fixture,checkWave2Stereo,checkStage4SharedDi,checkSourceOutputs};
+module.exports={checkPhysicalDiStage,fixture,checkWave2Stereo,checkStage4SharedDi,checkSourceOutputs};

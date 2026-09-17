@@ -44,6 +44,9 @@
   background:transparent;
 }
 #sp-prototype #sp-selected { display:flex; flex-direction:column; gap:0; }
+#sp-prototype #sp-selected[data-object-type="di"] .sp-inspector-identity { order:-3; }
+#sp-prototype #sp-selected[data-object-type="di"] .sp-inspector-actions { order:-2; }
+#sp-prototype #sp-selected[data-object-type="di"] #sp-audio-object { order:-1; }
 #sp-prototype .sp-properties-panel :is([hidden],.sp-drum-object-actions:has(> [hidden])) { display:none!important; }
 #sp-prototype #sp-selected .sp-inspector-identity { display:flex; align-items:center; gap:12px; padding-bottom:14px; }
 #sp-prototype #sp-selected-icon { width:64px; height:64px; flex:0 0 64px; display:grid; place-items:center; }

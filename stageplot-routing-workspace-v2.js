@@ -17,7 +17,7 @@
     if (!host || !api?.getState || !api?.dispatch) throw new Error('Routing-Arbeitsbereich benötigt Host und Datenzugriff.');
     let state, sources = [], monitors = [], activeSource = '', activeMonitor = '', activeBox = '', activePort = null;
     let query = '', micQuery = '', openCard = '', pickerBox = '', error = '', destroyed = false, frame = 0, lastTab = '', toolsOpen = false, stageboxLayout = 'grid', pendingField = null;
-    let stageObserver = null, resizeTarget = null, highlighted = [], diPickerRow = '', diPickerFocus = null;
+    let stageObserver = null, resizeTarget = null, highlighted = [], diPickerRow = '', diPickerFocus = null, diPickerDevices = false, diPickerNew = false;
     host.classList.add('sp-routing-workspace-v2');
 
     const object = id => (state.objects || []).find(item => item.id === id);
@@ -25,6 +25,7 @@
     const box = id => (state.boxes || []).find(item => item.id === id);
     const device = id => (state.routing?.devices || []).find(item => item.id === id);
     const diChannels = item => Math.max(1, Number(item?.channels || item?.channelCount) || 1);
+    const physicalName = item => object(item?.objectId)?.label || item?.name || 'DI-Box';
     const deviceName = item => item?.name || item?.model || item?.modelId || 'DI-Box';
     const diModel = item => (state.diModels || []).find(model => model.id === (item?.modelId || item?.id));
     const diDetails = item => (item.active ? 'Aktiv' + ({'48V':' · 48 V',battery:' · Batterie',external:' · Netzteil'}[item.power] || '') : 'Passiv') + ' · ' + diChannels(item) + (diChannels(item) === 1 ? ' Kanal' : ' Kanäle');
@@ -58,7 +59,7 @@
     function groups() {
       const inputs = state.routing?.inputs || [], outputs = state.routing?.outputs || [], map = new Map();
       for (const row of inputs) {
-        const id = sourceId(row) || row.id, source = object(id);
+        const id = sourceId(row) || row.id, source = object(id);if(source?.type === 'di')continue;
         if (!map.has(id)) map.set(id, {id, object:source, name:source?.label || state.catalog?.[source?.type]?.short || baseName(row.generatedInstrument || row.instrument) || 'Signal', rows:[]});
         map.get(id).rows.push(row);
       }
@@ -197,7 +198,7 @@
       let settings = '';
       if (chosen) {
         const custom = chosen.modelId === 'custom';
-        settings = field('Gerätename', chosen.name, {'data-rw-device-field':'name','data-rw-device':chosen.id}, {maxlength:80});
+        settings = field('Gerätename', physicalName(chosen), {'data-rw-device-field':'name','data-rw-device':chosen.id}, {maxlength:80});
         if (custom) {
           settings += '<div class="rw-choice-row" role="group" aria-label="DI-Kanäle">' + [1,2].map(count => button(count === 1 ? '1 Kanal' : '2 Kanäle', {'data-rw-device-value':'channels','data-rw-device':chosen.id,'data-rw-value':count}, {pressed:diChannels(chosen) === count,mutation:true})).join('') + '</div>';
           settings += '<div class="rw-choice-row" role="group" aria-label="DI-Bauart">' + [false,true].map(active => button(active ? 'Aktiv' : 'Passiv', {'data-rw-device-value':'active','data-rw-device':chosen.id,'data-rw-value':String(active)}, {pressed:!!chosen.active === active,mutation:true})).join('') + '</div>';
@@ -214,24 +215,37 @@
       const row = route(diPickerRow);
       if (!row || readonly()) {diPickerRow = '';return '';}
       const chosen = device(row.diDeviceId), source = sources.find(item => item.rows.some(input => input.id === row.id));
+      if (diPickerDevices) return diDevicePicker(row,source);
       const models = (state.diModels || []).filter(item => item.id !== 'custom');
       const names = {'generic-passive-mono':'Passiv Mono','generic-passive-stereo':'Passiv Stereo','generic-active-mono':'Aktiv Mono','generic-active-stereo':'Aktiv Stereo'};
       const tiles = models.map(item => {
-        const selected = chosen?.modelId === item.id;
+        const selected = !diPickerNew && chosen?.modelId === item.id;
         const detail = (item.active ? 'Aktiv' : 'Passiv') + ' · ' + (diChannels(item) === 1 ? 'Mono' : 'Stereo') + (item.active && item.power === '48V' ? ' · 48 V' : '');
         return button('<span class="rw-di-picker-art">' + diPhoto(item) + '</span><strong>' + esc(names[item.id] || item.name) + '</strong><small>' + esc(detail) + '</small>' + (selected ? '<span class="rw-di-picker-check" aria-hidden="true">✓</span>' : ''), {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-di-picker-tile',pressed:selected,mutation:true});
       }).join('');
       return '<dialog class="rw-di-picker" data-rw-di-dialog aria-labelledby="rw-di-picker-title" aria-describedby="rw-di-picker-source"><header class="rw-di-picker-heading"><div><h2 id="rw-di-picker-title">DI-Box wählen</h2><p id="rw-di-picker-source">' + esc(source?.name || baseName(row.instrument)) + '</p></div>' + button('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>', {'data-rw-di-close':'true','aria-label':'DI-Auswahl schließen'}, {className:'rw-di-picker-close'}) + '</header>' + (error ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + '<div class="rw-di-picker-grid">' + tiles + '</div></dialog>';
     }
 
-    function openDiPicker(rowId, trigger) {
+    function diDevicePicker(row, source) {
+      const own = sharedDiRows(row), stereo = stereoRows([row],'inputs'), nativePair = stereo.length === 2 && state.diStereoPairs?.[sourceId(row)]?.some(pair => stereo.every(member => pair.sourceKeys.includes(member.sourceKey))), members = nativePair ? stereo : own;
+      const tiles = (state.routing.devices || []).filter(item => item.objectId).map(item => {
+        const paired = members.length > 1 && diChannels(item) >= members.length, selected = paired ? members : own, ids = new Set(selected.map(member => member.id));
+        const occupants = (state.routing.inputs || []).filter(member => member.diDeviceId === item.id), free = Array.from({length:diChannels(item)},(_,i) => i+1).filter(port => !occupants.some(member => Number(member.diChannel) === port && !ids.has(member.id)));
+        const locked = object(item.objectId)?.locked, controls = selected.length > 1 ? button('L + R anschließen',{'data-rw-use-di':item.id,'data-rw-row':row.id,'data-rw-di-channel':1},{disabled:locked || ![1,2].every(port => free.includes(port)),mutation:true}) : '<div class="rw-di-instance-ports">' + Array.from({length:diChannels(item)},(_,i) => {const port=i+1,occupant=occupants.find(member => Number(member.diChannel) === port);return button('Eingang '+port+' · '+esc(occupant?.instrument || 'Frei'),{'data-rw-use-di':item.id,'data-rw-row':row.id,'data-rw-di-channel':port},{disabled:locked || !free.includes(port),mutation:true});}).join('') + '</div>';
+        const status=selected.length>1?'<div class="rw-di-instance-status">'+Array.from({length:diChannels(item)},(_,i)=>'<span>'+(i+1)+' · '+esc(occupants.find(member=>Number(member.diChannel)===i+1)?.instrument||'Frei')+'</span>').join('')+'</div>':'';
+        return '<article class="rw-di-instance" data-rw-di-instance="'+esc(item.id)+'"><span class="rw-di-picker-art">'+diPhoto(item)+'</span><strong>'+esc(physicalName(item))+'</strong><small>'+esc(diModel(item)?.name || deviceName(item))+'</small>'+status+controls+'</article>';
+      }).join('');
+      return '<dialog class="rw-di-picker" data-rw-di-dialog aria-labelledby="rw-di-picker-title"><header class="rw-di-picker-heading"><div><h2 id="rw-di-picker-title">DI-Box zuordnen</h2><p>'+esc(source?.name || row.instrument)+'</p></div>'+button('×',{'data-rw-di-close':'true','aria-label':'DI-Auswahl schließen'},{className:'rw-di-picker-close'})+'</header>'+(error?'<p class="rw-error" role="alert">'+esc(error)+'</p>':'')+'<div class="rw-di-picker-grid">'+tiles+'</div>'+button('＋ Neue DI',{'data-rw-di-new':row.id},{className:'rw-add',mutation:true})+'</dialog>';
+    }
+
+    function openDiPicker(rowId, trigger, existing = false) {
       if (readonly() || !route(rowId)) return;
       diPickerFocus = trigger ? {attributes:[...trigger.attributes].filter(attr => attr.name.startsWith('data-rw-')).map(attr => [attr.name,attr.value]),row:rowId} : preserveFocus();
-      diPickerRow = rowId;error = '';render();
+      diPickerRow = rowId;diPickerDevices = existing;diPickerNew = false;error = '';render();
     }
     function closeDiPicker() {
       const rowId = diPickerRow, focus = diPickerFocus;
-      diPickerRow = '';diPickerFocus = null;error = '';render();restoreFocus(focus);
+      diPickerRow = '';diPickerFocus = null;diPickerDevices = false;diPickerNew = false;error = '';render();restoreFocus(focus);
       if (!host.contains(host.ownerDocument.activeElement) || host.ownerDocument.activeElement === host) {
         [...host.querySelectorAll('[data-rw-di-open]')].find(element => element.dataset.rwDiOpen === rowId)?.focus({preventScroll:true});
       }
@@ -252,9 +266,10 @@
       if (kind === 'Direct' || kind === 'Digital') {
         content = '<div class="rw-pickup-connection"><span>Anschluss</span><div class="rw-choice-row rw-inline-connectors" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div></div>';
       } else {
-        const title = kind === 'DI' ? di ? deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
-        content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (readonly() ? kind === 'DI' && di ? esc(diDetails(di)) : 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
+        const title = kind === 'DI' ? di ? diModel(di)?.name || deviceName(di) : 'DI-Box wählen' : row.microphone || 'Mikrofon wählen', picture = kind === 'DI' ? diPhoto(di) : micIcon(row.microphone);
+        content = button('<span class="rw-pickup-thumbnail">' + picture + '</span><span class="rw-pickup-model-copy"><strong>' + esc(title) + '</strong><small>' + (kind === 'DI' && di ? esc(physicalName(di)) : readonly() ? 'Mikrofon' : 'Modell wählen') + '</small></span>' + (!readonly() ? '<span class="rw-pickup-model-chevron" aria-hidden="true">›</span>' : ''), kind === 'DI' ? {'data-rw-di-open':row.id,'aria-haspopup':'dialog'} : {'data-rw-open':key,'aria-expanded':String(editing)}, {className:'rw-card-value rw-pickup-model',mutation:true});
         if (kind === 'DI' && di) content += shared ? diInputMap(rows) : diPortButtons(row,di,true) + diStereoControl(row,di);
+        if (kind === 'DI' && !readonly() && (state.routing.devices || []).some(item => item.id !== di?.id && item.objectId)) content += button('Box zuordnen',{'data-rw-di-choose':row.id,'aria-haspopup':'dialog'},{className:'rw-di-choose',mutation:true});
         if (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V')) content += button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true});
         if (editing) editor = '<div class="rw-card-editor">' + (kind === 'DI' ? diEditor(row) : '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Mikrofonname', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'})) + '</div>';
       }
@@ -327,7 +342,7 @@
     function sourcesView() {
       const group = sources.find(item => item.id === activeSource);
       if (!group) return '<div class="rw-empty"><strong>Noch keine Quellen</strong><p>Instrumente auf der Bühne erscheinen hier mit ihren Abnahmen.</p></div>';
-      highlighted = group.object ? [group.object.id] : [];
+      highlighted = [...new Set([group.object?.id,...group.rows.map(row => device(row.diDeviceId)?.objectId)].filter(Boolean))];
       return heading(group.name, '<span class="rw-format-badge">' + (group.rows.length ? monoLabel(group.rows) : 'Offen') + '</span>') + sourceFlow(group) + notes(group.rows,'inputs');
     }
 
@@ -453,6 +468,9 @@
       if (data.rwSourceOutputStereo) return doAction({type:'setSourceOutputStereo',sourceId:data.rwSource,start:Number(data.rwSourceOutputStereo),linked:data.rwValue === 'true'});
       if (data.rwSourceOutputUsed) return doAction({type:'setSourceOutputUsed',sourceId:data.rwSource,port:Number(data.rwSourceOutputUsed),used:data.rwValue === 'true'});
       if (data.rwDiClose) {closeDiPicker();return;}
+      if (data.rwDiChoose) {openDiPicker(data.rwDiChoose,target,true);return;}
+      if (data.rwDiNew) {diPickerDevices = false;diPickerNew = true;error = '';render();return;}
+      if (data.rwUseDi) {const result = doAction({type:'assignDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),deviceId:data.rwUseDi,channel:Number(data.rwDiChannel),autoPair:true});if(result !== false)closeDiPicker();return;}
       if (data.rwDiOpen) {openDiPicker(data.rwDiOpen,target);return;}
       if (data.rwOpen) {openCard = openCard === data.rwOpen ? '' : data.rwOpen;pickerBox = '';micQuery = '';error = '';render();if(openCard.startsWith('pickup-'))host.querySelector('[data-rw-mic-search]')?.focus({preventScroll:true});return;}
       if (data.rwPickerBox) {pickerBox = data.rwPickerBox;render();return;}
@@ -463,8 +481,8 @@
       if (data.rwPickup) {if(pickupKind(route(data.rwRow)) === data.rwPickup)return;openCard = '';return doAction({type:'setPickup',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),kind:data.rwPickup});}
       if (data.rwMic !== undefined) return doAction({type:'setPickup',rowId:data.rwRow,kind:'Mic',microphone:data.rwMic,phantom:data.rwPhantom === 'true'},{close:true});
       if (data.rwCreateDi) {
-        if (device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
-        const result = doAction({type:'createDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),modelId:data.rwCreateDi});
+        if (!diPickerNew && device(route(data.rwRow)?.diDeviceId)?.modelId === data.rwCreateDi) {closeDiPicker();return;}
+        const result = doAction({type:'createDi',rowId:data.rwRow,rowIds:sharedDiRows(route(data.rwRow)).map(row => row.id),modelId:data.rwCreateDi,newDevice:diPickerNew});
         if (result !== false) closeDiPicker();
         return result;
       }

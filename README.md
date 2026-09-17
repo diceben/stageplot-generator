@@ -6,9 +6,11 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die mobile Baustein-Auswahl bündelt Objekte/Packs, Inventar und Schließen in einer Kopfzeile. Kompaktere Abstände und der entfernte Bausteinzähler lassen mehr Platz für die Objekte. Die Auswahl nutzt auch bei geöffneter Tastatur den sichtbaren Bildschirm. Suchfeld und Schließen teilen sich eine Zeile; kompakte Suchtreffer zeigen Bild, Namen und Favorit. „Fertig“ auf der Tastatur erhält die Suche und gibt den Platz frei. Treffer scrollen separat und durchsuchen alle Kategorien.
 
-**Aktuelle Version:** v0.1.0-beta.20 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.21 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
 
 Die Routing-Arbeitsfläche zeigt Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen ohne Dropdowns. Die Ausgangseinstellungen sind direkt in der Quellenkarte erreichbar: Anzahl, Buchsenart, Namen, Verwendung und Stereo-Paare. Auch Quellen mit null Ausgängen bleiben auswählbar. Abnahmeart und Anschluss stehen als kompakte, ständig sichtbare Tasten in der Abnahmekarte; zusätzliche Bearbeiten-Stifte entfallen. Mono-Quellen teilen bei Bedarf eine physische Stereo-DI; Portbelegung und Signalformat bleiben getrennt. Jede physische DI erscheint je Quelle einmal mit ihren beiden Eingängen; erst bei den Pultkanälen teilen sich die Wege. Mehrere Ausgangspaare wie Piano auf Out 1/2 und Synth auf Out 3/4 nutzen eigene DIs. J48, J48 Stereo und ProD2 zeigen lokale Original-Produktfotos. Die Auswahl öffnet als Popup mit sieben gleich großen Modellkacheln. Vier generische DIs ergänzen die Originalfotos: passiv/aktiv, jeweils Mono/Stereo. Feine Pfeile verbinden die Stationen des Signalwegs. [Bedienung](AUDIO_BEDIENUNG.md).
+
+Jede DI im Routing steht auch als verschiebbare Box auf der Bühne. Neue Boxen werden neben der Quelle platziert; manuell aufgestellte Boxen lassen sich über **Box zuordnen** anschließen. Stereo nutzt eine gemeinsame Box. Modellwechsel erhalten die Position, und ein Klick auf die Bühnenbox zeigt ihre Eingänge. Ältere lokale Pläne übernehmen vorhandene Geräte, Kanalnummern und Stagebox-Zuordnungen.
 
 Die Online-Freigabe benötigt die Einrichtung aus [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
 
