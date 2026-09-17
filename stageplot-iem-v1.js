@@ -42,9 +42,9 @@
     }
     let at=0;const generated=[];
     for(let i=0;i<nextMixes.length;i++)for(let side=0;side<(nextMixes[i].mode==='stereo'?2:1);side++){
-      const spec=expected[at++],old=current.find(r=>r.sourceKey===spec.sourceKey);let number=Number(mixes[i].aux?.[side])||null;
+      const spec=expected[at++],old=current.find(r=>r.sourceKey===spec.sourceKey),partner=!old&&nextMixes[i].ports.map(port=>current.find(row=>row.sourceKey===o.id+':'+port)).find(Boolean),hardware=partner?Object.fromEntries(['monitorDeviceName','monitorReceiverName','monitorAmplifierName','monitorDeviceKind','monitorActive'].filter(key=>Object.hasOwn(partner,key)).map(key=>[key,partner[key]])):{};let number=Number(mixes[i].aux?.[side])||null;
       if(!number){number=1;while(used.has(number)||reserved.has(number))number++;if(number>999)throw Error('Keine freie AUX-Nummer verfügbar.');reserved.add(number);}
-      generated.push({...old,...spec,number,id:old?.id||'route-'+token(),generatedInstrument:spec.instrument,edited:true,manual:false,stagebox:old?.stagebox||'',stageboxPort:old?.stageboxPort||null,notes:old?.notes||'',linkedSources:old?.linkedSources||[]});
+      generated.push({...hardware,...old,...spec,number,id:old?.id||'route-'+token(),generatedInstrument:spec.instrument,edited:true,manual:false,stagebox:old?.stagebox||'',stageboxPort:old?.stageboxPort||null,notes:old?.notes||'',linkedSources:old?.linkedSources||[]});
     }
     // Retain ordering and identities of existing rows; insert new mixes after the set.
     const byKey=new Map(generated.map(r=>[r.sourceKey,r])),rows=[];let insertAt=-1;

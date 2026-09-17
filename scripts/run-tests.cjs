@@ -7,6 +7,8 @@ const sync=spawnSync(process.execPath,['scripts/build-inline.cjs','--check'],{st
 if(sync.status!==0)process.exit(sync.status||1);
 
 const tests=[
+  'stageplot-routing-model-v2.test.cjs',
+  'stageplot-routing-host-v2.test.cjs',
   'stageplot-instrument-feedback.test.cjs',
   'stageplot-string-assets.test.cjs',
   'stageplot-qol-v1.test.cjs',

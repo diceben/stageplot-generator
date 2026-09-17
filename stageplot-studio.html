@@ -418,6 +418,7 @@
   </section>
 
   <section id="sp-routing" class="sp-routing" hidden>
+    <div id="sp-routing-workspace-v2"></div>
     <div class="sp-page-heading sp-routing-heading"><div><h1>Routing</h1><p id="sp-routing-summary">0 Inputs · 0 Outputs</p></div><div class="sp-page-actions"><button class="sp-button sp-iconbutton" type="button" id="sp-audio-undo" aria-label="Audio-Änderung rückgängig" title="Rückgängig" disabled>↶</button><button class="sp-button sp-iconbutton" type="button" id="sp-audio-redo" aria-label="Audio-Änderung wiederholen" title="Wiederholen" disabled>↷</button><button class="sp-button" type="button" id="sp-routing-sort-instruments">Nach Instrumenten ordnen</button><button class="sp-button sp-primary" type="button" id="sp-routing-auto">Freie Stagebox-Ports zuordnen</button><button class="sp-button sp-mobile-routing-only" type="button" id="sp-routing-tools-open" aria-haspopup="dialog" aria-controls="sp-routing-tools">Aktionen</button></div></div>
     <div class="sp-routing-toolbar">
       <div id="sp-routing-tabs" class="sp-routing-tabs" role="tablist" aria-label="Audio-Ansichten"><button type="button" id="sp-input-tab" role="tab" aria-selected="true" data-routing-tab="inputs">Inputs <span id="sp-input-count">0</span></button><button type="button" id="sp-output-tab" role="tab" aria-selected="false" data-routing-tab="outputs"><b class="sp-routing-tab-label" data-short="Outputs">Outputs &amp; Monitore</b> <span id="sp-output-count">0</span></button><button type="button" id="sp-stagebox-tab" role="tab" aria-selected="false" data-routing-tab="stageboxes"><b class="sp-routing-tab-label" data-short="Stageboxen">Stagebox-Belegung</b> <span id="sp-stagebox-count">0</span></button></div>
@@ -6695,6 +6696,876 @@ html,body { height:100%; overflow:hidden; }
 <script src="./stageplot-sync-v2.js"></script>
 <script src="./stageplot-inventory-v1.js"></script>
 
+<style>
+#sp-routing[data-workspace-v2="true"] > :not(#sp-routing-workspace-v2){display:none!important}
+/* build-inline:start stageplot-routing-workspace-v2.css — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Shared, local routing workspace. The host retains ownership of project data. */
+#sp-prototype #sp-routing[data-workspace-v2="true"] {padding:0!important;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:var(--sp-panel);}
+#sp-prototype #sp-routing[data-workspace-v2="true"][hidden] {display:none!important;}
+#sp-prototype .sp-routing-workspace-v2 {
+  --rw-accent:light-dark(#578000,#b6f32b);--rw-highlight:light-dark(#f0f7e1,#27371c);--rw-paper:light-dark(#fff,#1e282b);--rw-border:light-dark(#d7dfd7,#485556);--rw-soft:light-dark(#f6f8f3,#1a2427);--rw-muted:light-dark(#647063,#a8b8b6);--rw-ink:light-dark(#253024,#eef3ee);
+  display:flex;flex-direction:column;min-width:0;min-height:0;flex:1;color:var(--rw-ink);background:var(--rw-paper);font-size:13px;
+}
+#sp-prototype .sp-routing-workspace-v2 * {box-sizing:border-box;}
+#sp-prototype .sp-routing-workspace-v2 button,#sp-prototype .sp-routing-workspace-v2 input,#sp-prototype .sp-routing-workspace-v2 textarea {font:inherit;color:inherit;}
+#sp-prototype .sp-routing-workspace-v2 button {cursor:pointer;}
+#sp-prototype .sp-routing-workspace-v2 button:disabled {cursor:default;}
+#sp-prototype .rw-header {flex:none;border-bottom:1px solid var(--rw-border);background:var(--rw-soft);padding:18px 24px 0;}
+#sp-prototype .rw-title-row {display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:3px;}
+#sp-prototype .rw-title-row h1 {font-size:29px;line-height:1.1;letter-spacing:-.5px;font-weight:700;margin:0;}
+#sp-prototype .rw-button.rw-tools-button {font-size:10px;background:transparent;min-height:28px;padding:4px 9px;}
+#sp-prototype .rw-navigation-row {display:flex;align-items:end;justify-content:space-between;gap:15px;margin-left:236px;}
+#sp-prototype .rw-tabs {display:flex;flex:none;gap:0;}
+#sp-prototype .rw-tabs button {position:relative;min-width:92px;min-height:42px;border:1px solid var(--rw-border);border-bottom:0;background:var(--rw-paper);padding:10px 14px;font-size:12px;font-weight:550;}
+#sp-prototype .rw-tabs button:first-child {border-radius:6px 0 0 0;}
+#sp-prototype .rw-tabs button:last-child {border-radius:0 6px 0 0;}
+#sp-prototype .rw-tabs button+button {border-left:0;}
+#sp-prototype .rw-tabs button[aria-selected="true"] {background:var(--rw-highlight);color:var(--rw-accent);}
+#sp-prototype .rw-tabs button[aria-selected="true"]::after {content:"";position:absolute;height:3px;background:var(--rw-accent);bottom:0;left:10px;right:10px;}
+#sp-prototype .rw-tabs button:focus-visible {outline:2px solid var(--rw-accent);outline-offset:-4px;}
+#sp-prototype .rw-summary {font-size:10px;padding-bottom:12px;color:var(--rw-muted);text-align:right;}
+#sp-prototype .rw-tools {display:flex;flex-wrap:wrap;gap:7px;padding:12px 0;border-top:1px solid var(--rw-border);}
+#sp-prototype .rw-tools .rw-button {font-size:10px;min-height:30px;}
+#sp-prototype .rw-layout {display:grid;grid-template-columns:260px minmax(0,1fr);min-height:0;flex:1;}
+#sp-prototype .rw-sidebar {display:flex;flex-direction:column;min-width:0;min-height:0;border-right:1px solid var(--rw-border);background:var(--rw-soft);}
+#sp-prototype .rw-sidebar-heading {padding:20px 18px 15px;}
+#sp-prototype .rw-sidebar-heading h2 {font-size:19px;font-weight:700;letter-spacing:-.25px;margin:0 0 15px;}
+#sp-prototype .rw-search {display:flex;align-items:center;gap:9px;min-width:0;border:1px solid var(--rw-border);border-radius:6px;background:var(--rw-paper);padding:0 11px;}
+#sp-prototype .rw-search>span {font-size:25px;line-height:1;color:var(--rw-muted);}
+#sp-prototype .rw-search input {width:100%;min-width:0;height:38px;border:0;outline:none;background:transparent;font-size:12px;}
+#sp-prototype .rw-search:focus-within {outline:2px solid var(--rw-accent);outline-offset:2px;}
+#sp-prototype .rw-source-list {flex:1;min-height:170px;overflow:auto;overscroll-behavior:contain;}
+#sp-prototype .rw-list-item {width:100%;display:grid;grid-template-columns:50px minmax(0,1fr) 22px;align-items:center;gap:11px;padding:14px 16px;min-height:85px;border:0;border-top:1px solid var(--rw-border);border-left:3px solid transparent;background:transparent;text-align:left;}
+#sp-prototype .rw-list-item[aria-pressed="true"] {border-left-color:var(--rw-accent);background:var(--rw-highlight);}
+#sp-prototype .rw-list-item:hover {background:var(--rw-highlight);}
+#sp-prototype .rw-list-art {display:grid;place-items:center;width:50px;height:49px;}
+#sp-prototype .rw-list-art svg,#sp-prototype .rw-list-art img {width:100%;height:100%;object-fit:contain;}
+#sp-prototype .rw-list-copy {display:grid;gap:4px;min-width:0;}
+#sp-prototype .rw-list-copy strong {font-size:14px;line-height:1.3;overflow-wrap:anywhere;}
+#sp-prototype .rw-list-copy small {font-size:11px;color:var(--rw-muted);}
+#sp-prototype .rw-state-dot {display:grid;place-items:center;width:19px;height:19px;border-radius:50%;font-size:13px;font-weight:800;background:#e5b73a;color:#332706;}
+#sp-prototype .rw-state-dot[data-complete="true"] {background:var(--rw-accent);color:light-dark(#fff,#182305);}
+#sp-prototype .rw-list-item:not([aria-pressed="true"]) .rw-state-dot[data-complete="true"] {background:light-dark(#dce2d8,#788c89);color:light-dark(#52644b,#17201d);}
+#sp-prototype .rw-minimap-wrap {flex:none;margin:18px;min-width:0;}
+#sp-prototype .rw-minimap {height:195px;overflow:hidden;border:1px solid var(--rw-border);border-radius:5px;background:var(--rw-paper);}
+#sp-prototype .rw-minimap>svg {height:100%;width:100%;object-fit:contain;}
+#sp-prototype .rw-minimap-wrap figcaption {font-size:11px;color:var(--rw-muted);margin-top:9px;}
+#sp-prototype .rw-sidebar-add {padding:15px;}
+#sp-prototype .rw-detail {display:flex;flex-direction:column;min-width:0;min-height:0;}
+#sp-prototype .rw-main {flex:1;min-height:0;min-width:0;padding:26px 25px 20px;overflow:auto;overscroll-behavior:contain;}
+#sp-prototype .rw-view-heading {display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin:0 0 31px;}
+#sp-prototype .rw-view-heading h2 {font-size:clamp(24px,2.4vw,35px);font-weight:720;letter-spacing:-.8px;line-height:1.12;margin:0;overflow-wrap:anywhere;}
+#sp-prototype .rw-format-badge {display:inline-flex;align-items:center;min-height:30px;border:1px solid var(--rw-accent);border-radius:6px;padding:4px 11px;color:var(--rw-accent);background:var(--rw-highlight);font-size:12px;}
+#sp-prototype .rw-button {display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:0;min-height:35px;border:1px solid var(--rw-border);border-radius:5px;background:var(--rw-paper);padding:7px 10px;font-size:12px;line-height:1.25;text-align:center;}
+#sp-prototype .rw-button:hover:not(:disabled),#sp-prototype .rw-button[aria-pressed="true"] {border-color:var(--rw-accent);background:var(--rw-highlight);}
+#sp-prototype .rw-button[aria-pressed="true"] {color:var(--rw-accent);box-shadow:inset 0 0 0 .4px var(--rw-accent);}
+#sp-prototype .rw-button:focus-visible,#sp-prototype .rw-port:focus-visible,#sp-prototype .rw-list-item:focus-visible {outline:2px solid var(--rw-accent);outline-offset:3px;}
+#sp-prototype .rw-button:disabled {opacity:.72;}
+#sp-prototype .rw-button.rw-add {width:100%;min-height:41px;background:var(--rw-soft);font-size:12px;}
+#sp-prototype .rw-button.rw-add>span {font-size:22px;}
+#sp-prototype .rw-inline-choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:12px;}
+#sp-prototype .rw-flow-scroll {overflow-x:auto;overflow-y:visible;padding-bottom:8px;}
+#sp-prototype .rw-source-flow {display:grid;grid-template-columns:minmax(125px,.88fr) 37px minmax(165px,1.1fr) 28px minmax(155px,1.05fr) 28px minmax(145px,1fr);grid-auto-rows:auto;min-width:760px;gap:18px 0;align-items:center;}
+#sp-prototype .rw-column-title {font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:650;color:var(--rw-muted);grid-row:1;}
+#sp-prototype .rw-column-source {grid-column:1;}
+#sp-prototype .rw-column-pickup {grid-column:3;}
+#sp-prototype .rw-column-patch {grid-column:5;}
+#sp-prototype .rw-column-channel {grid-column:7;}
+#sp-prototype .rw-source-card {grid-column:1;align-self:center;}
+#sp-prototype .rw-flow-pickup {grid-column:3;min-width:0;}
+#sp-prototype .rw-flow-patch {grid-column:5;min-width:0;}
+#sp-prototype .rw-flow-channel {grid-column:7;min-width:0;}
+#sp-prototype .rw-flow-arrow-one {grid-column:4;}
+#sp-prototype .rw-flow-arrow-two {grid-column:6;}
+#sp-prototype .rw-add-pickup {grid-column:3;align-self:start;margin-top:-4px;}
+#sp-prototype .rw-card {position:relative;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:228px;padding:12px;border:1px solid var(--rw-border);border-radius:7px;background:linear-gradient(145deg,var(--rw-paper),var(--rw-soft));box-shadow:0 2px 4px #00000003;}
+#sp-prototype .rw-card-title {display:flex;align-items:center;justify-content:space-between;gap:5px;min-height:18px;margin-bottom:-3px;font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--rw-muted);}
+#sp-prototype .rw-source-flow .rw-card-title>span {visibility:hidden;}
+#sp-prototype .rw-card-title .rw-edit {margin:-5px -4px -8px auto;}
+#sp-prototype .rw-edit {padding:2px;min-height:25px;min-width:25px;border:0;background:transparent;font-size:18px;}
+#sp-prototype .rw-pencil {font-size:16px;font-weight:400;color:var(--rw-muted);line-height:1;}
+#sp-prototype .rw-art {height:83px;min-height:83px;display:flex;align-items:center;justify-content:center;margin:0 7px 3px;}
+#sp-prototype .rw-art svg,#sp-prototype .rw-art img {width:100%;height:100%;object-fit:contain;}
+#sp-prototype .rw-microphone-art {height:86px;}
+#sp-prototype .rw-microphone-art img {max-height:86px;max-width:150px;}
+#sp-prototype .rw-source-card .rw-art {height:130px;min-height:130px;}
+#sp-prototype .rw-art-fallback {font-size:35px;color:var(--rw-muted);font-weight:600;}
+#sp-prototype .rw-card-value {display:flex;justify-content:space-between;text-align:left;width:100%;min-height:33px;font-size:12px;padding:6px 8px;gap:5px;overflow-wrap:anywhere;}
+#sp-prototype .rw-card-meta {margin:0;text-align:center;font-size:11px;line-height:1.35;color:var(--rw-muted);}
+#sp-prototype .rw-pickup-card>.rw-card-meta {text-align:left;}
+#sp-prototype .rw-field {display:grid;gap:5px;min-width:0;}
+#sp-prototype .rw-field>span {font-size:10px;color:var(--rw-muted);}
+#sp-prototype .rw-field input {width:100%;min-width:0;min-height:34px;padding:7px 9px;border:1px solid var(--rw-border);border-radius:5px;background:var(--rw-paper);outline:none;font-size:12px;}
+#sp-prototype .rw-field input:focus {border-color:var(--rw-accent);outline:2px solid color-mix(in srgb,var(--rw-accent) 22%,transparent);}
+#sp-prototype .rw-field input[readonly] {border-color:transparent;background:transparent;padding-left:0;}
+#sp-prototype .rw-channel-card .rw-field>span,#sp-prototype .rw-source-card .rw-field>span {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
+#sp-prototype .rw-number-field input {font-size:18px;font-variant-numeric:tabular-nums;}
+#sp-prototype .rw-source-card .rw-field input {font-size:14px;font-weight:650;}
+#sp-prototype .rw-channel-emblem {height:84px;display:grid;place-content:center;text-align:center;gap:0;color:var(--rw-muted);}
+#sp-prototype .rw-channel-emblem small {font-size:9px;letter-spacing:2px;}
+#sp-prototype .rw-channel-emblem strong {font-size:37px;font-weight:300;line-height:1.15;font-variant-numeric:tabular-nums;}
+#sp-prototype .rw-arrow {display:grid;place-items:center;color:var(--rw-accent);font-size:29px;font-weight:400;min-width:24px;}
+#sp-prototype .rw-arrow span {position:relative;line-height:1.1;}
+#sp-prototype .rw-arrow small {position:absolute;top:-11px;left:0;font-size:9px;}
+#sp-prototype .rw-arrow-stereo {gap:12px;}
+#sp-prototype .rw-branch {grid-column:2;align-self:stretch;position:relative;display:flex;align-items:center;justify-content:flex-end;color:var(--rw-accent);font-size:25px;margin:-9px 0;}
+#sp-prototype .rw-branch::before {content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:var(--rw-accent);}
+#sp-prototype .rw-branch::after {content:"";position:absolute;left:50%;right:0;top:50%;height:1.5px;background:var(--rw-accent);}
+#sp-prototype .rw-branch span {position:relative;z-index:1;transform:translateY(-1px);}
+#sp-prototype .rw-branch[data-branch="first"]::before {top:50%;}
+#sp-prototype .rw-branch[data-branch="last"]::before {bottom:50%;}
+#sp-prototype .rw-branch[data-branch="single"]::before {display:none;}
+#sp-prototype .rw-branch[data-branch="single"]::after {left:0;}
+#sp-prototype .rw-source-card::after {content:"";position:absolute;left:100%;width:19px;top:50%;height:1.5px;background:var(--rw-accent);}
+#sp-prototype .rw-choice-row {display:flex;flex-wrap:wrap;gap:5px;}
+#sp-prototype .rw-choice-row .rw-button {flex:1 1 auto;padding:7px 8px;min-height:33px;font-size:11px;}
+#sp-prototype .rw-heading-choices {margin-left:auto;}
+#sp-prototype .rw-heading-choices .rw-button {min-width:72px;}
+#sp-prototype .rw-format-controls {display:flex;justify-content:flex-end;gap:7px;margin:12px 0 20px;}
+#sp-prototype .rw-format-controls .rw-button {font-size:10px;}
+#sp-prototype .rw-port-pills {display:flex;flex-wrap:wrap;gap:6px;}
+#sp-prototype .rw-port-pills .rw-button {flex:1;white-space:nowrap;font-size:12px;min-height:36px;}
+#sp-prototype .rw-button.rw-connected {color:var(--rw-ink);border-color:var(--rw-accent);background:var(--rw-highlight);box-shadow:inset 0 0 0 .4px var(--rw-accent);}
+#sp-prototype .rw-phantom {font-size:10px;min-height:29px;padding:4px 6px;justify-content:flex-start;}
+#sp-prototype .rw-phantom-dot {height:12px;width:12px;border:1px solid currentColor;border-radius:50%;}
+#sp-prototype .rw-phantom[aria-pressed="true"] {border-color:light-dark(#a26c00,#d5a800);color:light-dark(#8a5c00,#f3cd46);background:light-dark(#fff8df,#39321b);}
+#sp-prototype .rw-phantom[aria-pressed="true"] .rw-phantom-dot {box-shadow:inset 0 0 0 2px var(--rw-paper);background:currentColor;}
+#sp-prototype .rw-card-editor {min-width:0;display:grid;gap:12px;margin-top:6px;padding-top:12px;border-top:1px solid var(--rw-border);}
+#sp-prototype .rw-card:has(.rw-card-editor) {min-width:260px;z-index:2;}
+#sp-prototype .rw-source-flow:has(.rw-pickup-card .rw-card-editor) {grid-template-columns:minmax(125px,.8fr) 37px minmax(285px,1.7fr) 28px minmax(155px,1fr) 28px minmax(145px,1fr);min-width:885px;}
+#sp-prototype .rw-source-flow:has(.rw-patch-card .rw-card-editor) {grid-template-columns:minmax(125px,.8fr) 37px minmax(165px,1fr) 28px minmax(285px,1.7fr) 28px minmax(145px,1fr);min-width:890px;}
+#sp-prototype .rw-editor-section {display:grid;gap:10px;}
+#sp-prototype .rw-editor-section h4 {font-size:11px;margin:2px 0 0;font-weight:650;}
+#sp-prototype .rw-existing-di {display:grid;gap:5px;padding:9px;border:1px solid var(--rw-border);border-radius:5px;background:var(--rw-soft);}
+#sp-prototype .rw-existing-di>strong {font-size:12px;}
+#sp-prototype .rw-existing-di>small {font-size:10px;color:var(--rw-muted);}
+#sp-prototype .rw-di-ports {display:flex;gap:5px;}
+#sp-prototype .rw-di-ports .rw-button {flex:1;display:flex;align-items:center;gap:5px;font-size:10px;padding:6px;min-height:31px;text-align:left;}
+#sp-prototype .rw-di-ports .rw-button span {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#sp-prototype .rw-di-ports .rw-button:disabled:not([aria-pressed="true"]) {background:var(--rw-soft);color:var(--rw-muted);opacity:.65;}
+#sp-prototype .rw-model-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}
+#sp-prototype .rw-model-tile {display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;padding:9px 7px;text-align:center;}
+#sp-prototype .rw-model-tile strong {font-size:11px;font-weight:600;line-height:1.3;}
+#sp-prototype .rw-model-tile small {font-size:9px;color:var(--rw-muted);}
+#sp-prototype .rw-model-art {display:block;width:78px;height:45px;}
+#sp-prototype .rw-model-art svg,#sp-prototype .rw-model-art img,#sp-prototype .rw-inline-choices>.rw-model-tile>svg {width:100%;height:50px;object-fit:contain;}
+#sp-prototype .rw-mic-options {max-height:335px;overflow:auto;overscroll-behavior:contain;}
+#sp-prototype .rw-mic-photo {display:grid;place-items:center;width:100%;height:75px;background:#fff;border-radius:4px;overflow:hidden;}
+#sp-prototype .rw-mic-photo img {display:block;max-width:100%;max-height:75px;width:100%;height:75px;object-fit:contain;}
+#sp-prototype .rw-device-fields {display:grid;gap:8px;}
+#sp-prototype .rw-quiet-danger {border-color:transparent;background:transparent;color:light-dark(#934d38,#dca18c);font-size:10px;justify-content:flex-start;padding:6px 2px;}
+#sp-prototype .rw-notes {display:grid;gap:8px;border:1px solid var(--rw-border);border-radius:6px;background:var(--rw-soft);padding:10px 12px;margin-top:29px;}
+#sp-prototype .rw-notes>span {font-size:11px;font-weight:600;}
+#sp-prototype .rw-notes textarea {display:block;width:100%;min-height:38px;resize:vertical;border:0;outline:0;background:transparent;font-size:12px;}
+#sp-prototype .rw-notes:focus-within {outline:2px solid var(--rw-accent);outline-offset:2px;}
+#sp-prototype .rw-footer {display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none;padding:13px 24px;min-height:60px;border-top:1px solid var(--rw-border);background:var(--rw-soft);}
+#sp-prototype .rw-save-state {display:flex;align-items:center;gap:8px;font-size:10px;color:var(--rw-muted);}
+#sp-prototype .rw-save-state>span {display:grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--rw-accent);color:light-dark(#fff,#1c240d);font-weight:700;font-size:11px;}
+#sp-prototype .rw-primary {background:#b9ef31;color:#17200b;border-color:#91c01b;font-weight:650;padding:9px 13px;font-size:11px;}
+#sp-prototype .rw-primary:hover:not(:disabled) {background:#caf451;color:#17200b;}
+#sp-prototype .rw-monitor-flow {display:grid;grid-template-columns:minmax(155px,1fr) 33px minmax(165px,1fr) 33px minmax(165px,1fr) 33px minmax(155px,1fr);min-width:760px;align-items:center;}
+#sp-prototype .rw-monitor-flow .rw-card {min-height:260px;align-self:stretch;}
+#sp-prototype .rw-monitor-flow:has(.rw-card-editor) {grid-template-columns:minmax(155px,1fr) 33px minmax(285px,1.6fr) 33px minmax(165px,1fr) 33px minmax(155px,1fr);min-width:900px;}
+#sp-prototype .rw-monitor-flow .rw-card-title {margin-bottom:2px;}
+#sp-prototype .rw-monitor-flow .rw-art {margin-top:5px;height:88px;}
+#sp-prototype .rw-bus-fields {display:flex;gap:7px;}
+#sp-prototype .rw-bus-fields>.rw-field {flex:1;}
+#sp-prototype .rw-bus-fields input {text-align:center;border-color:var(--rw-accent);background:var(--rw-highlight);}
+#sp-prototype .rw-monitor-ports {margin:23px auto 0;max-width:750px;padding:14px;border:1px solid var(--rw-border);border-radius:6px;background:var(--rw-soft);}
+#sp-prototype .rw-monitor-ports h3 {font-size:12px;margin:0 0 12px;font-weight:600;}
+#sp-prototype .rw-port-grid {display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:9px;}
+#sp-prototype .rw-port {position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-width:0;min-height:69px;padding:9px 4px;border:1px solid var(--rw-border);border-radius:5px;background:var(--rw-paper);text-align:center;}
+#sp-prototype .rw-port-number {font-size:17px;font-variant-numeric:tabular-nums;line-height:1.1;}
+#sp-prototype .rw-port-name {display:block;width:100%;font-size:9px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#sp-prototype .rw-port[data-used="true"] {background:var(--rw-soft);}
+#sp-prototype .rw-port[data-selected="true"] {border-color:var(--rw-accent);background:var(--rw-highlight);box-shadow:inset 0 0 0 1px var(--rw-accent);}
+#sp-prototype .rw-port:disabled {opacity:.55;}
+#sp-prototype .rw-port:disabled[data-selected="true"] {opacity:1;}
+#sp-prototype .rw-card-editor .rw-port-grid {grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;max-height:280px;overflow:auto;}
+#sp-prototype .rw-card-editor .rw-port {min-height:53px;padding:6px 3px;gap:5px;}
+#sp-prototype .rw-card-editor .rw-port-number {font-size:15px;}
+#sp-prototype .rw-card-editor .rw-port-name {font-size:8px;}
+#sp-prototype .rw-stagebox-section {margin-bottom:17px;border:1px solid var(--rw-border);border-radius:6px;padding:12px;background:var(--rw-soft);}
+#sp-prototype .rw-stagebox-section>header {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;}
+#sp-prototype .rw-stagebox-section h3 {font-size:11px;text-transform:uppercase;letter-spacing:.65px;margin:0;}
+#sp-prototype .rw-stagebox-section>header>span {font-size:10px;color:var(--rw-muted);}
+#sp-prototype .rw-stagebox-section .rw-port {min-height:96px;gap:4px;padding:9px 5px 6px;}
+#sp-prototype .rw-stagebox-section .rw-port-number {align-self:flex-start;font-size:13px;}
+#sp-prototype .rw-stagebox-section .sp-stagebox-socket {flex:none;display:block;position:relative;margin:0 auto 3px;width:38px;height:38px;}
+/* Reuse the app's existing XLR / combo socket artwork in the new port grid. */
+#sp-prototype .rw-port[data-rw-direction="inputs"] .sp-stagebox-socket {background:radial-gradient(circle at 50% 34%,#020304 0 2.1px,#151a20 2.3px 3.2px,#505963 3.4px 3.8px,transparent 4.1px),radial-gradient(circle at 35% 58%,#020304 0 2.1px,#151a20 2.3px 3.2px,#505963 3.4px 3.8px,transparent 4.1px),radial-gradient(circle at 65% 58%,#020304 0 2.1px,#151a20 2.3px 3.2px,#505963 3.4px 3.8px,transparent 4.1px),radial-gradient(circle,#080c11 0 11px,#252d36 12px 14px,#070a0e 15px 16px,#46515c 17px,transparent 18px);}
+#sp-prototype .rw-port[data-rw-direction="outputs"] .sp-stagebox-socket {background:radial-gradient(circle at 50% 34%,#929aa4 0 1.2px,#05080b 1.7px 3.2px,transparent 3.7px),radial-gradient(circle at 35% 58%,#929aa4 0 1.2px,#05080b 1.7px 3.2px,transparent 3.7px),radial-gradient(circle at 65% 58%,#929aa4 0 1.2px,#05080b 1.7px 3.2px,transparent 3.7px),radial-gradient(circle,#080c11 0 11px,#252d36 12px 14px,#070a0e 15px 16px,#46515c 17px,transparent 18px);}
+#sp-prototype .rw-stagebox-section[data-combo-jacks="true"] .rw-port[data-rw-direction="inputs"] .sp-stagebox-socket {width:40px;height:38px;border:1px solid #59616a;border-radius:8px 8px 10px 10px;background:radial-gradient(circle at 50% 21%,#020304 0 1.8px,#13181d 2px 3px,#828b93 3.2px 3.7px,transparent 4px),radial-gradient(circle at 27% 72%,#020304 0 1.8px,#13181d 2px 3px,#828b93 3.2px 3.7px,transparent 4px),radial-gradient(circle at 73% 72%,#020304 0 1.8px,#13181d 2px 3px,#828b93 3.2px 3.7px,transparent 4px),radial-gradient(circle at 50% 52%,#080b0e 0 12px,#333b43 12.5px 14px,#090d11 14.5px 16.5px,transparent 17px),linear-gradient(145deg,#384049 0 8%,#151b21 22% 74%,#06090c 88% 100%);box-shadow:0 2px 6px #000b,inset 0 1px 1px #8a939a55,0 0 0 1px #050708;}
+#sp-prototype .rw-stagebox-section[data-combo-jacks="true"] .rw-port[data-rw-direction="inputs"] .sp-stagebox-socket::before {position:absolute;top:50%;left:50%;width:13px;height:13px;border:2px solid #858e96;border-radius:50%;background:radial-gradient(circle,#010203 0 4px,#171c21 4.5px 5px,#030506 5.5px);box-shadow:0 1px 2px #000,inset 0 0 2px #000;content:"";transform:translate(-50%,-44%);}
+#sp-prototype .rw-stagebox-section[data-combo-jacks="true"] .rw-port[data-rw-direction="inputs"] .sp-stagebox-socket::after {position:absolute;top:-2px;left:50%;width:12px;height:4px;border:1px solid #737d85;border-radius:1px 1px 3px 3px;background:linear-gradient(#aab1b6,#4f5961);box-shadow:0 1px 2px #000;content:"";transform:translateX(-50%);}
+#sp-prototype .rw-stagebox-section .rw-port[data-used="true"] {border-color:color-mix(in srgb,var(--rw-accent) 40%,var(--rw-border));}
+#sp-prototype .rw-stagebox-section .rw-port[data-used="true"] .sp-stagebox-socket {box-shadow:0 0 0 1px var(--rw-accent),0 0 10px color-mix(in srgb,var(--rw-accent) 16%,transparent),0 2px 5px #000a;}
+#sp-prototype .rw-stagebox-section .rw-port[data-selected="true"] {border-color:var(--rw-accent);}
+#sp-prototype .rw-stagebox-section .rw-port-name {padding:5px 2px;border:1px solid var(--rw-border);border-radius:3px;}
+#sp-prototype .rw-port-phantom {position:absolute;right:4px;top:5px;border:1px solid var(--rw-border);border-radius:3px;padding:0 3px;font-size:8px;line-height:1.4;background:var(--rw-paper);}
+#sp-prototype .rw-stereo-mark {font-size:8px;color:var(--rw-accent);font-weight:700;position:absolute;bottom:-13px;}
+#sp-prototype .rw-port[data-stereo] {margin-bottom:13px;}
+#sp-prototype .rw-port[data-stereo="left"]::after,#sp-prototype .rw-port[data-stereo="right"]::after {position:absolute;content:"";bottom:-8px;width:calc(50% + 6px);height:6px;border-bottom:1px solid var(--rw-accent);}
+#sp-prototype .rw-port[data-stereo="left"]::after {left:50%;border-left:1px solid var(--rw-accent);}
+#sp-prototype .rw-port[data-stereo="right"]::after {right:50%;border-right:1px solid var(--rw-accent);}
+#sp-prototype .rw-capacity {font-size:11px;color:var(--rw-muted);margin:-22px 0 18px;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port {display:grid;grid-template-columns:27px 40px minmax(0,1fr) 33px;gap:9px;min-height:47px;margin:0;padding:4px 9px;text-align:left;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port-number {align-self:center;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .sp-stagebox-socket {margin:0;grid-column:2;grid-row:1;transform:scale(.75);}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port-name {grid-column:3;grid-row:1;border:0;padding:0;font-size:10px;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port-phantom {position:static;grid-column:4;grid-row:1;text-align:center;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-stereo-mark {position:static;grid-column:4;grid-row:1;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port:has(.rw-port-phantom) .rw-stereo-mark {display:none;}
+#sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port[data-stereo]::after {display:none;}
+#sp-prototype .rw-network-label {font-size:12px;text-align:center;margin-top:9px;}
+#sp-prototype .rw-box-editor {display:flex;align-items:flex-end;gap:12px;padding:12px;border:1px solid var(--rw-border);border-radius:6px;margin-bottom:15px;background:var(--rw-soft);}
+#sp-prototype .rw-box-editor .rw-field {flex:1;}
+#sp-prototype .rw-selected-route {margin-top:22px;}
+#sp-prototype .rw-selected-route>h3 {font-size:17px;margin:0 0 15px;}
+#sp-prototype .rw-selected-route .rw-source-flow {gap:8px 0;}
+#sp-prototype .rw-selected-route .rw-card {min-height:200px;}
+#sp-prototype .rw-selected-route .rw-source-card .rw-art {height:92px;min-height:92px;}
+#sp-prototype .rw-selected-route>.rw-quiet-danger {margin-top:10px;}
+#sp-prototype .rw-route-choices {display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:300px;overflow:auto;margin-top:12px;}
+#sp-prototype .rw-route-choice {display:grid;justify-content:stretch;text-align:left;gap:4px;}
+#sp-prototype .rw-route-choice small {font-size:10px;color:var(--rw-muted);}
+#sp-prototype .rw-open-port {padding:17px;background:var(--rw-soft);border:1px solid var(--rw-border);border-radius:6px;}
+#sp-prototype .rw-empty {display:grid;justify-items:start;align-content:center;gap:12px;min-height:300px;padding:28px;color:var(--rw-muted);}
+#sp-prototype .rw-empty>strong {font-size:21px;color:var(--rw-ink);font-weight:600;}
+#sp-prototype .rw-empty p {font-size:13px;margin:0;line-height:1.6;max-width:360px;}
+#sp-prototype .rw-empty-small {font-size:11px;line-height:1.5;color:var(--rw-muted);padding:10px;margin:0;}
+#sp-prototype .rw-error {border:1px solid #bc815e;color:light-dark(#8b3f25,#f4b095);background:light-dark(#fff3e9,#3c2920);padding:11px;border-radius:6px;font-size:12px;margin:0 0 16px;}
+#sp-prototype .sp-routing-workspace-v2[data-readonly="true"] .rw-card-value .rw-pencil {display:none;}
+#sp-prototype .sp-routing-workspace-v2[data-readonly="true"] .rw-card-value:disabled {opacity:1;border-color:transparent;background:transparent;}
+@media(min-width:1450px) {
+  #sp-prototype .rw-layout {grid-template-columns:295px minmax(0,1fr);}
+  #sp-prototype .rw-navigation-row {margin-left:271px;}
+  #sp-prototype .rw-main {padding:28px 30px;}
+  #sp-prototype .rw-minimap {height:228px;}
+  #sp-prototype .rw-source-flow,#sp-prototype .rw-monitor-flow {column-gap:5px;}
+  #sp-prototype .rw-card {padding:15px;min-height:250px;}
+  #sp-prototype .rw-card-value {font-size:13px;}
+}
+@media(max-width:1180px) {
+  #sp-prototype .rw-layout {grid-template-columns:210px minmax(0,1fr);}
+  #sp-prototype .rw-navigation-row {margin-left:186px;}
+  #sp-prototype .rw-sidebar-heading {padding:17px 12px 12px;}
+  #sp-prototype .rw-list-item {grid-template-columns:37px minmax(0,1fr) 17px;gap:8px;padding:12px 10px;min-height:75px;}
+  #sp-prototype .rw-list-art {width:37px;height:43px;}
+  #sp-prototype .rw-list-copy strong {font-size:12px;}
+  #sp-prototype .rw-list-copy small {font-size:10px;}
+  #sp-prototype .rw-minimap-wrap {margin:12px;}
+  #sp-prototype .rw-minimap {height:158px;}
+  #sp-prototype .rw-main {padding:23px 18px;}
+  #sp-prototype .rw-port-grid {grid-template-columns:repeat(4,minmax(0,1fr));}
+  #sp-prototype .rw-stagebox-section .rw-port-grid {grid-template-columns:repeat(8,minmax(58px,1fr));overflow:auto;}
+}
+@media(max-width:740px) {
+  #sp-prototype #sp-routing[data-workspace-v2="true"] {overflow:auto;}
+  #sp-prototype .sp-routing-workspace-v2 {flex:0 0 auto;min-height:100%;}
+  #sp-prototype .rw-header {padding:14px 12px 0;}
+  #sp-prototype .rw-title-row {margin-bottom:14px;}
+  #sp-prototype .rw-title-row h1 {font-size:25px;}
+  #sp-prototype .rw-navigation-row {margin-left:0;display:flex;flex-wrap:wrap;gap:0;}
+  #sp-prototype .rw-tabs {flex:1;width:100%;}
+  #sp-prototype .rw-tabs button {flex:1;min-width:0;min-height:42px;font-size:12px;padding:10px 9px;}
+  #sp-prototype .rw-summary {width:100%;text-align:left;font-size:9px;padding:9px 0;}
+  #sp-prototype .rw-layout {display:flex;flex-direction:column;height:auto;min-height:0;}
+  #sp-prototype .rw-sidebar {display:grid;grid-template-columns:minmax(0,1fr) 128px;grid-template-rows:auto minmax(85px,auto);border-right:0;border-bottom:1px solid var(--rw-border);max-height:255px;}
+  #sp-prototype .rw-sidebar-heading {padding:12px 12px 7px;grid-column:1;grid-row:1;}
+  #sp-prototype .rw-sidebar-heading h2 {font-size:14px;margin-bottom:8px;}
+  #sp-prototype .rw-search input {height:33px;font-size:11px;}
+  #sp-prototype .rw-source-list {grid-column:1;grid-row:2;min-height:0;max-height:149px;}
+  #sp-prototype .rw-list-item {min-height:57px;padding:6px 10px;border-top:0;grid-template-columns:33px minmax(0,1fr) 17px;}
+  #sp-prototype .rw-list-art {width:33px;height:34px;}
+  #sp-prototype .rw-list-copy strong {font-size:11px;}
+  #sp-prototype .rw-list-copy small {font-size:9px;}
+  #sp-prototype .rw-state-dot {width:15px;height:15px;font-size:10px;}
+  #sp-prototype .rw-minimap-wrap {grid-column:2;grid-row:1 / 3;align-self:end;margin:10px 10px 12px 0;}
+  #sp-prototype .rw-minimap {height:125px;}
+  #sp-prototype .rw-minimap-wrap figcaption {font-size:9px;margin-top:6px;}
+  #sp-prototype .rw-sidebar-add {padding:7px 10px;}
+  #sp-prototype .rw-sidebar-add>.rw-button {font-size:10px;min-height:34px;}
+  #sp-prototype .rw-detail {min-height:430px;}
+  #sp-prototype .rw-main {overflow:visible;padding:19px 12px 17px;}
+  #sp-prototype .rw-view-heading {gap:10px;margin-bottom:21px;}
+  #sp-prototype .rw-view-heading h2 {font-size:23px;letter-spacing:-.4px;}
+  #sp-prototype .rw-format-badge {font-size:10px;padding:4px 8px;min-height:26px;}
+  #sp-prototype .rw-heading-choices {margin-left:0;}
+  #sp-prototype .rw-source-flow {min-width:670px;grid-template-columns:110px 30px 155px 23px 150px 23px 145px;}
+  #sp-prototype .rw-source-flow:has(.rw-pickup-card .rw-card-editor) {min-width:800px;grid-template-columns:110px 30px 285px 23px 150px 23px 145px;}
+  #sp-prototype .rw-source-flow:has(.rw-patch-card .rw-card-editor) {min-width:805px;grid-template-columns:110px 30px 155px 23px 285px 23px 145px;}
+  #sp-prototype .rw-card {padding:10px;min-height:222px;}
+  #sp-prototype .rw-source-card .rw-art {height:104px;min-height:104px;}
+  #sp-prototype .rw-flow-scroll {margin-right:-12px;padding-right:12px;scroll-padding:12px;}
+  #sp-prototype .rw-footer {padding:11px 12px;min-height:55px;}
+  #sp-prototype .rw-save-state {font-size:9px;}
+  #sp-prototype .rw-primary,#sp-prototype .rw-export {font-size:10px;padding:8px;}
+  #sp-prototype .rw-format-controls {justify-content:flex-start;flex-wrap:wrap;}
+  #sp-prototype .rw-notes {margin-top:21px;}
+  #sp-prototype .rw-capacity {margin:-10px 0 16px;}
+  #sp-prototype .rw-stagebox-section {padding:9px;}
+  #sp-prototype .rw-stagebox-section .rw-port-grid {grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;}
+  #sp-prototype .rw-stagebox-section[data-rw-port-layout="list"] .rw-port-grid {grid-template-columns:minmax(0,1fr);}
+  #sp-prototype .rw-stagebox-section .rw-port {min-height:91px;padding-top:8px;}
+  #sp-prototype .rw-port-name {font-size:8px;}
+  #sp-prototype .rw-box-editor {flex-wrap:wrap;}
+  #sp-prototype .rw-box-editor .rw-field {min-width:100%;}
+  #sp-prototype .rw-monitor-flow {min-width:700px;}
+  #sp-prototype .rw-monitor-ports {padding:10px;}
+  #sp-prototype .rw-empty {min-height:210px;padding:15px;}
+}
+@media(prefers-reduced-motion:no-preference) {
+  #sp-prototype .rw-button,#sp-prototype .rw-port,#sp-prototype .rw-list-item {transition:background .12s ease,border-color .12s ease;}
+}
+/* build-inline:end stageplot-routing-workspace-v2.css */
+</style>
+<script>
+/* build-inline:start stageplot-routing-model-v2.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+/* Canonical routing rows own signals and patches. DI devices own only physical capacity.
+ * This module has no DOM, storage, clock or network dependency. Mutators validate
+ * before changing routing; callers retain their existing history/save transaction. */
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.StageplotRoutingModel=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const clean=(value,max=100)=>String(value??'').trim().slice(0,max);
+  const own=(value,key)=>Object.prototype.hasOwnProperty.call(value||{},key);
+  const object=value=>value&&typeof value==='object'&&!Array.isArray(value)?value:{};
+  const connectors=new Set(['XLR','Klinke','USB','Digital','MADI','Dante']);
+  const signalTypes=new Set(['Mic','Line','Instrument','Digital']);
+  const powers=new Set(['48V','battery','external','none']);
+  const diModels=Object.freeze([
+    Object.freeze({id:'radial-j48',name:'Radial J48',channels:1,active:true,power:'48V',phantom:true}),
+    Object.freeze({id:'radial-j48-stereo',name:'Radial J48 Stereo',channels:2,active:true,power:'48V',phantom:true}),
+    Object.freeze({id:'radial-prod2',name:'Radial ProD2',channels:2,active:false,power:'none',phantom:false}),
+    Object.freeze({id:'custom',name:'Eigene DI',channels:1,active:false,power:'none',phantom:false})
+  ]);
+  const catalog=new Map(diModels.map(model=>[model.id,model]));
+  function modelId(value){
+    const text=clean(value).toLowerCase().replace(/[^a-z0-9]/g,'');
+    return ({j48:'radial-j48',radialj48:'radial-j48',j48stereo:'radial-j48-stereo',radialj48stereo:'radial-j48-stereo',prod2:'radial-prod2',radialprod2:'radial-prod2',custom:'custom',eigenedi:'custom'})[text]||'custom';
+  }
+  function remapId(value,idMap){const id=clean(value);return idMap?idMap.get(id)||'':id;}
+  function remapKey(value,idMap){const key=clean(value,140),split=key.indexOf(':');return split>0&&idMap?.has(key.slice(0,split))?idMap.get(key.slice(0,split))+key.slice(split):key;}
+  function integer(value,min,max,fallback){const n=Number(value);return Number.isInteger(n)&&n>=min&&n<=max?n:fallback;}
+  function token(value,fallback){return clean(value,80).toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/^-+|-+$/g,'')||fallback;}
+  function normalizeDevice(value,index,idMap){
+    const source=object(value),id=/^[a-z0-9][a-z0-9-]{0,119}$/.test(source.id||'')?source.id:'di-device-'+(index+1),key=modelId(source.modelId||source.model||source.name),model=catalog.get(key),fixed=key!=='custom';
+    const active=fixed?model.active:source.active===true||(!own(source,'active')&&source.phantom===true),power=fixed?model.power:!active?'none':powers.has(source.power)?source.power:source.phantom===false?'external':'48V';
+    return {id,modelId:key,name:clean(source.name,80)||model.name,channels:fixed?model.channels:integer(source.channels,1,32,1),active,power,phantom:active&&power==='48V',objectId:remapId(source.objectId,idMap)};
+  }
+  function normalizeDevices(raw,idMap=null){
+    const ids=new Set();return (Array.isArray(raw)?raw:[]).slice(0,512).map((value,index)=>{
+      const device=normalizeDevice(value,index,idMap),base=device.id;let suffix=2;
+      while(ids.has(device.id))device.id=base+'-'+suffix++;ids.add(device.id);return device;
+    });
+  }
+  function rowExtras(raw,idMap=null){
+    const source=object(raw),pickupOrigin=/:pickup-[a-z0-9-]+$/.test(String(source.sourceKey||''));
+    const result={origin:['generated','pickup','manual'].includes(source.origin)?source.origin:pickupOrigin?'pickup':source.sourceKey?'generated':'manual',acquisitionId:remapKey(source.acquisitionId,idMap),sourcePortKey:remapKey(source.sourcePortKey,idMap),sourceConnector:connectors.has(source.sourceConnector)?source.sourceConnector:'',sourceSignalType:signalTypes.has(source.sourceSignalType)?source.sourceSignalType:'',monitorDeviceName:clean(source.monitorDeviceName,80),monitorReceiverName:clean(source.monitorReceiverName,80),monitorAmplifierName:clean(source.monitorAmplifierName,80),monitorDeviceKind:clean(source.monitorDeviceKind,40),monitorActive:source.monitorActive!==false};
+    // Missing means old data which may need migration; empty means deliberately
+    // unassigned. Keeping that distinction makes clearDevice survive every save.
+    if(own(source,'diDeviceId')||own(source,'diChannel')){result.diDeviceId=clean(source.diDeviceId,120);result.diChannel=integer(source.diChannel,1,32,null);}
+    return result;
+  }
+  const rowsOf=routing=>Array.isArray(routing?.inputs)?routing.inputs:[];
+  const devicesOf=routing=>Array.isArray(routing?.devices)?routing.devices:[];
+  function findDevice(routing,id){const device=devicesOf(routing).find(item=>item.id===id);if(!device)throw Error('Diese DI-Box ist nicht mehr verfügbar.');return device;}
+  function inputRows(routing,rowIds){
+    const ids=Array.isArray(rowIds)?rowIds:[rowIds];
+    if(!ids.length||ids.some(id=>typeof id!=='string'||!id)||new Set(ids).size!==ids.length)throw Error('Bitte unterschiedliche Eingangssignale wählen.');
+    return ids.map(id=>{const row=rowsOf(routing).find(item=>item.id===id);if(!row)throw Error('Dieses Eingangssignal ist nicht mehr verfügbar.');return row;});
+  }
+  function occupancy(routing,deviceId){
+    const device=devicesOf(routing).find(item=>item.id===deviceId);if(!device)return [];
+    return Array.from({length:device.channels},(_,index)=>{
+      const channel=index+1,row=rowsOf(routing).find(item=>item.diDeviceId===deviceId&&Number(item.diChannel)===channel);
+      return {channel,rowId:row?.id||'',sourceKey:row?.sourceKey||'',instrument:row?.instrument||'',free:!row};
+    });
+  }
+  function nextDeviceId(routing,requested=''){
+    const ids=new Set(devicesOf(routing).map(device=>device.id));let base=token(requested,'di-device'),id=base,index=1;
+    while(ids.has(id))id=base+'-'+(++index);return id;
+  }
+  function validateCustom(options){
+    if(modelId(options.modelId||options.model||options.name)!=='custom')return;
+    if(own(options,'channels')&&integer(options.channels,1,32,null)===null)throw Error('Eine eigene DI-Box benötigt 1 bis 32 Kanäle.');
+    if(own(options,'power')&&!powers.has(options.power))throw Error('Bitte eine gültige Stromversorgung wählen.');
+  }
+  function createDevice(routing,options={}){
+    if(!routing||typeof routing!=='object')throw Error('Kein Routing vorhanden.');
+    validateCustom(options);const device=normalizeDevice({...options,id:nextDeviceId(routing,options.id)},devicesOf(routing).length);
+    if(device.objectId&&devicesOf(routing).some(item=>item.objectId===device.objectId))throw Error('Dieses Bühnenobjekt gehört bereits zu einer DI-Box.');
+    if(devicesOf(routing).length>=512)throw Error('Es können höchstens 512 DI-Boxen angelegt werden.');
+    routing.devices=[...devicesOf(routing),device];return device;
+  }
+  function applyDevice(row,device,channel){
+    if(!row.sourceConnector)row.sourceConnector=row.connector==='XLR'?'Klinke':row.connector||'Klinke';
+    if(!row.sourceSignalType)row.sourceSignalType=row.signalType||'Instrument';
+    Object.assign(row,{pickup:'DI',connector:'XLR',signalType:'Line',microphone:device.name,phantom:device.phantom,edited:true,diDeviceId:device.id,diChannel:channel});
+  }
+  function assignDevice(routing,rowIds,deviceId,channels){
+    const rows=inputRows(routing,rowIds),device=findDevice(routing,deviceId),selected=new Set(rows.map(row=>row.id));
+    if(rows.some(row=>row.connector==='Dante'||row.pickup==='Digital'))throw Error('Ein digitales Signal kann nicht durch eine analoge DI-Box geführt werden.');
+    const used=new Set(rowsOf(routing).filter(row=>!selected.has(row.id)&&row.diDeviceId===deviceId).map(row=>Number(row.diChannel)));
+    let ports;
+    if(channels===undefined||channels===null){const free=Array.from({length:device.channels},(_,i)=>i+1).filter(channel=>!used.has(channel));ports=rows.map(row=>{const port=integer(row.diChannel,1,device.channels,null);return row.diDeviceId===deviceId&&port&&!used.has(port)?port:null;});const reserved=new Set();ports=ports.map(port=>{if(port&&reserved.has(port))return null;if(port)reserved.add(port);return port;});ports=ports.map(port=>{if(port)return port;const next=free.find(channel=>!reserved.has(channel));if(next)reserved.add(next);return next;});}
+    else ports=Array.isArray(channels)?channels.slice():[channels];
+    if(ports.length!==rows.length||ports.some(port=>integer(port,1,device.channels,null)===null))throw Error('Für diese Signale sind nicht genügend DI-Eingänge frei.');
+    ports=ports.map(Number);
+    if(new Set(ports).size!==ports.length)throw Error('Ein DI-Eingang kann nur einmal belegt werden.');
+    if(ports.some(port=>used.has(port)))throw Error('Dieser DI-Eingang ist bereits belegt.');
+    rows.forEach((row,index)=>applyDevice(row,device,ports[index]));return rows;
+  }
+  function clearDevice(routing,rowIds){
+    const rows=inputRows(routing,rowIds);for(const row of rows)Object.assign(row,{diDeviceId:'',diChannel:null,edited:true});return rows;
+  }
+  function updateDevice(routing,id,fields={}){
+    const device=findDevice(routing,id),options={...device,...fields,id:device.id};
+    if(modelId(options.modelId)==='custom'&&!device.active&&fields.active===true&&!own(fields,'power'))options.power='48V';
+    validateCustom(options);
+    const next=normalizeDevice(options,0),rows=rowsOf(routing).filter(row=>row.diDeviceId===id);
+    if(rows.some(row=>integer(row.diChannel,1,next.channels,null)===null))throw Error('Ein belegter DI-Eingang würde entfallen. Bitte zuerst das Signal umstecken.');
+    if(next.objectId&&devicesOf(routing).some(item=>item.id!==id&&item.objectId===next.objectId))throw Error('Dieses Bühnenobjekt gehört bereits zu einer DI-Box.');
+    Object.assign(device,next);for(const row of rows)applyDevice(row,device,row.diChannel);return device;
+  }
+  const sourceIdOf=row=>String(row?.sourceKey||'').split(':')[0];
+  function additionalPickup(routing,sourceId,kind='Mic',value=''){
+    const owner=clean(sourceId);if(!owner||owner.includes(':'))throw Error('Bitte eine gültige Quelle wählen.');
+    if(!['Mic','DI','Direct','Digital'].includes(kind))throw Error('Bitte eine gültige Abnahme wählen.');
+    if(rowsOf(routing).length>=512)throw Error('Es können höchstens 512 Eingangssignale angelegt werden.');
+    const all=[...rowsOf(routing),...(Array.isArray(routing?.outputs)?routing.outputs:[])],ids=new Set(all.map(row=>row.id)),keys=new Set(all.map(row=>row.sourceKey)),base=token(typeof value==='function'?value():value,'new').slice(0,Math.max(1,126-owner.length)),seed=rowsOf(routing).find(row=>sourceIdOf(row)===owner);let suffix=1,tail=base;
+    while(ids.has('route-pickup-'+tail)||keys.has(owner+':pickup-'+tail))tail=base+'-'+(++suffix);
+    const key=owner+':pickup-'+tail,connector=['Mic','DI'].includes(kind)?'XLR':kind==='Digital'?'Digital':seed?.sourceConnector||seed?.connector||'XLR',row={id:'route-pickup-'+tail,sourceKey:key,origin:'pickup',acquisitionId:key,sourcePortKey:seed?.sourcePortKey||seed?.sourceKey||'',sourceConnector:seed?.sourceConnector||seed?.connector||'',sourceSignalType:seed?.sourceSignalType||seed?.signalType||'',number:null,instrument:clean(seed?.instrument,100).replace(/\s*·\s*(?:L|R|Out \d+)$/,'')||'Weitere Abnahme',generatedInstrument:'',manual:true,edited:true,pickup:kind,mode:'Mono',signalType:kind==='Mic'?'Mic':kind==='Digital'?'Digital':'Line',connector,portIndex:null,stereoGroup:'',microphone:'',phantom:false,diDeviceId:'',diChannel:null,stagebox:'',stageboxPort:null,notes:'',linkedSources:[]};
+    routing.inputs=[...rowsOf(routing),row];return row;
+  }
+  function removeInput(routing,rowId){
+    const [row]=inputRows(routing,[rowId]),disabled=new Set(Array.isArray(routing.disabledSources)?routing.disabledSources:[]);
+    for(const member of [row,...(Array.isArray(row.linkedSources)?row.linkedSources:[])])if(member.sourceKey&&member.origin!=='pickup'&&!/:pickup-[a-z0-9-]+$/.test(member.sourceKey))disabled.add(member.sourceKey);
+    routing.inputs=rowsOf(routing).filter(item=>item.id!==row.id);routing.disabledSources=[...disabled];return row;
+  }
+  function ensure(routing,objects=[]){
+    if(!routing||typeof routing!=='object')return routing;
+    routing.devices=normalizeDevices(routing.devices);routing.disabledSources=[...new Set(Array.isArray(routing.disabledSources)?routing.disabledSources:[])];
+    const byObject=new Map((Array.isArray(objects)?objects:[]).map(item=>[item.id,item]));
+    for(const direction of ['inputs','outputs'])for(const row of Array.isArray(routing[direction])?routing[direction]:[]){Object.assign(row,rowExtras(row));for(const member of Array.isArray(row.linkedSources)?row.linkedSources:[])Object.assign(member,rowExtras(member));}
+    // Existing device references win. Invalid/duplicate imports stay as unassigned
+    // signals instead of silently stealing a port or inventing extra hardware.
+    const occupied=new Set();
+    for(const row of rowsOf(routing))if(own(row,'diDeviceId')){
+      const device=routing.devices.find(item=>item.id===row.diDeviceId),channel=device&&integer(row.diChannel,1,device.channels,null),key=device&&device.id+':'+channel;
+      if(device&&channel&&!occupied.has(key)){occupied.add(key);applyDevice(row,device,channel);}
+      else {row.diDeviceId='';row.diChannel=null;}
+    }
+    for(const row of rowsOf(routing)){
+      if(own(row,'diDeviceId'))continue;
+      if(row.connector==='Dante'||row.pickup==='Digital')continue;
+      const members=[row,...(Array.isArray(row.linkedSources)?row.linkedSources:[])],diMember=members.find(member=>byObject.get(sourceIdOf(member))?.type==='di'),diObject=diMember&&byObject.get(sourceIdOf(diMember));
+      if(row.pickup!=='DI'&&row.mode!=='DI'&&!diObject)continue;
+      const legacyName=clean(row.microphone||diMember?.microphone||diObject?.label,80);
+      if(!legacyName&&!diObject)continue;
+      // Drum pads used these words as a direct-output mode, not a model name.
+      // An existing device reference or a linked physical DI still remains valid.
+      if(!diObject&&/^(?:Direktausgang|DI\s*\/\s*Line)$/i.test(legacyName))continue;
+      const key=modelId(legacyName),model=catalog.get(key),legacyGroup=row.stereoGroup?rowsOf(routing).filter(other=>!own(other,'diDeviceId')&&other.stereoGroup===row.stereoGroup&&clean(other.microphone,80)===clean(row.microphone,80)):[],group=legacyGroup.length===2&&(!diObject||legacyGroup.every(other=>[other,...(other.linkedSources||[])].some(member=>sourceIdOf(member)===diObject.id)))?legacyGroup:[row];
+      let device=diObject&&routing.devices.find(item=>item.objectId===diObject.id);
+      if(!device)device=createDevice(routing,{id:diObject?'di-'+token(diObject.id,'object'):'di-legacy-'+token(row.id,'channel'),modelId:key,name:legacyName||'DI-Box',channels:key==='custom'?Math.max(1,group.length):model.channels,active:key==='custom'?row.phantom===true:model.active,power:key==='custom'?(row.phantom?'48V':'none'):model.power,objectId:diObject?.id||''});
+      const free=occupancy(routing,device.id).filter(port=>port.free).map(port=>port.channel),count=Math.min(group.length,free.length);
+      if(count)assignDevice(routing,group.slice(0,count).map(member=>member.id),device.id,free.slice(0,count));
+      // A legacy physical mono box cannot gain a second input through migration.
+      if(!count){row.diDeviceId='';row.diChannel=null;}
+    }
+    return routing;
+  }
+  return {diModels,normalizeDevices,rowExtras,ensure,createDevice,updateDevice,assignDevice,clearDevice,occupancy,additionalPickup,removeInput};
+});
+/* build-inline:end stageplot-routing-model-v2.js */
+/* build-inline:start stageplot-routing-workspace-v2.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+(function (global) {
+  'use strict';
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+  const normalized = value => String(value || '').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const sourceId = row => String(row?.sourceKey || '').split(':')[0];
+  const baseName = name => String(name || '').replace(/\s*(?:·\s*)?[LR]$/, '');
+  const pickupName = kind => ({Mic:'Mikrofon', DI:'DI-Box', Direct:'Direktausgang', Digital:'Digital'}[kind] || 'Abnahme');
+  const pickupKind = row => row.pickup || (row.mode === 'DI' ? 'DI' : row.signalType === 'Mic' ? 'Mic' : row.signalType === 'Digital' ? 'Digital' : 'Direct');
+  const kindName = kind => ({iem:'IEM', monitor:'Wedge', line:'Line'}[kind] || 'Line');
+  const monitorKind = (row, object) => row.outputKind || (row.iemMode || row.iemGroup || ['rack','iem-earphones'].includes(object?.type) ? 'iem' : object?.type === 'wedge' ? 'monitor' : 'line');
+  const attrs = values => Object.entries(values).filter(([, value]) => value !== undefined && value !== null).map(([key,value]) => ' ' + key + '="' + esc(value) + '"').join('');
+  const pencil = '<span class="rw-pencil" aria-hidden="true">✎</span>';
+  const idsOf = rows => rows.map(row => row.id).join('|');
+  const splitIds = value => String(value || '').split('|').filter(Boolean);
+
+  function create(host, api) {
+    if (!host || !api?.getState || !api?.dispatch) throw new Error('Routing-Arbeitsbereich benötigt Host und Datenzugriff.');
+    let state, sources = [], monitors = [], activeSource = '', activeMonitor = '', activeBox = '', activePort = null;
+    let query = '', micQuery = '', openCard = '', pickerBox = '', error = '', destroyed = false, frame = 0, lastTab = '', toolsOpen = false, stageboxLayout = 'grid', pendingField = null;
+    let stageObserver = null, resizeTarget = null, highlighted = [];
+    host.classList.add('sp-routing-workspace-v2');
+
+    const object = id => (state.objects || []).find(item => item.id === id);
+    const route = (id, direction = 'inputs') => (state.routing?.[direction] || []).find(item => item.id === id);
+    const box = id => (state.boxes || []).find(item => item.id === id);
+    const device = id => (state.routing?.devices || []).find(item => item.id === id);
+    const diChannels = item => Math.max(1, Number(item?.channels || item?.channelCount) || 1);
+    const deviceName = item => item?.name || item?.model || item?.modelId || 'DI-Box';
+    const readonly = () => state.readonly === true;
+    const icon = input => {
+      if (!input) return '<span class="rw-art-fallback" aria-hidden="true">♪</span>';
+      try { return api.objectIcon?.(input) || '<span class="rw-art-fallback" aria-hidden="true">♪</span>'; }
+      catch (_) { return '<span class="rw-art-fallback" aria-hidden="true">♪</span>'; }
+    };
+    const micIcon = name => {
+      try { return api.microphoneIcon?.(name) || '<span class="rw-art-fallback" aria-hidden="true">MIC</span>'; }
+      catch (_) { return '<span class="rw-art-fallback" aria-hidden="true">MIC</span>'; }
+    };
+    const art = (content, extra = '') => '<div class="rw-art ' + extra + '" aria-hidden="true">' + content + '</div>';
+    const button = (text, data = {}, options = {}) => '<button type="button" class="rw-button ' + (options.className || '') + '"' + attrs(data) + (options.disabled || options.mutation && readonly() ? ' disabled' : '') + (options.pressed !== undefined ? ' aria-pressed="' + String(options.pressed) + '"' : '') + '>' + text + '</button>';
+    const field = (label, value, data, options = {}) => '<label class="rw-field' + (options.className ? ' ' + options.className : '') + '"><span>' + esc(label) + '</span><input' + attrs({'data-rw-focus':options.focus || JSON.stringify(data), ...data, type:options.type || 'text', value:value ?? '', maxlength:options.maxlength || 100, min:options.min, max:options.max, placeholder:options.placeholder, 'aria-label':label, autocomplete:'off'}) + (readonly() ? ' readonly' : '') + '></label>';
+    const heading = (title, detail = '') => '<div class="rw-view-heading"><h2>' + esc(title) + '</h2>' + detail + '</div>';
+    const cardHead = (title, key, content) => '<div class="rw-card-title"><span>' + esc(title) + '</span>' + (key && !readonly() ? button(pencil, {'data-rw-open':key,'aria-label':title + ' bearbeiten','aria-expanded':String(openCard === key)}, {className:'rw-edit'}) : '') + '</div>' + content;
+    const monoLabel = rows => rows.length > 1 && rows.every(row => row.stereoGroup && row.stereoGroup === rows[0].stereoGroup) ? 'Stereo' : rows.length === 2 ? 'Dual-Mono' : rows.length > 2 ? rows.length + ' Signale' : 'Mono';
+    const connected = rows => rows.filter(row => row.stagebox && row.stageboxPort || row.connector === 'Dante' && String(object(sourceId(row))?.playback?.target || '').trim()).length;
+    const stereoRows = (rows, direction) => {
+      const groups = new Set(rows.map(row => row.stereoGroup).filter(Boolean));
+      const members = (state.routing[direction] || []).filter(row => rows.some(selected => selected.id === row.id) || groups.has(row.stereoGroup));
+      return members.length === 2 && members[0].stereoGroup && members[0].stereoGroup === members[1].stereoGroup ? members.slice().sort((a,b) => Number(a.mode === 'Stereo R') - Number(b.mode === 'Stereo R')) : rows;
+    };
+
+    function groups() {
+      const inputs = state.routing?.inputs || [], outputs = state.routing?.outputs || [], map = new Map();
+      for (const row of inputs) {
+        const id = sourceId(row) || row.id, source = object(id);
+        if (!map.has(id)) map.set(id, {id, object:source, name:source?.label || state.catalog?.[source?.type]?.short || baseName(row.generatedInstrument || row.instrument) || 'Signal', rows:[]});
+        map.get(id).rows.push(row);
+      }
+      for (const source of state.objects || []) {
+        if (!map.has(source.id) && state.catalog?.[source.type]?.instrument && !/^di(?:-|$)/.test(source.type)) {
+          const count = source.io?.outputs?.count;
+          if (count !== 0) map.set(source.id, {id:source.id, object:source, name:source.label || state.catalog[source.type].short || 'Instrument', rows:[]});
+        }
+      }
+      sources = [...map.values()];
+      const monitorMap = new Map();
+      for (const row of outputs) {
+        const source = object(sourceId(row)), kind = monitorKind(row, source), id = row.stereoGroup || row.iemGroup || row.id;
+        if (!monitorMap.has(id)) monitorMap.set(id, {id, name:row.iemName || baseName(row.instrument) || 'Monitorweg', object:source, kind, rows:[]});
+        monitorMap.get(id).rows.push(row);
+      }
+      monitors = [...monitorMap.values()];
+      if (!sources.some(item => item.id === activeSource)) activeSource = sources[0]?.id || '';
+      if (!monitors.some(item => item.id === activeMonitor)) activeMonitor = monitors[0]?.id || '';
+      if (!(state.boxes || []).some(item => item.id === activeBox)) { activeBox = state.boxes?.[0]?.id || ''; activePort = null; }
+    }
+
+    function doAction(action, options = {}) {
+      if (readonly() && !['selectTab','exportPatch','pdf','xlsx'].includes(action.type)) return;
+      try {
+        error = '';
+        const result = api.dispatch(action);
+        if (result?.then) throw new Error('Routing-Änderungen müssen lokal und synchron gespeichert werden.');
+        if (options.close) openCard = '';
+        render();
+        return result;
+      } catch (exception) {
+        error = exception?.message || 'Änderung nicht möglich.';
+        api.announce?.(error);
+        render();
+        return false;
+      }
+    }
+
+    function header() {
+      const inputs = state.routing.inputs || [], outputs = state.routing.outputs || [], selectedRows = state.tab === 'outputs' ? outputs : inputs;
+      const boxCount = (state.boxes || []).length, total = selectedRows.length, patched = connected(selectedRows), summary = state.tab === 'stageboxes' ? boxCount + (boxCount === 1 ? ' Stagebox · ' : ' Stageboxen · ') + connected([...inputs,...outputs]) + ' Verbindungen' : state.tab === 'outputs' ? monitors.length + ' Monitorwege · ' + outputs.length + ' Ausgänge' : total + ' Signale · ' + patched + ' verbunden' + (total > patched ? ' · ' + (total - patched) + ' offen' : '');
+      return '<header class="rw-header"><div class="rw-title-row"><h1>Routing</h1>' + button('Werkzeuge',{'data-rw-tools':'true','aria-expanded':String(toolsOpen)},{className:'rw-tools-button'}) + '</div><div class="rw-navigation-row"><nav class="rw-tabs" role="tablist" aria-label="Routing-Bereiche">' + [['inputs','Quellen'],['outputs','Monitoring'],['stageboxes','Stagebox']].map(([tab,label]) => '<button type="button" role="tab" data-rw-tab="' + tab + '" aria-selected="' + String(state.tab === tab) + '" aria-controls="sp-routing-detail-v2">' + label + '</button>').join('') + '</nav><span class="rw-summary">' + esc(summary) + '</span></div>' + (toolsOpen ? '<div class="rw-tools" role="group" aria-label="Routing-Werkzeuge">' + (!readonly() ? [['undo','↶ Rückgängig'],['redo','↷ Wiederholen'],['number','Freie Kanalnummern'],['autoPatch','Automatisch verbinden'],['csvImport','CSV importieren']].map(([action,label]) => button(label,{'data-rw-tool':action},{mutation:true})).join('') : '') + [['pdf','PDF / Drucken'],['xlsx','XLSX']].map(([action,label]) => button(label,{'data-rw-tool':action})).join('') + button('CSV exportieren',{'data-rw-export':state.tab === 'stageboxes' ? 'all' : state.tab}) + '</div>' : '') + '</header>';
+    }
+
+    function sidebar() {
+      const tab = state.tab, stageboxTab = tab === 'stageboxes', monitoring = tab === 'outputs';
+      const items = stageboxTab ? state.boxes || [] : monitoring ? monitors : sources;
+      const title = stageboxTab ? 'Stageboxen' : monitoring ? 'Monitorwege' : 'Instrumente';
+      const filtered = items.filter(item => normalized([item.name, ...(item.rows || []).map(row => row.instrument)].join(' ')).includes(normalized(query)));
+      const rows = filtered.map(item => {
+        const selected = item.id === (stageboxTab ? activeBox : monitoring ? activeMonitor : activeSource);
+        const related = stageboxTab ? [...(state.routing.inputs || []), ...(state.routing.outputs || [])].filter(row => row.stagebox === item.id && row.stageboxPort) : item.rows;
+        const total = related.length, linked = stageboxTab ? total : connected(related), complete = stageboxTab || total > 0 && linked === total;
+        const subtitle = stageboxTab ? (state.routing.inputs || []).filter(row => row.stagebox === item.id && row.stageboxPort).length + '/' + item.inputs + ' In · ' + (state.routing.outputs || []).filter(row => row.stagebox === item.id && row.stageboxPort).length + '/' + item.outputs + ' Out' : monitoring ? kindName(item.kind) + ' · ' + (item.rows.length > 1 && item.rows[0].stereoGroup ? 'Stereo' : 'Mono') : total ? total + (total === 1 ? ' Signal' : ' Signale') + (monoLabel(item.rows) === 'Stereo' ? ' · Stereo' : '') : 'Noch keine Abnahme';
+        return '<button type="button" class="rw-list-item"' + attrs({'data-rw-select':item.id,'aria-pressed':String(selected)}) + '><span class="rw-list-art">' + icon(stageboxTab ? item.type : item.object || (monitoring ? item.kind === 'monitor' ? 'wedge' : 'rack' : 'mic')) + '</span><span class="rw-list-copy"><strong>' + esc(item.name) + '</strong><small>' + esc(subtitle) + '</small></span><span class="rw-state-dot" data-complete="' + complete + '" aria-label="' + (complete ? 'Verbunden' : linked + ' von ' + total + ' verbunden') + '">' + (complete ? '✓' : '•') + '</span></button>';
+      }).join('');
+      let add = '';
+      if (!readonly() && (stageboxTab || monitoring)) {
+        const key = stageboxTab ? 'add-box' : 'add-monitor';
+        add = '<div class="rw-sidebar-add">' + button('<span aria-hidden="true">＋</span> ' + (stageboxTab ? 'Stagebox' : 'Monitorweg'), {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-add',mutation:true});
+        if (openCard === key) add += '<div class="rw-inline-choices">' + (stageboxTab ? Object.values(state.catalog || {}).filter(item => /^stagebox-/.test(item.id)).map(item => button(icon(item.id) + '<span>' + esc(item.short || item.name) + '</span>', {'data-rw-add-box':item.id}, {className:'rw-model-tile',mutation:true})).join('') : ['iem','monitor','line'].map(kind => button(kindName(kind), {'data-rw-add-monitor':kind}, {mutation:true})).join('')) + '</div>';
+        add += '</div>';
+      }
+      return '<aside class="rw-sidebar"><div class="rw-sidebar-heading"><h2>' + title + '</h2><label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-search data-rw-focus="source-search" value="' + esc(query) + '" placeholder="Suchen" aria-label="' + title + ' suchen" autocomplete="off"></label></div><div class="rw-source-list">' + (rows || '<p class="rw-empty-small">' + (query ? 'Keine Treffer.' : 'Noch keine ' + title + '.') + '</p>') + add + '</div><figure class="rw-minimap-wrap"><div class="rw-minimap" data-rw-stage id="sp-routing-minimap"></div><figcaption>Bühne · Draufsicht</figcaption></figure></aside>';
+    }
+
+    function ports(direction, selectedBox, selectedRows = [], purpose = 'patch') {
+      if (!selectedBox) return '<p class="rw-empty-small">Noch keine Stagebox auf der Bühne.</p>';
+      const count = selectedBox[direction] || 0, selectedIds = new Set(selectedRows.map(row => row.id));
+      const assigned = new Map((state.routing[direction] || []).filter(row => row.stagebox === selectedBox.id && row.stageboxPort).map(row => [Number(row.stageboxPort), row]));
+      return '<div class="rw-port-grid" data-port-purpose="' + purpose + '">' + Array.from({length:count}, (_, index) => {
+        const port = index + 1, occupant = assigned.get(port), selected = purpose === 'overview' ? activePort?.boxId === selectedBox.id && activePort.direction === direction && activePort.port === port : !!occupant && selectedIds.has(occupant.id);
+        const pair = selectedRows.length > 1, conflict = purpose === 'patch' && (Array.from({length:pair ? selectedRows.length : 1}, (_, offset) => assigned.get(port + offset)).some(row => row && !selectedIds.has(row.id)) || port + selectedRows.length - 1 > count);
+        const attrsForPort = purpose === 'overview' ? {'data-rw-port':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction} : {'data-rw-patch':port,'data-rw-box':selectedBox.id,'data-rw-direction':direction,'data-rw-rows':idsOf(selectedRows)};
+        const stereo = occupant?.stereoGroup, paired = stereo && [...assigned.values()].some(row => row.id !== occupant.id && row.stereoGroup === stereo), side = occupant?.mode === 'Stereo R' ? 'right' : 'left';
+        return '<button type="button" class="rw-port"' + attrs({...attrsForPort,'data-used':String(!!occupant),'data-selected':String(selected),'data-stereo':paired ? side : undefined,'aria-pressed':String(selected),'aria-label':(direction === 'inputs' ? 'Eingang ' : 'Ausgang ') + port + ' · ' + (occupant?.instrument || 'Frei') + (conflict ? ' · belegt' : '')}) + (conflict || purpose === 'patch' && readonly() ? ' disabled' : '') + '><span class="rw-port-number">' + String(port).padStart(2,'0') + '</span>' + (purpose === 'overview' ? '<span class="sp-stagebox-socket" aria-hidden="true"></span>' : '') + (occupant?.phantom ? '<span class="rw-port-phantom">48 V</span>' : '') + '<span class="rw-port-name">' + esc(occupant?.instrument?.replace(/^Drums\s*·\s*/, '') || 'Frei') + '</span>' + (paired ? '<span class="rw-stereo-mark" aria-label="Stereo-Paar">' + (side === 'left' ? 'L' : 'R') + '</span>' : '') + '</button>';
+      }).join('') + '</div>';
+    }
+
+    function patchEditor(rows, direction, key) {
+      if (openCard !== key || readonly()) return '';
+      const boxes = (state.boxes || []).filter(item => item[direction] > 0);
+      const chosen = boxes.find(item => item.id === pickerBox) || boxes.find(item => item.id === rows[0]?.stagebox) || boxes[0];
+      return '<div class="rw-card-editor"><div class="rw-choice-row" role="group" aria-label="Stagebox wählen">' + boxes.map(item => button(esc(item.name), {'data-rw-picker-box':item.id}, {pressed:item.id === chosen?.id})).join('') + '</div>' + ports(direction, chosen, rows) + (rows.some(row => row.stagebox) ? button('Verbindung lösen', {'data-rw-unpatch':idsOf(rows),'data-rw-direction':direction}, {className:'rw-quiet-danger',mutation:true}) : '') + '</div>';
+    }
+
+    function patchCard(rows, direction, suffix = '') {
+      const key = 'patch-' + direction + '-' + idsOf(rows) + suffix, first = rows[0], assignedBox = box(first?.stagebox), linked = rows.length > 1;
+      if (direction === 'inputs' && first?.connector === 'Dante') {
+        const source = object(sourceId(first));
+        return '<article class="rw-card rw-patch-card">' + cardHead('Anschluss',null,art(icon(source || 'laptop'))) + '<strong class="rw-network-label">Dante · Netzwerk</strong><p class="rw-card-meta">RJ45 · CAT5e / CAT6</p><p class="rw-card-meta">' + esc(source?.playback?.target || 'Ziel noch offen') + '</p>' + (source?.type === 'laptop' && !readonly() ? button('Playback-Setup',{'data-rw-playback':source.id},{mutation:true}) : '') + '</article>';
+      }
+      const locations = [...new Set(rows.map(row => box(row.stagebox)?.name).filter(Boolean))].join(' / ');
+      const patchRows = stereoRows(rows,direction);
+      return '<article class="rw-card rw-patch-card" data-rw-card="' + esc(key) + '">' + cardHead(direction === 'inputs' ? 'Anschluss' : 'Ausgänge', key, art(icon(assignedBox?.type || 'stagebox-16'), 'rw-stagebox-art')) + button(esc(locations || 'Stagebox wählen') + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<div class="rw-port-pills">' + rows.map((row,index) => button(esc((direction === 'inputs' ? 'IN ' : 'OUT ') + (row.stageboxPort ? String(row.stageboxPort).padStart(2,'0') : '—') + (linked ? index === 0 ? ' · L' : ' · R' : row.stereoGroup ? row.mode === 'Stereo R' ? ' · R' : ' · L' : '')), {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:row.stageboxPort ? 'rw-connected' : '',mutation:true})).join('') + '</div>' + (openCard === key && patchRows.length > 1 ? '<p class="rw-card-meta">Stereo · L / R · erste Buchse wählen</p>' : '') + patchEditor(patchRows, direction, key) + '</article>';
+    }
+
+    function diPortButtons(row, item, compact = false) {
+      const rows = state.routing.inputs || [];
+      return '<div class="rw-di-ports" role="group" aria-label="Anschlüsse der DI-Box">' + Array.from({length:diChannels(item)}, (_, index) => {
+        const channel = index + 1, occupant = rows.find(other => other.diDeviceId === item.id && Number(other.diChannel) === channel), chosen = occupant?.id === row.id;
+        return button('<b>' + channel + '</b><span>' + esc(occupant ? baseName(occupant.instrument) : 'Frei') + '</span>', {'data-rw-di-device':item.id,'data-rw-di-channel':channel,'data-rw-row':row.id,'aria-label':deviceName(item) + ' Kanal ' + channel + ' · ' + (occupant?.instrument || 'Frei')}, {className:(compact ? 'rw-di-port-compact ' : '') + (chosen ? 'rw-connected' : ''),pressed:chosen,disabled:!!occupant && !chosen,mutation:true});
+      }).join('') + '</div>';
+    }
+
+    function diEditor(row) {
+      const chosen = device(row.diDeviceId), devices = state.routing.devices || [], models = state.diModels || [];
+      return '<div class="rw-editor-section"><h4>Vorhandene DI-Box</h4>' + (devices.length ? devices.map(item => '<div class="rw-existing-di"><strong>' + esc(deviceName(item)) + '</strong><small>' + (item.active ? 'Aktiv' : 'Passiv') + ' · ' + diChannels(item) + (diChannels(item) === 1 ? ' Kanal' : ' Kanäle') + '</small>' + diPortButtons(row,item) + '</div>').join('') : '<p class="rw-empty-small">Noch keine DI-Box zugeordnet.</p>') + '<h4>Neue DI-Box</h4><div class="rw-model-grid">' + models.map(item => button('<span class="rw-model-art">' + icon('di') + '</span><strong>' + esc(item.name) + '</strong><small>' + (item.active ? 'Aktiv' : 'Passiv') + ' · ' + diChannels(item) + (diChannels(item) === 1 ? ' Kanal' : ' Kanäle') + '</small>', {'data-rw-create-di':item.id,'data-rw-row':row.id}, {className:'rw-model-tile',mutation:true})).join('') + '</div>' + (chosen ? '<div class="rw-device-fields">' + field('Gerätename', chosen.name, {'data-rw-device-field':'name','data-rw-device':chosen.id}, {maxlength:80}) + (chosen.modelId === 'custom' ? '<div class="rw-choice-row" role="group" aria-label="DI-Kanäle">' + [1,2].map(count => button(count === 1 ? '1 Kanal' : '2 Kanäle', {'data-rw-device-value':'channels','data-rw-device':chosen.id,'data-rw-value':count}, {pressed:diChannels(chosen) === count,mutation:true})).join('') + '</div><div class="rw-choice-row" role="group" aria-label="DI-Bauart">' + [false,true].map(active => button(active ? 'Aktiv' : 'Passiv', {'data-rw-device-value':'active','data-rw-device':chosen.id,'data-rw-value':String(active)}, {pressed:!!chosen.active === active,mutation:true})).join('') + '</div>' + (chosen.active ? '<div class="rw-choice-row" role="group" aria-label="DI-Stromversorgung">' + [['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label]) => button(label, {'data-rw-device-value':'power','data-rw-device':chosen.id,'data-rw-value':value}, {pressed:chosen.power === value,mutation:true})).join('') + '</div>' : '') : '') + '</div>' : '') + '</div>';
+    }
+
+    function microphoneChoices(row) {
+      let microphones = state.microphones || [];
+      if (!Array.isArray(microphones)) microphones = Object.values(microphones);
+      const queryText = normalized(micQuery);
+      return microphones.filter(item => normalized([item.name,item.type,item.brand].join(' ')).includes(queryText)).map(item => button('<span class="rw-mic-photo">' + micIcon(item.name) + '</span><strong>' + esc(item.name) + '</strong><small>' + esc(item.type || '') + (item.phantom ? ' · 48 V' : '') + '</small>', {'data-rw-mic':item.name,'data-rw-row':row.id,'data-rw-phantom':String(!!item.phantom)}, {className:'rw-model-tile',pressed:row.microphone === item.name,mutation:true})).join('') || '<p class="rw-empty-small">Kein passendes Mikrofon.</p>';
+    }
+
+    function pickupCard(row) {
+      const key = 'pickup-' + row.id, kind = pickupKind(row), di = device(row.diDeviceId), title = kind === 'DI' ? deviceName(di) : kind === 'Mic' ? row.microphone || 'Mikrofon wählen' : pickupName(kind);
+      const picture = kind === 'Mic' ? micIcon(row.microphone) : kind === 'DI' ? icon('di') : icon(object(sourceId(row)) || 'laptop');
+      let editor = '';
+      if (openCard === key && !readonly()) {
+        editor = '<div class="rw-card-editor"><div class="rw-choice-row" role="group" aria-label="Abnahmeart">' + ['Mic','DI','Direct','Digital'].map(value => button(pickupName(value), {'data-rw-pickup':value,'data-rw-row':row.id}, {pressed:kind === value,mutation:true})).join('') + (kind === 'DI' ? diEditor(row) : kind === 'Mic' ? '<label class="rw-search"><span aria-hidden="true">⌕</span><input type="search" data-rw-mic-search data-rw-focus="mic-search-' + esc(row.id) + '" data-rw-row="' + esc(row.id) + '" value="' + esc(micQuery) + '" placeholder="Mikrofon suchen" aria-label="Mikrofon suchen" autocomplete="off"></label><div class="rw-model-grid rw-mic-options" data-rw-mic-options>' + microphoneChoices(row) + '</div>' + field('Eigenes Mikrofon', row.microphone, {'data-rw-channel-field':'microphone','data-rw-row':row.id,'data-rw-direction':'inputs'}) : '<div class="rw-choice-row" role="group" aria-label="Anschlussart">' + (kind === 'Digital' ? ['Dante','MADI','USB','Digital'] : ['XLR','Klinke']).map(connector => button(connector, {'data-rw-connector':connector,'data-rw-row':row.id}, {pressed:row.connector === connector,mutation:true})).join('') + '</div>') + button('Abnahme entfernen', {'data-rw-remove-pickup':row.id}, {className:'rw-quiet-danger',mutation:true}) + '</div>';
+      }
+      return '<article class="rw-card rw-pickup-card" data-rw-row-card="' + esc(row.id) + '">' + cardHead('Abnahme', key, art(picture, kind === 'Mic' ? 'rw-microphone-art' : '')) + button(esc(title) + pencil, {'data-rw-open':key,'aria-expanded':String(openCard === key)}, {className:'rw-card-value',mutation:true}) + '<p class="rw-card-meta">' + esc(kind === 'DI' && di ? (di.active ? 'Aktiv' : 'Passiv') + ' · ' + diChannels(di) + (diChannels(di) === 1 ? ' Kanal' : ' Kanäle') : pickupName(kind)) + '</p>' + (kind === 'DI' && di ? diPortButtons(row,di,true) : '') + (kind === 'Mic' || kind === 'DI' && (!di || di.power === '48V') ? button('<span class="rw-phantom-dot" aria-hidden="true"></span> 48 V' + (kind === 'DI' && di?.power === '48V' ? ' benötigt' : ''), {'data-rw-toggle-phantom':row.id,'aria-label':'48 V für ' + row.instrument}, {className:'rw-phantom',pressed:!!row.phantom,disabled:kind === 'DI' && !!di,mutation:true}) : '') + editor + '</article>';
+    }
+
+    function channelCard(row, direction = 'inputs') {
+      return '<article class="rw-card rw-channel-card">' + cardHead('Kanal', null, '<div class="rw-channel-emblem" aria-hidden="true"><small>' + (direction === 'inputs' ? 'CH' : 'BUS') + '</small><strong>' + esc(row.number ? String(row.number).padStart(2,'0') : '—') + '</strong></div>') + field('Kanalnummer',row.number,{'data-rw-channel-field':'number','data-rw-row':row.id,'data-rw-direction':direction},{type:'number',min:1,max:999,placeholder:'—',className:'rw-number-field'}) + field('Kanalname',row.instrument,{'data-rw-channel-field':'instrument','data-rw-row':row.id,'data-rw-direction':direction}) + '<p class="rw-card-meta">' + esc(row.stereoGroup ? row.mode === 'Stereo R' ? 'Stereo · R' : 'Stereo · L' : 'Mono') + '</p></article>';
+    }
+
+    const arrow = (stereo = false) => '<div class="rw-arrow' + (stereo ? ' rw-arrow-stereo' : '') + '" aria-hidden="true">' + (stereo ? '<span><small>L</small>→</span><span><small>R</small>→</span>' : '<span>→</span>') + '</div>';
+
+    function sourceFlow(group, onlyRow = null) {
+      const rows = onlyRow ? [onlyRow] : group.rows, count = rows.length, linked = count > 1 && monoLabel(rows) === 'Stereo';
+      const sourceCard = '<article class="rw-card rw-source-card" style="grid-row:2 / ' + (count + 2) + '">' + cardHead('Quelle', null, art(icon(group.object))) + field('Instrument',group.name,{'data-rw-source-field':'label','data-rw-source':group.id},{maxlength:42}) + '<p class="rw-card-meta">' + count + (count === 1 ? ' Abnahme' : ' Abnahmen') + '</p></article>';
+      let markup = '<div class="rw-flow-scroll"><div class="rw-source-flow" data-row-count="' + count + '"><span class="rw-column-title rw-column-source">Quelle</span><span class="rw-column-title rw-column-pickup">Abnahme</span><span class="rw-column-title rw-column-patch">Anschluss</span><span class="rw-column-title rw-column-channel">Kanal</span>' + sourceCard;
+      rows.forEach((row,index) => {
+        const gridRow = index + 2;
+        markup += '<div class="rw-branch" data-branch="' + (count === 1 ? 'single' : index === 0 ? 'first' : index === count - 1 ? 'last' : 'middle') + '" style="grid-row:' + gridRow + '" aria-hidden="true"><span>→</span></div><div class="rw-flow-pickup" style="grid-row:' + gridRow + '">' + pickupCard(row) + '</div><div class="rw-flow-arrow-one" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-patch" style="grid-row:' + gridRow + '">' + patchCard([row],'inputs') + '</div><div class="rw-flow-arrow-two" style="grid-row:' + gridRow + '">' + arrow() + '</div><div class="rw-flow-channel" style="grid-row:' + gridRow + '">' + channelCard(row) + '</div>';
+      });
+      if (!onlyRow && !readonly()) markup += '<div class="rw-add-pickup" style="grid-row:' + (count + 2) + '">' + button('＋ Weitere Abnahme',{'data-rw-add-pickup':group.id},{className:'rw-add',mutation:true}) + '</div>';
+      markup += '</div></div>';
+      if (!onlyRow && count >= 2 && !readonly()) markup += '<div class="rw-format-controls" role="group" aria-label="Kanalformat">' + button('Unabhängig · Dual-Mono',{'data-rw-unlink':idsOf(rows)},{pressed:!linked,mutation:true}) + (count === 2 ? button('Stereo · L / R',{'data-rw-link':idsOf(rows)},{pressed:linked,mutation:true}) : '') + '</div>';
+      return markup;
+    }
+
+    function notes(rows, direction) {
+      if (!rows.length) return '';
+      const ids = idsOf(rows), first = rows[0];
+      return '<label class="rw-notes"><span>Notiz für die Technik</span><textarea rows="2" maxlength="240" data-rw-notes="' + esc(ids) + '" data-rw-direction="' + direction + '" data-rw-focus="notes-' + esc(ids) + '" placeholder="' + (direction === 'outputs' ? 'Monitormix, besondere Wünsche …' : 'Mikrofonposition, Hinweise …') + '"' + (readonly() ? ' readonly' : '') + '>' + esc(first.notes) + '</textarea></label>';
+    }
+
+    function sourcesView() {
+      const group = sources.find(item => item.id === activeSource);
+      if (!group) return '<div class="rw-empty"><strong>Noch keine Quellen</strong><p>Instrumente auf der Bühne erscheinen hier mit ihren Abnahmen.</p></div>';
+      highlighted = group.object ? [group.object.id] : [];
+      return heading(group.name, '<span class="rw-format-badge">' + (group.rows.length ? monoLabel(group.rows) : 'Offen') + '</span>') + (group.rows.length ? sourceFlow(group) + notes(group.rows,'inputs') : '<div class="rw-empty"><strong>Abnahme hinzufügen</strong><div class="rw-choice-row">' + ['Mic','DI','Direct'].map(kind => button(pickupName(kind),{'data-rw-first-pickup':kind,'data-rw-source':group.id},{mutation:true})).join('') + '</div></div>');
+    }
+
+    function monitorView(group = monitors.find(item => item.id === activeMonitor), embedded = false) {
+      if (!group) return '<div class="rw-empty"><strong>Noch keine Monitorwege</strong><p>Lege links einen IEM-, Wedge- oder Line-Weg an.</p></div>';
+      const rows = group.rows, first = rows[0], stereo = rows.length > 1 && !!first.stereoGroup, ids = idsOf(rows), kind = group.kind, transport = first.iemTransport || 'wireless';
+      if (!embedded) highlighted = [...new Set([group.object?.id,...rows.map(row => row.stagebox)].filter(Boolean))];
+      const mode = '<span class="rw-format-badge">' + kindName(kind) + '</span><div class="rw-choice-row rw-heading-choices" role="group" aria-label="Monitorformat">' + ['mono','stereo'].map(format => button(format === 'mono' ? 'Mono' : 'Stereo',{'data-rw-monitor-format':format,'data-rw-rows':ids},{pressed:stereo === (format === 'stereo'),mutation:true})).join('') + '</div>';
+      const mix = '<article class="rw-card rw-mix-card">' + cardHead('Mix',null,art(icon('mixer-wing-compact'))) + field('Mixname',group.name,{'data-rw-monitor-field':'name','data-rw-rows':ids}) + '<div class="rw-bus-fields">' + rows.map((row,index) => field(stereo ? index === 0 ? 'Bus · L' : 'Bus · R' : 'Bus',row.number,{'data-rw-channel-field':'number','data-rw-row':row.id,'data-rw-direction':'outputs'},{type:'number',min:1,max:999,placeholder:'—'})).join('') + '</div><p class="rw-card-meta">' + (stereo ? 'L / R' : 'Mono') + '</p></article>';
+      const equipment = '<article class="rw-card rw-monitor-device">' + cardHead('Gerät',null,art(icon(kind === 'monitor' ? 'wedge' : kind === 'iem' ? 'rack' : group.object || 'rack'))) + '<div class="rw-choice-row" role="group" aria-label="Monitorgerät">' + ['iem','monitor','line'].map(value => button(kindName(value),{'data-rw-monitor-kind':value,'data-rw-rows':ids},{pressed:kind === value,mutation:true})).join('') + '</div>' + field(kind === 'iem' ? transport === 'wireless' ? 'IEM-Sender' : 'Kopfhörerverstärker' : 'Modell',first.monitorDeviceName || '',{'data-rw-monitor-field':'monitorDeviceName','data-rw-rows':ids},{placeholder:'Gerätename'}) + (kind === 'iem' ? '<div class="rw-choice-row" role="group" aria-label="IEM-Übertragung">' + [['wireless','Funk'],['cable','Kabel']].map(([value,label]) => button(label,{'data-rw-monitor-value':'iemTransport','data-rw-value':value,'data-rw-rows':ids},{pressed:transport === value,mutation:true})).join('') + '</div>' + (transport === 'wireless' ? field('Frequenz',first.frequencyBand,{'data-rw-monitor-field':'frequencyBand','data-rw-rows':ids},{placeholder:'MHz'}) : '') : kind === 'monitor' ? '<div class="rw-choice-row" role="group" aria-label="Wedge-Bauart">' + [true,false].map(active => button(active ? 'Aktiv' : 'Passiv',{'data-rw-monitor-value':'monitorActive','data-rw-value':String(active),'data-rw-rows':ids},{pressed:(first.monitorActive !== false) === active,mutation:true})).join('') + '</div>' + (first.monitorActive === false ? field('Endstufe',first.monitorAmplifierName,{'data-rw-monitor-field':'monitorAmplifierName','data-rw-rows':ids},{placeholder:'Endstufenmodell'}) : '') : '') + '<p class="rw-card-meta">' + (stereo ? 'Stereo' : 'Mono') + '</p></article>';
+      const recipient = '<article class="rw-card rw-monitor-recipient">' + cardHead(kind === 'iem' ? 'Empfänger' : 'Musiker',null,art(icon(kind === 'iem' ? 'iem-earphones' : group.object || 'wedge'))) + field('Musiker',first.monitorReceiverName || first.iemName || group.name,{'data-rw-monitor-field':'monitorReceiverName','data-rw-rows':ids}) + '<p class="rw-card-meta">' + (kind === 'iem' ? transport === 'wireless' ? 'Bodypack · ' : 'Kabel · ' : '') + (stereo ? 'Stereo' : 'Mono') + '</p></article>';
+      const chosenBox = box(first.stagebox), compactPorts = chosenBox ? '<section class="rw-monitor-ports"><h3>' + esc(chosenBox.name) + ' · Ausgänge</h3>' + ports('outputs', chosenBox,rows) + '</section>' : '';
+      return (embedded ? '' : heading(group.name,mode)) + '<div class="rw-flow-scroll"><div class="rw-monitor-flow">' + mix + arrow(stereo) + patchCard(rows,'outputs',embedded ? '-embedded' : '') + arrow(stereo) + equipment + arrow() + recipient + '</div></div>' + compactPorts + (embedded ? '' : notes(rows,'outputs'));
+    }
+
+    function stageboxView() {
+      const selectedBox = box(activeBox);
+      if (!selectedBox) return '<div class="rw-empty"><strong>Noch keine Stagebox</strong><p>Füge links eine Stagebox hinzu.</p></div>';
+      if (!activePort) {
+        const preferred = sources.find(item => item.id === activeSource)?.rows.find(row => row.stagebox === selectedBox.id && row.stageboxPort);
+        const first = preferred || (state.routing.inputs || []).find(row => row.stagebox === selectedBox.id && row.stageboxPort) || (state.routing.outputs || []).find(row => row.stagebox === selectedBox.id && row.stageboxPort);
+        if (first) activePort = {boxId:selectedBox.id,direction:(state.routing.inputs || []).includes(first) ? 'inputs' : 'outputs',port:Number(first.stageboxPort)};
+      }
+      highlighted = [selectedBox.id];
+      const key = 'box-' + selectedBox.id, editing = openCard === key && !readonly();
+      let content = heading(selectedBox.name, (!readonly() ? button(pencil,{'data-rw-open':key,'aria-label':'Stagebox bearbeiten','aria-expanded':String(editing)},{className:'rw-edit'}) : '') + '<div class="rw-choice-row rw-heading-choices" role="group" aria-label="Stagebox-Darstellung">' + [['grid','Buchsen'],['list','Liste']].map(([value,label]) => button(label,{'data-rw-box-layout':value},{pressed:stageboxLayout === value})).join('') + '</div>') + '<p class="rw-capacity">' + selectedBox.inputs + ' Eingänge · ' + selectedBox.outputs + ' Ausgänge</p>';
+      if (editing) content += '<div class="rw-box-editor">' + field('Stagebox-Name',selectedBox.name,{'data-rw-box-field':'name','data-rw-box':selectedBox.id},{maxlength:42}) + '<div class="rw-choice-row" role="group" aria-label="Eingangsbuchsen">' + [false,true].map(combo => button(combo ? 'XLR / Klinke' : 'XLR',{'data-rw-combo':String(combo),'data-rw-box':selectedBox.id},{pressed:!!selectedBox.comboJacks === combo,mutation:true})).join('') + '</div></div>';
+      for (const direction of ['inputs','outputs']) if (selectedBox[direction]) content += '<section class="rw-stagebox-section" data-rw-port-layout="' + stageboxLayout + '" data-combo-jacks="' + String(selectedBox.comboJacks === true) + '"><header><h3>' + (direction === 'inputs' ? 'Eingänge' : 'Ausgänge') + '</h3><span>' + (state.routing[direction] || []).filter(row => row.stagebox === selectedBox.id && row.stageboxPort).length + ' / ' + selectedBox[direction] + ' belegt</span></header>' + ports(direction,selectedBox,[],'overview') + '</section>';
+      if (activePort?.boxId === selectedBox.id) {
+        const direction = activePort.direction, occupied = (state.routing[direction] || []).find(row => row.stagebox === selectedBox.id && Number(row.stageboxPort) === activePort.port);
+        content += '<section class="rw-selected-route"><h3>' + (direction === 'inputs' ? 'Eingang ' : 'Ausgang ') + String(activePort.port).padStart(2,'0') + '</h3>';
+        if (occupied) {
+          const source = sources.find(item => item.rows.some(row => row.id === occupied.id));
+          const monitor = monitors.find(item => item.rows.some(row => row.id === occupied.id));
+          content += direction === 'inputs' && source ? sourceFlow(source,occupied) : monitor ? monitorView(monitor,true) : channelCard(occupied,direction);
+          if (!readonly()) content += button('Verbindung lösen',{'data-rw-unpatch':occupied.id,'data-rw-direction':direction},{className:'rw-quiet-danger',mutation:true});
+        } else {
+          content += '<div class="rw-open-port"><strong>Freie Buchse</strong>' + (readonly() ? '' : '<div class="rw-route-choices">' + (state.routing[direction] || []).filter(row => (!row.stagebox || !row.stageboxPort) && row.connector !== 'Dante' && (!row.stereoGroup || row.mode !== 'Stereo R')).map(row => {
+            const members = stereoRows([row],direction), pair = members.length > 1, invalid = members.some((member,index) => activePort.port + index > selectedBox[direction] || (state.routing[direction] || []).some(occupant => !members.some(item => item.id === occupant.id) && occupant.stagebox === selectedBox.id && Number(occupant.stageboxPort) === activePort.port + index));
+            return button('<strong>' + esc(pair ? baseName(row.instrument) : row.instrument) + '</strong><small>' + (pair ? 'Stereo · L / R · ' : '') + esc(direction === 'inputs' ? row.microphone || pickupName(pickupKind(row)) : kindName(monitorKind(row,object(sourceId(row))))) + '</small>',{'data-rw-patch':activePort.port,'data-rw-box':selectedBox.id,'data-rw-direction':direction,'data-rw-rows':idsOf(members)},{className:'rw-route-choice',disabled:invalid,mutation:true});
+          }).join('') + '</div>') + '</div>';
+        }
+        content += '</section>';
+      }
+      return content;
+    }
+
+    function footer() {
+      const saved = state.saveState || api.getSaveState?.();
+      const label = readonly() ? 'Nur Ansicht' : typeof saved === 'string' ? saved : saved?.text || 'Lokaler Entwurf';
+      const list = state.tab === 'outputs' ? monitors : sources, active = state.tab === 'outputs' ? activeMonitor : activeSource;
+      const index = list.findIndex(item => item.id === active), next = list.length > 1 ? list[(index + 1) % list.length] : null;
+      return '<footer class="rw-footer"><span class="rw-save-state"><span aria-hidden="true">' + (readonly() ? '◉' : '✓') + '</span>' + esc(label) + '</span>' + (state.tab === 'stageboxes' ? button('Patchliste exportieren',{'data-rw-export':'all'},{className:'rw-export'}) : next ? button((state.tab === 'outputs' ? 'Nächster Monitorweg' : 'Nächste Quelle') + ' <span aria-hidden="true">→</span>',{'data-rw-select':next.id},{className:'rw-primary'}) : '') + '</footer>';
+    }
+
+    function preserveFocus() {
+      const active = host.ownerDocument.activeElement;
+      if (!active || !host.contains(active)) return null;
+      return {key:active.dataset?.rwFocus, attributes:active.matches('button') ? [...active.attributes].filter(attr => attr.name.startsWith('data-rw-')).map(attr => [attr.name,attr.value]) : null, row:active.dataset?.rwRow, start:active.selectionStart, end:active.selectionEnd};
+    }
+    function restoreFocus(saved) {
+      if (!saved) return;
+      let input = saved.key ? [...host.querySelectorAll('[data-rw-focus]')].find(element => element.dataset.rwFocus === saved.key) : saved.attributes?.length ? [...host.querySelectorAll('button')].find(element => saved.attributes.every(([name,value]) => element.getAttribute(name) === value)) : null;
+      if (!input && saved.row) input = [...host.querySelectorAll('[data-rw-open]')].find(element => element.dataset.rwOpen === 'pickup-' + saved.row);
+      if (!input) return;
+      input.focus({preventScroll:true});
+      if (saved.start !== null && typeof input.setSelectionRange === 'function') try { input.setSelectionRange(saved.start,saved.end); } catch (_) {}
+    }
+    function renderStage() {
+      if (destroyed) return;
+      const element = host.querySelector('[data-rw-stage]');
+      if (element && element.getBoundingClientRect().width > 0) api.renderStage?.(element,highlighted.slice());
+      if (typeof ResizeObserver !== 'undefined' && resizeTarget !== element) {
+        stageObserver?.disconnect(); resizeTarget = element;
+        if (element) { stageObserver = new ResizeObserver(() => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; if (!destroyed && element.isConnected) api.renderStage?.(element,highlighted.slice()); }); }); stageObserver.observe(element); }
+      }
+    }
+    function render() {
+      if (destroyed) return;
+      const focus = preserveFocus(), mainScroll = host.querySelector('.rw-main')?.scrollTop || 0, listScroll = host.querySelector('.rw-source-list')?.scrollTop || 0;
+      state = api.getState() || {}; state.routing = state.routing || state.stage?.routing || {inputs:[],outputs:[]};
+      if (!['inputs','outputs','stageboxes'].includes(state.tab)) state.tab = 'inputs';
+      if (state.tab !== lastTab) { query = ''; openCard = ''; lastTab = state.tab; error = ''; }
+      groups(); highlighted = [];
+      const content = state.tab === 'stageboxes' ? stageboxView() : state.tab === 'outputs' ? monitorView() : sourcesView();
+      host.dataset.readonly = String(readonly()); host.dataset.tab = state.tab;
+      host.innerHTML = header() + '<div class="rw-layout">' + sidebar() + '<div class="rw-detail" id="sp-routing-detail-v2" role="tabpanel"><main class="rw-main">' + (error ? '<p class="rw-error" role="alert">' + esc(error) + '</p>' : '') + content + '</main>' + footer() + '</div></div>';
+      host.querySelector('.rw-main').scrollTop = mainScroll;
+      host.querySelector('.rw-source-list').scrollTop = listScroll;
+      restoreFocus(focus); renderStage();
+    }
+
+    function onClick(event) {
+      const target = event.target.closest('button'); if (!target || !host.contains(target) || target.disabled) return;
+      const data = {...target.dataset};
+      if (pendingField) {const input = pendingField;pendingField = null;const saved = onChange({target:input});if(saved === false || error)return;}
+      if (data.rwTab) {doAction({type:'selectTab',tab:data.rwTab});return;}
+      if (data.rwTools) {toolsOpen = !toolsOpen;render();return;}
+      if (data.rwBoxLayout) {stageboxLayout = data.rwBoxLayout;render();return;}
+      if (data.rwTool) {if(readonly() && !['pdf','xlsx'].includes(data.rwTool))return;doAction({type:data.rwTool,direction:state.tab === 'outputs' ? 'outputs' : 'inputs'});return;}
+      if (data.rwSelect) { if (state.tab === 'stageboxes') {activeBox = data.rwSelect;activePort = null;} else if (state.tab === 'outputs') activeMonitor = data.rwSelect; else activeSource = data.rwSelect; openCard = ''; error = ''; render(); return; }
+      if (data.rwPort) {activeBox = data.rwBox;activePort = {boxId:activeBox,direction:data.rwDirection,port:Number(data.rwPort)};openCard = '';render();return;}
+      if (data.rwExport) {doAction({type:'exportPatch',direction:data.rwExport});return;}
+      if (readonly()) return;
+      if (data.rwOpen) {openCard = openCard === data.rwOpen ? '' : data.rwOpen;pickerBox = '';micQuery = '';error = '';render();if(openCard.startsWith('pickup-'))host.querySelector('[data-rw-mic-search]')?.focus({preventScroll:true});return;}
+      if (data.rwPickerBox) {pickerBox = data.rwPickerBox;render();return;}
+      if (data.rwPlayback) return doAction({type:'openPlayback',sourceId:data.rwPlayback});
+      if (data.rwAddPickup) return doAction({type:'addPickup',sourceId:data.rwAddPickup,kind:'Mic'});
+      if (data.rwFirstPickup) return doAction({type:'addPickup',sourceId:data.rwSource,kind:data.rwFirstPickup});
+      if (data.rwRemovePickup) return doAction({type:'removePickup',rowId:data.rwRemovePickup},{close:true});
+      if (data.rwPickup) return doAction({type:'setPickup',rowId:data.rwRow,kind:data.rwPickup});
+      if (data.rwMic !== undefined) return doAction({type:'setPickup',rowId:data.rwRow,kind:'Mic',microphone:data.rwMic,phantom:data.rwPhantom === 'true'},{close:true});
+      if (data.rwCreateDi) return doAction({type:'createDi',rowId:data.rwRow,modelId:data.rwCreateDi});
+      if (data.rwDiDevice) return doAction({type:'assignDi',rowId:data.rwRow,deviceId:data.rwDiDevice,channel:Number(data.rwDiChannel)});
+      if (data.rwDeviceValue) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceValue]:data.rwDeviceValue === 'channels' ? Number(data.rwValue) : data.rwDeviceValue === 'active' ? data.rwValue === 'true' : data.rwValue}});
+      if (data.rwPatch) return doAction({type:'patch',direction:data.rwDirection,rowIds:splitIds(data.rwRows),boxId:data.rwBox,port:Number(data.rwPatch)},{close:true});
+      if (data.rwUnpatch) return doAction({type:'unpatch',direction:data.rwDirection,rowIds:splitIds(data.rwUnpatch)},{close:true});
+      if (data.rwTogglePhantom) {const row = route(data.rwTogglePhantom);if(row)return doAction({type:'editChannel',direction:'inputs',rowId:row.id,fields:{phantom:!row.phantom}});}
+      if (data.rwConnector) return doAction({type:'editChannel',direction:'inputs',rowId:data.rwRow,fields:{connector:data.rwConnector}});
+      if (data.rwLink) return doAction({type:'linkStereo',rowIds:splitIds(data.rwLink)});
+      if (data.rwUnlink) return doAction({type:'unlinkStereo',rowIds:splitIds(data.rwUnlink)});
+      if (data.rwMonitorFormat) return doAction({type:'setMonitorFormat',rowIds:splitIds(data.rwRows),format:data.rwMonitorFormat});
+      if (data.rwMonitorKind) return doAction({type:'editMonitor',rowIds:splitIds(data.rwRows),fields:{outputKind:data.rwMonitorKind}});
+      if (data.rwMonitorValue) return doAction({type:'editMonitor',rowIds:splitIds(data.rwRows),fields:{[data.rwMonitorValue]:data.rwMonitorValue === 'monitorActive' ? data.rwValue === 'true' : data.rwValue}});
+      if (data.rwAddMonitor) return doAction({type:'addMonitor',kind:data.rwAddMonitor},{close:true});
+      if (data.rwAddBox) return doAction({type:'addStagebox',objectType:data.rwAddBox},{close:true});
+      if (data.rwCombo !== undefined) return doAction({type:'editStagebox',boxId:data.rwBox,fields:{comboJacks:data.rwCombo === 'true'}});
+    }
+
+    function onInput(event) {
+      if (event.target.matches('[data-rw-search]')) {query = event.target.value;render();}
+      if (event.target.matches('[data-rw-mic-search]')) {micQuery = event.target.value;const row = route(event.target.dataset.rwRow);if(row){const panel = host.querySelector('[data-rw-mic-options]');if(panel)panel.innerHTML = microphoneChoices(row);}}
+    }
+    function onPointerDown(event) {
+      const active = host.ownerDocument.activeElement;
+      if (!readonly() && event.target.closest('button') && active && host.contains(active) && active.matches('input:not([type="search"]),textarea') && active.value !== active.defaultValue) {
+        // Commit the edited field and the clicked action together; replacing the DOM
+        // on blur otherwise consumes the first click on a neighbouring card.
+        pendingField = active;event.preventDefault();
+      }
+    }
+    function onChange(event) {
+      const input = event.target, data = input.dataset; if (readonly()) return;
+      if (input.validity && !input.validity.valid) { input.reportValidity(); return false; }
+      if (data.rwSourceField) return doAction({type:'editSource',sourceId:data.rwSource,fields:{[data.rwSourceField]:input.value}});
+      if (data.rwChannelField) return doAction({type:'editChannel',direction:data.rwDirection,rowId:data.rwRow,fields:{[data.rwChannelField]:data.rwChannelField === 'number' ? input.value === '' ? null : Number(input.value) : input.value}});
+      if (data.rwDeviceField) return doAction({type:'updateDi',deviceId:data.rwDevice,fields:{[data.rwDeviceField]:input.value}});
+      if (data.rwMonitorField) return doAction({type:'editMonitor',rowIds:splitIds(data.rwRows),fields:{[data.rwMonitorField]:input.value}});
+      if (data.rwBoxField) return doAction({type:'editStagebox',boxId:data.rwBox,fields:{[data.rwBoxField]:input.value}});
+      if (data.rwNotes) return doAction({type:data.rwDirection === 'outputs' ? 'editMonitor' : 'editChannel',direction:data.rwDirection,rowId:splitIds(data.rwNotes)[0],rowIds:splitIds(data.rwNotes),fields:{notes:input.value}});
+    }
+    function onKeydown(event) {
+      if (event.target.matches('[data-rw-tab]') && ['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) {
+        const tabs = ['inputs','outputs','stageboxes'], current = tabs.indexOf(state.tab), next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (current + (event.key === 'ArrowRight' ? 1 : 2)) % 3;
+        event.preventDefault();doAction({type:'selectTab',tab:tabs[next]});host.querySelector('[data-rw-tab="' + tabs[next] + '"]')?.focus();return;
+      }
+      if (event.key === 'Escape' && openCard) {openCard = '';error = '';render();event.stopPropagation();}
+      if (event.key === 'Enter' && event.target.matches('input:not([type="search"])')) {event.preventDefault();event.target.blur();}
+    }
+    host.addEventListener('click',onClick); host.addEventListener('pointerdown',onPointerDown); host.addEventListener('input',onInput); host.addEventListener('change',onChange); host.addEventListener('keydown',onKeydown);
+    return {
+      render,
+      selectSource(id) {if(state?.tab === 'outputs')activeMonitor = monitors.find(group => group.id === id || group.object?.id === id || group.rows.some(row => row.id === id || sourceId(row) === id))?.id || id;else activeSource = sources.find(group => group.id === id || group.rows.some(row => row.id === id))?.id || id;openCard = '';render();},
+      selectStagebox(id,direction,port) {activeBox = id;activePort = direction && port ? {boxId:id,direction,port:Number(port)} : null;openCard = '';render();},
+      destroy() {destroyed = true;stageObserver?.disconnect();if(frame)cancelAnimationFrame(frame);host.removeEventListener('click',onClick);host.removeEventListener('pointerdown',onPointerDown);host.removeEventListener('input',onInput);host.removeEventListener('change',onChange);host.removeEventListener('keydown',onKeydown);host.replaceChildren();}
+    };
+  }
+  global.StageplotRoutingWorkspace = {create};
+  if (typeof module !== 'undefined' && module.exports) module.exports = {create};
+})(typeof window !== 'undefined' ? window : globalThis);
+/* build-inline:end stageplot-routing-workspace-v2.js */
+</script>
 <script>
 /* build-inline:start stageplot-iem-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 /* IEM monitor sets. Routing rows own AUX numbers and physical output assignments. */
@@ -6741,9 +7612,9 @@ html,body { height:100%; overflow:hidden; }
     }
     let at=0;const generated=[];
     for(let i=0;i<nextMixes.length;i++)for(let side=0;side<(nextMixes[i].mode==='stereo'?2:1);side++){
-      const spec=expected[at++],old=current.find(r=>r.sourceKey===spec.sourceKey);let number=Number(mixes[i].aux?.[side])||null;
+      const spec=expected[at++],old=current.find(r=>r.sourceKey===spec.sourceKey),partner=!old&&nextMixes[i].ports.map(port=>current.find(row=>row.sourceKey===o.id+':'+port)).find(Boolean),hardware=partner?Object.fromEntries(['monitorDeviceName','monitorReceiverName','monitorAmplifierName','monitorDeviceKind','monitorActive'].filter(key=>Object.hasOwn(partner,key)).map(key=>[key,partner[key]])):{};let number=Number(mixes[i].aux?.[side])||null;
       if(!number){number=1;while(used.has(number)||reserved.has(number))number++;if(number>999)throw Error('Keine freie AUX-Nummer verfügbar.');reserved.add(number);}
-      generated.push({...old,...spec,number,id:old?.id||'route-'+token(),generatedInstrument:spec.instrument,edited:true,manual:false,stagebox:old?.stagebox||'',stageboxPort:old?.stageboxPort||null,notes:old?.notes||'',linkedSources:old?.linkedSources||[]});
+      generated.push({...hardware,...old,...spec,number,id:old?.id||'route-'+token(),generatedInstrument:spec.instrument,edited:true,manual:false,stagebox:old?.stagebox||'',stageboxPort:old?.stageboxPort||null,notes:old?.notes||'',linkedSources:old?.linkedSources||[]});
     }
     // Retain ordering and identities of existing rows; insert new mixes after the set.
     const byKey=new Map(generated.map(r=>[r.sourceKey,r])),rows=[];let insertAt=-1;
@@ -9048,7 +9919,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
     if(idMap&&rawKey.includes(':')){const split=rawKey.indexOf(':'),mapped=idMap.get(rawKey.slice(0,split));if(mapped)sourceKey=mapped+rawKey.slice(split);}
     if(idMap?.has(stagebox))stagebox=idMap.get(stagebox);
     const mapKey=key=>{const text=projectText(key,140),split=text.indexOf(':');return split>0&&idMap?.has(text.slice(0,split))?idMap.get(text.slice(0,split))+text.slice(split):text;};
-    return {adoptedSource:source.adoptedSource===true,edited:source.edited===true,pickup:['Mic','DI','Direct','Digital'].includes(source.pickup)?source.pickup:source.mode==='DI'?'DI':source.signalType==='Mic'?'Mic':source.signalType==='Digital'?'Digital':'Direct',outputKind:['monitor','iem','line'].includes(source.outputKind)?source.outputKind:'',linkedSources:allowLinks&&Array.isArray(source.linkedSources)?source.linkedSources.slice(0,512).map((row,i)=>normalizeRouteChannel(row,i,direction,idMap,false)):[],id:/^route-[a-z0-9-]+$/.test(source.id||'')?source.id:'route-'+direction+'-'+(index+1),sourceKey,number:Number.isFinite(Number(source.number))&&Number(source.number)>0?Math.min(999,Math.round(Number(source.number))):null,instrument:projectText(source.instrument,100),generatedInstrument:projectText(source.generatedInstrument,100),mode:routeModes.has(source.mode)?source.mode:'Mono',signalType:routeSignals.has(source.signalType)?source.signalType:'Mic',connector:source.pickup==='DI'||source.mode==='DI'?'XLR':normalizeIoConnector(source.connector,source.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(source.portIndex))&&Number(source.portIndex)>0?Math.min(512,Math.round(Number(source.portIndex))):null,stereoGroup:mapKey(source.stereoGroup),iemName:projectText(source.iemName,80),iemMode:source.iemMode==='stereo'?'stereo':source.iemMode==='mono'?'mono':'',iemTransport:source.iemTransport==='wireless'?'wireless':source.iemTransport==='cable'?'cable':'',iemGroup:mapKey(source.iemGroup),frequencyBand:projectText(source.frequencyBand,100),microphone:projectText(source.microphone,80),phantom:source.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(source.stageboxPort))&&Number(source.stageboxPort)>0?Math.min(128,Math.round(Number(source.stageboxPort))):null,notes:projectText(source.notes,240),manual:source.manual===true||!sourceKey};
+    return {...(typeof StageplotRoutingModel!=='undefined'?StageplotRoutingModel.rowExtras(source,idMap):{}),adoptedSource:source.adoptedSource===true,edited:source.edited===true,pickup:['Mic','DI','Direct','Digital'].includes(source.pickup)?source.pickup:source.mode==='DI'?'DI':source.signalType==='Mic'?'Mic':source.signalType==='Digital'?'Digital':'Direct',outputKind:['monitor','iem','line'].includes(source.outputKind)?source.outputKind:'',linkedSources:allowLinks&&Array.isArray(source.linkedSources)?source.linkedSources.slice(0,512).map((row,i)=>normalizeRouteChannel(row,i,direction,idMap,false)):[],id:/^route-[a-z0-9-]+$/.test(source.id||'')?source.id:'route-'+direction+'-'+(index+1),sourceKey,number:Number.isFinite(Number(source.number))&&Number(source.number)>0?Math.min(999,Math.round(Number(source.number))):null,instrument:projectText(source.instrument,100),generatedInstrument:projectText(source.generatedInstrument,100),mode:routeModes.has(source.mode)?source.mode:'Mono',signalType:routeSignals.has(source.signalType)?source.signalType:'Mic',connector:source.pickup==='DI'||source.mode==='DI'?'XLR':normalizeIoConnector(source.connector,source.signalType==='Digital'?'Digital':'XLR'),portIndex:Number.isFinite(Number(source.portIndex))&&Number(source.portIndex)>0?Math.min(512,Math.round(Number(source.portIndex))):null,stereoGroup:mapKey(source.stereoGroup),iemName:projectText(source.iemName,80),iemMode:source.iemMode==='stereo'?'stereo':source.iemMode==='mono'?'mono':'',iemTransport:source.iemTransport==='wireless'?'wireless':source.iemTransport==='cable'?'cable':'',iemGroup:mapKey(source.iemGroup),frequencyBand:projectText(source.frequencyBand,100),microphone:projectText(source.microphone,80),phantom:source.phantom===true,stagebox,stageboxPort:Number.isFinite(Number(source.stageboxPort))&&Number(source.stageboxPort)>0?Math.min(128,Math.round(Number(source.stageboxPort))):null,notes:projectText(source.notes,240),manual:source.manual===true||!sourceKey};
   }
   function normalizeRouting(value,idMap=null){
     const source=value&&typeof value==='object'?value:{},ids=new Set(),list=(key)=>Array.isArray(source[key])?source[key].slice(0,512).map((row,i)=>{
@@ -9057,7 +9928,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
       normalized.id=id;ids.add(id);return normalized;
     }):[];
     const disabledSources=Array.isArray(source.disabledSources)?source.disabledSources.slice(0,4096).map(key=>{key=projectText(key,140);const split=key.indexOf(':');return split>0&&idMap?.has(key.slice(0,split))?idMap.get(key.slice(0,split))+key.slice(split):key;}):[];
-    return {version:2,disabledSources:[...new Set(disabledSources)],inputs:list('inputs'),outputs:list('outputs'),generatedAt:Number.isFinite(Number(source.generatedAt))?Math.max(0,Number(source.generatedAt)):0};
+    return {version:2,...(typeof StageplotRoutingModel!=='undefined'?{devices:StageplotRoutingModel.normalizeDevices(source.devices,idMap)}:{}),disabledSources:[...new Set(disabledSources)],inputs:list('inputs'),outputs:list('outputs'),generatedAt:Number.isFinite(Number(source.generatedAt))?Math.max(0,Number(source.generatedAt)):0};
   }
   function normalizeCables(value,idMap=null,validObjects=objects){
     if(!Array.isArray(value))return[];const ids=new Set(),objectIds=new Set((validObjects||[]).map(o=>o.id));
@@ -10216,7 +11087,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(stage)stage.cables=normalizeCables(stage.cables,null,objects);
   }
   function detachConnectionsForObject(id){
-    if(!stage)return;stage.cables=(stage.cables||[]).filter(cable=>cable.sourceId!==id&&cable.targetId!==id);for(const direction of ['inputs','outputs'])stage.routing[direction]=(stage.routing[direction]||[]).filter(row=>{if(String(row.sourceKey||'').startsWith(id+':'))return false;if(row.stagebox===id){row.stagebox='';row.stageboxPort=null;}return true;});
+    if(!stage)return;for(const device of stage.routing?.devices||[])if(device.objectId===id)device.objectId='';stage.cables=(stage.cables||[]).filter(cable=>cable.sourceId!==id&&cable.targetId!==id);for(const direction of ['inputs','outputs'])stage.routing[direction]=(stage.routing[direction]||[]).filter(row=>{if(String(row.sourceKey||'').startsWith(id+':'))return false;if(row.stagebox===id){row.stagebox='';row.stageboxPort=null;}return true;});
   }
   function rectanglesOverlap(a,b){
     const sa=objectSize(a),sb=objectSize(b),ra=a.angle*Math.PI/180,rb=b.angle*Math.PI/180;
@@ -10939,7 +11810,7 @@ function createStageplotSymbolV3(type, options = {}) {
     renderedWidths.set(host.id,W);
     const liveLook=mode==='print'?$('sp-print-black-stage').checked:s.surface==='black',lookFrame=liveLook?StageplotLook.frame(W,mode):null;
     const left=lookFrame?.left||(W<340?31:40),right=lookFrame?.right||23,coarse=window.matchMedia('(pointer: coarse)').matches;
-    const technicalLines=(mode==='print'?[]:productionLines(s)).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
+    const technicalLines=(mode==='print'||mode==='routing'?[]:productionLines(s)).flatMap(value=>{const max=Math.max(25,Math.floor((W-48)/6.2)),lines=[];while(value.length>max){const gap=value.lastIndexOf(' ',max),cut=gap>10?gap:max;lines.push(value.slice(0,cut));value=value.slice(cut).trim();}if(value)lines.push(value);return lines;}),technicalHeight=technicalLines.length?technicalLines.length*14+16:0;
     const mobileEditor=mode==='editor'&&mobileWorkspace();
     const editorFooter=mode==='editor'&&!mobileEditor?56:0;
     const header=mobileEditor?30:lookFrame?.header||43,bottom=(mobileEditor?26:lookFrame?.bottom||(mode==='editor'?36:47))+technicalHeight+editorFooter;
@@ -10990,7 +11861,7 @@ function createStageplotSymbolV3(type, options = {}) {
         sEl('rect',{x:mx+moduleX*scale,y:top+moduleY*scale,width:moduleW*scale,height:moduleD*scale,fill:blackStage?(alternate?'#252624':'#212220'):'none',stroke:moduleStroke,'stroke-width':blackStage ? .85 : .65,'data-stage-module':moduleX+','+moduleY},modules);
       }
     }
-    if(mode!=='print'&&(mode!=='editor'||$('sp-grid-visible').getAttribute('aria-pressed')==='true')) {
+    if(mode!=='print'&&mode!=='routing'&&(mode!=='editor'||$('sp-grid-visible').getAttribute('aria-pressed')==='true')) {
       const spacing=gridStep()*scale,gridId='sp-grid-'+mode;
       const grid=sEl('pattern',{id:gridId,width:spacing,height:spacing,patternUnits:'userSpaceOnUse',x:mx,y:top,'data-grid-metres':gridStep()},defs);
       sEl('path',{d:'M'+spacing+' 0H0V'+spacing,fill:'none',stroke:blackStage?'#3b3d39':'var(--sp-grid)','stroke-width':.6},grid);
@@ -12302,7 +13173,7 @@ function createStageplotSymbolV3(type, options = {}) {
   function reconcileRouteList(current,specs,direction,validSourceKeys=null){
     const available=new Map(specs.map(spec=>[spec.sourceKey,spec])),seen=new Set(),result=[];
     const legacyDrumName=name=>/^(?:Drums · )?(?:Snare (?:Up|Down)|Sidesnare (?:Up|Down)|Sample-Pad [LR]|Overhead (?:L|R|Mono))$/.test(String(name||''));
-    for(const row of current){const spec=row.sourceKey?available.get(row.sourceKey):null;if(spec){if(seen.has(spec.sourceKey))continue;const migrateDrum=legacyDrumName(row.instrument),generatedPort=Number(spec.portIndex)>0,baseline=row.generatedInstrument||spec.instrument,customName=Boolean(row.instrument&&row.instrument!==baseline&&!migrateDrum);seen.add(spec.sourceKey);result.push(normalizeRouteChannel({...spec,...row,sourceKey:spec.sourceKey,instrument:customName?row.instrument:spec.instrument,generatedInstrument:spec.instrument,mode:row.edited?row.mode:migrateDrum||generatedPort?spec.mode:row.mode||spec.mode,signalType:row.edited?row.signalType:migrateDrum||generatedPort?spec.signalType:row.signalType||spec.signalType,connector:row.edited?row.connector:spec.connector,portIndex:spec.portIndex,stereoGroup:row.edited?row.stereoGroup:spec.stereoGroup,pickup:row.pickup,id:row.id||'route-'+routeToken()},result.length,direction));}else if(!row.sourceKey||(row.manual&&objects.some(o=>row.sourceKey.startsWith(o.id+':'))))result.push(normalizeRouteChannel(row,result.length,direction));}
+    for(const row of current){const spec=row.sourceKey?available.get(row.sourceKey):null;if(spec){if(seen.has(spec.sourceKey))continue;const migrateDrum=legacyDrumName(row.instrument),generatedPort=Number(spec.portIndex)>0,baseline=row.generatedInstrument||spec.instrument,customName=Boolean(row.instrument&&row.instrument!==baseline&&!migrateDrum);seen.add(spec.sourceKey);result.push(normalizeRouteChannel({...spec,...row,sourceKey:spec.sourceKey,instrument:customName?row.instrument:spec.instrument,generatedInstrument:spec.instrument,mode:row.edited?row.mode:migrateDrum||generatedPort?spec.mode:row.mode||spec.mode,signalType:row.edited?row.signalType:migrateDrum||generatedPort?spec.signalType:row.signalType||spec.signalType,connector:row.edited?row.connector:spec.connector,portIndex:spec.portIndex,stereoGroup:row.edited?row.stereoGroup:spec.stereoGroup,pickup:row.pickup,id:row.id||'route-'+routeToken()},result.length,direction));}else if(!row.sourceKey||(row.manual&&(objects.some(o=>row.sourceKey.startsWith(o.id+':'))||row.origin==='pickup'&&row.sourceKey.startsWith('route-'))))result.push(normalizeRouteChannel(row,result.length,direction));}
     for(const spec of specs)if(!seen.has(spec.sourceKey))result.push(normalizeRouteChannel({...spec,generatedInstrument:spec.instrument,id:'route-'+routeToken()},result.length,direction));
     return result;
   }
@@ -12310,11 +13181,11 @@ function createStageplotSymbolV3(type, options = {}) {
     if(!stage)return;stage.routing=normalizeRouting(stage.routing);
     const inputSpecs=selectAudioSpecs(generatedInputSpecs(),'inputs'),outputSpecs=selectAudioSpecs(generatedOutputSpecs(),'outputs'),validSourceKeys=new Set([...inputSpecs,...outputSpecs].map(spec=>spec.sourceKey));
     const movedToOutput=new Set(stage.routing.outputs.filter(row=>row.manual&&row.sourceKey).map(row=>row.sourceKey)),movedToInput=new Set(stage.routing.inputs.filter(row=>row.manual&&row.sourceKey).map(row=>row.sourceKey));
-    stage.routing.inputs=reconcileRouteList(stage.routing.inputs,inputSpecs.filter(spec=>!movedToOutput.has(spec.sourceKey)),'inputs',validSourceKeys);stage.routing.outputs=reconcileRouteList(stage.routing.outputs,outputSpecs.filter(spec=>!movedToInput.has(spec.sourceKey)),'outputs',validSourceKeys);stage.routing.generatedAt=Date.now();reconcileCablesWithRouting();if(persist)queueDraftSave();if(announce)say('Routing aus dem Bühnenaufbau aktualisiert');
+    stage.routing.inputs=reconcileRouteList(stage.routing.inputs,inputSpecs.filter(spec=>!movedToOutput.has(spec.sourceKey)),'inputs',validSourceKeys);stage.routing.outputs=reconcileRouteList(stage.routing.outputs,outputSpecs.filter(spec=>!movedToInput.has(spec.sourceKey)),'outputs',validSourceKeys);stage.routing.generatedAt=Date.now();if(typeof StageplotRoutingModel!=='undefined')StageplotRoutingModel.ensure(stage.routing,objects);reconcileCablesWithRouting();if(persist)queueDraftSave();if(announce)say('Routing aus dem Bühnenaufbau aktualisiert');
   }
   function routingStageboxes(direction){return objects.filter(o=>stageboxCapacity[o.type]?.[direction]>0).map(o=>({id:o.id,name:o.label||byId[o.type].short,capacity:stageboxCapacity[o.type][direction],x:o.x,y:o.y,type:o.type,comboJacks:o.comboJacks===true}));}
   const routeNeedsDi=(row,direction,box)=>direction==='inputs'&&row?.connector==='Klinke'&&!box?.comboJacks;
-  const routeStageboxCompatible=(row,direction,box)=>row?.connector!=='Dante'&&!routeNeedsDi(row,direction,box);
+  const routeStageboxCompatible=(row,direction,box)=>!['Dante','USB','MADI','Digital'].includes(row?.connector)&&!routeNeedsDi(row,direction,box);
   function routeSourceObject(row){const id=String(row?.sourceKey||'').split(':')[0];return objects.find(o=>o.id===id)||null;}
   function autoAssignRouting(){
     if(!stage||sharedReadOnly)return;const before=snapshot();syncRoutingFromStage(false,false);let assigned=0;
@@ -12374,11 +13245,144 @@ function createStageplotSymbolV3(type, options = {}) {
     activeStageboxId=boxId;activeStageboxPatch={boxId,direction:direction==='outputs'?'outputs':'inputs',port:Number(port)};renderStageboxSurface(surface);openAudioSocket(boxId,activeStageboxPatch.direction,Number(port));
   }
   function openStageboxIo(id,patch=null){
-    if(!stageboxCapacity[objects.find(o=>o.id===id)?.type])return;syncRoutingFromStage(false);activeStageboxId=id;activeStageboxPatch=null;
-    if(patch){openAudioSocket(id,patch.direction,Number(patch.port));return;}
-    if(!$('sp-stagebox-io-dialog').open)$('sp-stagebox-io-dialog').showModal();renderStageboxIoDialog();
+    if(!stageboxCapacity[objects.find(o=>o.id===id)?.type])return;
+    routingTab='stageboxes';activeStageboxId=id;show('routing');routingWorkspaceV2.selectStagebox(id,patch?.direction||'inputs',patch?.port||null);
   }
-  function renderRouting(){
+  /* build-inline:start stageplot-routing-host-v2.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
+// Embedded in the app closure. All workspace edits use the existing draft, undo and export state.
+let routingWorkspaceV2=null;
+function routingWorkspaceState(){
+  return {tab:routingTab,readonly:sharedReadOnly,saveState:{text:$('sp-header-draft-status').textContent,state:draftState},stage,objects,routing:stage.routing,boxes:allRoutingStageboxes(),catalog:byId,microphones:StageplotMics.catalog,diModels:StageplotRoutingModel.diModels};
+}
+function drawRoutingStage(host,ids=[]){
+  if(!stage)return;
+  const W=Math.floor(host.getBoundingClientRect().width),H=Math.max(160,Math.floor(host.getBoundingClientRect().height)||200);if(W<80)return;
+  const area=workspaceBounds(stage,objects,false),scale=Math.min((W-24)/(area.maxX-area.minX),(H-30)/(area.maxY-area.minY));
+  const fixed={H,scale,mx:(W-(area.maxX-area.minX)*scale)/2-area.minX*scale,top:(H-(area.maxY-area.minY)*scale)/2-area.minY*scale};
+  drawFloor(host,stage,objects.map(o=>({...o,showLabel:false,showOuts:false})),'routing',fixed);
+  host.querySelectorAll('[data-label-layer],.sp-dimension,.sp-orientation,[data-stage-measure],[data-stage-measure-tick],[data-stage-side],[data-stage-grid],[data-grid-scale-label]').forEach(node=>node.remove());
+  const svg=host.querySelector('svg');if(!svg)return;svg.setAttribute('aria-label','Bühne in Draufsicht · ausgewähltes Objekt grün markiert');
+  host.querySelector('[data-canvas-background]')?.setAttribute('fill','transparent');
+  const selectedIds=new Set(ids);
+  for(const node of host.querySelectorAll('[data-object-visual]')){
+    const active=selectedIds.has(node.dataset.objectVisual);node.dataset.routingSelected=String(active);
+    node.style.filter=active?'drop-shadow(0 0 3px #5ad788) drop-shadow(0 0 6px #5ad788)':'';
+    node.style.opacity=active||!selectedIds.size?'1':'.62';
+  }
+}
+function renderRouting(){
+  if(!stage)return;syncRoutingFromStage(false,false);
+  const host=$('sp-routing-workspace-v2');if(!host)return;
+  if(!routingWorkspaceV2)routingWorkspaceV2=StageplotRoutingWorkspace.create(host,{getState:routingWorkspaceState,objectIcon:value=>{const o=typeof value==='string'?objects.find(o=>o.type===value)||{type:value}:value;return o&&byId[o.type]?icon(objectCatalog(o),o):'';},microphoneIcon:name=>{const photo=StageplotMics.photo(name);return photo?'<img src="'+esc(photo)+'" alt="'+esc(name)+'" loading="lazy">':'';},renderStage:drawRoutingStage,dispatch:dispatchRoutingWorkspace,announce:say});
+  $('sp-routing').dataset.workspaceV2='true';routingWorkspaceV2.render();
+}
+function openRoutingSource(direction,rowId){
+  routingTab=direction==='outputs'?'outputs':'inputs';show('routing');
+  const row=stage.routing[routingTab].find(row=>row.id===rowId),id=direction==='outputs'?row?.id:row?.sourceKey?.split(':')[0]||row?.id;
+  if(id)routingWorkspaceV2.selectSource(id);
+}
+function routingEditableRow(direction,id){
+  const row=stage.routing[direction]?.find(row=>row.id===id);if(!row)throw Error('Das Signal ist nicht mehr verfügbar.');
+  if(routeSourceObject(row)?.locked)throw Error('Das Bühnenobjekt ist gesperrt.');return row;
+}
+function routingWorkspaceMembers(direction,ids){
+  const rows=stage.routing[direction],selected=(ids||[]).map(id=>routingEditableRow(direction,id)),members=[];
+  for(const row of selected)for(const member of audioOrderedGroup(rows,row))if(!members.some(item=>item.id===member.id)){routingEditableRow(direction,member.id);members.push(member);}
+  if(!members.length)throw Error('Bitte ein Signal wählen.');return members;
+}
+function writeRoutingPickup(row){
+  StageplotMics.writeDrumRoute(objects,row,type=>drumModel.isDrums(type),config=>drumModel.normalizeDrums(config));
+  const o=routeSourceObject(row);if(o?.type==='percussion'){
+    const channel=percussionModel.channels(o.percussion).find(ch=>o.id+':perc-'+ch.id===row.sourceKey);
+    if(channel&&!channel.electronic){const match=/-(\d+)$/.exec(channel.id),part=o.percussion.parts.find(p=>p.id===channel.partId);if(part){const index=Number(match?.[1]||1)-1;part.mics=Array.isArray(part.mics)?part.mics:[];while(part.mics.length<=index)part.mics.push({model:'',phantom:false});Object.assign(part.mics[index],{model:row.microphone,phantom:row.phantom});}}
+  }
+}
+function routingMonitorFields(rows,fields){
+  if(fields.name!==undefined)fields={...fields,...(audioKind(rows[0])==='iem'?{iemName:fields.name}:{instrument:fields.name})};
+  const allowed=['notes','instrument','iemName','iemTransport','frequencyBand','monitorDeviceName','monitorReceiverName','monitorAmplifierName','monitorDeviceKind','monitorActive','outputKind'];
+  for(const row of rows){for(const key of allowed)if(Object.hasOwn(fields,key))row[key]=key==='monitorActive'?fields[key]===true:projectText(fields[key],key==='notes'?240:key==='frequencyBand'?100:80);row.edited=true;
+    if(fields.iemName!==undefined)row.instrument='IEM · '+row.iemName+(row.stereoGroup?' · '+(row.mode==='Stereo R'?'R':'L'):'');
+    if(row.iemTransport==='cable')row.frequencyBand='';
+  }
+  const o=routeSourceObject(rows[0]);if(o?.type==='rack'&&audioKind(rows[0])==='iem'){
+    const mixes=StageplotIem.read(o,stage.routing.outputs),mix=mixes.find(m=>m.ports.some(p=>o.id+':'+p===rows[0].sourceKey));
+    if(mix){if(fields.iemName!==undefined)mix.name=fields.iemName;if(fields.iemTransport!==undefined)mix.transport=fields.iemTransport;if(fields.frequencyBand!==undefined)mix.frequencyBand=fields.frequencyBand;o.iemMixes=StageplotIem.normalize(mixes);o.iem={...o.iemMixes[0]};}
+  }
+}
+function setRoutingMonitorFormat(rows,format){
+  if(!['mono','stereo'].includes(format))throw Error('Ungültiges Monitorformat.');
+  const o=routeSourceObject(rows[0]);
+  if(o?.type==='rack'&&audioKind(rows[0])==='iem'){
+    const mixes=StageplotIem.read(o,stage.routing.outputs),mix=mixes.find(m=>m.ports.some(p=>o.id+':'+p===rows[0].sourceKey));
+    if(mix){mix.mode=format;const oldIds=new Set(stage.routing.outputs.map(row=>row.id)),shared=Object.fromEntries(['monitorDeviceName','monitorReceiverName','monitorAmplifierName','monitorDeviceKind','monitorActive'].map(key=>[key,rows[0][key]]));const result=StageplotIem.apply(o,stage.routing.outputs,mixes,routeToken);for(const row of result.rows)if(!oldIds.has(row.id)&&mix.ports.some(port=>o.id+':'+port===row.sourceKey))Object.assign(row,shared);o.iemMixes=result.mixes;o.iem={...result.mixes[0]};stage.routing.outputs=result.rows;return;}
+  }
+  const left=rows.find(row=>row.mode!=='Stereo R')||rows[0],base=audioBaseName(left),group=left.iemGroup||left.stereoGroup||'monitor-'+routeToken();
+  if(format==='mono'){
+    for(const right of rows.filter(row=>row!==left)){if(right.sourceKey)stage.routing.disabledSources.push(right.sourceKey);stage.routing.outputs=stage.routing.outputs.filter(row=>row.id!==right.id);}
+    Object.assign(left,{mode:'Mono',stereoGroup:'',iemMode:audioKind(left)==='iem'?'mono':'',edited:true,instrument:base});return;
+  }
+  let right=rows.find(row=>row!==left);
+  if(!right){right=normalizeRouteChannel({...left,id:'route-'+routeToken(),sourceKey:o?o.id+':monitor-'+routeToken():'',manual:true,number:null,stagebox:'',stageboxPort:null},stage.routing.outputs.length,'outputs');stage.routing.outputs.splice(stage.routing.outputs.indexOf(left)+1,0,right);}
+  [left,right].forEach((row,index)=>Object.assign(row,{mode:'Stereo '+(index?'R':'L'),stereoGroup:group,iemGroup:audioKind(row)==='iem'?group:'',iemMode:audioKind(row)==='iem'?'stereo':'',edited:true,instrument:base+' · '+(index?'R':'L')}));
+}
+function dispatchRoutingWorkspace(action){
+  if(action.type==='selectTab'){routingTab=['inputs','outputs','stageboxes'].includes(action.tab)?action.tab:'inputs';renderRouting();return;}
+  if(action.type==='exportPatch'){exportRoutingWorkspace(action.direction);return;}
+  if(action.type==='pdf'){show('print');setExportIntent('technical');setPdfPreset('plan');$('sp-print-inputs').checked=true;$('sp-print-routing').checked=true;renderPrint();return;}
+  if(action.type==='xlsx'){exportRoutingXlsx();return;}
+  if(sharedReadOnly)throw Error('Diese Freigabe ist schreibgeschützt.');
+  if(action.type==='undo'||action.type==='redo'){undo(action.type==='redo');return;}
+  if(action.type==='autoPatch'){autoAssignRouting();return;}
+  if(action.type==='openPlayback'){openPlaybackDialog(action.sourceId);return;}
+  if(action.type==='csvImport'){if(routingTab==='stageboxes')routingTab='inputs';$('sp-routing-csv-file').click();return;}
+  const before=snapshot(),transactionHistory=history.slice(),transactionFuture=future.slice(),transactionNextId=nextId,direction=action.direction==='outputs'?'outputs':'inputs',routing=stage.routing;
+  try{
+    switch(action.type){
+      case 'editSource':{const o=objects.find(o=>o.id===action.sourceId),name=projectText(action.fields?.label,42).trim();if(o?.locked)throw Error('Die Quelle kann nicht geändert werden.');if(!name)throw Error('Bitte einen Namen eingeben.');if(o)o.label=name;else {const rows=routing.inputs.filter(row=>row.id===action.sourceId||row.sourceKey.startsWith(action.sourceId+':'));if(!rows.length)throw Error('Die Quelle ist nicht mehr verfügbar.');for(const row of rows)row.instrument=name;}break;}
+      case 'addPickup':{const o=objects.find(o=>o.id===action.sourceId);if(o?.locked)throw Error('Das Bühnenobjekt ist gesperrt.');const seed=routing.inputs.find(row=>row.id===action.sourceId&&!row.sourceKey),added=StageplotRoutingModel.additionalPickup(routing,action.sourceId,action.kind,routeToken);if(seed){added.instrument=audioBaseName(seed);added.sourceConnector=seed.sourceConnector||seed.connector;added.sourceSignalType=seed.sourceSignalType||seed.signalType;}else if(o&&!routing.inputs.some(row=>row.id!==added.id&&row.sourceKey.startsWith(o.id+':')))added.instrument=o.label||byId[o.type]?.name||'Abnahme';break;}
+      case 'removePickup':{const row=routingEditableRow('inputs',action.rowId),group=row.stereoGroup;StageplotRoutingModel.removeInput(routing,action.rowId);if(group)for(const remaining of routing.inputs.filter(r=>r.stereoGroup===group))Object.assign(remaining,{stereoGroup:'',mode:'Mono',edited:true});break;}
+      case 'setPickup':{const row=routingEditableRow('inputs',action.rowId);if(!['Mic','DI','Direct','Digital'].includes(action.kind))throw Error('Ungültige Abnahme.');
+        if(row.pickup!==action.kind){StageplotRoutingModel.clearDevice(routing,[row.id]);row.microphone='';row.phantom=false;}
+        Object.assign(row,{pickup:action.kind,connector:audioInputConnector(row,action.kind),signalType:action.kind==='Mic'?'Mic':action.kind==='Digital'?'Digital':'Line',edited:true});
+        if(action.microphone!==undefined){row.microphone=projectText(action.microphone,80);const mic=StageplotMics.find(row.microphone);if(mic)row.phantom=!!mic.phantom;}
+        if(action.phantom!==undefined)row.phantom=action.phantom===true;
+        const box=routingStageboxes('inputs').find(box=>box.id===row.stagebox);if(box&&!routeStageboxCompatible(row,'inputs',box)){row.stagebox='';row.stageboxPort=null;}writeRoutingPickup(row);break;}
+      case 'createDi':{const row=routingEditableRow('inputs',action.rowId),device=StageplotRoutingModel.createDevice(routing,Object.fromEntries(Object.entries({modelId:action.modelId,name:action.name,channels:action.channels,active:action.active,power:action.power||(action.phantom===false?'none':undefined)}).filter(([,value])=>value!==undefined)));StageplotRoutingModel.assignDevice(routing,[row.id],device.id,[1]);writeRoutingPickup(row);break;}
+      case 'assignDi':{const row=routingEditableRow('inputs',action.rowId);StageplotRoutingModel.assignDevice(routing,[row.id],action.deviceId,[Number(action.channel)]);writeRoutingPickup(row);break;}
+      case 'updateDi':{const occupants=routing.inputs.filter(row=>row.diDeviceId===action.deviceId);occupants.forEach(row=>routingEditableRow('inputs',row.id));StageplotRoutingModel.updateDevice(routing,action.deviceId,action.fields);occupants.forEach(writeRoutingPickup);break;}
+      case 'patch':{const rows=routing[direction],members=routingWorkspaceMembers(direction,action.rowIds),box=routingStageboxes(direction).find(box=>box.id===action.boxId);if(!box)throw Error('Stagebox nicht gefunden.');applyAudioPatchPlan(rows,planAudioPatch(rows,members,box,direction,{startPort:Number(action.port)}));break;}
+      case 'unpatch':for(const row of routingWorkspaceMembers(direction,action.rowIds))Object.assign(row,{stagebox:'',stageboxPort:null});break;
+      case 'editChannel':{const row=routingEditableRow(direction,action.rowId),fields=action.fields||{};
+        if(Object.hasOwn(fields,'number')){const number=fields.number===''||fields.number===null?null:Number(fields.number);if(number!==null&&(!Number.isInteger(number)||number<1||number>999))throw Error('Kanalnummer muss zwischen 1 und 999 liegen.');if(number&&routing[direction].some(other=>other.id!==row.id&&other.number===number))throw Error('Kanal '+number+' ist bereits belegt.');row.number=number;}
+        for(const key of ['instrument','notes','frequencyBand','connector','microphone'])if(Object.hasOwn(fields,key))row[key]=projectText(fields[key],key==='notes'?240:100);
+        if(Object.hasOwn(fields,'connector')){const box=routingStageboxes(direction).find(box=>box.id===row.stagebox);if(box&&!routeStageboxCompatible(row,direction,box)){row.stagebox='';row.stageboxPort=null;}}
+        if(Object.hasOwn(fields,'notes')&&Array.isArray(action.rowIds))for(const id of action.rowIds)routingEditableRow(direction,id).notes=projectText(fields.notes,240);
+        if(Object.hasOwn(fields,'phantom'))row.phantom=fields.phantom===true;row.edited=true;if(direction==='inputs')writeRoutingPickup(row);break;}
+      case 'linkStereo':{const rows=action.rowIds.map(id=>routingEditableRow('inputs',id));if(rows.length!==2||rows[0].id===rows[1].id)throw Error('Für Stereo zwei unterschiedliche Abnahmen auswählen.');if(rows.some(row=>row.stereoGroup))throw Error('Diese Abnahme ist bereits mit einem Stereokanal verbunden.');const group='stereo-'+routeToken();rows.forEach((row,i)=>Object.assign(row,{stereoGroup:group,mode:i?'Stereo R':'Stereo L',edited:true}));break;}
+      case 'unlinkStereo':{const ids=new Set(action.rowIds),groups=new Set(routing.inputs.filter(row=>ids.has(row.id)).map(row=>row.stereoGroup).filter(Boolean));for(const row of routing.inputs.filter(row=>ids.has(row.id)||groups.has(row.stereoGroup))){routingEditableRow('inputs',row.id);Object.assign(row,{stereoGroup:'',mode:'Mono',edited:true});}break;}
+      case 'editMonitor':routingMonitorFields(action.rowIds.map(id=>routingEditableRow('outputs',id)),action.fields||{});break;
+      case 'setMonitorFormat':setRoutingMonitorFormat(action.rowIds.map(id=>routingEditableRow('outputs',id)),action.format);break;
+      case 'addMonitor':{const kind=['iem','monitor','line'].includes(action.kind)?action.kind:'iem';
+        if(kind==='line')routing.outputs.push(normalizeRouteChannel({id:'route-'+routeToken(),manual:true,instrument:'Line Out',outputKind:'line',pickup:'Direct',signalType:'Line',connector:'XLR',edited:true},routing.outputs.length,'outputs'));
+        else {const type=kind==='iem'?'rack':'wedge';if(!isObjectUnlocked(type))throw Error('Dieses Gerät gehört zu einem noch gesperrten Paket.');const o=makeObject(type,{x:stage.w/2,y:Math.max(.5,stage.d-1)},'station-'+nextId++);objects.push(o);}routingTab='outputs';break;}
+      case 'editStagebox':{const o=objects.find(o=>o.id===action.boxId&&stageboxCapacity[o.type]);if(!o||o.locked)throw Error('Die Stagebox kann nicht geändert werden.');if(Object.hasOwn(action.fields,'name')){const name=projectText(action.fields.name,42).trim();if(!name)throw Error('Bitte einen Namen eingeben.');o.label=name;}if(Object.hasOwn(action.fields,'comboJacks')){if(!action.fields.comboJacks&&routing.inputs.some(row=>row.stagebox===o.id&&row.connector==='Klinke'))throw Error('Die Klinkensignale zuerst auf DI umstellen oder abstecken.');o.comboJacks=action.fields.comboJacks===true;}break;}
+      case 'addStagebox':{if(!stageboxCapacity[action.objectType])throw Error('Ungültige Stagebox.');if(!isObjectUnlocked(action.objectType))throw Error('Diese Stagebox gehört zu einem noch gesperrten Paket.');const o=makeObject(action.objectType,{x:Math.max(.5,stage.w-1),y:Math.max(.5,stage.d-1)},'station-'+nextId++);objects.push(o);activeStageboxId=o.id;routingTab='stageboxes';break;}
+      case 'number':{const used=new Set(routing[direction].map(row=>row.number).filter(Boolean));let number=1;for(const row of routing[direction])if(!row.number){while(used.has(number))number++;if(number>999)throw Error('Keine freie Kanalnummer verfügbar.');row.number=number;used.add(number);}break;}
+      default:throw Error('Diese Routing-Aktion ist nicht verfügbar.');
+    }
+    syncRoutingFromStage(false,false);reconcileCablesWithRouting();keepHistory(before);
+  }catch(error){const old=JSON.parse(before);stage=old.stage;objects=old.objects;history=transactionHistory;future=transactionFuture;nextId=transactionNextId;throw error;}
+  renderRouting();
+}
+function exportRoutingWorkspace(direction='all'){
+  const headers=['Richtung','Kanal','Signal','Format','Abnahme','DI-Eingang','48V','Stagebox','Buchse','Gerät','Empfänger','Übertragung','Frequenz','Notizen'];
+  const directions=direction==='all'?['inputs','outputs']:[direction==='outputs'?'outputs':'inputs'];
+  const boxes=new Map(allRoutingStageboxes().map(box=>[box.id,box.name]));
+  const data=directions.flatMap(key=>stage.routing[key].map(row=>{const device=stage.routing.devices?.find(d=>d.id===row.diDeviceId);return [key==='inputs'?'Input':'Output',row.number||'',row.instrument,row.stereoGroup?row.mode:'Mono',device?.name||row.microphone||row.pickup,device?row.diChannel||'':'',row.phantom?'48V':'',boxes.get(row.stagebox)||'',row.stageboxPort||'',row.monitorDeviceName||'',row.monitorReceiverName||row.iemName||'',row.iemTransport==='wireless'?'Funk':row.iemTransport==='cable'?'Kabel':'',routeFrequency(row),row.notes];}));
+  const csv='\ufeff'+[headers,...data].map(row=>row.map(csvCell).join(';')).join('\r\n')+'\r\n';downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),exportModel.safeFilename(stage.title+'-Patch',{extension:'csv'}));say('Patchliste exportiert');
+}
+/* build-inline:end stageplot-routing-host-v2.js */
+  function renderLegacyRouting(){
     if(!stage)return;syncRoutingFromStage(false,false);
     for(const direction of ['inputs','outputs']){$('sp-'+(direction==='inputs'?'input':'output')+'-count').textContent=stage.routing[direction].length;$('sp-'+(direction==='inputs'?'input':'output')+'-tab').setAttribute('aria-selected',String(routingTab===direction));}
     const stageboxMode=routingTab==='stageboxes';$('sp-routing').dataset.stageboxMode=String(stageboxMode);$('sp-stagebox-tab').setAttribute('aria-selected',String(stageboxMode));$('sp-stagebox-count').textContent=allRoutingStageboxes().length;root.querySelector('.sp-routing-table-wrap').hidden=stageboxMode;$('sp-stagebox-view').hidden=!stageboxMode;
@@ -12399,7 +13403,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const valid=routingStageboxes(direction).some(box=>box.id===selected)?selected:'';
     setChannelPillValue('sp-channel-stagebox',valid);
   }
-  function openChannelDialog(direction,id=null){openAudioChannel(direction,id);
+  function openChannelDialog(direction,id=null){if(id){openRoutingSource(direction,id);return;}openAudioChannel(direction,id);
   }
   function saveChannelDialog(){saveAudioChannel();
   }
@@ -12486,6 +13490,7 @@ function audioOrderedGroup(rows,row){return audioGroup(rows,row).slice().sort((a
 function planAudioPatch(rows,members,box,direction,{startPort=null,preserve=false,replace=false}={}){
   if(!box||!members.length)throw Error('Bitte eine Stagebox und ein Signal wählen.');
   if(members.some(row=>row.connector==='Dante'))throw Error('Dante wird über das Netzwerk übergeben, nicht über analoge XLR-Buchsen.');
+  if(members.some(row=>['USB','MADI','Digital'].includes(row.connector)))throw Error('Dieses digitale Signal benötigt einen passenden Digitaleingang.');
   const capacity=box.capacity??box[direction],ids=new Set(members.map(row=>row.id));
   if(members.some(row=>routeNeedsDi(row,direction,box)))throw Error('DI-Box nötig: Unter „Abnahme“ DI-Box wählen oder eine Stagebox mit Kombibuchsen verwenden.');
   const occupied=new Map(rows.filter(row=>!ids.has(row.id)&&row.stagebox===box.id&&row.stageboxPort).map(row=>[Number(row.stageboxPort),row]));
@@ -12517,7 +13522,7 @@ function audioPatchStatus(row,direction){
   const box=routingStageboxes(direction).find(item=>item.id===row.stagebox);
   return !box||row.stageboxPort>box.capacity||routeNeedsDi(row,direction,box)?'review':'patched';
 }
-function audioSearchText(row,direction){return [row.instrument,row.generatedInstrument,row.number,row.microphone,row.notes,routeFrequency(row),stageboxRouteLocation(row,direction),row.pickup].filter(Boolean).join(' ').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function audioSearchText(row,direction){return [row.instrument,row.generatedInstrument,row.number,row.microphone,audioDiDescription(row),row.monitorDeviceName,row.monitorReceiverName,row.monitorAmplifierName,row.notes,routeFrequency(row),stageboxRouteLocation(row,direction),row.pickup].filter(Boolean).join(' ').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function audioVisibleRows(rows,direction,query='',filter='all'){
   const words=query.toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().split(/\s+/).filter(Boolean),matches=new Set();
   for(const row of rows){const status=audioPatchStatus(row,direction),match=filter==='all'||filter==='unnumbered'&&!row.number||filter==='unpatched'&&status!=='patched';if(match&&words.every(word=>audioSearchText(row,direction).includes(word)))for(const member of audioGroup(rows,row))matches.add(member.id);}
@@ -12613,7 +13618,7 @@ function selectAudioSpecs(specs,direction){
   const rows=stage.routing[direction],existing=new Set(rows.map(row=>row.sourceKey)),linked=new Set(['inputs','outputs'].flatMap(key=>stage.routing[key].flatMap(row=>(row.linkedSources||[]).map(member=>member.sourceKey)))),disabled=new Set(stage.routing.disabledSources||[]);
   return specs.filter(spec=>!linked.has(spec.sourceKey)&&!disabled.has(spec.sourceKey)&&(existing.has(spec.sourceKey)||audioDefaultUsed(spec,direction)));
 }
-function audioObjectRows(o){return ['inputs','outputs'].flatMap(direction=>(stage?.routing?.[direction]||[]).filter(row=>audioMembers(row).some(member=>member.sourceKey.startsWith(o.id+':'))).map(row=>({row,direction})));}
+function audioObjectRows(o){const devices=new Set((stage?.routing?.devices||[]).filter(device=>device.objectId===o.id).map(device=>device.id));return ['inputs','outputs'].flatMap(direction=>(stage?.routing?.[direction]||[]).filter(row=>devices.has(row.diDeviceId)||audioMembers(row).some(member=>String(member.sourceKey||'').startsWith(o.id+':'))).map(row=>({row,direction})));}
 function audioObjectChannels(o){
   const rows=audioObjectRows(o);return ['inputs','outputs'].map(direction=>{const list=rows.filter(item=>item.direction===direction).map(item=>item.row.number||'—');return list.length?(direction==='inputs'?'CH ':o.type==='rack'?'AUX ':'OUT ')+[...new Set(list)].join(' / '):'';}).filter(Boolean).join(' · ');
 }
@@ -12623,7 +13628,7 @@ function applyOrchestraPickupChanges(o,previous,next){
   for(const spec of orchestraModel.channels(next)){
     const pickup=spec.pickup||'Mic';if(!before.has(spec.id)||before.get(spec.id)===pickup)continue;
     const key=o.id+':orch-'+spec.id;
-    for(const row of stage.routing.inputs)for(const member of audioMembers(row))if(member.sourceKey===key)Object.assign(member,{pickup,signalType:pickup==='DI'?'Instrument':'Mic',mode:'Mono',stereoGroup:'',connector:'XLR',edited:true});
+    for(const row of stage.routing.inputs)for(const member of audioMembers(row))if(member.sourceKey===key)Object.assign(member,{...(pickup!=='DI'&&member.diDeviceId?{diDeviceId:'',diChannel:null}:{}),pickup,signalType:pickup==='DI'?'Instrument':'Mic',mode:'Mono',stereoGroup:'',connector:'XLR',edited:true});
   }
 }
 function audioSignalFormatControls(o){
@@ -12650,29 +13655,51 @@ function setAudioObjectFormat(o,format){
     if(format==='dual')for(const [index,spec] of specs.entries()){
       let row=stage.routing.inputs.find(row=>audioMembers(row).some(member=>member.sourceKey===spec.sourceKey));
       if(!row){row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing.inputs.length,'inputs');stage.routing.inputs.push(row);}
-      Object.assign(row,{edited:true,mode:'Mono',stereoGroup:'',pickup:index===0?'DI':'Mic',signalType:index===0?'Instrument':'Mic',connector:'XLR'});
+      Object.assign(row,{...(index>0&&row.diDeviceId?{diDeviceId:'',diChannel:null}:{}),edited:true,mode:'Mono',stereoGroup:'',pickup:index===0?'DI':'Mic',signalType:index===0?'Instrument':'Mic',connector:'XLR'});
       if(index===1&&(!row.microphone||row.microphone==='Direktausgang')){row.microphone='';row.phantom=false;}
     }
   },format==='dual'?'Zwei unabhängige Signale eingerichtet':'Signalformat geändert');
 }
+let audioDiSelectedPort={objectId:'',channel:1};
+function audioDiDescription(row){const device=stage?.routing?.devices?.find(device=>device.id===row.diDeviceId);return device?device.name+(row.diChannel?' · DI-Eingang '+row.diChannel:''):'';}
 function audioDiControls(o){
-  if(o.type!=='di'||o.locked)return '';
-  const own=stage.routing.inputs.find(row=>row.sourceKey.startsWith(o.id+':'));
-  if(!own)return '<p class="sp-muted">Die DI-Box ist dem oben angezeigten Signal zugeordnet.</p>';
-  const choices=stage.routing.inputs.filter(row=>row.id!==own.id&&!row.stereoGroup&&!row.linkedSources?.length&&row.connector!=='Dante');
-  return '<label class="sp-field">Vorhandenes Signal durch diese DI führen<select data-di-source><option value="">Signal auswählen …</option>'+choices.map(row=>'<option value="'+row.id+'">'+esc(row.instrument)+' · CH '+(row.number||'—')+'</option>').join('')+'</select></label><small>Die DI und das Instrument verwenden danach denselben Pultkanal.</small>';
+  if(o.type!=='di'||typeof StageplotRoutingModel==='undefined')return '';
+  const device=stage.routing.devices?.find(device=>device.objectId===o.id),ownIds=new Set(stage.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')).map(row=>row.id)),disabled=sharedReadOnly||o.locked,off=disabled?' disabled':'';
+  const ports=device?StageplotRoutingModel.occupancy(stage.routing,device.id).map(port=>ownIds.has(port.rowId)?{...port,rowId:'',instrument:'',free:true}:port):[{channel:1,free:true,rowId:'',instrument:''}],selectedPort=audioDiSelectedPort.objectId===o.id&&ports.some(port=>port.channel===audioDiSelectedPort.channel)?audioDiSelectedPort.channel:ports.find(port=>port.free)?.channel||1,current=ports.find(port=>port.channel===selectedPort),models=StageplotRoutingModel.diModels;
+  const choices=stage.routing.inputs.filter(row=>!ownIds.has(row.id)&&row.connector!=='Dante'&&row.pickup!=='Digital'&&routeSourceObject(row)?.type!=='di'&&!routeSourceObject(row)?.locked);
+  const selector='<div class="sp-choice-pills" role="group" aria-label="DI-Modell">'+models.map(model=>'<button type="button" data-di-model="'+model.id+'" aria-pressed="'+(device?.modelId===model.id)+'"'+off+'>'+esc(model.name)+'</button>').join('')+'</div>';
+  const custom=device?.modelId==='custom'?'<label class="sp-field">Eigener Name<input data-di-device-name maxlength="80" value="'+esc(device.name)+'"'+off+'></label><label class="sp-field">Eingänge<input data-di-device-channels type="number" min="1" max="32" step="1" value="'+device.channels+'"'+off+'></label><div class="sp-choice-pills" role="group" aria-label="DI-Bauart">'+[[false,'Passiv'],[true,'Aktiv']].map(([value,label])=>'<button type="button" data-di-active="'+value+'" aria-pressed="'+(device.active===value)+'"'+off+'>'+label+'</button>').join('')+'</div>'+(device.active?'<div class="sp-choice-pills" role="group" aria-label="Stromversorgung">'+[['48V','48 V'],['battery','Batterie'],['external','Netzteil']].map(([value,label])=>'<button type="button" data-di-power="'+value+'" aria-pressed="'+(device.power===value)+'"'+off+'>'+label+'</button>').join('')+'</div>':''):'';
+  const sockets='<div class="sp-choice-pills" role="group" aria-label="DI-Eingang">'+ports.map(port=>'<button type="button" data-di-port="'+port.channel+'" aria-pressed="'+(selectedPort===port.channel)+'"'+off+'>'+port.channel+' · '+esc(port.free?'Frei':port.instrument)+'</button>').join('')+'</div>';
+  const assignment=current?.free?'<div class="sp-audio-available">'+choices.map(row=>'<button type="button" class="sp-button" data-di-source="'+esc(row.id)+'" data-di-channel="'+selectedPort+'"'+off+'>'+esc(row.instrument)+' · CH '+(row.number||'—')+'</button>').join('')+'</div>': '<button type="button" class="sp-audio-object-row" data-audio-edit="'+esc(current.rowId)+'" data-audio-direction="inputs"'+off+'>'+esc(current.instrument)+'</button><button type="button" class="sp-button" data-di-disconnect="'+esc(current.rowId)+'"'+off+'>DI-Eingang freigeben</button>';
+  return '<div class="sp-direct-field"><span>DI-Box</span>'+selector+custom+'<small>'+esc(device?(device.active?'Aktiv':'Passiv')+(device.phantom?' · 48 V':''):'Modell auswählen')+'</small><span>Eingänge</span>'+sockets+'<span>Eingang '+selectedPort+'</span>'+assignment+'</div>';
 }
-function linkAudioDi(o,targetId){
-  if(sharedReadOnly||!stage||!o)return;
-  const rows=stage.routing.inputs,own=rows.find(row=>row.sourceKey.startsWith(o.id+':')),target=rows.find(row=>row.id===targetId);
-  if(!own||!target||own===target||target.stereoGroup||o.locked)return;
-  change(()=>{target.linkedSources=[...(target.linkedSources||[]),clone(own)];target.pickup='DI';target.connector='XLR';target.edited=true;target.microphone=own.microphone||'';target.phantom=own.phantom;stage.routing.inputs=rows.filter(row=>row.id!==own.id);reconcileCablesWithRouting();},'DI-Box zugeordnet · Pultkanal beibehalten');
+function audioDiDraft(o){
+  const routing=clone(stage.routing);StageplotRoutingModel.ensure(routing,objects);
+  const device=routing.devices.find(device=>device.objectId===o.id)||StageplotRoutingModel.createDevice(routing,{modelId:'custom',name:o.label||'DI-Box',objectId:o.id});
+  return {routing,device};
+}
+function configureAudioDi(o,fields){
+  if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
+  const next=audioDiDraft(o);for(const row of next.routing.inputs.filter(row=>row.diDeviceId===next.device.id))if(routeSourceObject(row)?.locked)throw Error('Ein angeschlossenes Instrument ist gesperrt.');
+  StageplotRoutingModel.updateDevice(next.routing,next.device.id,fields);
+  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Box aktualisiert');
+}
+function linkAudioDi(o,targetId,channel=null){
+  if(sharedReadOnly||!stage||o?.type!=='di'||o.locked)return;
+  const target=stage.routing.inputs.find(row=>row.id===targetId);if(!target||String(target.sourceKey||'').startsWith(o.id+':'))return;
+  if(routeSourceObject(target)?.locked)throw Error('Das Instrument ist gesperrt.');
+  const next=audioDiDraft(o);
+  // The old generated DI placeholder is not an additional sound source. Preserve
+  // its disabled identity so reconciliation cannot recreate it after assignment.
+  for(const row of next.routing.inputs.filter(row=>String(row.sourceKey||'').startsWith(o.id+':')&&row.origin!=='pickup'))StageplotRoutingModel.removeInput(next.routing,row.id);
+  StageplotRoutingModel.assignDevice(next.routing,[targetId],next.device.id,channel===null?undefined:[Number(channel)]);
+  change(()=>{stage.routing=next.routing;reconcileCablesWithRouting();},'DI-Eingang zugeordnet · Pultkanal und Patch beibehalten');
 }
 
 function renderObjectAudio(o){
   const host=$('sp-audio-object'),rows=audioObjectRows(o),all=[...generatedInputSpecs().map(row=>({...row,direction:'inputs'})),...generatedOutputSpecs().map(row=>({...row,direction:'outputs'}))].filter(row=>row.sourceKey.startsWith(o.id+':'));
   host.hidden=!all.length&&!rows.length&&o.type!=='laptop'&&!audioSignalFormatControls(o);if(host.hidden)return;
-  const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),available=all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
+  const used=new Set(['inputs','outputs'].flatMap(direction=>stage.routing[direction].flatMap(row=>audioMembers(row).map(member=>member.sourceKey)))),physicalDi=o.type==='di'&&stage.routing.devices?.some(device=>device.objectId===o.id),available=physicalDi?[]:all.filter(row=>!used.has(row.sourceKey)),seen=new Set();
   host.innerHTML=(o.type==='rack'?iemMonitorShortcut(o):o.type==='laptop'?playbackShortcut(o):'')+'<h4>Routing</h4>'+audioSignalFormatControls(o)+audioDiControls(o)+'<p class="sp-muted">'+(rows.length?'Kanäle dieses Objekts · auch in Routing und Export.':'Noch kein Signal verwendet.')+'</p>'+rows.map(({row,direction})=>{const group=row.stereoGroup||row.id;if(seen.has(group))return '';seen.add(group);const partners=audioGroup(stage.routing[direction],row);return '<button type="button" class="sp-audio-object-row" data-audio-edit="'+row.id+'" data-audio-direction="'+direction+'"'+(o.locked?' disabled':'')+'><strong>'+esc(partners.length>1?audioBaseName(row):row.instrument)+'</strong><small>'+(direction==='inputs'?'CH ':'OUT ')+partners.map(item=>item.number||'—').join(' / ')+' · '+(partners.length>1?'Stereo L/R':'Mono')+' · bearbeiten</small></button>';}).join('')+(available.length?'<div class="sp-audio-available-group"><h5>Weitere Signale verwenden</h5><div class="sp-audio-available">'+available.map(row=>'<button class="sp-button" type="button" data-audio-use="'+esc(row.sourceKey)+'" data-audio-direction="'+row.direction+'"'+(o.locked?' disabled':'')+'>'+esc(row.instrument)+' <small>'+(row.direction==='inputs'?'→ Mischpult':'vom Mischpult')+'</small></button>').join('')+'</div></div>':'')+'<button type="button" class="sp-button" data-audio-overview>Routing öffnen</button>';
 }
 
@@ -12775,7 +13802,7 @@ function saveAudioChannel({patchPlan=null,afterCommit=null}={}){
     errorField='sp-audio-port';const portRows=patchPlan?clone(rows):rows;if(patchPlan)applyAudioPatchPlan(portRows,{displaced:patchPlan.displaced,assignments:patchPlan.assignments.filter(patch=>!excluded.has(patch.id))});const ports=planAudioPorts(routingStageboxes(direction),portRows,excluded,[{boxId:box,port:$('sp-audio-port').value},...(stereo?[{boxId:rightBox,port:$('sp-audio-right-port').value}]:[])]);
     const connector=direction==='inputs'?audioInputConnector(original,pickup):original.connector||'XLR',signalType=direction==='outputs'?'Line':pickup==='Mic'?'Mic':pickup==='DI'?'Line':pickup==='Digital'?'Digital':'Line',iem=direction==='outputs'&&kind==='iem';
     if(connector==='Dante'&&(box||rightBox))throw Error('Dante wird über das Netzwerk übergeben. Die analoge Stagebox-Zuordnung zuerst lösen.');
-    const shared={edited:true,pickup,outputKind:direction==='outputs'?kind:'',connector,signalType,microphone:direction==='inputs'&&connector!=='Dante'?$('sp-channel-microphone').value:'',phantom:direction==='inputs'&&connector!=='Dante'&&$('sp-channel-phantom').checked,frequencyBand:direction==='inputs'?($('sp-audio-wireless').checked?$('sp-audio-frequency').value:''):iem&&$('sp-audio-transport').value==='wireless'?$('sp-audio-frequency').value:'',iemName:iem?name:'',iemMode:iem?(stereo?'stereo':'mono'):'',iemTransport:iem?$('sp-audio-transport').value:'',iemGroup:iem?(original.iemGroup||original.id):''};
+    const shared={...(pickup!=='DI'&&original.diDeviceId?{diDeviceId:'',diChannel:null}:{}),edited:true,pickup,outputKind:direction==='outputs'?kind:'',connector,signalType,microphone:direction==='inputs'&&connector!=='Dante'?$('sp-channel-microphone').value:'',phantom:direction==='inputs'&&connector!=='Dante'&&$('sp-channel-phantom').checked,frequencyBand:direction==='inputs'?($('sp-audio-wireless').checked?$('sp-audio-frequency').value:''):iem&&$('sp-audio-transport').value==='wireless'?$('sp-audio-frequency').value:'',iemName:iem?name:'',iemMode:iem?(stereo?'stereo':'mono'):'',iemTransport:iem?$('sp-audio-transport').value:'',iemGroup:iem?(original.iemGroup||original.id):''};
     next=normalizeRouteChannel({...original,...shared,manual:original.manual||original.isNew||direction!==original.direction,number:numbers[0],instrument:stereo?(!nameChanged&&oldPartner?original.instrument:name+' · L'):name,mode:stereo?'Stereo L':'Mono',stereoGroup:stereo?(original.stereoGroup||'audio-'+original.id):'',stagebox:box,stageboxPort:ports[0],notes:$('sp-channel-notes').value},0,direction);
     if(stereo){
       let seed=oldPartner;
@@ -12810,14 +13837,14 @@ function removeAudioChannel(){
 function audioPrintTable(direction){
   const rows=stage?.routing?.[direction]||[];if(!rows.length)return '<p class="sp-paper-routing-empty">Keine Signale angelegt.</p>';
   const input=direction==='inputs',heads=input?['CH','Signal / Quelle','Mikrofon / DI','48V','Patch / Übergabe','Notizen']:['OUT','Ziel / Signal','Art / Format','Übertragung / Funk','Patch / Übergabe','Notizen'];
-  return '<table class="sp-paper-routing-table sp-audio-print-table" data-audio-direction="'+direction+'"><thead><tr>'+heads.map(head=>'<th>'+head+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>{const playback=routeSourceObject(row)?.type==='laptop'&&row.connector!=='Dante'?playbackSourceHint(row):'',source=esc(row.instrument||'—')+(playback?'<small>'+esc(playback)+'</small>':'')+(routeFrequency(row)&&input?'<small>Funk: '+esc(routeFrequency(row))+'</small>':''),pickup=row.microphone||({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||'—'),kind={monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)],format=row.stereoGroup?row.mode:'Mono',transfer=audioKind(row)==='iem'?[row.iemTransport==='wireless'?'Funk':row.iemTransport==='cable'?'Kabel':'',routeFrequency(row)].filter(Boolean).join(' · '):'';
+  return '<table class="sp-paper-routing-table sp-audio-print-table" data-audio-direction="'+direction+'"><thead><tr>'+heads.map(head=>'<th>'+head+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>{const playback=routeSourceObject(row)?.type==='laptop'&&row.connector!=='Dante'?playbackSourceHint(row):'',equipment=input?'':[row.monitorAmplifierName,row.monitorDeviceName,row.monitorReceiverName].filter(Boolean).join(' → '),source=esc(row.instrument||'—')+(playback?'<small>'+esc(playback)+'</small>':'')+(equipment?'<small>'+esc(equipment)+'</small>':'')+(routeFrequency(row)&&input?'<small>Funk: '+esc(routeFrequency(row))+'</small>':''),pickup=audioDiDescription(row)||row.microphone||({Mic:'Mikrofon',DI:'DI-Box',Direct:'Direkt / Line',Digital:'Digital'}[row.pickup]||'—'),kind={monitor:'Monitor',iem:'IEM',line:'Line'}[audioKind(row)],format=row.stereoGroup?row.mode:'Mono',transfer=audioKind(row)==='iem'?[row.iemTransport==='wireless'?'Funk':row.iemTransport==='cable'?'Kabel':'',routeFrequency(row)].filter(Boolean).join(' · '):'';
     const cells=input?[row.number||'—',source,esc(pickup),row.phantom?'48V':'—',esc(stageboxRouteLocation(row,direction)),esc(row.notes||'—')]:[row.number||'—',source,kind+' · '+esc(format),esc(transfer||'—'),esc(stageboxRouteLocation(row,direction)),esc(row.notes||'—')];return '<tr>'+cells.map(cell=>'<td>'+cell+'</td>').join('')+'</tr>';
   }).join('')+'</tbody></table>';
 }
 function audioPatchSections(){
   return allRoutingStageboxes().flatMap(box=>{
     const rows=['inputs','outputs'].flatMap(direction=>stage.routing[direction].filter(row=>row.stagebox===box.id&&row.stageboxPort).sort((a,b)=>a.stageboxPort-b.stageboxPort).map(row=>({row,direction})));if(!rows.length)return [];
-    return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table sp-audio-patch-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th></tr></thead><tbody>'+rows.map(({row,direction})=>'<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+'</td><td>'+esc(row.connector)+'</td></tr>').join('')+'</tbody></table>'}];
+    return [{title:'Stagebox-Patchliste · '+box.name,html:'<table class="sp-paper-routing-table sp-audio-patch-table"><thead><tr><th>Port</th><th>Mischpult</th><th>Signal / Quelle</th><th>Anschluss</th></tr></thead><tbody>'+rows.map(({row,direction})=>'<tr><td>'+(direction==='inputs'?'IN ':'OUT ')+row.stageboxPort+'</td><td>'+(direction==='inputs'?'CH ':'OUT ')+(row.number||'—')+'</td><td>'+esc(row.instrument)+(audioDiDescription(row)?'<small>'+esc(audioDiDescription(row))+'</small>':'')+'</td><td>'+esc(row.connector)+'</td></tr>').join('')+'</tbody></table>'}];
   });
 }
 // Every microphone entry point uses the same identities, photos and picker.
@@ -13066,7 +14093,7 @@ $('sp-audio-object').addEventListener('click',e=>{
   const format=e.target.closest('[data-object-format]');if(format){setAudioObjectFormat(objects.find(o=>o.id===selected),format.dataset.objectFormat);return;}
   const edit=e.target.closest('[data-audio-edit]');if(edit){openChannelDialog(edit.dataset.audioDirection,edit.dataset.audioEdit);return;}
   if(e.target.closest('[data-audio-overview]')){show('routing');return;}
-  const use=e.target.closest('[data-audio-use]');if(use){const direction=use.dataset.audioDirection,spec=(direction==='inputs'?generatedInputSpecs():generatedOutputSpecs()).find(row=>row.sourceKey===use.dataset.audioUse);if(!spec)return;const before=snapshot();stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>key!==spec.sourceKey);const row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing[direction].length,direction);stage.routing[direction].push(row);keepHistory(before);renderEditor();openChannelDialog(direction,row.id);}
+  const use=e.target.closest('[data-audio-use]');if(use){const direction=use.dataset.audioDirection,spec=(direction==='inputs'?generatedInputSpecs():generatedOutputSpecs()).find(row=>row.sourceKey===use.dataset.audioUse);if(!spec)return;const source=routeSourceObject(spec);if(source?.type==='di'&&stage.routing.devices?.some(device=>device.objectId===source.id)){say('Instrument unter „DI-Box“ auswählen.');return;}const before=snapshot();stage.routing.disabledSources=stage.routing.disabledSources.filter(key=>key!==spec.sourceKey);const row=normalizeRouteChannel({...spec,id:'route-'+routeToken(),generatedInstrument:spec.instrument},stage.routing[direction].length,direction);stage.routing[direction].push(row);keepHistory(before);renderEditor();openChannelDialog(direction,row.id);}
 });
 $('sp-audio-number').addEventListener('click',()=>{
   if(sharedReadOnly)return;const before=snapshot(),plans=[];
@@ -13144,7 +14171,22 @@ $('sp-patch-undo').addEventListener('click',()=>{if(audioPatchUndoToken&&history
 
 $('sp-routing-sort-instruments').addEventListener('click',()=>{if(sharedReadOnly||!stage||!['inputs','outputs'].includes(routingTab))return;change(()=>{stage.routing[routingTab]=groupAudioInstruments(stage.routing[routingTab]);},'Nach Instrumenten geordnet · Kanalnummern beibehalten');renderRouting();});
 $('sp-routing-rows').addEventListener('click',e=>{const b=e.target.closest('[data-route-object-move]');if(!b||sharedReadOnly||!stage)return;e.stopPropagation();change(()=>{stage.routing[routingTab]=moveAudioInstrument(stage.routing[routingTab],b.dataset.routeObjectId,b.dataset.routeObjectMove);},'Instrumentgruppe verschoben · Kanalnummern beibehalten');renderRouting();});
-$('sp-audio-object').addEventListener('change',e=>{if(e.target.matches('[data-di-source]')){const o=objects.find(o=>o.id===selected);if(o)linkAudioDi(o,e.target.value);}});
+$('sp-audio-object').addEventListener('click',e=>{
+  const control=e.target.closest('[data-di-model],[data-di-port],[data-di-source],[data-di-disconnect],[data-di-active],[data-di-power]');if(!control||control.disabled)return;
+  const o=objects.find(o=>o.id===selected);if(!o||sharedReadOnly||o.locked)return;
+  try{
+    if(control.hasAttribute('data-di-port')){audioDiSelectedPort={objectId:o.id,channel:Number(control.dataset.diPort)};renderObjectAudio(o);return;}
+    if(control.hasAttribute('data-di-source')){linkAudioDi(o,control.dataset.diSource,Number(control.dataset.diChannel));return;}
+    if(control.hasAttribute('data-di-disconnect')){const row=stage.routing.inputs.find(row=>row.id===control.dataset.diDisconnect);if(routeSourceObject(row)?.locked)throw Error('Das Instrument ist gesperrt.');change(()=>StageplotRoutingModel.clearDevice(stage.routing,[control.dataset.diDisconnect]),'DI-Eingang freigegeben');return;}
+    if(control.hasAttribute('data-di-model')){const model=StageplotRoutingModel.diModels.find(model=>model.id===control.dataset.diModel);if(model)configureAudioDi(o,{modelId:model.id,name:model.name});return;}
+    if(control.hasAttribute('data-di-active')){configureAudioDi(o,{active:control.dataset.diActive==='true',power:control.dataset.diActive==='true'?'48V':'none'});return;}
+    if(control.hasAttribute('data-di-power'))configureAudioDi(o,{power:control.dataset.diPower});
+  }catch(error){say(error.message);}
+});
+$('sp-audio-object').addEventListener('change',e=>{
+  if(!e.target.matches('[data-di-device-name],[data-di-device-channels]'))return;const o=objects.find(o=>o.id===selected);if(!o||sharedReadOnly||o.locked)return;
+  try{if(e.target.matches('[data-di-device-name]')){const name=e.target.value.trim();if(!name)throw Error('Bitte einen Namen für die DI-Box eingeben.');configureAudioDi(o,{name});}else configureAudioDi(o,{channels:Number(e.target.value)});}catch(error){say(error.message);renderObjectAudio(o);}
+});
 /* build-inline:end stageplot-audio-v1.js */
 /* build-inline:start stageplot-playback-v1.js — generiert via scripts/build-inline.cjs, nicht hier editieren */
 // Playback hardware uses the existing object I/O and canonical audio rows.
@@ -13524,9 +14566,9 @@ root.addEventListener('click',e=>{const button=e.target.closest('[data-playback-
   }
   $('sp-export-png').addEventListener('click',runExportIntent);
   function routeFrequency(row){return [...new Set(audioMembers(row).map(member=>{if(member.iemTransport==='cable')return '';const source=routeSourceObject(member);return source?.type==='rack'&&Array.isArray(source.iemMixes)?member.frequencyBand||'':source?.wireless||member.frequencyBand||'';}).filter(Boolean))].join(' · ');}
-  const routingHeaders=['Kanalnummer','Instrument / Input','Mode','Signaltyp','Mikrofon','48V','Stagebox','Notizen','Funk / Frequenz'];
+  const routingHeaders=['Kanalnummer','Instrument / Input','Mode','Signaltyp','Mikrofon','48V','Stagebox','Notizen','Funk / Frequenz','DI-Eingang','Stagebox-Port','Monitorgerät','Empfänger'];
   function routingExportRows(direction){
-    const boxes=new Map(routingStageboxes(direction).map(box=>[box.id,box.name]));return stage.routing[direction].map(row=>[row.number||'',row.instrument,row.mode,row.signalType,row.microphone,row.phantom?'48V':'',row.stagebox?(boxes.get(row.stagebox)||'Nicht verfügbar'):'',row.notes,routeFrequency(row)]);
+    const boxes=new Map(routingStageboxes(direction).map(box=>[box.id,box.name]));return stage.routing[direction].map(row=>[row.number||'',row.instrument,row.mode,row.signalType,row.microphone,row.phantom?'48V':'',row.stagebox?(boxes.get(row.stagebox)||'Nicht verfügbar'):'',row.notes,routeFrequency(row),row.diDeviceId?row.diChannel||'':'',row.stageboxPort||'',row.monitorDeviceName||'',row.monitorReceiverName||row.iemName||'']);
   }
   function safeSpreadsheetValue(value){const text=String(value??'');return /^[=+\-@]/.test(text)?"'"+text:text;}
   const csvCell=value=>'"'+safeSpreadsheetValue(value).replaceAll('"','""')+'"';
@@ -14522,8 +15564,8 @@ function createStageplotOrchestraEditor(root,model,onCommit){
   const orchestraEditor=createStageplotOrchestraEditor(root,orchestraModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{applyOrchestraPickupChanges(object,object.orchestra,config);object.orchestra=config;object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Orchester-Aufbau übernommen');});
   const percussionEditor=createStageplotPercussionEditor(root,percussionModel,(id,config)=>{const object=objects.find(o=>o.id===id);if(!object||object.locked)return;change(()=>{object.percussion=config;for(const ch of percussionModel.channels(config)){const row=stage.routing.inputs.find(r=>r.sourceKey===object.id+':perc-'+ch.id);if(row&&!ch.electronic){row.microphone=ch.microphone;row.phantom=ch.phantom;}}object.io=normalizeObjectIo(object.io,object);constrain(object);syncRoutingFromStage(false);},'Percussion-Setup übernommen');});
   function queueDraw(){
-    if(frameQueued||!['setup','editor','print'].includes(view))return;frameQueued=true;
-    requestAnimationFrame(()=>{frameQueued=false;if(view==='setup')updateSetup();else if(view==='editor')editorCanvas();else if(view==='print')renderPrint();});
+    if(frameQueued||!['setup','editor','print','routing'].includes(view))return;frameQueued=true;
+    requestAnimationFrame(()=>{frameQueued=false;if(view==='setup')updateSetup();else if(view==='editor')editorCanvas();else if(view==='print')renderPrint();else if(view==='routing')renderRouting();});
   }
   function makeObject(type,point,id,seed=null){
     const c=byId[type];
