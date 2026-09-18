@@ -28,6 +28,7 @@ const MODULES = [
   { file: 'stageplot-iem-editor-v1.js', transform: s => s.trim() },
   { file: 'stageplot-iem-editor-v1.css', transform: s => s.trim() },
   { file: 'stageplot-mobile-v1.css', transform: s => s.trim() },
+  { file: 'stageplot-inspector-v1.js', transform: s => s.trim() },
   { file: 'stageplot-inspector-v1.css', transform: s => s.trim() },
   { file: 'stageplot-startup-v1.js', transform: s => s.trim() },
   { file: 'stageplot-mics-v1.js', transform: s => s.trim() },
