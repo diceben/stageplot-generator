@@ -740,10 +740,15 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.27">v0.1.0-beta.27</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.28">v0.1.0-beta.28</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.27</strong><span>Aktuell</span></div><time datetime="2026-09-18">18. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.28</strong><span>Aktuell</span></div><time datetime="2026-09-18">18. September 2026</time></header>
+            <h4>Ein gemeinsamer Stagebox-Eintrag</h4>
+            <ul><li>Links in der Objektbibliothek steht immer nur „Stagebox“. Ein Klick öffnet die Modelle. Das gilt auch bei der Suche, in Favoriten und unter „Zuletzt verwendet“. Gespeicherte Modellfavoriten bleiben in der Auswahl erhalten.</li></ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.27</strong></div><time datetime="2026-09-18">18. September 2026</time></header>
             <h4>Animationen im Objektmenü</h4>
             <ul>
               <li><strong>Kreise:</strong> Federbewegung mit kurzem Überschwingen und sanftem Einpendeln wie in der Testvorschau. Die Animation startet nach dem Zeichnen der Auswahl; zeitversetzte Kreise blitzen nicht mehr vorher auf.</li>
@@ -830,7 +835,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.27 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.28 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -12050,7 +12055,7 @@ if(typeof module==='object'&&module.exports)module.exports=createStageplotOrches
   const libraryModelFamilyCards={
     'di-boxes':{label:'DI-Box',representative:'di',members:['di']},
     keys:{label:'Keyboard',representative:'keys-stage4'},
-    stageboxes:{label:'Stagebox',representative:'stagebox-ah-dx168'},
+    stageboxes:{label:'Stagebox',representative:'stagebox-ah-dx168',keywords:'stagebox stageboxen'},
     mixers:{label:'Mischpult',representative:'mixer-xr18'},
     'guitar-stands':{label:'Gitarrenständer',representative:'guitar-stand-single',members:['guitar-stand-single','guitar-stand-empty','guitar-stand-full','guitar-tree-empty','guitar-tree-full']},
     'guitar-amplifiers':{label:'Gitarrenverstärker',representative:'amp',members:['amp','amp-head','cabinet-112','cabinet-212','cabinet-412']},
@@ -14466,7 +14471,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(libraryScope==='all'){
       for(const c of [...catalog,...libraryDiModels()].filter(c=>libraryMatches(c,query?'all':libraryCategory,query))){
         const family=libraryCategory==='guitars'&&c.id==='double-bass'?'electric-basses':libraryFamilyFor(c);
-        if(query&&c.id!=='di'||!libraryModelFamilyCards[family])visible.push({c,key:c.id});
+        if(query&&c.id!=='di'&&family!=='stageboxes'||!libraryModelFamilyCards[family])visible.push({c,key:c.id});
         else if(!seenFamilies.has(family)){seenFamilies.add(family);visible.push(familyEntry(family));}
       }
       if(query)visible.sort((a,b)=>librarySearchRank(a.c,query)-librarySearchRank(b.c,query));
@@ -14474,8 +14479,11 @@ function createStageplotSymbolV3(type, options = {}) {
       if(!query&&order.length)visible.sort((a,b)=>(order.includes(a.key)?order.indexOf(a.key):99)-(order.includes(b.key)?order.indexOf(b.key):99));
     }else{
       for(const key of libraryPreferences[libraryScope==='favorites'?'favorites':'recent']){
-        const entry=key==='di'?{...familyEntry('di-boxes'),key}:key.startsWith('family:')?familyEntry(key.slice(7)):libraryItem(key)?{c:libraryItem(key),key}:null;
-        if(entry&&(entry.variants||[entry.c]).some(c=>libraryMatches({...c,libraryHidden:false},'all',query)))visible.push(entry);
+        const item=libraryItem(key),entry=item?.family==='stageboxes'?familyEntry('stageboxes'):key==='di'?{...familyEntry('di-boxes'),key}:key.startsWith('family:')?familyEntry(key.slice(7)):item?{c:item,key}:null;
+        if(entry&&(entry.variants||[entry.c]).some(c=>libraryMatches({...c,libraryHidden:false},'all',query))){
+          if(entry.family==='stageboxes'){if(seenFamilies.has(entry.family))continue;seenFamilies.add(entry.family);}
+          visible.push(entry);
+        }
       }
     }
     root.querySelectorAll('[data-library-scope]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.libraryScope===libraryScope)));

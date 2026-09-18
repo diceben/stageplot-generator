@@ -14,11 +14,17 @@ const settled=page=>page.waitForFunction(()=>document.querySelector('#sp-header-
   for(const width of [1512,390]){
    await page.setViewportSize({width,height:width===390?844:982});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
    if(await page.locator('#sp-library-open').isVisible())await page.locator('#sp-library-open').click();
+   for(const query of ['', 'Stagebox', 'S16']){
+    await page.locator('#sp-library-search').fill(query);
+    assert.equal(await family.count(),1,'One Stagebox entry for category and search');
+    assert.equal(await page.locator('#sp-library-items [data-add^="stagebox-"]').count(),0,'Models only appear inside the picker');
+   }
    await family.click();assert.equal(await dialog.locator('[data-stagebox-image]').count(),10);
    for(const model of models)assert.equal(await dialog.locator('[data-dialog-model="'+model.type+'"] [data-stagebox-image]').count(),1);
    await dialog.locator('image').evaluateAll(images=>Promise.all(images.map(el=>new Promise((resolve,reject)=>{const img=new Image();img.onload=resolve;img.onerror=()=>reject(new Error('Image failed: '+el.getAttribute('href')));img.src=el.getAttribute('href');}))));
    assert.equal(await dialog.locator('select').count(),0);await assertNoOverflow(page,'#sp-model-dialog','Stagebox models '+width);
    await page.screenshot({path:artifactPath('stagebox-picker-'+width+'-'+engine+'.png')});await page.keyboard.press('Escape');
+   await page.locator('#sp-library-search').fill('');
   }
   await page.setViewportSize({width:1512,height:982});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
   if(await page.locator('#sp-library-open').isVisible())await page.locator('#sp-library-open').click();
@@ -27,6 +33,13 @@ const settled=page=>page.waitForFunction(()=>document.querySelector('#sp-header-
    await family.click();await dialog.locator('[data-dialog-model="'+model.type+'"]').click();await page.keyboard.press('Enter');await settled(page);
    const doc=await saved(page),o=doc.objects.at(-1);assert.equal(o.type,model.type);assert.equal(o.comboJacks,model.comboJacks);created.push(o);
   }
+  await page.locator('[data-library-scope="recent"]').click();
+  assert.equal(await family.count(),1,'Recently placed models stay grouped under Stagebox');
+  assert.equal(await page.locator('#sp-library-items [data-add^="stagebox-"]').count(),0);
+  await family.click();await dialog.locator('[data-model-favorite="stagebox-behringer-s16"]').click();await dialog.locator('[data-model-favorite="stagebox-ah-dx168"]').click();await page.keyboard.press('Escape');
+  await page.locator('[data-library-scope="favorites"]').click();assert.equal(await family.count(),1,'Multiple model favorites share one Stagebox entry');
+  await family.click();assert.equal(await dialog.locator('[data-model-favorite][aria-pressed="true"]').count(),2,'Individual model favorites are preserved inside the picker');await page.keyboard.press('Escape');
+  await page.locator('[data-library-scope="all"]').click();
   assert.deepEqual((await saved(page)).stage.routing.inputs.map(r=>[r.id,r.number,r.stagebox,r.stageboxPort]),initial.stage.routing.inputs.map(r=>[r.id,r.number,r.stagebox,r.stageboxPort]),'Adding hardware preserves every existing input patch');
   await page.locator('.sp-steps [data-view="routing"]').click();await workspace.locator('[data-rw-tab="stageboxes"]').click();
   for(const [i,model] of models.entries()){
