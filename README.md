@@ -6,7 +6,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die Bausteinbibliothek zeigt acht Kategorien als kompakte Liste und gruppiert Modellvarianten. Die globale Suche findet Objekte und einzelne Modelle. Auf dem Desktop öffnet die Modellauswahl neben der Bibliothek; Favoriten lassen sich dort für einzelne Modelle speichern. Zusätzliche Abschnitte bündeln Zubehör. Auf dem Handy ist die Kategorienliste aufklappbar; Suchtreffer bleiben über der Tastatur erreichbar.
 
-**Aktuelle Version:** v0.1.0-beta.28 · 18. September 2026. Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.29 · 18. September 2026. Release Notes sind in der App über `?` erreichbar.
 
 Die Routing-Arbeitsfläche zeigt Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen ohne Dropdowns. Die Ausgangseinstellungen sind direkt in der Quellenkarte erreichbar: Anzahl, Buchsenart, Namen, Verwendung und Stereo-Paare. Auch Quellen mit null Ausgängen bleiben auswählbar. Abnahmeart und Anschluss stehen als kompakte, ständig sichtbare Tasten in der Abnahmekarte; zusätzliche Bearbeiten-Stifte entfallen. Mono-Quellen teilen bei Bedarf eine physische Stereo-DI; Portbelegung und Signalformat bleiben getrennt. Jede physische DI erscheint je Quelle einmal mit ihren beiden Eingängen; erst bei den Pultkanälen teilen sich die Wege. Mehrere Ausgangspaare wie Piano auf Out 1/2 und Synth auf Out 3/4 nutzen eigene DIs. J48, J48 Stereo und ProD2 zeigen lokale Original-Produktfotos. Die Auswahl öffnet als Popup mit sieben gleich großen Modellkacheln. Vier generische DIs ergänzen die Originalfotos: passiv/aktiv, jeweils Mono/Stereo. Feine Pfeile verbinden die Stationen des Signalwegs. [Bedienung](AUDIO_BEDIENUNG.md).
 
@@ -237,7 +237,9 @@ Das Drucklayout wird in `stageplot-print-v1.js` und `stageplot-print-v1.css` gep
 
 ### Objektmenü
 
-Ein ausgewähltes Objekt bietet Bearbeiten, Drehen, Label, Duplizieren, Sperren und eine Ebene zurück. Schließen und Löschen stehen darunter. Ein Außenklick oder Escape führt aus dem Drehring und dem Bearbeitungsfenster zurück zu den Objektaktionen. Ein weiterer Außenklick schließt das Menü.
+Ein Klick wählt das Objekt aus; Ziehen verschiebt es. Das Objektmenü öffnet über die kleine „···“-Taste neben der Auswahl, Rechtsklick, Shift+F10 oder langes Drücken auf dem Touchscreen. Die Kugeln bleiben neben dem Objekt und nutzen den verfügbaren Platz oberhalb, unterhalb oder seitlich. Gedrehte Objektflächen, Beschriftungen und Größen-Griffe fließen in die Platzierung ein. Beim Verschieben oder Skalieren schließt sich das Menü und bleibt geschlossen.
+
+Das Menü bietet Bearbeiten, Drehen, Label, Duplizieren, Sperren und eine Ebene zurück. Schließen und Löschen stehen darunter. Ein Außenklick oder Escape führt aus dem Drehring und dem Bearbeitungsfenster zurück zu den Objektaktionen. Ein weiterer Außenklick schließt das Menü. Das ausgewählte Objekt oder einen Größen-Griff kann man auch aus einem Untermenü direkt greifen. Doppelklick auf Beschriftungen und Cmd-/Strg-Klick für Mehrfachauswahl bleiben erhalten.
 
 Bearbeiten enthält die Beschriftung, bei Treppen die Stufenanzahl und passende Zugänge zu Modellwahl, Drum-/Percussion-/Orchester-Aufbau, Playback und IEM. Alle bisherigen Felder bleiben unter „Alle Eigenschaften“ verfügbar. Mehrfachauswahl und Bühnengeometrie behalten ihre vorhandenen Bedienelemente. Ebenenwechsel bleiben innerhalb der physischen Zeichenebene; Podeste und getrennte Mikrofonteile behalten ihre Reihenfolge.
 

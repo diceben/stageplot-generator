@@ -15,6 +15,30 @@ const StageplotObjectMenu = (() => {
     const nearest = Math.round(value / 45) * 45;
     return Math.abs(delta(value, nearest)) <= (fine ? 1 : 3) ? {value:angle(nearest), held:nearest} : {value:angle(value), held:null};
   }
+  const overlap = (a,b) => Math.max(0,Math.min(a.left+a.width,b.left+b.width)-Math.max(a.left,b.left))*Math.max(0,Math.min(a.top+a.height,b.top+b.height)-Math.max(a.top,b.top));
+  // Place beside the actual artwork, including rotated bounds. Handles have
+  // priority when zoom leaves too little empty canvas for the whole menu.
+  function place(state, sizes) {
+    const v=state.viewport,b=state.bounds||{left:state.x,top:state.y,width:0,height:0},handles=state.handles||[],captions=state.captions||[],pad=8,gap=22;
+    let best=null;
+    for(const size of sizes){
+      const w=size.width,h=size.height,cx=b.left+b.width/2,cy=b.top+b.height/2;
+      const xs=[b.left+b.width+gap,b.left-w-gap,cx-w/2,b.left,b.left+b.width-w];
+      const ys=[cy-h/2,b.top-h-gap,b.top+b.height+gap,b.top,b.top+b.height-h];
+      for(const handle of handles){xs.push(handle.left-w-pad,handle.left+handle.width+pad);ys.push(handle.top-h-pad,handle.top+handle.height+pad);}
+      for(const rawX of xs)for(const rawY of ys){
+        const left=Math.max(v.left+pad,Math.min(v.left+v.width-w-pad,rawX)),top=Math.max(v.top+pad,Math.min(v.top+v.height-h-pad,rawY));
+        const box={left,top,width:w,height:h};
+        const protectedArea=handles.reduce((sum,r)=>sum+overlap(box,r),0);
+        const bodyArea=overlap(box,b),captionArea=captions.reduce((sum,r)=>sum+overlap(box,r),0);
+        const distance=Math.hypot(left+w/2-cx,top+h/2-cy);
+        const overflow=w*h-overlap(box,v);
+        const score=protectedArea*1e8+overflow*1e6+bodyArea*1000+captionArea*10+distance+(size.penalty||0);
+        if(!best||score<best.score)best={...size,...box,score,protectedArea};
+      }
+    }
+    return best;
+  }
   function mount(host, api) {
     const el = document.createElement('div');
     el.id = 'sp-object-menu'; el.hidden = true; el.setAttribute('role','group'); el.setAttribute('aria-label','Objektaktionen');
@@ -35,11 +59,14 @@ const StageplotObjectMenu = (() => {
       '<div class="som-edge"><button type="button" data-action="close">'+icon('close')+'<span>Schließen</span></button><button type="button" class="som-delete" data-action="delete">'+icon('delete')+'<span>Löschen</span></button></div>';
     const glitter = document.createElement('div');
     glitter.className='som-glitter-plane';glitter.setAttribute('aria-hidden','true');
-    host.append(el,glitter);
+    const opener=document.createElement('button');
+    opener.id='sp-object-menu-open';opener.type='button';opener.hidden=true;opener.textContent='···';
+    opener.setAttribute('aria-label','Objektmenü öffnen');opener.setAttribute('aria-controls',el.id);opener.setAttribute('aria-expanded','false');opener.title='Objektmenü öffnen · auch per Rechtsklick';
+    host.append(el,opener,glitter);
     const $ = selector => el.querySelector(selector), button = key => $('[data-action="'+key+'"]');
     const dial = $('.som-dial'), grip = $('.som-grip'), form = $('.som-editor'), orbits = [...el.querySelectorAll('.som-orbit')];
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    let current = null, dismissed = null, mode = 'main', gesture = null, suppressedClick = false, ignoreTimer = 0, dialRadius = 104;
+    let current = null, openId = null, mode = 'main', gesture = null, currentBox = null, suppressedClick = false, ignoreTimer = 0, dialRadius = 104;
     const active = () => !el.hidden && current;
     function paintAngle() {
       const a = angle(current.angle), r = dialRadius, t = a * Math.PI / 180;
@@ -77,7 +104,13 @@ const StageplotObjectMenu = (() => {
         else if(mode==='rotate')dial.animate([{transform:'scale(.78)',opacity:0},{transform:'scale(1.035)',opacity:1,offset:.7},{transform:'scale(1)',opacity:1}],{duration:300,easing:'ease-out'});
       }
     }
-    function dismiss() { endGesture();if(current)setMode('main',false,false);dismissed=current?.id;el.hidden=true;api.focusCanvas(); }
+    function close() { endGesture();openId=null;el.hidden=true;opener.setAttribute('aria-expanded','false');if(current)setMode('main',false,false);orbits.forEach(orbit=>orbit.getAnimations().forEach(a=>a.cancel())); }
+    function dismiss() { close();if(current)sync(current);api.focusCanvas(); }
+    function open(id=current?.id,focus=false) {
+      if(!current||id!==current.id||current.pointerDown||current.dragging||api.modalOpen())return;
+      const wasOpen=active();openId=id;sync(current);if(focus&&!wasOpen)button('edit').focus({preventScroll:true});
+    }
+    opener.addEventListener('click',()=>open(current?.id,true));
     function animateOpen() {
       orbits.forEach((orbit,i)=>{
         orbit.getAnimations().forEach(a=>a.cancel());
@@ -92,15 +125,19 @@ const StageplotObjectMenu = (() => {
       });
     }
     function sync(state) {
-      if(!state) { endGesture();current=null;dismissed=null;el.hidden=true;return; }
-      // Selection is painted on pointerup. Starting before that redraw stalls
-      // the entrance animation halfway through; keep existing menus in place.
-      if(state.pointerDown&&!state.dragging&&(state.id!==current?.id||el.hidden)){el.hidden=true;return;}
-      const changed=state.id!==current?.id, typeChanged=state.type!==current?.type, opening=changed||el.hidden;
-      if(changed){endGesture();if(dismissed!==state.id)dismissed=null;}
+      if(!state) { close();current=null;opener.hidden=true;return; }
+      const changed=state.id!==current?.id,typeChanged=state.type!==current?.type,opening=el.hidden;
+      if(changed)close();
       current=state;
-      if(dismissed===state.id){el.hidden=true;return;}
-      el.hidden=false;el.dataset.objectId=state.id;el.dataset.dragging=String(state.dragging);
+      if(state.pointerDown||state.dragging){close();opener.hidden=true;return;}
+      const viewport=state.viewport||{left:0,top:0,width:host.clientWidth,height:host.clientHeight};
+      const positioned={...state,viewport};
+      opener.hidden=openId===state.id;opener.setAttribute('aria-expanded',String(openId===state.id));
+      if(openId!==state.id){
+        el.hidden=true;const point=place(positioned,[{width:44,height:44}]);
+        opener.style.left=point.left+'px';opener.style.top=point.top+'px';return;
+      }
+      el.hidden=false;el.dataset.objectId=state.id;
       if(changed)setMode('main',false,false);
       else if(typeChanged&&mode==='edit')setMode('edit',false,false);
       button('edit').disabled=button('rotate').disabled=button('delete').disabled=state.locked;
@@ -108,30 +145,38 @@ const StageplotObjectMenu = (() => {
       button('lock').setAttribute('aria-pressed',String(state.locked));button('lock').querySelector('span').textContent=state.locked?'Entsperren':'Sperren';
       button('label').setAttribute('aria-pressed',String(state.showLabel));button('label').setAttribute('aria-label',state.showLabel?'Label ausblenden':'Label einblenden');
       button('backward').title=state.canBack?'Eine Ebene zurück':'Bereits auf der untersten Ebene dieses Objekttyps';
-      const viewport=state.viewport||{left:0,top:0,width:host.clientWidth,height:host.clientHeight};
-      const w=viewport.width,h=viewport.height,small=w<420,short=h<330,r=small?98:116,gap=small?78:88;
-      let x=viewport.left+Math.max(r+40,Math.min(w-r-40,state.x-viewport.left)),y=viewport.top+Math.max(136,Math.min(h-gap-106,state.y-viewport.top)),edgeY=gap+49,edgeX=-103;
-      if(short){
-        x=viewport.left+Math.max(114,Math.min(w-114,state.x-viewport.left));
-        y=viewport.top+Math.max(56,Math.min(h-118,state.y-viewport.top));edgeY=64;
-        if(mode==='rotate'){x=viewport.left+Math.max(84,Math.min(w-302,state.x-viewport.left));y=viewport.top+Math.max(84,Math.min(h-84,state.y-viewport.top));edgeX=92;edgeY=-27;}
-        if(mode==='edit'){y=viewport.top+h/2;edgeY=h/2-58;}
+      const small=viewport.width<420,short=viewport.height<330;
+      let size=short?52:small?64:70,step=size+16;
+      const layouts=[{width:222,height:step*2+size+80,columns:2},{width:step*2+size+24,height:step+size+80,columns:3}];
+      let box,originY,edgeX=-103,edgeY;
+      if(mode==='main'){
+        box=place(positioned,layouts.filter(l=>l.height<=viewport.height-16));
+        if(!box)box=place(positioned,[layouts[1]]);
+        if(box.protectedArea>0){
+          const compact=place(positioned,[{width:222,height:200,columns:3}]);
+          if(compact.protectedArea<box.protectedArea){box=compact;size=52;step=68;}
+        }
+        originY=12+size/2+(box.columns===2?step:step/2);edgeY=box.height-originY-60;
+      }else if(mode==='rotate'){
+        dialRadius=short?58:104;
+        box=gesture?.box||place(positioned,[{width:(dialRadius+30)*2,height:(dialRadius+30)*2+64}]);
+        originY=dialRadius+30;edgeY=originY+10;
+        if(gesture)gesture.box=box;
+      }else{
+        form.style.width=Math.min(292,viewport.width-16)+'px';form.style.maxHeight=Math.max(80,viewport.height-88)+'px';
+        box=place(positioned,[{width:Math.min(292,viewport.width-16),height:form.offsetHeight+64}]);originY=0;edgeY=box.height-54;
+        form.style.left=-box.width/2+'px';form.style.top='0';form.style.bottom='auto';
       }
-      dialRadius=short?58:104;el.style.setProperty('--som-radius',dialRadius+'px');
-      el.style.left=x+'px';el.style.top=y+'px';el.style.setProperty('--edge-y',edgeY+'px');el.style.setProperty('--edge-x',edgeX+'px');el.dataset.compact=String(small);el.dataset.short=String(short);
+      el.style.setProperty('--som-radius',dialRadius+'px');
+      currentBox=box;
+      el.style.left=box.left+box.width/2+'px';el.style.top=box.top+originY+'px';el.style.setProperty('--edge-y',edgeY+'px');el.style.setProperty('--edge-x',edgeX+'px');el.dataset.compact=String(small);el.dataset.short=String(size===52);
       orbits.forEach((orbit,i)=>{
-        const x=short?(i%3-1)*78:i%2?r:-r,y=short?(Math.floor(i/3)-.5)*60:(Math.floor(i/2)-1)*gap;
+        const columns=box.columns||2,x=(i%columns-(columns-1)/2)*step,y=(Math.floor(i/columns)-(6/columns-1)/2)*step;
         orbit.dataset.x=String(x);orbit.dataset.y=String(y);
         orbit.style.setProperty('--x',x+'px');orbit.style.setProperty('--y',y+'px');
       });
-      // Avoid a synchronous layout read on each selection/drag update.
-      if(mode==='edit'){
-        form.style.maxHeight=Math.max(80,y+edgeY-viewport.top-20)+'px';
-        form.style.bottom='auto';form.style.top=(edgeY-12-form.offsetHeight)+'px';
-      }
       if(mode==='rotate')paintAngle();
-      if(state.dragging)orbits.forEach(orbit=>orbit.getAnimations().forEach(a=>a.cancel()));
-      else if(opening&&mode==='main')animateOpen();
+      if(opening&&mode==='main')animateOpen();
     }
     function commitForm() {
       if(!form.reportValidity())return false;
@@ -150,12 +195,13 @@ const StageplotObjectMenu = (() => {
     // Outside click consumes only the submenu level. Do not hand that same
     // pointer event to the canvas, a different object or another command.
     function handleOutsidePointer(event) {
-      if(!active()||gesture||event.button!==0||api.modalOpen()||el.contains(event.target))return;
+      if(!active()||gesture||event.button!==0||api.modalOpen()||el.contains(event.target)||opener.contains(event.target))return;
+      // Grabbing the selected artwork or a resize handle starts immediately,
+      // including from a submenu. Empty-space clicks still return one level.
+      const target=event.target.closest('[data-object],[data-mic-object],[data-label-for],[data-footprint-id]');
+      if([target?.dataset.object,target?.dataset.micObject,target?.dataset.labelFor,target?.dataset.footprintId].includes(current.id)){close();opener.hidden=true;return;}
       if(mode==='main'){
-        // Keep the menu attached while its own object/label is being grabbed.
-        const target=event.target.closest('[data-object],[data-mic-object],[data-label-for]');
-        if([target?.dataset.object,target?.dataset.micObject,target?.dataset.labelFor].includes(current.id))return;
-        dismissed=current.id;el.hidden=true;return;
+        close();sync(current);return;
       }
       event.preventDefault();event.stopImmediatePropagation();setMode('main');api.focusCanvas();
       suppressedClick=true;clearTimeout(ignoreTimer);ignoreTimer=setTimeout(()=>suppressedClick=false,600);
@@ -163,6 +209,9 @@ const StageplotObjectMenu = (() => {
     document.addEventListener('pointerdown',handleOutsidePointer,true);
     document.addEventListener('click',event=>{if(suppressedClick){suppressedClick=false;clearTimeout(ignoreTimer);event.preventDefault();event.stopImmediatePropagation();}},true);
     document.addEventListener('keydown',event=>{
+      if(current&&host.contains(event.target)&&!event.target.closest('input,textarea,select,[contenteditable="true"]')&&(event.key==='ContextMenu'||event.key==='F10'&&event.shiftKey)){
+        event.preventDefault();event.stopImmediatePropagation();open(current.id,true);return;
+      }
       if(!active()||api.modalOpen())return;
       if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();if(gesture)endGesture(true);else if(mode!=='main'){setMode('main',true);}else dismiss();}
     },true);
@@ -170,7 +219,7 @@ const StageplotObjectMenu = (() => {
       if(event.button!==0||gesture||current.locked)return;
       event.preventDefault();event.stopPropagation();const rect=dial.getBoundingClientRect(),cx=rect.left+dialRadius,cy=rect.top+dialRadius;
       const theta=Math.atan2(event.clientY-cy,event.clientX-cx)*180/Math.PI;
-      gesture={pointer:event.pointerId,target:event.currentTarget,cx,cy,last:theta,value:current.angle,held:null,token:api.beginRotation()};
+      gesture={pointer:event.pointerId,target:event.currentTarget,cx,cy,box:currentBox,last:theta,value:current.angle,held:null,token:api.beginRotation()};
       event.currentTarget.setPointerCapture(event.pointerId);grip.focus({preventScroll:true});
     }
     for(const target of [$('.som-dial-hit'),grip]) {
@@ -227,8 +276,8 @@ const StageplotObjectMenu = (() => {
       button.addEventListener('pointerdown',event=>{if(event.pointerType==='touch')sparkle(button);});
       button.addEventListener('focus',()=>{if(button.matches(':focus-visible'))sparkle(button);});
     });
-    return {sync,reopen(id){if(id===current?.id||id===dismissed)dismissed=null;},dismissFor(id){endGesture();dismissed=id;el.hidden=true;},isRotating:()=>!!gesture};
+    return {sync,open,dismissFor(){close();opener.hidden=true;},isRotating:()=>!!gesture};
   }
-  return {mount,previous,angle,delta,snap};
+  return {mount,previous,angle,delta,snap,place};
 })();
 if(typeof module!=='undefined')module.exports=StageplotObjectMenu;

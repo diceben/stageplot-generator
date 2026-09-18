@@ -8,6 +8,20 @@ assert.equal(menu.delta(1,359),2);assert.equal(menu.delta(359,1),-2);
 assert.equal(menu.angle(-15),345);assert.equal(menu.snap(358).value,0);
 assert.equal(menu.snap(49,45).value,45);assert.equal(menu.snap(51,45).value,51);
 assert.equal(menu.snap(46.5,null,true).value,46.5);assert.equal(menu.snap(45.5,null,true).value,45);
+const overlap=(a,b)=>Math.max(0,Math.min(a.left+a.width,b.left+b.width)-Math.max(a.left,b.left))*Math.max(0,Math.min(a.top+a.height,b.top+b.height)-Math.max(a.top,b.top));
+for(const viewport of [{left:0,top:0,width:900,height:600},{left:5,top:35,width:380,height:550}]){
+ for(const [x,y,w,h] of [[.5,.5,100,80],[.05,.1,80,90],[.95,.95,80,90],[.5,.5,300,300]]){
+  const bounds={left:viewport.left+viewport.width*x-w/2,top:viewport.top+viewport.height*y-h/2,width:w,height:h};
+  const handles=[[0,0],[w,0],[0,h],[w,h],[w,h/2],[w/2,h]].map(([x,y])=>({left:bounds.left+x-16,top:bounds.top+y-16,width:32,height:32}));
+  const state={bounds,handles,viewport};
+  for(const sizes of [[{width:44,height:44}],[{width:222,height:322},{width:266,height:236}]]){
+   let result=menu.place(state,sizes);
+   if(result.protectedArea>0)result=menu.place(state,[{width:222,height:200}]);
+   assert.equal(handles.reduce((sum,h)=>sum+overlap(result,h),0),0,'Handles remain reachable at corners and with large objects.');
+   assert.equal(overlap(result,viewport),result.width*result.height,'Controls stay in the viewport.');
+  }
+ }
+}
 const ctx={drumModel:{isDrums:t=>t==='drums'},StageplotObjectMenu:{...menu,mount(_host,api){ctx.api=api;return {};}}};
 vm.createContext(ctx);vm.runInContext(html.slice(html.indexOf('  const catalog = ['),html.indexOf('  const libraryModelFamilyCards='))+'\nthis.catalog=catalog;this.byId=byId;',ctx);
 const fixtures=ctx.catalog.map((c,i)=>({id:'fixture-'+i,type:c.id,label:c.name,angle:27,x:2,y:3,showLabel:true,steps:5,io:{outputs:{count:2,connector:'XLR'}},drums:{parts:[{id:'kick'}]},percussion:{parts:[{id:'cajon'}]},orchestra:{parts:[{id:'violin'}]},labelOffset:{x:.2,y:.5}}));

@@ -1,9 +1,7 @@
 #sp-prototype #sp-object-menu { --som-size:70px; --som-bg:light-dark(#fff,#30372f); --som-shadow:light-dark(#18261624,#0008); --som-gloss:light-dark(#fff9,#ffffff15); --som-lime:#c4f53b; position:absolute; z-index:24; width:0; height:0; color:var(--sp-ink); transition:opacity 160ms; pointer-events:none; }
 #sp-prototype #sp-object-menu[hidden],#sp-prototype #sp-object-menu [hidden] { display:none!important; }
 #sp-prototype #sp-object-menu[data-compact="true"] { --som-size:64px; }
-#sp-prototype #sp-object-menu[data-dragging="true"] { opacity:.32; }
 #sp-prototype :where(#sp-object-menu) button { font-family:inherit; cursor:pointer; color:inherit; touch-action:manipulation; }
-#sp-prototype #sp-object-menu[data-dragging="true"] button { pointer-events:none; }
 #sp-prototype #sp-object-menu button:disabled { opacity:.4; cursor:default; }
 #sp-prototype #sp-object-menu button:focus-visible { outline:3px solid #8fac29; outline-offset:4px; }
 #sp-prototype #sp-object-menu svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
@@ -44,9 +42,12 @@
 #sp-prototype .som-editor button { min-height:40px; padding:8px 10px; border:1px solid var(--sp-line); border-radius:7px; background:var(--sp-panel); text-align:left; font-size:12px; }
 #sp-prototype .som-edit-actions { display:flex; justify-content:flex-end; gap:8px; }
 #sp-prototype .som-editor button[type="submit"] { background:var(--som-lime); color:#26300c; border-color:transparent; }
-#sp-prototype[data-readonly="true"] #sp-object-menu { display:none!important; }
+#sp-prototype #sp-object-menu-open { position:absolute; z-index:24; width:44px; height:44px; padding:0 0 6px; display:grid; place-items:center; border:1px solid var(--sp-line); border-radius:50%; background:var(--sp-panel); color:var(--sp-ink); box-shadow:0 3px 10px light-dark(#18261620,#0006); font-family:inherit; font-size:23px; font-weight:700; line-height:1; cursor:pointer; touch-action:manipulation; }
+#sp-prototype #sp-object-menu-open:hover { border-color:#8fac29; }
+#sp-prototype #sp-object-menu-open:focus-visible { outline:3px solid #8fac29; outline-offset:3px; }
+#sp-prototype #sp-object-menu-open[hidden],#sp-prototype[data-readonly="true"] :is(#sp-object-menu,#sp-object-menu-open) { display:none!important; }
 @media(prefers-reduced-motion:reduce) { #sp-prototype #sp-object-menu,#sp-prototype .som-orb,#sp-prototype .som-edge button { transition:none; } #sp-prototype .som-orb,#sp-prototype .som-edge button { transform:none!important; } }
-@media print { #sp-object-menu,.som-glitter-plane { display:none!important; } }
+@media print { #sp-object-menu,#sp-object-menu-open,.som-glitter-plane { display:none!important; } }
 
 #sp-prototype #sp-object-menu[data-short="true"] { --som-size:52px; }
 #sp-prototype #sp-object-menu[data-short="true"] .som-orb { gap:2px; font-size:9px; }
