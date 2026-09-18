@@ -33,11 +33,13 @@ const StageplotObjectMenu = (() => {
       '<div class="som-dial" hidden><div class="som-track"></div>'+Array.from({length:8},(_,i)=>'<i class="som-tick" style="--tick:'+i*45+'deg"></i>').join('')+'<button type="button" class="som-dial-hit" aria-label="Objekt mit dem Drehring drehen"></button><button type="button" class="som-grip" role="slider" aria-label="Drehwinkel" aria-valuemin="0" aria-valuemax="359"></button><button type="button" class="som-reset" data-action="reset" aria-label="Drehung zurücksetzen">0°</button></div>'+
       '<form class="som-editor" hidden aria-label="Objekt bearbeiten"><h3></h3><label>Beschriftung<textarea name="label" rows="2"></textarea></label><label class="som-steps" hidden>Stufen<input name="steps" type="number" min="1" max="24" step="1" inputmode="numeric"></label><button type="button" data-action="model" hidden>Modell wechseln</button><button type="button" data-action="special" hidden></button><button type="button" data-action="properties">Alle Eigenschaften</button><div class="som-edit-actions"><button type="button" data-action="back">Zurück</button><button type="submit">Übernehmen</button></div></form>'+
       '<div class="som-edge"><button type="button" data-action="close">'+icon('close')+'<span>Schließen</span></button><button type="button" class="som-delete" data-action="delete">'+icon('delete')+'<span>Löschen</span></button></div>';
-    host.append(el);
+    const glitter = document.createElement('div');
+    glitter.className='som-glitter-plane';glitter.setAttribute('aria-hidden','true');
+    host.append(el,glitter);
     const $ = selector => el.querySelector(selector), button = key => $('[data-action="'+key+'"]');
     const dial = $('.som-dial'), grip = $('.som-grip'), form = $('.som-editor'), orbits = [...el.querySelectorAll('.som-orbit')];
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    let current = null, dismissed = null, mode = 'main', gesture = null, suppressedClick = false, ignoreTimer = 0, lastSpark = 0, dialRadius = 104;
+    let current = null, dismissed = null, mode = 'main', gesture = null, suppressedClick = false, ignoreTimer = 0, dialRadius = 104;
     const active = () => !el.hidden && current;
     function paintAngle() {
       const a = angle(current.angle), r = dialRadius, t = a * Math.PI / 180;
@@ -53,8 +55,10 @@ const StageplotObjectMenu = (() => {
       if (g.target.hasPointerCapture(g.pointer)) g.target.releasePointerCapture(g.pointer);
       api.endRotation(g.token,cancel); if (current) paintAngle();
     }
-    function setMode(next, focus = false) {
-      endGesture(); mode = next; el.dataset.mode = mode;
+    function setMode(next, focus = false, refresh = true) {
+      endGesture(); const prior=mode; mode = next;
+      if(prior!==next)orbits.forEach(orbit=>orbit.getAnimations().forEach(a=>a.cancel()));
+      el.dataset.mode = mode;
       dial.hidden = mode !== 'rotate'; form.hidden = mode !== 'edit';
       orbits.forEach(orbit=>{orbit.hidden=mode!=='main';});
       if (mode === 'rotate') { paintAngle(); if(focus)grip.focus({preventScroll:true}); }
@@ -67,25 +71,38 @@ const StageplotObjectMenu = (() => {
         if(focus)form.elements.label.focus({preventScroll:true});
       }
       if (mode === 'main' && focus) button('edit').focus({preventScroll:true});
-      if(current)sync(current);
+      if(current&&refresh)sync(current);
+      if(refresh&&prior!==mode&&!el.hidden&&!reduced.matches){
+        if(mode==='main')animateOpen();
+        else if(mode==='rotate')dial.animate([{transform:'scale(.78)',opacity:0},{transform:'scale(1.035)',opacity:1,offset:.7},{transform:'scale(1)',opacity:1}],{duration:300,easing:'ease-out'});
+      }
     }
-    function dismiss() { endGesture();if(current)setMode('main');dismissed=current?.id;el.hidden=true;api.focusCanvas(); }
+    function dismiss() { endGesture();if(current)setMode('main',false,false);dismissed=current?.id;el.hidden=true;api.focusCanvas(); }
     function animateOpen() {
-      if(reduced.matches)return;
       orbits.forEach((orbit,i)=>{
         orbit.getAnimations().forEach(a=>a.cancel());
-        orbit.animate([{transform:'translate(0,0) scale(.15)',opacity:0},{transform:'translate(var(--x),var(--y)) scale(1.18)',opacity:1,offset:.7},{transform:'translate(var(--x),var(--y)) scale(1)',opacity:1}],{duration:440,delay:i*24,easing:'cubic-bezier(.2,.75,.3,1)'});
+        if(reduced.matches)return;
+        const x=Number(orbit.dataset.x),y=Number(orbit.dataset.y);
+        orbit.animate([
+          {transform:'translate(0,0) scale(.12)',opacity:0,offset:0},
+          {transform:'translate('+x*1.045+'px,'+y*1.045+'px) scale(1.18)',opacity:1,offset:.62},
+          {transform:'translate('+x*.985+'px,'+y*.985+'px) scale(.965)',opacity:1,offset:.82},
+          {transform:'translate('+x+'px,'+y+'px) scale(1)',opacity:1,offset:1}
+        ],{duration:440,delay:i*24,easing:'cubic-bezier(.22,.7,.3,1)',fill:'backwards'});
       });
     }
     function sync(state) {
       if(!state) { endGesture();current=null;dismissed=null;el.hidden=true;return; }
+      // Selection is painted on pointerup. Starting before that redraw stalls
+      // the entrance animation halfway through; keep existing menus in place.
+      if(state.pointerDown&&!state.dragging&&(state.id!==current?.id||el.hidden)){el.hidden=true;return;}
       const changed=state.id!==current?.id, typeChanged=state.type!==current?.type, opening=changed||el.hidden;
       if(changed){endGesture();if(dismissed!==state.id)dismissed=null;}
       current=state;
       if(dismissed===state.id){el.hidden=true;return;}
       el.hidden=false;el.dataset.objectId=state.id;el.dataset.dragging=String(state.dragging);
-      if(changed)setMode('main');
-      else if(typeChanged&&mode==='edit')setMode('edit');
+      if(changed)setMode('main',false,false);
+      else if(typeChanged&&mode==='edit')setMode('edit',false,false);
       button('edit').disabled=button('rotate').disabled=button('delete').disabled=state.locked;
       button('backward').disabled=state.locked||!state.canBack;
       button('lock').setAttribute('aria-pressed',String(state.locked));button('lock').querySelector('span').textContent=state.locked?'Entsperren':'Sperren';
@@ -102,11 +119,19 @@ const StageplotObjectMenu = (() => {
       }
       dialRadius=short?58:104;el.style.setProperty('--som-radius',dialRadius+'px');
       el.style.left=x+'px';el.style.top=y+'px';el.style.setProperty('--edge-y',edgeY+'px');el.style.setProperty('--edge-x',edgeX+'px');el.dataset.compact=String(small);el.dataset.short=String(short);
-      orbits.forEach((orbit,i)=>{orbit.style.setProperty('--x',(short?(i%3-1)*78:i%2?r:-r)+'px');orbit.style.setProperty('--y',(short?(Math.floor(i/3)-.5)*60:(Math.floor(i/2)-1)*gap)+'px');});
-      form.style.maxHeight=Math.max(80,y+edgeY-viewport.top-20)+'px';
-      form.style.bottom='auto';form.style.top=(edgeY-12-form.offsetHeight)+'px';
+      orbits.forEach((orbit,i)=>{
+        const x=short?(i%3-1)*78:i%2?r:-r,y=short?(Math.floor(i/3)-.5)*60:(Math.floor(i/2)-1)*gap;
+        orbit.dataset.x=String(x);orbit.dataset.y=String(y);
+        orbit.style.setProperty('--x',x+'px');orbit.style.setProperty('--y',y+'px');
+      });
+      // Avoid a synchronous layout read on each selection/drag update.
+      if(mode==='edit'){
+        form.style.maxHeight=Math.max(80,y+edgeY-viewport.top-20)+'px';
+        form.style.bottom='auto';form.style.top=(edgeY-12-form.offsetHeight)+'px';
+      }
       if(mode==='rotate')paintAngle();
-      if(opening&&mode==='main')animateOpen();
+      if(state.dragging)orbits.forEach(orbit=>orbit.getAnimations().forEach(a=>a.cancel()));
+      else if(opening&&mode==='main')animateOpen();
     }
     function commitForm() {
       if(!form.reportValidity())return false;
@@ -166,20 +191,41 @@ const StageplotObjectMenu = (() => {
       api.rotate(event.key==='Home'?0:angle(current.angle+(['ArrowLeft','ArrowDown'].includes(event.key)?-step:step)));api.endRotation(token,false);
     });
     window.addEventListener('blur',()=>endGesture(true));
-    function spark(event, count) {
-      if(reduced.matches||event.pointerType==='touch'||event.currentTarget.disabled)return;
-      const bounds=host.getBoundingClientRect();
+    function sparkle(button, point = null, trail = false) {
+      if(reduced.matches||button.disabled||current?.dragging||!active()||glitter.childElementCount>100)return;
+      const area=glitter.getBoundingClientRect(),rect=button.getBoundingClientRect(),count=trail?2:14;
+      const fragment=document.createDocumentFragment(),particles=[];
       for(let i=0;i<count;i++){
-        const dot=document.createElement('i');dot.className='som-spark';const size=1.5+Math.random()*2.8;
-        Object.assign(dot.style,{left:event.clientX-bounds.left+'px',top:event.clientY-bounds.top+'px',width:size+'px',height:size+'px'});host.append(dot);
-        const a=Math.random()*Math.PI*2,d=12+Math.random()*30;
-        const animation=dot.animate([{opacity:0,transform:'scale(.4)'},{opacity:.85,offset:.15},{opacity:0,transform:'translate('+Math.cos(a)*d+'px,'+(Math.sin(a)*d-18)+'px) scale(0)'}],{duration:600+Math.random()*300,easing:'ease-out'});
+        const a=Math.random()*Math.PI*2,radius=Math.min(rect.width,rect.height)*(.36+Math.random()*.18);
+        const x=point?point.x-area.left:rect.left-area.left+rect.width/2+Math.cos(a)*radius;
+        const y=point?point.y-area.top:rect.top-area.top+rect.height/2+Math.sin(a)*radius;
+        const dot=document.createElement('i'),size=1.1+Math.random()*1.8;
+        dot.className='som-spark';dot.dataset.glint=String(!trail&&i%5===0);
+        Object.assign(dot.style,{left:x+'px',top:y+'px',width:size+'px',height:size+'px'});
+        if(i%3===0)dot.style.setProperty('--spark-color','light-dark(#758d29,#f4ffd7)');
+        const dx=Math.cos(a)*(12+Math.random()*23),dy=Math.sin(a)*17-12-Math.random()*20;
+        fragment.append(dot);particles.push({dot,dx,dy});
+      }
+      glitter.append(fragment);
+      for(const {dot,dx,dy} of particles){
+        const animation=dot.animate([
+          {transform:'translate(0,0) scale(.35)',opacity:0},
+          {transform:'translate('+dx*.2+'px,'+dy*.2+'px) scale(1.25)',opacity:1,offset:.18},
+          {transform:'translate('+dx*.7+'px,'+dy*.7+'px) scale(.8)',opacity:.7,offset:.65},
+          {transform:'translate('+dx+'px,'+dy+'px) scale(.15)',opacity:0}
+        ],{duration:trail?460:600+Math.random()*300,delay:trail?0:Math.random()*65,easing:'ease-out',fill:'backwards'});
         animation.onfinish=()=>dot.remove();animation.oncancel=()=>dot.remove();
       }
     }
-    el.querySelectorAll('.som-orb,.som-edge button').forEach(b=>{
-      b.addEventListener('pointerenter',e=>spark(e,14));
-      b.addEventListener('pointermove',e=>{if(performance.now()-lastSpark>65){lastSpark=performance.now();spark(e,2);}});
+    el.querySelectorAll('.som-orb,.som-edge button').forEach(button=>{
+      let lastDust=0;
+      button.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')sparkle(button);});
+      button.addEventListener('pointermove',event=>{
+        if(event.pointerType==='touch'||event.buttons||performance.now()-lastDust<65)return;
+        lastDust=performance.now();sparkle(button,{x:event.clientX,y:event.clientY},true);
+      });
+      button.addEventListener('pointerdown',event=>{if(event.pointerType==='touch')sparkle(button);});
+      button.addEventListener('focus',()=>{if(button.matches(':focus-visible'))sparkle(button);});
     });
     return {sync,reopen(id){if(id===current?.id||id===dismissed)dismissed=null;},dismissFor(id){endGesture();dismissed=id;el.hidden=true;},isRotating:()=>!!gesture};
   }

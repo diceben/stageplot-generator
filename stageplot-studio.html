@@ -728,10 +728,19 @@
         <div class="sp-shortcut-grid"><span>Ansicht verschieben</span><kbd>Leertaste</kbd><span>Objekt verschieben</span><kbd>← ↑ ↓ →</kbd><span>Drehen</span><kbd>R / ⇧ R</kbd><span>Am Handy drehen</span><span>Zwei Finger am Objekt</span><span>Am Handy zoomen</span><span>Zwei Finger auf freier Fläche</span><span>Löschen</span><kbd>Backspace</kbd><span>Zoom</span><kbd>+ / − / 0</kbd><span>Canvas-Fokus</span><kbd>F</kbd><span>Mehrfachauswahl</span><kbd>⌘/Ctrl + Klick</kbd><span>Beschriftung bearbeiten</span><kbd>Doppelklick</kbd><span>Alle Objekte auswählen</span><kbd>⌘/Ctrl A</kbd><span>Auswahl duplizieren</span><kbd>⌘/Ctrl D</kbd><span>Rückgängig</span><kbd>⌘/Ctrl Z</kbd><span>Speichern</span><kbd>⌘/Ctrl S</kbd><span>Hilfe</span><kbd>?</kbd><span>Platzierung abbrechen</span><kbd>Esc</kbd></div>
       </section>
       <section class="sp-help-section sp-release-notes" aria-labelledby="sp-release-title">
-        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.26">v0.1.0-beta.26</span></div>
+        <div class="sp-release-heading"><div><h3 id="sp-release-title">Release Notes</h3><p class="sp-muted">Änderungen nach Datum zusammengefasst.</p></div><span class="sp-version-badge" data-release-version="0.1.0-beta.27">v0.1.0-beta.27</span></div>
         <div class="sp-release-list">
           <article class="sp-release-card" data-current="true">
-            <header><div><strong>v0.1.0-beta.26</strong><span>Aktuell</span></div><time datetime="2026-09-17">17. September 2026</time></header>
+            <header><div><strong>v0.1.0-beta.27</strong><span>Aktuell</span></div><time datetime="2026-09-18">18. September 2026</time></header>
+            <h4>Animationen im Objektmenü</h4>
+            <ul>
+              <li><strong>Kreise:</strong> Federbewegung mit kurzem Überschwingen und sanftem Einpendeln wie in der Testvorschau. Die Animation startet nach dem Zeichnen der Auswahl; zeitversetzte Kreise blitzen nicht mehr vorher auf.</li>
+              <li><strong>Glitzer:</strong> Feine, verteilte Partikel und kleine Lichtkreuze rund um die Schaltflächen, mit einer kurzen Spur bei Mausbewegungen. Die Effekte enden automatisch und berücksichtigen die Einstellung für reduzierte Bewegung.</li>
+              <li><strong>Untermenüs:</strong> Der Drehring öffnet animiert. Beim Zurückgehen erscheinen die Objektaktionen mit derselben Federbewegung; Verschieben und Label-Änderungen starten sie nicht neu.</li>
+            </ul>
+          </article>
+          <article class="sp-release-card">
+            <header><div><strong>v0.1.0-beta.26</strong></div><time datetime="2026-09-17">17. September 2026</time></header>
             <h4>Stageboxen mit belegbaren Gerätebildern</h4>
             <ul>
               <li><strong>Modellauswahl:</strong> „Stagebox“ öffnet wie bei den Gitarren die Untermodelle: Behringer S16, S32, SD8 und SD16 sowie Allen &amp; Heath AR84, AR2412, AB168, DX168, DT168 und GX4816. Modellbilder, Suche und Favoriten stehen direkt in der Bibliothek bereit.</li>
@@ -809,7 +818,7 @@
         </div>
       </section>
     </div>
-    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.26 · 2D · lokal und offline</p>
+    <p class="sp-help-foot">Stageplot Studio v0.1.0-beta.27 · 2D · lokal und offline</p>
   </dialog>
   <dialog id="sp-account-dialog" class="sp-clear-dialog sp-account-dialog" aria-labelledby="sp-account-title">
     <div class="sp-dialog-heading"><div><span class="sp-eyebrow">DEIN EQUIPMENT · DEINE PROJEKTE</span><h2 id="sp-account-title">Account &amp; Inventar</h2></div><button type="button" class="sp-button" id="sp-account-close" aria-label="Account und Inventar schließen">×</button></div>
@@ -7199,8 +7208,8 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype #sp-object-menu button:disabled { opacity:.4; cursor:default; }
 #sp-prototype #sp-object-menu button:focus-visible { outline:3px solid #8fac29; outline-offset:4px; }
 #sp-prototype #sp-object-menu svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-#sp-prototype .som-orbit { position:absolute; left:calc(var(--som-size)/-2); top:calc(var(--som-size)/-2); width:var(--som-size); height:var(--som-size); transform:translate(var(--x),var(--y)); }
-#sp-prototype .som-orb { pointer-events:auto; width:100%; height:100%; padding:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:1px solid var(--sp-line); border-radius:50%; background:radial-gradient(ellipse at 35% 12%,var(--som-gloss),transparent 60%),var(--som-bg); box-shadow:0 7px 16px var(--som-shadow),inset 0 1px var(--som-gloss); font-size:11px; line-height:1; transition:transform 280ms cubic-bezier(.2,1.7,.4,1),border-color 160ms,box-shadow 180ms; }
+#sp-prototype .som-orbit { position:absolute; left:calc(var(--som-size)/-2); top:calc(var(--som-size)/-2); width:var(--som-size); height:var(--som-size); transform:translate(var(--x),var(--y)); will-change:transform,opacity; }
+#sp-prototype .som-orb { pointer-events:auto; width:100%; height:100%; padding:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:1px solid var(--sp-line); border-radius:50%; background:radial-gradient(ellipse at 35% 12%,var(--som-gloss),transparent 60%),var(--som-bg); box-shadow:0 7px 16px var(--som-shadow),inset 0 1px var(--som-gloss); font-size:11px; line-height:1; will-change:transform; transition:transform 280ms cubic-bezier(.2,1.7,.4,1),background-color 140ms,border-color 160ms,box-shadow 180ms; }
 #sp-prototype .som-orb img { object-fit:contain; width:34px; height:30px; }
 #sp-prototype .som-orb[data-action="backward"] { gap:1px; }
 #sp-prototype .som-orb[data-action="backward"] span { max-width:52px; line-height:1.05; }
@@ -7213,7 +7222,13 @@ html,body { height:100%; overflow:hidden; }
  #sp-prototype .som-orb:not(:disabled):hover { transform:translateY(-3px) scale(1.1); border-color:#b4d955; box-shadow:0 12px 24px var(--som-shadow),0 0 18px #c4f53b33,inset 0 1px var(--som-gloss); }
  #sp-prototype .som-edge button:not(:disabled):hover { transform:translateY(-2px) scale(1.08); box-shadow:0 7px 16px var(--som-shadow); }
 }
-#sp-prototype .som-spark { position:absolute; z-index:26; border-radius:50%; background:#c4f53b; box-shadow:0 0 5px 1px #c4f53b; pointer-events:none; }
+#sp-prototype .som-orb:not(:disabled):focus-visible { transform:translateY(-3px) scale(1.1); }
+#sp-prototype .som-orb:not(:disabled):active { transform:scale(.96); }
+#sp-prototype .som-glitter-plane { position:absolute; inset:0; z-index:26; overflow:hidden; pointer-events:none; contain:layout paint; }
+#sp-prototype .som-spark { position:absolute; display:block; border-radius:50%; background:var(--spark-color,#c4f53b); box-shadow:0 0 5px 1px var(--spark-color,#c4f53b); pointer-events:none; }
+#sp-prototype .som-spark[data-glint="true"]::before,#sp-prototype .som-spark[data-glint="true"]::after { content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:inherit; box-shadow:inherit; }
+#sp-prototype .som-spark[data-glint="true"]::before { width:7px; height:1px; }
+#sp-prototype .som-spark[data-glint="true"]::after { width:1px; height:7px; }
 #sp-prototype .som-dial { position:absolute; left:calc(-1 * var(--som-radius,104px)); top:calc(-1 * var(--som-radius,104px)); width:calc(2 * var(--som-radius,104px)); height:calc(2 * var(--som-radius,104px)); }
 #sp-prototype .som-track { position:absolute; inset:0; border:3px solid #a7c954; border-radius:50%; box-shadow:0 0 0 8px color-mix(in srgb,var(--sp-panel) 65%,transparent); }
 #sp-prototype .som-tick { position:absolute; width:3px; height:10px; top:50%; left:50%; margin:-5px 0 0 -1.5px; border-radius:3px; background:var(--sp-muted); transform:rotate(var(--tick)) translateY(calc(-1 * var(--som-radius,104px))); }
@@ -7232,7 +7247,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .som-editor button[type="submit"] { background:var(--som-lime); color:#26300c; border-color:transparent; }
 #sp-prototype[data-readonly="true"] #sp-object-menu { display:none!important; }
 @media(prefers-reduced-motion:reduce) { #sp-prototype #sp-object-menu,#sp-prototype .som-orb,#sp-prototype .som-edge button { transition:none; } #sp-prototype .som-orb,#sp-prototype .som-edge button { transform:none!important; } }
-@media print { #sp-object-menu,.som-spark { display:none!important; } }
+@media print { #sp-object-menu,.som-glitter-plane { display:none!important; } }
 
 #sp-prototype #sp-object-menu[data-short="true"] { --som-size:52px; }
 #sp-prototype #sp-object-menu[data-short="true"] .som-orb { gap:2px; font-size:9px; }
@@ -7276,11 +7291,13 @@ const StageplotObjectMenu = (() => {
       '<div class="som-dial" hidden><div class="som-track"></div>'+Array.from({length:8},(_,i)=>'<i class="som-tick" style="--tick:'+i*45+'deg"></i>').join('')+'<button type="button" class="som-dial-hit" aria-label="Objekt mit dem Drehring drehen"></button><button type="button" class="som-grip" role="slider" aria-label="Drehwinkel" aria-valuemin="0" aria-valuemax="359"></button><button type="button" class="som-reset" data-action="reset" aria-label="Drehung zurücksetzen">0°</button></div>'+
       '<form class="som-editor" hidden aria-label="Objekt bearbeiten"><h3></h3><label>Beschriftung<textarea name="label" rows="2"></textarea></label><label class="som-steps" hidden>Stufen<input name="steps" type="number" min="1" max="24" step="1" inputmode="numeric"></label><button type="button" data-action="model" hidden>Modell wechseln</button><button type="button" data-action="special" hidden></button><button type="button" data-action="properties">Alle Eigenschaften</button><div class="som-edit-actions"><button type="button" data-action="back">Zurück</button><button type="submit">Übernehmen</button></div></form>'+
       '<div class="som-edge"><button type="button" data-action="close">'+icon('close')+'<span>Schließen</span></button><button type="button" class="som-delete" data-action="delete">'+icon('delete')+'<span>Löschen</span></button></div>';
-    host.append(el);
+    const glitter = document.createElement('div');
+    glitter.className='som-glitter-plane';glitter.setAttribute('aria-hidden','true');
+    host.append(el,glitter);
     const $ = selector => el.querySelector(selector), button = key => $('[data-action="'+key+'"]');
     const dial = $('.som-dial'), grip = $('.som-grip'), form = $('.som-editor'), orbits = [...el.querySelectorAll('.som-orbit')];
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    let current = null, dismissed = null, mode = 'main', gesture = null, suppressedClick = false, ignoreTimer = 0, lastSpark = 0, dialRadius = 104;
+    let current = null, dismissed = null, mode = 'main', gesture = null, suppressedClick = false, ignoreTimer = 0, dialRadius = 104;
     const active = () => !el.hidden && current;
     function paintAngle() {
       const a = angle(current.angle), r = dialRadius, t = a * Math.PI / 180;
@@ -7296,8 +7313,10 @@ const StageplotObjectMenu = (() => {
       if (g.target.hasPointerCapture(g.pointer)) g.target.releasePointerCapture(g.pointer);
       api.endRotation(g.token,cancel); if (current) paintAngle();
     }
-    function setMode(next, focus = false) {
-      endGesture(); mode = next; el.dataset.mode = mode;
+    function setMode(next, focus = false, refresh = true) {
+      endGesture(); const prior=mode; mode = next;
+      if(prior!==next)orbits.forEach(orbit=>orbit.getAnimations().forEach(a=>a.cancel()));
+      el.dataset.mode = mode;
       dial.hidden = mode !== 'rotate'; form.hidden = mode !== 'edit';
       orbits.forEach(orbit=>{orbit.hidden=mode!=='main';});
       if (mode === 'rotate') { paintAngle(); if(focus)grip.focus({preventScroll:true}); }
@@ -7310,25 +7329,38 @@ const StageplotObjectMenu = (() => {
         if(focus)form.elements.label.focus({preventScroll:true});
       }
       if (mode === 'main' && focus) button('edit').focus({preventScroll:true});
-      if(current)sync(current);
+      if(current&&refresh)sync(current);
+      if(refresh&&prior!==mode&&!el.hidden&&!reduced.matches){
+        if(mode==='main')animateOpen();
+        else if(mode==='rotate')dial.animate([{transform:'scale(.78)',opacity:0},{transform:'scale(1.035)',opacity:1,offset:.7},{transform:'scale(1)',opacity:1}],{duration:300,easing:'ease-out'});
+      }
     }
-    function dismiss() { endGesture();if(current)setMode('main');dismissed=current?.id;el.hidden=true;api.focusCanvas(); }
+    function dismiss() { endGesture();if(current)setMode('main',false,false);dismissed=current?.id;el.hidden=true;api.focusCanvas(); }
     function animateOpen() {
-      if(reduced.matches)return;
       orbits.forEach((orbit,i)=>{
         orbit.getAnimations().forEach(a=>a.cancel());
-        orbit.animate([{transform:'translate(0,0) scale(.15)',opacity:0},{transform:'translate(var(--x),var(--y)) scale(1.18)',opacity:1,offset:.7},{transform:'translate(var(--x),var(--y)) scale(1)',opacity:1}],{duration:440,delay:i*24,easing:'cubic-bezier(.2,.75,.3,1)'});
+        if(reduced.matches)return;
+        const x=Number(orbit.dataset.x),y=Number(orbit.dataset.y);
+        orbit.animate([
+          {transform:'translate(0,0) scale(.12)',opacity:0,offset:0},
+          {transform:'translate('+x*1.045+'px,'+y*1.045+'px) scale(1.18)',opacity:1,offset:.62},
+          {transform:'translate('+x*.985+'px,'+y*.985+'px) scale(.965)',opacity:1,offset:.82},
+          {transform:'translate('+x+'px,'+y+'px) scale(1)',opacity:1,offset:1}
+        ],{duration:440,delay:i*24,easing:'cubic-bezier(.22,.7,.3,1)',fill:'backwards'});
       });
     }
     function sync(state) {
       if(!state) { endGesture();current=null;dismissed=null;el.hidden=true;return; }
+      // Selection is painted on pointerup. Starting before that redraw stalls
+      // the entrance animation halfway through; keep existing menus in place.
+      if(state.pointerDown&&!state.dragging&&(state.id!==current?.id||el.hidden)){el.hidden=true;return;}
       const changed=state.id!==current?.id, typeChanged=state.type!==current?.type, opening=changed||el.hidden;
       if(changed){endGesture();if(dismissed!==state.id)dismissed=null;}
       current=state;
       if(dismissed===state.id){el.hidden=true;return;}
       el.hidden=false;el.dataset.objectId=state.id;el.dataset.dragging=String(state.dragging);
-      if(changed)setMode('main');
-      else if(typeChanged&&mode==='edit')setMode('edit');
+      if(changed)setMode('main',false,false);
+      else if(typeChanged&&mode==='edit')setMode('edit',false,false);
       button('edit').disabled=button('rotate').disabled=button('delete').disabled=state.locked;
       button('backward').disabled=state.locked||!state.canBack;
       button('lock').setAttribute('aria-pressed',String(state.locked));button('lock').querySelector('span').textContent=state.locked?'Entsperren':'Sperren';
@@ -7345,11 +7377,19 @@ const StageplotObjectMenu = (() => {
       }
       dialRadius=short?58:104;el.style.setProperty('--som-radius',dialRadius+'px');
       el.style.left=x+'px';el.style.top=y+'px';el.style.setProperty('--edge-y',edgeY+'px');el.style.setProperty('--edge-x',edgeX+'px');el.dataset.compact=String(small);el.dataset.short=String(short);
-      orbits.forEach((orbit,i)=>{orbit.style.setProperty('--x',(short?(i%3-1)*78:i%2?r:-r)+'px');orbit.style.setProperty('--y',(short?(Math.floor(i/3)-.5)*60:(Math.floor(i/2)-1)*gap)+'px');});
-      form.style.maxHeight=Math.max(80,y+edgeY-viewport.top-20)+'px';
-      form.style.bottom='auto';form.style.top=(edgeY-12-form.offsetHeight)+'px';
+      orbits.forEach((orbit,i)=>{
+        const x=short?(i%3-1)*78:i%2?r:-r,y=short?(Math.floor(i/3)-.5)*60:(Math.floor(i/2)-1)*gap;
+        orbit.dataset.x=String(x);orbit.dataset.y=String(y);
+        orbit.style.setProperty('--x',x+'px');orbit.style.setProperty('--y',y+'px');
+      });
+      // Avoid a synchronous layout read on each selection/drag update.
+      if(mode==='edit'){
+        form.style.maxHeight=Math.max(80,y+edgeY-viewport.top-20)+'px';
+        form.style.bottom='auto';form.style.top=(edgeY-12-form.offsetHeight)+'px';
+      }
       if(mode==='rotate')paintAngle();
-      if(opening&&mode==='main')animateOpen();
+      if(state.dragging)orbits.forEach(orbit=>orbit.getAnimations().forEach(a=>a.cancel()));
+      else if(opening&&mode==='main')animateOpen();
     }
     function commitForm() {
       if(!form.reportValidity())return false;
@@ -7409,20 +7449,41 @@ const StageplotObjectMenu = (() => {
       api.rotate(event.key==='Home'?0:angle(current.angle+(['ArrowLeft','ArrowDown'].includes(event.key)?-step:step)));api.endRotation(token,false);
     });
     window.addEventListener('blur',()=>endGesture(true));
-    function spark(event, count) {
-      if(reduced.matches||event.pointerType==='touch'||event.currentTarget.disabled)return;
-      const bounds=host.getBoundingClientRect();
+    function sparkle(button, point = null, trail = false) {
+      if(reduced.matches||button.disabled||current?.dragging||!active()||glitter.childElementCount>100)return;
+      const area=glitter.getBoundingClientRect(),rect=button.getBoundingClientRect(),count=trail?2:14;
+      const fragment=document.createDocumentFragment(),particles=[];
       for(let i=0;i<count;i++){
-        const dot=document.createElement('i');dot.className='som-spark';const size=1.5+Math.random()*2.8;
-        Object.assign(dot.style,{left:event.clientX-bounds.left+'px',top:event.clientY-bounds.top+'px',width:size+'px',height:size+'px'});host.append(dot);
-        const a=Math.random()*Math.PI*2,d=12+Math.random()*30;
-        const animation=dot.animate([{opacity:0,transform:'scale(.4)'},{opacity:.85,offset:.15},{opacity:0,transform:'translate('+Math.cos(a)*d+'px,'+(Math.sin(a)*d-18)+'px) scale(0)'}],{duration:600+Math.random()*300,easing:'ease-out'});
+        const a=Math.random()*Math.PI*2,radius=Math.min(rect.width,rect.height)*(.36+Math.random()*.18);
+        const x=point?point.x-area.left:rect.left-area.left+rect.width/2+Math.cos(a)*radius;
+        const y=point?point.y-area.top:rect.top-area.top+rect.height/2+Math.sin(a)*radius;
+        const dot=document.createElement('i'),size=1.1+Math.random()*1.8;
+        dot.className='som-spark';dot.dataset.glint=String(!trail&&i%5===0);
+        Object.assign(dot.style,{left:x+'px',top:y+'px',width:size+'px',height:size+'px'});
+        if(i%3===0)dot.style.setProperty('--spark-color','light-dark(#758d29,#f4ffd7)');
+        const dx=Math.cos(a)*(12+Math.random()*23),dy=Math.sin(a)*17-12-Math.random()*20;
+        fragment.append(dot);particles.push({dot,dx,dy});
+      }
+      glitter.append(fragment);
+      for(const {dot,dx,dy} of particles){
+        const animation=dot.animate([
+          {transform:'translate(0,0) scale(.35)',opacity:0},
+          {transform:'translate('+dx*.2+'px,'+dy*.2+'px) scale(1.25)',opacity:1,offset:.18},
+          {transform:'translate('+dx*.7+'px,'+dy*.7+'px) scale(.8)',opacity:.7,offset:.65},
+          {transform:'translate('+dx+'px,'+dy+'px) scale(.15)',opacity:0}
+        ],{duration:trail?460:600+Math.random()*300,delay:trail?0:Math.random()*65,easing:'ease-out',fill:'backwards'});
         animation.onfinish=()=>dot.remove();animation.oncancel=()=>dot.remove();
       }
     }
-    el.querySelectorAll('.som-orb,.som-edge button').forEach(b=>{
-      b.addEventListener('pointerenter',e=>spark(e,14));
-      b.addEventListener('pointermove',e=>{if(performance.now()-lastSpark>65){lastSpark=performance.now();spark(e,2);}});
+    el.querySelectorAll('.som-orb,.som-edge button').forEach(button=>{
+      let lastDust=0;
+      button.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')sparkle(button);});
+      button.addEventListener('pointermove',event=>{
+        if(event.pointerType==='touch'||event.buttons||performance.now()-lastDust<65)return;
+        lastDust=performance.now();sparkle(button,{x:event.clientX,y:event.clientY},true);
+      });
+      button.addEventListener('pointerdown',event=>{if(event.pointerType==='touch')sparkle(button);});
+      button.addEventListener('focus',()=>{if(button.matches(':focus-visible'))sparkle(button);});
     });
     return {sync,reopen(id){if(id===current?.id||id===dismissed)dismissed=null;},dismissFor(id){endGesture();dismissed=id;el.hidden=true;},isRotating:()=>!!gesture};
   }
@@ -14183,7 +14244,7 @@ function createStageplotSymbolV3(type, options = {}) {
     const screen=point.matrixTransform(matrix),rect=floor.parentElement.getBoundingClientRect(),viewport=floor.getBoundingClientRect();
     if(screen.x<viewport.left||screen.x>viewport.right||screen.y<viewport.top||screen.y>viewport.bottom){objectMenu.sync(null);return;}
     const special=stageboxCapacity[o.type]?'Anschlüsse bearbeiten':o.type==='rack'?'IEM-Monitore bearbeiten':o.type==='laptop'?'Playback-Ausgänge bearbeiten':o.type==='orchestra'?'Orchester bearbeiten':drumModel.isDrums(o.type)||o.type==='percussion'?'Drums & Percussion bearbeiten':'';
-    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,modelFamily:o.type==='di'?'di-boxes':compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),dragging:!!drag?.moved,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
+    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,modelFamily:o.type==='di'?'di-boxes':compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),dragging:!!drag?.moved,pointerDown:!!drag,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
   }
 
   function defaultPackState(){return {version:1,unlocked:[],activations:[],betaPass:false,betaGrantedAt:0,rewards:{feedback:false,newsletter:false,feedbackAt:0,newsletterAt:0},outbox:[]};}

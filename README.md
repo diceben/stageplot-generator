@@ -6,7 +6,7 @@ Eigenständiger, offline-first Stageplot-Designer mit Bühneneditor, Drum-, Perc
 
 Die Bausteinbibliothek zeigt acht Kategorien als kompakte Liste und gruppiert Modellvarianten. Modelle sind über die globale Suche direkt platzierbar. Auf dem Desktop öffnet die Modellauswahl neben der Bibliothek; Favoriten lassen sich dort für einzelne Modelle speichern. Zusätzliche Abschnitte bündeln Zubehör. Auf dem Handy ist die Kategorienliste aufklappbar; Suchtreffer bleiben über der Tastatur erreichbar.
 
-**Aktuelle Version:** v0.1.0-beta.26 · 17. September 2026. Release Notes sind in der App über `?` erreichbar.
+**Aktuelle Version:** v0.1.0-beta.27 · 18. September 2026. Release Notes sind in der App über `?` erreichbar.
 
 Die Routing-Arbeitsfläche zeigt Quellen, Monitoring und Stagebox mit direkt bearbeitbaren Signalwegen ohne Dropdowns. Die Ausgangseinstellungen sind direkt in der Quellenkarte erreichbar: Anzahl, Buchsenart, Namen, Verwendung und Stereo-Paare. Auch Quellen mit null Ausgängen bleiben auswählbar. Abnahmeart und Anschluss stehen als kompakte, ständig sichtbare Tasten in der Abnahmekarte; zusätzliche Bearbeiten-Stifte entfallen. Mono-Quellen teilen bei Bedarf eine physische Stereo-DI; Portbelegung und Signalformat bleiben getrennt. Jede physische DI erscheint je Quelle einmal mit ihren beiden Eingängen; erst bei den Pultkanälen teilen sich die Wege. Mehrere Ausgangspaare wie Piano auf Out 1/2 und Synth auf Out 3/4 nutzen eigene DIs. J48, J48 Stereo und ProD2 zeigen lokale Original-Produktfotos. Die Auswahl öffnet als Popup mit sieben gleich großen Modellkacheln. Vier generische DIs ergänzen die Originalfotos: passiv/aktiv, jeweils Mono/Stereo. Feine Pfeile verbinden die Stationen des Signalwegs. [Bedienung](AUDIO_BEDIENUNG.md).
 
