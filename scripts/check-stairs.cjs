@@ -29,8 +29,8 @@ const app=process.env.APP_URL||'http://127.0.0.1:8897/';
     await page.locator('#sp-library-search').fill('Bühnentreppe');await page.locator('[data-add="stage-stairs"]').first().click();await page.keyboard.press('Enter');
     if(await page.locator('#sp-inspector-open').isVisible())await page.locator('#sp-inspector-open').click();
     await page.locator('#sp-properties-tab').click();
-    for(const [field,value] of [['width','2.4'],['depth','1.4'],['steps','7']]){
-      const control=page.locator('#sp-access-'+field);await control.fill(value);await control.press('Tab');
+    for(const [id,value] of [['sp-object-width','240'],['sp-object-depth','140'],['sp-access-steps','7']]){
+      const control=page.locator('#'+id);await control.fill(value);await control.press('Tab');
     }
     await page.waitForFunction(()=>JSON.parse(localStorage.getItem('stageplot-studio:workspace:v1')).entry.document.objects.some(o=>o.type==='stage-stairs'&&o.width===2.4&&o.depth===1.4&&o.steps===7));
     await page.waitForFunction(()=>{const use=document.querySelector('#sp-editor-floor [data-stage-access="stairs"] use'),art=use&&document.getElementById(use.getAttribute('href').slice(1))?.querySelector('[data-generated-stairs]');return art?.getAttribute('data-step-count')==='7'&&art.getAttribute('data-stair-width')==='2.4'&&art.getAttribute('data-stair-depth')==='1.4';});
