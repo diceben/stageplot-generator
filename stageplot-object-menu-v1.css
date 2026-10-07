@@ -10,6 +10,7 @@
 #sp-prototype .som-orb img { object-fit:contain; width:34px; height:30px; }
 #sp-prototype .som-orb[data-action="backward"] { gap:1px; }
 #sp-prototype .som-orb[data-action="backward"] span { max-width:52px; line-height:1.05; }
+#sp-prototype .som-orb[data-action="edit"] span { max-width:58px; line-height:1.05; }
 #sp-prototype .som-orb[aria-pressed="true"] { background-color:var(--som-lime); border-color:#99ba2b; color:#26300c; }
 #sp-prototype .som-edge { pointer-events:auto; position:absolute; left:var(--edge-x,-103px); top:var(--edge-y,137px); width:206px; box-sizing:border-box; display:flex; align-items:center; gap:6px; padding:4px; border:1px solid var(--sp-line); border-radius:28px; background:var(--sp-panel); box-shadow:0 4px 12px var(--som-shadow); }
 #sp-prototype .som-edge button { display:flex; justify-content:center; align-items:center; gap:5px; flex:1; min-width:0; height:44px; padding:0 8px; border:0; border-radius:22px; background:var(--som-bg); font-size:11px; transition:transform 240ms cubic-bezier(.2,1.6,.4,1),box-shadow 180ms; }

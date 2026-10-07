@@ -94,6 +94,21 @@ const {engine,launchBrowser,artifactPath}=require('./browser-qa.cjs');
    await touch('pointerdown');await touch('pointercancel');await page.waitForTimeout(650);
    assert.equal(await menu.evaluate(el=>el.hidden),true,'A cancelled touch cannot open a menu later.');
   }
+  await floor.locator('[data-object][aria-label="Drums"]').click();
+  await page.locator('#sp-object-menu-open').click();
+  const designer=menu.getByRole('button',{name:'Drum Designer',exact:true});
+  await designer.waitFor({state:'visible'});
+  const drumBefore=await page.evaluate(()=>JSON.parse(localStorage.getItem('stageplot-studio:workspace:v1')).entry.document.objects.find(o=>o.type==='drums'));
+  await page.screenshot({path:artifactPath('object-menu-drum-designer-'+engine+'-'+width+'.png')});
+  await designer.click();await page.locator('#sp-drum-dialog').waitFor({state:'visible'});
+  assert.equal(await page.locator('#sp-drum-design-name').inputValue(),'Drums','The shortcut opens the selected kit.');
+  await page.locator('#sp-drum-cancel').click();
+  assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('stageplot-studio:workspace:v1')).entry.document.objects.find(o=>o.type==='drums')),drumBefore,'Opening and cancelling never copies stale quick-edit values into the kit.');
+  await menu.locator('[data-action="lock"]').click();assert(await designer.isDisabled(),'Locked kits cannot open the designer.');
+  await menu.locator('[data-action="lock"]').click();
+  await menu.locator('[data-action="close"]').click();
+  await floor.locator('[data-object][aria-label="Keyboard"]').click();await page.locator('#sp-object-menu-open').click();
+  await menu.getByRole('button',{name:'Bearbeiten',exact:true}).click();assert(await menu.locator('.som-editor').isVisible(),'Other instruments retain their quick editor.');
   assert.deepEqual(errors,[]);await page.screenshot({path:artifactPath('object-menu-motion-'+engine+'-'+width+'.png')});await page.close();
   console.log('PASS '+engine+' '+width+': explicit opening, native animation/glitter, reduced motion, right click, keyboard, submenu return, rotated stair handles, step count, resizing without reopening'+(width<900?', long press and touch cancellation.':'.'));
  }}finally{await browser.close();}

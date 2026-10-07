@@ -7341,6 +7341,7 @@ html,body { height:100%; overflow:hidden; }
 #sp-prototype .som-orb img { object-fit:contain; width:34px; height:30px; }
 #sp-prototype .som-orb[data-action="backward"] { gap:1px; }
 #sp-prototype .som-orb[data-action="backward"] span { max-width:52px; line-height:1.05; }
+#sp-prototype .som-orb[data-action="edit"] span { max-width:58px; line-height:1.05; }
 #sp-prototype .som-orb[aria-pressed="true"] { background-color:var(--som-lime); border-color:#99ba2b; color:#26300c; }
 #sp-prototype .som-edge { pointer-events:auto; position:absolute; left:var(--edge-x,-103px); top:var(--edge-y,137px); width:206px; box-sizing:border-box; display:flex; align-items:center; gap:6px; padding:4px; border:1px solid var(--sp-line); border-radius:28px; background:var(--sp-panel); box-shadow:0 4px 12px var(--som-shadow); }
 #sp-prototype .som-edge button { display:flex; justify-content:center; align-items:center; gap:5px; flex:1; min-width:0; height:44px; padding:0 8px; border:0; border-radius:22px; background:var(--som-bg); font-size:11px; transition:transform 240ms cubic-bezier(.2,1.6,.4,1),box-shadow 180ms; }
@@ -7530,6 +7531,7 @@ const StageplotObjectMenu = (() => {
       if(changed)setMode('main',false,false);
       else if(typeChanged&&mode==='edit')setMode('edit',false,false);
       button('edit').disabled=button('rotate').disabled=button('delete').disabled=state.locked;
+      button('edit').querySelector('span').textContent=state.drumDesigner?'Drum Designer':'Bearbeiten';
       button('backward').disabled=state.locked||!state.canBack;
       button('lock').setAttribute('aria-pressed',String(state.locked));button('lock').querySelector('span').textContent=state.locked?'Entsperren':'Sperren';
       button('label').setAttribute('aria-pressed',String(state.showLabel));button('label').setAttribute('aria-label',state.showLabel?'Label ausblenden':'Label einblenden');
@@ -7577,6 +7579,7 @@ const StageplotObjectMenu = (() => {
       const action=b.dataset.action;
       if(action==='close'){dismiss();return;}
       if(action==='back'){setMode('main',true);return;}
+      if(action==='edit'&&current.drumDesigner){api.action('special',b);return;}
       if(action==='edit'||action==='rotate'){setMode(action,true);return;}
       if(['properties','special','model'].includes(action)){if(commitForm()){api.action(action,b);if(action==='properties')dismiss();}return;}
       api.action(action,b);
@@ -14429,7 +14432,7 @@ function createStageplotSymbolV3(type, options = {}) {
     if(bounds?(bounds.left+bounds.width<viewport.left-rect.left||bounds.left>viewport.right-rect.left||bounds.top+bounds.height<viewport.top-rect.top||bounds.top>viewport.bottom-rect.top):(screen.x<viewport.left||screen.x>viewport.right||screen.y<viewport.top||screen.y>viewport.bottom)){objectMenu.sync(null);return;}
     const handles=drag?[]:[...svg.querySelectorAll('[data-footprint-id="'+o.id+'"]')].map(node=>relative(node,8));
     const captions=drag?[]:[...svg.querySelectorAll('[data-label-for="'+o.id+'"]')].map(node=>relative(node,6));
-    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,modelFamily:o.type==='di'?'di-boxes':compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),bounds,handles,captions,dragging:!!drag?.moved,pointerDown:!!drag,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
+    objectMenu.sync({...o,kind:byId[o.type].name,showLabel:o.showLabel!==false,locked:!!o.locked,special,drumDesigner:drumModel.isDrums(o.type),modelFamily:o.type==='di'?'di-boxes':compactModelFamilies.has(byId[o.type].family)?byId[o.type].family:null,canBack:!!StageplotObjectMenu.previous(objects,o,byId),bounds,handles,captions,dragging:!!drag?.moved,pointerDown:!!drag,x:screen.x-rect.left,y:screen.y-rect.top,viewport:{left:viewport.left-rect.left,top:viewport.top-rect.top,width:viewport.width,height:viewport.height}});
   }
 
   function defaultPackState(){return {version:1,unlocked:[],activations:[],betaPass:false,betaGrantedAt:0,rewards:{feedback:false,newsletter:false,feedbackAt:0,newsletterAt:0},outbox:[]};}

@@ -141,6 +141,7 @@ const StageplotObjectMenu = (() => {
       if(changed)setMode('main',false,false);
       else if(typeChanged&&mode==='edit')setMode('edit',false,false);
       button('edit').disabled=button('rotate').disabled=button('delete').disabled=state.locked;
+      button('edit').querySelector('span').textContent=state.drumDesigner?'Drum Designer':'Bearbeiten';
       button('backward').disabled=state.locked||!state.canBack;
       button('lock').setAttribute('aria-pressed',String(state.locked));button('lock').querySelector('span').textContent=state.locked?'Entsperren':'Sperren';
       button('label').setAttribute('aria-pressed',String(state.showLabel));button('label').setAttribute('aria-label',state.showLabel?'Label ausblenden':'Label einblenden');
@@ -188,6 +189,7 @@ const StageplotObjectMenu = (() => {
       const action=b.dataset.action;
       if(action==='close'){dismiss();return;}
       if(action==='back'){setMode('main',true);return;}
+      if(action==='edit'&&current.drumDesigner){api.action('special',b);return;}
       if(action==='edit'||action==='rotate'){setMode(action,true);return;}
       if(['properties','special','model'].includes(action)){if(commitForm()){api.action(action,b);if(action==='properties')dismiss();}return;}
       api.action(action,b);
